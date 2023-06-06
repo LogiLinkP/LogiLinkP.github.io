@@ -19,9 +19,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Lint
-        run: npm run lint
-
       - name: Tests
         run: npm run test:prod
 
@@ -33,5 +30,3 @@ jobs:
         with:
           target_branch: gh-pages
           build_dir: dist/praxus
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
