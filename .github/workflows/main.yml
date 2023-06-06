@@ -31,4 +31,4 @@ jobs:
           target_branch: gh-pages
           build_dir: dist/praxus
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
