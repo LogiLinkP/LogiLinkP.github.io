@@ -29,7 +29,7 @@ jobs:
         uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
           target_branch: gh-pages
-          build_dir: dist/praxus-app
+          build_dir: dist/
           absolute_build_dir: true
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
