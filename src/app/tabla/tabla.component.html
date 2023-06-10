@@ -1,4 +1,22 @@
-<div>
-<p>tabla works!</p>
-<button routerLink="/home" routerLinkActive = "active">Volver</button>
-</div>
+<table>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Rut</th>
+            <th>Practica 1</th>
+            <th>Practica 2</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let people of data;">
+            <button routerLink="/tabla/{{people.Id}}">{{people.Id}}</button>
+            <td>{{people.Nombre}}</td>
+            <td>{{people.Apellido}}</td>
+            <td>{{people.rut}}</td>
+            <td>{{people.Practica_1}}</td>
+            <td>{{people.Practica_2}}</td>
+        </tr>
+    </tbody>
+</table>
