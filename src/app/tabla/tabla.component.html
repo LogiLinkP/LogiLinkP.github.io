@@ -10,7 +10,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let people of data;">
+        <tr *ngFor="let people of alumnos;">
             <button routerLink="/tabla/{{people.Id}}">{{people.Id}}</button>
             <td>{{people.Nombre}}</td>
             <td>{{people.Apellido}}</td>
@@ -20,3 +20,4 @@
         </tr>
     </tbody>
 </table>
+<button routerLink = ""> Volver </button>

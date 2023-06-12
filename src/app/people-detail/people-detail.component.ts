@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { GetDetallesAlumnoService } from '../Servicios/get-detalles-alumno.service';
 
 @Component({
   selector: 'app-people-detail',
@@ -7,11 +8,18 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./people-detail.component.css']
 })
 export class PeopleDetailComponent {
-  public personal_Id: number = 0;
-  constructor(private route: ActivatedRoute){}
-  
+  id: number = 0;
+  private sub: any;
+  alumno:any = []
+
+  constructor(private service: GetDetallesAlumnoService, private route: ActivatedRoute) {}
+
   ngOnInit(){
-    let ID: number = parseInt(this.route.snapshot.paramMap.get('Id')!);
-    this.personal_Id = ID;
+    this.sub = this.route.params.subscribe(params => {
+      this.id = +params['id'] - 1; // (+) converts string 'id' to a number
+    });
+
+    this.alumno = this.service.get_alumno(this.id);
+    console.log(this.alumno);
   }
 }
