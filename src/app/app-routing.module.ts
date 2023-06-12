@@ -7,8 +7,7 @@ import { PeopleDetailComponent } from './people-detail/people-detail.component';
 
 
 const routes: Routes = [
-  {path: '', redirectTo: '/home', pathMatch: 'full'},
-  {path: 'home', component: HomeComponent},
+  {path: '', component: HomeComponent},
   {path: 'tabla', component: TablaComponent},
   {path: 'tabla/:id', component: PeopleDetailComponent},
   {path: '**', component: PnfComponent}
