@@ -1,7 +1,6 @@
-<table>
+<table datatable [dtOptions]="dtOptions" class="row-border hover">
     <thead>
         <tr>
-            <th>#</th>
             <th>Nombre</th>
             <th>Apellido</th>
             <th>Rut</th>
@@ -10,8 +9,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let people of alumnos;">
-            <button routerLink="/tabla/{{people.Id}}">{{people.Id}}</button>
+        <tr *ngFor="let people of alumnos;" routerLink="/tabla/{{people.Id}}">
             <td>{{people.Nombre}}</td>
             <td>{{people.Apellido}}</td>
             <td>{{people.rut}}</td>
@@ -20,4 +18,4 @@
         </tr>
     </tbody>
 </table>
-<button routerLink = ""> Volver </button>
+<button routerLink=""> Volver </button>
