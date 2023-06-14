@@ -5,6 +5,7 @@ import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GetDetallesAlumnoService } from './Servicios/get-detalles-alumno.service';
 import { DataTablesModule } from "angular-datatables";
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { DataTablesModule } from "angular-datatables";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    DataTablesModule
+    DataTablesModule,
+    NoopAnimationsModule
   ],
   providers: [GetDetallesAlumnoService],
   bootstrap: [AppComponent]
