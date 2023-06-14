@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class GetDetallesAlumnoService {
   private alumnos: any = [
-    { Id: '1', Nombre: 'Marcelo', Apellido: 'Cabezas', rut: '19916087-7', Practica_1: 'En desarrollo', Practica_2: 'No Cursado'},
+    { Id: '1', Nombre: 'Marcelo', Apellido: 'Cabezas', rut: '19916087-7', Practica_1: 'Solicitada Revisión', Practica_2: 'No Cursada'},
     { Id: '2',Nombre: 'Joaquín', Apellido: 'De Ferrari', rut: '12345678-9', Practica_1: 'Aprobado', Practica_2: 'Aprobado' },
     { Id: '3',Nombre: 'Rodrigo', Apellido: 'Tallar', rut: '9-87654321', Practica_1: 'Aprobado', Practica_2: 'Aprobado' },
     { Id: '4',Nombre: 'Diego', Apellido: 'Beltrán', rut: '13579246-8', Practica_1: 'Aprobado', Practica_2: 'Aprobado' },

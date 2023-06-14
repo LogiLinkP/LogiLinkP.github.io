@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GetDetallesAlumnoService } from '../Servicios/get-detalles-alumno.service';
 
+
 @Component({
-  selector: 'app-people-detail',
-  templateUrl: './people-detail.component.html',
-  styleUrls: ['./people-detail.component.css']
+  selector: 'app-detalle-encargado',
+  templateUrl: './detalle-encargado.component.html',
+  styleUrls: ['./detalle-encargado.component.css']
 })
-export class PeopleDetailComponent {
+export class DetalleEncargadoComponent {
   id: number = 0;
   private sub: any;
   alumno:any = []

@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { GetDetallesAlumnoService } from './Servicios/get-detalles-alumno.service';
 import { DataTablesModule } from "angular-datatables";
 
+
 @NgModule({
   declarations: [
     AppComponent,
