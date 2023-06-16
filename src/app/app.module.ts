@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GetDetallesAlumnoService } from './Servicios/get-detalles-alumno.service';
+import { SetDetallesAlumnoService } from './Servicios/set-detalles-alumno.service';
 import { DataTablesModule } from "angular-datatables";
 
 
@@ -17,7 +18,7 @@ import { DataTablesModule } from "angular-datatables";
     AppRoutingModule,
     DataTablesModule
   ],
-  providers: [GetDetallesAlumnoService],
+  providers: [GetDetallesAlumnoService, SetDetallesAlumnoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
