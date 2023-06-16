@@ -10,14 +10,14 @@ import { FinalizacionComponent } from './finalizacion/finalizacion.component';
 import { RegistroComponent } from './registro/registro.component';
 
 const routes: Routes = [
-  {path: '', component: HomeComponent},
-  {path: 'encargado', component: TablaComponent},
-  {path: 'encargado/:id', component: DetalleEncargadoComponent},
-  {path: 'encargado/:id/revision/:n', component: RevisionComponent},
-  {path: 'alumno/:id', component: DetalleAlumnoComponent},
-  {path: 'alumno/:id/finalizacion/:n', component: FinalizacionComponent},
-  {path: 'alumno/:id/registro/:n', component: RegistroComponent},
-  {path: '**', component: PnfComponent}
+  { path: '', component: HomeComponent },
+  { path: 'encargado', component: TablaComponent },
+  { path: 'encargado/:id', component: DetalleEncargadoComponent },
+  { path: 'encargado/:id/revision/:n', component: RevisionComponent },
+  { path: 'alumno/:id', component: DetalleAlumnoComponent },
+  { path: 'alumno/:id/finalizacion/:n', component: FinalizacionComponent },
+  { path: 'alumno/:id/registro/:n', component: RegistroComponent },
+  { path: '**', component: PnfComponent }
 ];
 
 @NgModule({
@@ -26,10 +26,10 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 export const routingComponents = [HomeComponent,
-                                  TablaComponent, 
-                                  PnfComponent, 
-                                  DetalleAlumnoComponent, 
-                                  DetalleEncargadoComponent,
-                                  RevisionComponent,
-                                  FinalizacionComponent,
-                                  RegistroComponent]
+  TablaComponent,
+  PnfComponent,
+  DetalleAlumnoComponent,
+  DetalleEncargadoComponent,
+  RevisionComponent,
+  FinalizacionComponent,
+  RegistroComponent]

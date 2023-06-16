@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpRequest, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArchivosService {
 
-  constructor(private _http:HttpClient) { }
+  constructor(private _http: HttpClient) { }
 
-  ploadExcel(file:File): Observable<any>{
+  uploadFile(file: File): Observable<any> {
     const formData: FormData = new FormData();
 
     formData.append('file', file);
 
-    const req = new HttpRequest('POST', `http://127.0.0.1/file/upload`, formData, {
+    const req = new HttpRequest('POST', `${environment.url_back}/file/upload`, formData, {
       reportProgress: true,
       responseType: 'json'
     });
