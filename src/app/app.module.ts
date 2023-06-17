@@ -8,6 +8,7 @@ import { SetDetallesAlumnoService } from './Servicios/set-detalles-alumno.servic
 import { DataTablesModule } from "angular-datatables";
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { ArchivosService } from './Servicios/archivos.service';
 
 
 @NgModule({
@@ -23,7 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatSnackBarModule,
     HttpClientModule
   ],
-  providers: [GetDetallesAlumnoService, SetDetallesAlumnoService],
+  providers: [GetDetallesAlumnoService, SetDetallesAlumnoService, ArchivosService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
