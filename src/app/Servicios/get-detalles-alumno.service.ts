@@ -8,7 +8,7 @@ import { catchError, retry } from 'rxjs/operators';
 })
 
 export class GetDetallesAlumnoService {
-  url: string = 'localhost:3000/estudiante/todos';
+  url: string = 'http://localhost:3000/estudiante/todos';
   alumnos: any = [
     { Id: '1', Nombre: 'Marcelo', Apellido: 'Cabezas', rut: '19916087-7', Practica_1: 'Solicitada Revisión', Practica_2: 'No Cursada'},
     { Id: '2',Nombre: 'Joaquín', Apellido: 'De Ferrari', rut: '12345678-9', Practica_1: 'Aprobado', Practica_2: 'Aprobado' },
