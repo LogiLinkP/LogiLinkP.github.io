@@ -25,7 +25,7 @@
     "@ng-bootstrap/ng-bootstrap": "^15.0.1",
     "@popperjs/core": "^2.11.6",
     "@schematics/angular": "^9.1.0",
-    "angular-datatables": "^15.0.1",
+    "angular-datatables": "^6.0.0",
     "bootstrap": "^5.2.3",
     "datatables.net": "^1.13.4",
     "datatables.net-dt": "^1.13.4",
