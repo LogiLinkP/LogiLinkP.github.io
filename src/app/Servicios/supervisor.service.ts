@@ -10,9 +10,10 @@ export class SupervisorService {
 
   constructor(private _http: HttpClient) { }
 
-  sendAnswer(estudiante: any, respuestas: any): Observable<any> {
+  sendAnswer(id_estudiante: number, id_config_practica: number, respuestas: any): Observable<any> {
     const data = {
-      estudiante,
+      id_estudiante,
+      id_config_practica,
       respuestas
     };
     const req = new HttpRequest('POST', `${environment.url_back}/supervisor/respuesta`, data);
