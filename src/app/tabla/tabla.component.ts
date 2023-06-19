@@ -11,6 +11,7 @@ import { GetDetallesAlumnoService } from '../Servicios/get-detalles-alumno.servi
 export class TablaComponent implements OnInit {
 
   alumnos: any = [];
+  alumnos2: any = [];
   dtOptions: DataTables.Settings = {
     language: {
       url: 'assets/localisation/es-es.json'
@@ -23,5 +24,9 @@ export class TablaComponent implements OnInit {
   ngOnInit() {
 
     this.alumnos = this.service.get_alumnos();
+    this.alumnos2 = this.service.get_alumnos2().subscribe(data => {
+      console.log(data);
+    }
+    );
   }
 }
