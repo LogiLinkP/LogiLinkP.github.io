@@ -1,0 +1,38 @@
+<div class="container text-center">
+    <div class="row mb-3">
+        <div class="col-lg">
+            <h2>Resuma las actividades realizsadas por el estudiante.</h2>
+            <textarea name="" id="respuesta1" cols="30" rows="10"></textarea>
+        </div>
+    </div>
+    <div class="row mb-3 ">
+        <div class="col-lg">
+            <h2>¿Cuál es su opinión sobre las habilidades blandas del estudiante?</h2>
+            <textarea name="" id="respuesta2" cols="30" rows="10"></textarea>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-lg">
+            <h2>Del 1 al 3 ¿cómo evaluaría el desempeño del estudiante?</h2>
+            <label class="radio-inline">
+                <input type="radio" name="respuesta3" id="inlineRadio1" value="1"> 1
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="respuesta3" id="inlineRadio2" value="2"> 2
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="respuesta3" id="inlineRadio3" value="3"> 3
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="respuesta3" id="inlineRadio4" value="4"> 4
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="respuesta3" id="inlineRadio5" value="5"> 5
+            </label>
+
+        </div>
+    </div>
+
+    <button mat-button type="button" (click)="send()"> Enviar</button>
+
+</div>

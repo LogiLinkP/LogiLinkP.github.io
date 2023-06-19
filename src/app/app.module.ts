@@ -9,12 +9,16 @@ import { DataTablesModule } from "angular-datatables";
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { ArchivosService } from './Servicios/archivos.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { EvaluacionComponent } from './supervisor/evaluacion/evaluacion.component';
+import { SupervisorService } from './Servicios/supervisor.service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     routingComponents,
+    EvaluacionComponent,
   ],
   imports: [
     BrowserModule,
@@ -22,9 +26,10 @@ import { ArchivosService } from './Servicios/archivos.service';
     DataTablesModule,
     NoopAnimationsModule,
     MatSnackBarModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
-  providers: [GetDetallesAlumnoService, SetDetallesAlumnoService, ArchivosService],
+  providers: [GetDetallesAlumnoService, SetDetallesAlumnoService, ArchivosService, SupervisorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

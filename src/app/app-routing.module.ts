@@ -8,6 +8,7 @@ import { DetalleEncargadoComponent } from './detalle-encargado/detalle-encargado
 import { RevisionComponent } from './revision/revision.component';
 import { FinalizacionComponent } from './finalizacion/finalizacion.component';
 import { RegistroComponent } from './registro/registro.component';
+import { EvaluacionComponent } from './supervisor/evaluacion/evaluacion.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'alumno/:id', component: DetalleAlumnoComponent },
   { path: 'alumno/:id/finalizacion/:n', component: FinalizacionComponent },
   { path: 'alumno/:id/registro/:n', component: RegistroComponent },
+  { path: 'supervisor/evaluacion', component: EvaluacionComponent },
   { path: '**', component: PnfComponent }
 ];
 
@@ -32,4 +34,5 @@ export const routingComponents = [HomeComponent,
   DetalleEncargadoComponent,
   RevisionComponent,
   FinalizacionComponent,
-  RegistroComponent]
+  RegistroComponent,
+  EvaluacionComponent]
