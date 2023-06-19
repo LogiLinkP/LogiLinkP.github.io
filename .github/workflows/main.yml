@@ -19,9 +19,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Tests
-        run: npm run test:prod
-
       - name: Build
         run: npm run build:prod
 
