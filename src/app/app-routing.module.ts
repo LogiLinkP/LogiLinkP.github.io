@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TablaComponent } from './tabla/tabla.component';
-import { HomeComponent } from './home/home.component';
-import { PnfComponent } from './pnf/pnf.component';
-import { DetalleAlumnoComponent } from './detalle-alumno/detalle-alumno.component';
-import { DetalleEncargadoComponent } from './detalle-encargado/detalle-encargado.component';
-import { RevisionComponent } from './revision/revision.component';
-import { FinalizacionComponent } from './finalizacion/finalizacion.component';
-import { RegistroComponent } from './registro/registro.component';
-import { EvaluacionComponent } from './supervisor/evaluacion/evaluacion.component';
+
+import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
+import { HomeComponent } from './vistas/home/home.component';
+import { DetalleAlumnoComponent } from './vistas/alumno/alumno.component';
+
+import { PnfComponent } from './componentes/pnf/pnf.component';
+import { DetalleEncargadoComponent } from './vistas/detalle_practica/detalle_practica.component';
+import { RevisionComponent } from './componentes/revision/revision.component';
+import { FinalizacionComponent } from './componentes/finalizacion/finalizacion.component';
+import { RegistroComponent } from './vistas/inscripcion_practica/inscripcion_practica.component';
+import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_supervisor.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
