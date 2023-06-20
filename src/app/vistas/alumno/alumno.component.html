@@ -4,19 +4,12 @@
 <p>Correo registrado: {{alumno.correo}}</p>
 
 
-<p>Estado Práctica 1: {{practica_1.estado}}</p>
-<div [ngSwitch]="practica_1.estado">
-    <button *ngSwitchCase="'En Curso'" routerLink="/alumno/{{alumno.Id}}/finalizacion/1">Solicitar Revisión</button>
-    <button *ngSwitchCase="'No cursada'" routerLink = "/alumno/{{alumno.Id}}/iniciarpractica/1">Ingresar Práctica</button>
+<p>Estado Práctica: {{practica.estado}}</p>
+<div [ngSwitch]="practica.estado">
+    <app-datos-practica *ngSwitchCase="'En curso'"></app-datos-practica>
+    <app-iniciar-practica *ngSwitchCase="'No cursada'">Ingresar Práctica</app-iniciar-practica>
     <div *ngSwitchDefault></div>
 </div>
 <br>
-
-<p>Estado Práctica 2: {{practica_2.estado}}</p>
-<div [ngSwitch]="practica_2.estado">
-    <button *ngSwitchCase="'En Curso'" routerLink="/alumno/{{alumno.Id}}/finalizacion/2">Solicitar Revisión</button>
-    <button *ngSwitchCase="'No Cursada'" routerLink = "/alumno/{{alumno.Id}}/iniciarpractica/2">Ingresar Práctica</button>
-    <div *ngSwitchDefault></div>
-</div>
 
 <button routerLink="" routerLinkActive="active">Volver</button>

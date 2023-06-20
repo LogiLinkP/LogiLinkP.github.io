@@ -11,6 +11,7 @@ import { RevisionComponent } from './componentes/revision/revision.component';
 import { FinalizacionComponent } from './componentes/finalizacion/finalizacion.component';
 import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_supervisor.component';
 import { IniciarPracticaComponent } from './componentes/iniciar-practica/iniciar-practica.component';
+import { FileComponent } from './componentes/file/file.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -37,4 +38,6 @@ export const routingComponents = [HomeComponent,
   RevisionComponent,
   FinalizacionComponent,
   EvaluacionComponent,
-  IniciarPracticaComponent]
+  IniciarPracticaComponent,
+  FileComponent
+]
