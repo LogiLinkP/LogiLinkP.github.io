@@ -12,6 +12,9 @@ export class DetalleAlumnoComponent implements OnInit{
   practica_1: any = [];
   practica_2: any = [];
 
+  //HARDCODEADO
+  horas = [180,360]
+
   constructor(private service: ObtenerDatosService) {
     let respuesta: any = {};
     this.service.obtener_uno(this.id).subscribe({

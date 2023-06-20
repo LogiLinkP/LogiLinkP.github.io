@@ -15,7 +15,7 @@ import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DataTablesModule } from "angular-datatables";
 import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_supervisor.component';
-
+//import { IniciarPracticaComponent } from './componentes/iniciar-practica/iniciar-practica.component';
 
 
 @NgModule({
@@ -23,6 +23,7 @@ import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_s
     AppComponent,
     routingComponents,
     EvaluacionComponent,
+    //IniciarPracticaComponent,
   ],
   imports: [
     BrowserModule,
