@@ -19,14 +19,18 @@ export class TablaComponent implements OnInit {
   };
 
   constructor(private service: GetDetallesAlumnoService) {
+    let respuesta: any = {};
+    this.service.full_estudiante_practicas().subscribe({
+      next: (data: any) => {
+        respuesta = { ...respuesta, ...data }
+      },
+      error: (error: any) => console.log(error),
+      complete: () => {
+        this.alumnos = respuesta.body;
+      }
+    });
   }
 
   ngOnInit() {
-
-    this.alumnos = this.service.get_alumnos();
-    this.alumnos2 = this.service.get_alumnos2().subscribe(data => {
-      console.log(data);
-    }
-    );
   }
 }
