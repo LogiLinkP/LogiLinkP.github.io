@@ -20,8 +20,8 @@ export class EvaluacionComponent {
     let pregunta2 = (document.getElementById("respuesta2") as HTMLInputElement)?.value;
     let pregunta3 = (document.querySelector('input[name="respuesta3"]:checked') as HTMLInputElement)?.value;
     let response = {};
-    this.service.sendAnswer(this.id_estudiante, this.id_config_practica, { pregunta1, pregunta2, pregunta3 }).subscribe(
-      (data: any) => {
+    this.service.sendAnswer(this.id_estudiante, this.id_config_practica, { pregunta1, pregunta2, pregunta3 }).subscribe({
+      next: (data: any) => {
         response = { ...response, ...data }
         if (data.status == 200) {
           this._snackbar.open("Respuestas enviadas", "Cerrar", {
@@ -35,14 +35,15 @@ export class EvaluacionComponent {
           });
         }
       },
-      (error: any) => {
+      error: (error: any) => {
         console.log(error);
         this._snackbar.open("Error al enviar las respuestas", "Cerrar", {
           duration: 2000,
           panelClass: ['red-snackbar']
         });
       },
-      () => console.log(response));
+      complete: () => console.log(response)
+    });
 
   }
 }

@@ -2,19 +2,19 @@
     <thead>
         <tr>
             <th>Nombre</th>
-            <th>Apellido</th>
             <th>Rut</th>
-            <th>Practica 1</th>
-            <th>Practica 2</th>
+            <th>Practica</th>
+            <th title="Consistencia Informe">Cons. Informe</th>
+            <th title="Consistencia Evaluación">Cons. Evaluación</th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let people of alumnos;" routerLink="/encargado/{{people.Id}}">
-            <td>{{people.Nombre}}</td>
-            <td>{{people.Apellido}}</td>
-            <td>{{people.rut}}</td>
-            <td>{{people.Practica_1}}</td>
-            <td>{{people.Practica_2}}</td>
+        <tr *ngFor="let people of alumnos;" routerLink="/encargado/{{people.id}}">
+            <td>{{people.estudiante.nombre}}</td>
+            <td>{{people.estudiante.rut}}</td>
+            <td>{{people.config_practica.nombre}}</td>
+            <td>{{people.consistencia_informe}}</td>
+            <td>{{people.consistencia_nota}}</td>
         </tr>
     </tbody>
 </table>
