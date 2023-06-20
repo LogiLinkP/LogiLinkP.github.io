@@ -15,6 +15,7 @@ import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DataTablesModule } from "angular-datatables";
 import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_supervisor.component';
+import { MatButtonModule } from '@angular/material/button';
 
 
 
@@ -28,6 +29,7 @@ import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_s
     BrowserModule,
     AppRoutingModule,
     DataTablesModule,
+    MatButtonModule,
     NoopAnimationsModule,
     MatSnackBarModule,
     HttpClientModule,
