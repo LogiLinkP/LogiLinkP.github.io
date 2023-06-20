@@ -9,8 +9,8 @@ import { PnfComponent } from './componentes/pnf/pnf.component';
 import { DetalleEncargadoComponent } from './vistas/detalle_practica/detalle_practica.component';
 import { RevisionComponent } from './componentes/revision/revision.component';
 import { FinalizacionComponent } from './componentes/finalizacion/finalizacion.component';
-import { RegistroComponent } from './vistas/inscripcion_practica/inscripcion_practica.component';
 import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_supervisor.component';
+import { IniciarPracticaComponent } from './componentes/iniciar-practica/iniciar-practica.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -19,7 +19,7 @@ const routes: Routes = [
   { path: 'encargado/:id/revision/:n', component: RevisionComponent },
   { path: 'alumno/:id', component: DetalleAlumnoComponent },
   { path: 'alumno/:id/finalizacion/:n', component: FinalizacionComponent },
-  { path: 'alumno/:id/registro/:n', component: RegistroComponent },
+  { path: 'alumno/:id/iniciarpractica/:n', component: IniciarPracticaComponent },
   { path: 'supervisor/evaluacion', component: EvaluacionComponent },
   { path: '**', component: PnfComponent }
 ];
@@ -36,5 +36,5 @@ export const routingComponents = [HomeComponent,
   DetalleEncargadoComponent,
   RevisionComponent,
   FinalizacionComponent,
-  RegistroComponent,
-  EvaluacionComponent]
+  EvaluacionComponent,
+  IniciarPracticaComponent]

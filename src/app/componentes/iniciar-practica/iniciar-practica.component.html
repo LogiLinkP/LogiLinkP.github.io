@@ -1,0 +1,24 @@
+<p>iniciar-practica works!</p>
+
+<div class = "container">
+    <h1>Inscribe tu practica</h1>
+    <form>
+        Nombre empresa: <input type="text" class="form-control">
+
+        Rut empresa: <input type="text" class="form-control">
+
+        Nombre supervisor: <input type="text" class="form-control">
+
+        Correo supervisor: <input type="text" class="form-control">
+        <br/>
+        <select class="select-horas">
+            <option selected> Cantidad de horas</option>
+            <option *ngFor = "let horas of horas" >{{horas}}</option>
+        </select><br/>
+        <br/>
+
+            <button type="submit" class="btn btn-primary">Enviar</button>
+
+    </form>
+
+</div>

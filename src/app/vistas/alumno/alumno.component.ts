@@ -10,6 +10,9 @@ export class DetalleAlumnoComponent implements OnInit{
   id: number = 1;
   alumno:any = []
 
+  //HARDCODEADO
+  horas = [180,360]
+
   constructor(private service: ObtenerDatosService) {
     let respuesta: any = {};
     this.service.obtener_uno(this.id).subscribe({
