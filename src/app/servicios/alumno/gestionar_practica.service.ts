@@ -19,6 +19,8 @@ export class GestionarService {
     }
   }
 
+  
+
   finalizar_practica(id:number,n:number){
     if (n == 1) {
       this.service.alumnos[id-1].Practica_1 = "Revisión Solicitada";
