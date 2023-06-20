@@ -14,4 +14,9 @@ export class ObtenerDatosService {
     const req = new HttpRequest('GET', `${environment.url_back}/estudiante?id=${id}`);
     return this._http.request(req);
   }
+
+  obtener_practica(id_estudiante: number){
+    const req = new HttpRequest('GET', `${environment.url_back}/practica/get?id_estudiante=${id_estudiante}`);
+    return this._http.request(req);
+  }
 }
