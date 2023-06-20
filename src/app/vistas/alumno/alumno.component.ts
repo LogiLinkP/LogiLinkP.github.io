@@ -1,22 +1,28 @@
-import { Component} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { GetDetallesAlumnoService } from '../../servicios/encargado/resumen_practicas.service';
+import { Component, OnInit} from '@angular/core';
+import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
 
 @Component({
   selector: 'alumno',
   templateUrl: './alumno.component.html',
   styleUrls: ['./alumno.component.css']
 })
-export class DetalleAlumnoComponent {
-  id: number = 0;
-  private sub: any;
+export class DetalleAlumnoComponent implements OnInit{
+  id: number = 1;
   alumno:any = []
 
-  constructor(private service1: GetDetallesAlumnoService, private route: ActivatedRoute) {}
-
-  ngOnInit(){
-    this.sub = this.route.params.subscribe(params => {
-      this.id = +params['id'] - 1; // (+) converts string 'id' to a number
+  constructor(private service: ObtenerDatosService) {
+    let respuesta: any = {};
+    this.service.obtener_uno(this.id).subscribe({
+      next: (data: any) => {
+        respuesta = { ...respuesta, ...data }
+      },
+      error: (error: any) => console.log(error),
+      complete: () => {
+        this.alumno = respuesta.body;
+      }
     });
+  }
+
+  ngOnInit() {
   }
 }
