@@ -1,0 +1,21 @@
+<h1>{{alumno.nombre}}</h1>
+<p>Rut: {{alumno.rut}}</p>
+<p>Rol: {{alumno.rol}}</p>
+<p>Correo registrado: {{alumno.correo}}</p>
+
+
+<p>Estado Práctica 1: {{alumno.Practica_1}}</p>
+<div [ngSwitch]="alumno.Practica_1">
+    <button *ngSwitchCase="'En Desarrollo'" routerLink="/alumno/{{alumno.Id}}/finalizacion/1">Solicitar Revisión</button>
+    <button *ngSwitchCase="'No cursada'" routerLink = "/alumno/{{alumno.Id}}/registro/1">Ingresar Práctica</button>
+    <div *ngSwitchDefault></div>
+</div>
+
+<p>Estado Práctica 2: {{alumno.Practica_2}}</p>
+<div [ngSwitch]="alumno.Practica_2">
+    <button *ngSwitchCase="'En Desarrollo'" routerLink="/alumno/{{alumno.Id}}/finalizacion/2">Solicitar Revisión</button>
+    <button *ngSwitchCase="'No Cursada'" routerLink = "/alumno/{{alumno.Id}}/registro/2">Ingresar Práctica</button>
+    <div *ngSwitchDefault></div>
+</div>
+
+<button routerLink="" routerLinkActive="active">Volver</button>
