@@ -19,12 +19,13 @@ export class GestionarService {
       const nueva_practica = {
         id_estudiante: id_estudiante,
         id_config_practica: id_config_practica,
-        estado: "en curso",
+        estado: "En curso",
         nombre_supervisor: nombre_supervisor,
         correo_supervisor: correo_supervisor,
         nombre_empresa: nombre_empresa,
         rut_empresa: rut_empresa,
-        fecha_inicio: fecha_inicio
+        fecha_inicio: fecha_inicio,
+        horas: 0
       }
 
       const req = new HttpRequest('POST', `${environment.url_back}/practica/crear`, nueva_practica, {

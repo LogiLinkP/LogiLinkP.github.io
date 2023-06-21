@@ -11,6 +11,7 @@ export class ObtenerDatosService {
   constructor(private _http: HttpClient) { }
 
   obtener_alumno(id:number) {
+    console.log("Obtener alumno", id);
     const req = new HttpRequest('GET', `${environment.url_back}/estudiante?id=${id}`);
     return this._http.request(req);
   }
@@ -32,6 +33,12 @@ export class ObtenerDatosService {
 
   obtener_informes(id_practica: number){
     const req = new HttpRequest('GET', `${environment.url_back}/informe/todos_practica?id_practica=${id_practica}`);
+    return this._http.request(req);
+  }
+
+  actualizar_hora(id_practica: number, horas: number){
+    const req = new HttpRequest('PUT', `${environment.url_back}/practica/actualizar`, {id:id_practica, horas:horas});
+    console.log(req.body);
     return this._http.request(req);
   }
 }
