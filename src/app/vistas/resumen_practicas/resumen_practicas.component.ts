@@ -25,6 +25,7 @@ export class TablaComponent implements OnInit {
       error: (error: any) => console.log(error),
       complete: () => {
         this.alumnos = respuesta.body;
+        console.log(this.alumnos);
       }
     });
   }

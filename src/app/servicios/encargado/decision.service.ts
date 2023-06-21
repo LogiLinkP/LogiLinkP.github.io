@@ -1,32 +1,22 @@
 import { Injectable } from '@angular/core';
-import { GetDetallesAlumnoService } from './resumen_practicas.service';
+import { HttpClient, HttpRequest, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SetDetallesAlumnoService {
 
-  constructor(private service: GetDetallesAlumnoService) { }
+  constructor(private _http: HttpClient) { }
 
-  aprobar_practica(id: number, n: number){
-    if (n == 1) {
-      this.service.alumnos[id-1].Practica_1 = "Aprobada";
-    }
-    else{
-      if (n == 2) {
-        this.service.alumnos[id-1].Practica_2 = "Aprobada";
-      }
-    }
+  aprobar_practica(id_estudiante: number, id_config_practica: number, aprobacion: 0 | 1) {
+    const req = new HttpRequest('PUT', `${environment.url_back}/practica/aprobar`, {
+      id_estudiante, id_config_practica, aprobacion
+    }, {
+      responseType: 'json'
+    });
+    return this._http.request(req);
   }
 
-  reprobar_practica(id: number, n: number){
-    if (n == 1) {
-      this.service.alumnos[id-1].Practica_1 = "Aprobada";
-    }
-    else{
-      if (n == 2) {
-        this.service.alumnos[id-1].Practica_2 = "Aprobada";
-      }
-    }
-  }
 }

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SetDetallesAlumnoService } from '../../servicios/encargado/decision.service';
 import { ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-revision',
@@ -8,23 +9,36 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./revision.component.css']
 })
 export class RevisionComponent {
-  id: number = 0;
-  n: number = 0;
+  @Input() id_estudiante: number = -1;
+  @Input() id_config_practica: number = -1;
   private sub: any;
 
-  constructor(private service: SetDetallesAlumnoService, private route: ActivatedRoute){}
- 
-  ngOnInit(){
-    this.sub = this.route.params.subscribe(params => {
-      this.id = +params['id'] - 1; // (+) converts string 'id' to a number
-      this.n = +params['n'];
-    });
+  constructor(private service: SetDetallesAlumnoService, private route: ActivatedRoute, private _snackBar: MatSnackBar) {
   }
 
-  aprobar(){
-    this.service.aprobar_practica(this.id,this.n);
+  ngOnInit() {
+
   }
-  reprobar(){
-    this.service.reprobar_practica(this.id,this.n);
+
+  aprobar(id_estudiante: number, id_config_practica: number, aprobacion: 0 | 1) {
+    let respuesta: any = {}
+    this.service.aprobar_practica(this.id_estudiante, this.id_config_practica, aprobacion).subscribe({
+      next: (data: any) => {
+        respuesta = { ...respuesta, ...data }
+      },
+      error: (error: any) => console.log(error),
+      complete: () => {
+        if (respuesta.status == 200) {
+          this._snackBar.open("Práctica actualizada", "Cerrar", {
+            panelClass: ['green-snackbar'],
+            duration: 2000
+          });
+        } else {
+          this._snackBar.open("Se ha producido un error", "Cerrar", {
+            panelClass: ['red-snackbar']
+          });
+        }
+      }
+    });
   }
 }

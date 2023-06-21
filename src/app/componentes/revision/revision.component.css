@@ -1,0 +1,7 @@
+.mat-mdc-unelevated-button:not(:disabled, :hover).mat-success,
+.mat-mdc-raised-button.mat-success,
+.mat-mdc-fab.mat-success,
+.mat-mdc-mini-fab.mat-success {
+    color: #f0fff3;
+    background-color: #155724;
+}
