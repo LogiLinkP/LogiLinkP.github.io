@@ -1,9 +1,5 @@
-<div>
-    <h2>¿La práctica #{{n}} del alumno #{{id+1}} debería ser aprobado o rechazado?</h2>
+<div class="container">
+    <button class="mr-3" mat-raised-button color="success"
+        (click)="aprobar(id_estudiante, id_config_practica,1)">Aprobar</button>
+    <button mat-raised-button color="warn" (click)="aprobar(id_estudiante, id_config_practica, 0)">Reprobar</button>
 </div>
-
-<div>
-    <button routerLink ="" (click)="aprobar()">Aprobar</button>
-    <button routerLink ="" (click)="reprobar()">Reprobar</button>
-</div>
-<button routerLink ="">Cancelar</button>

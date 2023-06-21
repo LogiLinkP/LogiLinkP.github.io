@@ -6,6 +6,8 @@
             <th>Practica</th>
             <th title="Consistencia Informe">Cons. Informe</th>
             <th title="Consistencia Evaluación">Cons. Evaluación</th>
+            <th>Estado</th>
+            <th>Aprobacion</th>
         </tr>
     </thead>
     <tbody>
@@ -15,6 +17,8 @@
             <td>{{people.config_practica.nombre}}</td>
             <td>{{people.consistencia_informe}}</td>
             <td>{{people.consistencia_nota}}</td>
+            <td>{{people.estado}}</td>
+            <td><app-revision [id_estudiante]="people.id_estudiante" [id_config_practica]="1"></app-revision></td>
         </tr>
     </tbody>
 </table>
