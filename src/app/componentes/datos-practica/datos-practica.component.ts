@@ -7,6 +7,7 @@ import {ActivatedRoute} from '@angular/router';
   templateUrl: './datos-practica.component.html',
   styleUrls: ['./datos-practica.component.css']
 })
+
 export class DatosPracticaComponent implements OnInit{
   id_alumno: number = -1;
   alumno:any = []
@@ -17,9 +18,7 @@ export class DatosPracticaComponent implements OnInit{
   link_finalizacion = ""
 
   constructor(private service: ObtenerDatosService, private router: ActivatedRoute) {
-    
     this.router.params.subscribe(params => {this.id_alumno = +params['id'];});
-
   }
 
   ingresarInforme(){
