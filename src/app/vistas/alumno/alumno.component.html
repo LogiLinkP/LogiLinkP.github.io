@@ -3,7 +3,6 @@
 <p>Rol: {{alumno.rol}}</p>
 <p>Correo registrado: {{alumno.correo}}</p>
 
-
 <p>Estado Práctica: {{practica.estado}}</p>
 <div [ngSwitch]="practica.estado">
     <app-datos-practica *ngSwitchCase="'En curso'"></app-datos-practica>
