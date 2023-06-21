@@ -6,7 +6,8 @@
 <p>Estado Práctica: {{practica.estado}}</p>
 <div [ngSwitch]="practica.estado">
     <app-datos-practica *ngSwitchCase="'En curso'"></app-datos-practica>
-    <app-datos-practica *ngSwitchCase="'Evaluada'"></app-datos-practica>
+    <p *ngSwitchCase="'Finalizada'"></p>
+    <p *ngSwitchCase="'Evaluada'"></p>
     <p *ngSwitchCase="'Aprobada'"></p>
     <p *ngSwitchCase="'Reprobada'"></p>
     <app-iniciar-practica *ngSwitchDefault>Ingresar Práctica</app-iniciar-practica>

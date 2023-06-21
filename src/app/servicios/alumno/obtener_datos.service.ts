@@ -26,7 +26,7 @@ export class ObtenerDatosService {
   }
 
   ingresar_informe(id_practica: number, key: any, id_config_informe: number){
-    const req = new HttpRequest('POST', `${environment.url_back}/informe/crear`, {id_practica:id_practica, key:key, id_config_informe:id_config_informe});
+    const req = new HttpRequest('POST', `${environment.url_back}/informe/crear`, {id_practica:id_practica, key:key, id_config_informe:id_config_informe}, {responseType: 'text'});
     return this._http.request(req);
   }
 
@@ -36,8 +36,7 @@ export class ObtenerDatosService {
   }
 
   actualizar_hora(id_practica: number, horas: number){
-    const req = new HttpRequest('PUT', `${environment.url_back}/practica/actualizar`, {id:id_practica, horas:horas});
-    console.log(req.body);
+    const req = new HttpRequest('PUT', `${environment.url_back}/practica/actualizar`, {id:id_practica, horas:horas}, {responseType: 'text'});
     return this._http.request(req);
   }
 }

@@ -17,7 +17,7 @@ export class FinalizacionComponent {
 
   constructor(private service: GestionarService, private route: ActivatedRoute, private _snackBar: MatSnackBar, private router: Router) {
     this.sub = this.route.params.subscribe(params => {
-      this.id_estudiante = +params['id'] - 1; // (+) converts string 'id' to a number
+      this.id_estudiante = +params['id']; // (+) converts string 'id' to a number
       this.id_practica = +params['n'];
     });
   }

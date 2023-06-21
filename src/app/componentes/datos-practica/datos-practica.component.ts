@@ -36,37 +36,34 @@ export class DatosPracticaComponent implements OnInit{
 
     let horas_nuevas = horas_actuales + horas;
 
-    console.log(this.practica.id);
-    console.log(horas);
-    console.log(horas_actuales);
-    console.log(horas_nuevas);
+    console.log("id_practica:",this.practica.id);
+    console.log("casilla horas:",horas);
+    console.log("cantidad horas en base de datos:",horas_actuales);
+    console.log("cantidad a ingresar en bd:",horas_nuevas);
 
     //actualizar horas
     
     this.service.actualizar_hora(this.practica.id, horas_nuevas).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
+        console.log("Respuesta actualizar horas:",data);
       },
-      error: (error: any) => console.log(error),
+      error: (error: any) => console.log("Error en actualizar hora:",error),
       complete: () => {
-        this.practica.horas = horas_nuevas;
+        let id_config_informe = 1;
+        console.log("Ingresar informe");
+        this.service.ingresar_informe(this.practica.id, key, id_config_informe).subscribe({
+          next: (data: any) => {
+            respuesta = { ...respuesta, ...data }
+            console.log("Respuesta ingresar informe:",data);
+          },
+          error: (error: any) => console.log("Error en ingresar informe:",error),
+          complete: () => {
+            window.location.reload();
+          }
+    });
       }
     });
-    
-    
-    let id_config_informe = 1;
-    console.log("Ingresar informe");
-    this.service.ingresar_informe(this.practica.id, key, id_config_informe).subscribe({
-      next: (data: any) => {
-        respuesta = { ...respuesta, ...data }
-      },
-      error: (error: any) => console.log(error),
-      complete: () => {
-        this.config_practica = respuesta.body;
-      }
-    });
-    
-    window.location.reload();
   }
 
   ngOnInit() {
