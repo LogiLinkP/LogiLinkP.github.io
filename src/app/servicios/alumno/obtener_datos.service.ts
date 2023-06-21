@@ -11,6 +11,7 @@ export class ObtenerDatosService {
   constructor(private _http: HttpClient) { }
 
   obtener_alumno(id:number) {
+    console.log("Obtener alumno", id);
     const req = new HttpRequest('GET', `${environment.url_back}/estudiante?id=${id}`);
     return this._http.request(req);
   }

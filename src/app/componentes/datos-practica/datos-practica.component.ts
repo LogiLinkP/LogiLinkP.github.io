@@ -1,5 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-datos-practica',
@@ -7,7 +8,7 @@ import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.serv
   styleUrls: ['./datos-practica.component.css']
 })
 export class DatosPracticaComponent implements OnInit{
-  id: number = 1;
+  id_alumno: number = -1;
   alumno:any = []
   practica: any = [];
   config_practica: any = [];
@@ -15,58 +16,10 @@ export class DatosPracticaComponent implements OnInit{
 
   link_finalizacion = ""
 
-  constructor(private service: ObtenerDatosService) {
-    let respuesta: any = {};
-
-    this.service.obtener_alumno(this.id).subscribe({
-      next: (data: any) => {
-        respuesta = { ...respuesta, ...data }
-      },
-      error: (error: any) => console.log(error),
-      complete: () => {
-        this.alumno = respuesta.body;
-        this.link_finalizacion = "/alumno/"+this.alumno.id+"/finalizacion/1";
-      }
-    });
+  constructor(private service: ObtenerDatosService, private router: ActivatedRoute) {
     
-    this.service.obtener_practica(this.id).subscribe({
-      next: (data: any) => {
-        respuesta = { ...respuesta, ...data }
-      },
-      error: (error: any) => console.log(error),
-      complete: () => {
-        this.practica = respuesta.body;
+    this.router.params.subscribe(params => {this.id_alumno = +params['id'];});
 
-        this.service.obtener_config_practica(this.practica.id_config_practica).subscribe({
-          next: (data: any) => {
-            respuesta = { ...respuesta, ...data }
-          },
-          error: (error: any) => console.log(error),
-          complete: () => {
-            this.config_practica = respuesta.body;
-
-            this.service.obtener_informes(this.practica.id).subscribe({
-              next: (data: any) => {
-                respuesta = { ...respuesta, ...data }
-              },
-              error: (error: any) => console.log(error),
-              complete: () => {
-                console.log("largo respuesta:",respuesta.body.length);
-                console.log("num_informes:",this.config_practica.num_informes);
-                console.log("horas_config_practica:",this.config_practica.cantidad_horas);
-                console.log("horas_practica:",this.practica.horas);
-                if(this.config_practica.num_informes <= respuesta.body.length && this.config_practica.cantidad_horas <= this.practica.horas){
-                  this.permitir_finalizacion = false;
-                }
-                
-              }   
-            });
-          }   
-        });
-
-        
-      }
-    });   
   }
 
   ingresarInforme(){
@@ -118,5 +71,55 @@ export class DatosPracticaComponent implements OnInit{
   }
 
   ngOnInit() {
+    let respuesta: any = {};
+    this.service.obtener_alumno(this.id_alumno).subscribe({
+      next: (data: any) => {
+        respuesta = { ...respuesta, ...data }
+      },
+      error: (error: any) => console.log(error),
+      complete: () => {
+        this.alumno = respuesta.body;
+        this.link_finalizacion = "/alumno/"+this.alumno.id+"/finalizacion/1";
+      }
+    });
+    
+    this.service.obtener_practica(this.id_alumno).subscribe({
+      next: (data: any) => {
+        respuesta = { ...respuesta, ...data }
+      },
+      error: (error: any) => console.log(error),
+      complete: () => {
+        this.practica = respuesta.body;
+
+        this.service.obtener_config_practica(this.practica.id_config_practica).subscribe({
+          next: (data: any) => {
+            respuesta = { ...respuesta, ...data }
+          },
+          error: (error: any) => console.log(error),
+          complete: () => {
+            this.config_practica = respuesta.body;
+
+            this.service.obtener_informes(this.practica.id).subscribe({
+              next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+              },
+              error: (error: any) => console.log(error),
+              complete: () => {
+                console.log("largo respuesta:",respuesta.body.length);
+                console.log("num_informes:",this.config_practica.num_informes);
+                console.log("horas_config_practica:",this.config_practica.cantidad_horas);
+                console.log("horas_practica:",this.practica.horas);
+                if(this.config_practica.num_informes <= respuesta.body.length && this.config_practica.cantidad_horas <= this.practica.horas){
+                  this.permitir_finalizacion = false;
+                }
+                
+              }   
+            });
+          }   
+        });
+
+        
+      }
+    });   
   }
 }

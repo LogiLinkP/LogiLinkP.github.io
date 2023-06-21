@@ -1,5 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'alumno',
@@ -7,18 +8,22 @@ import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.serv
   styleUrls: ['./alumno.component.css']
 })
 export class DetalleAlumnoComponent implements OnInit{
-  id: number = 1;
+  id_alumno: number = -1;
   alumno:any = []
   practica: any = [];
+  flag: boolean = false;
 
-  //HARDCODEADO
   link_finalizacion = ""
   link_inscripcion = ""
 
-  constructor(private service: ObtenerDatosService) {
+  constructor(private service: ObtenerDatosService , private router: ActivatedRoute) {
+    this.router.params.subscribe(params => {this.id_alumno = +params['id'];});
+  }
+
+  ngOnInit() {
     let respuesta: any = {};
 
-    this.service.obtener_alumno(this.id).subscribe({
+    this.service.obtener_alumno(this.id_alumno).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
@@ -30,7 +35,7 @@ export class DetalleAlumnoComponent implements OnInit{
       }
     });
     
-    this.service.obtener_practica(this.id).subscribe({
+    this.service.obtener_practica(this.id_alumno).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
@@ -39,8 +44,5 @@ export class DetalleAlumnoComponent implements OnInit{
         this.practica = respuesta.body;
       }
     });
-  }
-
-  ngOnInit() {
   }
 }
