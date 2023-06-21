@@ -18,9 +18,9 @@ export class EvaluacionComponent {
   send() {
     let pregunta1 = (document.getElementById("respuesta1") as HTMLInputElement)?.value;
     let pregunta2 = (document.getElementById("respuesta2") as HTMLInputElement)?.value;
-    let pregunta3 = (document.querySelector('input[name="respuesta3"]:checked') as HTMLInputElement)?.value;
+    let evaluacion = +(document.querySelector('input[name="respuesta3"]:checked') as HTMLInputElement)?.value;
     let response = {};
-    this.service.sendAnswer(this.id_estudiante, this.id_config_practica, { pregunta1, pregunta2, pregunta3 }).subscribe({
+    this.service.sendAnswer(this.id_estudiante, this.id_config_practica, { pregunta1, pregunta2 }, evaluacion).subscribe({
       next: (data: any) => {
         response = { ...response, ...data }
         if (data.status == 200) {
