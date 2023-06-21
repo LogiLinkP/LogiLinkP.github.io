@@ -15,7 +15,10 @@ import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DataTablesModule } from "angular-datatables";
 import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_supervisor.component';
+import { MatButtonModule } from '@angular/material/button';
+import { DatosPracticaComponent } from './componentes/datos-practica/datos-practica.component';
 //import { IniciarPracticaComponent } from './componentes/iniciar-practica/iniciar-practica.component';
+
 
 
 @NgModule({
@@ -23,12 +26,14 @@ import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_s
     AppComponent,
     routingComponents,
     EvaluacionComponent,
+    DatosPracticaComponent,
     //IniciarPracticaComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     DataTablesModule,
+    MatButtonModule,
     NoopAnimationsModule,
     MatSnackBarModule,
     HttpClientModule,

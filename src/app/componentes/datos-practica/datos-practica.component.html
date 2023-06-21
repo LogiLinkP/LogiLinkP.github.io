@@ -1,0 +1,18 @@
+<p>nombre del supervisor: {{practica.nombre_supervisor}}</p>
+<p>correo del supervisor: {{practica.correo_supervisor}}</p>
+<p>nombre de la empresa: {{practica.nombre_empresa}}</p>
+<p>fecha de inicio: {{practica.fecha_inicio}}</p>
+<p>modalidad de la practica: {{config_practica.modalidad}}</p>
+<p>tipo de practica: {{config_practica.tipo}}</p>
+<br>
+<p> Ingrese aqui su informe:</p>
+<input type="text" id="informe">
+<button (click) = "ingresarInforme()">Ingresar informe</button>
+<br><br>
+<p>Subir documentos</p>
+<app-file></app-file>
+<br>
+
+<div [ngSwitch]="permitir_finalizacion">
+    <button [routerLink] = "link_finalizacion" *ngSwitchCase="'1'">Finalizar Práctica</button>
+</div>

@@ -9,28 +9,34 @@ import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.serv
 export class DetalleAlumnoComponent implements OnInit{
   id: number = 1;
   alumno:any = []
-  practica_1: any = [];
-  practica_2: any = [];
+  practica: any = [];
+
+  //HARDCODEADO
+  link_finalizacion = ""
+  link_inscripcion = ""
 
   constructor(private service: ObtenerDatosService) {
     let respuesta: any = {};
-    this.service.obtener_uno(this.id).subscribe({
+
+    this.service.obtener_alumno(this.id).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
       error: (error: any) => console.log(error),
       complete: () => {
         this.alumno = respuesta.body;
+        this.link_finalizacion = "/alumno/"+this.alumno.id+"/finalizacion/1";
+        this.link_inscripcion = "/alumno/"+this.alumno.id+"/iniciarpractica/1"; 
       }
     });
-
+    
     this.service.obtener_practica(this.id).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
       error: (error: any) => console.log(error),
       complete: () => {
-        this.practica_1 = respuesta.body;
+        this.practica = respuesta.body;
       }
     });
   }
