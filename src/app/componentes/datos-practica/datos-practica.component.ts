@@ -11,7 +11,7 @@ export class DatosPracticaComponent implements OnInit{
   alumno:any = []
   practica: any = [];
   config_practica: any = [];
-  permitir_finalizacion: string = "0";
+  permitir_finalizacion: boolean = true;
 
   link_finalizacion = ""
 
@@ -54,7 +54,7 @@ export class DatosPracticaComponent implements OnInit{
                 console.log("largo respuesta:",respuesta.body.length);
                 console.log("num_informes:",this.config_practica.num_informes);
                 if(this.config_practica.num_informes <= respuesta.body.length){
-                  this.permitir_finalizacion = "1";
+                  this.permitir_finalizacion = false;
                 }
                 
               }   
