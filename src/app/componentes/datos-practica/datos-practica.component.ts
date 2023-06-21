@@ -53,7 +53,9 @@ export class DatosPracticaComponent implements OnInit{
               complete: () => {
                 console.log("largo respuesta:",respuesta.body.length);
                 console.log("num_informes:",this.config_practica.num_informes);
-                if(this.config_practica.num_informes <= respuesta.body.length){
+                console.log("horas_config_practica:",this.config_practica.cantidad_horas);
+                console.log("horas_practica:",this.practica.horas);
+                if(this.config_practica.num_informes <= respuesta.body.length && this.config_practica.cantidad_horas <= this.practica.horas){
                   this.permitir_finalizacion = false;
                 }
                 
@@ -70,6 +72,36 @@ export class DatosPracticaComponent implements OnInit{
   ingresarInforme(){
     let respuesta: any = {};
     let key = (document.getElementById("informe") as HTMLInputElement).value;
+    let horas = (document.getElementById("horas") as HTMLInputElement).valueAsNumber;
+    let horas_actuales = this.practica.horas;
+
+    if (Number.isNaN(horas)){
+      horas = 0;
+    }
+    if (Number.isNaN(horas_actuales)){
+      horas_actuales = 0;
+    }
+
+    let horas_nuevas = horas_actuales + horas;
+
+    console.log(this.practica.id);
+    console.log(horas);
+    console.log(horas_actuales);
+    console.log(horas_nuevas);
+
+    //actualizar horas
+    
+    this.service.actualizar_hora(this.practica.id, horas_nuevas).subscribe({
+      next: (data: any) => {
+        respuesta = { ...respuesta, ...data }
+      },
+      error: (error: any) => console.log(error),
+      complete: () => {
+        this.practica.horas = horas_nuevas;
+      }
+    });
+    
+    
     let id_config_informe = 1;
     console.log("Ingresar informe");
     this.service.ingresar_informe(this.practica.id, key, id_config_informe).subscribe({
@@ -81,6 +113,8 @@ export class DatosPracticaComponent implements OnInit{
         this.config_practica = respuesta.body;
       }
     });
+    
+    window.location.reload();
   }
 
   ngOnInit() {
