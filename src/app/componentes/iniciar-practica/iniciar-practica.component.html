@@ -1,24 +1,25 @@
-<p>iniciar-practica works!</p>
-
 <div class = "container">
     <h1>Inscribe tu practica</h1>
-    <form>
-        Nombre empresa: <input type="text" class="form-control">
+    <div>
+        Nombre empresa: <input type="text" class="form-control" id="nombre_empresa">
 
-        Rut empresa: <input type="text" class="form-control">
+        Rut empresa: <input type="text" class="form-control" id="rut_empresa">
 
-        Nombre supervisor: <input type="text" class="form-control">
+        Nombre supervisor: <input type="text" class="form-control" id="nombre_supervisor">
 
-        Correo supervisor: <input type="text" class="form-control">
+        Correo supervisor: <input type="text" class="form-control" id="correo_supervisor">
+
+        Fecha Inicio: <input type="text" class="form-control" id="fecha_inicio">
+
         <br/>
-        <select class="select-horas">
+        <select class="select-horas" id="cantidad_horas">
             <option selected> Cantidad de horas</option>
             <option *ngFor = "let horas of horas" >{{horas}}</option>
         </select><br/>
         <br/>
 
-            <button type="submit" class="btn btn-primary">Enviar</button>
+        <button class="btn btn-primary" (click)="enviar()" >Enviar</button> 
 
-    </form>
+    </div>
 
 </div>
