@@ -40,6 +40,6 @@ export class GestionarService {
     }, {
       responseType: 'json'
     });
-    return this._http.request(req);
+    return this.http.request(req);
   }
 }

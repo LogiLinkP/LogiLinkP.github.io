@@ -7,12 +7,11 @@
 <br>
 <p> Ingrese aqui su informe:</p>
 <input type="text" id="informe">
-<button (click) = "ingresarInforme()">Ingresar informe</button>
+<button mat-raised-button color="primary" (click) = "ingresarInforme()">Ingresar informe</button>
 <br><br>
 <p>Subir documentos</p>
 <app-file></app-file>
 <br>
 
-<div [ngSwitch]="permitir_finalizacion">
-    <button [routerLink] = "link_finalizacion" *ngSwitchCase="'1'">Finalizar Práctica</button>
-</div>
+
+<button mat-raised-button color="primary" [routerLink] = "link_finalizacion" [disabled]="permitir_finalizacion">Finalizar Práctica</button>
