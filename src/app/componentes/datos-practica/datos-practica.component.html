@@ -1,23 +1,36 @@
-<p>nombre del supervisor: {{practica.nombre_supervisor}}</p>
-<p>correo del supervisor: {{practica.correo_supervisor}}</p>
-<p>nombre de la empresa: {{practica.nombre_empresa}}</p>
-<p>fecha de inicio: {{practica.fecha_inicio}}</p>
-<p>modalidad de la practica: {{config_practica.modalidad}}</p>
-<p>tipo de practica: {{config_practica.tipo}}</p>
+<mat-list role="list">
+    <mat-list-item role="listitem">Nombre Empresa: {{practica.nombre_empresa}}</mat-list-item>
+    <mat-list-item role="listitem">Nombre Supervisor: {{practica.nombre_supervisor}}</mat-list-item>
+    <mat-list-item role="listitem">Correo Supervisor: {{practica.correo_supervisor}}</mat-list-item>
+    <mat-list-item role="listitem">Tipo Práctica: {{config_practica.tipo}}</mat-list-item>
+    <mat-list-item role="listitem">Modalidad Práctica: {{config_practica.modalidad}}</mat-list-item>
+    <mat-list-item role="listitem">Fecha Inicio: {{practica.fecha_inicio}}</mat-list-item>
+</mat-list>
+
 <br>
-<p> Ingrese aqui su informe:</p>
-<input type="text" id="informe">
+<h2>Informe</h2>
 <br>
-<br>
-<p> Ingrese cantidad de horas trabajadas:</p>
-<input type="number" id="horas">
-<br>
-<br>
-<button mat-raised-button color="primary" (click) = "ingresarInforme()">Ingresar informe y horas</button>
-<br><br>
-<p>Subir documentos</p>
-<app-file></app-file>
+<form class="example-form">
+    <mat-form-field style="aspect-ratio: 16/9;"  class="example-full-width">
+      <mat-label>Actividades Realizadas</mat-label>
+      <input type="text" value="informe">
+    </mat-form-field>
+  
+    <mat-form-field class="example-full-width">
+      <mat-label>Horas Dedicadas</mat-label>
+      <input type="number" maxlength="2" min=0 max="24" value="horas">
+    </mat-form-field>
+</form>
+
 <br>
 
+<p>Subir documentos</p>
+<app-file></app-file>
+
+<button mat-raised-button color="primary" (click) = "ingresarInforme()">Ingresar informe y horas</button>
+
+<br>
+
+<br>
 
 <button mat-raised-button color="primary" [routerLink] = "link_finalizacion" [disabled]="permitir_finalizacion">Finalizar Práctica</button>
