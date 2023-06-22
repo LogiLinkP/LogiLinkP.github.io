@@ -20,4 +20,13 @@ export class SupervisorService {
     const req = new HttpRequest('POST', `${environment.url_back}/supervisor/respuesta`, data);
     return this._http.request(req);
   }
+
+  enviarLink(correo: string, nom_sup: string, nom_estudiante: string): Observable<any> {
+    console.log("servicio correo",correo);
+    console.log("servicio nom_sup",nom_sup);
+    console.log("servicio nom_estudiante",nom_estudiante);
+    const req = new HttpRequest('POST', `${environment.url_back}/supervisor/gen_token`, { correo, nom_sup, nom_estudiante });
+    return this._http.request(req);
+  }
+
 }
