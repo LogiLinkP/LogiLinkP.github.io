@@ -24,7 +24,11 @@
             <td>{{people.interpretacion_nota}}</td>
             <td>{{people.interpretacion_informe}}</td>
             <td>{{people.nota_evaluacion}}</td>
-            <td><app-revision [id_estudiante]="people.id_estudiante" [id_config_practica]="1"></app-revision></td>
+            <td [ngSwitch]="people.estado">
+                <app-revision *ngSwitchCase="'Evaluada'" [id_estudiante]="people.id_estudiante"
+                    [id_config_practica]="1"></app-revision>
+                <p *ngSwitchDefault>Aún no evaluada por supervisor</p>
+            </td>
         </tr>
     </tbody>
 </table>
