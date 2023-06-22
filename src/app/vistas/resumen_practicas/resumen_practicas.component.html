@@ -9,6 +9,7 @@
             <th>Estado</th>
             <th>Interpretacion Nota</th>
             <th>Interpretacion Informes</th>
+            <th>Promedio Evaluación</th>
             <th>Aprobacion</th>
         </tr>
     </thead>
@@ -22,6 +23,7 @@
             <td>{{people.estado}}</td>
             <td>{{people.interpretacion_nota}}</td>
             <td>{{people.interpretacion_informe}}</td>
+            <td>{{people.nota_evaluacion}}</td>
             <td><app-revision [id_estudiante]="people.id_estudiante" [id_config_practica]="1"></app-revision></td>
         </tr>
     </tbody>
