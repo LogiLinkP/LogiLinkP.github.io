@@ -14,16 +14,16 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let people of alumnos;" routerLink="/encargado/{{people.id}}">
-            <td>{{people.estudiante.nombre}}</td>
-            <td>{{people.estudiante.rut}}</td>
-            <td>{{people.config_practica.nombre}}</td>
-            <td>{{people.consistencia_informe}}</td>
-            <td>{{people.consistencia_nota}}</td>
-            <td>{{people.estado}}</td>
-            <td>{{people.interpretacion_nota}}</td>
-            <td>{{people.interpretacion_informe}}</td>
-            <td>{{people.nota_evaluacion}}</td>
+        <tr *ngFor="let people of alumnos;">
+            <td routerLink="/encargado/{{people.id}}">{{people.estudiante.nombre}}</td>
+            <td routerLink="/encargado/{{people.id}}">{{people.estudiante.rut}}</td>
+            <td routerLink="/encargado/{{people.id}}">{{people.config_practica.nombre}}</td>
+            <td routerLink="/encargado/{{people.id}}">{{people.consistencia_informe}}</td>
+            <td routerLink="/encargado/{{people.id}}">{{people.consistencia_nota}}</td>
+            <td routerLink="/encargado/{{people.id}}">{{people.estado}}</td>
+            <td routerLink="/encargado/{{people.id}}">{{people.interpretacion_nota}}</td>
+            <td routerLink="/encargado/{{people.id}}">{{people.interpretacion_informe}}</td>
+            <td routerLink="/encargado/{{people.id}}">{{people.nota_evaluacion}}</td>
             <td [ngSwitch]="people.estado">
                 <app-revision *ngSwitchCase="'Evaluada'" [id_estudiante]="people.id_estudiante"
                     [id_config_practica]="1"></app-revision>
