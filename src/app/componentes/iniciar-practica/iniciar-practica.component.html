@@ -1,23 +1,46 @@
 <div class = "container">
-    <h1>Inscribe tu practica</h1>
+    <h2>Inscribe tu Práctica</h2>
     <div>
-        Nombre empresa: <input type="text" class="form-control" id="nombre_empresa">
+        <table class = "example-full-width" cellspacing="0">
+            <tr>
+                <td>
+                    <input matInput placeholder="Nombre Empresa" type="text" class="form-control" id="nombre_empresa">
+                </td>
+                <td>
+                    <input matInput placeholder="Rut Empresa" type="text" class="form-control" id="rut_empresa">
+                </td>
+            </tr>   
+        </table>
 
-        Rut empresa: <input type="text" class="form-control" id="rut_empresa">
+        <br>
 
-        Nombre supervisor: <input type="text" class="form-control" id="nombre_supervisor">
+        <table class = "example-full-width" cellspacing="0">
+            <tr>
+                <td>
+                    <input matInput placeholder="Nombre Supervisor" type="text" class="form-control" id="nombre_supervisor">                </td>
+                <td>
+                    <input matInput placeholder="Correo Supervisor" type="text" class="form-control" id="correo_supervisor">                </td>
+            </tr>   
+        </table>
+        
+        <br>
+        
+        Fecha Inicio:
+        <input style="width: 150px;" matInput placeholder="dd-mm-aaaa" type="date" class="form-control" id="fecha_inicio">
 
-        Correo supervisor: <input type="text" class="form-control" id="correo_supervisor">
+        <br>
 
-        Fecha Inicio: <input type="text" class="form-control" id="fecha_inicio">
+        Selecciona Modalidad en Horas:
+        <br>
+        <mat-form-field>
+            <mat-label>Horas</mat-label>
+            <mat-select disableRipple>
+                <mat-option *ngFor = "let horas of horas" id="dropdown_horas">{{horas}}></mat-option>
+            </mat-select>
+        </mat-form-field>
 
-        <br/>
-        <select class="select-horas" id="cantidad_horas">
-            <option selected> Cantidad de horas</option>
-            <option *ngFor = "let horas of horas" id="dropdown_horas">{{horas}}</option>
-        </select><br/>
-        <br/>
-
+        <br>
+        
         <button class="btn btn-primary" (click)="enviar()" >Enviar</button> 
 
     </div>
