@@ -96,17 +96,16 @@ export class FinalizacionComponent {
                           },
                           complete: () => {
                             console.log("Correo enviado");
+                            this.router.navigate(['/'])
                           }
                         }
-                      );
-                      
+                      );                      
                     }
                   }
                 );
               }
             }
-          );
-          //this.router.navigate(['/'])
+          );          
         }
       }
     );
