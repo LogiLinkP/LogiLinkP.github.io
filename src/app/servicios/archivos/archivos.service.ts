@@ -10,12 +10,13 @@ export class ArchivosService {
 
   constructor(private _http: HttpClient) { }
 
-  uploadFile(file: File): Observable<any> {
+  uploadFile(file: File, id_estudiante: number): Observable<any> {
     const formData: FormData = new FormData();
 
     formData.append('file', file);
+    formData.append('id_estudiante', `${id_estudiante}`);
 
-    const req = new HttpRequest('POST', `${environment.url_back}/file/upload`, formData, {
+    const req = new HttpRequest('POST', `${environment.url_back}/documento/upload`, formData, {
       reportProgress: true,
       responseType: 'json'
     });

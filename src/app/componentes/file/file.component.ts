@@ -3,6 +3,7 @@ import { ArchivosService } from "src/app/servicios/archivos/archivos.service";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-file',
@@ -14,13 +15,16 @@ export class FileComponent {
     file: new FormControl('', [Validators.required]),
     fileSource: new FormControl('', [Validators.required])
   });
+  id_estudiante: number = -1;
   progress: number = 0;
   selectedFiles?: FileList;
   currentFile?: File;
   message: string = '';
 
-  constructor(private service: ArchivosService, private _snackBar: MatSnackBar) {
-    console.log("stoy")
+  constructor(private service: ArchivosService, private _snackBar: MatSnackBar, private router: ActivatedRoute) {
+    this.router.params.subscribe(params => {
+      this.id_estudiante = +params['id'];
+    });
   }
 
   selectFile(event: any): void {
@@ -37,7 +41,7 @@ export class FileComponent {
         this.currentFile = file;
         console.log(file);
 
-        this.service.uploadFile(this.currentFile).subscribe({
+        this.service.uploadFile(this.currentFile, this.id_estudiante).subscribe({
           next: (event: any) => {
             if (event.type === HttpEventType.UploadProgress) {
               this.progress = Math.round(100 * event.loaded / event.total);
