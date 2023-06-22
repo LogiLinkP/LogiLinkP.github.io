@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -49,6 +50,7 @@ import {MatSelectModule, matSelectAnimations} from '@angular/material/select';
     MatListModule,
     MatDatepickerModule,
     MatSelectModule,
+    MatToolbarModule
   ],
   providers: [GetDetallesAlumnoService, SetDetallesAlumnoService, ArchivosService, SupervisorService],
   bootstrap: [AppComponent]
