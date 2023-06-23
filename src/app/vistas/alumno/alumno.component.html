@@ -1,25 +1,54 @@
-<body>
-    <mat-card>
-        <mat-card-header>
-        <mat-card-title>{{alumno.nombre}}</mat-card-title>
-        </mat-card-header>
-        <mat-card-subtitle>Datos Personales</mat-card-subtitle>
-        
-        <mat-list role="list">
-            <mat-list-item role="listitem">Rut: {{alumno.rut}}</mat-list-item>
-            <mat-list-item role="listitem">Rol: {{alumno.rol}}</mat-list-item>
-            <mat-list-item role="listitem">Correo: {{alumno.correo}}</mat-list-item>
-        </mat-list>
-
-
+<mat-card style="background-color:beige; left:60px; top: 40px; width: 90%;">
+    <mat-card-header>
+    <mat-card-title>{{alumno.nombre}}</mat-card-title>
+    </mat-card-header>  
+    <table>
+        <td>
+            <mat-card-subtitle>Datos Personales</mat-card-subtitle>
+            
+            <mat-list role="list">
+                <mat-list-item role="listitem">Rut: {{alumno.rut}}</mat-list-item>
+                <mat-list-item role="listitem">Rol: {{alumno.rol}}</mat-list-item>
+                <mat-list-item role="listitem">Correo: {{alumno.correo}}</mat-list-item>
+            </mat-list>
+        </td>
         <div [ngSwitch]="practica.estado">
-            <app-datos-practica *ngSwitchCase="'En curso'"></app-datos-practica>
-            <p *ngSwitchCase="'Finalizada'"></p>
-            <p *ngSwitchCase="'Evaluada'"></p>
-            <p *ngSwitchCase="'Aprobada'"></p>
-            <p *ngSwitchCase="'Reprobada'"></p>
+            <div *ngSwitchCase="'En curso'">
+                <td>
+                    <mat-card-subtitle>Datos Práctica</mat-card-subtitle>
+                    <mat-list role="list">
+                    <mat-list-item role="listitem">Estado Práctica: {{practica.estado}}</mat-list-item>
+                    </mat-list>
+                    <app-datos-practica ></app-datos-practica>
+                </td>
+            </div>
+
+            <div *ngSwitchCase="'Evaluada'">
+                <mat-card-subtitle>Datos Práctica</mat-card-subtitle>
+                <mat-list role="list">
+                <mat-list-item role="listitem">Estado Práctica: {{practica.estado}}</mat-list-item>
+                </mat-list>
+                <app-datos-practica ></app-datos-practica>
+            </div>
+
+            <div *ngSwitchCase="'Aprobada'">
+                <mat-list role="list">
+                <mat-list-item role="listitem">Estado Práctica: {{practica.estado}}</mat-list-item>
+                <button class="btn btn-primary" style ="width: 20px; align-self: flex-end;" mat-raised-button color="primary" routerLink="" routerLinkActive="active">Volver</button>
+                </mat-list>
+                <app-datos-practica ></app-datos-practica>
+            </div>
+
+            <div *ngSwitchCase="'Reprobada'">
+                <mat-list role="list">
+                <mat-list-item role="listitem">Estado Práctica: {{practica.estado}}</mat-list-item>
+                <button class="btn btn-primary" style ="width: 20px; align-self: flex-end;" mat-raised-button color="primary" routerLink="" routerLinkActive="active">Volver</button>
+                </mat-list>
+                <app-datos-practica ></app-datos-practica>
+            </div>
+                
             <app-iniciar-practica *ngSwitchDefault>Ingresar Práctica</app-iniciar-practica>
         </div>
-        <br>
-    </mat-card>
-</body>
+    </table>
+    <br>
+</mat-card>
