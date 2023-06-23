@@ -1,23 +1,25 @@
-<mat-card>
-    <mat-card-header>
-      <mat-card-title>{{alumno.nombre}}</mat-card-title>
-    </mat-card-header>
-    <mat-card-subtitle>Datos Personales</mat-card-subtitle>
-    
-    <mat-list role="list">
-        <mat-list-item role="listitem">Rut: {{alumno.rut}}</mat-list-item>
-        <mat-list-item role="listitem">Rol: {{alumno.rol}}</mat-list-item>
-        <mat-list-item role="listitem">Correo: {{alumno.correo}}</mat-list-item>
-    </mat-list>
+<body>
+    <mat-card>
+        <mat-card-header>
+        <mat-card-title>{{alumno.nombre}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-subtitle>Datos Personales</mat-card-subtitle>
+        
+        <mat-list role="list">
+            <mat-list-item role="listitem">Rut: {{alumno.rut}}</mat-list-item>
+            <mat-list-item role="listitem">Rol: {{alumno.rol}}</mat-list-item>
+            <mat-list-item role="listitem">Correo: {{alumno.correo}}</mat-list-item>
+        </mat-list>
 
 
-    <div [ngSwitch]="practica.estado">
-        <app-datos-practica *ngSwitchCase="'En curso'"></app-datos-practica>
-        <p *ngSwitchCase="'Finalizada'"></p>
-        <p *ngSwitchCase="'Evaluada'"></p>
-        <p *ngSwitchCase="'Aprobada'"></p>
-        <p *ngSwitchCase="'Reprobada'"></p>
-        <app-iniciar-practica *ngSwitchDefault>Ingresar Práctica</app-iniciar-practica>
-    </div>
-    <br>
-</mat-card>
+        <div [ngSwitch]="practica.estado">
+            <app-datos-practica *ngSwitchCase="'En curso'"></app-datos-practica>
+            <p *ngSwitchCase="'Finalizada'"></p>
+            <p *ngSwitchCase="'Evaluada'"></p>
+            <p *ngSwitchCase="'Aprobada'"></p>
+            <p *ngSwitchCase="'Reprobada'"></p>
+            <app-iniciar-practica *ngSwitchDefault>Ingresar Práctica</app-iniciar-practica>
+        </div>
+        <br>
+    </mat-card>
+</body>
