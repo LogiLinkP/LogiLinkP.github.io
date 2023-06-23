@@ -1,37 +1,67 @@
-<div class="container text-center">
-    <div class="row_mb-3">
+<div class="container text-center mt-5">
+    <div class="cont_pregunta row_mb-3 w-100" id="cont_respuesta1">
         <div class="col-lg">
             <h2>Resuma las actividades realizadas por el estudiante:</h2>
             <textarea name="" id="respuesta1" cols="60" rows="10" placeholder="Escriba aqui el texto"></textarea>
         </div>
     </div>
-    <div class="row_mb-3">
+    <div class="cont_pregunta row_mb-3 w-100" id="cont_respuesta2" style="display: none;">
         <div class="col-lg">
             <h2>¿Cuál es su opinión sobre las habilidades blandas del estudiante?</h2>
             <textarea name="" id="respuesta2" cols="60" rows="10" placeholder="Escriba aqui el texto"></textarea>
         </div>
     </div>
-    <div class="row_mb-2">
+    <div class="cont_pregunta row_mb-3 w-100" id="cont_respuesta3" style="display: none;">
         <div class="col-lg">
             <p class="pregunta_desempeño">Del 1 al 5 ¿cómo evaluaría el desempeño del estudiante?</p>
             <label class="radio-inline">
-                <input type="radio" name="respuesta3" id="inlineRadio1" value="1">  1
+                <input type="radio" name="respuesta3" id="inlineRadio1" value="1"> 1
             </label>
             <label class="radio-inline">
-                <input type="radio" name="respuesta3" id="inlineRadio2" value="2">  2
+                <input type="radio" name="respuesta3" id="inlineRadio2" value="2"> 2
             </label>
             <label class="radio-inline">
-                <input type="radio" name="respuesta3" id="inlineRadio3" value="3">  3
+                <input type="radio" name="respuesta3" id="inlineRadio3" value="3"> 3
             </label>
             <label class="radio-inline">
-                <input type="radio" name="respuesta3" id="inlineRadio4" value="4">  4
+                <input type="radio" name="respuesta3" id="inlineRadio4" value="4"> 4
             </label>
             <label class="radio-inline">
-                <input type="radio" name="respuesta3" id="inlineRadio5" value="5">  5
+                <input type="radio" name="respuesta3" id="inlineRadio5" value="5"> 5
             </label>
         </div>
     </div>
 
-    <button mat-raised-button color="primary" type="button" (click)="send()"> Enviar</button>
+    <div class="row">
+        <div class="col">
+            &nbsp;
+        </div>
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <button mat-raised-button color="primary" (click)="izq()" [disabled]="pregunta_actual<=1">
+                        <span class="material-symbols-outlined modal-dialog-centered">
+                            arrow_back
+                        </span>
+                    </button>
+                </div>
+                <div class="col">
+                    <button mat-raised-button color="primary" type="button" (click)="send()"> Enviar</button>
+                </div>
+                <div class="col">
+                    <button mat-raised-button color="primary" (click)="der()" [disabled]="pregunta_actual>=3">
+                        <span class="material-symbols-outlined modal-dialog-centered">
+                            arrow_forward
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            &nbsp;
+        </div>
+
+
+    </div>
 
 </div>
