@@ -18,7 +18,14 @@ import { DataTablesModule } from "angular-datatables";
 import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_supervisor.component';
 import { MatButtonModule } from '@angular/material/button';
 import { DatosPracticaComponent } from './componentes/datos-practica/datos-practica.component';
-//import { IniciarPracticaComponent } from './componentes/iniciar-practica/iniciar-practica.component';
+
+import {MatInputModule} from '@angular/material/input';
+import {MatCardModule} from '@angular/material/card';
+import {MatListModule} from '@angular/material/list';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatSelectModule, matSelectAnimations} from '@angular/material/select';
+
+
 
 
 
@@ -28,7 +35,6 @@ import { DatosPracticaComponent } from './componentes/datos-practica/datos-pract
     routingComponents,
     EvaluacionComponent,
     DatosPracticaComponent,
-    //IniciarPracticaComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,6 +45,11 @@ import { DatosPracticaComponent } from './componentes/datos-practica/datos-pract
     MatSnackBarModule,
     HttpClientModule,
     NgbModule,
+    MatInputModule,
+    MatCardModule,
+    MatListModule,
+    MatDatepickerModule,
+    MatSelectModule,
     MatToolbarModule
   ],
   providers: [GetDetallesAlumnoService, SetDetallesAlumnoService, ArchivosService, SupervisorService],
