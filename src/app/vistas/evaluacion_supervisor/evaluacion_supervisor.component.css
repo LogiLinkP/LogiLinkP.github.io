@@ -1,12 +1,14 @@
 textarea {
     resize: none;
 }
+
 .radio-inline {
     padding-left: 7px;
     padding-right: 4px;
     font-weight: 500;
     font-size: large;
 }
+
 .row_mb-3 {
     padding-top: 15px;
     padding-bottom: 5px;
@@ -17,8 +19,12 @@ textarea {
     padding-bottom: 20px;
 }
 
-.pregunta_desempeño{
+.pregunta_desempeño {
     margin-bottom: 0px;
     font-size: 20px;
     font-weight: 500;
+}
+
+.cont_pregunta {
+    height: 334px;
 }

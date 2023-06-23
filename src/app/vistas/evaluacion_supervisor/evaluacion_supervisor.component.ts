@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { SupervisorService } from '../../servicios/supervisor/supervisor.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from "@angular/router"
+import * as $ from 'jquery';
 
 @Component({
   selector: 'evaluacion_supervisor',
@@ -12,8 +13,31 @@ export class EvaluacionComponent {
 
   id_estudiante = 1;
   id_config_practica = 1;
+  pregunta_actual = 1;
   constructor(private service: SupervisorService, private _snackbar: MatSnackBar, private router: Router) {
 
+  }
+
+  izq() {
+    let id = `#cont_respuesta${this.pregunta_actual}`;
+    let id_izq = `#cont_respuesta${this.pregunta_actual - 1}`;
+    $(id).fadeOut(() => {
+      $(id).css("display", "none");
+      $(id_izq).css({ "display": "block" });
+      $(id_izq).fadeIn();
+      this.pregunta_actual -= 1;
+    });
+  }
+
+  der() {
+    let id = `#cont_respuesta${this.pregunta_actual}`;
+    let id_der = `#cont_respuesta${this.pregunta_actual + 1}`;
+    $(id).fadeOut(() => {
+      $(id).css("display", "none");
+      $(id_der).css({ "display": "block" });
+      $(id_der).fadeIn();
+      this.pregunta_actual += 1;
+    });
   }
 
   send() {
