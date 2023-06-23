@@ -23,11 +23,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
 import {MatListModule} from '@angular/material/list';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatSelectModule, matSelectAnimations} from '@angular/material/select';
-
-
-
-
+import {MatSelectModule} from '@angular/material/select';
+import {TextFieldModule} from '@angular/cdk/text-field';
 
 @NgModule({
   declarations: [
@@ -50,7 +47,8 @@ import {MatSelectModule, matSelectAnimations} from '@angular/material/select';
     MatListModule,
     MatDatepickerModule,
     MatSelectModule,
-    MatToolbarModule
+    MatToolbarModule,
+    TextFieldModule,
   ],
   providers: [GetDetallesAlumnoService, SetDetallesAlumnoService, ArchivosService, SupervisorService],
   bootstrap: [AppComponent]
