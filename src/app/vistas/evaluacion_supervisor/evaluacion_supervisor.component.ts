@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { SupervisorService } from '../../servicios/supervisor/supervisor.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from "@angular/router"
 
 @Component({
   selector: 'evaluacion_supervisor',
@@ -11,7 +12,7 @@ export class EvaluacionComponent {
 
   id_estudiante = 1;
   id_config_practica = 1;
-  constructor(private service: SupervisorService, private _snackbar: MatSnackBar) {
+  constructor(private service: SupervisorService, private _snackbar: MatSnackBar, private router: Router) {
 
   }
 
@@ -25,12 +26,12 @@ export class EvaluacionComponent {
         response = { ...response, ...data }
         if (data.status == 200) {
           this._snackbar.open("Respuestas enviadas", "Cerrar", {
-            duration: 2000,
+            duration: 10000,
             panelClass: ['green-snackbar']
           });
         } else {
-          this._snackbar.open("Error al enviar las respuestas", "Cerrar", {
-            duration: 2000,
+          this._snackbar.open("Enviando sus respuestas...", "Cerrar", {
+            duration: 4000,
             panelClass: ['red-snackbar']
           });
         }
@@ -42,7 +43,10 @@ export class EvaluacionComponent {
           panelClass: ['red-snackbar']
         });
       },
-      complete: () => console.log(response)
+      complete: () => {
+        console.log(response)
+        this.router.navigate(['/'])
+      }
     });
 
   }
