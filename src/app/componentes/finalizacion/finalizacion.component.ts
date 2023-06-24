@@ -44,7 +44,7 @@ export class FinalizacionComponent {
           });
         },
         complete: () => {
-          this._snackBar.open("Estado de práctica actualizado", "Cerrar", {
+          this._snackBar.open("Estado de Práctica Actualizado", "Cerrar", {
             panelClass: ['green-snackbar'],
             duration: 3000
           })

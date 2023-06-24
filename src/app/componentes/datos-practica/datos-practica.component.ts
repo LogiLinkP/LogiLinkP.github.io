@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
 import {ActivatedRoute} from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-datos-practica',
@@ -17,7 +18,7 @@ export class DatosPracticaComponent implements OnInit{
 
   link_finalizacion = ""
 
-  constructor(private service: ObtenerDatosService, private router: ActivatedRoute) {
+  constructor(private service: ObtenerDatosService, private router: ActivatedRoute, private _snackBar: MatSnackBar) {
     this.router.params.subscribe(params => {this.id_alumno = +params['id'];});
   }
 
@@ -26,6 +27,7 @@ export class DatosPracticaComponent implements OnInit{
     let key = (document.getElementById("informe") as HTMLInputElement).value;
     let horas = (document.getElementById("horas") as HTMLInputElement).valueAsNumber;
     let horas_actuales = this.practica.horas;
+
 
     if (Number.isNaN(horas)){
       horas = 0;
@@ -48,7 +50,7 @@ export class DatosPracticaComponent implements OnInit{
         respuesta = { ...respuesta, ...data }
         console.log("Respuesta actualizar horas:",data);
       },
-      error: (error: any) => console.log("Error en actualizar hora:",error),
+      error: (error: any) => console.log("Error en actualizar hora:",error),  
       complete: () => {
         let id_config_informe = 1;
         console.log("Ingresar informe");
