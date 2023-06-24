@@ -1,4 +1,4 @@
-<mat-card style="background-color:beige; left:60px; top: 40px; width: 90%;">
+<mat-card id="holder">
     <mat-card-header>
     <mat-card-title>{{alumno.nombre}}</mat-card-title>
     </mat-card-header>  
@@ -34,7 +34,7 @@
             <div *ngSwitchCase="'Aprobada'">
                 <mat-list role="list">
                 <mat-list-item role="listitem">Estado Práctica: {{practica.estado}}</mat-list-item>
-                <button class="btn btn-primary" style ="width: 20px; align-self: flex-end;" mat-raised-button color="primary" routerLink="" routerLinkActive="active">Volver</button>
+                <button class="btn btn-primary volver" mat-raised-button color="primary" routerLink="" routerLinkActive="active">Volver</button>
                 </mat-list>
                 <app-datos-practica ></app-datos-practica>
             </div>
@@ -42,7 +42,7 @@
             <div *ngSwitchCase="'Reprobada'">
                 <mat-list role="list">
                 <mat-list-item role="listitem">Estado Práctica: {{practica.estado}}</mat-list-item>
-                <button class="btn btn-primary" style ="width: 20px; align-self: flex-end;" mat-raised-button color="primary" routerLink="" routerLinkActive="active">Volver</button>
+                <button class="btn btn-primary volver" mat-raised-button color="primary" routerLink="" routerLinkActive="active">Volver</button>
                 </mat-list>
                 <app-datos-practica ></app-datos-practica>
             </div>
