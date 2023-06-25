@@ -9,7 +9,6 @@ import { GetDetallesAlumnoService } from '../../servicios/encargado/resumen_prac
 export class TablaComponent implements OnInit {
 
   alumnos: any = [];
-  alumnos2: any = [];
   dtOptions: DataTables.Settings = {
     language: {
       url: 'assets/localisation/es-es.json'
