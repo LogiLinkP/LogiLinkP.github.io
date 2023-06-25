@@ -5,3 +5,8 @@ html, body {
 body { margin: 0; 
     font-family: Roboto, "Helvetica Neue", sans-serif; 
 }
+
+.volver {
+    width: 20px;
+    align-self: flex-end;
+}
