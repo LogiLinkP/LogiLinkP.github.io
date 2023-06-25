@@ -4,7 +4,7 @@
     </mat-card-header>  
     <table>
         <td>
-            <mat-card-subtitle>Datos Personales</mat-card-subtitle>
+            <p> <strong> &nbsp; &nbsp; Datos Personales</strong> </p>
             
             <mat-list role="list">
                 <mat-list-item role="listitem">Rut: {{alumno.rut}}</mat-list-item>
@@ -15,7 +15,7 @@
         <div [ngSwitch]="practica.estado">
             <div *ngSwitchCase="'En curso'">
                 <td>
-                    <mat-card-subtitle>Datos Práctica</mat-card-subtitle>
+                    <p> <strong> &nbsp; &nbsp; Datos Práctica</strong> </p>
                     <mat-list role="list">
                     <mat-list-item role="listitem">Estado Práctica: {{practica.estado}}</mat-list-item>
                     </mat-list>
@@ -24,7 +24,7 @@
             </div>
 
             <div *ngSwitchCase="'Evaluada'">
-                <mat-card-subtitle>Datos Práctica</mat-card-subtitle>
+                <p> <strong> &nbsp; &nbsp; Datos Práctica</strong> </p>
                 <mat-list role="list">
                 <mat-list-item role="listitem">Estado Práctica: {{practica.estado}}</mat-list-item>
                 </mat-list>
@@ -34,7 +34,9 @@
             <div *ngSwitchCase="'Aprobada'">
                 <mat-list role="list">
                 <mat-list-item role="listitem">Estado Práctica: {{practica.estado}}</mat-list-item>
+                <!-- ESTE BOTON ESTA MAS ABAJO EN DATOS PRATCICA
                 <button class="btn btn-primary volver" mat-raised-button color="primary" routerLink="" routerLinkActive="active">Volver</button>
+                -->
                 </mat-list>
                 <app-datos-practica ></app-datos-practica>
             </div>
@@ -42,7 +44,9 @@
             <div *ngSwitchCase="'Reprobada'">
                 <mat-list role="list">
                 <mat-list-item role="listitem">Estado Práctica: {{practica.estado}}</mat-list-item>
+                <!-- ESTE BOTON ESTA MAS ABAJO EN DATOS PRATCICA
                 <button class="btn btn-primary volver" mat-raised-button color="primary" routerLink="" routerLinkActive="active">Volver</button>
+                -->
                 </mat-list>
                 <app-datos-practica ></app-datos-practica>
             </div>
