@@ -49,7 +49,7 @@ import {TextFieldModule} from '@angular/cdk/text-field';
     MatSelectModule,
     MatToolbarModule,
     TextFieldModule,
-  ],
+    ],
   providers: [GetDetallesAlumnoService, SetDetallesAlumnoService, ArchivosService, SupervisorService],
   bootstrap: [AppComponent]
 })

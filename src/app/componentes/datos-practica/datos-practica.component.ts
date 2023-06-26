@@ -28,6 +28,7 @@ export class DatosPracticaComponent implements OnInit{
     let horas = (document.getElementById("horas") as HTMLInputElement).valueAsNumber;
     let horas_actuales = this.practica.horas;
 
+
     if (Number.isNaN(horas)){
       horas = 0;
     }
@@ -49,7 +50,7 @@ export class DatosPracticaComponent implements OnInit{
         respuesta = { ...respuesta, ...data }
         console.log("Respuesta actualizar horas:",data);
       },
-      error: (error: any) => console.log("Error en actualizar hora:",error),
+      error: (error: any) => console.log("Error en actualizar hora:",error),  
       complete: () => {
         let id_config_informe = 1;
         console.log("Ingresar informe");
