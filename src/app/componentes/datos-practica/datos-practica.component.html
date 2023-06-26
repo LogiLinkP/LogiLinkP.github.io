@@ -26,13 +26,14 @@
 <app-file></app-file>
 
 
-<button mat-raised-button color="primary" (click) = "ingresarInforme()">Ingresar informe y horas</button>
+<button mat-raised-button [ngStyle]="{'background-color': '#3f51b5', 'color': 'white'}" (click) = "ingresarInforme()">Ingresar informe y horas</button>
 
 <br>
 
 <br>
 
 <table>
-  <td><button mat-raised-button color="primary" [routerLink] = "link_finalizacion" [disabled]="permitir_finalizacion">Finalizar Práctica</button></td>
-  <td><button class="btn btn-primary volver" mat-raised-button color="primary" routerLink="" routerLinkActive="active">Volver</button></td>
+  <td><button mat-raised-button color="warn" [routerLink] = "link_finalizacion" [disabled]="permitir_finalizacion">Finalizar Práctica</button></td>
+  <td [width]="220" >&nbsp;</td>
+  <td><button class="btn btn-primary volver" mat-raised-button [ngStyle]="{'background-color': '#3f51b5', 'color': 'white'}" routerLink="" routerLinkActive="active">Volver</button></td>
 </table>
