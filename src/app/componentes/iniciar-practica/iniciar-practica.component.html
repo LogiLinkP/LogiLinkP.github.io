@@ -1,13 +1,19 @@
+<<<<<<< HEAD
 <div style="width: 500px; place-self: end-start; border: 3px solid primary;">
     <br>
+=======
+<div style="width: 500px; place-self: end-start;">
+>>>>>>> 4f9c29d52499900861437390245c3ff72043d915
     <h2>Inscribe tu Práctica</h2>
     <div>
         <table class = "example-full-width" cellspacing="0">
             <tr>
                 <td>
+                    Nombre Empresa:
                     <input matInput placeholder="Nombre Empresa" type="text" class="form-control" id="nombre_empresa">
                 </td>
                 <td>
+                     Rut Empresa:
                     <input matInput placeholder="Rut Empresa" type="text" class="form-control" id="rut_empresa">
                 </td>
             </tr>   
@@ -18,33 +24,50 @@
         <table class = "example-full-width" cellspacing="0">
             <tr>
                 <td>
-                    <input matInput placeholder="Nombre Supervisor" type="text" class="form-control" id="nombre_supervisor">                </td>
+                    Nombre Supervisor:
+                    <input matInput placeholder="Nombre Supervisor" type="text" class="form-control" id="nombre_supervisor">
+                </td>
                 <td>
-                    <input matInput placeholder="Correo Supervisor" type="text" class="form-control" id="correo_supervisor">                </td>
+                    Correo Supervisor:
+                    <input matInput placeholder="Correo Supervisor" type="text" class="form-control" id="correo_supervisor">
+                </td>
             </tr>   
         </table>
         
         <br>
         
         Fecha Inicio:
+        <!--
+        FECHA INICIO MOSTRANDO CALENDARIO (HAY QUE MODIFICAR EL .ts PARA QUE FUNCIONE)
         <input style="width: 150px;" matInput placeholder="dd-mm-aaaa" type="date" class="form-control" id="fecha_inicio">
+        -->
+
+        <input style="width: 210px;" matInput placeholder="Fecha Inicio" type="text" class="form-control" id="fecha_inicio">
 
         <br>
 
-        Selecciona Modalidad en Horas:
+        Selecciona cantidad de horas:
+
+        <select name = "horas" id="cantidad_horas">
+            <option id="cantidad_horas"> &nbsp; &nbsp; {{horas}}</option>
+        </select>
+
         <br>
+        <!--
+        ELEGIR CANTIDAD DE HORAS (NO LAS MUESTRA)
         <mat-form-field>
             <mat-label>Horas</mat-label>
             <mat-select disableRipple>
-                <mat-option *ngFor = "let horas of horas" id="dropdown_horas">{{horas}}></mat-option>
+                <mat-option *ngFor = "let horas of horas" id="cantidad_horas">{{horas}}></mat-option>
             </mat-select>
         </mat-form-field>
-
+        -->
         <br>
         
         <table>
-            <td><button class="btn btn-primary" (click)="enviar()" >Enviar</button></td>
-            <td><button class="btn btn-primary" style ="width: 20px; align-self: flex-end;" mat-raised-button color="primary" routerLink="" routerLinkActive="active">Volver</button></td>
+            <td><button class="btn btn-primary" [ngStyle]="{'background-color': '#3f51b5', 'color': 'white'}" mat-raised-button (click)="enviar()" >Enviar</button></td>
+            <td [width]="270" >&nbsp;</td>
+            <td><button class="btn btn-primary volver" [ngStyle]="{'background-color': '#3f51b5', 'color': 'white'}" mat-raised-button routerLink="" routerLinkActive="active">Volver</button></td>
         </table>
 
     </div>

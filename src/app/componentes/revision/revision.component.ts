@@ -40,5 +40,6 @@ export class RevisionComponent {
         }
       }
     });
+    window.location.reload()
   }
 }

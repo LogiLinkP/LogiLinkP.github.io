@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { SupervisorService } from '../../servicios/supervisor/supervisor.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from "@angular/router"
+import * as $ from 'jquery';
 
 @Component({
   selector: 'evaluacion_supervisor',
@@ -11,8 +13,31 @@ export class EvaluacionComponent {
 
   id_estudiante = 1;
   id_config_practica = 1;
-  constructor(private service: SupervisorService, private _snackbar: MatSnackBar) {
+  pregunta_actual = 1;
+  constructor(private service: SupervisorService, private _snackbar: MatSnackBar, private router: Router) {
 
+  }
+
+  izq() {
+    let id = `#cont_respuesta${this.pregunta_actual}`;
+    let id_izq = `#cont_respuesta${this.pregunta_actual - 1}`;
+    $(id).fadeOut(() => {
+      $(id).css("display", "none");
+      $(id_izq).css({ "display": "block" });
+      $(id_izq).fadeIn();
+      this.pregunta_actual -= 1;
+    });
+  }
+
+  der() {
+    let id = `#cont_respuesta${this.pregunta_actual}`;
+    let id_der = `#cont_respuesta${this.pregunta_actual + 1}`;
+    $(id).fadeOut(() => {
+      $(id).css("display", "none");
+      $(id_der).css({ "display": "block" });
+      $(id_der).fadeIn();
+      this.pregunta_actual += 1;
+    });
   }
 
   send() {
@@ -25,12 +50,12 @@ export class EvaluacionComponent {
         response = { ...response, ...data }
         if (data.status == 200) {
           this._snackbar.open("Respuestas enviadas", "Cerrar", {
-            duration: 2000,
+            duration: 10000,
             panelClass: ['green-snackbar']
           });
         } else {
-          this._snackbar.open("Error al enviar las respuestas", "Cerrar", {
-            duration: 2000,
+          this._snackbar.open("Enviando sus respuestas...", "Cerrar", {
+            duration: 4000,
             panelClass: ['red-snackbar']
           });
         }
@@ -42,7 +67,10 @@ export class EvaluacionComponent {
           panelClass: ['red-snackbar']
         });
       },
-      complete: () => console.log(response)
+      complete: () => {
+        console.log(response)
+        this.router.navigate(['/'])
+      }
     });
 
   }

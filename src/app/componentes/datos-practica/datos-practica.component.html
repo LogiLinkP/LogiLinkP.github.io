@@ -1,4 +1,4 @@
-<mat-list role="list" style="border: 5px solid blue">
+<mat-list role="list">
     <mat-list-item role="listitem">Nombre Empresa: {{practica.nombre_empresa}}</mat-list-item>
     <mat-list-item role="listitem">Nombre Supervisor: {{practica.nombre_supervisor}}</mat-list-item>
     <mat-list-item role="listitem">Correo Supervisor: {{practica.correo_supervisor}}</mat-list-item>
@@ -8,41 +8,35 @@
     <mat-list-item role="listitem">Cantidad de Horas Invertidas: {{practica.horas}}</mat-list-item>
 </mat-list>
 
-<br>
 <h2>Informe</h2>
-<br>
 
-<mat-list role="list" style="border:5px solid blue">
-  <mat-list-item role="listitem">
-    <form class="example-form">
-      <mat-form-field>
-        <mat-label>Actividades Realizadas</mat-label>
-        <textarea matInput style="aspect-ratio: 16/9"  value="informe"></textarea>
-      </mat-form-field>
-    </form>
-  </mat-list-item>
+<form class="example-form">
 
-  <mat-list-item>
-    <form class="example-form">
-      <mat-form-field class="example-full-width">
-        <mat-label>Horas Dedicadas</mat-label>
-        <input type="number" maxlength="2" min=1 max="24" value="horas">
-      </mat-form-field>
-    </form>
-  </mat-list-item>
-</mat-list>
+    <mat-form-field>
+      <mat-label>Actividades Realizadas</mat-label>
+      <textarea matInput style="aspect-ratio: 16/9"  value="informe"></textarea>
+    </mat-form-field>
+  
+    <mat-form-field class="example-full-width">
+      <mat-label>Horas Dedicadas</mat-label>
+      <input type="number" maxlength="2" min=1 max="24" value="horas">
+    </mat-form-field>
+</form>
+
 <br>
 
 <p>Subir documentos</p>
 <app-file></app-file>
 
-<button mat-raised-button color="primary" (click) = "ingresarInforme()">Ingresar informe y horas</button>
+
+<button mat-raised-button [ngStyle]="{'background-color': '#3f51b5', 'color': 'white'}" (click) = "ingresarInforme()">Ingresar informe y horas</button>
 
 <br>
 
 <br>
 
 <table>
-  <td><button style="align-self: flex-end;"mat-raised-button color="primary" [routerLink] = "link_finalizacion" [disabled]="permitir_finalizacion">Finalizar Práctica</button></td>
-  <td><button class="btn btn-primary" style ="width: 20px; align-self: flex-end;" mat-raised-button color="primary" routerLink="" routerLinkActive="active">Volver</button></td>
+  <td><button mat-raised-button color="warn" [routerLink] = "link_finalizacion" [disabled]="permitir_finalizacion">Finalizar Práctica</button></td>
+  <td [width]="220" >&nbsp;</td>
+  <td><button class="btn btn-primary volver" mat-raised-button [ngStyle]="{'background-color': '#3f51b5', 'color': 'white'}" routerLink="" routerLinkActive="active">Volver</button></td>
 </table>

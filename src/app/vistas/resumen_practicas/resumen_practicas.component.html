@@ -1,4 +1,4 @@
-<table datatable [dtOptions]="dtOptions" class="row-border hover">
+<table datatable [dtOptions]="dtOptions" class="row-border hover" *ngIf="alumnos.length">
     <thead>
         <tr>
             <th>Nombre</th>
@@ -40,4 +40,4 @@
     </tbody>
 </table>
 
-<button routerLink=""> Volver </button>
+<button routerLink="" class="btn btn-primary" mat-raised-button color="primary">Volver</button>

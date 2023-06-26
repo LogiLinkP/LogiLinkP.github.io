@@ -6,7 +6,6 @@ import { HomeComponent } from './vistas/home/home.component';
 import { DetalleAlumnoComponent } from './vistas/alumno/alumno.component';
 
 import { PnfComponent } from './componentes/pnf/pnf.component';
-import { DetalleEncargadoComponent } from './vistas/detalle_practica/detalle_practica.component';
 import { RevisionComponent } from './componentes/revision/revision.component';
 import { FinalizacionComponent } from './componentes/finalizacion/finalizacion.component';
 import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_supervisor.component';
@@ -16,7 +15,6 @@ import { FileComponent } from './componentes/file/file.component';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'encargado', component: TablaComponent },
-  { path: 'encargado/:id', component: DetalleEncargadoComponent },
   { path: 'encargado/:id/revision/:n', component: RevisionComponent },
   { path: 'alumno/:id', component: DetalleAlumnoComponent },
   { path: 'alumno/:id/finalizacion/:n', component: FinalizacionComponent },
@@ -34,7 +32,6 @@ export const routingComponents = [HomeComponent,
   TablaComponent,
   PnfComponent,
   DetalleAlumnoComponent,
-  DetalleEncargadoComponent,
   RevisionComponent,
   FinalizacionComponent,
   EvaluacionComponent,

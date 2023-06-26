@@ -23,6 +23,7 @@ export class IniciarPracticaComponent implements OnInit{
     });
     let respuesta: any = {};
     let id_config_practica = 1; //HARDCODEADO - debería obtener todas las distintas horas en la tabla de config_practica, segun la modalidad que se haya elegido
+    
     this.service2.obtener_config_practica(id_config_practica).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
@@ -42,10 +43,12 @@ export class IniciarPracticaComponent implements OnInit{
 
       }
     });
+    
   }
 
  enviar(){
 
+    //console.log("ENVIAR")
   
     let nombre_supervisor = (document.getElementById("nombre_supervisor") as HTMLInputElement).value
     let correo_supervisor = (document.getElementById("correo_supervisor") as HTMLInputElement).value
@@ -53,6 +56,8 @@ export class IniciarPracticaComponent implements OnInit{
     let rut_empresa = (document.getElementById("rut_empresa") as HTMLInputElement).value
     let fecha_inicio = (document.getElementById("fecha_inicio") as HTMLInputElement).value
     let cantidad_horas = (document.getElementById("cantidad_horas") as HTMLInputElement).value
+
+    //console.log("ENVIAR2")
 
     //console.log(this.id_estudiante)
 
