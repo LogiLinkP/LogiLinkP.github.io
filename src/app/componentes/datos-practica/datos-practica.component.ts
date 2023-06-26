@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
 import {ActivatedRoute} from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-datos-practica',
@@ -17,7 +18,7 @@ export class DatosPracticaComponent implements OnInit{
 
   link_finalizacion = ""
 
-  constructor(private service: ObtenerDatosService, private router: ActivatedRoute) {
+  constructor(private service: ObtenerDatosService, private router: ActivatedRoute, private _snackBar: MatSnackBar) {
     this.router.params.subscribe(params => {this.id_alumno = +params['id'];});
   }
 
@@ -59,6 +60,10 @@ export class DatosPracticaComponent implements OnInit{
           },
           error: (error: any) => console.log("Error en ingresar informe:",error),
           complete: () => {
+            this._snackBar.open("Informe Ingresado","Cerrar",{
+              panelClass: ['red-snackbar'],
+              duration: 3000
+            })
             window.location.reload();
           }
     });

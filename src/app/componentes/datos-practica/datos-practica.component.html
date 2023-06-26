@@ -5,25 +5,32 @@
     <mat-list-item role="listitem">Tipo Práctica: {{config_practica.tipo}}</mat-list-item>
     <mat-list-item role="listitem">Modalidad Práctica: {{config_practica.modalidad}}</mat-list-item>
     <mat-list-item role="listitem">Fecha Inicio: {{practica.fecha_inicio}}</mat-list-item>
+    <mat-list-item role="listitem">Cantidad de Horas Invertidas: {{practica.horas}}</mat-list-item>
 </mat-list>
 
 <br>
 <h2>Informe</h2>
 <br>
 
-<form class="example-form">
+<mat-list role="list" style="border:5px solid blue">
+  <mat-list-item role="listitem">
+    <form class="example-form">
+      <mat-form-field>
+        <mat-label>Actividades Realizadas</mat-label>
+        <textarea matInput style="aspect-ratio: 16/9"  value="informe"></textarea>
+      </mat-form-field>
+    </form>
+  </mat-list-item>
 
-    <mat-form-field>
-      <mat-label>Actividades Realizadas</mat-label>
-      <textarea matInput style="aspect-ratio: 16/9"  value="informe"></textarea>
-    </mat-form-field>
-  
-    <mat-form-field class="example-full-width">
-      <mat-label>Horas Dedicadas</mat-label>
-      <input type="number" maxlength="2" min=1 max="24" value="horas">
-    </mat-form-field>
-</form>
-
+  <mat-list-item>
+    <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <mat-label>Horas Dedicadas</mat-label>
+        <input type="number" maxlength="2" min=1 max="24" value="horas">
+      </mat-form-field>
+    </form>
+  </mat-list-item>
+</mat-list>
 <br>
 
 <p>Subir documentos</p>

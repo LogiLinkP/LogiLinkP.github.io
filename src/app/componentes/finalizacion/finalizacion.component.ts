@@ -95,6 +95,10 @@ export class FinalizacionComponent {
                             });
                           },
                           complete: () => {
+                            this._snackBar.open("Solicitud Ingresada Correctamente", "Cerrar", {
+                              panelClass:['red-snackbar'],
+                              duration:3000
+                            });
                             console.log("Correo enviado");
                             this.router.navigate(['/'])
                           }
