@@ -18,6 +18,7 @@ import { DataTablesModule } from "angular-datatables";
 import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_supervisor.component';
 import { MatButtonModule } from '@angular/material/button';
 import { DatosPracticaComponent } from './componentes/datos-practica/datos-practica.component';
+import { UpInformeComponent } from './componentes/up-informe/up-informe.component';
 
 import {MatInputModule} from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
@@ -32,6 +33,7 @@ import {TextFieldModule} from '@angular/cdk/text-field';
     routingComponents,
     EvaluacionComponent,
     DatosPracticaComponent,
+    UpInformeComponent,
   ],
   imports: [
     BrowserModule,
