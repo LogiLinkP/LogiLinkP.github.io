@@ -1,15 +1,15 @@
-<table datatable [dtOptions]="dtOptions" class="row-border hover" *ngIf="alumnos.length">
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
     <thead>
         <tr>
             <th>Nombre</th>
             <th>Rut</th>
             <th>Practica</th>
-            <th>Cons. Informe</th>
-            <th>Cons. Evaluación</th>
+            <th title="Consistencia Informe" width="44px">Cons. Inf.</th>
+            <th title="Consistencia Evaluación" width="44px">Cons. Eval.</th>
             <th>Estado</th>
             <th>Interpretacion Nota</th>
             <th>Interpretacion Informes</th>
-            <th>Promedio Evaluación</th>
+            <th title="Promedio evaluación" width="44px">Prom. Eval.</th>
             <th>Aprobacion</th>
         </tr>
     </thead>
