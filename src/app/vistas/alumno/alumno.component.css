@@ -1,6 +1,13 @@
-#holder {
+#holder1 {
     background-color:rgb(221, 221, 221);
-    left:60px;
+    left: 150%;
+    top: 40px;
+    width: 90%;
+}
+
+#holder2 {
+    background-color:rgb(221, 221, 221);
+    left: 95%;
     top: 40px;
     width: 90%;
 }
