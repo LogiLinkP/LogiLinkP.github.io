@@ -16,6 +16,7 @@ export class TablaComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject();
 
   alumnos: any = [];
+  loaded: boolean = true;
 
   constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar) {
     this.dtOptions = {
@@ -68,5 +69,9 @@ export class TablaComponent implements OnInit {
   }
 
   ngOnInit() {
+    setTimeout(()=>{
+      this.loaded = false;
+    }
+    , 3000);
   }
 }

@@ -1,4 +1,8 @@
-<div class="mt-4 mx-2">
+<div class="spinner-border text-primary" role="status" *ngIf="loaded">
+    <span class="sr-only">Loading...</span>
+</div>
+
+<div class="mt-4 mx-2" >
     <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover"
         style="background-color: whitesmoke;">
         <thead>
