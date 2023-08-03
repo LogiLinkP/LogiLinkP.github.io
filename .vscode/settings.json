@@ -1,5 +1,0 @@
-{
-    "appService.defaultWebAppToDeploy": "/subscriptions/6b3acfe2-44b9-424b-aace-1c4e4c2b080c/resourceGroups/NetworkWatcherRG/providers/Microsoft.Web/sites/praxus",
-    "appService.deploySubpath": "dist",
-    "typescript.tsdk": "node_modules\\typescript\\lib"
-}

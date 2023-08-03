@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
 import { HomeComponent } from './vistas/home/home.component';
 import { DetalleAlumnoComponent } from './vistas/alumno/alumno.component';
 
@@ -11,12 +9,17 @@ import { FinalizacionComponent } from './componentes/finalizacion/finalizacion.c
 import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_supervisor.component';
 import { IniciarPracticaComponent } from './componentes/iniciar-practica/iniciar-practica.component';
 import { FileComponent } from './componentes/file/file.component';
+import { EmpresasComponent } from './vistas/empresas/empresas.component';
+import { CuestionarioComponent } from './vistas/cuestionario/cuestionario.component';
+import { EncargadoComponent } from './vistas/encargado/encargado.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'encargado', component: TablaComponent },
+  { path: 'encargado', component: EncargadoComponent },
   { path: 'encargado/:id/revision/:n', component: RevisionComponent },
   { path: 'alumno/:id', component: DetalleAlumnoComponent },
+  { path: 'alumno/:id/cuestionario', component: CuestionarioComponent},
+  { path: 'alumno/:id/empresas', component: EmpresasComponent},
   { path: 'alumno/:id/finalizacion/:n', component: FinalizacionComponent },
   { path: 'alumno/:id/iniciarpractica/:n', component: IniciarPracticaComponent },
   { path: 'supervisor/evaluacion', component: EvaluacionComponent },
@@ -29,12 +32,14 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 export const routingComponents = [HomeComponent,
-  TablaComponent,
   PnfComponent,
   DetalleAlumnoComponent,
   RevisionComponent,
   FinalizacionComponent,
   EvaluacionComponent,
   IniciarPracticaComponent,
-  FileComponent
+  FileComponent,
+  EmpresasComponent,
+  CuestionarioComponent,
+  EncargadoComponent,
 ]

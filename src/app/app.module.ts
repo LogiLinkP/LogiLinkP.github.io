@@ -26,6 +26,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
 import {TextFieldModule} from '@angular/cdk/text-field';
+import {TablaComponent } from './componentes/resumen_practicas/resumen_practicas.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {TextFieldModule} from '@angular/cdk/text-field';
     EvaluacionComponent,
     DatosPracticaComponent,
     UpInformeComponent,
+    TablaComponent,
   ],
   imports: [
     BrowserModule,

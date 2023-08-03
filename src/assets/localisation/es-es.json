@@ -211,7 +211,7 @@
             "noMulti": "Este registro puede ser editado individualmente, pero no como parte de un grupo."
         }
     },
-    "info": "Mostrando del registro _START_ al _END_ de _TOTAL_ registros totales",
+    "info": "Mostrando del registro _START_ al _END_ de un total de _TOTAL_ registros",
     "stateRestore": {
         "creationModal": {
             "button": "Crear",
