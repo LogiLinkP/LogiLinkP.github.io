@@ -4,10 +4,15 @@ import { GetDetallesAlumnoService } from '../../servicios/encargado/resumen_prac
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 
+
 @Component({
   selector: 'resumen_practicas',
   templateUrl: './resumen_practicas.component.html',
-  styleUrls: ['./resumen_practicas.component.css']
+  styleUrls: ['./resumen_practicas.component.css',
+              '../../../assets/css/all.min.css',
+              '../../../assets/css/sb-admin-2.css',
+              '../../../assets/css/sb-admin-2.min.css',
+              '../../../assets/css/dataTables.bootstrap4.min.css']
 })
 export class TablaComponent implements OnInit {
   @ViewChild(DataTableDirective, { static: false })
@@ -41,8 +46,11 @@ export class TablaComponent implements OnInit {
       },
       complete: () => {
         this.alumnos = respuesta.body.map((alumno: any) => {
-          alumno.consistencia_nota = alumno.consistencia_nota ? `${Math.round(100 * alumno.consistencia_nota)}%` : null;
-          alumno.consistencia_informe = alumno.consistencia_informe ? `${Math.round(100 * alumno.consistencia_informe)}%` : null;
+          alumno.consistencia_nota = alumno.consistencia_nota ? `${Math.round(100 * alumno.consistencia_nota)}%` : "--";
+          alumno.consistencia_informe = alumno.consistencia_informe ? `${Math.round(100 * alumno.consistencia_informe)}%` : "--";
+          alumno.nota_evaluacion = alumno.nota_evaluacion ? alumno.nota_evaluacion : "--";
+          alumno.interpretacion_nota = alumno.interpretacion_nota ? alumno.interpretacion_nota : "--";
+          alumno.interpretacion_informe = alumno.interpretacion_informe ? alumno.interpretacion_informe : "--";
           return alumno;
         });
         this.rerender();

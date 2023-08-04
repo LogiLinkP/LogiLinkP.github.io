@@ -25,13 +25,15 @@ import {MatListModule} from '@angular/material/list';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
 import {TextFieldModule} from '@angular/cdk/text-field';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
     AppComponent,
     routingComponents,
     EvaluacionComponent,
-    DatosPracticaComponent,
+    DatosPracticaComponent
   ],
   imports: [
     BrowserModule,
@@ -49,6 +51,8 @@ import {TextFieldModule} from '@angular/cdk/text-field';
     MatSelectModule,
     MatToolbarModule,
     TextFieldModule,
+    MatTableModule,
+    MatSortModule,
     ],
   providers: [GetDetallesAlumnoService, SetDetallesAlumnoService, ArchivosService, SupervisorService],
   bootstrap: [AppComponent]

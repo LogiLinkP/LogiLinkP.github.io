@@ -1,0 +1,10 @@
+thead th{
+    text-align: center;
+    color: #727272; 
+}
+
+tbody tr td{
+    vertical-align: middle;
+    text-align: center;
+    color: #686868;
+}
