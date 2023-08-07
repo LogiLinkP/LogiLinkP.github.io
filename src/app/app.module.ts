@@ -25,6 +25,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
 import {TextFieldModule} from '@angular/cdk/text-field';
+import { DetallePracticaComponent } from './vistas/detalle-practica/detalle-practica.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import {TextFieldModule} from '@angular/cdk/text-field';
     routingComponents,
     EvaluacionComponent,
     DatosPracticaComponent,
+    DetallePracticaComponent,
   ],
   imports: [
     BrowserModule,

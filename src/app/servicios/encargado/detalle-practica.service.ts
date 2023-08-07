@@ -7,12 +7,12 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 
-export class GetDetallesAlumnoService {
+export class DetallePracticaService {
 
   constructor(private _http: HttpClient) { }
-  
-  full_estudiante_practicas() {
-    const req = new HttpRequest('GET', `${environment.url_back}/practica/estudiantes_practicas`);
+
+  obtener_detalle_practica() {
+    const req = new HttpRequest('GET', `${environment.url_back}/practica/get?id_estudiante=1`);
     return this._http.request(req);
   }
 }
