@@ -8,7 +8,7 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'resumen_practicas',
   templateUrl: './resumen_practicas.component.html',
-  styleUrls: ['./resumen_practicas.component.css',
+  styleUrls: ['./resumen_practicas.component.scss',
               '../../../assets/css/dataTables.bootstrap4.min.css']
 })
 export class TablaComponent implements OnInit {
