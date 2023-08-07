@@ -27,13 +27,15 @@ import {MatSelectModule} from '@angular/material/select';
 import {TextFieldModule} from '@angular/cdk/text-field';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { BarraLateralComponent } from './componentes/barra-lateral/barra-lateral.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     routingComponents,
     EvaluacionComponent,
-    DatosPracticaComponent
+    DatosPracticaComponent,
+    BarraLateralComponent
   ],
   imports: [
     BrowserModule,

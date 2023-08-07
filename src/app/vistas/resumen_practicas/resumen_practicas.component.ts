@@ -9,9 +9,6 @@ import { Subject } from 'rxjs';
   selector: 'resumen_practicas',
   templateUrl: './resumen_practicas.component.html',
   styleUrls: ['./resumen_practicas.component.css',
-              '../../../assets/css/all.min.css',
-              '../../../assets/css/sb-admin-2.css',
-              '../../../assets/css/sb-admin-2.min.css',
               '../../../assets/css/dataTables.bootstrap4.min.css']
 })
 export class TablaComponent implements OnInit {
