@@ -12,6 +12,8 @@ import { FileComponent } from './componentes/file/file.component';
 import { EmpresasComponent } from './vistas/empresas/empresas.component';
 import { CuestionarioComponent } from './vistas/cuestionario/cuestionario.component';
 import { EncargadoComponent } from './vistas/encargado/encargado.component';
+import { ChatComponent } from './componentes/chat/chat.component';
+import { NotificacionesComponent } from './componentes/notificaciones/notificaciones.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -23,6 +25,8 @@ const routes: Routes = [
   { path: 'alumno/:id/finalizacion/:n', component: FinalizacionComponent },
   { path: 'alumno/:id/iniciarpractica/:n', component: IniciarPracticaComponent },
   { path: 'supervisor/evaluacion', component: EvaluacionComponent },
+  { path: '**/:id/chat', component: ChatComponent},
+  { path: '**/:id/notificaciones', component: NotificacionesComponent},
   { path: '**', component: PnfComponent }
 ];
 
@@ -42,4 +46,5 @@ export const routingComponents = [HomeComponent,
   EmpresasComponent,
   CuestionarioComponent,
   EncargadoComponent,
+  NotificacionesComponent,
 ]

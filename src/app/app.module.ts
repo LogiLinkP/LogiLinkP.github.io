@@ -16,17 +16,18 @@ import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DataTablesModule } from "angular-datatables";
 import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_supervisor.component';
-import { MatButtonModule } from '@angular/material/button';
 import { DatosPracticaComponent } from './componentes/datos-practica/datos-practica.component';
 import { UpInformeComponent } from './componentes/up-informe/up-informe.component';
+import { TablaComponent } from './componentes/resumen_practicas/resumen_practicas.component';
+import { ChatComponent } from './componentes/chat/chat.component';
 
+import {MatButtonModule } from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
 import {MatListModule} from '@angular/material/list';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
 import {TextFieldModule} from '@angular/cdk/text-field';
-import {TablaComponent } from './componentes/resumen_practicas/resumen_practicas.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import {TablaComponent } from './componentes/resumen_practicas/resumen_practicas
     DatosPracticaComponent,
     UpInformeComponent,
     TablaComponent,
+    ChatComponent,
   ],
   imports: [
     BrowserModule,
