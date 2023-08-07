@@ -29,6 +29,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { BarraLateralComponent } from './componentes/barra-lateral/barra-lateral.component';
 import { FooterComponent } from './componentes/footer/footer.component';
+import { BarraSuperiorComponent } from './componentes/barra-superior/barra-superior.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { FooterComponent } from './componentes/footer/footer.component';
     EvaluacionComponent,
     DatosPracticaComponent,
     BarraLateralComponent,
-    FooterComponent
+    FooterComponent,
+    BarraSuperiorComponent
   ],
   imports: [
     BrowserModule,
