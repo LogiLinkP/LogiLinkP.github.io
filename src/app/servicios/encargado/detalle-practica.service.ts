@@ -11,8 +11,18 @@ export class DetallePracticaService {
 
   constructor(private _http: HttpClient) { }
 
-  obtener_detalle_practica() {
-    const req = new HttpRequest('GET', `${environment.url_back}/practica/get?id_estudiante=1`);
+  obtener_practica(id_estudiante: number) {
+    const req = new HttpRequest('GET', `${environment.url_back}/practica/get?id_estudiante=${id_estudiante}`);
+    return this._http.request(req);
+  }
+
+  obtener_config_practica(id_config_practica: number){
+    const req = new HttpRequest('GET', `${environment.url_back}/config_practica?id=${id_config_practica}`);
+    return this._http.request(req);
+  }
+
+  obtener_estudiante(id_estudiante: number){
+    const req = new HttpRequest('GET', `${environment.url_back}/estudiante?id=${id_estudiante}`);
     return this._http.request(req);
   }
 }

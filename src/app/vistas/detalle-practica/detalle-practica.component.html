@@ -1,1 +1,14 @@
-<p>{{ practica.estado }}</p>
+<div>
+    <h1>Detalle de la Práctica</h1>
+    <h2>{{ estudiante.nombre }} {{ config_practica.nombre }}</h2>
+</div> 
+
+
+<div>
+
+    Estado: {{ practica.estado }}<br>
+    Fecha de Inicio: {{ practica.fecha_inicio | date: 'dd/MM/yyyy' }}<br>
+    Fecha de Termino: {{ practica.fecha_termino | date: 'dd/MM/yyyy' }}<br>
+    Nota de Evaluación: {{ practica.nota_evaluacion }}<br>
+
+</div>
