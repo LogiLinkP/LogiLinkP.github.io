@@ -28,6 +28,7 @@ import {TextFieldModule} from '@angular/cdk/text-field';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { BarraLateralComponent } from './componentes/barra-lateral/barra-lateral.component';
+import { FooterComponent } from './componentes/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { BarraLateralComponent } from './componentes/barra-lateral/barra-lateral
     routingComponents,
     EvaluacionComponent,
     DatosPracticaComponent,
-    BarraLateralComponent
+    BarraLateralComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
