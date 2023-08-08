@@ -4,6 +4,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
 import { HomeComponent } from './vistas/home/home.component';
 import { DetalleAlumnoComponent } from './vistas/alumno/alumno.component';
+import { LoginComponent } from './vistas/login/login.component';
+import { RegistroComponent } from './vistas/registro/registro.component';
+import { BlankComponent } from './vistas/blank/blank.component';
+import { ForgotPasswordComponent } from './vistas/forgot-password/forgot-password.component';
 
 import { PnfComponent } from './componentes/pnf/pnf.component';
 import { RevisionComponent } from './componentes/revision/revision.component';
@@ -23,6 +27,10 @@ const routes: Routes = [
   { path: 'alumno/:id/iniciarpractica/:n', component: IniciarPracticaComponent },
   { path: 'supervisor/evaluacion', component: EvaluacionComponent },
   { path: 'tests', component: TestsComponent},
+  { path: 'login', component: LoginComponent },
+  { path: 'registro', component: RegistroComponent },
+  { path: 'blank', component: BlankComponent },
+  { path: 'resetPass', component: ForgotPasswordComponent },
   { path: '**', component: PnfComponent }
 ];
 
@@ -40,5 +48,9 @@ export const routingComponents = [HomeComponent,
   EvaluacionComponent,
   IniciarPracticaComponent,
   FileComponent,
+  LoginComponent,
+  RegistroComponent,
+  BlankComponent,
+  ForgotPasswordComponent,
   TestsComponent
 ]

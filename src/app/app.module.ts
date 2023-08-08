@@ -27,13 +27,16 @@ import {MatSelectModule} from '@angular/material/select';
 import {TextFieldModule} from '@angular/cdk/text-field';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
-import { BarraLateralComponent } from './componentes/barra-lateral/barra-lateral.component';
 import { FooterComponent } from './componentes/footer/footer.component';
 import { BarraSuperiorComponent } from './componentes/barra-superior/barra-superior.component';
 import { LogoutModalComponent } from './componentes/logout-modal/logout-modal.component';
-import { LoginComponent } from './componentes/login/login.component';
+import { LoginComponent } from './vistas/login/login.component';
 import { TestsComponent } from './vistas/tests/tests.component';
 import { BarraLateralAlumnoComponent } from './componentes/barra-lateral-alumno/barra-lateral-alumno.component';
+import { BlankComponent } from './vistas/blank/blank.component';
+import { RegistroComponent } from './vistas/registro/registro.component';
+import { ForgotPasswordComponent } from './vistas/forgot-password/forgot-password.component';
+import { BarraLateralEncargadoComponent } from './componentes/barra-lateral-encargado/barra-lateral-encargado.component';
 
 @NgModule({
   declarations: [
@@ -41,13 +44,16 @@ import { BarraLateralAlumnoComponent } from './componentes/barra-lateral-alumno/
     routingComponents,
     EvaluacionComponent,
     DatosPracticaComponent,
-    BarraLateralComponent,
     FooterComponent,
     BarraSuperiorComponent,
     LogoutModalComponent,
     LoginComponent,
     TestsComponent,
-    BarraLateralAlumnoComponent
+    BarraLateralAlumnoComponent,
+    BlankComponent,
+    RegistroComponent,
+    ForgotPasswordComponent,
+    BarraLateralEncargadoComponent
   ],
   imports: [
     BrowserModule,
