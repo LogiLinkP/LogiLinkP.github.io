@@ -30,6 +30,10 @@ import { MatSortModule } from '@angular/material/sort';
 import { BarraLateralComponent } from './componentes/barra-lateral/barra-lateral.component';
 import { FooterComponent } from './componentes/footer/footer.component';
 import { BarraSuperiorComponent } from './componentes/barra-superior/barra-superior.component';
+import { LogoutModalComponent } from './componentes/logout-modal/logout-modal.component';
+import { LoginComponent } from './componentes/login/login.component';
+import { TestsComponent } from './vistas/tests/tests.component';
+import { BarraLateralAlumnoComponent } from './componentes/barra-lateral-alumno/barra-lateral-alumno.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +43,11 @@ import { BarraSuperiorComponent } from './componentes/barra-superior/barra-super
     DatosPracticaComponent,
     BarraLateralComponent,
     FooterComponent,
-    BarraSuperiorComponent
+    BarraSuperiorComponent,
+    LogoutModalComponent,
+    LoginComponent,
+    TestsComponent,
+    BarraLateralAlumnoComponent
   ],
   imports: [
     BrowserModule,

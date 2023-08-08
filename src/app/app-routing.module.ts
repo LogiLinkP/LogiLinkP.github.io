@@ -12,6 +12,8 @@ import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_s
 import { IniciarPracticaComponent } from './componentes/iniciar-practica/iniciar-practica.component';
 import { FileComponent } from './componentes/file/file.component';
 
+import { TestsComponent } from './vistas/tests/tests.component';
+
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'encargado', component: TablaComponent },
@@ -20,6 +22,7 @@ const routes: Routes = [
   { path: 'alumno/:id/finalizacion/:n', component: FinalizacionComponent },
   { path: 'alumno/:id/iniciarpractica/:n', component: IniciarPracticaComponent },
   { path: 'supervisor/evaluacion', component: EvaluacionComponent },
+  { path: 'tests', component: TestsComponent},
   { path: '**', component: PnfComponent }
 ];
 
@@ -36,5 +39,6 @@ export const routingComponents = [HomeComponent,
   FinalizacionComponent,
   EvaluacionComponent,
   IniciarPracticaComponent,
-  FileComponent
+  FileComponent,
+  TestsComponent
 ]
