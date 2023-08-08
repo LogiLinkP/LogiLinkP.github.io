@@ -29,3 +29,11 @@
     border-radius: 10px;
     text-align: right;
 }
+
+.contenedordemensajes{
+    overflow: scroll;
+}
+
+.contenedordemensajes::-webkit-scrollbar{
+    display: none;
+}

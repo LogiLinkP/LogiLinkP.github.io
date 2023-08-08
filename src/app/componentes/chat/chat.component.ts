@@ -17,6 +17,12 @@ export class ChatComponent {
   }
 
   enviarmensaje(){
+    let mensaje = {
+      emisor: this.Id,
+      texto: this.Nmensaje,
+      fecha: "",
+    }
+    this.Historial.push(mensaje);
     this.Nmensaje="";
   }
 
