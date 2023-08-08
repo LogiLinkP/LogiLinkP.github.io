@@ -1,47 +1,118 @@
-<div class="mt-4 mx-2">
-    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover"
-        style="background-color: whitesmoke;">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Rut</th>
-                <th>Practica</th>
-                <th title="Consistencia Informe" width="44px">Cons. Inf.</th>
-                <th title="Consistencia Evaluación" width="44px">Cons. Eval.</th>
-                <th>Estado</th>
-                <th>Interpretacion Nota</th>
-                <th>Interpretacion Informes</th>
-                <th title="Promedio evaluación" width="44px">Prom. Eval.</th>
-                <th>Aprobacion</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let people of alumnos;">
-                <td routerLink="/encargado/{{people.id}}">{{people.estudiante.nombre}}</td>
-                <td routerLink="/encargado/{{people.id}}">{{people.estudiante.rut}}</td>
-                <td routerLink="/encargado/{{people.id}}">{{people.config_practica.nombre}}</td>
-                <td routerLink="/encargado/{{people.id}}">{{people.consistencia_informe}}</td>
-                <td routerLink="/encargado/{{people.id}}">{{people.consistencia_nota}}</td>
-                <td routerLink="/encargado/{{people.id}}">{{people.estado}}</td>
-                <td routerLink="/encargado/{{people.id}}">{{people.interpretacion_nota}}</td>
-                <td routerLink="/encargado/{{people.id}}">{{people.interpretacion_informe}}</td>
-                <td routerLink="/encargado/{{people.id}}">{{people.nota_evaluacion}}</td>
-                <td [ngSwitch]="people.estado">
-                    <app-revision *ngSwitchCase="'Evaluada'" [id_estudiante]="people.id_estudiante"
-                        [id_config_practica]="1">
-                    </app-revision>
-                    <app-revision *ngSwitchCase="'Aprobada'" [id_estudiante]="people.id_estudiante"
-                        [id_config_practica]="1">
-                    </app-revision>
-                    <app-revision *ngSwitchCase="'Reprobada'" [id_estudiante]="people.id_estudiante"
-                        [id_config_practica]="1">
-                    </app-revision>
-                    <p *ngSwitchDefault>Aún no evaluada por supervisor</p>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <button routerLink="" class="btn btn-primary" mat-raised-button color="primary">
-        Volver
-    </button>
-</div>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <app-barra-lateral></app-barra-lateral>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <app-barra-superior></app-barra-superior>
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">Prácticas</h1>
+                    <p class="mb-4">Aquí se pueden ver todas las prácticas que están siendo cursadas actualmente</p>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Rut</th>
+                                            <th>Tipo Práctica</th>
+                                            <th title="Consistencia Informe" width="44px">Consistencia Informe</th>
+                                            <th title="Consistencia Evaluación" width="44px">Consistencia Evaluación</th>
+                                            <th>Estado</th>
+                                            <th>Interpretación Nota</th>
+                                            <th>Interpretación Informes</th>
+                                            <th title="Promedio evaluación" width="44px">Promedio evaluación</th>
+                                            <th>Aprobación</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let people of alumnos;">
+                                            <td routerLink="/encargado/{{people.id}}">{{people.estudiante.nombre}}</td>
+                                            <td routerLink="/encargado/{{people.id}}">{{people.estudiante.rut}}</td>
+                                            <td routerLink="/encargado/{{people.id}}">{{people.config_practica.nombre}}</td>
+                                            <td routerLink="/encargado/{{people.id}}">{{people.consistencia_informe}}</td>
+                                            <td routerLink="/encargado/{{people.id}}">{{people.consistencia_nota}}</td>
+                                            <td routerLink="/encargado/{{people.id}}">{{people.estado}}</td>
+                                            <td routerLink="/encargado/{{people.id}}">{{people.interpretacion_nota}}</td>
+                                            <td routerLink="/encargado/{{people.id}}">{{people.interpretacion_informe}}</td>
+                                            <td routerLink="/encargado/{{people.id}}">{{people.nota_evaluacion}}</td>
+                                            <td [ngSwitch]="people.estado" style="vertical-align: center;">
+                                                <app-revision *ngSwitchCase="'Evaluada'" [id_estudiante]="people.id_estudiante"
+                                                    [id_config_practica]="1">
+                                                </app-revision>
+                                                <app-revision *ngSwitchCase="'Aprobada'" [id_estudiante]="people.id_estudiante"
+                                                    [id_config_practica]="1">
+                                                </app-revision>
+                                                <app-revision *ngSwitchCase="'Reprobada'" [id_estudiante]="people.id_estudiante"
+                                                    [id_config_practica]="1">
+                                                </app-revision>
+                                                <div *ngSwitchDefault>Aún no evaluada por supervisor</div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <app-footer></app-footer>
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

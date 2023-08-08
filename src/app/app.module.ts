@@ -26,6 +26,11 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
 import {TextFieldModule} from '@angular/cdk/text-field';
 import { DetallePracticaComponent } from './vistas/detalle-practica/detalle-practica.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { BarraLateralComponent } from './componentes/barra-lateral/barra-lateral.component';
+import { FooterComponent } from './componentes/footer/footer.component';
+import { BarraSuperiorComponent } from './componentes/barra-superior/barra-superior.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +39,9 @@ import { DetallePracticaComponent } from './vistas/detalle-practica/detalle-prac
     EvaluacionComponent,
     DatosPracticaComponent,
     DetallePracticaComponent,
+    BarraLateralComponent,
+    FooterComponent,
+    BarraSuperiorComponent
   ],
   imports: [
     BrowserModule,
@@ -51,6 +59,8 @@ import { DetallePracticaComponent } from './vistas/detalle-practica/detalle-prac
     MatSelectModule,
     MatToolbarModule,
     TextFieldModule,
+    MatTableModule,
+    MatSortModule,
     ],
   providers: [GetDetallesAlumnoService, SetDetallesAlumnoService, ArchivosService, SupervisorService],
   bootstrap: [AppComponent]
