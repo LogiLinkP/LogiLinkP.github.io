@@ -18,8 +18,8 @@ export class UsuarioService {
     return this.http.request(req);
   }
 
-  register(nombre: string, email:string, password: string, confirmPassword: string, tipo: number): Observable<any>{
-    const req = new HttpRequest('POST',`${this.url}`,{nombre, email, password,confirmPassword, tipo});
+  register(email: string, password: string, nombre: string, es_encargado: boolean, es_supervisor: boolean, es_estudiante: boolean, es_admin: boolean): Observable<any>{
+    const req = new HttpRequest('POST',`${this.url}`,{email,password,nombre,es_encargado,es_supervisor,es_estudiante,es_admin});
     return this.http.request(req);
   }
 

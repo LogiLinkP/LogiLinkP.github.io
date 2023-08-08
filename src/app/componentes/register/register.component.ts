@@ -18,7 +18,7 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
-    const user = { nombre: this.nombre, tipo: 1, email: this.email, pwd: this.password};
-    this.usuario.register(this.nombre,this.email,this.password,this.confirmPassword,1).subscribe( {next: data => { this.usuario.setToken(data.token) }, error: err => { console.log('Error de registro') } });
+    const user = {correo: this.email, password: this.password, nombre: this.nombre, es_encargado: false, es_supervisor: false, es_estudiante: true, es_admin: false};
+    this.usuario.register(this.email,this.password,this.nombre,false,false,true,false).subscribe( {next: data => { this.usuario.setToken(data.token) }, error: err => { console.log('Error de registro') } });
   }
 }

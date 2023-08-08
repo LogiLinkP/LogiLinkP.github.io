@@ -13,6 +13,7 @@ import { IniciarPracticaComponent } from './componentes/iniciar-practica/iniciar
 import { FileComponent } from './componentes/file/file.component';
 import { LoginComponent } from './componentes/login/login.component';
 import { RegisterComponent } from './componentes/register/register.component';
+import { LogoutComponent } from './componentes/logout/logout.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'supervisor/evaluacion', component: EvaluacionComponent },
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
+  { path: 'logout', component: LogoutComponent},
   { path: '**', component: PnfComponent }
 ];
 
@@ -42,5 +44,6 @@ export const routingComponents = [HomeComponent,
   IniciarPracticaComponent,
   FileComponent,
   LoginComponent,
-  RegisterComponent
+  RegisterComponent,
+  LogoutComponent
 ]
