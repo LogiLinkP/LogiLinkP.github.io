@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
   selector: 'resumen_practicas',
   templateUrl: './resumen_practicas.component.html',
   styleUrls: ['./resumen_practicas.component.scss',
-              '../../../assets/css/dataTables.bootstrap4.min.css']
+              '../../../assets/vendor/datatables/dataTables.bootstrap4.min.css']
 })
 export class TablaComponent implements OnInit {
   @ViewChild(DataTableDirective, { static: false })

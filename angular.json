@@ -36,13 +36,17 @@
 							"node_modules/datatables.net-dt/css/jquery.dataTables.min.css",
 							"src/assets/css/sb-admin-2.css",
 							"src/assets/css/sb-admin-2.min.css",
-							"src/assets/css/all.min.css"
+							"src/assets/vendor/fontawesome-free/css/all.min.css"
 						],
 						"scripts": [
 							"node_modules/jquery/dist/jquery.js",
-							"node_modules/datatables.net/js/jquery.dataTables.js",
-							"node_modules/jquery/dist/jquery.min.js",
-							"node_modules/datatables.net/js/jquery.dataTables.min.js"
+              "node_modules/jquery/dist/jquery.min.js",
+              "src/assets/js/sb-admin-2.js",
+              "src/assets/js/sb-admin-2.min.js",
+              "src/assets/vendor/bootstrap/js/bootstrap.bundle.min.js",
+              "src/assets/vendor/datatables/dataTables.bootstrap4.js",
+              "src/assets/vendor/datatables/jquery.dataTables.js",
+              "src/assets/vendor/datatables/jquery.dataTables.min.js"
 						]
 					},
 					"configurations": {
