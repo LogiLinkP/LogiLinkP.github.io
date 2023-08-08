@@ -25,8 +25,8 @@ const routes: Routes = [
   { path: 'alumno/:id/finalizacion/:n', component: FinalizacionComponent },
   { path: 'alumno/:id/iniciarpractica/:n', component: IniciarPracticaComponent },
   { path: 'supervisor/evaluacion', component: EvaluacionComponent },
-  { path: '**/:id/chat', component: ChatComponent},
-  { path: '**/:id/notificaciones', component: NotificacionesComponent},
+  { path: ':tipo/:id/chat', component: ChatComponent},
+  { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
   { path: '**', component: PnfComponent }
 ];
 
