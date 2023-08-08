@@ -11,3 +11,21 @@
     background-color: #3f51b5;
     font-weight: 700;
 }
+
+.enviado{
+    display: block;
+    float: right;
+    background-color: #3f51b5;
+    min-width: 50.01%;
+    border-radius: 10px;
+    text-align: left;
+}
+
+.recibido{
+    display: block;
+    float: right;
+    background-color: #3f51b5;
+    min-width: 50.01%;
+    border-radius: 10px;
+    text-align: right;
+}
