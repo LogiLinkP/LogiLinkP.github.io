@@ -30,6 +30,7 @@
     "datatables.net": "^1.13.4",
     "datatables.net-dt": "^1.13.4",
     "jquery": "^3.7.0",
+    "ngx-cookie-service": "^16.0.0",
     "rxjs": "~7.8.0",
     "zone.js": "~0.13.0"
   },

@@ -11,6 +11,8 @@ import { FinalizacionComponent } from './componentes/finalizacion/finalizacion.c
 import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_supervisor.component';
 import { IniciarPracticaComponent } from './componentes/iniciar-practica/iniciar-practica.component';
 import { FileComponent } from './componentes/file/file.component';
+import { LoginComponent } from './componentes/login/login.component';
+import { RegisterComponent } from './componentes/register/register.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -20,6 +22,8 @@ const routes: Routes = [
   { path: 'alumno/:id/finalizacion/:n', component: FinalizacionComponent },
   { path: 'alumno/:id/iniciarpractica/:n', component: IniciarPracticaComponent },
   { path: 'supervisor/evaluacion', component: EvaluacionComponent },
+  { path: 'login', component: LoginComponent},
+  { path: 'register', component: RegisterComponent},
   { path: '**', component: PnfComponent }
 ];
 
@@ -36,5 +40,7 @@ export const routingComponents = [HomeComponent,
   FinalizacionComponent,
   EvaluacionComponent,
   IniciarPracticaComponent,
-  FileComponent
+  FileComponent,
+  LoginComponent,
+  RegisterComponent
 ]
