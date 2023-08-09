@@ -37,6 +37,7 @@ import { BlankComponent } from './vistas/blank/blank.component';
 import { RegistroComponent } from './vistas/registro/registro.component';
 import { ForgotPasswordComponent } from './vistas/forgot-password/forgot-password.component';
 import { BarraLateralEncargadoComponent } from './componentes/barra-lateral-encargado/barra-lateral-encargado.component';
+import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { BarraLateralEncargadoComponent } from './componentes/barra-lateral-enca
     BlankComponent,
     RegistroComponent,
     ForgotPasswordComponent,
-    BarraLateralEncargadoComponent
+    BarraLateralEncargadoComponent,
+    EstadisticasComponent
   ],
   imports: [
     BrowserModule,
