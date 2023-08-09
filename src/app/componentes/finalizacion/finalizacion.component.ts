@@ -10,7 +10,7 @@ import { SupervisorService } from 'src/app/servicios/supervisor/supervisor.servi
 @Component({
   selector: 'app-finalizacion',
   templateUrl: './finalizacion.component.html',
-  styleUrls: ['./finalizacion.component.css']
+  styleUrls: ['./finalizacion.component.scss']
 })
 export class FinalizacionComponent {
   id_estudiante: number = -1;

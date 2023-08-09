@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-revision',
   templateUrl: './revision.component.html',
-  styleUrls: ['./revision.component.css']
+  styleUrls: ['./revision.component.scss']
 })
 export class RevisionComponent {
   @Input() id_estudiante: number = -1;

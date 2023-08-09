@@ -7,7 +7,7 @@ import * as $ from 'jquery';
 @Component({
   selector: 'evaluacion_supervisor',
   templateUrl: './evaluacion_supervisor.component.html',
-  styleUrls: ['./evaluacion_supervisor.component.css']
+  styleUrls: ['./evaluacion_supervisor.component.scss']
 })
 export class EvaluacionComponent {
 
