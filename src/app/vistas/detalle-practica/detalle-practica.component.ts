@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { error } from 'jquery';
 import { DetallePracticaService } from 'src/app/servicios/encargado/detalle-practica.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-detalle-practica',
@@ -10,15 +12,18 @@ import { DetallePracticaService } from 'src/app/servicios/encargado/detalle-prac
 export class DetallePracticaComponent {
 
   practica: any = {};
-  estudiante: any = {};
-  config_practica: any = {};
+  usuario: any = {};
 
-  constructor(private service: DetallePracticaService, private _snackBar: MatSnackBar) {
+  constructor(private service: DetallePracticaService, private _snackBar: MatSnackBar, private route: ActivatedRoute) {
     let respuesta: any = {};
     
-    //====REQUEST para obtener la practica====//
-    // Cambiar este 1 para que sea el id del estudiante guardada en la sesion
-    this.service.obtener_practica(1).subscribe({
+    //====REQUEST para obtener la practica (con el estudiante y config_practica)====//
+
+    // Parse the url to get the last number after the last slash
+
+    const id_estudiante = parseInt(this.route.snapshot.url[1].path);
+
+    this.service.obtener_practica(id_estudiante).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
@@ -30,45 +35,8 @@ export class DetallePracticaComponent {
         });
       },
       complete: () => {
-        this.practica = respuesta.body;
-        //====REQUEST para obtener el estudiante====//
-        this.service.obtener_estudiante(this.practica.id_estudiante).subscribe({
-          next: (data: any) => {
-            respuesta = { ...respuesta, ...data }
-          },
-          error: (error: any) => {
-            this.estudiante = [];
-            this._snackBar.open("Error al solicitar datos de estudiante", "Cerrar", {
-              duration: 10000,
-              panelClass: ['red-snackbar']
-            });
-          },
-          complete: () => {
-            this.estudiante = respuesta.body;
-          }
-        });
-        //fin request para obtener el estudiante
-        
-        //====REQUEST para obtener la configuracion de la practica====
-        this.service.obtener_config_practica(this.practica.id_config_practica).subscribe({
-          next: (data: any) => {
-            respuesta = { ...respuesta, ...data }
-          },
-          error: (error: any) => {
-            this.config_practica = [];
-            this._snackBar.open("Error al solicitar datos de configuración de práctica", "Cerrar", {
-              duration: 10000,
-              panelClass: ['red-snackbar']
-            });
-          },
-          complete: () => {
-            this.config_practica = respuesta.body;
-          }
-        });
-        // fin request para obtener la configuracion de la practica
-      }
-    });
-    // fin request para obtener la practica
+        this.practica = respuesta.body;      }
+    }); // fin request para obtener la practica    
   }
 
   ngOnInit() {
