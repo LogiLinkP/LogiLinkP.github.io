@@ -60,13 +60,13 @@
                                             <td routerLink="/encargado/{{people.id_estudiante}}">{{people.nota_evaluacion}}</td>
                                             <td [ngSwitch]="people.estado" style="vertical-align: center;">
                                                 <app-revision *ngSwitchCase="'Evaluada'" [id_estudiante]="people.id_estudiante"
-                                                    [id_config_practica]="1">
+                                                    [id_config_practica]="people.config_practica.id">
                                                 </app-revision>
                                                 <app-revision *ngSwitchCase="'Aprobada'" [id_estudiante]="people.id_estudiante"
-                                                    [id_config_practica]="1">
+                                                    [id_config_practica]="people.config_practica.id">
                                                 </app-revision>
                                                 <app-revision *ngSwitchCase="'Reprobada'" [id_estudiante]="people.id_estudiante"
-                                                    [id_config_practica]="1">
+                                                    [id_config_practica]="people.config_practica.id">
                                                 </app-revision>
                                                 <div *ngSwitchDefault>Aún no evaluada por supervisor</div>
                                             </td>

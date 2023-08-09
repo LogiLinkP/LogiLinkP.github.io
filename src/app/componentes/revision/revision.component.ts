@@ -38,8 +38,9 @@ export class RevisionComponent {
             panelClass: ['red-snackbar']
           });
         }
+        window.location.reload()
       }
     });
-    window.location.reload()
+    
   }
 }
