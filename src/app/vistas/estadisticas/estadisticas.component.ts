@@ -4,9 +4,7 @@ import { Component, Inject } from '@angular/core';
 @Component({
   selector: 'app-estadisticas',
   templateUrl: './estadisticas.component.html',
-  styleUrls: ['./estadisticas.component.scss',
-              '../../../assets/css/sb-admin-2.min.css',
-              '../../../assets/vendor/fontawesome-free/css/all.min.css']
+  styleUrls: ['./estadisticas.component.scss']
 })
 export class EstadisticasComponent {
   constructor(@Inject(DOCUMENT) private document: Document) {}
