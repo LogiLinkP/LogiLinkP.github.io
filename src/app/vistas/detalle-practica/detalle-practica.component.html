@@ -129,10 +129,24 @@
                                 <!-- Card Content - Collapse -->
                                 <div class="collapse show" id="collapseCardExample">
                                     <div class="card-body">
-                                        Correo del Alumno<br>
-                                        Correo del Supervisor<br>
-                                        Fecha de Inicio: {{ practica.fecha_inicio | date: 'dd/MM/yyyy' }}<br>
-                                        Fecha de Termino: {{ practica.fecha_termino | date: 'dd/MM/yyyy' }}<br>
+                                        <table style="width:80%">
+                                            <tr>
+                                                <td>Correo Estudiante:</td>
+                                                <td>{{ practica.estudiante.usuario.correo }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Correo Supervisor:</td>
+                                                <td>{{ practica.supervisor.correo }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fecha Inicio:</td>
+                                                <td>{{ practica.fecha_inicio | date: 'dd/MM/yyyy' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fecha Termino:</td>
+                                                <td>{{ practica.fecha_termino | date: 'dd/MM/yyyy' }}</td>
+                                            </tr>
+                                        </table>
                                         
                                     </div>
                                 </div>
