@@ -47,7 +47,6 @@ import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.compon
     EvaluacionComponent,
     DatosPracticaComponent,
     DetallePracticaComponent,
-    BarraLateralComponent,
     FooterComponent,
     BarraSuperiorComponent,
     LogoutModalComponent,
