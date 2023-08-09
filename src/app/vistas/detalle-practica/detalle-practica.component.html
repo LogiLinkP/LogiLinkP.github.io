@@ -25,8 +25,9 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">{{ practica.estudiante.usuario.nombre }} <br> {{ practica.config_practica.nombre }}</h1>
-                    
+                    <h1 class="h3 mb-2 text-gray-800">{{ practica.estudiante.usuario.nombre }} <br> {{
+                        practica.config_practica.nombre }}</h1>
+
                     <!-- Fila de "Tarjetas" -->
                     <div class="row">
                         <!-- Tarjeta de Estado -->
@@ -37,7 +38,8 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Estado</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"> {{ practica.estado }} </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"> {{ practica.estado }}
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <!-- BUSCAR UN ICONO APROPIADO? <i class="fas fa-calendar fa-2x text-gray-300"></i> -->
@@ -46,7 +48,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Tarjeta de Empresa -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-success shadow h-100 py-2">
@@ -55,7 +57,8 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Empresa</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ practica.empresa.nombre_empresa }}</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{
+                                                practica.empresa.nombre_empresa }}</div>
                                         </div>
                                         <div class="col-auto">
                                             <!-- <i class="fas fa-dollar-sign fa-2x text-gray-300"></i> -->
@@ -64,7 +67,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Tarjeta de Supervisor -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-warning shadow h-100 py-2">
@@ -73,7 +76,8 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 Supervisor</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ practica.supervisor.nombre }}</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{
+                                                practica.supervisor.nombre }}</div>
                                         </div>
                                         <div class="col-auto">
                                             <!-- <i class="fas fa-comments fa-2x text-gray-300"></i> -->
@@ -112,14 +116,16 @@
                             </div>
                         </div>
 
-                        
-                    </div>
 
+                    </div>
+                    <div class="row">
+                        <app-boton-solicitar-archivo></app-boton-solicitar-archivo>
+                    </div>
                     <!-- Fila de Información general y Archivos -->
                     <div class="row">
 
                         <!-- Tarjeta Información general -->
-                        <div class="col-lg-6">                            
+                        <div class="col-lg-6">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Accordion -->
                                 <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
@@ -147,14 +153,14 @@
                                                 <td>{{ practica.fecha_termino | date: 'dd/MM/yyyy' }}</td>
                                             </tr>
                                         </table>
-                                        
+
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Tarjeta Archivos -->
-                        <div class="col-lg-6">                            
+                        <div class="col-lg-6">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Accordion -->
                                 <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
@@ -164,9 +170,10 @@
                                 <!-- Card Content - Collapse -->
                                 <div class="collapse show" id="collapseCardExample">
                                     <div class="card-body">
-                                        <div class = "overflow-auto">
+                                        <div class="overflow-auto">
                                             <div class="table-responsive ">
-                                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                <table class="table table-bordered" id="dataTable" width="100%"
+                                                    cellspacing="0">
                                                     <thead>
                                                         <tr>
                                                             <th>Archivo</th>
@@ -210,9 +217,9 @@
 
                     <!-- Fila de Informes y evaluación -->
                     <div class="row">
-        
+
                         <!-- Tarjeta Información general -->
-                        <div class="col-lg-6">                            
+                        <div class="col-lg-6">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Accordion -->
                                 <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
@@ -232,7 +239,7 @@
                         </div>
 
                         <!-- Tarjeta Archivos -->
-                        <div class="col-lg-6">                            
+                        <div class="col-lg-6">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Accordion -->
                                 <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
@@ -242,9 +249,10 @@
                                 <!-- Card Content - Collapse -->
                                 <div class="collapse show" id="collapseCardExample">
                                     <div class="card-body">
-                                        <div class = "overflow-auto">
+                                        <div class="overflow-auto">
                                             <div class="table-responsive ">
-                                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                <table class="table table-bordered" id="dataTable" width="100%"
+                                                    cellspacing="0">
                                                     <thead>
                                                         <tr>
                                                             <th>Informe</th>
@@ -284,7 +292,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
                 <!-- /.container-fluid -->
             </div>
