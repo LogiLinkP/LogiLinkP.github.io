@@ -9,6 +9,7 @@ import { RegistroComponent } from './vistas/registro/registro.component';
 import { BlankComponent } from './vistas/blank/blank.component';
 import { ForgotPasswordComponent } from './vistas/forgot-password/forgot-password.component';
 import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.component';
+import { DetallePracticaComponent } from './vistas/detalle-practica/detalle-practica.component';
 
 import { PnfComponent } from './componentes/pnf/pnf.component';
 import { RevisionComponent } from './componentes/revision/revision.component';
@@ -22,6 +23,7 @@ import { TestsComponent } from './vistas/tests/tests.component';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'encargado', component: TablaComponent },
+  { path: 'encargado/:id', component: DetallePracticaComponent},
   { path: 'encargado/:id/revision/:n', component: RevisionComponent },
   { path: 'alumno/:id', component: DetalleAlumnoComponent },
   { path: 'alumno/:id/finalizacion/:n', component: FinalizacionComponent },
@@ -45,6 +47,7 @@ export const routingComponents = [HomeComponent,
   TablaComponent,
   PnfComponent,
   DetalleAlumnoComponent,
+  DetallePracticaComponent,
   RevisionComponent,
   FinalizacionComponent,
   EvaluacionComponent,

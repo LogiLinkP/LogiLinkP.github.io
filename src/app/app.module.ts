@@ -25,6 +25,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
 import {TextFieldModule} from '@angular/cdk/text-field';
+import { DetallePracticaComponent } from './vistas/detalle-practica/detalle-practica.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { FooterComponent } from './componentes/footer/footer.component';
@@ -45,6 +46,8 @@ import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.compon
     routingComponents,
     EvaluacionComponent,
     DatosPracticaComponent,
+    DetallePracticaComponent,
+    BarraLateralComponent,
     FooterComponent,
     BarraSuperiorComponent,
     LogoutModalComponent,
