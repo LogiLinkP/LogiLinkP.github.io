@@ -10,7 +10,11 @@ export class ChatComponent {
 
   Id: number = -1;
   Nmensaje:String="";
-  Historial:any=[];
+  Historial:any=[
+    {emisor: "YO",
+    texto: "hola",
+    fecha: "HOY"}
+  ];
 
   constructor(private router: ActivatedRoute) {
     this.router.params.subscribe(params => {this.Id = +params['id'];});

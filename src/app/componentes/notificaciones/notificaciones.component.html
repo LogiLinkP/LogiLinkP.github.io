@@ -3,3 +3,19 @@
         -> {{notifacion.mensaje}}
     </p>
 </div>
+
+<div class ="card text-center cardcontainer">
+
+    <div class="card-body">
+        <div class = "contenedordemensajes h=100">
+            <div *ngFor = "let notificacion of Historial">
+                ->{{notificacion.mensaje}}
+                <br>
+                Enviado: {{notificacion.fecha}}
+            </div>
+        </div>
+    </div>
+</div>
+<button routerLink="" class="btn btn-primary" mat-raised-button color="primary">
+    Volver
+</button>

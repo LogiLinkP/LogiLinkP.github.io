@@ -6,7 +6,7 @@
 
     <div class="card-body">
         <div class = "contenedordemensajes h=100">
-            <p *ngFor = "let mensaje in Historial" [ngClass]="(mensaje.emisor==Id)? 'enviado : recibido">
+            <p *ngFor = "let mensaje of Historial" [ngClass]="(mensaje.emisor==Id)? 'enviado' : 'recibido'">
                 {{mensaje.texto}}
                 <br>
                 Enviado: {{mensaje.fecha}}
@@ -21,3 +21,6 @@
         </div>
     </form>
 </div>
+<button routerLink="" class="btn btn-primary" mat-raised-button color="primary">
+    Volver
+</button>

@@ -7,7 +7,6 @@
 }
 
 .cardheader{
-    color: white;
     background-color: #3f51b5;
     font-weight: 700;
 }
@@ -16,18 +15,20 @@
     display: block;
     float: right;
     background-color: #3f51b5;
+    color: white;
     min-width: 50.01%;
     border-radius: 10px;
-    text-align: left;
+    text-align: right;
 }
 
 .recibido{
     display: block;
-    float: right;
+    float: left;
     background-color: #3f51b5;
+    color: white;
     min-width: 50.01%;
     border-radius: 10px;
-    text-align: right;
+    text-align: left;
 }
 
 .contenedordemensajes{

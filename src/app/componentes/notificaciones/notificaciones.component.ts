@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-notificaciones',
@@ -6,6 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./notificaciones.component.css']
 })
 export class NotificacionesComponent {
+  Id: number = -1;
   Nnotif: String = "";
-  historial: any={};
+  Historial: any=[];
+
+  constructor(private router: ActivatedRoute) {
+    this.router.params.subscribe(params => {this.Id = +params['id'];});
+  }
+
 }
