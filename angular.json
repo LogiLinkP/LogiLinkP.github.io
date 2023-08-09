@@ -31,9 +31,7 @@
 						"styles": [
 							"node_modules/bootstrap/dist/css/bootstrap.min.css",
 							"@angular/material/prebuilt-themes/deeppurple-amber.css",
-							"node_modules/datatables.net-dt/css/jquery.dataTables.css",
 							"src/styles.scss",
-							"node_modules/datatables.net-dt/css/jquery.dataTables.min.css",
 							"src/assets/css/sb-admin-2.css",
 							"src/assets/css/sb-admin-2.min.css",
 							"src/assets/vendor/fontawesome-free/css/all.min.css"
@@ -44,9 +42,7 @@
 							"src/assets/js/sb-admin-2.js",
 							"src/assets/js/sb-admin-2.min.js",
 							"src/assets/vendor/bootstrap/js/bootstrap.bundle.min.js",
-							"src/assets/vendor/datatables/dataTables.bootstrap4.js",
-							"src/assets/vendor/datatables/jquery.dataTables.js",
-							"src/assets/vendor/datatables/jquery.dataTables.min.js"
+							"src/assets/vendor/datatables/dataTables.bootstrap4.js"
 						]
 					},
 					"configurations": {
