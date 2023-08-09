@@ -49,15 +49,15 @@
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let people of alumnos;">
-                                            <td routerLink="/encargado/{{people.id_estudiante}}">{{people.estudiante.usuario.nombre}}</td>
-                                            <td routerLink="/encargado/{{people.id_estudiante}}">{{people.estudiante.rut}}</td>
-                                            <td routerLink="/encargado/{{people.id_estudiante}}">{{people.config_practica.nombre}}</td>
-                                            <td routerLink="/encargado/{{people.id_estudiante}}">{{people.consistencia_informe}}</td>
-                                            <td routerLink="/encargado/{{people.id_estudiante}}">{{people.consistencia_nota}}</td>
-                                            <td routerLink="/encargado/{{people.id_estudiante}}">{{people.estado}}</td>
-                                            <td routerLink="/encargado/{{people.id_estudiante}}">{{people.interpretacion_nota}}</td>
-                                            <td routerLink="/encargado/{{people.id_estudiante}}">{{people.interpretacion_informe}}</td>
-                                            <td routerLink="/encargado/{{people.id_estudiante}}">{{people.nota_evaluacion}}</td>
+                                            <td class="table-item" routerLink="/encargado/{{people.id_estudiante}}">{{people.estudiante.usuario.nombre}}</td>
+                                            <td class="table-item" routerLink="/encargado/{{people.id_estudiante}}">{{people.estudiante.rut}}</td>
+                                            <td class="table-item" routerLink="/encargado/{{people.id_estudiante}}">{{people.config_practica.nombre}}</td>
+                                            <td class="table-item" routerLink="/encargado/{{people.id_estudiante}}">{{people.consistencia_informe}}</td>
+                                            <td class="table-item" routerLink="/encargado/{{people.id_estudiante}}">{{people.consistencia_nota}}</td>
+                                            <td class="table-item" routerLink="/encargado/{{people.id_estudiante}}">{{people.estado}}</td>
+                                            <td class="table-item" routerLink="/encargado/{{people.id_estudiante}}">{{people.interpretacion_nota}}</td>
+                                            <td class="table-item" routerLink="/encargado/{{people.id_estudiante}}">{{people.interpretacion_informe}}</td>
+                                            <td class="table-item" routerLink="/encargado/{{people.id_estudiante}}">{{people.nota_evaluacion}}</td>
                                             <td [ngSwitch]="people.estado" style="vertical-align: center;">
                                                 <app-revision *ngSwitchCase="'Evaluada'" [id_estudiante]="people.id_estudiante"
                                                     [id_config_practica]="people.config_practica.id">

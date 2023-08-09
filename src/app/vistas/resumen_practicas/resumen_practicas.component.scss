@@ -8,3 +8,12 @@ tbody tr td{
     text-align: center;
     color: #686868;
 }
+
+.table-item:hover {
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+
+.fila {
+    background-color: red;
+}
