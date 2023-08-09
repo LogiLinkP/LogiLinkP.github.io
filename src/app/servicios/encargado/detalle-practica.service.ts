@@ -17,7 +17,7 @@ export class DetallePracticaService {
   }
 
   obtener_usuario(id_usuario: number) {
-    const req = new HttpRequest('GET', `${environment.url_back}/usuario/get?id_usuario=${id_usuario}`);
+    const req = new HttpRequest('GET', `${environment.url_back}/usuario?id=${id_usuario}`);
     return this._http.request(req);
   }
 }

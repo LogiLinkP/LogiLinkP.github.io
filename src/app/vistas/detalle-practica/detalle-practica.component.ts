@@ -35,26 +35,7 @@ export class DetallePracticaComponent {
         });
       },
       complete: () => {
-        this.practica = respuesta.body;
-
-        // Obtener el usuario asociado al estudiante
-        this.service.obtener_usuario(this.practica.estudiante.id_usuario).subscribe({
-          next: (data: any) => {
-            respuesta = { ...respuesta, ...data }
-          },
-          error: (error: any) => {
-            this.usuario = [];
-            this._snackBar.open("Error al solicitar datos de usuario", "Cerrar", {
-              duration: 10000,
-              panelClass: ['red-snackbar']
-            });
-          },
-          complete: () => {
-            this.usuario = respuesta.body;
-          }
-        }); // fin request para obtener el usuario
-
-      }
+        this.practica = respuesta.body;      }
     }); // fin request para obtener la practica    
   }
 

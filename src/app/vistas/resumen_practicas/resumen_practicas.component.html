@@ -49,7 +49,7 @@
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let people of alumnos;">
-                                            <td routerLink="/encargado/{{people.id_estudiante}}">{{people.estudiante.nombre}}</td>
+                                            <td routerLink="/encargado/{{people.id_estudiante}}">{{people.estudiante.usuario.nombre}}</td>
                                             <td routerLink="/encargado/{{people.id_estudiante}}">{{people.estudiante.rut}}</td>
                                             <td routerLink="/encargado/{{people.id_estudiante}}">{{people.config_practica.nombre}}</td>
                                             <td routerLink="/encargado/{{people.id_estudiante}}">{{people.consistencia_informe}}</td>

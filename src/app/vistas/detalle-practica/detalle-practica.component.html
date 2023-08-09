@@ -25,7 +25,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">{{ practica.estudiante.nombre_id_org }} <br> {{ practica.config_practica.nombre }}</h1>
+                    <h1 class="h3 mb-2 text-gray-800">{{ practica.estudiante.usuario.nombre }} <br> {{ practica.config_practica.nombre }}</h1>
                     
                     <!-- Fila de "Tarjetas" -->
                     <div class="row">
@@ -55,7 +55,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Empresa</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Meta</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ practica.empresa.nombre_empresa }}</div>
                                         </div>
                                         <div class="col-auto">
                                             <!-- <i class="fas fa-dollar-sign fa-2x text-gray-300"></i> -->
