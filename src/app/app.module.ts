@@ -39,7 +39,6 @@ import { RegistroComponent } from './vistas/registro/registro.component';
 import { ForgotPasswordComponent } from './vistas/forgot-password/forgot-password.component';
 import { BarraLateralEncargadoComponent } from './componentes/barra-lateral-encargado/barra-lateral-encargado.component';
 import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.component';
-import { PerfilComponent } from './perfil/perfil.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +58,6 @@ import { PerfilComponent } from './perfil/perfil.component';
     ForgotPasswordComponent,
     BarraLateralEncargadoComponent,
     EstadisticasComponent,
-    PerfilComponent
   ],
   imports: [
     BrowserModule,
