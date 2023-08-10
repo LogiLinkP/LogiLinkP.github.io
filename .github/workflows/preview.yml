@@ -27,4 +27,4 @@ jobs:
         with:
           source-dir: dist/praxus-app
           preview-branch: master
-          deploy-repository: LogiLink/test-preview
+          deploy-repository: LogiLinkP/test-preview
