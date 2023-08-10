@@ -18,12 +18,9 @@ export class DetallePracticaComponent {
     let respuesta: any = {};
     
     //====REQUEST para obtener la practica (con el estudiante y config_practica)====//
+    const id_practica = parseInt(this.route.snapshot.url[1].path); //obtener el id del estudiante de la URL (DEBERÍA SER EL ID DE LA PRÁCTICA)
 
-    // Parse the url to get the last number after the last slash
-
-    const id_estudiante = parseInt(this.route.snapshot.url[1].path);
-
-    this.service.obtener_practica(id_estudiante).subscribe({
+    this.service.obtener_practica(id_practica).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
