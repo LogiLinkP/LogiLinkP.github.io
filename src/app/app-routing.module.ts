@@ -10,6 +10,7 @@ import { BlankComponent } from './vistas/blank/blank.component';
 import { ForgotPasswordComponent } from './vistas/forgot-password/forgot-password.component';
 import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.component';
 import { DetallePracticaComponent } from './vistas/detalle-practica/detalle-practica.component';
+import { InformacionesComponent } from './vistas/informaciones/informaciones.component';
 
 import { PnfComponent } from './componentes/pnf/pnf.component';
 import { RevisionComponent } from './componentes/revision/revision.component';
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'blank', component: BlankComponent },
   { path: 'resetPass', component: ForgotPasswordComponent },
   { path: 'estadisticas', component: EstadisticasComponent },
+  { path: 'informaciones', component: InformacionesComponent },
   { path: '**', component: PnfComponent }
 ];
 
@@ -58,5 +60,6 @@ export const routingComponents = [HomeComponent,
   BlankComponent,
   ForgotPasswordComponent,
   EstadisticasComponent,
+  InformacionesComponent,
   TestsComponent
 ]
