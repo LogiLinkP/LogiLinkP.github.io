@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>¿Qué archivo desea solicitar?</h1>
+<div mat-dialog-content>
+    <p>Nombre del Documento</p>
+    <mat-form-field>
+        <mat-label>Ej. Boleta de honorarios Junio</mat-label>
+        <input matInput [(ngModel)]="data.nombre">
+    </mat-form-field>
+    <p>{{data.formatos}}</p>
+    <mat-form-field>
+        <mat-select>
+            <mat-option *ngFor="let par of data.formatos" [value]="par.extensiones">
+                {{par.tipo}}
+            </mat-option>
+        </mat-select>
+        <mat-label>Ej. Boleta de honorarios Junio</mat-label>
+        <input matInput [(ngModel)]="data.nombre">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button mat-button [mat-dialog-close]="data.formato" cdkFocusInitial>Ok</button>
+</div>
