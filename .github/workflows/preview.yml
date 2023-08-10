@@ -26,3 +26,5 @@ jobs:
         uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: dist/praxus-app
+          preview-branch: master
+          deploy-repository: test-preview
