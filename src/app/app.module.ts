@@ -18,6 +18,7 @@ import { DataTablesModule } from "angular-datatables";
 import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_supervisor.component';
 import { MatButtonModule } from '@angular/material/button';
 import { DatosPracticaComponent } from './componentes/datos-practica/datos-practica.component';
+import { TestBarraComponent } from './componentes/test-barra/test-barra.component';
 
 import {MatInputModule} from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
@@ -40,7 +41,7 @@ import { ForgotPasswordComponent } from './vistas/forgot-password/forgot-passwor
 import { BarraLateralEncargadoComponent } from './componentes/barra-lateral-encargado/barra-lateral-encargado.component';
 import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.component';
 import { InformacionesComponent } from './vistas/informaciones/informaciones.component';
-import { TestBarraComponent } from './componentes/test-barra/test-barra.component';
+
 
 @NgModule({
   declarations: [
