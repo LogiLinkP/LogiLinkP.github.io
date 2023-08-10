@@ -25,8 +25,8 @@ jobs:
       - name: GitHub Pages
         uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
-          target_branch: gh-pages
-          build_dir: dist/praxus-app
-          keep_history: true
+          branch: gh-pages
+          folder: dist/praxus-app
+          clean_exclude: pr-preview/
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
