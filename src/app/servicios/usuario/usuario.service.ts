@@ -14,25 +14,18 @@ export class UsuarioService {
   constructor(private http: HttpClient, private cookies: CookieService) { }
 
   login(email: string, password: string): Observable<any>{
-    const req = new HttpRequest('POST',`${this.url}`,{email,password});
+    const req = new HttpRequest('POST',`${this.url}/login`,{email,password});
     return this.http.request(req);
   }
 
-  register(email: string, password: string, nombre: string, es_encargado: boolean, es_supervisor: boolean, es_estudiante: boolean, es_admin: boolean): Observable<any>{
-    const req = new HttpRequest('POST',`${this.url}`,{email,password,nombre,es_encargado,es_supervisor,es_estudiante,es_admin});
+  register(email: string, password: string, cnfPwd: string ,nombre: string, es_encargado: boolean, es_supervisor: boolean, es_estudiante: boolean, es_admin: boolean): Observable<any>{
+    const req = new HttpRequest('POST',`${this.url}/register`,{email,password,cnfPwd,nombre,es_encargado,es_supervisor,es_estudiante,es_admin});
     return this.http.request(req);
   }
 
   logout(): Observable<any>{
-    const req = new HttpRequest('POST',`${this.url}`, { });
+    const req = new HttpRequest('POST',`${this.url}/logout`, { });
     return this.http.request(req);
   }
 
-  setToken(token: string) {
-    this.cookies.set("token", token);
-  }
-
-  getToken() {
-    return this.cookies.get("token");
-  }
 }

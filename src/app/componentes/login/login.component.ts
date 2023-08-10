@@ -2,6 +2,7 @@ import { Component,OnInit } from '@angular/core';
 import { UsuarioService } from '../../servicios/usuario/usuario.service';
 import { StorageUserService } from 'src/app/servicios/usuario/storage-user.service';
 import { Router } from "@angular/router";
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -12,28 +13,27 @@ export class LoginComponent implements OnInit{
   email: string;
   password: string;
 
-  rol: string[] = [];
-
   constructor(public usuario: UsuarioService, private storage: StorageUserService){}
 
   ngOnInit(): void {
-      if(this.storage.isLoggedIn()){
-        this.rol = this.storage.getUser().roles;
-      }
   }
 
   login(){
+    let response: any = {};
     const user = { email: this.email, password: this.password };
     this.usuario.login(this.email,this.password).subscribe( {
       next: data => {
-        this.usuario.setToken(data.token);
-        this.storage.saveUser(data);
-        this.rol = this.storage.getUser().roles;
-        this.reloadPage();
+        response = {...response,...data}
       },
       error: err => {
         console.log("Error de inicio de sesion");
+      },
+      complete: () => {
+        if(response.body != null){
+          this.reloadPage();
+        }
       }
+        
   });
   }
 
