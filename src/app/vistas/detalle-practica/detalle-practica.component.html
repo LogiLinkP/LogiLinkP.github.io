@@ -172,16 +172,27 @@
                                     <div class="card-body">
                                         <div class="overflow-auto">
                                             <div class="table-responsive ">
-                                                <table class="table table-bordered" id="dataTable" width="100%"
-                                                    cellspacing="0">
+                                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                                     <thead>
                                                         <tr>
                                                             <th>Archivo</th>
-                                                            <th>Fecha Subido</th>
+                                                            <th>Formato</th>
+                                                            <th>Tipo Solicitud</th>
+                                                            <th>Descargar</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
+                                                        <tr *ngFor="let doc of documentos;">
+                                                            <td>{{doc.solicitud_documento.nombre_solicitud}}</td>
+                                                            <td>{{doc.solicitud_documento.tipo_archivo}}</td>
+                                                            <td>Normal</td>
+                                                            <td>Boton</td>
+                                                        </tr>
+                                                        <tr *ngFor="let doc_extra of documentos_extra;">
+                                                            <td>{{doc_extra.nombre_solicitud}}</td>
+                                                            <td>{{doc_extra.tipo_archivo}}</td>
+                                                            <td>Extra</td>
+                                                            <td>Boton</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
