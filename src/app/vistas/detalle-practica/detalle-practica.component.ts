@@ -19,7 +19,10 @@ export class DetallePracticaComponent implements OnInit{
 
   practica: any = {};
   documentos: any = [];
-  documentos_extra: any = [];
+  documento_extras: any = [];
+  informes: any = [];
+  evaluaciones: any = [];
+  respuestas_supervisor: any = [];
 
   constructor(private service: DetallePracticaService, private _snackBar: MatSnackBar, private route: ActivatedRoute) {
     this.dtOptions = {
@@ -51,49 +54,22 @@ export class DetallePracticaComponent implements OnInit{
           });
         },
         complete: () => {
-          this.practica = respuesta.body;     
+          this.practica = respuesta.body;
+          this.documentos = this.practica.documentos;
+          this.documento_extras = this.practica.documento_extras;
+          this.informes = this.practica.informes;
+          // make this.evaluaciones = all the this.practica.respuesta_supervisor where this.practica.respuesta_supervisor.tipo_respuesta is a number
+          this.evaluaciones = this.practica.respuesta_supervisor.filter((respuesta_supervisor: any) => {
+            return !isNaN(respuesta_supervisor.tipo_respuesta);
+          }
+          );
+          // make this.respuestas_supervisor = all the this.practica.respuesta_supervisor where this.practica.respuesta_supervisor.tipo_respuesta is a string
+          this.respuestas_supervisor = this.practica.respuesta_supervisor.filter((respuesta_supervisor: any) => {
+            return isNaN(respuesta_supervisor.tipo_respuesta);
+          }
+          );
         }
       }); // fin request para obtener la practica  
-
-
-      //====REQUEST para obtener los documentos de la práctica====//
-      this.service.obtener_documentos(id_practica).subscribe({
-        next: (data: any) => {
-          respuesta = { ...respuesta, ...data }
-        },
-        error: (error: any) => {
-          this.documentos = [];
-          this._snackBar.open("Error al solicitar los documentos de la práctica", "Cerrar", {
-            duration: 10000,
-            panelClass: ['red-snackbar']
-          });
-        },
-        complete: () => {
-          console.log("documentos: ", respuesta.body);
-          this.documentos = respuesta.body;
-          this.rerender();
-        }
-      }); // fin request para obtener los documentos de la práctica
-
-      
-      //====REQUEST para obtener los documentos_extra de la práctica====//
-      this.service.obtener_documentos_extra(id_practica).subscribe({
-        next: (data: any) => {
-          respuesta = { ...respuesta, ...data }
-        },
-        error: (error: any) => {
-          this.documentos = [];
-          this._snackBar.open("Error al solicitar los documentos_extra de la práctica", "Cerrar", {
-            duration: 10000,
-            panelClass: ['red-snackbar']
-          });
-        },
-        complete: () => {
-          console.log("documentos_extra: ", respuesta.body);
-          this.documentos_extra = respuesta.body;
-          this.rerender();
-        }
-      }); // fin request para obtener los documentos_extra de la práctica
     } 
   }
 
