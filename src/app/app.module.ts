@@ -39,6 +39,8 @@ import { RegistroComponent } from './vistas/registro/registro.component';
 import { ForgotPasswordComponent } from './vistas/forgot-password/forgot-password.component';
 import { BarraLateralEncargadoComponent } from './componentes/barra-lateral-encargado/barra-lateral-encargado.component';
 import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.component';
+import { InformacionesComponent } from './vistas/informaciones/informaciones.component';
+import { TestBarraComponent } from './componentes/test-barra/test-barra.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +59,9 @@ import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.compon
     RegistroComponent,
     ForgotPasswordComponent,
     BarraLateralEncargadoComponent,
-    EstadisticasComponent
+    EstadisticasComponent,
+    InformacionesComponent,
+    TestBarraComponent
   ],
   imports: [
     BrowserModule,
