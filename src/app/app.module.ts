@@ -40,6 +40,7 @@ import { RegistroComponent } from './vistas/registro/registro.component';
 import { ForgotPasswordComponent } from './vistas/forgot-password/forgot-password.component';
 import { BarraLateralEncargadoComponent } from './componentes/barra-lateral-encargado/barra-lateral-encargado.component';
 import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.component';
+import { BotonSolicitarArchivoComponent } from './boton-solicitar-archivo/boton-solicitar-archivo.component';
 import { InformacionesComponent } from './vistas/informaciones/informaciones.component';
 
 
@@ -62,7 +63,8 @@ import { InformacionesComponent } from './vistas/informaciones/informaciones.com
     BarraLateralEncargadoComponent,
     EstadisticasComponent,
     InformacionesComponent,
-    TestBarraComponent
+    TestBarraComponent,
+    BotonSolicitarArchivoComponent
   ],
   imports: [
     BrowserModule,
