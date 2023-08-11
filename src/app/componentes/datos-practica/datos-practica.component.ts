@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-datos-practica',
   templateUrl: './datos-practica.component.html',
-  styleUrls: ['./datos-practica.component.css']
+  styleUrls: ['./datos-practica.component.scss']
 })
 
 export class DatosPracticaComponent implements OnInit{

@@ -5,7 +5,7 @@ import {ActivatedRoute} from '@angular/router';
 @Component({
   selector: 'alumno',
   templateUrl: './alumno.component.html',
-  styleUrls: ['./alumno.component.css']
+  styleUrls: ['./alumno.component.scss']
 })
 export class DetalleAlumnoComponent implements OnInit{
   id_alumno: number = -1;

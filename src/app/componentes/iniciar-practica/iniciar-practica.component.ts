@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-iniciar-practica',
   templateUrl: './iniciar-practica.component.html',
-  styleUrls: ['./iniciar-practica.component.css']
+  styleUrls: ['./iniciar-practica.component.scss']
 })
 
 export class IniciarPracticaComponent implements OnInit{

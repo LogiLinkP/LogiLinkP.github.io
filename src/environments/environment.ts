@@ -1,3 +1,3 @@
 export const environment = {
-    url_back: 'http://logilink.hopto.org:3000',
+    url_back: 'https://logilink.hopto.org',
 };
