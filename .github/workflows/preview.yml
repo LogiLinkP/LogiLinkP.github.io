@@ -29,3 +29,4 @@ jobs:
           preview-branch: master
           deploy-repository: LogiLinkP/test-preview
           token: ${{ secrets.TOKEN }}
+          umbrella-dir: .
