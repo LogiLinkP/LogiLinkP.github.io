@@ -8,7 +8,7 @@
       <input 
         type="text"
         [(ngModel)]="nombre"
-        name="Nombre"
+        name="nombre"
         placeholder="Nombre"
         required="required"
       />
@@ -33,6 +33,24 @@
         placeholder="Repeat the password"
         required="required"
       />
+      <select name="tipo" id="tipo" (change) = "checkout($event)">
+        <option value="0">Seleccione una opcion</option>
+        <option value="1">Estudiante</option>
+        <option value="2">Supervisor</option>
+      </select>
+      <div *ngIf="!es_estudiante&&!es_supervisor"> </div>
+      <div *ngIf="es_estudiante">
+        <input 
+          type="text"
+          [(ngModel)]="RUT"
+          name="RUT"
+          placeholder="RUT"
+          required="required"
+        />
+      </div>
+      <div *ngIf="es_supervisor">
+        En desarrollo
+      </div>
       <button type="submit" (click)="register()">Registrarse</button>
     </form>
   </div>
