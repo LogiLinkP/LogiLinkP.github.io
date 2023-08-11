@@ -29,6 +29,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
 import {TextFieldModule} from '@angular/cdk/text-field';
 import { FormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
+
 
 @NgModule({
   declarations: [
@@ -58,7 +60,12 @@ import { FormsModule } from '@angular/forms';
     TextFieldModule,
     FormsModule,
     ],
-  providers: [GetDetallesAlumnoService, SetDetallesAlumnoService, ArchivosService, SupervisorService],
+  providers: [
+    GetDetallesAlumnoService,
+    SetDetallesAlumnoService,
+    ArchivosService,
+    SupervisorService,
+    DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
