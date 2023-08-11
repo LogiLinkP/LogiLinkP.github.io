@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-file',
   templateUrl: './file.component.html',
-  styleUrls: ['./file.component.css']
+  styleUrls: ['./file.component.scss']
 })
 export class FileComponent {
   myForm = new FormGroup({

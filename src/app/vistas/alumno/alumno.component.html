@@ -1,31 +1,28 @@
-<button mat-raised-button [ngStyle]="{'background-color': '#3f51b5', 'color': 'white'}" routerLink="./notificaciones" routerLinkActive="active">Notificaciones</button>
-<div class="container">
+<app-barra-superior></app-barra-superior>
+<mat-card id="holder">
+    <mat-card-header>
+    <mat-card-title>{{alumno.nombre}}</mat-card-title>
+    </mat-card-header>  
     <table>
         <td>
-            <mat-card id="holder">
-                <mat-card-header>
-                <mat-card-title>{{alumno.nombre}}</mat-card-title>
-                </mat-card-header>  
-                <table>
-                    <td>
-                        <p> <strong> &nbsp; &nbsp; Datos Personales</strong> </p>
-                        
-                        <mat-list role="list">
-                            <mat-list-item role="listitem">Rut: {{alumno.rut}}</mat-list-item>
-                            <mat-list-item role="listitem">Rol: {{alumno.rol}}</mat-list-item>
-                            <mat-list-item role="listitem">Correo: {{alumno.correo}}</mat-list-item>
-                        </mat-list>
-                    </td>
-                    <div [ngSwitch]="practica.estado">
-                        <div *ngSwitchCase="'En curso'">
-                            <td>
-                                <p> <strong> &nbsp; &nbsp; Datos Práctica</strong> </p>
-                                <mat-list role="list">
-                                <mat-list-item role="listitem">Estado Práctica: {{practica.estado}}</mat-list-item>
-                                </mat-list>
-                                <app-datos-practica ></app-datos-practica>
-                            </td>
-                        </div>
+            <p> <strong> &nbsp; &nbsp; Datos Personales</strong> </p>
+            
+            <mat-list role="list">
+                <mat-list-item role="listitem">Rut: {{alumno.rut}}</mat-list-item>
+                <mat-list-item role="listitem">Rol: {{alumno.rol}}</mat-list-item>
+                <mat-list-item role="listitem">Correo: {{alumno.correo}}</mat-list-item>
+            </mat-list>
+        </td>
+        <div [ngSwitch]="practica.estado">
+            <div *ngSwitchCase="'En curso'">
+                <td>
+                    <p> <strong> &nbsp; &nbsp; Datos Práctica</strong> </p>
+                    <mat-list role="list">
+                    <mat-list-item role="listitem">Estado Práctica: {{practica.estado}}</mat-list-item>
+                    </mat-list>
+                    <app-datos-practica ></app-datos-practica>
+                </td>
+            </div>
 
                         <div *ngSwitchCase="'Evaluada'">
                             <p> <strong> &nbsp; &nbsp; Datos Práctica</strong> </p>
