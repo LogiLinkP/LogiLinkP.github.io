@@ -5,3 +5,8 @@
  .m-0{
     font-size: medium;
  }
+
+.hoverTable tbody tr :hover{
+    background: #f5f5f5;
+    cursor: pointer;
+ }
