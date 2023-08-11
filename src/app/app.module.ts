@@ -107,8 +107,12 @@ import { DatePipe } from '@angular/common';
     SetDetallesAlumnoService,
     ArchivosService,
     SupervisorService,
-    DatePipe],
-  providers: [GetDetallesAlumnoService, SetDetallesAlumnoService, ArchivosService, SupervisorService, CookieService],
+    DatePipe,
+    GetDetallesAlumnoService,
+    SetDetallesAlumnoService, 
+    ArchivosService, 
+    SupervisorService,
+    CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
