@@ -43,7 +43,7 @@ import { BarraLateralAlumnoComponent } from './componentes/barra-lateral-alumno/
 import { BarraLateralEncargadoComponent } from './componentes/barra-lateral-encargado/barra-lateral-encargado.component';
 import { DatosPracticaComponent } from './componentes/datos-practica/datos-practica.component';
 import { UpInformeComponent } from './componentes/up-informe/up-informe.component';
-import { TablaComponent } from './componentes/resumen_practicas/resumen_practicas.component';
+import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
 //import { ChatComponent } from './componentes/chat/chat.component';
 
 
@@ -51,7 +51,7 @@ import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DataTablesModule } from "angular-datatables";
 import { CookieService } from 'ngx-cookie-service';
-import { BotonSolicitarArchivoComponent } from './boton-solicitar-archivo/boton-solicitar-archivo.component';
+import { BotonSolicitarArchivoComponent } from './componentes/boton-solicitar-archivo/boton-solicitar-archivo.component';
 
 
 

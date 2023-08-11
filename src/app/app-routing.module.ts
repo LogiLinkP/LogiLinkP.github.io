@@ -22,14 +22,15 @@ import { LogoutComponent } from './componentes/logout/logout.component';
 import { TestsComponent } from './vistas/tests/tests.component';
 import { EmpresasComponent } from './vistas/empresas/empresas.component';
 import { CuestionarioComponent } from './vistas/cuestionario/cuestionario.component';
-import { EncargadoComponent } from './vistas/encargado/encargado.component';
-//import { ChatComponent } from './componentes/chat/chat.component';
 import { NotificacionesComponent } from './componentes/notificaciones/notificaciones.component';
+import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
+
+import { environment } from 'src/environments/environment';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'encargado', component: EncargadoComponent },
-  { path: 'encargado/:id', component: DetallePracticaComponent},
+  { path: environment.ruta_practicas, component: TablaComponent },
+  { path: environment.ruta_practicas+'/:id', component: DetallePracticaComponent},
   { path: 'encargado/:id/revision/:n', component: RevisionComponent },
   { path: 'alumno/:id', component: DetalleAlumnoComponent },
   { path: 'alumno/:id/cuestionario', component: CuestionarioComponent},
@@ -46,7 +47,6 @@ const routes: Routes = [
   { path: 'resetPass', component: ForgotPasswordComponent },
   { path: 'estadisticas', component: EstadisticasComponent },
   { path: 'informaciones', component: InformacionesComponent },
-  //{ path: ':tipo/:id/chat/:id2', component: ChatComponent},
   { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
   { path: '**', component: PnfComponent }
 ];
@@ -76,6 +76,5 @@ export const routingComponents = [HomeComponent,
   TestsComponent,
   EmpresasComponent,
   CuestionarioComponent,
-  EncargadoComponent,
   NotificacionesComponent,
 ]
