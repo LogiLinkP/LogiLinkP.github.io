@@ -7,10 +7,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common'
+import { DocumentosService } from '../../servicios/encargado/documentos.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface DialogData {
-  nombre: string;
-  formato: string;
   formatos: Formato[];
 }
 interface Formato {
@@ -23,29 +24,51 @@ interface Formato {
   styleUrls: ['./boton-solicitar-archivo.component.scss']
 })
 export class BotonSolicitarArchivoComponent {
-  formato: string;
-  nombre: string;
   formatos: Formato[] = [
-    { formato: 'pdf', extensiones: ['pdf'] },
-    { formato: "imagen", extensiones: ["jpg", "jpeg", "png"] },
-    { formato: 'word', extensiones: ['docx', "doc"] },
-    { formato: 'excel', extensiones: ['xlsx', "xls"] },
-  ]
+    { formato: 'PDF', extensiones: ['pdf'] },
+    { formato: "Imagen", extensiones: ["jpg", "jpeg", "png"] },
+    { formato: 'Word', extensiones: ['docx', "doc"] },
+    { formato: 'Excel', extensiones: ['xlsx', "xls"] },
+  ];
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, private doc_service: DocumentosService, private _snackBar: MatSnackBar) { }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
     const dialogRef = this.dialog.open(Dialog, {
-      width: '250px',
+      width: '300px',
       enterAnimationDuration,
       exitAnimationDuration,
-      data: { nombre: this.nombre, formato: this.formato, formatos: this.formatos }
+      data: { formatos: this.formatos }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
-      this.formato = result;
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result && result[0]) {
+        let [, nombre, descripcion, formato] = result;
+        let datos = {
+          id_practica: 1,
+          nombre_solicitud: nombre,
+          descripcion: descripcion || "",
+          tipo_archivo: formato.join(","),
+          key: null
+        }
+        this.doc_service.solicitar_documento_extra(datos).subscribe({
+          next: (data: any) => {
+          },
+          complete: () => {
+            this._snackBar.open("Documento Solicitado", "Cerrar", {
+              panelClass: ['green-snackbar'],
+              duration: 3000
+            });
+          },
+          error: (error: any) => {
+            this._snackBar.open("Error al solicitar documento", "Cerrar", {
+              panelClass: ['red-snackbar'],
+              duration: 3000
+            });
+          }
+        });
+      } else
+        console.log("No se ha seleccionado ningún archivo")
     });
   }
 }
@@ -54,9 +77,14 @@ export class BotonSolicitarArchivoComponent {
   selector: 'app-dialog',
   templateUrl: 'dialog.html',
   standalone: true,
-  imports: [MatDialogModule, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatSelectModule],
+  imports: [MatDialogModule, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatSelectModule, CommonModule,
+    NgFor],
 })
 export class Dialog {
+  nombre: string;
+  descripcion: string;
+  formato: string[];
+
   constructor(public dialogRef: MatDialogRef<Dialog>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
 
   onNoClick(): void {
