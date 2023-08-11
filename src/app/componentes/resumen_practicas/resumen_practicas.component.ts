@@ -3,6 +3,7 @@ import { DataTableDirective } from 'angular-datatables';
 import { GetDetallesAlumnoService } from '../../servicios/encargado/resumen_practicas.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
+import { StorageUserService } from '../../servicios/usuario/storage-user.service';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class TablaComponent{
 
   alumnos: any = [];
 
-  constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar) {
+  constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar, private storage1: StorageUserService) {
     this.dtOptions = {
       language: {
         url: 'assets/localisation/es-es.json'
@@ -27,7 +28,7 @@ export class TablaComponent{
         console.log(this.alumnos);
       }
     };
-
+    console.log("hola", this.storage1.getUser())
     let respuesta: any = {};
     this.service.full_estudiante_practicas().subscribe({
       next: (data: any) => {

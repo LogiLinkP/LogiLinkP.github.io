@@ -12,7 +12,7 @@ export class LoginComponent {
   email: string;
   password: string;
 
-  constructor(public usuario: UsuarioService, private storage: StorageUserService){}
+  constructor(public usuario: UsuarioService, private storage: StorageUserService, private router: Router){}
 
   ngOnInit(): void {
   }
@@ -29,14 +29,15 @@ export class LoginComponent {
       },
       complete: () => {
         if(response.body != null){
-          this.reloadPage();
+          const {message,userdata,token} = response.body;
+          this.storage.saveUser(userdata)
+          this.router.navigate(["/encargado"])
+
+        }else{
+          document.write("Usuario no encontrado")
         }
       }
         
   });
-  }
-
-  reloadPage(): void{
-    window.location.reload()
   }
 }
