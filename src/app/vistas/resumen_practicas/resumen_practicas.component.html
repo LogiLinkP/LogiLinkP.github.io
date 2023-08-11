@@ -1,119 +1,108 @@
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-</head>
+<div id="wrapper">
 
-<body id="page-top">
-    <div id="wrapper">
+    <!-- Sidebar -->
+    <app-barra-lateral-encargado></app-barra-lateral-encargado>
 
-        <!-- Sidebar -->
-        <app-barra-lateral-encargado></app-barra-lateral-encargado>
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
 
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
 
-            <!-- Main Content -->
-            <div id="content">
+            <!-- Topbar -->
+            <app-barra-superior></app-barra-superior>
 
-                <!-- Topbar -->
-                <app-barra-superior></app-barra-superior>
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
 
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800">Prácticas</h1>
+                <p class="mb-4">Aquí se pueden ver todas las prácticas que están siendo cursadas actualmente</p>
 
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Prácticas</h1>
-                    <p class="mb-4">Aquí se pueden ver todas las prácticas que están siendo cursadas actualmente</p>
-
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Nombre</th>
-                                            <th>Rut</th>
-                                            <th>Tipo Práctica</th>
-                                            <th title="Consistencia Informe" width="44px">Consistencia Informe</th>
-                                            <th title="Consistencia Evaluación" width="44px">Consistencia Evaluación</th>
-                                            <th>Estado</th>
-                                            <th>Interpretación Nota</th>
-                                            <th>Interpretación Informes</th>
-                                            <th title="Promedio evaluación" width="44px">Promedio evaluación</th>
-                                            <th>Aprobación</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let people of alumnos;">
-                                            <td routerLink="/encargado/{{people.id}}">{{people.estudiante.usuario.nombre}}</td>
-                                            <td routerLink="/encargado/{{people.id}}">{{people.estudiante.rut}}</td>
-                                            <td routerLink="/encargado/{{people.id}}">{{people.config_practica.nombre}}</td>
-                                            <td routerLink="/encargado/{{people.id}}">{{people.consistencia_informe}}</td>
-                                            <td routerLink="/encargado/{{people.id}}">{{people.consistencia_nota}}</td>
-                                            <td routerLink="/encargado/{{people.id}}">{{people.estado}}</td>
-                                            <td routerLink="/encargado/{{people.id}}">{{people.interpretacion_nota}}</td>
-                                            <td routerLink="/encargado/{{people.id}}">{{people.interpretacion_informe}}</td>
-                                            <td routerLink="/encargado/{{people.id}}">{{people.nota_evaluacion}}</td>
-                                            <td [ngSwitch]="people.estado" style="vertical-align: center;">
-                                                <app-revision *ngSwitchCase="'Evaluada'" [id_estudiante]="people.id_estudiante"
-                                                    [id_config_practica]="people.config_practica.id">
-                                                </app-revision>
-                                                <app-revision *ngSwitchCase="'Aprobada'" [id_estudiante]="people.id_estudiante"
-                                                    [id_config_practica]="people.config_practica.id">
-                                                </app-revision>
-                                                <app-revision *ngSwitchCase="'Reprobada'" [id_estudiante]="people.id_estudiante"
-                                                    [id_config_practica]="people.config_practica.id">
-                                                </app-revision>
-                                                <div *ngSwitchDefault>Esperando evaluacion del supervisor</div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Rut</th>
+                                        <th>Tipo Práctica</th>
+                                        <th title="Consistencia Informe" width="44px">Consistencia Informe</th>
+                                        <th title="Consistencia Evaluación" width="44px">Consistencia Evaluación</th>
+                                        <th>Estado</th>
+                                        <th>Interpretación Nota</th>
+                                        <th>Interpretación Informes</th>
+                                        <th title="Promedio evaluación" width="44px">Promedio evaluación</th>
+                                        <th>Aprobación</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let people of alumnos;">
+                                        <td routerLink="/encargado/{{people.id}}">{{people.estudiante.usuario.nombre}}</td>
+                                        <td routerLink="/encargado/{{people.id}}">{{people.estudiante.rut}}</td>
+                                        <td routerLink="/encargado/{{people.id}}">{{people.config_practica.nombre}}</td>
+                                        <td routerLink="/encargado/{{people.id}}">{{people.consistencia_informe}}</td>
+                                        <td routerLink="/encargado/{{people.id}}">{{people.consistencia_nota}}</td>
+                                        <td routerLink="/encargado/{{people.id}}">{{people.estado}}</td>
+                                        <td routerLink="/encargado/{{people.id}}">{{people.interpretacion_nota}}</td>
+                                        <td routerLink="/encargado/{{people.id}}">{{people.interpretacion_informe}}</td>
+                                        <td routerLink="/encargado/{{people.id}}">{{people.nota_evaluacion}}</td>
+                                        <td [ngSwitch]="people.estado" style="vertical-align: center;">
+                                            <app-revision *ngSwitchCase="'Evaluada'" [id_estudiante]="people.id_estudiante"
+                                                [id_config_practica]="people.config_practica.id">
+                                            </app-revision>
+                                            <app-revision *ngSwitchCase="'Aprobada'" [id_estudiante]="people.id_estudiante"
+                                                [id_config_practica]="people.config_practica.id">
+                                            </app-revision>
+                                            <app-revision *ngSwitchCase="'Reprobada'" [id_estudiante]="people.id_estudiante"
+                                                [id_config_practica]="people.config_practica.id">
+                                            </app-revision>
+                                            <div *ngSwitchDefault>Esperando evaluacion del supervisor</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-
                 </div>
-                <!-- /.container-fluid -->
 
             </div>
-            <!-- End of Main Content -->
-
-            <app-footer></app-footer>
+            <!-- /.container-fluid -->
 
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- End of Main Content -->
+
+        <app-footer></app-footer>
 
     </div>
-    <!-- End of Page Wrapper -->
+    <!-- End of Content Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+</div>
+<!-- End of Page Wrapper -->
 
-    <!-- Logout Modal-->
-    <app-logout-modal></app-logout-modal>
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Logout Modal-->
+<app-logout-modal></app-logout-modal>
 
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Page level plugins -->
-    <!-- <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script> -->
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
-    
-</body>
+<!-- Page level plugins -->
+<!-- <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="vendor/datatables/dataTables.bootstrap4.min.js"></script> -->
+
+<!-- Page level custom scripts -->
+<script src="js/demo/datatables-demo.js"></script>
