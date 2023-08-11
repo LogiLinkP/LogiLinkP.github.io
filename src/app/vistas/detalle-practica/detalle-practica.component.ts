@@ -58,16 +58,16 @@ export class DetallePracticaComponent implements OnInit{
           this.documentos = this.practica.documentos;
           this.documento_extras = this.practica.documento_extras;
           this.informes = this.practica.informes;
-          // make this.evaluaciones = all the this.practica.respuesta_supervisor where this.practica.respuesta_supervisor.tipo_respuesta is a number
-          this.evaluaciones = this.practica.respuesta_supervisor.filter((respuesta_supervisor: any) => {
-            return !isNaN(respuesta_supervisor.tipo_respuesta);
-          }
-          );
-          // make this.respuestas_supervisor = all the this.practica.respuesta_supervisor where this.practica.respuesta_supervisor.tipo_respuesta is a string
-          this.respuestas_supervisor = this.practica.respuesta_supervisor.filter((respuesta_supervisor: any) => {
-            return isNaN(respuesta_supervisor.tipo_respuesta);
-          }
-          );
+          // considerar como evaluaciones todas las respuestas que tengan un tipo_respuesta que sea un número
+          this.evaluaciones = this.practica.respuesta_supervisors.filter((respuesta_supervisor: any) => {
+            return !isNaN(respuesta_supervisor.respuesta);
+          });
+          console.log("evaluaciones: ", this.evaluaciones);
+          // considerar como respuestas todas las que sean strings
+          this.respuestas_supervisor = this.practica.respuesta_supervisors.filter((respuesta_supervisor: any) => {
+            return isNaN(respuesta_supervisor.respuesta);
+          });
+          console.log("respuestas_supervisor: ", this.respuestas_supervisor);
         }
       }); // fin request para obtener la practica  
     } 
