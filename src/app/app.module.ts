@@ -4,6 +4,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import {FormsModule} from '@angular/forms';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -20,6 +21,7 @@ import { DatosPracticaComponent } from './componentes/datos-practica/datos-pract
 import { UpInformeComponent } from './componentes/up-informe/up-informe.component';
 import { TablaComponent } from './componentes/resumen_practicas/resumen_practicas.component';
 import { ChatComponent } from './componentes/chat/chat.component';
+import { CookieService } from 'ngx-cookie-service';
 import { TestBarraComponent } from './componentes/test-barra/test-barra.component';
 
 import {MatButtonModule } from '@angular/material/button';
@@ -29,6 +31,8 @@ import {MatListModule} from '@angular/material/list';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
 import {TextFieldModule} from '@angular/cdk/text-field';
+import { RegisterComponent } from './componentes/register/register.component';
+import { LogoutComponent } from './componentes/logout/logout.component';
 import { DetallePracticaComponent } from './vistas/detalle-practica/detalle-practica.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
@@ -56,6 +60,8 @@ import { DatePipe } from '@angular/common';
     routingComponents,
     EvaluacionComponent,
     DatosPracticaComponent,
+    RegisterComponent,
+    LogoutComponent,
     DetallePracticaComponent,
     FooterComponent,
     BarraSuperiorComponent,
@@ -91,6 +97,7 @@ import { DatePipe } from '@angular/common';
     MatSelectModule,
     MatToolbarModule,
     TextFieldModule,
+    FormsModule,
     MatTableModule,
     MatSortModule,
     FormsModule,
@@ -101,6 +108,7 @@ import { DatePipe } from '@angular/common';
     ArchivosService,
     SupervisorService,
     DatePipe],
+  providers: [GetDetallesAlumnoService, SetDetallesAlumnoService, ArchivosService, SupervisorService, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
