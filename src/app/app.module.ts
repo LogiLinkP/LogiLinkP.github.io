@@ -17,11 +17,14 @@ import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DataTablesModule } from "angular-datatables";
 import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_supervisor.component';
-import { MatButtonModule } from '@angular/material/button';
 import { DatosPracticaComponent } from './componentes/datos-practica/datos-practica.component';
+import { UpInformeComponent } from './componentes/up-informe/up-informe.component';
+import { TablaComponent } from './componentes/resumen_practicas/resumen_practicas.component';
+import { ChatComponent } from './componentes/chat/chat.component';
 import { CookieService } from 'ngx-cookie-service';
 import { TestBarraComponent } from './componentes/test-barra/test-barra.component';
 
+import {MatButtonModule } from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
 import {MatListModule} from '@angular/material/list';
@@ -47,6 +50,9 @@ import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.compon
 import { BotonSolicitarArchivoComponent } from './boton-solicitar-archivo/boton-solicitar-archivo.component';
 import { InformacionesComponent } from './vistas/informaciones/informaciones.component';
 
+import { FormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
+
 
 @NgModule({
   declarations: [
@@ -70,7 +76,10 @@ import { InformacionesComponent } from './vistas/informaciones/informaciones.com
     EstadisticasComponent,
     InformacionesComponent,
     TestBarraComponent,
-    BotonSolicitarArchivoComponent
+    BotonSolicitarArchivoComponent,
+    UpInformeComponent,
+    TablaComponent,
+    ChatComponent,
   ],
   imports: [
     BrowserModule,
@@ -91,7 +100,14 @@ import { InformacionesComponent } from './vistas/informaciones/informaciones.com
     FormsModule,
     MatTableModule,
     MatSortModule,
+    FormsModule,
     ],
+  providers: [
+    GetDetallesAlumnoService,
+    SetDetallesAlumnoService,
+    ArchivosService,
+    SupervisorService,
+    DatePipe],
   providers: [GetDetallesAlumnoService, SetDetallesAlumnoService, ArchivosService, SupervisorService, CookieService],
   bootstrap: [AppComponent]
 })
