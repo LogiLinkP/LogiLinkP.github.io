@@ -28,3 +28,4 @@ jobs:
           source-dir: dist/praxus-app
           preview-branch: master
           deploy-repository: LogiLinkP/test-preview
+          token: ${{ secrets.TOKEN }}
