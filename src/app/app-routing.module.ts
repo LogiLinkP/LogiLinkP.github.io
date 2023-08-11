@@ -18,6 +18,8 @@ import { FinalizacionComponent } from './componentes/finalizacion/finalizacion.c
 import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_supervisor.component';
 import { IniciarPracticaComponent } from './componentes/iniciar-practica/iniciar-practica.component';
 import { FileComponent } from './componentes/file/file.component';
+import { RegisterComponent } from './componentes/register/register.component';
+import { LogoutComponent } from './componentes/logout/logout.component';
 
 import { TestsComponent } from './vistas/tests/tests.component';
 
@@ -30,8 +32,10 @@ const routes: Routes = [
   { path: 'alumno/:id/finalizacion/:n', component: FinalizacionComponent },
   { path: 'alumno/:id/iniciarpractica/:n', component: IniciarPracticaComponent },
   { path: 'supervisor/evaluacion', component: EvaluacionComponent },
+  { path: 'login', component: LoginComponent},
+  { path: 'register', component: RegisterComponent},
+  { path: 'logout', component: LogoutComponent},
   { path: 'tests', component: TestsComponent},
-  { path: 'login', component: LoginComponent },
   { path: 'registro', component: RegistroComponent },
   { path: 'blank', component: BlankComponent },
   { path: 'resetPass', component: ForgotPasswordComponent },
@@ -56,6 +60,8 @@ export const routingComponents = [HomeComponent,
   IniciarPracticaComponent,
   FileComponent,
   LoginComponent,
+  RegisterComponent,
+  LogoutComponent,
   RegistroComponent,
   BlankComponent,
   ForgotPasswordComponent,

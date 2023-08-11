@@ -4,6 +4,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import {FormsModule} from '@angular/forms';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -18,6 +19,7 @@ import { DataTablesModule } from "angular-datatables";
 import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_supervisor.component';
 import { MatButtonModule } from '@angular/material/button';
 import { DatosPracticaComponent } from './componentes/datos-practica/datos-practica.component';
+import { CookieService } from 'ngx-cookie-service';
 import { TestBarraComponent } from './componentes/test-barra/test-barra.component';
 
 import {MatInputModule} from '@angular/material/input';
@@ -26,6 +28,8 @@ import {MatListModule} from '@angular/material/list';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
 import {TextFieldModule} from '@angular/cdk/text-field';
+import { RegisterComponent } from './componentes/register/register.component';
+import { LogoutComponent } from './componentes/logout/logout.component';
 import { DetallePracticaComponent } from './vistas/detalle-practica/detalle-practica.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
@@ -50,6 +54,8 @@ import { InformacionesComponent } from './vistas/informaciones/informaciones.com
     routingComponents,
     EvaluacionComponent,
     DatosPracticaComponent,
+    RegisterComponent,
+    LogoutComponent,
     DetallePracticaComponent,
     FooterComponent,
     BarraSuperiorComponent,
@@ -82,10 +88,11 @@ import { InformacionesComponent } from './vistas/informaciones/informaciones.com
     MatSelectModule,
     MatToolbarModule,
     TextFieldModule,
+    FormsModule,
     MatTableModule,
     MatSortModule,
     ],
-  providers: [GetDetallesAlumnoService, SetDetallesAlumnoService, ArchivosService, SupervisorService],
+  providers: [GetDetallesAlumnoService, SetDetallesAlumnoService, ArchivosService, SupervisorService, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
