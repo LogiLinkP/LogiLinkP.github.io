@@ -93,23 +93,13 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Progreso
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                Modalidad</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{
+                                                practica.config_practica.modalidad}}</div>
                                         </div>
                                         <div class="col-auto">
-                                            <!-- <i class="fas fa-clipboard-list fa-2x text-gray-300"></i> -->
+                                            <!-- <i class="fas fa-comments fa-2x text-gray-300"></i> -->
                                         </div>
                                     </div>
                                 </div>
@@ -188,7 +178,7 @@
                                                             <td>Normal</td>
                                                             <td>Boton</td>
                                                         </tr>
-                                                        <tr *ngFor="let doc_extra of documentos_extra;">
+                                                        <tr *ngFor="let doc_extra of documento_extras;">
                                                             <td>{{doc_extra.nombre_solicitud}}</td>
                                                             <td>{{doc_extra.tipo_archivo}}</td>
                                                             <td>Extra</td>
@@ -244,34 +234,16 @@
                                                     cellspacing="0">
                                                     <thead>
                                                         <tr>
-                                                            <th>Informe</th>
-                                                            <th>Fecha Subido</th>
+                                                            <th>Clave</th>
+                                                            <th>Horas Trabajadas</th>
+                                                            <th>Tipo</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>Informe 1</td>
-                                                            <td>01/01/2020</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Informe 2</td>
-                                                            <td>01/01/2020</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Informe 3</td>
-                                                            <td>01/01/2020</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Informe 4</td>
-                                                            <td>01/01/2020</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Informe 5</td>
-                                                            <td>01/01/2020</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Informe 6</td>
-                                                            <td>01/01/2020</td>
+                                                        <tr *ngFor="let informe of informes;">
+                                                            <td>{{ informe.key }}</td>
+                                                            <td>{{ informe.horas_trabajadas }}</td>
+                                                            <td>{{ informe.config_informe.tipo_informe }}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
