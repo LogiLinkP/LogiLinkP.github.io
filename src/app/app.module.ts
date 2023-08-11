@@ -42,6 +42,7 @@ import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.compon
 import { BotonSolicitarArchivoComponent } from './componentes/boton-solicitar-archivo/boton-solicitar-archivo.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
+import { SubirArchivoExtraComponent } from './componentes/subir-archivo-extra/subir-archivo-extra.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { FormsModule } from '@angular/forms';
     ForgotPasswordComponent,
     BarraLateralEncargadoComponent,
     EstadisticasComponent,
-    BotonSolicitarArchivoComponent
+    BotonSolicitarArchivoComponent,
+    SubirArchivoExtraComponent
   ],
   imports: [
     BrowserModule,
