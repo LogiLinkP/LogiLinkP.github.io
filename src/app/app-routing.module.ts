@@ -23,7 +23,7 @@ import { TestsComponent } from './vistas/tests/tests.component';
 import { EmpresasComponent } from './vistas/empresas/empresas.component';
 import { CuestionarioComponent } from './vistas/cuestionario/cuestionario.component';
 import { EncargadoComponent } from './vistas/encargado/encargado.component';
-import { ChatComponent } from './componentes/chat/chat.component';
+//import { ChatComponent } from './componentes/chat/chat.component';
 import { NotificacionesComponent } from './componentes/notificaciones/notificaciones.component';
 
 const routes: Routes = [
@@ -46,7 +46,7 @@ const routes: Routes = [
   { path: 'resetPass', component: ForgotPasswordComponent },
   { path: 'estadisticas', component: EstadisticasComponent },
   { path: 'informaciones', component: InformacionesComponent },
-  { path: ':tipo/:id/chat/:id2', component: ChatComponent},
+  //{ path: ':tipo/:id/chat/:id2', component: ChatComponent},
   { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
   { path: '**', component: PnfComponent }
 ];
