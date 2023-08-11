@@ -4,6 +4,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import {FormsModule} from '@angular/forms';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -16,16 +17,22 @@ import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DataTablesModule } from "angular-datatables";
 import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_supervisor.component';
-import { MatButtonModule } from '@angular/material/button';
 import { DatosPracticaComponent } from './componentes/datos-practica/datos-practica.component';
+import { UpInformeComponent } from './componentes/up-informe/up-informe.component';
+import { TablaComponent } from './componentes/resumen_practicas/resumen_practicas.component';
+import { ChatComponent } from './componentes/chat/chat.component';
+import { CookieService } from 'ngx-cookie-service';
 import { TestBarraComponent } from './componentes/test-barra/test-barra.component';
 
+import {MatButtonModule } from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
 import {MatListModule} from '@angular/material/list';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
 import {TextFieldModule} from '@angular/cdk/text-field';
+import { RegisterComponent } from './componentes/register/register.component';
+import { LogoutComponent } from './componentes/logout/logout.component';
 import { DetallePracticaComponent } from './vistas/detalle-practica/detalle-practica.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
@@ -40,7 +47,11 @@ import { RegistroComponent } from './vistas/registro/registro.component';
 import { ForgotPasswordComponent } from './vistas/forgot-password/forgot-password.component';
 import { BarraLateralEncargadoComponent } from './componentes/barra-lateral-encargado/barra-lateral-encargado.component';
 import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.component';
+import { BotonSolicitarArchivoComponent } from './boton-solicitar-archivo/boton-solicitar-archivo.component';
 import { InformacionesComponent } from './vistas/informaciones/informaciones.component';
+
+import { FormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 
 @NgModule({
@@ -49,6 +60,8 @@ import { InformacionesComponent } from './vistas/informaciones/informaciones.com
     routingComponents,
     EvaluacionComponent,
     DatosPracticaComponent,
+    RegisterComponent,
+    LogoutComponent,
     DetallePracticaComponent,
     FooterComponent,
     BarraSuperiorComponent,
@@ -62,7 +75,11 @@ import { InformacionesComponent } from './vistas/informaciones/informaciones.com
     BarraLateralEncargadoComponent,
     EstadisticasComponent,
     InformacionesComponent,
-    TestBarraComponent
+    TestBarraComponent,
+    BotonSolicitarArchivoComponent,
+    UpInformeComponent,
+    TablaComponent,
+    ChatComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,10 +97,18 @@ import { InformacionesComponent } from './vistas/informaciones/informaciones.com
     MatSelectModule,
     MatToolbarModule,
     TextFieldModule,
+    FormsModule,
     MatTableModule,
     MatSortModule,
+    FormsModule,
     ],
-  providers: [GetDetallesAlumnoService, SetDetallesAlumnoService, ArchivosService, SupervisorService],
+  providers: [
+    GetDetallesAlumnoService,
+    SetDetallesAlumnoService,
+    ArchivosService,
+    SupervisorService,
+    DatePipe],
+  providers: [GetDetallesAlumnoService, SetDetallesAlumnoService, ArchivosService, SupervisorService, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
