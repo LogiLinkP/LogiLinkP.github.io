@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { error } from 'jquery';
 import { DetallePracticaService } from 'src/app/servicios/encargado/detalle-practica.service';
+import { SetDetallesAlumnoService } from '../../servicios/encargado/decision.service';
 import { ActivatedRoute } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
@@ -13,6 +14,7 @@ import { Subject } from 'rxjs';
 })
 export class DetallePracticaComponent implements OnInit{
   @ViewChild(DataTableDirective, { static: false })
+  
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
@@ -24,7 +26,7 @@ export class DetallePracticaComponent implements OnInit{
   evaluaciones: any = [];
   respuestas_supervisor: any = [];
 
-  constructor(private service: DetallePracticaService, private _snackBar: MatSnackBar, private route: ActivatedRoute) {
+  constructor(private service: DetallePracticaService, private service2: SetDetallesAlumnoService, private _snackBar: MatSnackBar, private route: ActivatedRoute) {
     this.dtOptions = {
       language: {
         url: 'assets/localisation/es-es.json'
@@ -92,6 +94,30 @@ export class DetallePracticaComponent implements OnInit{
   }
 
   ngOnInit() {
+  }
+
+  aprobar(id_estudiante: number, id_config_practica: number, aprobacion: 0 | 1) {
+    let respuesta: any = {}
+    this.service2.aprobar_practica(id_estudiante, id_config_practica, aprobacion).subscribe({
+      next: (data: any) => {
+        respuesta = { ...respuesta, ...data }
+      },
+      error: (error: any) => console.log(error),
+      complete: () => {
+        if (respuesta.status == 200) {
+          this._snackBar.open("Práctica actualizada", "Cerrar", {
+            panelClass: ['green-snackbar'],
+            duration: 2000
+          });
+        } else {
+          this._snackBar.open("Se ha producido un error", "Cerrar", {
+            panelClass: ['red-snackbar']
+          });
+        }
+        window.location.reload()
+      }
+    });
+    
   }
 
 }

@@ -25,9 +25,15 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">{{ practica.estudiante.usuario.nombre }} <br> {{
-                        practica.config_practica.nombre }}</h1>
-
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <h1 class="h3 mb-2 text-gray-800">{{ practica.estudiante.usuario.nombre }} <br> {{
+                                practica.config_practica.nombre }}</h1>
+                        </div>
+                        <div class="col-lg-1">
+                            <button type="button" class="btn btn-primary btn-lg btn-block" onclick="window.history.back();">Volver</button>
+                        </div>    
+                    </div>
                     <!-- Fila de "Tarjetas" -->
                     <div class="row">
                         <!-- Tarjeta de Estado -->
@@ -148,6 +154,41 @@
                                 </div>
                             </div>
                         </div><!-- Fin Tarjeta Información general -->
+
+                        <!-- Tarjeta con 4 botones: aprobar, reprobar, generar pdf y resumir informe alumno-->
+                        <div class="col-lg-6">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Accordion -->
+                                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                    <h6 class="m-0 font-weight-bold text-primary">Acciones</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardExample">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-lg-1"></div>
+                                            <div class="col-lg-5">
+                                                <button type="button" class="btn btn-success btn-lg btn-block" (click)="aprobar(practica.estudiante.id, practica.config_practica.id, 1)">Aprobar</button>
+                                            </div>
+                                            <div class="col-lg-5">
+                                                <button type="button" class="btn btn-danger btn-lg btn-block" (click)="aprobar(practica.estudiante.id, practica.config_practica.id, 0)">Reprobar</button>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-lg-1"></div>
+                                            <div class="col-lg-5">
+                                                <button type="button" class="btn btn-primary btn-lg btn-block" >Generar PDF de Práctica</button>
+                                            </div>
+                                            <div class="col-lg-5">
+                                                <button type="button" class="btn btn-primary btn-lg btn-block">Resumir Informe Estudiante</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div><!-- Fin Fila -->
 
                     <div class="row">                                   
@@ -186,7 +227,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div><!-- Fin Tarjeta Informes -->
 
                         <!-- Tarjeta Archivos -->
                         <div class="col-lg-6">
@@ -300,9 +341,29 @@
                                     </div>
                                 </div>
                             </div>
-                        </div><!-- Fin Tarjeta Evaluación -->
+                        </div><!-- Fin Tarjeta Otras respuestas supervisor -->
                     </div><!-- Fin Fila -->
+                    
+                    <div class="row">
 
+                        <div class="col-lg-12">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Accordion -->
+                                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                    <h6 class="m-0 font-weight-bold text-primary">Consistencia de Informes</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardExample">
+                                    <div class="card-body">
+                                        <div class="overflow-auto">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- Fin Tarjeta Evaluación -->
+
+                    </div><!-- Fin Fila -->
                 </div>
             </div>
             <!-- End of Main Content -->
