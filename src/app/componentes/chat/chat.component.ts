@@ -41,20 +41,21 @@ export class ChatComponent implements OnInit{
       },
       error: (error: any) => console.log("Error en enviar mensaje:",error),  
       complete: () => {
-        console.log("Enviar Mensaje");
-      }
-    });;
+        console.log("Mensaje Enviado");
+        console.log(this.respuesta);
+        this.Nmensaje="";
 
-    this.Historial.push(mensaje);
-    this.Nmensaje="";
+      }
+    });
   }
 
   ngOnInit(): void {
     let respuesta: any = {};
 
-    this.service.getchat().subscribe({
+    this.service.getchat(this.Id,this.Id2).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
+        console.log("Request Aceptada, chat recibido");
       },
       error: (error: any) => console.log(error),
       complete: () => {

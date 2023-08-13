@@ -11,42 +11,36 @@ export class NotisChatService {
 
   constructor(private _http: HttpClient) { }
 
-  postchat(Id1:number, Id2:number, mensaje:any){
-    const req = new HttpRequest('POST', `${environment.url_back}/estudiante?id=${id}`,{Id1:Id1, Id2:Id2, mensaje:mensaje}, {responseType: 'text'});
+  postchat(id_estudiante:number, id_encargado:number){
+    const req = new HttpRequest('POST', `${environment.url_back}/chat/crear`,{id_estudiante:id_estudiante, id_encargado:id_encargado}, {responseType: 'text'});
     return this._http.request(req);
   }
 
-  getchat(){
-    const req = new HttpRequest('GET', `${environment.url_back}/estudiante?id=${id}`);
+  getchat(id_estudiante:number, id_encargado:number){
+    const req = new HttpRequest('GET', `${environment.url_back}/chat/get`, {id_estudiante:id_estudiante, id_encargado:id_encargado}, {responseType: "text"});
     return this._http.request(req);
   }
 
 
-  postmensaje(Id1:number, Id2:number, mensaje:any){
-    const req = new HttpRequest('POST', `${environment.url_back}/estudiante?id=${id}`, {Id1:Id1, Id2:Id2, mensaje:mensaje}, {responseType: 'text'});
+  postmensaje(id_estudiante:number, id_encargado:number, mensaje:any){
+    const req = new HttpRequest('POST', `${environment.url_back}/mensaje/crear`, {id_estudiante:id_estudiante, id_encargado:id_encargado, mensaje:mensaje}, {responseType: 'text'});
     return this._http.request(req);
   }
-
-  getmensaje(){
-    const req = new HttpRequest('GET', `${environment.url_back}/estudiante?id=${id}`);
-    return this._http.request(req);
-  }
-
   
-  postnoti(Id:number, mensaje:any){
-    const req = new HttpRequest('GET', `${environment.url_back}/estudiante?id=${id}`, {Id:Id, mensaje:mensaje}, {responseType: 'text'});
+  
+  postnotificacion(id_usuario:number, mensaje:any){
+    const req = new HttpRequest('POST', `${environment.url_back}/notificacion/crear`, {id_usuario:id_usuario, mensaje:mensaje}, {responseType: 'text'});
     return this._http.request(req);
   }
 
-  getnoti(){
-    const req = new HttpRequest('GET', `${environment.url_back}/estudiante?id=${id}`);
+  getallnotificacion(id_usuario:number){
+    const req = new HttpRequest('GET', `${environment.url_back}/notificacion/todos/?id_usuario=${id_usuario}`);
     return this._http.request(req);
   }
 
-  deletenoti(){
-    const req = new HttpRequest('DELETE', `${environment.url_back}/estudiante?id=${id}`);
+  deleteallnotificacion(id_usuario:number){
+    const req = new HttpRequest('DELETE', `${environment.url_back}/notificacion/eliminar/?id_usuario=${id_usuario}`);
     return this._http.request(req);
   }
-
 
 }
