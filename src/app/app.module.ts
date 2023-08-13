@@ -34,7 +34,6 @@ import { InformacionesComponent } from './vistas/informaciones/informaciones.com
 import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.component';
 
 import { TestBarraComponent } from './componentes/test-barra/test-barra.component';
-import { RegisterComponent } from './componentes/register/register.component';
 import { LogoutComponent } from './componentes/logout/logout.component';
 import { FooterComponent } from './componentes/footer/footer.component';
 import { BarraSuperiorComponent } from './componentes/barra-superior/barra-superior.component';
@@ -61,7 +60,6 @@ import { BotonSolicitarArchivoComponent } from './componentes/boton-solicitar-ar
     routingComponents,
     EvaluacionComponent,
     DatosPracticaComponent,
-    RegisterComponent,
     LogoutComponent,
     DetallePracticaComponent,
     FooterComponent,
