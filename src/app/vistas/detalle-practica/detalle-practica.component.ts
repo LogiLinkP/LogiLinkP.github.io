@@ -120,4 +120,10 @@ export class DetallePracticaComponent implements OnInit{
     
   }
 
+  descargar_documento(documento_key: string) {
+    // definir si los archivos existen en el front o el back, y en el segundo caso, ver cómo se hace una transferencia de archivos entre front y back
+
+  }
+
+
 }

@@ -2,6 +2,12 @@
     max-height: 150px;
     font-size: small
 }
+
+.overflow-auto_consistencia{
+    max-height: 300px;
+    font-size: small
+}
+
  .m-0{
     font-size: medium;
  }
