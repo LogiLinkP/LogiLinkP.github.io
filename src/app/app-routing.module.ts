@@ -27,18 +27,26 @@ import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.com
 import { environment } from 'src/environments/environment';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: LoginComponent },
   { path: environment.ruta_practicas, component: TablaComponent },
   { path: environment.ruta_practicas+'/:id', component: DetallePracticaComponent},
   { path: environment.ruta_practicas+'/:id/revision/:n', component: RevisionComponent },
-  { path: environment.ruta_alumno+'/:id', component: DetalleAlumnoComponent },
-  { path: environment.ruta_alumno+'/:id/cuestionario', component: CuestionarioComponent},
-  { path: environment.ruta_alumno+'/:id/empresas', component: EmpresasComponent},
-  { path: environment.ruta_alumno+'/:id/finalizacion/:n', component: FinalizacionComponent },
-  { path: environment.ruta_alumno+'/:id/iniciarpractica/:n', component: IniciarPracticaComponent },
+  { path: environment.ruta_alumno, 
+    children: [
+      { path: ':id', component: DetalleAlumnoComponent,
+        children: [
+          { path: 'cuestionario/:n', component: CuestionarioComponent },
+          { path: 'empresas', component: EmpresasComponent},
+          { path: 'finalizacion/:n', component: FinalizacionComponent },
+          { path: 'iniciarpractica/:n', component: IniciarPracticaComponent }
+        ]
+      }
+    ]
+  },
   { path: environment.ruta_supervisor+'/evaluacion', component: EvaluacionComponent },
-  { path: environment.ruta_registro, component: RegistroComponent },
-  { path: environment.ruta_login, component: LoginComponent},
+  { path: environment.ruta_registro, component: RegistroComponent, data: { title: 'Registro' } },
+  { path: environment.ruta_login, component: LoginComponent, data: { title: 'Login' }},
+  { path: 'home', component: HomeComponent, data: { title: 'Home' }},
   { path: 'logout', component: LogoutComponent},
   { path: 'tests', component: TestsComponent},
   { path: 'blank', component: BlankComponent },
@@ -54,7 +62,8 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-export const routingComponents = [HomeComponent,
+export const routingComponents = [
+  HomeComponent,
   PnfComponent,
   DetalleAlumnoComponent,
   DetallePracticaComponent,
