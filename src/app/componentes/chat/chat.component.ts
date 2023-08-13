@@ -14,11 +14,7 @@ export class ChatComponent implements OnInit{
   Id: number = -1;
   Id2: number = -1;
   Nmensaje:String="";
-  Historial:any=[
-    {emisor: "YO",
-    texto: "hola",
-    fecha: "HOY"}
-  ];
+  Historial:any=[];
   alumno:any = [];
   respuesta:any = [];
 
@@ -59,6 +55,7 @@ export class ChatComponent implements OnInit{
       },
       error: (error: any) => console.log(error),
       complete: () => {
+        this.Historial = respuesta;
       }
     });
   }  

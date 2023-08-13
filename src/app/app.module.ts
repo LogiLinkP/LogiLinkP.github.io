@@ -4,7 +4,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -50,7 +50,6 @@ import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.compon
 import { BotonSolicitarArchivoComponent } from './boton-solicitar-archivo/boton-solicitar-archivo.component';
 import { InformacionesComponent } from './vistas/informaciones/informaciones.component';
 
-import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 
 
@@ -108,7 +107,6 @@ import { DatePipe } from '@angular/common';
     ArchivosService,
     SupervisorService,
     DatePipe],
-  providers: [GetDetallesAlumnoService, SetDetallesAlumnoService, ArchivosService, SupervisorService, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

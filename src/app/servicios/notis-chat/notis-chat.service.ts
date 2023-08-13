@@ -2,14 +2,19 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { environment } from '../../../environments/environment';
+import { Socket } from 'ngx-socket-io';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class NotisChatService {
+export class NotisChatService extends Socket {
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient, private socket: Socket) {
+    super({
+      url:'http://localhost:4200'
+    });
+  }
 
   postchat(id_estudiante:number, id_encargado:number){
     const req = new HttpRequest('POST', `${environment.url_back}/chat/crear`,{id_estudiante:id_estudiante, id_encargado:id_encargado}, {responseType: 'text'});
