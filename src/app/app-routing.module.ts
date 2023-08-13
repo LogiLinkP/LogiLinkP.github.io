@@ -39,6 +39,7 @@ const routes: Routes = [
   { path: environment.ruta_supervisor+'/evaluacion', component: EvaluacionComponent },
   { path: environment.ruta_registro, component: RegistroComponent },
   { path: environment.ruta_login, component: LoginComponent},
+  { path: 'home', component: HomeComponent},
   { path: 'logout', component: LogoutComponent},
   { path: 'tests', component: TestsComponent},
   { path: 'blank', component: BlankComponent },
