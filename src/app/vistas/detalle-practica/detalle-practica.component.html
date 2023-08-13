@@ -256,13 +256,14 @@
                                                             <td>{{doc.solicitud_documento.nombre_solicitud}}</td>
                                                             <td>{{doc.solicitud_documento.tipo_archivo}}</td>
                                                             <td>Normal</td>
-                                                            <td><button>Descargar</button></td>
+                                                            <!--add button that calls the function descargar documento with the parameter doc.key-->
+                                                            <td><button (click)="descargar_documento(doc.id, doc_str)">Descargar</button></td>
                                                         </tr>
                                                         <tr *ngFor="let doc_extra of documento_extras;">
                                                             <td>{{doc_extra.nombre_solicitud}}</td>
                                                             <td>{{doc_extra.tipo_archivo}}</td>
                                                             <td>Extra</td>
-                                                            <td><button>Descargar</button></td>
+                                                            <td><button (click)="descargar_documento(doc_extra.id, doc_extra_str)">Descargar</button></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>

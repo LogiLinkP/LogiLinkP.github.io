@@ -25,6 +25,8 @@ export class DetallePracticaComponent implements OnInit{
   informes: any = [];
   evaluaciones: any = [];
   respuestas_supervisor: any = [];
+  doc_str = "documento";
+  doc_extra_str = "documento_extra";
 
   constructor(private service: DetallePracticaService, private service2: SetDetallesAlumnoService, private _snackBar: MatSnackBar, private route: ActivatedRoute) {
     this.dtOptions = {
@@ -120,9 +122,14 @@ export class DetallePracticaComponent implements OnInit{
     
   }
 
-  descargar_documento(documento_key: string) {
-    // definir si los archivos existen en el front o el back, y en el segundo caso, ver cómo se hace una transferencia de archivos entre front y back
-
+  descargar_documento(documento_id: string, solicitud_tipo: string) {
+    // abrir nueva pestaña con url de descarga, que es url_backend (sacada desde el env) + /documentos/ + documento_key
+    if(solicitud_tipo == "documento"){
+      window.open("http://localhost:3000/documento/download?id=" + documento_id, "_blank");
+    } 
+    else{
+      window.open("http://localhost:3000/documento_extra/download?id=" + documento_id, "_blank");
+    }
   }
 
 
