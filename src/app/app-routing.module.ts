@@ -27,7 +27,7 @@ import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.com
 import { environment } from 'src/environments/environment';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: LoginComponent },
   { path: environment.ruta_practicas, component: TablaComponent },
   { path: environment.ruta_practicas+'/:id', component: DetallePracticaComponent},
   { path: environment.ruta_practicas+'/:id/revision/:n', component: RevisionComponent },
@@ -54,7 +54,8 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-export const routingComponents = [HomeComponent,
+export const routingComponents = [
+  HomeComponent,
   PnfComponent,
   DetalleAlumnoComponent,
   DetallePracticaComponent,
