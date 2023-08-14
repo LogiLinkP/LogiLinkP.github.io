@@ -16,29 +16,29 @@ import { FinalizacionComponent } from './componentes/finalizacion/finalizacion.c
 import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_supervisor.component';
 import { IniciarPracticaComponent } from './componentes/iniciar-practica/iniciar-practica.component';
 import { FileComponent } from './componentes/file/file.component';
-import { RegisterComponent } from './componentes/register/register.component';
 import { LogoutComponent } from './componentes/logout/logout.component';
+import { ChatComponent } from './componentes/chat/chat.component';
 
 import { TestsComponent } from './vistas/tests/tests.component';
 import { EmpresasComponent } from './vistas/empresas/empresas.component';
 import { CuestionarioComponent } from './vistas/cuestionario/cuestionario.component';
-import { EncargadoComponent } from './vistas/encargado/encargado.component';
-import { ChatComponent } from './componentes/chat/chat.component';
 import { NotificacionesComponent } from './componentes/notificaciones/notificaciones.component';
+import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
+
+import { environment } from 'src/environments/environment';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'encargado', component: EncargadoComponent },
-  { path: 'encargado/:id', component: DetallePracticaComponent},
-  { path: 'encargado/:id/revision/:n', component: RevisionComponent },
-  { path: 'alumno/:id', component: DetalleAlumnoComponent },
-  { path: 'alumno/:id/cuestionario', component: CuestionarioComponent},
-  { path: 'alumno/:id/empresas', component: EmpresasComponent},
-  { path: 'alumno/:id/finalizacion/:n', component: FinalizacionComponent },
-  { path: 'alumno/:id/iniciarpractica/:n', component: IniciarPracticaComponent },
+  { path: environment.ruta_practicas, component: TablaComponent },
+  { path: environment.ruta_practicas+'/:id', component: DetallePracticaComponent},
+  { path: environment.ruta_practicas+'/:id/revision/:n', component: RevisionComponent },
+  { path: environment.ruta_alumno+'/:id', component: DetalleAlumnoComponent },
+  { path: environment.ruta_alumno+'/:id/cuestionario', component: CuestionarioComponent},
+  { path: environment.ruta_alumno+'/:id/empresas', component: EmpresasComponent},
+  { path: environment.ruta_alumno+'/:id/finalizacion/:n', component: FinalizacionComponent },
+  { path: environment.ruta_alumno+'/:id/iniciarpractica/:n', component: IniciarPracticaComponent },
   { path: 'supervisor/evaluacion', component: EvaluacionComponent },
   { path: 'login', component: LoginComponent},
-  { path: 'register', component: RegisterComponent},
   { path: 'logout', component: LogoutComponent},
   { path: 'tests', component: TestsComponent},
   { path: 'registro', component: RegistroComponent },
@@ -46,9 +46,9 @@ const routes: Routes = [
   { path: 'resetPass', component: ForgotPasswordComponent },
   { path: 'estadisticas', component: EstadisticasComponent },
   { path: 'informaciones', component: InformacionesComponent },
-  { path: ':tipo/:id/chat/:id2', component: ChatComponent},
   { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
-  { path: '**', component: PnfComponent }
+  { path: '**', component: PnfComponent },
+  { path: ':tipo/:id/chat/:id2', component: ChatComponent}
 ];
 
 @NgModule({
@@ -66,7 +66,6 @@ export const routingComponents = [HomeComponent,
   IniciarPracticaComponent,
   FileComponent,
   LoginComponent,
-  RegisterComponent,
   LogoutComponent,
   RegistroComponent,
   BlankComponent,
@@ -76,6 +75,6 @@ export const routingComponents = [HomeComponent,
   TestsComponent,
   EmpresasComponent,
   CuestionarioComponent,
-  EncargadoComponent,
   NotificacionesComponent,
+  ChatComponent
 ]
