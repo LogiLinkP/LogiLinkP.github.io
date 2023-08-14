@@ -10,7 +10,7 @@ import { Subject } from 'rxjs';
   templateUrl: './resumen_practicas.component.html',
   styleUrls: ['./resumen_practicas.component.scss']
 })
-export class TablaComponent implements OnInit {
+export class TablaComponent{
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
@@ -69,8 +69,5 @@ export class TablaComponent implements OnInit {
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
-  }
-
-  ngOnInit() {
   }
 }
