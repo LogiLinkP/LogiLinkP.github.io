@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../../servicios/usuario/usuario.service';
+import { Form, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.scss']
 })
-export class RegistroComponent implements OnInit{
+export class RegistroComponent implements OnInit {
+  registroForm: FormGroup;
   nombre: string;
   email: string;
   password: string;
@@ -16,7 +18,22 @@ export class RegistroComponent implements OnInit{
   RUT: string;
   extras = {};
 
-  constructor(public usuario: UsuarioService) {}
+  constructor(public usuario: UsuarioService, private fb: FormBuilder) {
+    this.createForm();
+  }
+
+  createForm() {
+    this.registroForm = this.fb.group({
+      nombre: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(3)]],
+      confirmPassword: ['', Validators.required],
+      es_supervisor: [false],
+      es_estudiante: [false],
+      RUT: ['']
+      //crear validador custom para RUT real
+    });
+  }
 
   ngOnInit(): void {
   }
