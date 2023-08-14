@@ -15,6 +15,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {TextFieldModule} from '@angular/cdk/text-field';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -50,11 +51,8 @@ import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DataTablesModule } from "angular-datatables";
 import { CookieService } from 'ngx-cookie-service';
-import { BotonSolicitarArchivoComponent } from './componentes/componentes/boton-solicitar-archivo/boton-solicitar-archivo.component';
+import { BotonSolicitarArchivoComponent } from './componentes/boton-solicitar-archivo/boton-solicitar-archivo.component';
 
-
-import { MatDialogModule } from '@angular/material/dialog';
-import { FormsModule } from '@angular/forms';
 import { SubirArchivoExtraComponent } from './componentes/subir-archivo-extra/subir-archivo-extra.component';
 
 @NgModule({
@@ -80,7 +78,7 @@ import { SubirArchivoExtraComponent } from './componentes/subir-archivo-extra/su
     TestBarraComponent,
     BotonSolicitarArchivoComponent,
     UpInformeComponent,
-    TablaComponent
+    TablaComponent,
     //ChatComponent,,
     SubirArchivoExtraComponent
   ],
