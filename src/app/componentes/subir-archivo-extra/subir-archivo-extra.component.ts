@@ -9,7 +9,7 @@ import { NgFor } from '@angular/common';
 import { CommonModule } from '@angular/common'
 import { DocumentosService } from '../../servicios/encargado/documentos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import * as fileType from 'file-type';
+import { ArchivosService } from '../../servicios/archivos/archivos.service';
 
 export interface DialogData {
   nombre_solicitud: string;
@@ -23,7 +23,8 @@ export interface DialogData {
   styleUrls: ['./subir-archivo-extra.component.scss']
 })
 export class SubirArchivoExtraComponent {
-  constructor(public dialog: MatDialog, private doc_service: DocumentosService, private _snackBar: MatSnackBar) { }
+  constructor(public dialog: MatDialog, private doc_service: DocumentosService,
+    private _snackBar: MatSnackBar, private archivo_service: ArchivosService) { }
 
   subir_archivos(id_documento_extra: number, nombre_solicitud: string, descripcion: string, tipo_archivo: string[]) {
     const dialogRef = this.dialog.open(Dialog, {
@@ -39,9 +40,8 @@ export class SubirArchivoExtraComponent {
         return;
       }
       let [, file] = result;
-      let blob = file.slice(0, 8);
-      fileType.fileTypeFromBlob(blob).then((type: any) => {
-        console.log(type);
+      this.archivo_service.checkFileType(file, tipo_archivo).then((type_file: boolean) => {
+        console.log(type_file);
       });
     });
   }

@@ -29,8 +29,8 @@
     "bootstrap": "^5.2.3",
     "datatables.net": "^1.13.4",
     "datatables.net-dt": "^1.13.4",
-    "file-type": "^18.5.0",
     "jquery": "^3.7.0",
+    "magic-bytes.js": "^1.0.15",
     "rxjs": "~7.8.0",
     "sass": "^1.64.2",
     "zone.js": "~0.13.0"
