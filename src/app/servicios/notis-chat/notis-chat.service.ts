@@ -2,29 +2,24 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { environment } from '../../../environments/environment';
-import { Socket } from 'ngx-socket-io';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class NotisChatService extends Socket {
+export class NotisChatService{
 
-  constructor(private _http: HttpClient, private socket: Socket) {
-    super({
-      url:'http://localhost:4200'
-    });
-  }
+  constructor(private _http: HttpClient) {}
 
   postchat(id_estudiante:number, id_encargado:number){
     const req = new HttpRequest('POST', `${environment.url_back}/chat/crear`,{id_estudiante:id_estudiante, id_encargado:id_encargado}, {responseType: 'text'});
     return this._http.request(req);
   }
 
-  getchat(id_estudiante:number, id_encargado:number){
-    const req = new HttpRequest('GET', `${environment.url_back}/chat/get`, {id_estudiante:id_estudiante, id_encargado:id_encargado}, {responseType: "text"});
-    return this._http.request(req);
-  }
+  //getchat(id_estudiante:number, id_encargado:number){
+  // const req = new HttpRequest('GET', `${environment.url_back}/chat/get`, {id_estudiante:id_estudiante, id_encargado:id_encargado}, {responseType: "text"});
+  //  return this._http.request(req);
+  //}
 
 
   postmensaje(id_estudiante:number, id_encargado:number, mensaje:any){

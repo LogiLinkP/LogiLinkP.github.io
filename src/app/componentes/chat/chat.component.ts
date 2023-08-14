@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NotisChatService } from 'src/app/servicios/notis-chat/notis-chat.service';
 import { DatePipe } from '@angular/common';
+import { Socket } from 'ngx-socket-io';
+
 
 @Component({
   selector: 'app-chat',
@@ -9,7 +11,7 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./chat.component.css']
 })
 
-export class ChatComponent implements OnInit{
+export class ChatComponent extends Socket implements OnInit {
 
   Id: number = -1;
   Id2: number = -1;
@@ -17,11 +19,20 @@ export class ChatComponent implements OnInit{
   Historial:any=[];
   alumno:any = [];
   respuesta:any = [];
+  
+  outEven: EventEmitter<any> = new EventEmitter();
+  res:any = [];
 
-  constructor(private service: NotisChatService, private router: ActivatedRoute, private datetime: DatePipe) {
+
+  constructor(private service: NotisChatService, private router: ActivatedRoute, private datetime: DatePipe, private socket: Socket) {
+    super({
+      url:'http://localhost:4200',
+    });
+
     this.router.params.subscribe(params => {this.Id = +params['id'];});
     this.router.params.subscribe(params => {this.Id2 = +params['id2'];});
   }
+
 
   enviarmensaje(){
     let mensaje = {
@@ -46,17 +57,16 @@ export class ChatComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    let respuesta: any = {};
-
-    this.service.getchat(this.Id,this.Id2).subscribe({
-      next: (data: any) => {
-        respuesta = { ...respuesta, ...data }
-        console.log("Request Aceptada, chat recibido");
-      },
-      error: (error: any) => console.log(error),
-      complete: () => {
-        this.Historial = respuesta;
-      }
-    });
+    this.socket.on('event', this.res => this.outEven.emit(this.res));
+    //this.service.getchat(this.Id,this.Id2).subscribe({
+    //  next: (data: any) => {
+    //    this.respuesta = { ...this.respuesta, ...data }
+    //    console.log("Request Aceptada, chat recibido");
+    //  },
+    //  error: (error: any) => console.log(error),
+    //  complete: () => {
+    //    this.Historial = respuesta;
+    //  }
+    //});
   }  
 }
