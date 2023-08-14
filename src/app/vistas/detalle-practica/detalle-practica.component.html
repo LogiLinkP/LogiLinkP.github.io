@@ -209,16 +209,18 @@
                                                     cellspacing="0">
                                                     <thead>
                                                         <tr>
-                                                            <th>Clave</th>
-                                                            <th>Horas Trabajadas</th>
                                                             <th>Tipo</th>
+                                                            <th>Horas Trabajadas</th>
+                                                            <th>Fecha Subido</th>
+                                                            <th>Ver Informe</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr *ngFor="let informe of informes;">
-                                                            <td>{{ informe.key }}</td>
-                                                            <td>{{ informe.horas_trabajadas }}</td>
                                                             <td>{{ informe.config_informe.tipo_informe }}</td>
+                                                            <td>{{ informe.horas_trabajadas }}</td>
+                                                            <td>{{ informe.fecha | date: 'dd/MM/yyyy' }}</td>
+                                                            <td><button (click)="mostrar_informe(informe.id)">Ver Informe</button></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -358,9 +360,8 @@
                                 <div class="collapse show" id="collapseCardExample">
                                     <div class="card-body">
                                         <div class="overflow-auto_consistencia" >
-                                            <!-- tarjetas consistencia_informe y consistencia_nota-->
+                                            <!-- tarjetas internas consistencia_informe y consistencia_nota-->
                                             <div class="row" style="max-width: 100%;">
-                                                <!-- Hacer una columna vacía de ancho 1-->
                                                 <div class="col-xl-3"></div>
                                                 <div class="col-xl-2 col-md-6 mb-4">
                                                     <div class="card border-left-success shadow h-100 py-2">
@@ -396,42 +397,44 @@
                                                     </div>
                                                 </div><!-- Fin Tarjetas de consistencia -->
                                             </div><!-- Fin de la fila -->         
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- make two tables-->
-                                <div class="row">
-                                    <div class="col-xl-1"></div>
-                                    <div class="col-xl-5">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered hoverTable" id="dataTable" width="100%" cellspacing="0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Textos más relevantes del Alumno</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr *ngFor="let resp of respuestas_supervisor;">
-                                                        <td>{{resp.pregunta_supervisor.enunciado}}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-5">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered hoverTable" id="dataTable" width="100%" cellspacing="0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Textos más relevantes del Supervisor</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr *ngFor="let resp of respuestas_supervisor;">
-                                                        <td>{{resp.pregunta_supervisor.enunciado}}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                        
+                                            <!-- make two tables-->
+                                            <div class="row">
+                                                <div class="col-xl-1"></div>
+                                                <div class="col-xl-5">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered hoverTable" id="dataTable" width="100%" cellspacing="0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Textos más relevantes del Alumno</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr *ngFor="let resp of respuestas_supervisor;">
+                                                                    <td>{{resp.pregunta_supervisor.enunciado}}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-5">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered hoverTable" id="dataTable" width="100%" cellspacing="0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Textos más relevantes del Supervisor</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr *ngFor="let resp of respuestas_supervisor;">
+                                                                    <td>{{resp.pregunta_supervisor.enunciado}}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>

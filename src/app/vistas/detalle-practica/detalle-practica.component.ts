@@ -132,5 +132,21 @@ export class DetallePracticaComponent implements OnInit{
     }
   }
 
+  mostrar_informe(informe_id: string) {
+    // abrir una ventana modal que muestre el texto del informe
+    let informe = this.informes.find((informe: any) => informe.id == informe_id);
+    if(informe){
+      // abrir una ventana pequeña que muestre el texto del informe dentro de un textarea
+      let ventana = window.open("", "_blank", "width=800,height=400");
+      if (!ventana) {
+        alert("Por favor, deshabilite el bloqueador de ventanas emergentes para este sitio");
+      }
+      else{
+        ventana.document.write("<textarea style='width: 100%; height: 100%; resize: none; border: none;'>" + informe.key + "</textarea>");
+      }
+    }    
+  }
+
+
 
 }
