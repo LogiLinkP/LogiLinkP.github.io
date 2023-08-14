@@ -2,8 +2,6 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NotisChatService } from 'src/app/servicios/notis-chat/notis-chat.service';
 import { DatePipe } from '@angular/common';
-import { Socket } from 'ngx-socket-io';
-
 
 @Component({
   selector: 'app-chat',
@@ -11,7 +9,7 @@ import { Socket } from 'ngx-socket-io';
   styleUrls: ['./chat.component.css']
 })
 
-export class ChatComponent extends Socket implements OnInit {
+export class ChatComponent implements OnInit {
 
   Id: number = -1;
   Id2: number = -1;
@@ -19,21 +17,31 @@ export class ChatComponent extends Socket implements OnInit {
   Historial:any=[];
   alumno:any = [];
   respuesta:any = [];
-  
-  @Output() outEven: EventEmitter<any> = new EventEmitter();
-  res:any = [];
+  res:any=[];
 
-
-  constructor(private service: NotisChatService, private router: ActivatedRoute, private datetime: DatePipe, private socket: Socket) {
-    super({
-      url:'http://localhost:4200',
-    });
-
+  constructor(private service: NotisChatService, private router: ActivatedRoute, private datetime: DatePipe) {
     this.router.params.subscribe(params => {this.Id = +params['id'];});
     this.router.params.subscribe(params => {this.Id2 = +params['id2'];});
-    this.listen();   
+
+    this.service.outEven.subscribe(res => {
+      const { prevPost } = res;
+      this.enviarmensaje();
+    })
   }
 
+  ngOnInit(): void{    
+    
+    //this.service.getchat(this.Id,this.Id2).subscribe({
+    //  next: (data: any) => {
+    //    this.respuesta = { ...this.respuesta, ...data }
+    //    console.log("Request Aceptada, chat recibido");
+    //  },
+    //  error: (error: any) => console.log(error),
+    //  complete: () => {
+    //    this.Historial = respuesta;
+    //  }
+    //});
+  }  
 
   enviarmensaje(){
     let mensaje = {
@@ -46,6 +54,7 @@ export class ChatComponent extends Socket implements OnInit {
       next: (data: any) => {
         this.respuesta = { ...this.respuesta, ...data }
         console.log("Request aceptada");
+        this.service.emitEvent({this.respuesta});
       },
       error: (error: any) => console.log("Error en enviar mensaje:",error),  
       complete: () => {
@@ -54,23 +63,7 @@ export class ChatComponent extends Socket implements OnInit {
         this.Nmensaje="";
       }
     });
-  }
+  };
 
-  listen = () => {
-    this.ioSocket.on('evento', (res:any) => this.outEven.emit("hola mundo"));   
-  }
-
-  ngOnInit(): void {    
-    this.ioSocket.emit('evento', 'hola mundo');  
-    //this.service.getchat(this.Id,this.Id2).subscribe({
-    //  next: (data: any) => {
-    //    this.respuesta = { ...this.respuesta, ...data }
-    //    console.log("Request Aceptada, chat recibido");
-    //  },
-    //  error: (error: any) => console.log(error),
-    //  complete: () => {
-    //    this.Historial = respuesta;
-    //  }
-    //});
-  }  
+  
 }

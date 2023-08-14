@@ -1,5 +1,7 @@
 import { HttpClient, HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
+import { Socket } from 'ngx-socket-io';
 
 import { environment } from '../../../environments/environment';
 
@@ -7,9 +9,30 @@ import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class NotisChatService{
+export class NotisChatService extends Socket{
 
-  constructor(private _http: HttpClient) {}
+  @Output() outEven: EventEmitter<any> = new EventEmitter();
+
+  constructor(private _http: HttpClient, cookie: CookieService) {
+    
+    super({
+      url:'http://localhost:4200',
+      options: {
+        query: {
+          nameRoom: cookie.get('room')
+        },
+      }
+    });
+    this.listen();
+  }
+
+  listen = () => {
+    this.ioSocket.on('evento', (res:any) => this.outEven.emit(res));   
+  }
+
+  emitEvent = (payload = {}) => {
+    this.ioSocket.emit('evento', payload)
+  }
 
   postchat(id_estudiante:number, id_encargado:number){
     const req = new HttpRequest('POST', `${environment.url_back}/chat/crear`,{id_estudiante:id_estudiante, id_encargado:id_encargado}, {responseType: 'text'});
