@@ -3,6 +3,7 @@ import { UsuarioService } from '../../servicios/usuario/usuario.service';
 import { StorageUserService } from 'src/app/servicios/usuario/storage-user.service';
 import { Router } from "@angular/router";
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -12,7 +13,7 @@ export class LoginComponent {
   email: string;
   password: string;
 
-  constructor(public usuario: UsuarioService, private storage: StorageUserService){}
+  constructor(public usuario: UsuarioService, private storage: StorageUserService, private router: Router){}
 
   ngOnInit(): void {
   }
@@ -29,14 +30,15 @@ export class LoginComponent {
       },
       complete: () => {
         if(response.body != null){
-          this.reloadPage();
+          const {message,userdata,token} = response.body;
+          this.storage.saveUser(response.body)
+          this.router.navigate(["/practicas"])  
+
+        }else{
+          document.write("Usuario no encontrado")
         }
       }
         
   });
-  }
-
-  reloadPage(): void{
-    window.location.reload()
   }
 }
