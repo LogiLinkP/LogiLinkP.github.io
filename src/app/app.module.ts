@@ -50,9 +50,12 @@ import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DataTablesModule } from "angular-datatables";
 import { CookieService } from 'ngx-cookie-service';
-import { BotonSolicitarArchivoComponent } from './componentes/boton-solicitar-archivo/boton-solicitar-archivo.component';
+import { BotonSolicitarArchivoComponent } from './componentes/componentes/boton-solicitar-archivo/boton-solicitar-archivo.component';
 
 
+import { MatDialogModule } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+import { SubirArchivoExtraComponent } from './componentes/subir-archivo-extra/subir-archivo-extra.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +81,8 @@ import { BotonSolicitarArchivoComponent } from './componentes/boton-solicitar-ar
     BotonSolicitarArchivoComponent,
     UpInformeComponent,
     TablaComponent
-    //ChatComponent,
+    //ChatComponent,,
+    SubirArchivoExtraComponent
   ],
   imports: [
     BrowserModule,
