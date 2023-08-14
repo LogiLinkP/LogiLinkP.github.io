@@ -1,0 +1,26 @@
+<div class ="card text-center cardcontainer">
+
+    <div class="card-header">
+        Chat
+    </div>
+
+    <div class="card-body">
+        <div class = "contenedordemensajes h=100">
+            <p *ngFor = "let mensaje of Historial" [ngClass]="(mensaje.emisor==Id)? 'enviado' : 'recibido'">
+                {{mensaje.texto}}
+                <br>
+                Enviado: {{mensaje.fecha}}
+            </p>
+        </div>
+    </div>
+
+    <form class="card-footer text-muted input-group mb-3" (ngSubmit)="enviarmensaje()">
+        <input type="text" class="form-control" placeholder="Escriba su Mensaje..." [(ngModel)]="Nmensaje" [ngModelOptions]="{standalone:true}">
+        <div class="input-group-append" (click)="enviarmensaje()">
+          <span class="input-group-text" id="basic-addon2">Enviar</span>
+        </div>
+    </form>
+</div>
+<button routerLink="" class="btn btn-primary" mat-raised-button color="primary">
+    Volver
+</button>
