@@ -12,8 +12,8 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  email: string;
-  password: string;
+  email: string = "";
+  password: string = "";
 
   constructor(public usuario: UsuarioService, private storage: StorageUserService, private router: Router){}
 
@@ -28,12 +28,14 @@ export class LoginComponent {
         response = {...response,...data}
       },
       error: err => {
+        console.log(err)
         console.log("Error de inicio de sesion");
       },
       complete: () => {
         if(response.body != null){
           const {message,userdata,token} = response.body;
           this.storage.saveUser(response.body)
+
           this.router.navigate(["/"+environment.ruta_practicas])  
 
         }else{

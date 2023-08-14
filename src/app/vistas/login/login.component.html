@@ -50,9 +50,18 @@
                                                 <label class="custom-control-label" for="customCheck">Recordarme</label>
                                             </div>
                                         </div>
-                                        <a class="btn btn-primary btn-user btn-block" (click)="login()">
+                                        <button id="myBtn" class="btn-primary btn-user btn-block" (click)="login()">
                                             Iniciar sesión
-                                        </a>
+                                        </button>
+                                        <script>
+                                            var input = document.getElementById("exampleInputPassword");
+                                            input.addEventListener("keypress", function(event) {
+                                            if (event.key === "Enter") {
+                                                event.preventDefault();
+                                                document.getElementById("myBtn").click();
+                                            }
+                                            });
+                                        </script>
                                         <hr>
                                         <a href="index.html" class="btn btn-google btn-user btn-block">
                                             <i class="fab fa-google fa-fw"></i> Login with Google

@@ -16,11 +16,11 @@
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                            placeholder="First Name" [(ngModel)]="nombre" name="nombre" required="required">
+                                            placeholder="First Name" [(ngModel)]="inicial" name="inicial" required="required">
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                            placeholder="Last Name">
+                                            placeholder="Last Name" [(ngModel)]="apellido" name="apellido" required="required">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -38,12 +38,47 @@
                                             id="exampleRepeatPassword" placeholder="Repeat Password"
                                             [(ngModel)]="confirmPassword" name="password" required="required">
                                     </div>
-                                    <select name="" id=""></select>
                                 </div>
-                                <a routerLink="/login" class="btn btn-primary btn-user btn-block"
+                                <div class="form-group">
+                                    <div class="col-sm-6">
+                                        <select name="tipo" id="tipo" (change) = "checkout($event)" class="form-control form-control-user">
+                                            <option value="0">Seleccione una opcion</option>
+                                            <option value="1">Estudiante</option>
+                                            <option value="2">Supervisor</option>
+                                            <option value="3">Encargado</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div *ngIf="!es_estudiante&&!es_supervisor&&!es_encargado"> </div>
+                                    <div *ngIf="es_estudiante">
+                                        <input 
+                                          type="text"
+                                          [(ngModel)]="RUT"
+                                          name="RUT"
+                                          placeholder="RUT"
+                                          required="required"
+                                          class="form-control form-control-user"
+                                        />
+                                    </div>
+                                    <div *ngIf="es_supervisor">
+                                    </div>
+                                    <div *ngIf="es_encargado">
+                                    </div>
+                                </div>
+                                <button id="myBtn" routerLink="/login" class="btn-primary btn-user btn-block"
                                     (click)="register()">
                                     Register Account
-                                </a>
+                                </button>
+                                <script>
+                                    var input = document.getElementById("exampleRepeatPassword");
+                                    input.addEventListener("keypress", function(event) {
+                                    if (event.keyCode === 13) {
+                                        event.preventDefault();
+                                        document.getElementById("myBtn").click();
+                                    }
+                                    });
+                                </script>
                                 <hr>
                                 <a href="" class="btn btn-google btn-user btn-block">
                                     <i class="fab fa-google fa-fw"></i> Register with Google
