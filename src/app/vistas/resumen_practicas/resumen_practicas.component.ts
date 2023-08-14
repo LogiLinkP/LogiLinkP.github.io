@@ -3,6 +3,7 @@ import { DataTableDirective } from 'angular-datatables';
 import { GetDetallesAlumnoService } from '../../servicios/encargado/resumen_practicas.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -10,7 +11,9 @@ import { Subject } from 'rxjs';
   templateUrl: './resumen_practicas.component.html',
   styleUrls: ['./resumen_practicas.component.scss']
 })
-export class TablaComponent implements OnInit {
+export class TablaComponent{
+  rutas = environment;
+  
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
@@ -19,6 +22,7 @@ export class TablaComponent implements OnInit {
   alumnos: any = [];
 
   constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar) {
+    console.log(this.rutas.ruta_practicas);
     this.dtOptions = {
       language: {
         url: 'assets/localisation/es-es.json'
@@ -69,8 +73,5 @@ export class TablaComponent implements OnInit {
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
-  }
-
-  ngOnInit() {
   }
 }

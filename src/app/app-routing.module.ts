@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
 import { HomeComponent } from './vistas/home/home.component';
 import { DetalleAlumnoComponent } from './vistas/alumno/alumno.component';
 import { LoginComponent } from './vistas/login/login.component';
@@ -18,25 +16,44 @@ import { FinalizacionComponent } from './componentes/finalizacion/finalizacion.c
 import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_supervisor.component';
 import { IniciarPracticaComponent } from './componentes/iniciar-practica/iniciar-practica.component';
 import { FileComponent } from './componentes/file/file.component';
+import { LogoutComponent } from './componentes/logout/logout.component';
 
 import { TestsComponent } from './vistas/tests/tests.component';
+import { EmpresasComponent } from './vistas/empresas/empresas.component';
+import { CuestionarioComponent } from './vistas/cuestionario/cuestionario.component';
+import { NotificacionesComponent } from './componentes/notificaciones/notificaciones.component';
+import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
+
+import { environment } from 'src/environments/environment';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'encargado', component: TablaComponent },
-  { path: 'encargado/:id', component: DetallePracticaComponent},
-  { path: 'encargado/:id/revision/:n', component: RevisionComponent },
-  { path: 'alumno/:id', component: DetalleAlumnoComponent },
-  { path: 'alumno/:id/finalizacion/:n', component: FinalizacionComponent },
-  { path: 'alumno/:id/iniciarpractica/:n', component: IniciarPracticaComponent },
-  { path: 'supervisor/evaluacion', component: EvaluacionComponent },
+  { path: '', component: LoginComponent },
+  { path: environment.ruta_practicas, component: TablaComponent },
+  { path: environment.ruta_practicas+'/:id', component: DetallePracticaComponent},
+  { path: environment.ruta_practicas+'/:id/revision/:n', component: RevisionComponent },
+  { path: environment.ruta_alumno, 
+    children: [
+      { path: ':id', component: DetalleAlumnoComponent,
+        children: [
+          { path: 'cuestionario/:n', component: CuestionarioComponent },
+          { path: 'empresas', component: EmpresasComponent},
+          { path: 'finalizacion/:n', component: FinalizacionComponent },
+          { path: 'iniciarpractica/:n', component: IniciarPracticaComponent }
+        ]
+      }
+    ]
+  },
+  { path: environment.ruta_supervisor+'/evaluacion', component: EvaluacionComponent },
+  { path: environment.ruta_registro, component: RegistroComponent, data: { title: 'Registro' } },
+  { path: environment.ruta_login, component: LoginComponent, data: { title: 'Login' }},
+  { path: 'home', component: HomeComponent, data: { title: 'Home' }},
+  { path: 'logout', component: LogoutComponent},
   { path: 'tests', component: TestsComponent},
-  { path: 'login', component: LoginComponent },
-  { path: 'registro', component: RegistroComponent },
   { path: 'blank', component: BlankComponent },
   { path: 'resetPass', component: ForgotPasswordComponent },
   { path: 'estadisticas', component: EstadisticasComponent },
   { path: 'informaciones', component: InformacionesComponent },
+  { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
   { path: '**', component: PnfComponent }
 ];
 
@@ -45,8 +62,8 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-export const routingComponents = [HomeComponent,
-  TablaComponent,
+export const routingComponents = [
+  HomeComponent,
   PnfComponent,
   DetalleAlumnoComponent,
   DetallePracticaComponent,
@@ -56,10 +73,14 @@ export const routingComponents = [HomeComponent,
   IniciarPracticaComponent,
   FileComponent,
   LoginComponent,
+  LogoutComponent,
   RegistroComponent,
   BlankComponent,
   ForgotPasswordComponent,
   EstadisticasComponent,
   InformacionesComponent,
-  TestsComponent
+  TestsComponent,
+  EmpresasComponent,
+  CuestionarioComponent,
+  NotificacionesComponent,
 ]

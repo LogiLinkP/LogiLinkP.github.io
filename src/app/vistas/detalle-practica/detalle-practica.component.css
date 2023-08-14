@@ -1,7 +1,18 @@
 .overflow-auto{
     max-height: 150px;
-    font-size: small
+    font-size: medium;
 }
+
+.overflow-auto_consistencia{
+    max-height: 300px;
+    font-size: medium;
+}
+
  .m-0{
     font-size: medium;
+ }
+
+.hoverTable tbody tr :hover{
+    background: #f5f5f5;
+    cursor: pointer;
  }

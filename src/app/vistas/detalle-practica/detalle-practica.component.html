@@ -25,8 +25,15 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">{{ practica.estudiante.usuario.nombre }} <br> {{ practica.config_practica.nombre }}</h1>
-                    
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <h1 class="h3 mb-2 text-gray-800">{{ practica.estudiante.usuario.nombre }} <br> {{
+                                practica.config_practica.nombre }}</h1>
+                        </div>
+                        <div class="col-lg-1">
+                            <button type="button" class="btn btn-primary btn-lg btn-block" onclick="window.history.back();">Volver</button>
+                        </div>    
+                    </div>
                     <!-- Fila de "Tarjetas" -->
                     <div class="row">
                         <!-- Tarjeta de Estado -->
@@ -37,16 +44,17 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Estado</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"> {{ practica.estado }} </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"> {{ practica.estado }}
+                                            </div>
                                         </div>
                                         <div class="col-auto">
-                                            <!-- BUSCAR UN ICONO APROPIADO? <i class="fas fa-calendar fa-2x text-gray-300"></i> -->
+                                            <!-- BUSCAR ICONOS APROPIADOS? <i class="fas fa-calendar fa-2x text-gray-300"></i> -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Tarjeta de Empresa -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-success shadow h-100 py-2">
@@ -55,7 +63,8 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Empresa</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ practica.empresa.nombre_empresa }}</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{
+                                                practica.empresa.nombre_empresa }}</div>
                                         </div>
                                         <div class="col-auto">
                                             <!-- <i class="fas fa-dollar-sign fa-2x text-gray-300"></i> -->
@@ -64,7 +73,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Tarjeta de Supervisor -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-warning shadow h-100 py-2">
@@ -73,7 +82,8 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 Supervisor</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ practica.supervisor.nombre }}</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{
+                                                practica.supervisor.nombre }}</div>
                                         </div>
                                         <div class="col-auto">
                                             <!-- <i class="fas fa-comments fa-2x text-gray-300"></i> -->
@@ -89,37 +99,29 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Progreso
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                Modalidad</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{
+                                                practica.config_practica.modalidad}}</div>
                                         </div>
                                         <div class="col-auto">
-                                            <!-- <i class="fas fa-clipboard-list fa-2x text-gray-300"></i> -->
+                                            <!-- <i class="fas fa-comments fa-2x text-gray-300"></i> -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        
+
+                    </div>
+                    <div class="row">
+                        <app-boton-solicitar-archivo></app-boton-solicitar-archivo>
                     </div>
 
                     <!-- Fila de Información general y Archivos -->
                     <div class="row">
-
                         <!-- Tarjeta Información general -->
-                        <div class="col-lg-6">                            
+                        <div class="col-lg-6">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Accordion -->
                                 <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
@@ -147,92 +149,51 @@
                                                 <td>{{ practica.fecha_termino | date: 'dd/MM/yyyy' }}</td>
                                             </tr>
                                         </table>
-                                        
+
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div><!-- Fin Tarjeta Información general -->
 
-                        <!-- Tarjeta Archivos -->
-                        <div class="col-lg-6">                            
+                        <!-- Tarjeta con 4 botones: aprobar, reprobar, generar pdf y resumir informe alumno-->
+                        <div class="col-lg-6">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Accordion -->
                                 <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
                                     role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                                    <h6 class="m-0 font-weight-bold text-primary">Archivos Subidos</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Acciones</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
                                 <div class="collapse show" id="collapseCardExample">
                                     <div class="card-body">
-                                        <div class = "overflow-auto">
-                                            <div class="table-responsive ">
-                                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Archivo</th>
-                                                            <th>Fecha Subido</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Archivo 1</td>
-                                                            <td>01/01/2020</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Archivo 2</td>
-                                                            <td>01/01/2020</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Archivo 3</td>
-                                                            <td>01/01/2020</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Archivo 4</td>
-                                                            <td>01/01/2020</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Archivo 5</td>
-                                                            <td>01/01/2020</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Archivo 6</td>
-                                                            <td>01/01/2020</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                        <div class="row">
+                                            <div class="col-lg-1"></div>
+                                            <div class="col-lg-5">
+                                                <button type="button" class="btn btn-success btn-lg btn-block" (click)="aprobar(practica.estudiante.id, practica.config_practica.id, 1)">Aprobar</button>
+                                            </div>
+                                            <div class="col-lg-5">
+                                                <button type="button" class="btn btn-danger btn-lg btn-block" (click)="aprobar(practica.estudiante.id, practica.config_practica.id, 0)">Reprobar</button>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-lg-1"></div>
+                                            <div class="col-lg-5">
+                                                <button type="button" class="btn btn-primary btn-lg btn-block" >Generar PDF de Práctica</button>
+                                            </div>
+                                            <div class="col-lg-5">
+                                                <button type="button" class="btn btn-primary btn-lg btn-block">Resumir Informe Estudiante</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div><!-- Fin Fila -->
 
-                    <!-- Fila de Informes y evaluación -->
-                    <div class="row">
-        
-                        <!-- Tarjeta Información general -->
-                        <div class="col-lg-6">                            
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Accordion -->
-                                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
-                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                                    <h6 class="m-0 font-weight-bold text-primary">Evaluación del Supervisor</h6>
-                                </a>
-                                <!-- Card Content - Collapse -->
-                                <div class="collapse show" id="collapseCardExample">
-                                    <div class="card-body">
-                                        Nota de Evaluación: {{ practica.nota_evaluacion }}<br>
-                                        Criterio de Evaluación 1 :<br>
-                                        Criterio de Evaluación 2 :<br>
-                                        Informe Supervisor
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Tarjeta Archivos -->
-                        <div class="col-lg-6">                            
+                    <div class="row">                                   
+                        <!-- Tarjeta Informes -->
+                        <div class="col-lg-6">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Accordion -->
                                 <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
@@ -242,39 +203,24 @@
                                 <!-- Card Content - Collapse -->
                                 <div class="collapse show" id="collapseCardExample">
                                     <div class="card-body">
-                                        <div class = "overflow-auto">
+                                        <div class="overflow-auto">
                                             <div class="table-responsive ">
-                                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                <table class="table table-bordered hoverTable" id="dataTable" width="100%"
+                                                    cellspacing="0">
                                                     <thead>
                                                         <tr>
-                                                            <th>Informe</th>
+                                                            <th>Tipo</th>
+                                                            <th>Horas Trabajadas</th>
                                                             <th>Fecha Subido</th>
+                                                            <th>Ver Informe</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>Informe 1</td>
-                                                            <td>01/01/2020</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Informe 2</td>
-                                                            <td>01/01/2020</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Informe 3</td>
-                                                            <td>01/01/2020</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Informe 4</td>
-                                                            <td>01/01/2020</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Informe 5</td>
-                                                            <td>01/01/2020</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Informe 6</td>
-                                                            <td>01/01/2020</td>
+                                                        <tr *ngFor="let informe of informes;">
+                                                            <td>{{ informe.config_informe.tipo_informe }}</td>
+                                                            <td>{{ informe.horas_trabajadas }}</td>
+                                                            <td>{{ informe.fecha | date: 'dd/MM/yyyy' }}</td>
+                                                            <td><button (click)="mostrar_informe(informe.id)">Ver Informe</button></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -283,10 +229,222 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div> 
+                        </div><!-- Fin Tarjeta Informes -->
+
+                        <!-- Tarjeta Archivos -->
+                        <div class="col-lg-6">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Accordion -->
+                                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                    <h6 class="m-0 font-weight-bold text-primary">Archivos Subidos</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardExample">
+                                    <div class="card-body">
+                                        <div class="overflow-auto">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered hoverTable" id="dataTable" width="100%" cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Archivo</th>
+                                                            <th>Formato</th>
+                                                            <th>Tipo Solicitud</th>
+                                                            <th>Descargar</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let doc of documentos;">
+                                                            <td>{{doc.solicitud_documento.nombre_solicitud}}</td>
+                                                            <td>{{doc.solicitud_documento.tipo_archivo}}</td>
+                                                            <td>Normal</td>
+                                                            <!--add button that calls the function descargar documento with the parameter doc.key-->
+                                                            <td><button (click)="descargar_documento(doc.id, doc_str)">Descargar</button></td>
+                                                        </tr>
+                                                        <tr *ngFor="let doc_extra of documento_extras;">
+                                                            <td>{{doc_extra.nombre_solicitud}}</td>
+                                                            <td>{{doc_extra.tipo_archivo}}</td>
+                                                            <td>Extra</td>
+                                                            <td><button (click)="descargar_documento(doc_extra.id, doc_extra_str)">Descargar</button></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- Fin Tarjeta Archivos -->                        
+                    </div><!-- Fin Fila -->
+
+                    <div class="row">
+                        <!-- Tarjeta Evaluación -->
+                        <div class="col-lg-6">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Accordion -->
+                                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                    <h6 class="m-0 font-weight-bold text-primary">Evaluación del Supervisor</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardExample">
+                                    <div class="card-body">
+                                        <div class="overflow-auto">
+                                            <div class="table-responsive ">
+                                                <table class="table table-bordered hoverTable" id="dataTable" width="100%" cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Tipo</th>
+                                                            <th>Evaluacion</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let eval of evaluaciones;">
+                                                            <td>{{eval.pregunta_supervisor.enunciado}}</td>
+                                                            <td>{{eval.respuesta}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- Fin Tarjeta Evaluación -->
+
+                        <!-- Tarjeta de otras respuestas del supervisor -->
+                        <div class="col-lg-6">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Accordion -->
+                                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                    <h6 class="m-0 font-weight-bold text-primary">Reseñas del Supervisor</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardExample">
+                                    <div class="card-body">
+                                        <div class="overflow-auto">
+                                            <div class="table-responsive ">
+                                                <table class="table table-bordered hoverTable" id="dataTable" width="100%" cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Enunciado</th>
+                                                            <th>Respuesta</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let resp of respuestas_supervisor;">
+                                                            <td>{{resp.pregunta_supervisor.enunciado}}</td>
+                                                            <td>{{resp.respuesta}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- Fin Tarjeta Otras respuestas supervisor -->
+                    </div><!-- Fin Fila -->
+                    
+                    <div class="row">
+                        <!-- Tarjeta Consistencia -->
+                        <div class="col-lg-12">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Accordion -->
+                                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                    <h6 class="m-0 font-weight-bold text-primary">Consistencia de Informes</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardExample">
+                                    <div class="card-body">
+                                        <div class="overflow-auto_consistencia" >
+                                            <!-- tarjetas internas consistencia_informe y consistencia_nota-->
+                                            <div class="row" style="max-width: 100%;">
+                                                <div class="col-xl-3"></div>
+                                                <div class="col-xl-2 col-md-6 mb-4">
+                                                    <div class="card border-left-success shadow h-100 py-2">
+                                                        <div class="card-body">
+                                                            <div class="row no-gutters align-items-center">
+                                                                <div class="col mr-2">
+                                                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                                        Consistencia Informe</div>
+                                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"> {{ practica.consistencia_informe }}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-auto">
+                                                                    <!--  <i class="fas fa-calendar fa-2x text-gray-300"></i> -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-2"></div>
+                                                <div class="col-xl-2 col-md-6 mb-4">
+                                                    <div class="card border-left-success shadow h-100 py-2">
+                                                        <div class="card-body">
+                                                            <div class="row no-gutters align-items-center">
+                                                                <div class="col mr-2">
+                                                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Consistencia Nota</div>
+                                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"> {{ practica.consistencia_nota }}</div>
+                                                                </div>
+                                                                <div class="col-auto">
+                                                                    <!--  <i class="fas fa-calendar fa-2x text-gray-300"></i> -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- Fin Tarjetas de consistencia -->
+                                            </div><!-- Fin de la fila -->         
+                                        
+                                            <!-- make two tables-->
+                                            <div class="row">
+                                                <div class="col-xl-1"></div>
+                                                <div class="col-xl-5">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered hoverTable" id="dataTable" width="100%" cellspacing="0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Textos más relevantes del Alumno</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr *ngFor="let resp of respuestas_supervisor;">
+                                                                    <td>{{resp.pregunta_supervisor.enunciado}}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-5">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered hoverTable" id="dataTable" width="100%" cellspacing="0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Textos más relevantes del Supervisor</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr *ngFor="let resp of respuestas_supervisor;">
+                                                                    <td>{{resp.pregunta_supervisor.enunciado}}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                                
+
+                            </div><!-- Fin Tarjeta interna de consistencia-->
+                                
+                        </div><!-- Fin Tarjeta Consistencia -->
+                    </div><!-- Fin Fila -->
                 </div>
-                <!-- /.container-fluid -->
             </div>
             <!-- End of Main Content -->
 

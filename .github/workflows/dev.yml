@@ -25,7 +25,7 @@ jobs:
       - name: GitHub Pages
         uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
-          target_branch: master
+          target_branch: gh-pages
           build_dir: dist/praxus-app
           repo: LogiLinkP/test-preview
         env:
