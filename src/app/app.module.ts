@@ -78,7 +78,7 @@ import { BotonSolicitarArchivoComponent } from './componentes/boton-solicitar-ar
     BotonSolicitarArchivoComponent,
     UpInformeComponent,
     TablaComponent,
-    ChatComponent
+    ChatComponent,
   ],
   imports: [
     BrowserModule,
