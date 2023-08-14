@@ -3,6 +3,8 @@ import { UsuarioService } from '../../servicios/usuario/usuario.service';
 import { StorageUserService } from 'src/app/servicios/usuario/storage-user.service';
 import { Router } from "@angular/router";
 
+import { environment } from '../../../environments/environment';
+
 
 @Component({
   selector: 'app-login',
@@ -32,7 +34,7 @@ export class LoginComponent {
         if(response.body != null){
           const {message,userdata,token} = response.body;
           this.storage.saveUser(response.body)
-          this.router.navigate(["/practicas"])  
+          this.router.navigate(["/"+environment.ruta_practicas])  
 
         }else{
           document.write("Usuario no encontrado")
