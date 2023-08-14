@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../../servicios/usuario/usuario.service';
-import { Form, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-registro',
@@ -51,15 +51,15 @@ export class RegistroComponent implements OnInit {
     this.usuario.register(data.email,data.password,data.confirmPassword,data.nombre,false,data.es_supervisor,data.es_estudiante,false,data.extras).subscribe( {next: data => { user }, error: err => { console.log('Error de registro') } });
   }
 
-  checkout(arg: any){
-    if(arg.target.value == "1"){
+  checkout(arg: any) {
+    if (arg.target.value == "1") {
       this.es_estudiante = true;
       this.es_supervisor = false;
     }
-    else if(arg.target.value = "2"){
+    else if (arg.target.value = "2") {
       this.es_supervisor = true;
       this.es_estudiante = false;
-    }else{
+    } else {
       this.es_estudiante = false;
       this.es_supervisor = false;
     }
