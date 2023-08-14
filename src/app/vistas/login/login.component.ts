@@ -30,8 +30,8 @@ export class LoginComponent {
       complete: () => {
         if(response.body != null){
           const {message,userdata,token} = response.body;
-          this.storage.saveUser(userdata)
-          this.router.navigate(["/encargado"])
+          this.storage.saveUser(response.body)
+          this.router.navigate(["/encargado"])  
 
         }else{
           document.write("Usuario no encontrado")
