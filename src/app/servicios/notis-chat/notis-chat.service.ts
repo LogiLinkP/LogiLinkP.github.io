@@ -27,7 +27,7 @@ export class NotisChatService extends Socket{
   }
 
   listen = () => {
-    this.ioSocket.on('evento', (res:any) => this.outEven.emit(res));   
+    this.ioSocket.on('evento', (res:any) => {console.log("Evento recibido", res)});   
   }
 
   emitEvent = (payload = {}) => {

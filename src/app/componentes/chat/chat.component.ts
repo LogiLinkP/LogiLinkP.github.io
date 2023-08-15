@@ -64,7 +64,7 @@ export class ChatComponent implements OnInit {
         return;
       },
       complete: () => {
-        this.Historial = this.respuesta.body;
+        this.Historial = JSON.parse(this.respuesta.body);
         console.log("CHAT RECIBIDO: ",this.Historial);
         if(this.Historial=="null"){
           console.log("Chat no encontrado, creando");
@@ -100,8 +100,10 @@ export class ChatComponent implements OnInit {
         console.log("Mensaje Enviado");
         console.log(this.respuesta);
         this.service.emitEvent(mensaje);
+        this.Historial.push(mensaje);
         this.Nmensaje="";        
       }
     });
   };  
+  
 }
