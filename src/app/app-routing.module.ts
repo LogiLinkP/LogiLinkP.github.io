@@ -17,6 +17,7 @@ import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_s
 import { IniciarPracticaComponent } from './componentes/iniciar-practica/iniciar-practica.component';
 import { FileComponent } from './componentes/file/file.component';
 import { LogoutComponent } from './componentes/logout/logout.component';
+import { ChatComponent } from './componentes/chat/chat.component';
 
 import { TestsComponent } from './vistas/tests/tests.component';
 import { EmpresasComponent } from './vistas/empresas/empresas.component';
@@ -54,7 +55,8 @@ const routes: Routes = [
   { path: 'estadisticas', component: EstadisticasComponent },
   { path: 'informaciones', component: InformacionesComponent },
   { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
-  { path: '**', component: PnfComponent }
+  { path: 'chat/:room/:id1/:id2/:tipo', component: ChatComponent},
+  { path: '**', component: PnfComponent }  
 ];
 
 @NgModule({
@@ -83,4 +85,5 @@ export const routingComponents = [
   EmpresasComponent,
   CuestionarioComponent,
   NotificacionesComponent,
+  ChatComponent
 ]

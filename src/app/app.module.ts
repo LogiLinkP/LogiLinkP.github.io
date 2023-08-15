@@ -44,7 +44,7 @@ import { BarraLateralEncargadoComponent } from './componentes/barra-lateral-enca
 import { DatosPracticaComponent } from './componentes/datos-practica/datos-practica.component';
 import { UpInformeComponent } from './componentes/up-informe/up-informe.component';
 import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
-//import { ChatComponent } from './componentes/chat/chat.component';
+import { ChatComponent } from './componentes/chat/chat.component';
 
 
 import { AppRoutingModule, routingComponents } from './app-routing.module';
@@ -79,7 +79,7 @@ import { SubirArchivoExtraComponent } from './componentes/subir-archivo-extra/su
     BotonSolicitarArchivoComponent,
     UpInformeComponent,
     TablaComponent,
-    //ChatComponent,,
+    ChatComponent,
     SubirArchivoExtraComponent
   ],
   imports: [
