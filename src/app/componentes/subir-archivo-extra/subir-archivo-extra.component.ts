@@ -37,12 +37,10 @@ export class SubirArchivoExtraComponent {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       if (!result || !result[0]) {
-        console.log("No se ha seleccionado ningún archivo");
         return;
       }
       let [, file] = result;
       this.archivo_service.checkFileType(file, tipo_archivo).then((type_file: boolean) => {
-        console.log("filetype!!!!", type_file);
         if (!type_file) {
           this._snackBar.open("Archivo con formato incorrecto", "Cerrar", {
             panelClass: ['red-snackbar'],
@@ -53,7 +51,7 @@ export class SubirArchivoExtraComponent {
         let _data: any = {};
         this.archivo_service.subirDocExtra(file, id_documento_extra).subscribe({
           next: data => {
-            _data = { ..._data, data }
+            _data = { ..._data, ...data }
           },
           complete: () => {
             if (_data.status == 200) {
@@ -74,7 +72,17 @@ export class SubirArchivoExtraComponent {
             }
           },
           error: error => {
-            console.log(error);
+            if (error.status == 415) {
+              this._snackBar.open("Archivo con formato incorrecto", "Cerrar", {
+                panelClass: ['red-snackbar'],
+                duration: 3000
+              });
+            } else {
+              this._snackBar.open("Error al subir archivo", "Cerrar", {
+                panelClass: ['red-snackbar'],
+                duration: 3000
+              });
+            }
           }
         });
       });

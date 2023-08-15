@@ -55,7 +55,7 @@ export class ArchivosService {
 
     const req = new HttpRequest('PUT', `${environment.url_back}/${environment.ruta_documento_extra}/agregar_documento`, formData, {
       reportProgress: true,
-      responseType: 'json'
+      responseType: 'text'
     });
 
     return this._http.request(req);
