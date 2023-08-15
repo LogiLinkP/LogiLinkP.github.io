@@ -12,62 +12,86 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
-                            <form class="user">
+                            <form class="user" [formGroup]="registroForm">
                                 <div class="form-group row">
+
+                                    <!-- NOMBRE -->
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                            placeholder="First Name" [(ngModel)]="inicial" name="inicial" required="required">
+                                            placeholder="Nombre" formControlName="nombre" name="nombre">
+                                        <div *ngIf="registroForm.controls['nombre'].invalid && (registroForm.controls['nombre'].dirty || registroForm.controls['nombre'].touched)" 
+                                            class="alert alert-danger">
+                                            <div *ngIf="registroForm.controls['nombre'].errors?.['required']">
+                                              Name is required.
+                                            </div>
+                                            <div *ngIf="registroForm.controls['nombre'].errors?.['minlength']">
+                                                Minimo 3 caracteres.
+                                            </div>
+                                        </div>
                                     </div>
+                                    <!-- NOMBRE -->
+
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                            placeholder="Last Name" [(ngModel)]="apellido" name="apellido" required="required">
+                                            placeholder="Apellido">
                                     </div>
                                 </div>
+
+                                <!-- EMAIL -->
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Email Address" [(ngModel)]="email" name="email">
+                                        placeholder="Email Address" formControlName="email" name="email">
+                                    <div *ngIf="registroForm.controls['email'].invalid && (registroForm.controls['email'].dirty || registroForm.controls['email'].touched)" class="alert alert-danger">
+                                        <p *ngIf="registroForm.controls['email'].errors?.['required']">
+                                            email is required.
+                                        </p>
+                                    </div>
                                 </div>
+                                <!-- EMAIL -->
+
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="password" class="form-control form-control-user"
                                             id="exampleInputPassword" placeholder="Password" 
-                                            [(ngModel)]="password" name="password" required="required">
+                                            formControlName="password" name="password">
+                                        <div *ngIf="registroForm.controls['password'].invalid && (registroForm.controls['password'].dirty || registroForm.controls['password'].touched)" class="alert alert-danger">
+                                            <p *ngIf="registroForm.controls['password'].errors?.['required']">
+                                                password is required.
+                                            </p>
+                                        </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="password" class="form-control form-control-user"
                                             id="exampleRepeatPassword" placeholder="Repeat Password"
-                                            [(ngModel)]="confirmPassword" name="password" required="required">
+                                            formControlName="confirmPassword" name="password">
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="col-sm-6">
-                                        <select name="tipo" id="tipo" (change) = "checkout($event)" class="form-control form-control-user">
-                                            <option value="0">Seleccione una opcion</option>
-                                            <option value="1">Estudiante</option>
-                                            <option value="2">Supervisor</option>
-                                            <option value="3">Encargado</option>
-                                        </select>
-                                    </div>
+
+                                <hr>
+                                <select name="tipo" id="tipo" (change) = "checkout($event)">
+                                    <option value="0">Seleccione una opcion</option>
+                                    <option value="1">Estudiante</option>
+                                    <option value="2">Supervisor</option>
+                                    <option value="3">Encargado</option>
+                                </select>
+                            
+                                <div *ngIf="!es_estudiante&&!es_supervisor"> </div>
+                                <div *ngIf="es_estudiante">
+                                <input 
+                                    type="text"
+                                    name="RUT"
+                                    placeholder="RUT"
+                                    required="required"
+                                />
                                 </div>
-                                <div class="form-group">
-                                    <div *ngIf="!es_estudiante&&!es_supervisor&&!es_encargado"> </div>
-                                    <div *ngIf="es_estudiante">
-                                        <input 
-                                          type="text"
-                                          [(ngModel)]="RUT"
-                                          name="RUT"
-                                          placeholder="RUT"
-                                          required="required"
-                                          class="form-control form-control-user"
-                                        />
-                                    </div>
-                                    <div *ngIf="es_supervisor">
-                                    </div>
-                                    <div *ngIf="es_encargado">
-                                    </div>
+                                <div *ngIf="es_supervisor">
                                 </div>
-                                <button id="myBtn" routerLink="/login" class="btn-primary btn-user btn-block"
-                                    (click)="register()">
+                                <div *ngIf="es_encargado">
+                                </div>
+                                <hr>
+
+                                <button id="myBtn" type="submit" class="btn btn-primary btn-user btn-block"
+                                    (click)="register()" [disabled]="registroForm.pristine || registroForm.invalid">
                                     Register Account
                                 </button>
                                 <script>
@@ -80,12 +104,12 @@
                                     });
                                 </script>
                                 <hr>
-                                <a href="" class="btn btn-google btn-user btn-block">
+                                <!-- <a href="" class="btn btn-google btn-user btn-block">
                                     <i class="fab fa-google fa-fw"></i> Register with Google
                                 </a>
                                 <a href="" class="btn btn-facebook btn-user btn-block">
                                     <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
-                                </a>
+                                </a> -->
                             </form>
                             <hr>
                             <div class="text-center">
