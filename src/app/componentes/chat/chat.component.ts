@@ -1,7 +1,8 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NotisChatService } from 'src/app/servicios/notis-chat/notis-chat.service';
 import { DatePipe } from '@angular/common';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-chat',
@@ -13,27 +14,34 @@ export class ChatComponent implements OnInit {
 
   Id: number = -1;
   Id2: number = -1;
+
   id_estudiante: number = -1;
   id_encargado: number = -1;
+
   tipo: String = "";
+
   Nmensaje:String="";
   Historial:any=[];
-  alumno:any = [];
-  respuesta:any = [];
-  res:any=[];
 
-  constructor(private service: NotisChatService, private router: ActivatedRoute, private datetime: DatePipe) {
+  alumno:any = [];
+
+  respuesta:any = [];
+  room: string="";
+
+  constructor(private service: NotisChatService, private router: ActivatedRoute, private datetime: DatePipe, private cookie: CookieService) {
     this.router.params.subscribe(params => {this.Id = +params['id1'];});
     this.router.params.subscribe(params => {this.Id2 = +params['id2'];});
     this.router.params.subscribe(params => {this.tipo = params['tipo'];});   
 
     this.service.outEven.subscribe(res => {
-      const { prevPost } = res;
       this.enviarmensaje();
     })
   }
 
-  ngOnInit(): void{   
+  ngOnInit(): void{  
+    this.router.params.subscribe(params => {this.room = params['room'];}); 
+    this.cookie.set("room", this.room);
+
     if(this.tipo=="estudiante"){
       this.id_estudiante=this.Id;
       this.id_encargado=this.Id2;
@@ -86,7 +94,6 @@ export class ChatComponent implements OnInit {
       next: (data: any) => {
         this.respuesta = { ...this.respuesta, ...data }
         console.log("Request aceptada");
-        
       },
       error: (error: any) => console.log("Error en enviar mensaje:",error),  
       complete: () => {
@@ -96,7 +103,5 @@ export class ChatComponent implements OnInit {
         this.Nmensaje="";        
       }
     });
-  };
-
-  
+  };  
 }

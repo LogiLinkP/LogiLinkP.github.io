@@ -47,7 +47,7 @@ const routes: Routes = [
   { path: 'estadisticas', component: EstadisticasComponent },
   { path: 'informaciones', component: InformacionesComponent },
   { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
-  { path: 'chat/:id1/:id2/:tipo', component: ChatComponent},
+  { path: 'chat/:room/:id1/:id2/:tipo', component: ChatComponent},
   { path: '**', component: PnfComponent }  
 ];
 
