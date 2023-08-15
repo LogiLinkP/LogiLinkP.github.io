@@ -46,4 +46,18 @@ export class ArchivosService {
     let data = new Uint8Array(await blob.arrayBuffer());
     return this.hayInterseccion(filetypename(data), _types);
   }
+
+  subirDocExtra(file: File, id_documento_extra: number): Observable<any> {
+    const formData: FormData = new FormData();
+
+    formData.append('file', file);
+    formData.append('id_documento_extra', `${id_documento_extra}`);
+
+    const req = new HttpRequest('PUT', `${environment.url_back}/${environment.ruta_documento_extra}/agregar_documento`, formData, {
+      reportProgress: true,
+      responseType: 'text'
+    });
+
+    return this._http.request(req);
+  }
 }

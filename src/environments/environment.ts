@@ -5,5 +5,6 @@ export const environment = {
     ruta_alumno: 'alumno',
     ruta_login: 'login',
     ruta_supervisor: 'supervisor',
-    ruta_registro: 'registro'
+    ruta_registro: 'registro',
+    ruta_documento_extra: "documento_extra"
 };
