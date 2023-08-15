@@ -16,7 +16,7 @@ export class NotisChatService extends Socket{
   constructor(private _http: HttpClient, cookie: CookieService) {
     
     super({
-      url:'http://localhost:4200',
+      url: environment.url_back_chat,
       options: {
         query: {
           nameRoom: cookie.get('room')
@@ -31,22 +31,22 @@ export class NotisChatService extends Socket{
   }
 
   emitEvent = (payload = {}) => {
+    console.log('emitiendo Evento', payload);
     this.ioSocket.emit('evento', payload)
   }
 
-  postchat(id_estudiante:number, id_encargado:number){
-    const req = new HttpRequest('POST', `${environment.url_back}/chat/crear`,{id_estudiante:id_estudiante, id_encargado:id_encargado}, {responseType: 'text'});
+  postchat(id_estudiante:number, id_encargado:number){    
+    const req = new HttpRequest('POST', `${environment.url_back}/chat/crear`,{id_estudiante, id_encargado}, {responseType: 'text'});
     return this._http.request(req);
   }
 
-  //getchat(id_estudiante:number, id_encargado:number){
-  // const req = new HttpRequest('GET', `${environment.url_back}/chat/get`, {id_estudiante:id_estudiante, id_encargado:id_encargado}, {responseType: "text"});
-  //  return this._http.request(req);
-  //}
-
+  getchat(id_estudiante:number, id_encargado:number){
+    const req = new HttpRequest('GET', `${environment.url_back}/chat/get?id_estudiante=${id_estudiante}&id_encargado=${id_encargado}`, {responseType: "text"});
+    return this._http.request(req);
+  }
 
   postmensaje(id_estudiante:number, id_encargado:number, mensaje:any){
-    const req = new HttpRequest('POST', `${environment.url_back}/mensaje/crear`, {id_estudiante:id_estudiante, id_encargado:id_encargado, mensaje:mensaje}, {responseType: 'text'});
+    const req = new HttpRequest('POST', `${environment.url_back}/mensaje/crear`, {id_estudiante, id_encargado, mensaje:mensaje}, {responseType: 'text'});
     return this._http.request(req);
   }
   
