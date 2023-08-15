@@ -25,16 +25,8 @@ jobs:
       - name: GitHub Pages
         uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
-<<<<<<< HEAD
-          target_branch: master
-          build_dir: dist/praxus-app
-          repo: LogiLinkP/test-preview
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-=======
           target_branch: gh-pages
           build_dir: dist/praxus-app
           repo: LogiLinkP/test-preview
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
->>>>>>> 901317ba161014d6a8c54e8da55845049e1355ae

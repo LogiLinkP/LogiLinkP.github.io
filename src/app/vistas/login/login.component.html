@@ -32,17 +32,28 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
-                                    <form class="user">
+                                    <form class="user" [formGroup]="loginForm">
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Ingresar correo..." [(ngModel)]="email"
-                                                required="required" name="email">
+                                                placeholder="Ingresar correo..." formControlName="email" name="email">
+                                            <div *ngIf="loginForm.controls['email'].invalid && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)" 
+                                                class="alert alert-danger">
+                                                <p *ngIf="loginForm.controls['email'].errors?.['required']">
+                                                    email is required.
+                                                </p>
+                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="contraseña" [(ngModel)]="password"
-                                                name="password" required="required">
+                                                id="exampleInputPassword" placeholder="contraseña"
+                                                name="password" formControlName="password">
+                                            <div *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)" 
+                                                class="alert alert-danger">
+                                                <p *ngIf="loginForm.controls['password'].errors?.['required']">
+                                                    password is required.
+                                                </p>
+                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
@@ -50,23 +61,22 @@
                                                 <label class="custom-control-label" for="customCheck">Recordarme</label>
                                             </div>
                                         </div>
-                                        <a href="index.html" class="btn btn-primary btn-user btn-block" (click)="login()">
+                                        <a class="btn btn-primary btn-user btn-block" (click)="login()">
                                             Iniciar sesión
                                         </a>
-                                        <hr>
-                                        <a href="index.html" class="btn btn-google btn-user btn-block">
+                                        <!-- <a href="index.html" class="btn btn-google btn-user btn-block">
                                             <i class="fab fa-google fa-fw"></i> Login with Google
                                         </a>
                                         <a href="index.html" class="btn btn-facebook btn-user btn-block">
                                             <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                        </a>
+                                        </a> -->
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password.html">¿Has olvidado tu contraseña?</a>
+                                        <a class="small" routerLink="/resetPass">¿Has olvidado tu contraseña?</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="register.html">Crear cuenta</a>
+                                        <a class="small" routerLink="/registro">Crear cuenta</a>
                                     </div>
                                 </div>
                             </div>
@@ -80,15 +90,19 @@
 
     </div>
 
+    <div style="text-align: center;">
+        <button mat-raised-button [ngStyle]="{'background-color': 'grey', 'color': 'white'}" routerLink="/home" routerLinkActive="active">Test Views</button>
+    </div>
+
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- <script src="vendor/jquery-easing/jquery.easing.min.js"></script> -->
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <!-- <script src="js/sb-admin-2.min.js"></script> -->
 
 </body>
 

@@ -3,24 +3,37 @@ import { UsuarioService } from '../../servicios/usuario/usuario.service';
 import { StorageUserService } from 'src/app/servicios/usuario/storage-user.service';
 import { Router } from "@angular/router";
 
+import { environment } from '../../../environments/environment';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  loginForm: FormGroup;
   email: string;
   password: string;
+  dataUsuario: any;
 
-  constructor(public usuario: UsuarioService, private storage: StorageUserService){}
-
-  ngOnInit(): void {
+  constructor(public usuario: UsuarioService, private storage: StorageUserService, private router: Router, private fb: FormBuilder) {
+    this.createForm();
   }
 
-  login(){
+  createForm() {
+    this.loginForm = this.fb.group({
+      email: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+  }
+
+  login() {
     let response: any = {};
-    const user = { email: this.email, password: this.password };
-    this.usuario.login(this.email,this.password).subscribe( {
+    const data = this.loginForm.value;
+    console.log(data.email, data.password);
+    this.usuario.login(data.email, data.password).subscribe( {
       next: data => {
         response = {...response,...data}
       },
@@ -28,15 +41,19 @@ export class LoginComponent {
         console.log("Error de inicio de sesion");
       },
       complete: () => {
-        if(response.body != null){
-          this.reloadPage();
-        }
+          console.log(response.body.userdata)
+          this.dataUsuario = response.body.userdata
+          this.storage.saveUser(response.body) //¿response.body.userdata?
+          if (this.dataUsuario.es_encargado) {
+            this.router.navigate(["/"+environment.ruta_practicas])
+          } else if (this.dataUsuario.es_estudiante) {
+            this.router.navigate(["/"+environment.ruta_alumno+"/"+this.dataUsuario.id])
+          } else if (this.dataUsuario.es_supervisor) {
+            this.router.navigate(["/"+environment.ruta_supervisor])
+          } else {
+            console.log("Usuario no tiene tipo definido")
+          }
       }
-        
   });
-  }
-
-  reloadPage(): void{
-    window.location.reload()
   }
 }

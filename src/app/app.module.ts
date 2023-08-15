@@ -4,17 +4,18 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import {FormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import {MatButtonModule } from '@angular/material/button';
-import {MatInputModule} from '@angular/material/input';
-import {MatCardModule} from '@angular/material/card';
-import {MatListModule} from '@angular/material/list';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatSelectModule} from '@angular/material/select';
-import {TextFieldModule} from '@angular/cdk/text-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
+import {TextFieldModule } from '@angular/cdk/text-field';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -52,7 +53,7 @@ import { DataTablesModule } from "angular-datatables";
 import { CookieService } from 'ngx-cookie-service';
 import { BotonSolicitarArchivoComponent } from './componentes/boton-solicitar-archivo/boton-solicitar-archivo.component';
 
-
+import { SubirArchivoExtraComponent } from './componentes/subir-archivo-extra/subir-archivo-extra.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import { BotonSolicitarArchivoComponent } from './componentes/boton-solicitar-ar
     UpInformeComponent,
     TablaComponent,
     ChatComponent,
+    SubirArchivoExtraComponent
   ],
   imports: [
     BrowserModule,
@@ -100,6 +102,7 @@ import { BotonSolicitarArchivoComponent } from './componentes/boton-solicitar-ar
     MatTableModule,
     MatSortModule,
     FormsModule,
+    ReactiveFormsModule
     ],
   providers: [
     GetDetallesAlumnoService,
