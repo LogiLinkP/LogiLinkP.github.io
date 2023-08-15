@@ -11,6 +11,7 @@ import { DocumentosService } from '../../servicios/encargado/documentos.service'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ArchivosService } from '../../servicios/archivos/archivos.service';
 
+
 export interface DialogData {
   nombre_solicitud: string;
   descripcion: string;
@@ -41,7 +42,41 @@ export class SubirArchivoExtraComponent {
       }
       let [, file] = result;
       this.archivo_service.checkFileType(file, tipo_archivo).then((type_file: boolean) => {
-        console.log(type_file);
+        console.log("filetype!!!!", type_file);
+        if (!type_file) {
+          this._snackBar.open("Archivo con formato incorrecto", "Cerrar", {
+            panelClass: ['red-snackbar'],
+            duration: 3000
+          });
+          return;
+        }
+        let _data: any = {};
+        this.archivo_service.subirDocExtra(file, id_documento_extra).subscribe({
+          next: data => {
+            _data = { ..._data, data }
+          },
+          complete: () => {
+            if (_data.status == 200) {
+              this._snackBar.open("Archivo subido correctamente", "Cerrar", {
+                panelClass: ['green-snackbar'],
+                duration: 3000
+              });
+            } else if (_data.status == 415) {
+              this._snackBar.open("Archivo con formato incorrecto", "Cerrar", {
+                panelClass: ['red-snackbar'],
+                duration: 3000
+              });
+            } else {
+              this._snackBar.open("Error al subir archivo", "Cerrar", {
+                panelClass: ['red-snackbar'],
+                duration: 3000
+              });
+            }
+          },
+          error: error => {
+            console.log(error);
+          }
+        });
       });
     });
   }

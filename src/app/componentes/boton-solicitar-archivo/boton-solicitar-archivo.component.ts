@@ -41,33 +41,36 @@ export class BotonSolicitarArchivoComponent {
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
-      if (result && result[0]) {
-        let [, nombre, descripcion, formato] = result;
-        let datos = {
-          id_practica: 1,
-          nombre_solicitud: nombre,
-          descripcion: descripcion || "",
-          tipo_archivo: formato.join(","),
-          key: null
+      console.log(result)
+
+      if (!result || !result[0]) {
+        console.log("No se ha seleccionado ningún archivo");
+        return;
+      }
+      let [, nombre, descripcion, formato] = result;
+      let datos = {
+        id_practica: 1,
+        nombre_solicitud: nombre,
+        descripcion: descripcion || "",
+        tipo_archivo: formato.join(","),
+        key: null
+      }
+      this.doc_service.solicitar_documento_extra(datos).subscribe({
+        next: (data: any) => {
+        },
+        complete: () => {
+          this._snackBar.open("Documento Solicitado", "Cerrar", {
+            panelClass: ['green-snackbar'],
+            duration: 3000
+          });
+        },
+        error: (error: any) => {
+          this._snackBar.open("Error al solicitar documento", "Cerrar", {
+            panelClass: ['red-snackbar'],
+            duration: 3000
+          });
         }
-        this.doc_service.solicitar_documento_extra(datos).subscribe({
-          next: (data: any) => {
-          },
-          complete: () => {
-            this._snackBar.open("Documento Solicitado", "Cerrar", {
-              panelClass: ['green-snackbar'],
-              duration: 3000
-            });
-          },
-          error: (error: any) => {
-            this._snackBar.open("Error al solicitar documento", "Cerrar", {
-              panelClass: ['red-snackbar'],
-              duration: 3000
-            });
-          }
-        });
-      } else
-        console.log("No se ha seleccionado ningún archivo")
+      });
     });
   }
 }

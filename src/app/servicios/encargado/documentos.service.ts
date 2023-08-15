@@ -11,7 +11,7 @@ export class DocumentosService {
   constructor(private _http: HttpClient) { }
 
   solicitar_documento_extra(datos: any) {
-    const req = new HttpRequest('POST', `${environment.url_back}/${this.PATH_DOC_EXTRA}/crear`, datos);
+    const req = new HttpRequest('POST', `${environment.url_back}/${this.PATH_DOC_EXTRA}/crear`, datos, { responseType: "text" });
     return this._http.request(req);
   }
 }
