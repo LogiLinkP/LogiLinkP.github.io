@@ -12,8 +12,11 @@ export class ConfiguracionPracticaComponent implements OnInit {
   nombrePractica: string;
   horas: boolean;
   meses: boolean;
-  cant_horas: number[];
-  cant_meses: number[]; 
+  cant_horas: string;
+  cant_meses: string;
+  frecuencia_informe: any;
+  informe_final: any;
+
 
   constructor(@Inject(DOCUMENT) private document: Document) {}
   scrollToTop(): void {
@@ -34,5 +37,18 @@ export class ConfiguracionPracticaComponent implements OnInit {
     this.meses = data.meses;
     this.cant_horas = data.cant_horas;
     this.cant_meses = data.cant_meses;
+
+    
+
+    this.frecuencia_informe = data.frecuenciaInformes;
+    this.informe_final = data.informeFinal;
+
+    console.log(this.nombrePractica);
+    console.log(this.horas);
+    console.log(this.meses);
+    console.log(this.cant_horas);
+    console.log(this.cant_meses);
+    console.log(this.frecuencia_informe);
+    console.log(this.informe_final);
   }
 }

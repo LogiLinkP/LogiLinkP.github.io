@@ -10,6 +10,8 @@ import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.compon
 import { DetallePracticaComponent } from './vistas/detalle-practica/detalle-practica.component';
 import { InformacionesComponent } from './vistas/informaciones/informaciones.component';
 
+import { ConfiguracionPracticaComponent } from './vistas/configuracion-practica/configuracion-practica.component';
+
 import { PnfComponent } from './componentes/pnf/pnf.component';
 import { RevisionComponent } from './componentes/revision/revision.component';
 import { FinalizacionComponent } from './componentes/finalizacion/finalizacion.component';
@@ -54,7 +56,8 @@ const routes: Routes = [
   { path: 'estadisticas', component: EstadisticasComponent },
   { path: 'informaciones', component: InformacionesComponent },
   { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
-  { path: '**', component: PnfComponent }
+  { path: 'configuracion', component: ConfiguracionPracticaComponent},
+  { path: '**', component: PnfComponent },
 ];
 
 @NgModule({
@@ -83,4 +86,5 @@ export const routingComponents = [
   EmpresasComponent,
   CuestionarioComponent,
   NotificacionesComponent,
+  ConfiguracionPracticaComponent,
 ]
