@@ -12,7 +12,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
-import {TextFieldModule } from '@angular/cdk/text-field';
+import { TextFieldModule } from '@angular/cdk/text-field';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -102,8 +102,9 @@ import { SubirArchivoExtraComponent } from './componentes/subir-archivo-extra/su
     MatTableModule,
     MatSortModule,
     FormsModule,
-    ReactiveFormsModule
-    ],
+    ReactiveFormsModule,
+    MatDialogModule
+  ],
   providers: [
     GetDetallesAlumnoService,
     SetDetallesAlumnoService,
@@ -111,8 +112,8 @@ import { SubirArchivoExtraComponent } from './componentes/subir-archivo-extra/su
     SupervisorService,
     DatePipe,
     GetDetallesAlumnoService,
-    SetDetallesAlumnoService, 
-    ArchivosService, 
+    SetDetallesAlumnoService,
+    ArchivosService,
     SupervisorService,
     CookieService],
   bootstrap: [AppComponent]
