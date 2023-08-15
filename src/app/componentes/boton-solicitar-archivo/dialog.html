@@ -1,0 +1,27 @@
+<h1 style="text-align: center;" mat-dialog-title>¿Qué archivo desea solicitar?</h1>
+<div mat-dialog-content>
+    <p>Nombre del Documento</p>
+    <mat-form-field style="width: 250px;">
+        <mat-label>Ej. Boleta de honorarios Junio</mat-label>
+        <input matInput [(ngModel)]="nombre" required>
+    </mat-form-field>
+    <p>Descripción (opcional)</p>
+    <mat-form-field style="width: 250px;">
+        <mat-label>Descripción</mat-label>
+        <textarea matInput [(ngModel)]="descripcion"></textarea>
+    </mat-form-field>
+    <p>Formato aceptado</p>
+    <mat-form-field style="width: 250px;">
+        <mat-select [(ngModel)]="formato" required>
+            <mat-option *ngFor="let par of data.formatos" [value]="par.extensiones">
+                {{par.formato}}
+            </mat-option>
+        </mat-select>
+        <mat-label>Elija formato</mat-label>
+    </mat-form-field>
+</div>
+<div class="justify-content-center" mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="[false]" (click)="onNoClick()">Cancelar</button>
+    <button mat-button [mat-dialog-close]="[true, nombre, descripcion, formato]"
+        [disabled]="!nombre || !formato">Aceptar</button>
+</div>

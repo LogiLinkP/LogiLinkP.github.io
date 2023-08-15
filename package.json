@@ -34,6 +34,7 @@
     "datatables.net-dt": "^1.13.6",
     "jquery": "^3.7.0",
     "ngx-cookie-service": "^16.0.0",
+    "magic-bytes.js": "^1.0.15",
     "rxjs": "~7.8.0",
     "sass": "^1.64.2",
     "zone.js": "~0.13.0"
