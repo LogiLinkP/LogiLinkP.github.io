@@ -33,8 +33,8 @@ export class LoginComponent {
       },
       complete: () => {
         if(response.body != null){
-          const {message,userdata,token} = response.body;
-          this.storage.saveUser(response.body)
+          
+          this.storage.saveUsconst {message,userdata,token} = response.body;er(response.body)
 
           this.router.navigate(["/"+environment.ruta_practicas])  
 

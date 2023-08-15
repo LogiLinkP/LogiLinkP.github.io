@@ -14,6 +14,7 @@ export class StorageUserService {
   }
 
   public saveUser(user: any): void {
+    const {message,userdata,token} = user;
     window.localStorage.removeItem(USER_KEY);
     window.localStorage.setItem(USER_KEY, JSON.stringify(user));
   }
