@@ -1,14 +1,15 @@
-<h1 style="text-align: center;" mat-dialog-title>¿Qué archivo desea solicitar?</h1>
+<h1 style="text-align: center;" mat-dialog-title>Subir Documento Solicitado</h1>
 <div mat-dialog-content>
     <h3>{{data.nombre_solicitud}}</h3>
     <p>{{data.descripcion}}</p>
     <form style="width: 250px;">
         <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
-        <input hidden (change)="onFileSelected($event)" #fileInput type="file">
+        <input hidden (change)="onFileSelected($event)" #fileInput type="file" required>
         <span class="file-name">{{selectedFile?.name}}</span>
     </form>
 </div>
 <div class="justify-content-center" mat-dialog-actions>
     <button mat-button [mat-dialog-close]="[false, selectedFile]" (click)="onNoClick()">Cancelar</button>
-    <button mat-button [mat-dialog-close]="[true, selectedFile]" cdkFocusInitial>Aceptar</button>
+    <button mat-button [mat-dialog-close]="[true, selectedFile]" cdkFocusInitial
+        [disabled]="!selectedFile">Aceptar</button>
 </div>

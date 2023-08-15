@@ -31,8 +31,9 @@
                                 practica.config_practica.nombre }}</h1>
                         </div>
                         <div class="col-lg-1">
-                            <button type="button" class="btn btn-primary btn-lg btn-block" onclick="window.history.back();">Volver</button>
-                        </div>    
+                            <button type="button" class="btn btn-primary btn-lg btn-block"
+                                onclick="window.history.back();">Volver</button>
+                        </div>
                     </div>
                     <!-- Fila de "Tarjetas" -->
                     <div class="row">
@@ -170,20 +171,24 @@
                                         <div class="row">
                                             <div class="col-lg-1"></div>
                                             <div class="col-lg-5">
-                                                <button type="button" class="btn btn-success btn-lg btn-block" (click)="aprobar(practica.estudiante.id, practica.config_practica.id, 1)">Aprobar</button>
+                                                <button type="button" class="btn btn-success btn-lg btn-block"
+                                                    (click)="aprobar(practica.estudiante.id, practica.config_practica.id, 1)">Aprobar</button>
                                             </div>
                                             <div class="col-lg-5">
-                                                <button type="button" class="btn btn-danger btn-lg btn-block" (click)="aprobar(practica.estudiante.id, practica.config_practica.id, 0)">Reprobar</button>
+                                                <button type="button" class="btn btn-danger btn-lg btn-block"
+                                                    (click)="aprobar(practica.estudiante.id, practica.config_practica.id, 0)">Reprobar</button>
                                             </div>
                                         </div>
                                         <br>
                                         <div class="row">
                                             <div class="col-lg-1"></div>
                                             <div class="col-lg-5">
-                                                <button type="button" class="btn btn-primary btn-lg btn-block" >Generar PDF de Práctica</button>
+                                                <button type="button" class="btn btn-primary btn-lg btn-block">Generar
+                                                    PDF de Práctica</button>
                                             </div>
                                             <div class="col-lg-5">
-                                                <button type="button" class="btn btn-primary btn-lg btn-block">Resumir Informe Estudiante</button>
+                                                <button type="button" class="btn btn-primary btn-lg btn-block">Resumir
+                                                    Informe Estudiante</button>
                                             </div>
                                         </div>
                                     </div>
@@ -192,7 +197,7 @@
                         </div>
                     </div><!-- Fin Fila -->
 
-                    <div class="row">                                   
+                    <div class="row">
                         <!-- Tarjeta Informes -->
                         <div class="col-lg-6">
                             <div class="card shadow mb-4">
@@ -206,8 +211,8 @@
                                     <div class="card-body">
                                         <div class="overflow-auto">
                                             <div class="table-responsive ">
-                                                <table class="table table-bordered hoverTable" id="dataTable" width="100%"
-                                                    cellspacing="0">
+                                                <table class="table table-bordered hoverTable" id="dataTable"
+                                                    width="100%" cellspacing="0">
                                                     <thead>
                                                         <tr>
                                                             <th>Tipo</th>
@@ -221,7 +226,8 @@
                                                             <td>{{ informe.config_informe.tipo_informe }}</td>
                                                             <td>{{ informe.horas_trabajadas }}</td>
                                                             <td>{{ informe.fecha | date: 'dd/MM/yyyy' }}</td>
-                                                            <td><button (click)="mostrar_informe(informe.id)">Ver Informe</button></td>
+                                                            <td><button (click)="mostrar_informe(informe.id)">Ver
+                                                                    Informe</button></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -245,7 +251,8 @@
                                     <div class="card-body">
                                         <div class="overflow-auto">
                                             <div class="table-responsive">
-                                                <table class="table table-bordered hoverTable" id="dataTable" width="100%" cellspacing="0">
+                                                <table class="table table-bordered hoverTable" id="dataTable"
+                                                    width="100%" cellspacing="0">
                                                     <thead>
                                                         <tr>
                                                             <th>Archivo</th>
@@ -260,13 +267,17 @@
                                                             <td>{{doc.solicitud_documento.tipo_archivo}}</td>
                                                             <td>Normal</td>
                                                             <!--add button that calls the function descargar documento with the parameter doc.key-->
-                                                            <td><button (click)="descargar_documento(doc.id, doc_str)">Descargar</button></td>
+                                                            <td><button
+                                                                    (click)="descargar_documento(doc.id, doc_str)">Descargar</button>
+                                                            </td>
                                                         </tr>
                                                         <tr *ngFor="let doc_extra of documento_extras;">
                                                             <td>{{doc_extra.nombre_solicitud}}</td>
                                                             <td>{{doc_extra.tipo_archivo}}</td>
                                                             <td>Extra</td>
-                                                            <td><button (click)="descargar_documento(doc_extra.id, doc_extra_str)">Descargar</button></td>
+                                                            <td><button
+                                                                    (click)="descargar_documento(doc_extra.id, doc_extra_str)">Descargar</button>
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -275,7 +286,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div><!-- Fin Tarjeta Archivos -->                        
+                        </div><!-- Fin Tarjeta Archivos -->
                     </div><!-- Fin Fila -->
 
                     <div class="row">
@@ -292,7 +303,8 @@
                                     <div class="card-body">
                                         <div class="overflow-auto">
                                             <div class="table-responsive ">
-                                                <table class="table table-bordered hoverTable" id="dataTable" width="100%" cellspacing="0">
+                                                <table class="table table-bordered hoverTable" id="dataTable"
+                                                    width="100%" cellspacing="0">
                                                     <thead>
                                                         <tr>
                                                             <th>Tipo</th>
@@ -326,7 +338,8 @@
                                     <div class="card-body">
                                         <div class="overflow-auto">
                                             <div class="table-responsive ">
-                                                <table class="table table-bordered hoverTable" id="dataTable" width="100%" cellspacing="0">
+                                                <table class="table table-bordered hoverTable" id="dataTable"
+                                                    width="100%" cellspacing="0">
                                                     <thead>
                                                         <tr>
                                                             <th>Enunciado</th>
@@ -347,7 +360,7 @@
                             </div>
                         </div><!-- Fin Tarjeta Otras respuestas supervisor -->
                     </div><!-- Fin Fila -->
-                    
+
                     <div class="row">
                         <!-- Tarjeta Consistencia -->
                         <div class="col-lg-12">
@@ -360,7 +373,7 @@
                                 <!-- Card Content - Collapse -->
                                 <div class="collapse show" id="collapseCardExample">
                                     <div class="card-body">
-                                        <div class="overflow-auto_consistencia" >
+                                        <div class="overflow-auto_consistencia">
                                             <!-- tarjetas internas consistencia_informe y consistencia_nota-->
                                             <div class="row" style="max-width: 100%;">
                                                 <div class="col-xl-3"></div>
@@ -369,9 +382,11 @@
                                                         <div class="card-body">
                                                             <div class="row no-gutters align-items-center">
                                                                 <div class="col mr-2">
-                                                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                                    <div
+                                                                        class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                                         Consistencia Informe</div>
-                                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"> {{ practica.consistencia_informe }}
+                                                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                                        {{ practica.consistencia_informe }}
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-auto">
@@ -387,8 +402,11 @@
                                                         <div class="card-body">
                                                             <div class="row no-gutters align-items-center">
                                                                 <div class="col mr-2">
-                                                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Consistencia Nota</div>
-                                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"> {{ practica.consistencia_nota }}</div>
+                                                                    <div
+                                                                        class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                                        Consistencia Nota</div>
+                                                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                                        {{ practica.consistencia_nota }}</div>
                                                                 </div>
                                                                 <div class="col-auto">
                                                                     <!--  <i class="fas fa-calendar fa-2x text-gray-300"></i> -->
@@ -397,14 +415,15 @@
                                                         </div>
                                                     </div>
                                                 </div><!-- Fin Tarjetas de consistencia -->
-                                            </div><!-- Fin de la fila -->         
-                                        
+                                            </div><!-- Fin de la fila -->
+
                                             <!-- make two tables-->
                                             <div class="row">
                                                 <div class="col-xl-1"></div>
                                                 <div class="col-xl-5">
                                                     <div class="table-responsive">
-                                                        <table class="table table-bordered hoverTable" id="dataTable" width="100%" cellspacing="0">
+                                                        <table class="table table-bordered hoverTable" id="dataTable"
+                                                            width="100%" cellspacing="0">
                                                             <thead>
                                                                 <tr>
                                                                     <th>Textos más relevantes del Alumno</th>
@@ -420,7 +439,8 @@
                                                 </div>
                                                 <div class="col-xl-5">
                                                     <div class="table-responsive">
-                                                        <table class="table table-bordered hoverTable" id="dataTable" width="100%" cellspacing="0">
+                                                        <table class="table table-bordered hoverTable" id="dataTable"
+                                                            width="100%" cellspacing="0">
                                                             <thead>
                                                                 <tr>
                                                                     <th>Textos más relevantes del Supervisor</th>
@@ -435,14 +455,14 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                 </div>
-                                                
+
 
                             </div><!-- Fin Tarjeta interna de consistencia-->
-                                
+
                         </div><!-- Fin Tarjeta Consistencia -->
                     </div><!-- Fin Fila -->
                 </div>
