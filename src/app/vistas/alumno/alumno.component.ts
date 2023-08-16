@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'alumno',
@@ -27,7 +28,7 @@ export class DetalleAlumnoComponent implements OnInit{
   link_finalizacion = ""
   link_inscripcion = ""
 
-  constructor(private service: ObtenerDatosService , private route: ActivatedRoute) {
+  constructor(private service: ObtenerDatosService , private route: ActivatedRoute, private _snackBar: MatSnackBar) {
     this.id_usuario = parseInt(this.route.snapshot.paramMap.get('id') || "-1");
   }
 
@@ -87,6 +88,35 @@ export class DetalleAlumnoComponent implements OnInit{
         });
       }
     });   
+  }
+
+  ingresarInforme(practica: any){
+    let respuesta: any = {};
+    let key = (document.getElementById("informe") as HTMLInputElement).value;
+    let horas_trabajadas = (document.getElementById("horas") as HTMLInputElement).valueAsNumber;
+    let id_config_informe = practica.config_practica.id;
+
+    if (Number.isNaN(horas_trabajadas)){
+      horas_trabajadas = 0;
+    }
+
+    console.log("id_practica:", practica.id);
+    console.log("casilla horas:", horas_trabajadas);
+    
+    this.service.ingresar_informe(practica.id, key, id_config_informe, horas_trabajadas).subscribe({
+      next: (data: any) => {
+        respuesta = { ...respuesta, ...data }
+        console.log("Respuesta ingresar informe:",data);
+      },
+      error: (error: any) => console.log("Error en ingresar informe:",error),
+      complete: () => {
+        this._snackBar.open("Informe Ingresado","Cerrar",{
+          panelClass: ['red-snackbar'],
+          duration: 3000
+        })
+        window.location.reload();
+      }
+    });
   }
 }
 
