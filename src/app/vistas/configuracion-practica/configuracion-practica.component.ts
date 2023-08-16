@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -8,6 +8,9 @@ import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
   styleUrls: ['./configuracion-practica.component.scss']
 })
 export class ConfiguracionPracticaComponent implements OnInit {
+  @Input()
+  payload: any;
+
   formdata: any;
   nombrePractica: string;
   horas: boolean;
@@ -43,6 +46,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
       cantidad_opciones: new FormControl(),
       opciones_pregunta: new FormControl()
     });
+    console.log("Esto es lo que se recibe:", this.payload);
   }
 
   AddPractica(data: any) {
