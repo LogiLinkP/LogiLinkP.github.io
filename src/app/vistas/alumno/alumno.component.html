@@ -33,176 +33,211 @@
                                 <div *ngSwitchCase="2">
                                     <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample" v-on:click="getPractica(nombre)">
                                         <h2 class="m-0 font-weight-bold text-primary">{{ practica[0] }} </h2>
-                                        <div class="m-0 text-gray-800">Estado: {{ practica[1].estado }}</div>
+                                        <div class="m-0 text-gray-800">Estado: {{ practica[1].estado }}</div>                                        
                                     </a>  
                                     <div  class="collapse show" id="collapseCardExample">
                                         <div class="card-body">
+                                            <div class = "row">
+                                                <div class="col-xl-9"></div>
+                                                <div class="col-xl-2">
+                                                    <button type="button" class="btn btn-primary btn-lg btn-block">Finalizar Práctica</button>                                                                
+                                                </div>
+                                            </div>
+
                                             <div class="row">
                                                 <div class="col-xl-12">
-
                                                     <!-- Estructura interna de la carta -->
                                                     <div class="card-body">
-                                                        <div class="overflow-auto">
-                                                            <!-- tarjetas internas consistencia_informe y consistencia_nota-->
-                                                            <div class="row" style="max-width: 100%;">
+                                                        <!-- tarjetas internas consistencia_informe y consistencia_nota-->
+                                                        <div class="row" style="max-width: 100%;">
+                                                            <!-- Tarjeta Info de práctica -->
+                                                            <div class="col-xl-6">
+                                                                <div class="card shadow mb-4">
+                                                                    <!-- Card Header - Accordion -->
+                                                                    <a class="card-header py-3">
+                                                                        <h4 class="m-0 font-weight-bold text-primary">Práctica</h4>
+                                                                    </a>
+                                                                    <!-- Card Content - Collapse -->
+                                                                    <div class="collapse show" id="collapseCardExample">
+                                                                        <div class="card-body">
+                                                                            <table style="width:40%">
+                                                                                <tr>
+                                                                                    <td>Estado:</td>
+                                                                                    <td>{{ practica[1].estado }}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Modalidad (y cantidad):</td>
+                                                                                    <td>{{ practica[1].config_practica.cantidad_tiempo}} 
+                                                                                        {{ practica[1].config_practica.modalidad}}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Fecha Inicio:</td>
+                                                                                    <td>{{ practica[1].fecha_inicio | date: 'dd/MM/yyyy' }}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Fecha Término:</td>
+                                                                                    <td>{{ practica[1].fecha_termino | date: 'dd/MM/yyyy' }}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Frecuencia de Informes:</td>
+                                                                                    <td>{{ practica[1].config_practica.frecuencia_informes }}</td>
+                                                                                </tr>
+                                                                                
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div><!-- Fin Tarjeta Información general -->
 
-                                                                <!-- Tarjeta Info de práctica -->
-                                                                <div class="col-xl-6">
-                                                                    <div class="card shadow mb-4">
-                                                                        <!-- Card Header - Accordion -->
-                                                                        <a class="card-header py-3">
-                                                                            <h4 class="m-0 font-weight-bold text-primary">Práctica</h4>
-                                                                        </a>
-                                                                        <!-- Card Content - Collapse -->
-                                                                        <div class="collapse show" id="collapseCardExample">
-                                                                            <div class="card-body">
-                                                                                <table style="width:80%">
-                                                                                    <tr>
-                                                                                        <td>Estado:</td>
-                                                                                        <td></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td>Modalidad:</td>
-                                                                                        <td></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td>Fecha Inicio:</td>
-                                                                                        <td></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td>Fecha Término:</td>
-                                                                                        <td></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td>Progreso:</td>
-                                                                                        <td></td>
-                                                                                    </tr>
-                                                                                    
-                                                                                </table>
+                                                            <!-- Tarjeta de Info de Empresa -->
+                                                            <div class="col-xl-6">
+                                                                <div class="card shadow mb-4">
+                                                                    <!-- Card Header - Accordion -->
+                                                                    <a class="card-header py-3">
+                                                                        <h4 class="m-0 font-weight-bold text-primary">Empresa</h4>
+                                                                    </a>
+                                                                    <!-- Card Content - Collapse -->
+                                                                    <div class="collapse show" id="collapseCardExample">
+                                                                        <div class="card-body">
+                                                                            <table style="width:80%">
+                                                                                <tr>
+                                                                                    <td>Nombre Empresa:</td>
+                                                                                    <td>{{ practica[1].empresa.nombre_empresa }}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Nombre Supervisor:</td>
+                                                                                    <td>{{ practica[1].supervisor.nombre }}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Correo Supervisor:</td>
+                                                                                    <td>{{ practica[1].supervisor.correo }}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Rut Empresa:</td>
+                                                                                    <td>{{ practica[1].empresa.rut_empresa }}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Empresa Verificada?:</td>
+                                                                                    <td>{{ practica[1].empresa_verificada }}</td>
+                                                                                </tr>                                                                                    
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div><!-- Fin Tarjeta Información general -->
+                                                        </div><!-- Fin de la fila -->
+                                                        
+                                                        <div class="row" style="max-width: 100%;">                                                           
+
+                                                            <!-- Tarjeta Escribir informe -->
+                                                            <div class="col-xl-6">
+                                                                <div class="card shadow mb-4">
+                                                                    <!-- Card Header - Accordion -->
+                                                                    <a class="card-header py-3">
+                                                                        <h4 class="m-0 font-weight-bold text-primary">Escribir Informe de Avances</h4>
+                                                                    </a>
+                                                                    <!-- Card Content - Collapse -->
+                                                                    <div class="collapse show" id="collapseCardExample">
+                                                                        <div class="card-body">
+                                                                            <app-up-informe></app-up-informe>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div><!-- Fin Tarjeta Escribir Informe -->
+                                    
+                                                            <!-- Tarjeta Archivos -->
+                                                            <div class="col-xl-6">
+                                                                <div class="card shadow mb-4">
+                                                                    <!-- Card Header - Accordion -->
+                                                                    <a class="card-header py-3">
+                                                                        <h4 class="m-0 font-weight-bold text-primary">Documentos Requeridos</h4>
+                                                                    </a>
+                                                                    <!-- Card Content - Collapse -->
+                                                                    <div class="collapse show" id="collapseCardExample">
+                                                                        <div class="card-body">
+                                                                            <div class="overflow-auto" >
+                                                                                <div class="table-responsive">
+                                                                                    <table class="table table-bordered hoverTable" id="dataTable"
+                                                                                        width="100%" cellspacing="0">
+                                                                                        <thead>
+                                                                                            <tr>
+                                                                                                <th>Documento</th>
+                                                                                                <th>Formato</th>
+                                                                                                <th>Tipo Solicitud</th>
+                                                                                                <th>Acción</th>
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                            <tr *ngFor="let solicitud of practica[1].config_practica.solicitud_documentos;">
+                                                                                                <td>{{solicitud.nombre_solicitud}}</td>
+                                                                                                <td>{{solicitud.tipo_archivo}}</td>
+                                                                                                <td>Normal</td>
+                                                                                                <td [ngSwitch]="solicitud.documentos.length" >
+                                                                                                    <p *ngSwitchCase="0">Subir</p>
+                                                                                                    <p *ngSwitchCase="1">Descargar</p>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <tr *ngFor="let doc_extra of practica[1].documento_extras;">
+                                                                                                <td>{{doc_extra.nombre_solicitud}}</td>
+                                                                                                <td>{{doc_extra.tipo_archivo}}</td>
+                                                                                                <td>Extra</td>
+                                                                                                <td [ngSwitch]="doc_extra.key" >
+                                                                                                    <p *ngSwitchCase="null">Subir</p>
+                                                                                                    <p *ngSwitchDefault>Descargar</p>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div><!-- Fin Tarjeta Información general -->
+                                                                </div>
+                                                            </div><!-- Fin Tarjeta Archivos -->
+                                                        </div><!-- Fin Fila -->
 
-                                                                <!-- Tarjeta de Info de Empresa -->
-                                                                <div class="col-xl-6">
-                                                                    <div class="card shadow mb-4">
-                                                                        <!-- Card Header - Accordion -->
-                                                                        <a class="card-header py-3">
-                                                                            <h4 class="m-0 font-weight-bold text-primary">Empresa</h4>
-                                                                        </a>
-                                                                        <!-- Card Content - Collapse -->
-                                                                        <div class="collapse show" id="collapseCardExample">
-                                                                            <div class="card-body">
-                                                                                <table style="width:80%">
-                                                                                    <tr>
-                                                                                        <td>Nombre Empresa:</td>
-                                                                                        <td></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td>Nombre Supervisor:</td>
-                                                                                        <td></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td>Correo Supervisor:</td>
-                                                                                        <td></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td>Rut Empresa:</td>
-                                                                                        <td></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td>Empresa Verificada?:</td>
-                                                                                        <td></td>
-                                                                                    </tr>                                                                                    
-                                                                                </table>
+                                                        <div class="row">
+                                                            <!-- Tarjeta Informes -->
+                                                            <div class="col-xl-6">
+                                                                <div class="card shadow mb-4">
+                                                                    <!-- Card Header - Accordion -->
+                                                                    <a class="card-header py-3">
+                                                                        <h4 class="m-0 font-weight-bold text-primary">Informes Realizados</h4>
+                                                                    </a>
+                                                                    <!-- Card Content - Collapse -->
+                                                                    <div class="collapse show" id="collapseCardExample">
+                                                                        <div class="card-body">
+                                                                            <div class="overflow-auto" >
+                                                                                <div class="table-responsive ">
+                                                                                    <table class="table table-bordered hoverTable" id="dataTable"
+                                                                                        width="100%" cellspacing="0">
+                                                                                        <thead>
+                                                                                            <tr>
+                                                                                                <th>Tipo</th>
+                                                                                                <th>Horas Trabajadas</th>
+                                                                                                <th>Fecha Subido</th>
+                                                                                                <th>Ver Informe</th>
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                            <tr *ngFor="let informe of practica[1].informes;">
+                                                                                                <td>{{ informe.config_informe.tipo_informe }}</td>
+                                                                                                <td>{{ informe.horas_trabajadas }}</td>
+                                                                                                <td>{{ informe.fecha | date: 'dd/MM/yyyy' }}</td>
+                                                                                                <td>Ver Informe</td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div><!-- Fin Tarjeta Información general -->
-                                                            </div><!-- Fin de la fila -->
+                                                                </div>
+                                                            </div><!-- Fin Tarjeta Informes -->                                                         
                                                             
-                                                            <div class="row" style="max-width: 100%;">
-                                                                <!-- Tarjeta Informes -->
-                                                                <div class="col-xl-6">
-                                                                    <div class="card shadow mb-4">
-                                                                        <!-- Card Header - Accordion -->
-                                                                        <a class="card-header py-3">
-                                                                            <h4 class="m-0 font-weight-bold text-primary">Informes Realizados</h4>
-                                                                        </a>
-                                                                        <!-- Card Content - Collapse -->
-                                                                        <div class="collapse show" id="collapseCardExample">
-                                                                            <div class="card-body">
-                                                                                <div class="overflow-auto">
-                                                                                    <div class="table-responsive ">
-                                                                                        <table class="table table-bordered hoverTable" id="dataTable"
-                                                                                            width="100%" cellspacing="0">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Tipo</th>
-                                                                                                    <th>Horas Trabajadas</th>
-                                                                                                    <th>Fecha Subido</th>
-                                                                                                    <th>Ver Informe</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                <tr *ngFor="let informe of practica.informes;">
-                                                                                                    <td>{{ informe.config_informe.tipo_informe }}</td>
-                                                                                                    <td>{{ informe.horas_trabajadas }}</td>
-                                                                                                    <td>{{ informe.fecha | date: 'dd/MM/yyyy' }}</td>
-                                                                                                </tr>
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div><!-- Fin Tarjeta Informes -->
-                                        
-                                                                <!-- Tarjeta Archivos -->
-                                                                <div class="col-xl-6">
-                                                                    <div class="card shadow mb-4">
-                                                                        <!-- Card Header - Accordion -->
-                                                                        <a class="card-header py-3">
-                                                                            <h4 class="m-0 font-weight-bold text-primary">Archivos Subidos</h4>
-                                                                        </a>
-                                                                        <!-- Card Content - Collapse -->
-                                                                        <div class="collapse show" id="collapseCardExample">
-                                                                            <div class="card-body">
-                                                                                <div class="overflow-auto">
-                                                                                    <div class="table-responsive">
-                                                                                        <table class="table table-bordered hoverTable" id="dataTable"
-                                                                                            width="100%" cellspacing="0">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Archivo</th>
-                                                                                                    <th>Formato</th>
-                                                                                                    <th>Tipo Solicitud</th>
-                                                                                                    <th>Descargar</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                <tr *ngFor="let doc of practica.documentos;">
-                                                                                                    <td>{{doc.solicitud_documento.nombre_solicitud}}</td>
-                                                                                                    <td>{{doc.solicitud_documento.tipo_archivo}}</td>
-                                                                                                    <td>Normal</td>
-                                                                                                </tr>
-                                                                                                <tr *ngFor="let doc_extra of practica.documento_extras;">
-                                                                                                    <td>{{doc_extra.nombre_solicitud}}</td>
-                                                                                                    <td>{{doc_extra.tipo_archivo}}</td>
-                                                                                                    <td>Extra</td>
-                                                                                                </tr>
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div><!-- Fin Tarjeta Archivos -->
-                                                            </div><!-- Fin Fila -->
-                                                        </div>
+                                                        </div><!-- Fin Fila -->
+                                                        
+                                                        
                                                     </div><!-- Fin de tarjeta de estructura interna -->
 
                                                 </div>
@@ -220,7 +255,7 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-xl-6">
-                                                    
+                                                    BOTON INICIAR PRACTICA
                                                 </div>
                                             </div>
                                         </div>
