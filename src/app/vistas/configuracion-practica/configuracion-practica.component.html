@@ -18,8 +18,12 @@
 
                 <!-- Page Heading -->
                 <h1 class="h3 mb-4 text-gray-800">Configuracion Practica</h1>
+                <h2 *ngIf="payload != undefined">{{payload.nombre}}</h2>
+
                 <form [formGroup]="formdata" (ngSubmit)="AddPractica(formdata.value)">
-                    <input type="text" class="form-control col-6" placeholder="Practica Profesional" formControlName="nombrePractica">
+                    <!-- NOMBRE PRACTICA -->
+                    <input *ngIf="payload != undefined" type="text" class="form-control col-6" placeholder="payload.nombre" formControlName="nombrePractica" >
+                    <input *ngIf="payload == undefined" type="text" class="form-control col-6" placeholder="Practica Profesional" formControlName="nombrePractica" >
                     <input type="checkbox" formControlName="horas"> Horas
                     <input type="checkbox" formControlName="meses"> Meses
                     <input type="text" class="form-control col-lg-3 col-6" placeholder="Cantidad de Horas" formControlName="cant_horas">

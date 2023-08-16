@@ -8,8 +8,7 @@ import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
   styleUrls: ['./configuracion-practica.component.scss']
 })
 export class ConfiguracionPracticaComponent implements OnInit {
-  @Input()
-  payload: any;
+  @Input() public payload: any;
 
   formdata: any;
   nombrePractica: string;
@@ -27,12 +26,14 @@ export class ConfiguracionPracticaComponent implements OnInit {
 
 
   constructor(@Inject(DOCUMENT) private document: Document) {}
+  
   scrollToTop(): void {
     this.document.body.scrollTop = 0;
     this.document.documentElement.scrollTop = 0;
   }
 
   ngOnInit() {
+    console.log("Esto es lo que se recibe:", this.payload);
     this.formdata = new FormGroup({
       nombrePractica: new FormControl("Practica 1"),
       horas: new FormControl(false),
@@ -46,7 +47,6 @@ export class ConfiguracionPracticaComponent implements OnInit {
       cantidad_opciones: new FormControl(),
       opciones_pregunta: new FormControl()
     });
-    console.log("Esto es lo que se recibe:", this.payload);
   }
 
   AddPractica(data: any) {
