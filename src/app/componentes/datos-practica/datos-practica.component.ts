@@ -10,8 +10,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 
 export class DatosPracticaComponent implements OnInit{
-  id_alumno: number = -1;
-  alumno:any = []
+  id_estudiante: number = -1;
+  estudiante:any = []
   practica: any = [];
   config_practica: any = [];
   permitir_finalizacion: boolean = true;
@@ -19,7 +19,7 @@ export class DatosPracticaComponent implements OnInit{
   link_finalizacion = ""
 
   constructor(private service: ObtenerDatosService, private router: ActivatedRoute, private _snackBar: MatSnackBar) {
-    this.router.params.subscribe(params => {this.id_alumno = +params['id'];});
+    this.router.params.subscribe(params => {this.id_estudiante = +params['id'];});
   }
 
   ingresarInforme(){
@@ -74,18 +74,18 @@ export class DatosPracticaComponent implements OnInit{
 
   ngOnInit() {
     let respuesta: any = {};
-    this.service.obtener_alumno(this.id_alumno).subscribe({
+    this.service.obtener_estudiante(this.id_estudiante).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
       error: (error: any) => console.log(error),
       complete: () => {
-        this.alumno = respuesta.body;
-        this.link_finalizacion = "/alumno/"+this.alumno.id+"/finalizacion/1";
+        this.estudiante = respuesta.body;
+        this.link_finalizacion = "/alumno/"+this.estudiante.id+"/finalizacion/1";
       }
     });
     
-    this.service.obtener_practica(this.id_alumno).subscribe({
+    this.service.obtener_practica(this.id_estudiante).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },

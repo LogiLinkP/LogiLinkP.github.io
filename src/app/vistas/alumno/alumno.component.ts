@@ -8,41 +8,65 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./alumno.component.scss']
 })
 export class DetalleAlumnoComponent implements OnInit{
-  id_alumno: number = -1;
-  alumno:any = []
-  practica: any = [];
+  id_estudiante: number = -1;
+  id_usuario: number = -1;
+  estudiante:any = [];
+  practicas: any = [];
+  config_practica: any = [];
+  nombres_distintos_config_practica: any = [];
+
   flag: boolean = false;
 
   link_finalizacion = ""
   link_inscripcion = ""
 
-  constructor(private service: ObtenerDatosService , private router: ActivatedRoute) {
-    this.router.params.subscribe(params => {this.id_alumno = +params['id'];});
+  constructor(private service: ObtenerDatosService , private route: ActivatedRoute) {
+    this.id_usuario = parseInt(this.route.snapshot.paramMap.get('id') || "-1");
   }
 
   ngOnInit() {
     let respuesta: any = {};
 
-    this.service.obtener_alumno(this.id_alumno).subscribe({
+    // Request para obtener al estudiante de acuerdo a su id de usuario
+    this.service.obtener_estudiante(this.id_usuario).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
       error: (error: any) => console.log(error),
       complete: () => {
-        this.alumno = respuesta.body;
-        this.link_finalizacion = "/alumno/"+this.alumno.id+"/finalizacion/1";
-        this.link_inscripcion = "/alumno/"+this.alumno.id+"/iniciarpractica/1"; 
+        this.estudiante = respuesta.body;
+
+        // Request para obtener las practicas de acuerdo al id del estudiante
+        this.service.obtener_todos_config_practica().subscribe({
+          next: (data: any) => {
+            respuesta = { ...respuesta, ...data }
+          }      ,
+          error: (error: any) => console.log(error),
+          complete: () => {
+            this.config_practica = respuesta.body;
+            console.log("Configuraciones de practica:",this.config_practica)
+            // Guardar los distintos nombres de las practicas en un arreglo
+            this.config_practica.forEach((element: any) => {
+              this.nombres_distintos_config_practica.push(element.nombre)
+            });
+            console.log("Nombres de configuraciones de practica:",this.nombres_distintos_config_practica)
+
+            // Request para obtener todas las practicas de acuerdo al id del estudiante
+            this.service.obtener_practica(this.estudiante.id).subscribe({
+              next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+              },
+              error: (error: any) => console.log(error),
+              complete: () => {
+                this.practicas = respuesta.body;
+                console.log("Practicas:",this.practicas)
+              }
+            });
+          }
+        });
       }
-    });
-    
-    this.service.obtener_practica(this.id_alumno).subscribe({
-      next: (data: any) => {
-        respuesta = { ...respuesta, ...data }
-      },
-      error: (error: any) => console.log(error),
-      complete: () => {
-        this.practica = respuesta.body;
-      }
-    });
+    });   
   }
 }
+
+
