@@ -89,7 +89,7 @@
 
                             
                             
-                            <input *ngFor="let i of numSequence(cantidad_opciones)" type="text" class="form-control col-lg-3 col-6" placeholder="Ingresar Opcion" formControlName="opciones_pregunta">
+                            <input *ngFor="let i of numSequence(cantidad_opciones)" type="text" class="form-control col-lg-3 col-6" placeholder="Ingresar Opcion" formGroupName="opciones_pregunta">
                             
                             
 
@@ -108,7 +108,7 @@
 
                     <input type="submit" value="Agregar Pregunta">
                 </form>
-                
+
 
                 <!--
                 <form [formGroup]="formdata" (ngSubmit)="onChangeTipoPregunta(formdata.value)">

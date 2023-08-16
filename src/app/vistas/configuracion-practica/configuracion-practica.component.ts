@@ -41,7 +41,8 @@ export class ConfiguracionPracticaComponent implements OnInit {
       tipoPregunta: new FormControl(),
       pregunta: new FormControl(),
       cantidad_opciones: new FormControl(),
-      opciones_pregunta: new FormControl()
+      //opciones_pregunta: new FormControl()
+      opciones_pregunta: new FormGroup([])
     });
   }
 
@@ -91,7 +92,14 @@ export class ConfiguracionPracticaComponent implements OnInit {
 
   AddPregunta(data: any) {
     //this.preguntas = data.preguntas;
-    this.preguntas.push(data.pregunta);
-    console.log(this.preguntas);
+    console.log(data.opciones_pregunta);
+    this.opciones_pregunta.push(data.opciones_pregunta);
+    //this.opciones_pregunta = data.opciones_pregunta;
+    console.log(this.opciones_pregunta);
     }
+
+  agregarIndice(s: string, i: number) {
+    return s + String(i);
+  }
+    
 }
