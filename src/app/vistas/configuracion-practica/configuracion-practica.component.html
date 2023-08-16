@@ -18,14 +18,14 @@
 
                 <!-- Page Heading -->
                 <h1 class="h3 mb-4 text-gray-800">Configuracion Practica</h1>
-                <form [formGroup]="formdata" (ngSubmit)="onClickSubmit(formdata.value)">
+                <form [formGroup]="formdata" (ngSubmit)="AddPractica(formdata.value)">
                     <input type="text" class="form-control col-6" placeholder="Practica Profesional" formControlName="nombrePractica">
                     <input type="checkbox" formControlName="horas"> Horas
                     <input type="checkbox" formControlName="meses"> Meses
                     <input type="text" class="form-control col-lg-3 col-6" placeholder="Cantidad de Horas" formControlName="cant_horas">
                     <input type="text" class="form-control col-lg-3 col-6" placeholder="Cantidad de Meses" formControlName="cant_meses">
-                    <input type="submit"  value="Click here">
                     
+                    <br>
                     <p> Frecuencia informes de avance (bitacoras) </p>
 
                     <!-- Opciones avance informes-->
@@ -46,6 +46,8 @@
                         <label class="form-check-label" for="sinAvance">Ninguno</label>
                     </div>
                     
+                    <br>
+                    <br>
                     <p> Informe Final </p>
 
                     <div class="form-check form-check-inline">
@@ -56,8 +58,96 @@
                         <input class="form-check-input" type="radio" name="informeFinal" id="informeFinalNO" value="informeFinalNO" formControlName="informeFinal">
                         <label class="form-check-label" for="informeFinalNO">No</label>
                     </div>
-
+                    <br>
+                    <br>
+                    <input type="submit" value="Siguiente">
                 </form>
+
+                <!-- Config informes de avance -->
+                <br>
+                <p> Preguntas informe de avance </p>
+
+                <form [formGroup]="formdata" (ngSubmit)="AddPregunta(formdata.value)">
+                    <input type="text" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="pregunta">
+                    <hr>
+                        <select name="tipo" id="tipo" (change) = "tipoPregunta($event)" class="form-select form-select-sm mb-4 col-4"  aria-label="Default select example">
+                            <option value="0">Seleccione el tpo de respuesta</option>
+                            <option value="1">Abierta</option>
+                            <option value="2">Casillas</option>
+                            <option value="3">Alternativa</option>
+                        </select>
+
+                        <div *ngIf="tipo_pregrunta==''"> </div>
+                        <div *ngIf="tipo_pregrunta=='abierta'">
+                            Pregunta abierta
+                        </div>
+
+                        <div *ngIf="tipo_pregrunta=='casillas'">
+                            Cantidad de opciones:
+                            <br>
+                            <input type="number" min="2" max="10" step="1" class="form-control col-1" (change) ="cantidadOpciones($event)">
+
+                            
+                            
+                            <input *ngFor="let i of numSequence(cantidad_opciones)" type="text" class="form-control col-lg-3 col-6" placeholder="Ingresar Opcion" formControlName="opciones_pregunta">
+                            
+                            
+
+                        </div>
+
+                        
+                        <div *ngIf="tipo_pregrunta=='alternativas'">
+                            Pregunta con alternativas
+                            <br>
+                            <input type="number" min="2" max="10" step="1" class="form-control col-1" (change) ="cantidadOpciones($event)">
+
+
+                        </div>
+                    <hr>
+
+
+                    <input type="submit" value="Agregar Pregunta">
+                </form>
+                
+
+                <!--
+                <form [formGroup]="formdata" (ngSubmit)="onChangeTipoPregunta(formdata.value)">
+                    <select formControlName="pregunta" class="form-select form-select-sm mb-4 col-4"  aria-label="Default select example">
+                        <option selected>Tipo de respuesta</option>
+                        <option type="submit" value="abierta">Abierta</option>
+                        <option type="submit" value="casillas">Casillas</option>
+                        <option type="submit" value="alternativas">Alternativas</option>
+                    </select>
+                </form>
+                -->
+                
+
+                <!--
+                <form [formGroup]="formdata" (ngSubmit)=" onChangeTipoPregunta(formdata.value)">
+                    <select class="form-select form-select-sm mb-4 col-4"  aria-label="Default select example">
+                        <option selected>Tipo de respuesta</option>
+                        <option value="abierta">Abierta</option>
+                        <option value="casillas">Casillas</option>
+                        <option value="alternativas">Alternativas</option>
+                    </select>
+                    <input type="submit" value="Enviar" />
+                </form>
+                -->
+
+                <!--
+                <form action="myservlet.do" method="POST">
+                    <select name="myselect" id="myselect" onchange="this.form.submit()">
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                        <option value="4">Four</option>
+                    </select>
+                </form>
+                -->
+
+
+
+                
 
             </div>
             <!-- /.container-fluid -->
