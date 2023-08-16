@@ -54,6 +54,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { BotonSolicitarArchivoComponent } from './componentes/boton-solicitar-archivo/boton-solicitar-archivo.component';
 
 import { SubirArchivoExtraComponent } from './componentes/subir-archivo-extra/subir-archivo-extra.component';
+import { ConfiguracionPracticaExistenteComponent } from './vistas/configuracion-practica-existente/configuracion-practica-existente.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { SubirArchivoExtraComponent } from './componentes/subir-archivo-extra/su
     UpInformeComponent,
     TablaComponent,
     //ChatComponent,,
-    SubirArchivoExtraComponent
+    SubirArchivoExtraComponent,
+    ConfiguracionPracticaExistenteComponent
   ],
   imports: [
     BrowserModule,

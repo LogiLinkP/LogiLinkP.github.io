@@ -13,4 +13,10 @@ export class BarraLateralService {
     const req = new HttpRequest('GET', `${environment.url_back}/config_practica/todos`);
     return this._http.request(req);
   }
+
+  obtenerConfigPorId(id: number) {
+    const req = new HttpRequest('GET', `${environment.url_back}/config_practica/?id=${id}`);
+    return this._http.request(req);
+  }
+
 }
