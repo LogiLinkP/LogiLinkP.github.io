@@ -8,8 +8,6 @@ import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
   styleUrls: ['./configuracion-practica.component.scss']
 })
 export class ConfiguracionPracticaComponent implements OnInit {
-  @Input() public payload: any;
-
   formdata: any;
   nombrePractica: string;
   horas: boolean;
@@ -33,7 +31,6 @@ export class ConfiguracionPracticaComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("Esto es lo que se recibe:", this.payload);
     this.formdata = new FormGroup({
       nombrePractica: new FormControl("Practica 1"),
       horas: new FormControl(false),
