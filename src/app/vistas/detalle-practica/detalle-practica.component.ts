@@ -6,6 +6,7 @@ import { SetDetallesAlumnoService } from '../../servicios/encargado/decision.ser
 import { ActivatedRoute } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-detalle-practica',
@@ -125,10 +126,10 @@ export class DetallePracticaComponent implements OnInit{
   descargar_documento(documento_id: string, solicitud_tipo: string) {
     // abrir nueva pestaña con url de descarga, que es url_backend (sacada desde el env) + /documentos/ + documento_key
     if(solicitud_tipo == "documento"){
-      window.open("http://localhost:3000/documento/download?id=" + documento_id, "_blank");
+      window.open(environment.url_back+"/documento/download?id=" + documento_id, "_blank");
     } 
     else{
-      window.open("http://localhost:3000/documento_extra/download?id=" + documento_id, "_blank");
+      window.open(environment.url_back+"/documento_extra/download?id=" + documento_id, "_blank");
     }
   }
 

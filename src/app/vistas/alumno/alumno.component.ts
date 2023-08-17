@@ -2,6 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'alumno',
@@ -26,6 +27,8 @@ export class DetalleAlumnoComponent implements OnInit{
 
   link_finalizacion = ""
   link_inscripcion = ""
+  doc_str = "documento";
+  doc_extra_str = "documento_extra";
 
   constructor(private service: ObtenerDatosService , private route: ActivatedRoute, private _snackBar: MatSnackBar) {
     this.id_usuario = parseInt(this.route.snapshot.paramMap.get('id') || "-1");
@@ -117,6 +120,34 @@ export class DetalleAlumnoComponent implements OnInit{
       }
     });
   }
+
+  
+  descargar_documento(documento_id: string, solicitud_tipo: string) {
+    console.log("decargar documento")
+    // abrir nueva pestaña con url de descarga, que es url_backend (sacada desde el env) + /documentos/ + documento_key
+    if(solicitud_tipo == "documento"){
+      window.open(environment.url_back+"/documento/download?id=" + documento_id, "_blank");
+    } 
+    else{
+      window.open(environment.url_back+"/documento_extra/download?id=" + documento_id, "_blank");
+    }
+  }
+
+  mostrar_informe(informes: any, informe_id: string) {
+    console.log("informes:",informes,"id",informe_id)
+    // abrir una ventana modal que muestre el texto del informe
+    let informe = informes.find((informe: any) => informe.id == informe_id);
+    if(informe){
+      // abrir una ventana pequeña que muestre el texto del informe dentro de un textarea
+      let ventana = window.open("", "_blank", "width=800,height=400");
+      if (!ventana) {
+        alert("Por favor, deshabilite el bloqueador de ventanas emergentes para este sitio");
+      }
+      else{
+        ventana.document.write("<textarea style='width: 100%; height: 100%; resize: none; border: none;'>" + informe.key + "</textarea>");
+      }
+    }    
+  } 
 }
 
 

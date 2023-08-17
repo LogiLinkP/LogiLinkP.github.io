@@ -150,7 +150,7 @@
                                                                                                 <th>Tipo</th>
                                                                                                 <th>Horas Trabajadas</th>
                                                                                                 <th>Fecha Subido</th>
-                                                                                                <th>Ver Informe</th>
+                                                                                                <th></th>
                                                                                             </tr>
                                                                                         </thead>
                                                                                         <tbody>
@@ -158,7 +158,8 @@
                                                                                                 <td>{{ informe.config_informe.tipo_informe }}</td>
                                                                                                 <td>{{ informe.horas_trabajadas }}</td>
                                                                                                 <td>{{ informe.fecha | date: 'dd/MM/yyyy' }}</td>
-                                                                                                <td>Ver Informe</td>
+                                                                                                <td><button (click)="mostrar_informe(practica[1].informes,informe.id)">Ver
+                                                                                                    Informe</button></td>
                                                                                             </tr>
                                                                                         </tbody>
                                                                                     </table>
@@ -198,7 +199,7 @@
                                                                                                 <td>Normal</td>
                                                                                                 <td [ngSwitch]="solicitud.documentos.length" >
                                                                                                     <p *ngSwitchCase="0">Subir</p>
-                                                                                                    <p *ngSwitchCase="1">Descargar</p>
+                                                                                                    <button *ngSwitchCase="1" (click)="descargar_documento(solicitud.id, doc_str)">Descargar</button>
                                                                                                 </td>
                                                                                             </tr>
                                                                                             <tr *ngFor="let doc_extra of practica[1].documento_extras;">
@@ -207,7 +208,7 @@
                                                                                                 <td>Extra</td>
                                                                                                 <td [ngSwitch]="doc_extra.key" >
                                                                                                     <p *ngSwitchCase="null">Subir</p>
-                                                                                                    <p *ngSwitchDefault>Descargar</p>
+                                                                                                    <button *ngSwitchDefault (click)="descargar_documento(doc_extra.id, doc_extra_str)">Descargar</button>
                                                                                                 </td>
                                                                                             </tr>
                                                                                         </tbody>

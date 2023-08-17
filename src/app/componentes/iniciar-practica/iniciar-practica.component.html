@@ -43,14 +43,16 @@
 
         Selecciona modalidad de tiempo:
 
-        <select name ="modalidad" id="modalidad{{nombre_practica}}">
+        <select name ="modalidad" id="modalidad{{nombre_practica}}" (change)="actualizar_cantidades($event)" style="width:40%">
+            <option value="" disabled selected hidden>Seleccione modalidad</option>
         </select>
 
         <br>
     
-        Selecciona cantidad de horas:
+        Selecciona cantidad de tiempo:
 
-        <select name = "horas" id="cantidad_horas{{nombre_practica}}">
+        <select name = "cantidad" id="cantidad{{nombre_practica}}" style="width:40%">
+            <option value="" disabled selected hidden>Seleccione cantidad</option>
         </select>
 
         <br>

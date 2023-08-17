@@ -60,4 +60,22 @@ export class ArchivosService {
 
     return this._http.request(req);
   }
+
+  subirDocumento(file: File, id_solicitud: number, id_practica:number): Observable<any> {
+    const formData: FormData = new FormData();
+  
+    formData.append('file', file);
+    formData.append('id_solicitud', `${id_solicitud}`);
+    formData.append('id_practica', `${id_practica}`);
+  
+    const req = new HttpRequest('PUT', `${environment.url_back}/${environment.ruta_documento}/upload`, formData, {
+      reportProgress: true,
+      responseType: 'text'
+    });
+
+  
+    return this._http.request(req);
+  }
+  
 }
+

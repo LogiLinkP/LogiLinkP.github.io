@@ -16,7 +16,8 @@ export class IniciarPracticaComponent implements OnInit{
   @Input() id_estudiante = -1
   @Input() nombre_practica: string = ""
   config_practica: any = []
-  horas: number[] = []
+  id_config_practica_seleccionada: number = -1
+  cantidades: number[] = []
   modalidades: string[] = []
 
   constructor(private service: GestionarService, private service2: ObtenerDatosService, private _snackBar: MatSnackBar, private route:ActivatedRoute, private router: Router) {}
@@ -24,12 +25,11 @@ export class IniciarPracticaComponent implements OnInit{
  enviar(){
     console.log("ENVIAR")
   
-    let nombre_supervisor = (document.getElementById("nombre_supervisor") as HTMLInputElement).value
-    let correo_supervisor = (document.getElementById("correo_supervisor") as HTMLInputElement).value
-    let nombre_empresa = (document.getElementById("nombre_empresa") as HTMLInputElement).value
-    let rut_empresa = (document.getElementById("rut_empresa") as HTMLInputElement).value
-    let fecha_inicio = (document.getElementById("fecha_inicio") as HTMLInputElement).value
-    let cantidad_horas = (document.getElementById("cantidad_horas") as HTMLInputElement).value
+    let nombre_supervisor = (document.getElementById("nombre_supervisor"+this.nombre_practica) as HTMLInputElement).value
+    let correo_supervisor = (document.getElementById("correo_supervisor"+this.nombre_practica) as HTMLInputElement).value
+    let nombre_empresa = (document.getElementById("nombre_empresa"+this.nombre_practica) as HTMLInputElement).value
+    let rut_empresa = (document.getElementById("rut_empresa"+this.nombre_practica) as HTMLInputElement).value
+    let fecha_inicio = (document.getElementById("fecha_inicio"+this.nombre_practica) as HTMLInputElement).value
 
     console.log("ENVIAR2")
 
@@ -37,7 +37,7 @@ export class IniciarPracticaComponent implements OnInit{
 
     let aux:any = {} 
 
-    this.service.registrar_practica(this.id_estudiante, this.config_practica.id, nombre_supervisor, correo_supervisor, nombre_empresa, rut_empresa, fecha_inicio).subscribe(
+    this.service.registrar_practica(this.id_estudiante, this.id_config_practica_seleccionada, nombre_supervisor, correo_supervisor, nombre_empresa, rut_empresa, fecha_inicio).subscribe(
       {
         next: (data: any) => {
           aux = {...aux, ...data}
@@ -90,4 +90,36 @@ export class IniciarPracticaComponent implements OnInit{
       }
     });
   }
+
+  actualizar_cantidades(modalidad:any){
+    // actualizar el dropdown de cantidad segun la modalidad seleccionada
+
+    // borrar el contenido del dropdown de cantidad
+    var dropdown_cantidad = document.getElementById("cantidad"+this.nombre_practica)
+    while (dropdown_cantidad?.firstChild) {
+      dropdown_cantidad.removeChild(dropdown_cantidad.firstChild);
+    }
+    this.cantidades = []
+    
+    this.config_practica.forEach((element: any) => {
+      if(element.modalidad == modalidad.target.value){
+        this.cantidades.push(element.cantidad_tiempo)
+      }
+    });
+
+    var dropdown_cantidad = document.getElementById("cantidad"+this.nombre_practica)
+    
+    // actualizar el dropdown de cantidad con el contenido de this.cantidades
+    for (let i = 0; i < this.cantidades.length; i++) {
+      //chequear si cantidades[i] es un numero
+      if(isNaN(this.cantidades[i])){
+        continue
+      }
+      var option = document.createElement("option")
+      option.text = this.cantidades[i].toString()
+      option.value = this.cantidades[i].toString()
+      dropdown_cantidad?.appendChild(option)
+    }
+  }
+
 }
