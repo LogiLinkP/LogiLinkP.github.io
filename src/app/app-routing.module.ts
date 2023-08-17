@@ -40,12 +40,7 @@ const routes: Routes = [
           { path: 'empresas', component: EmpresasComponent},
           { path: 'finalizacion/:n', component: FinalizacionComponent },
           { path: 'iniciarpractica/:n', component: IniciarPracticaComponent },
-<<<<<<< HEAD
-          { path: 'chat/:room/:id1/:id2/:tipo', component: ChatComponent},
-=======
-          { path: 'chat/:room/:id2/:tipo', component: ChatComponent}
->>>>>>> 4fba2f9def1d5c70caf98e949ab75095f004e560
-        ]
+          { path: 'chat/:room/:id1/:id2/:tipo', component: ChatComponent},        ]
       }
     ]
   },

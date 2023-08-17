@@ -14,7 +14,7 @@ export class BarraSuperiorComponent implements OnInit{
   Id:number = 0;
   respuesta:any = [];
 
-  usuario:any=[];
+  Yo:any=[];
   usuarios:any=[];
 
   id1:number = 0;
@@ -30,9 +30,9 @@ export class BarraSuperiorComponent implements OnInit{
       },
       complete: () => {
         this.es_alumno = 1;
-        this.usuario = this.respuesta.body;
-        this.id1=this.usuario.id;
-        this.Salumno.obtener_practica(this.usuario.id).subscribe({
+        this.Yo = this.respuesta.body;
+        this.id1=this.Yo.id;
+        this.Salumno.obtener_practica(this.Yo.id).subscribe({
           next: (data:any) =>{
             this.respuesta = { ...this.respuesta, ...data}
           },
@@ -42,7 +42,7 @@ export class BarraSuperiorComponent implements OnInit{
           },
           complete:() => {
             this.usuarios = this.respuesta.body;
-            console.log(this.respuesta);
+            console.log(this.usuarios);
           }
         })
       },
