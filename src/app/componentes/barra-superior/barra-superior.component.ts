@@ -10,6 +10,7 @@ import { DetallePracticaService } from 'src/app/servicios/encargado/detalle-prac
 })
 export class BarraSuperiorComponent implements OnInit{
   es_alumno: number = -1;
+  tipo: string = "";
   Id:number = 0;
   respuesta:any = [];
 
@@ -21,6 +22,7 @@ export class BarraSuperiorComponent implements OnInit{
 
   ngOnInit(): void {
     if (this.es_alumno == 1){
+      this.tipo = "estudiante";
       this.Salumno.obtener_practica(this.Id).subscribe({
         next: (data: any) => {
           this.respuesta = { ...this.respuesta, ...data }
@@ -35,6 +37,7 @@ export class BarraSuperiorComponent implements OnInit{
       });  
     }
     else{
+      this.tipo = "encargado";
       this.Sencargado.obtener_practica(this.Id).subscribe({
         next: (data: any) => {
           this.respuesta = { ...this.respuesta, ...data }

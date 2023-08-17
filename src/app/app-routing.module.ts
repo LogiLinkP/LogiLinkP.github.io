@@ -39,7 +39,8 @@ const routes: Routes = [
           { path: 'cuestionario/:n', component: CuestionarioComponent },
           { path: 'empresas', component: EmpresasComponent},
           { path: 'finalizacion/:n', component: FinalizacionComponent },
-          { path: 'iniciarpractica/:n', component: IniciarPracticaComponent }
+          { path: 'iniciarpractica/:n', component: IniciarPracticaComponent },
+          { path: 'chat/:room/:id2/:tipo', component: ChatComponent}
         ]
       }
     ]
