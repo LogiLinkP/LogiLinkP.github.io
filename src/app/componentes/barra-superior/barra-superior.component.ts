@@ -10,6 +10,7 @@ import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.serv
 })
 export class BarraSuperiorComponent implements OnInit{
   es_alumno: number = -1;
+  tipo: string = "";
   Id:number = 0;
   respuesta:any = [];
 
