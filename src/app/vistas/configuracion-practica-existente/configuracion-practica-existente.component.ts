@@ -1,5 +1,5 @@
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { BarraLateralService } from 'src/app/servicios/encargado/barra-lateral/barra-lateral.service';
 import { environment } from 'src/environments/environment';
 import { DOCUMENT } from '@angular/common';
@@ -15,6 +15,7 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
   rutas = environment;
   config: any;
   flag: boolean = false;
+  nombre_config: string | null;
 
   formdata: FormGroup;
   nombrePractica: string;
@@ -36,35 +37,14 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
     this.document.documentElement.scrollTop = 0;
   }
 
-  generarFormulario() {
-
-    if (this.config.modalidad == "horas") {
-      this.horas = true;
-    }
-    if (this.config.modalidad == "meses") {
-      this.meses = true;
-    }
-
-    this.formdata = new FormGroup({
-      nombrePractica: new FormControl(this.config.nombre),
-      horas: new FormControl(this.horas),
-      meses: new FormControl(this.meses),
-      cant_horas: new FormControl(),
-      cant_meses: new FormControl(),
-      frecuenciaInformes: new FormControl(),
-      informeFinal: new FormControl(),
-      tipoPregunta: new FormControl(),
-      pregunta: new FormControl(),
-      cantidad_opciones: new FormControl(),
-      opciones_pregunta: new FormControl()
-    });
-  }
-
   ngOnInit(): void {
     let respuesta: any = {};
-    let id_config = parseInt(this.route.snapshot.url[1].path);
 
-    this.service.obtenerConfigPorId(id_config).subscribe({
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.nombre_config = params.get('nombre');
+    })
+
+    this.service.obtenerConfigPracticaNombre(this.nombre_config).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
@@ -77,10 +57,38 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
       },
       complete: () => {
         this.config = respuesta.body;
+        console.log(this.config);
         this.generarFormulario();
         this.flag = true;
-        console.log("Request en existente", this.config);
       }
+    });
+  }
+
+  generarFormulario() {
+    for (let i = 0; i < this.config.length; i++) {
+      if (this.config[i].modalidad == "horas") {
+        this.horas = true;
+      }
+      if (this.config[i].modalidad == "meses") {
+        this.meses = true;
+      }
+      //if (this.config[i].modalidad == "convalidar") {
+      //  this.meses = true;
+      //}
+    }
+
+    this.formdata = new FormGroup({
+      nombrePractica: new FormControl(this.config[0].nombre),
+      horas: new FormControl(this.horas),
+      meses: new FormControl(this.meses),
+      cant_horas: new FormControl(),
+      cant_meses: new FormControl(),
+      frecuenciaInformes: new FormControl(),
+      informeFinal: new FormControl(),
+      tipoPregunta: new FormControl(),
+      pregunta: new FormControl(),
+      cantidad_opciones: new FormControl(),
+      opciones_pregunta: new FormControl()
     });
   }
 

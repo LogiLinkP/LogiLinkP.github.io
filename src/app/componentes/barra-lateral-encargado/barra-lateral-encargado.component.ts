@@ -34,8 +34,6 @@ export class BarraLateralEncargadoComponent {
             this.configs_nombres.push(respuesta.body[i].nombre)
           }
         }
-        console.log("practicas creadas:", this.practicas_creadas)
-        console.log("configs nombres:", this.configs_nombres)
       }
     });
   }
