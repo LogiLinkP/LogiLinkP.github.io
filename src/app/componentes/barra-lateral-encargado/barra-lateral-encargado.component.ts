@@ -12,6 +12,7 @@ export class BarraLateralEncargadoComponent {
   rutas = environment;
   name: string;
   practicas_creadas: any = [];
+  configs_nombres: any = [];
 
   constructor(private service: BarraLateralService, private _snackBar: MatSnackBar) {
     let respuesta: any = {};
@@ -27,7 +28,14 @@ export class BarraLateralEncargadoComponent {
         });
       },
       complete: () => {
-        this.practicas_creadas = respuesta.body;
+        for (let i = 0; i < respuesta.body.length; i++) {
+          if (!this.configs_nombres.includes(respuesta.body[i].nombre)) {
+            this.practicas_creadas.push(respuesta.body[i])
+            this.configs_nombres.push(respuesta.body[i].nombre)
+          }
+        }
+        console.log("practicas creadas:", this.practicas_creadas)
+        console.log("configs nombres:", this.configs_nombres)
       }
     });
   }
