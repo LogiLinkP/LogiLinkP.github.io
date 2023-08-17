@@ -20,8 +20,8 @@ export class ObtenerDatosService {
     return this._http.request(req);
   }
 
-  obtener_config_practica(id_config_practica: number){
-    const req = new HttpRequest('GET', `${environment.url_back}/config_practica?id=${id_config_practica}`);
+  obtener_config_practica(nombre: string){
+    const req = new HttpRequest('GET', `${environment.url_back}/config_practica/nombre?nombre=${nombre}`);
     return this._http.request(req);
   }
 

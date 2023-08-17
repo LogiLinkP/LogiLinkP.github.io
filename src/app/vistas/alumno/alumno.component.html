@@ -255,45 +255,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div><!-- Fin Tarjeta Escribir Informe -->                                                  
-                                                        </div><!-- Fin Fila -->
-                                                                                
-                                                        
-                                                        <div class="row" style="max-width: 100%;" *ngIf="practica[1].estado == 'En curso'">                                                           
-
-                                                            <!-- Tarjeta Escribir informe -->
-                                                            <div class="col-xl-6">
-                                                                <div class="card shadow mb-4">
-                                                                    <!-- Card Header - Accordion -->
-                                                                    <a class="card-header py-3">
-                                                                        <h4 class="m-0 font-weight-bold text-primary">Escribir Informe de Avances</h4>
-                                                                    </a>
-                                                                    <!-- Card Content - Collapse -->
-                                                                    <div class="collapse show" id="collapseCardExample">
-                                                                        <div class="card-body">
-                                                                            <!-- Ex componente de subir informe-->                                                                       
-                                                                            <div style="height: 200px;"> 
-                                                                                <div class = "row" style="max-width: 100%;">
-                                                                                  <div class = "col-md-12" >
-                                                                                    <table style="width:100%; margin-top: 5px">        
-                                                                                      <tr>
-                                                                                        <td style="width:70%"><mat-label>Actividades Realizadas</mat-label></td><td><mat-label>Horas Dedicadas</mat-label></td></tr>
-                                                                                      <tr>
-                                                                                        <td><textarea matInput style="width:90%; height: 120px"  placeholder="Escriba aquí" id="informe"></textarea></td>
-                                                                                        <td><input type="number" maxlength="2" min=1 max="24" id="horas"></td>
-                                                                                      </tr>
-                                                                                      <tr>
-                                                                                        <td></td>
-                                                                                        <td style="text-align:right"><button class="btn btn-primary btn-lg btn-block" (click) = "ingresarInforme(practica[1])">Enviar</button></td>
-                                                                                      </tr>
-                                                                                    </table>
-                                                                                  </div>
-                                                                                </div>
-                                                                            </div> <!--Fin ex componente subir informe-->                                                                            
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div><!-- Fin Tarjeta Escribir Informe -->
-                                                        </div><!-- Fin Fila -->
+                                                        </div><!-- Fin Fila -->                                                                              
                                                         
                                                     </div><!-- Fin de tarjeta de estructura interna -->
 
@@ -312,7 +274,7 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-xl-6">
-                                                    BOTON INICIAR PRACTICA
+                                                    <app-iniciar-practica [id_estudiante] = estudiante.id [nombre_practica] = practica[0]></app-iniciar-practica>
                                                 </div>
                                             </div>
                                         </div>

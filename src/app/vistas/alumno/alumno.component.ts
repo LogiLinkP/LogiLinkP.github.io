@@ -9,7 +9,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./alumno.component.scss']
 })
 export class DetalleAlumnoComponent implements OnInit{
-  id_estudiante: number = -1;
   id_usuario: number = -1;
   estudiante:any = [];  
   config_practica: any = [];
