@@ -14,8 +14,9 @@ import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 export class ConfiguracionPracticaExistenteComponent implements OnInit {
   rutas = environment;
   config: any;
+  flag: boolean = false;
 
-  formdata: any;
+  formdata: FormGroup;
   nombrePractica: string;
   horas: boolean;
   meses: boolean;
@@ -44,9 +45,10 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
         console.log("Error al buscar configuracion de practica", error);
       },
       complete: () => {
+        this.flag = true;
+        this.genereteForm();
         this.config = respuesta.body;
         console.log("Request en existente", this.config);
-        console.log("nombre", this.config.informe_final);
       }
     });
   }
@@ -57,8 +59,12 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log("flag", this.flag)
+  }
+
+  genereteForm() {
     this.formdata = new FormGroup({
-      nombrePractica: new FormControl(),
+      nombrePractica: new FormControl(this.config.nombre),
       horas: new FormControl(false),
       meses: new FormControl(false),
       cant_horas: new FormControl(),
@@ -71,6 +77,7 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
       opciones_pregunta: new FormControl()
     });
   }
+
 
   AddPractica(data: any) {
     this.nombrePractica = data.nombrePractica;

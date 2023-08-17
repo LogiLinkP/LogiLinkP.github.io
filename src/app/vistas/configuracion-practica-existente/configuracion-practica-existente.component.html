@@ -21,7 +21,7 @@
 
                 <form [formGroup]="formdata" (ngSubmit)="AddPractica(formdata.value)">
                     <!-- NOMBRE PRACTICA -->
-                    <input type="text" class="form-control col-6" value="config.nombre" formControlName="nombrePractica" >
+                    <input type="text" class="form-control col-6" formControlName="nombrePractica" >
 
                     <input type="checkbox" formControlName="horas"> Horas
                     <input type="checkbox" formControlName="meses"> Meses
