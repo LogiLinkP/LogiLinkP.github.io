@@ -19,7 +19,7 @@
                 <!-- Page Heading -->
                 <h1 class="h3 mb-4 text-gray-800">Configuracion Practica</h1>
 
-                <form [formGroup]="formdata" (ngSubmit)="AddPractica(formdata.value)">
+                <form *ngIf="flag" [formGroup]="formdata" (ngSubmit)="AddPractica(formdata.value)">
                     <!-- NOMBRE PRACTICA -->
                     <input type="text" class="form-control col-6" formControlName="nombrePractica" >
 
@@ -70,7 +70,7 @@
                 <br>
                 <p> Preguntas informe de avance </p>
 
-                <form [formGroup]="formdata" (ngSubmit)="AddPregunta(formdata.value)">
+                <!-- <form [formGroup]="formdata" (ngSubmit)="AddPregunta(formdata.value)">
                     <input type="text" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="pregunta">
                     <hr>
                         <select name="tipo" id="tipo" (change) = "tipoPregunta($event)" class="form-select form-select-sm mb-4 col-4"  aria-label="Default select example">
@@ -110,7 +110,7 @@
 
 
                     <input type="submit" value="Agregar Pregunta">
-                </form>
+                </form> -->
                 
 
             </div>

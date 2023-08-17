@@ -29,7 +29,38 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
   opciones_pregunta: string[] = [];
   preguntas: string[] = [];
 
-  constructor(private service: BarraLateralService, private _snackBar: MatSnackBar, private route: ActivatedRoute, @Inject(DOCUMENT) private document: Document) {
+  constructor(private service: BarraLateralService, private _snackBar: MatSnackBar, private route: ActivatedRoute, @Inject(DOCUMENT) private document: Document) {}
+
+  scrollToTop(): void {
+    this.document.body.scrollTop = 0;
+    this.document.documentElement.scrollTop = 0;
+  }
+
+  generarFormulario() {
+
+    if (this.config.modalidad == "horas") {
+      this.horas = true;
+    }
+    if (this.config.modalidad == "meses") {
+      this.meses = true;
+    }
+
+    this.formdata = new FormGroup({
+      nombrePractica: new FormControl(this.config.nombre),
+      horas: new FormControl(this.horas),
+      meses: new FormControl(this.meses),
+      cant_horas: new FormControl(),
+      cant_meses: new FormControl(),
+      frecuenciaInformes: new FormControl(),
+      informeFinal: new FormControl(),
+      tipoPregunta: new FormControl(),
+      pregunta: new FormControl(),
+      cantidad_opciones: new FormControl(),
+      opciones_pregunta: new FormControl()
+    });
+  }
+
+  ngOnInit(): void {
     let respuesta: any = {};
     let id_config = parseInt(this.route.snapshot.url[1].path);
 
@@ -45,39 +76,13 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
         console.log("Error al buscar configuracion de practica", error);
       },
       complete: () => {
-        this.flag = true;
-        this.genereteForm();
         this.config = respuesta.body;
+        this.generarFormulario();
+        this.flag = true;
         console.log("Request en existente", this.config);
       }
     });
   }
-
-  scrollToTop(): void {
-    this.document.body.scrollTop = 0;
-    this.document.documentElement.scrollTop = 0;
-  }
-
-  ngOnInit(): void {
-    console.log("flag", this.flag)
-  }
-
-  genereteForm() {
-    this.formdata = new FormGroup({
-      nombrePractica: new FormControl(this.config.nombre),
-      horas: new FormControl(false),
-      meses: new FormControl(false),
-      cant_horas: new FormControl(),
-      cant_meses: new FormControl(),
-      frecuenciaInformes: new FormControl(),
-      informeFinal: new FormControl(),
-      tipoPregunta: new FormControl(),
-      pregunta: new FormControl(),
-      cantidad_opciones: new FormControl(),
-      opciones_pregunta: new FormControl()
-    });
-  }
-
 
   AddPractica(data: any) {
     this.nombrePractica = data.nombrePractica;
