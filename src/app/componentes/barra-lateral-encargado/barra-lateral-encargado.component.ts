@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ComunicacionService } from 'src/app/servicios/com-componentes/comunicacion.service';
 import { BarraLateralService } from 'src/app/servicios/encargado/barra-lateral/barra-lateral.service';
 import { environment } from 'src/environments/environment';
 
@@ -14,6 +15,8 @@ export class BarraLateralEncargadoComponent {
   practicas_creadas: any = [];
 
   constructor(private service: BarraLateralService, private _snackBar: MatSnackBar) {
+    
+    
     let respuesta: any = {};
 
     this.service.obtenerPracticasCreadas().subscribe({
