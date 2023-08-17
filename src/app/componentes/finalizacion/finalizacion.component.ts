@@ -16,7 +16,7 @@ export class FinalizacionComponent {
   id_estudiante: number = -1;
   id_practica: number = -1;
   private sub: any;
-  alumno: any = {};
+  estudiante: any = {};
   practica: any = {};
 
   constructor(private service: GestionarService, private serviceEstudiante: ObtenerDatosService,private serviceSupervisor: SupervisorService, private route: ActivatedRoute, private _snackBar: MatSnackBar, private router: Router) {
@@ -49,7 +49,7 @@ export class FinalizacionComponent {
             duration: 3000
           })
           //obtener datos del estudiante
-          this.serviceEstudiante.obtener_alumno(this.id_estudiante).subscribe(
+          this.serviceEstudiante.obtener_estudiante(this.id_estudiante).subscribe(
             {
               next: (data:any) => {
                 resultado = { ...resultado, ...data };
@@ -61,7 +61,7 @@ export class FinalizacionComponent {
                 });
               },
               complete: () => {
-                this.alumno = resultado.body;
+                this.estudiante = resultado.body;
                 resultado = {};
                 //console.log("alumno",this.alumno);
                 this.serviceEstudiante.obtener_practica(this.id_estudiante).subscribe(
@@ -79,9 +79,9 @@ export class FinalizacionComponent {
                       this.practica = resultado.body;
                       resultado = {};
                       console.log("practica",this.practica.correo_supervisor);
-                      console.log("alumno",this.alumno.nombre);
+                      console.log("estudiante",this.estudiante.nombre);
                       console.log("supervisor",this.practica.nombre_supervisor);
-                      this.serviceSupervisor.enviarLink(this.practica.correo_supervisor,this.practica.nombre_supervisor,this.alumno.nombre).subscribe(
+                      this.serviceSupervisor.enviarLink(this.practica.correo_supervisor,this.practica.nombre_supervisor,this.estudiante.nombre).subscribe(
                         {
                           next: (data:any) => {
                             resultado = { ...resultado, ...data };
