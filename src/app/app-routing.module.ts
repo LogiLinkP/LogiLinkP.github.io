@@ -59,6 +59,7 @@ const routes: Routes = [
   { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
   { path: 'configuracion', component: ConfiguracionPracticaComponent},
   { path: 'configurar/:nombre', component: ConfiguracionPracticaExistenteComponent},
+  { path: 'configuracion/configBase', component: ConfiguracionPracticaExistenteComponent},
   { path: '**', component: PnfComponent },
 ];
 

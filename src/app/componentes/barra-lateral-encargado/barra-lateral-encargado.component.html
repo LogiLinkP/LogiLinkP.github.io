@@ -35,7 +35,7 @@
                 <!-- cambiar a navigate? no se cambian las vistas sin pasar por otra -->
                 <a *ngFor="let practica of practicas_creadas" class="collapse-item" [routerLink]="['/configurar', practica.nombre]">{{practica.nombre}}</a>
                 <h6 class="collapse-header">Crear Nueva:</h6>
-                <a class="collapse-item" routerLink="/crear_practica">Planilla base</a>
+                <a class="collapse-item" [routerLink]="['/configurar', 'configBase']">Planilla base</a>
                 <a class="collapse-item" [routerLink]="['/configuracion']">Planilla en blanco</a>
                 <a class="collapse-item" [routerLink]="">Importar configuracion</a>
             </div>
