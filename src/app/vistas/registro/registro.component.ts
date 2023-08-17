@@ -78,6 +78,10 @@ export class RegistroComponent implements OnInit {
       complete: () => {
         if (_data.status == 200) {
           this.router.navigate(["/" + environment.ruta_login])
+          this._snackBar.open("Usuario creado correctamente", "Cerrar", {
+            panelClass: ['green-snackbar'],
+            duration: 2000
+          });
         } else {
           this._snackBar.open("Error al crear usuario", "Cerrar", {
             panelClass: ['red-snackbar'],
@@ -100,8 +104,7 @@ export class RegistroComponent implements OnInit {
       this.es_estudiante = true;
       this.es_supervisor = false;
       this.es_encargado = false;
-    }
-    else if (arg.target.value = "2") {
+    } else if (arg.target.value = "2") {
       this.checkEs = false;
       this.es_supervisor = true;
       this.es_estudiante = false;
