@@ -19,4 +19,13 @@ export class BarraLateralService {
     return this._http.request(req);
   }
 
+  obtenerConfigPracticaNombre(nombre: string | null) {
+    if (nombre == null) {
+      console.log("Configuracion de practica no encontrada (null)");
+      nombre = "";
+    }
+    const req = new HttpRequest('GET', `${environment.url_back}/config_practica/nombre?nombre=${nombre}`);
+    return this._http.request(req);
+  }
+
 }
