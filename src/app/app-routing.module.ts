@@ -56,7 +56,7 @@ const routes: Routes = [
   { path: 'informaciones', component: InformacionesComponent },
   { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
   { path: 'chat/:room/:id1/:id2/:tipo', component: ChatComponent},
-  { path: '**', component: PnfComponent }  
+  { path: '**', component: PnfComponent }
 ];
 
 @NgModule({
