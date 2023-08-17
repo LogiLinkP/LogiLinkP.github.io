@@ -111,22 +111,40 @@
             <!-- Dropdown - Messages -->
             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="messagesDropdown">
+                <div *nfIf = "is_alumno == 1; else elseblock">
+                    Habla con un Encargado.
+                    <div *ngFor = "let user of usuarios">
+                        <a class="dropdown-item d-flex align-items-center" routerLink="/chat/sala{{id1}}{{usuario.encargado.id}}/{{id1}}/{{usuario.encargado.id}}/estudiante">
+                            <div class="dropdown-list-image mr-3">
+                                <img class="rounded-circle" src="../../../assets/img/undraw_profile_1.svg"
+                                    alt="...">
+                                <div class="status-indicator bg-success"></div>
+                            </div>
+                            <div class="font-weight-bold"></div>
+                            <div>HOLA</div>
+                        </a>
+                    </div>
+                </div>
+
+                <ng-template #elseblock>
+                    Habla con un Estudiante.
+                    <div *ngFor = "let user of usuarios">
+                        <a class="dropdown-item d-flex align-items-center" routerLink="/chat/sala{{id1}}{{usuario.estudiante.id}}/{{id1}}/{{usuario.estudiante.id}}/encargado">
+                            <div class="dropdown-list-image mr-3">
+                                <img class="rounded-circle" src="../../../assets/img/undraw_profile_1.svg"
+                                    alt="...">
+                                <div class="status-indicator bg-success"></div>
+                            </div>
+                            <div class="font-weight-bold"></div>
+                            <div>HOLA</div>
+                        </a>
+                    </div>
+                </ng-template>
+
                 <h6 class="dropdown-header">
-                    Habla con un Encargado
+                    
                 </h6>
-                (Establecer un ngFor con cada encargado disponible)
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="../../../assets/img/undraw_profile_1.svg"
-                            alt="...">
-                        <div class="status-indicator bg-success"></div>
-                    </div>
-                    <div class="font-weight-bold">
-                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                            problem I've been having.</div>
-                    </div>
-                </a>
-                
+                             
                 <a class="dropdown-item text-center small text-gray-500" href="#">Más mensajes</a>
             </div>
         </li>

@@ -39,7 +39,8 @@ const routes: Routes = [
           { path: 'cuestionario/:n', component: CuestionarioComponent },
           { path: 'empresas', component: EmpresasComponent},
           { path: 'finalizacion/:n', component: FinalizacionComponent },
-          { path: 'iniciarpractica/:n', component: IniciarPracticaComponent }
+          { path: 'iniciarpractica/:n', component: IniciarPracticaComponent },
+          { path: 'chat/:room/:id1/:id2/:tipo', component: ChatComponent},
         ]
       }
     ]
@@ -55,7 +56,6 @@ const routes: Routes = [
   { path: 'estadisticas', component: EstadisticasComponent },
   { path: 'informaciones', component: InformacionesComponent },
   { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
-  { path: 'chat/:room/:id1/:id2/:tipo', component: ChatComponent},
   { path: '**', component: PnfComponent }
 ];
 

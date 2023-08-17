@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ObtenerDatosService} from 'src/app/servicios/alumno/obtener_datos.service';
-import { DetallePracticaService } from 'src/app/servicios/encargado/detalle-practica.service';
+import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
+import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
 
 @Component({
   selector: 'app-barra-superior',
@@ -13,41 +13,53 @@ export class BarraSuperiorComponent implements OnInit{
   Id:number = 0;
   respuesta:any = [];
 
+  usuario:any=[];
   usuarios:any=[];
 
-  constructor(private Salumno: ObtenerDatosService, private Sencargado: DetallePracticaService, private router: ActivatedRoute){
+  id1:number = 0;
+
+  constructor(private Service: DataUsuarioService, private Salumno: ObtenerDatosService, private router: ActivatedRoute){
     this.router.params.subscribe(params => {this.Id = +params['id'];});
   }
 
   ngOnInit(): void {
-    if (this.es_alumno == 1){
-      this.Salumno.obtener_practica(this.Id).subscribe({
-        next: (data: any) => {
-          this.respuesta = { ...this.respuesta, ...data }
-        },
-        error: (error: any) => {
-          console.log(error);
-          return;
-        },
-        complete: () => {
-          this.usuarios = JSON.parse(this.respuesta.body);
-        }  
-      });  
-    }
-    else{
-      this.Sencargado.obtener_practica(this.Id).subscribe({
-        next: (data: any) => {
-          this.respuesta = { ...this.respuesta, ...data }
-        },
-        error: (error: any) => {
-          console.log(error);
-          return;
-        },
-        complete: () => {
-          this.usuarios = JSON.parse(this.respuesta.body);
-        }  
-      });  
-    }
+    this.Service.obtener_estudiante(this.Id).subscribe({
+      next: (data: any) => {
+        this.respuesta = { ...this.respuesta, ...data }
+      },
+      complete: () => {
+        this.es_alumno = 1;
+        this.usuario = this.respuesta.body;
+        this.id1=this.usuario.id;
+        this.Salumno.obtener_practica(this.usuario.id).subscribe({
+          next: (data:any) =>{
+            this.respuesta = { ...this.respuesta, ...data}
+          },
+          error: (error: any) => {
+            console.log(error);
+            return;
+          },
+          complete:() => {
+            this.usuarios = this.respuesta.body;
+            console.log(this.respuesta);
+          }
+        })
+      },
+      error: (error: any) => {
+        this.es_alumno=0;
+        this.Service.obtener_encargado(this.Id).subscribe({
+          next: (data: any) => {
+            this.respuesta = { ...this.respuesta, ...data }
+          },
+          error: (error: any) => {
+            console.log(error);
+            return;
+          },
+          complete: () => {
+            this.usuarios = this.respuesta.body;
+          }  
+        });  
+      }, 
+    });  
   }
-
 }
