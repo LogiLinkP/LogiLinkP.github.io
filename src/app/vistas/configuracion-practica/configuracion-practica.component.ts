@@ -17,7 +17,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
     dataSourcePacks!: MatTableDataSource<any>;
 
     
-    formdata: any;
+    
     //nombrePractica: string;
     //horas: boolean;
     //meses: boolean;
@@ -25,7 +25,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
     //cant_meses: string;
     //frecuencia_informe: any;
     //informe_final: any;
-    tipo_pregrunta: string;
+    
 
     //title = 'form-array';
   
@@ -39,17 +39,33 @@ export class ConfiguracionPracticaComponent implements OnInit {
     meses = new FormControl('')
     frecuenciaInformes = new FormControl('')
     informeFinal = new FormControl('')
-    pregunta = new FormControl('')
+    preguntaFORM = new FormControl('')
   
     constructor(private _fb: FormBuilder,
       private cd: ChangeDetectorRef) {
   
     }
+
+    formdata: any;
+    pregunta: string;
+    tipo_pregunta: string;
+
+    
+
+    lista_preguntas_avance: string[] = [];
+    tipos_preguntas_avance: string[] = [];
+    lista_opciones_preguntas_avance: string[] = [];
+
+    lista_preguntas_final: string[] = [];
+    tipos_preguntas_final: string[] = [];
+    lista_opciones_preguntas_final: string[] = [];
+    
+    
   
     ngOnInit(): void {
   
       this.fg = this._fb.group({
-        opcion_pregunta: this.opcion_pregunta,
+        opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
         nombrePractica: this.nombrePractica,
         cant_horas: this.cant_horas,
         cant_meses: this.cant_meses,
@@ -57,7 +73,9 @@ export class ConfiguracionPracticaComponent implements OnInit {
         meses: this.meses,
         frecuenciaInformes: this.frecuenciaInformes,
         informeFinal: this.informeFinal,
-        pregunta: this.pregunta,
+        //pregunta: this.preguntaFORM,
+
+        preguntaFORM: this.pregunta,
         
         promos: this._fb.array([])
 
@@ -108,34 +126,117 @@ export class ConfiguracionPracticaComponent implements OnInit {
       console.log(this.informeFinal);
     }
 
-    onSubmitAddPregunta() {
-      this.pregunta = this.fg.value.pregunta;
-      console.log(this.pregunta);
+    onSubmitAddPreguntaAvance() {
+      //this.lista_opciones_preguntas = [];
+      this.pregunta = this.fg.value.preguntaFORM;
+
+      this.opcion_pregunta = this.promos.value;
+      //console.log(typeof this.opcion_pregunta);
+
+      var string_pregunta = String(this.pregunta)
+
+      //console.log(string_pregunta);
+      this.lista_preguntas_avance.push(string_pregunta);
+      console.log(this.lista_preguntas_avance);
+
+      this.tipos_preguntas_avance.push(this.tipo_pregunta);
+      console.log(this.tipos_preguntas_avance);
+
+
+      var opciones_de_una_pregunta = ""
+      if (Object.keys(this.opcion_pregunta).length == 0) {
+        console.log("no hay opciones");
+      }
+      else{
+        console.log("hay opciones");
+        //var string_pregunta = String(this.pregunta)
+        for (let i = 0; i < Object.keys(this.opcion_pregunta).length; i++) {
+          opciones_de_una_pregunta = opciones_de_una_pregunta + String(Object.values(Object.values(this.opcion_pregunta)[i])[0])
+          opciones_de_una_pregunta = opciones_de_una_pregunta + ","
+          //string_pregunta = string_pregunta + ","
+          //string_pregunta = string_pregunta + String(Object.values(Object.values(this.opcion_pregunta)[i])[0])
+          //console.log(Object.values(Object.values(this.opcion_pregunta)[i])[0]);
+          
+        }
+        //console.log(string_pregunta);
+        //this.lista_preguntas_avance.push(string_pregunta);
+        //console.log(this.lista_preguntas_avance);
+      }
+      this.lista_opciones_preguntas_avance.push(opciones_de_una_pregunta);
+      console.log(this.lista_opciones_preguntas_avance);
+
+      
     }
 
-    onSubmitAddOpcion() {
-      console.log(this.promos.value)
+    //CAMBIAR
+    onSubmitAddPreguntaFinal() {
+      this.pregunta = this.fg.value.preguntaFORM;
+
+      this.opcion_pregunta = this.promos.value;
+
+      var string_pregunta = String(this.pregunta)
+
+      if (Object.keys(this.opcion_pregunta).length == 0) {
+        console.log("no hay opciones");
+      }
+      else{
+        
+        //var string_pregunta = String(this.pregunta)
+        for (let i = 0; i < Object.keys(this.opcion_pregunta).length; i++) {
+          string_pregunta = string_pregunta + ","
+          string_pregunta = string_pregunta + String(Object.values(Object.values(this.opcion_pregunta)[i])[0])
+          //console.log(Object.values(Object.values(this.opcion_pregunta)[i])[0]);
+        }
+        //console.log(string_pregunta);
+        //this.lista_preguntas_avance.push(string_pregunta);
+        //console.log(this.lista_preguntas_avance);
+      }
+
+      console.log(string_pregunta);
+
+      this.lista_preguntas_final.push(string_pregunta);
+      console.log(this.lista_preguntas_final);
+
+      this.tipos_preguntas_final.push(this.tipo_pregunta);
+      console.log(this.tipos_preguntas_final);
+
+      //clear opcion_pregunta
+      //this.opcion_pregunta = [];
     }
+
+    
   
 
     tipoPregunta(arg: any) {
 
       if (arg.target.value == "0") {
-        this.tipo_pregrunta = "sin_tipo";
-        console.log(this.tipo_pregrunta);
+        this.tipo_pregunta = "sin_tipo";
+        //vacia el array de opciones guardadas anteriormente
+        this.promos.clear();
+        console.log(this.tipo_pregunta);
       }
   
       if (arg.target.value == "1") {
-        this.tipo_pregrunta = "abierta";
-        console.log(this.tipo_pregrunta);
+        this.tipo_pregunta = "abierta";
+        //vacia el array de opciones guardadas anteriormente
+        this.promos.clear();
+        console.log(this.tipo_pregunta);
       }
       else if (arg.target.value == "2") {
-        this.tipo_pregrunta = "casillas";
-        console.log(this.tipo_pregrunta);
+        this.tipo_pregunta = "casillas";
+        console.log(this.tipo_pregunta);
       } 
       else if (arg.target.value == "3") {
-        this.tipo_pregrunta = "alternativas";
-        console.log(this.tipo_pregrunta);
+        this.tipo_pregunta = "alternativas";
+        console.log(this.tipo_pregunta);
       }
+    }
+
+    numSequence(n: number): Array<number> {
+      return Array(n);
+    }
+
+    lengthArray(array: Array <string> ): number{
+      return array.length;
     }
   }
