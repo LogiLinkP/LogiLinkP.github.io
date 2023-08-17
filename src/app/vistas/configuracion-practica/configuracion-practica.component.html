@@ -14,21 +14,19 @@
             <app-barra-superior></app-barra-superior>
 
             <!-- Begin Page Content -->
+
+            <!-- CONFIGURACION PRACTICA -->
             <div class="container-fluid">
 
-                <!-- Page Heading -->
                 <h1 class="h3 mb-4 text-gray-800">Configuracion Practica</h1>
-                <h2 *ngIf="payload != undefined">{{payload.nombre}}</h2>
 
-                <form [formGroup]="formdata" (ngSubmit)="AddPractica(formdata.value)">
-                    <!-- NOMBRE PRACTICA -->
-                    <input *ngIf="payload != undefined" type="text" class="form-control col-6" placeholder="payload.nombre" formControlName="nombrePractica" >
-                    <input *ngIf="payload == undefined" type="text" class="form-control col-6" placeholder="Practica Profesional" formControlName="nombrePractica" >
+                <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitPractica()">
+
+                    <input type="text" class="form-control col-6" placeholder="Practica Profesional" formControlName="nombrePractica">
                     <input type="checkbox" formControlName="horas"> Horas
                     <input type="checkbox" formControlName="meses"> Meses
                     <input type="text" class="form-control col-lg-3 col-6" placeholder="Cantidad de Horas" formControlName="cant_horas">
                     <input type="text" class="form-control col-lg-3 col-6" placeholder="Cantidad de Meses" formControlName="cant_meses">
-                    
                     <br>
                     <p> Frecuencia informes de avance (bitacoras) </p>
 
@@ -64,96 +62,266 @@
                     </div>
                     <br>
                     <br>
-                    <input type="submit" value="Siguiente">
-                </form>
 
-                <!-- Config informes de avance -->
+                    <button class="btn-save" type="submit">Siguiente</button>
+                </form>
+            </div>
+
+            <!-- CONFIGURACION PREGUNTAS AVANCE -->
+            <div class="container-fluid">
                 <br>
+
                 <p> Preguntas informe de avance </p>
 
-                <form [formGroup]="formdata" (ngSubmit)="AddPregunta(formdata.value)">
-                    <input type="text" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="pregunta">
-                    <hr>
-                        <select name="tipo" id="tipo" (change) = "tipoPregunta($event)" class="form-select form-select-sm mb-4 col-4"  aria-label="Default select example">
-                            <option value="0">Seleccione el tpo de respuesta</option>
-                            <option value="1">Abierta</option>
-                            <option value="2">Casillas</option>
-                            <option value="3">Alternativa</option>
-                        </select>
+                
+                <!-- <li *ngFor="let i of numSequence(lengthArray(lista_preguntas_avance))">
+                  esto significa que hay una pregunta           
+                </li> -->
 
-                        <div *ngIf="tipo_pregrunta==''"> </div>
-                        <div *ngIf="tipo_pregrunta=='abierta'">
+                <div *ngFor="let pregunta_avance of lista_preguntas_avance">
+                    {{pregunta_avance}}
+                </div>
+
+                <br>
+
+                <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddPreguntaAvance()">
+
+                    <input type="text" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
+                    <select name="tipo" id="tipo" (change) = "tipoPregunta($event)" class="form-select form-select-sm mb-4 col-4"  aria-label="Default select example">
+                        <option value="0">Seleccione el tpo de respuesta</option>
+                        <option value="1">Abierta</option>
+                        <option value="2">Casillas</option>
+                        <option value="3">Alternativa</option>
+                    </select>
+
+                    <div *ngIf="tipo_pregunta==''"> </div>
+                        <div *ngIf="tipo_pregunta=='abierta'">
                             Pregunta abierta
                         </div>
 
-                        <div *ngIf="tipo_pregrunta=='casillas'">
-                            Cantidad de opciones:
-                            <br>
-                            <input type="number" min="2" max="10" step="1" class="form-control col-1" (change) ="cantidadOpciones($event)">
+                    <div *ngIf="tipo_pregunta=='casillas'">
 
-                            
-                            
-                            <input *ngFor="let i of numSequence(cantidad_opciones)" type="text" class="form-control col-lg-3 col-6" placeholder="Ingresar Opcion" formControlName="opciones_pregunta">
-                            
-                            
+                        <!-- FORMULARIO OPCIONES -->
 
-                        </div>
+                        <br>
+                        <!-- <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddOpcion()"> -->
 
+                            <div class="button">
+                              <button type="button" (click)="addLesson()">Agregar opción</button>
+                            </div>
+                          
+                            <mat-table [dataSource]="dataSourcePacks">
+                              <ng-container formArrayName="promos">
+                          
+                                <!-- Cant Column -->
+                                <ng-container matColumnDef="opcion_pregunta">
+                                  <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                  <mat-cell *matCellDef="let element;" [formGroup]="element">
+                                    <mat-form-field>
+                                      <input matInput placeholder="Escribir opción" formControlName="opcion_pregunta" required>
+                                    </mat-form-field>
+                                  </mat-cell>
+                                </ng-container>
+                          
+                                <!-- Delete Column -->
+                                <ng-container matColumnDef="eliminar">
+                                  <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                  <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
+                          
+                                    <button type="button" (click)="deleteLesson(i)">
+                                      <mat-icon matSuffix>Eliminar opción</mat-icon>
+                                    </button>
+                          
+                                  </mat-cell>
+                                </ng-container>
+                          
+                                <!-- header titles -->
+                          
+                                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                              </ng-container>
+                            </mat-table>
+                          
+                          <!-- </form> -->
                         
-                        <div *ngIf="tipo_pregrunta=='alternativas'">
-                            Pregunta con alternativas
-                            <br>
-                            <input type="number" min="2" max="10" step="1" class="form-control col-1" (change) ="cantidadOpciones($event)">
+                    </div>
+
+                    
+                    <div *ngIf="tipo_pregunta=='alternativas'">
 
 
-                        </div>
-                    <hr>
+                        <!-- FORMULARIO OPCIONES -->
+                        <br>
+                        <!-- <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddOpcion()"> -->
+
+                            <div class="button">
+                              <button type="button" (click)="addLesson()">Agregar opción</button>
+                            </div>
+                          
+                            <mat-table [dataSource]="dataSourcePacks">
+                              <ng-container formArrayName="promos">
+                          
+                                <!-- Cant Column -->
+                                <ng-container matColumnDef="opcion_pregunta">
+                                  <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                  <mat-cell *matCellDef="let element;" [formGroup]="element">
+                                    <mat-form-field>
+                                      <input matInput placeholder="Escribir opción" formControlName="opcion_pregunta" required>
+                                    </mat-form-field>
+                                  </mat-cell>
+                                </ng-container>
+                          
+                                <!-- Delete Column -->
+                                <ng-container matColumnDef="eliminar">
+                                  <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                  <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
+                          
+                                    <button type="button" (click)="deleteLesson(i)">
+                                      <mat-icon matSuffix>Eliminar opción</mat-icon>
+                                    </button>
+                          
+                                  </mat-cell>
+                                </ng-container>
+                          
+                                <!-- header titles -->
+                          
+                                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                              </ng-container>
+                            </mat-table>
+                          
+                          <!-- </form> -->
 
 
-                    <input type="submit" value="Agregar Pregunta">
+                    </div>
+                    
+
+                    <button class="btn-save" type="submit">Agregar Pregunta</button>
                 </form>
-                
-
-                <!--
-                <form [formGroup]="formdata" (ngSubmit)="onChangeTipoPregunta(formdata.value)">
-                    <select formControlName="pregunta" class="form-select form-select-sm mb-4 col-4"  aria-label="Default select example">
-                        <option selected>Tipo de respuesta</option>
-                        <option type="submit" value="abierta">Abierta</option>
-                        <option type="submit" value="casillas">Casillas</option>
-                        <option type="submit" value="alternativas">Alternativas</option>
-                    </select>
-                </form>
-                -->
-                
-
-                <!--
-                <form [formGroup]="formdata" (ngSubmit)=" onChangeTipoPregunta(formdata.value)">
-                    <select class="form-select form-select-sm mb-4 col-4"  aria-label="Default select example">
-                        <option selected>Tipo de respuesta</option>
-                        <option value="abierta">Abierta</option>
-                        <option value="casillas">Casillas</option>
-                        <option value="alternativas">Alternativas</option>
-                    </select>
-                    <input type="submit" value="Enviar" />
-                </form>
-                -->
-
-                <!--
-                <form action="myservlet.do" method="POST">
-                    <select name="myselect" id="myselect" onchange="this.form.submit()">
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                        <option value="4">Four</option>
-                    </select>
-                </form>
-                -->
-
-
-
-                
-
             </div>
+
+            <!-- CONFIGURACION PREGUNTAS INFORME FINAL -->
+            <div class="container-fluid">
+              <br>
+
+              <p> Preguntas informe final </p>
+
+              <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddPreguntaFinal()">
+
+                  <input type="text" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
+                  <select name="tipo" id="tipo" (change) = "tipoPregunta($event)" class="form-select form-select-sm mb-4 col-4"  aria-label="Default select example">
+                      <option value="0">Seleccione el tpo de respuesta</option>
+                      <option value="1">Abierta</option>
+                      <option value="2">Casillas</option>
+                      <option value="3">Alternativa</option>
+                  </select>
+
+                  <div *ngIf="tipo_pregunta==''"> </div>
+                      <div *ngIf="tipo_pregunta=='abierta'">
+                          Pregunta abierta
+                      </div>
+
+                  <div *ngIf="tipo_pregunta=='casillas'">
+
+                      <!-- FORMULARIO OPCIONES -->
+
+                      <br>
+                      <!-- <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddOpcion()"> -->
+
+                          <div class="button">
+                            <button type="button" (click)="addLesson()">Agregar opción</button>
+                          </div>
+                        
+                          <mat-table [dataSource]="dataSourcePacks">
+                            <ng-container formArrayName="promos">
+                        
+                              <!-- Cant Column -->
+                              <ng-container matColumnDef="opcion_pregunta">
+                                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                <mat-cell *matCellDef="let element;" [formGroup]="element">
+                                  <mat-form-field>
+                                    <input matInput placeholder="Escribir opción" formControlName="opcion_pregunta" required>
+                                  </mat-form-field>
+                                </mat-cell>
+                              </ng-container>
+                        
+                              <!-- Delete Column -->
+                              <ng-container matColumnDef="eliminar">
+                                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
+                        
+                                  <button type="button" (click)="deleteLesson(i)">
+                                    <mat-icon matSuffix>Eliminar opción</mat-icon>
+                                  </button>
+                        
+                                </mat-cell>
+                              </ng-container>
+                        
+                              <!-- header titles -->
+                        
+                              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                            </ng-container>
+                          </mat-table>
+                        
+                        <!-- </form> -->
+                      
+                  </div>
+
+                  
+                  <div *ngIf="tipo_pregunta=='alternativas'">
+
+
+                      <!-- FORMULARIO OPCIONES -->
+                      <br>
+                      <!-- <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddOpcion()"> -->
+
+                          <div class="button">
+                            <button type="button" (click)="addLesson()">Agregar opción</button>
+                          </div>
+                        
+                          <mat-table [dataSource]="dataSourcePacks">
+                            <ng-container formArrayName="promos">
+                        
+                              <!-- Cant Column -->
+                              <ng-container matColumnDef="opcion_pregunta">
+                                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                <mat-cell *matCellDef="let element;" [formGroup]="element">
+                                  <mat-form-field>
+                                    <input matInput placeholder="Escribir opción" formControlName="opcion_pregunta" required>
+                                  </mat-form-field>
+                                </mat-cell>
+                              </ng-container>
+                        
+                              <!-- Delete Column -->
+                              <ng-container matColumnDef="eliminar">
+                                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
+                        
+                                  <button type="button" (click)="deleteLesson(i)">
+                                    <mat-icon matSuffix>Eliminar opción</mat-icon>
+                                  </button>
+                        
+                                </mat-cell>
+                              </ng-container>
+                        
+                              <!-- header titles -->
+                        
+                              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                            </ng-container>
+                          </mat-table>
+                        
+                        <!-- </form> -->
+
+
+                  </div>
+                  
+
+                  <button class="btn-save" type="submit">Agregar Pregunta</button>
+              </form>
+          </div>
+
             <!-- /.container-fluid -->
 
         </div>
@@ -168,10 +336,12 @@
 </div>
 <!-- End of Page Wrapper -->
 
-<!-- Scroll to Top Button-->
+<!-- Scroll to Top Button
+
+
 <a class="scroll-to-top rounded" (click)="scrollToTop()">
     <i class="fas fa-angle-up"></i>
 </a>
-
+-->
 <!-- Logout Modal-->
 <app-logout-modal></app-logout-modal>
