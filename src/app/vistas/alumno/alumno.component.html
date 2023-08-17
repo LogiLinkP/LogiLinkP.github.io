@@ -198,7 +198,10 @@
                                                                                                 <td>{{solicitud.tipo_archivo}}</td>
                                                                                                 <td>Normal</td>
                                                                                                 <td [ngSwitch]="solicitud.documentos.length" >
-                                                                                                    <p *ngSwitchCase="0">Subir</p>
+                                                                                                    <app-subir-archivo *ngSwitchCase="0" [id_solicitud] = solicitud.id 
+                                                                                                                        [id_practica] = practica[1].id [descripcion]="solicitud.descripcion"
+                                                                                                                        [nombre_solicitud]="solicitud.nombre_solicitud" [tipo_archivo]="solicitud.tipo_archivo">
+                                                                                                    </app-subir-archivo>
                                                                                                     <button *ngSwitchCase="1" (click)="descargar_documento(solicitud.id, doc_str)">Descargar</button>
                                                                                                 </td>
                                                                                             </tr>

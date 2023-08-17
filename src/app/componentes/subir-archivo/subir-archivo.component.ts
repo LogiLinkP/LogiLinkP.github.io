@@ -39,7 +39,7 @@ export class SubirArchivoComponent {
     let tipo_archivo = this.tipo_archivo;
 
     const dialogRef = this.dialog.open(Dialog, {
-      width: '300px',
+      width: '400px',
       enterAnimationDuration: "100ms",
       exitAnimationDuration: "100ms",
       data: { nombre_solicitud, descripcion, tipo_archivo }
