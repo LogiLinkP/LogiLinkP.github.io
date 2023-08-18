@@ -65,6 +65,7 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
   }
 
   generarFormulario() {
+    // set modalidades
     for (let i = 0; i < this.config.length; i++) {
       if (this.config[i].modalidad == "horas") {
         this.horas = true;
@@ -72,8 +73,8 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
       if (this.config[i].modalidad == "meses") {
         this.meses = true;
       }
-      //if (this.config[i].modalidad == "convalidar") {
-      //  this.meses = true;
+      //if (this.config[i].modalidad == "convalidable") {
+      //  this.convalidable = true;
       //}
     }
 
@@ -83,7 +84,7 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
       meses: new FormControl(this.meses),
       cant_horas: new FormControl(),
       cant_meses: new FormControl(),
-      frecuenciaInformes: new FormControl(),
+      frecuenciaInformes: new FormControl(this.config[0].frecuencia_informes),
       informeFinal: new FormControl(),
       tipoPregunta: new FormControl(),
       pregunta: new FormControl(),
