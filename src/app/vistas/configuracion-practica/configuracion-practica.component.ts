@@ -21,8 +21,8 @@ export class ConfiguracionPracticaComponent implements OnInit {
     //! Sacar de aca los FormControl e incluir tipo de la variable
     opcion_pregunta = new FormControl('')
     nombrePractica: string;
-    cant_horas = new FormControl('')
-    cant_meses = new FormControl('')
+    cant_horas: number ;
+    cant_meses: number ;
     horas: boolean;
     meses: boolean;
     frecuenciaInformes: string;
@@ -48,8 +48,10 @@ export class ConfiguracionPracticaComponent implements OnInit {
     lista_preguntas_final: string[] = [];
     tipos_preguntas_final: string[] = [];
     lista_opciones_preguntas_final: string[] = [];
-    
-    
+
+    lista_nombre_solicitud_documentos: string[] = [];
+    lista_description_solicitud_documentos: string[] = [];
+    lista_tipo_solicitud_documentos: string[] = [];
   
     ngOnInit(): void {
     //! Agregar aca todos los FormControl
@@ -107,6 +109,30 @@ export class ConfiguracionPracticaComponent implements OnInit {
       this.frecuenciaInformes = this.fg.value.frecuenciaInformes;
       this.informeFinal = this.fg.value.informeFinal;
       console.log(this.fg.value);
+
+      if (this.fg.value.informeFinal == "informeFinalNO"){
+        this.informeFinal = false
+      }
+      else if (this.fg.value.informeFinal == "informeFinalSI"){
+        this.informeFinal = true
+      }
+
+      //cambio estado vista
+      console.log(this.frecuenciaInformes);
+      console.log(this.informeFinal);
+      if (this.frecuenciaInformes == "sinAvance" && this.informeFinal == false){
+        this.estado = "solicitud_documentos";
+        console.log("documentos");
+      }
+      else if (this.frecuenciaInformes =="sinAvance" && this.informeFinal == true){
+        this.estado = "informe_final";
+        console.log("informe final");
+      }
+      else if (this.frecuenciaInformes !="sinAvance"){
+        this.estado = "informe_avance";
+        console.log("informe avance");
+      }
+      console.log(this.estado);
     }
 
     onSubmitAddPreguntaAvance() {
@@ -223,5 +249,22 @@ export class ConfiguracionPracticaComponent implements OnInit {
 
     lengthArray(array: Array <string> ): number{
       return array.length;
+    }
+
+    avanzarDesdePreguntasAvance(){
+      if (this.informeFinal == true){
+        this.estado = "informe_final";
+      }
+      else{
+        this.estado = "solicitud_documentos";
+      }
+    }
+
+    avanzarDesdePreguntasFinal(){
+      this.estado = "solicitud_documentos";
+    }
+
+    onSubmitAddSolicitudDoc(){
+      console.log("documento agregado");
     }
   }
