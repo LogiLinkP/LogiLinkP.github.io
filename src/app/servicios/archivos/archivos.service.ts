@@ -67,6 +67,8 @@ export class ArchivosService {
     formData.append('file', file);
     formData.append('id_solicitud', `${id_solicitud}`);
     formData.append('id_practica', `${id_practica}`);
+
+    console.log("RUTA PARA SUBIR ARCHIVO",`${environment.url_back}/${environment.ruta_documento}/upload`)
   
     const req = new HttpRequest('PUT', `${environment.url_back}/${environment.ruta_documento}/upload`, formData, {
       reportProgress: true,

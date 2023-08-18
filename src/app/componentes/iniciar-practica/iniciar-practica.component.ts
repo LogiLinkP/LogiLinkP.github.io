@@ -12,9 +12,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 
 export class IniciarPracticaComponent implements OnInit{
-  @Input() id_config_practica = -1
   @Input() id_estudiante = -1
   @Input() nombre_practica: string = ""
+  id_config_practica = -1
   config_practica: any = []
   cantidades: number[] = []
   modalidades: string[] = []
@@ -22,37 +22,73 @@ export class IniciarPracticaComponent implements OnInit{
   constructor(private service: GestionarService, private service2: ObtenerDatosService, private _snackBar: MatSnackBar, private route:ActivatedRoute, private router: Router) {}
 
  enviar(){
-    console.log("ENVIAR")
-  
+    // obtener los datos de los inputs
+    let modalidad = (document.getElementById("modalidad"+this.nombre_practica) as HTMLInputElement).value
+    let cantidad = (document.getElementById("cantidad"+this.nombre_practica) as HTMLInputElement).value
+
     let nombre_supervisor = (document.getElementById("nombre_supervisor"+this.nombre_practica) as HTMLInputElement).value
     let correo_supervisor = (document.getElementById("correo_supervisor"+this.nombre_practica) as HTMLInputElement).value
     let nombre_empresa = (document.getElementById("nombre_empresa"+this.nombre_practica) as HTMLInputElement).value
     let rut_empresa = (document.getElementById("rut_empresa"+this.nombre_practica) as HTMLInputElement).value
     let fecha_inicio = (document.getElementById("fecha_inicio"+this.nombre_practica) as HTMLInputElement).value
 
-    console.log("ENVIAR2")
+    let aux:any = {}
 
-    console.log(this.id_estudiante)
 
-    let aux:any = {} 
+    this.service.buscar_config_practica(this.nombre_practica, modalidad, parseInt(cantidad)).subscribe({
+      next: (data: any) => {
+        aux = { ...aux, ...data }
+      },
+      error: (error: any) => console.log(error),
+      complete: () => {
+        console.log("config_practica encontrada")
+        this.id_config_practica = aux.body.id
+        console.log("ID DE CONFIG PRACTICA", this.id_config_practica)
 
-    this.service.registrar_practica(this.id_estudiante, this.id_config_practica, nombre_supervisor, correo_supervisor, nombre_empresa, rut_empresa, fecha_inicio).subscribe(
-      {
-        next: (data: any) => {
-          aux = {...aux, ...data}
-          console.log("DATA EN NEXT:",data)
-        },
-        error: error => {
-          console.log("ERROR EN REGISTRAR PRACTICA",error)
-        },
-        complete: () => {
-          console.log("Esto en complietetware:",aux)
-          this._snackBar.open("Práctica iniciada", "Cerrar", {
-            panelClass: ['green-snackbar']
-          });
-        }
+        // INICIO DE CREACION DE EMPRESA, SUPERVISOR Y PRACTICA
+        this.service.registrar_empresa(nombre_empresa, rut_empresa).subscribe({
+          next: (data: any) => {
+            aux = { ...aux, ...data }
+          },
+          error: (error: any) => console.log("Error:",error),
+          complete: () => {
+            console.log("empresa registrada")
+            // parse de body as json
+            let id_empresa = aux.body.id
+            console.log("ID DE EMPRESA", id_empresa)
+    
+            this.service.registrar_supervisor(nombre_supervisor, correo_supervisor).subscribe({
+              next: (data: any) => {
+                aux = { ...aux, ...data }
+              },
+              error: (error: any) => console.log(error),
+              complete: () => {
+                console.log("supervisor registrado")
+                let id_supervisor = aux.body.id
+                console.log("ID DE SUPERVISOR", id_supervisor)
+    
+                this.service.registrar_practica(this.id_estudiante, this.id_config_practica, 
+                                                  fecha_inicio, id_empresa, id_supervisor, -1).subscribe({
+                  next: (data: any) => {
+                    aux = { ...aux, ...data }
+                  },
+                  error: (error: any) => console.log(error),
+                  complete: () => {
+                    console.log("practica registrada")
+                    this._snackBar.open("Práctica registrada", "", {
+                      duration: 3000,
+                    });
+                    window.location.reload();
+                  }
+                });
+              }
+            });
+          }
+        });
       }
-    )
+    });
+    // Crear empresa, supervisor y practica
+    
   } 
 
   ngOnInit() {
