@@ -111,17 +111,17 @@
             <!-- Dropdown - Messages -->
             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="messagesDropdown">
-                <div *nfIf = "is_alumno == 1; else elseblock">
+                <div *ngIf = "es_alumno == 1; else elseblock">
                     Habla con un Encargado.
                     <div *ngFor = "let user of usuarios">
-                        <a class="dropdown-item d-flex align-items-center" routerLink="/chat/sala{{id1}}{{Yo.encargado.id}}/{{id1}}/{{Yo.encargado.id}}/estudiante">
+                        <a class="dropdown-item d-flex align-items-center" routerLink="chat/sala{{id1}}{{user.id_encargado}}/{{id1}}/{{user.id_encargado}}/estudiante">
                             <div class="dropdown-list-image mr-3">
                                 <img class="rounded-circle" src="../../../assets/img/undraw_profile_1.svg"
                                     alt="...">
                                 <div class="status-indicator bg-success"></div>
                             </div>
+                            Encargado #{{user.id_encargado}}
                             <div class="font-weight-bold"></div>
-                            <div>HOLA</div>
                         </a>
                     </div>
                 </div>
@@ -129,7 +129,7 @@
                 <ng-template #elseblock>
                     Habla con un Estudiante.
                     <div *ngFor = "let user of usuarios">
-                        <a class="dropdown-item d-flex align-items-center" routerLink="/chat/sala{{id1}}{{Yo.estudiante.id}}/{{id1}}/{{Yo.estudiante.id}}/encargado">
+                        <a class="dropdown-item d-flex align-items-center" routerLink="/chat/sala{{id1}}{{user.estudiante.id}}/{{id1}}/{{user.estudiante.id}}/encargado">
                             <div class="dropdown-list-image mr-3">
                                 <img class="rounded-circle" src="../../../assets/img/undraw_profile_1.svg"
                                     alt="...">

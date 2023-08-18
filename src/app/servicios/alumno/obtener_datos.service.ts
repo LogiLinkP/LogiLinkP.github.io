@@ -20,6 +20,11 @@ export class ObtenerDatosService {
     return this._http.request(req);
   }
 
+  obtener_practica_encargado(id_encargado: number){
+    const req = new HttpRequest('GET', `${environment.url_back}/practica/get_asEncargado?id_encargado=${id_encargado}`);
+    return this._http.request(req);
+  }
+
   obtener_config_practica(nombre: string){
     const req = new HttpRequest('GET', `${environment.url_back}/config_practica/nombre?nombre=${nombre}`);
     return this._http.request(req);

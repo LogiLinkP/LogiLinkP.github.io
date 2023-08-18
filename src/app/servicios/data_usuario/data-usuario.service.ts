@@ -17,4 +17,17 @@ export class DataUsuarioService {
     const req = new HttpRequest('GET', `${environment.url_back}/encargado/usuario?id_usuario=${id_usuario}`);
     return this._http.request(req);
   }
+
+  obtener_usuario(id_usuario:number){
+    const req = new HttpRequest('GET', `${environment.url_back}/usuario?id=${id_usuario}`);
+    return this._http.request(req);
+  }
+  obtener_estudiantes_practicas(id_encargado: number){
+    const req = new HttpRequest('GET', `${environment.url_back}/encargado/estudiantes?id_encargado=${id_encargado}`);
+    return this._http.request(req);
+  }
+  obtener_encargados_practicas(id_estudiante: number){
+    const req = new HttpRequest('GET', `${environment.url_back}/estudiante/encargados?id_estudiante=${id_estudiante}`);
+    return this._http.request(req);
+  }
 }

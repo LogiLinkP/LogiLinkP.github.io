@@ -23,44 +23,84 @@ export class BarraSuperiorComponent implements OnInit{
     this.router.params.subscribe(params => {this.Id = +params['id'];});
   }
 
+  obtener_usuarios(ID:number, IS:number){
+    if (IS == 1){
+      this.Service.obtener_encargados_practicas(ID).subscribe({
+        next: (data:any) => {
+          this.respuesta = {... this.respuesta, ...data}
+        },
+        error: (error:any) => {
+          console.log(error);
+          return;
+        },
+        complete: () => {
+          this.usuarios = this.respuesta.body[0].practicas;
+          console.log(this.usuarios);
+        }
+      })
+    }
+    else{
+      this.Service.obtener_estudiantes_practicas(ID).subscribe({
+        next: (data:any) => {
+          this.respuesta = {... this.respuesta, ...data}
+        },
+        error: (error:any) => {
+          console.log(error);
+          return;
+        },
+        complete: () => {
+          this.usuarios = this.respuesta.body.practicas;
+        }
+      })
+    } 
+  }
+
   ngOnInit(): void {
-    this.Service.obtener_estudiante(this.Id).subscribe({
+    this.Service.obtener_usuario(this.Id).subscribe({
       next: (data: any) => {
         this.respuesta = { ...this.respuesta, ...data }
       },
-      complete: () => {
-        this.es_alumno = 1;
-        this.Yo = this.respuesta.body;
-        this.id1=this.Yo.id;
-        this.Salumno.obtener_practica(this.Yo.id).subscribe({
-          next: (data:any) =>{
-            this.respuesta = { ...this.respuesta, ...data}
-          },
-          error: (error: any) => {
-            console.log(error);
-            return;
-          },
-          complete:() => {
-            this.usuarios = this.respuesta.body;
-            console.log(this.usuarios);
-          }
-        })
-      },
       error: (error: any) => {
-        this.es_alumno=0;
-        this.Service.obtener_encargado(this.Id).subscribe({
-          next: (data: any) => {
-            this.respuesta = { ...this.respuesta, ...data }
-          },
-          error: (error: any) => {
-            console.log(error);
-            return;
-          },
-          complete: () => {
-            this.usuarios = this.respuesta.body;
-          }  
-        });  
-      }, 
+        console.log(error);
+        return;
+      },
+      complete: () => {
+        if(this.respuesta.body.es_estudiante == true){
+          this.es_alumno = 1;
+          this.Service.obtener_estudiante(this.Id).subscribe({
+            next: (data:any) => {
+              this.respuesta = { ...this.respuesta, ...data }
+            },
+            error: (error: any) =>{
+              console.log(error);
+              return;
+            },
+            complete:()=>{
+              this.id1 = this.respuesta.body.id;
+              this.obtener_usuarios(this.id1, this.es_alumno);
+            }
+          })
+        }
+        else if(this.respuesta.body.es_encargado == true){
+          this.es_alumno = 0;
+          this.Service.obtener_encargado(this.Id).subscribe({
+            next: (data:any) => {
+              this.respuesta = { ...this.respuesta, ...data }
+            },
+            error: (error: any) =>{
+              console.log(error);
+              return;
+            },
+            complete:()=>{
+              this.id1 = this.respuesta.body.id;
+              this.obtener_usuarios(this.id1, this.es_alumno);
+            }
+          })
+        }
+        else{
+          return;
+        }
+      }
     });  
   }
 }
