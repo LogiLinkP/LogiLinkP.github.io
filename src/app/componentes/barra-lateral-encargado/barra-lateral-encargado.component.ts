@@ -32,9 +32,12 @@ export class BarraLateralEncargadoComponent {
       },
       complete: () => {
         for (let i = 0; i < respuesta.body.length; i++) {
+          //si es que no se ha agregado a la lista ni es la planilla
           if (!this.configs_nombres.includes(respuesta.body[i].nombre)) {
-            this.practicas_creadas.push(respuesta.body[i])
-            this.configs_nombres.push(respuesta.body[i].nombre)
+            if (respuesta.body[i].nombre != "configBase") {
+              this.practicas_creadas.push(respuesta.body[i])
+              this.configs_nombres.push(respuesta.body[i].nombre)
+            }
           }
         }
       }
