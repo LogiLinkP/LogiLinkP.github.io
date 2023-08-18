@@ -15,7 +15,7 @@
 
             <!-- Begin Page Content -->
 
-            <!-- CONFIGURACION PRACTICA -->
+            <!------------------------------------------------------ CONFIGURACION GENERAL PRACTICA ----------------------------------------------------------->
             <div class="container-fluid">
 
                 <h1 class="h3 mb-4 text-gray-800">Configuracion Practica</h1>
@@ -67,19 +67,34 @@
                 </form>
             </div>
 
-            <!-- CONFIGURACION PREGUNTAS AVANCE -->
+
+            <!------------------------------------------------ CONFIGURACION PREGUNTAS AVANCE --------------------------------------------------------------->
             <div class="container-fluid">
                 <br>
 
                 <p> Preguntas informe de avance </p>
 
-                
-                <!-- <li *ngFor="let i of numSequence(lengthArray(lista_preguntas_avance))">
-                  esto significa que hay una pregunta           
-                </li> -->
-
-                <div *ngFor="let pregunta_avance of lista_preguntas_avance">
+                <div *ngFor="let pregunta_avance of lista_preguntas_avance; let i = index">
+                    <br>
+                    Pregunta Ingresada:
+                    <br>
                     {{pregunta_avance}}
+
+                    <div *ngIf="lista_opciones_preguntas_avance[i] != ''">
+                        Opciones:
+                        {{lista_opciones_preguntas_avance[i]}}
+                        <br>
+                        <button>
+                          Eliminar Pregunta
+                        </button>
+                    </div>
+
+                    <div *ngIf="lista_opciones_preguntas_avance[i] == ''">
+                        <button>
+                          Eliminar Pregunta
+                        </button>
+                    </div>
+
                 </div>
 
                 <br>
@@ -96,7 +111,7 @@
 
                     <div *ngIf="tipo_pregunta==''"> </div>
                         <div *ngIf="tipo_pregunta=='abierta'">
-                            Pregunta abierta
+                            <!-- Pregunta abierta -->
                         </div>
 
                     <div *ngIf="tipo_pregunta=='casillas'">
@@ -200,11 +215,35 @@
                 </form>
             </div>
 
-            <!-- CONFIGURACION PREGUNTAS INFORME FINAL -->
+            <!-------------------------------------------------- CONFIGURACION PREGUNTAS INFORME FINAL -------------------------------------------------------------->
             <div class="container-fluid">
               <br>
 
               <p> Preguntas informe final </p>
+
+              <div *ngFor="let pregunta_final of lista_preguntas_final; let i = index">
+                <br>
+                Pregunta Ingresada:
+                <br>
+                {{pregunta_final}}
+
+                <div *ngIf="lista_opciones_preguntas_final[i] != ''">
+                    Opciones:
+                    {{lista_opciones_preguntas_final[i]}}
+                    <br>
+                    <button>
+                      Eliminar Pregunta
+                    </button>
+                </div>
+
+                <div *ngIf="lista_opciones_preguntas_final[i] == ''">
+                    <button>
+                      Eliminar Pregunta
+                    </button>
+                </div>
+              </div>
+
+              <br>
 
               <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddPreguntaFinal()">
 
@@ -218,7 +257,7 @@
 
                   <div *ngIf="tipo_pregunta==''"> </div>
                       <div *ngIf="tipo_pregunta=='abierta'">
-                          Pregunta abierta
+                          <!-- Pregunta abierta -->
                       </div>
 
                   <div *ngIf="tipo_pregunta=='casillas'">
@@ -268,7 +307,8 @@
                       
                   </div>
 
-                  
+                  <br>
+
                   <div *ngIf="tipo_pregunta=='alternativas'">
 
 
@@ -320,7 +360,7 @@
 
                   <button class="btn-save" type="submit">Agregar Pregunta</button>
               </form>
-          </div>
+            </div>
 
             <!-- /.container-fluid -->
 
