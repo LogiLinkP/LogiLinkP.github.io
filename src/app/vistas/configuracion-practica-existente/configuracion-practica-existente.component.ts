@@ -32,9 +32,9 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
   cant_meses = new FormControl('') //arreglos
   horas: boolean;
   meses: boolean;
-  frecuenciaInformes: string;
-  informeFinal: boolean;
-  preguntaFORM = new FormControl('')
+  frecuenciaInformes = new FormControl('');
+  informeFinal = new FormControl('');
+  preguntaFORM = new FormControl('');
 
   pregunta: string;
   tipo_pregunta: string;
@@ -91,17 +91,21 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
         //if (this.config[i].modalidad == "convalidable") {
         //  this.convalidable = true;
         //}
-        }
+    }
+
+    // set informes
+    this.frecuenciaInformes = this.config[0].frecuencia_informes;
+    this.informeFinal = this.config[0].informe_final; //cambiar a si/no en BDD
 
     this.fg = this._fb.group({
-        opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
-        nombrePractica: new FormControl("Practica 1"),
+        opcion_preguntaFORM: [this.opcion_pregunta], //para poder definir tipo de pregunta
+        nombrePractica: new FormControl(this.config[0].nombre),
         cant_horas: this.cant_horas,
         cant_meses: this.cant_meses,
         horas: new FormControl(this.horas),
         meses: new FormControl(this.meses),
-        frecuenciaInformes: new FormControl(this.config[0].frecuencia_informes),
-        informeFinal: new FormControl(this.config[0].informe_final),
+        frecuenciaInformes: [this.frecuenciaInformes],
+        informeFinal: [this.informeFinal],
         //pregunta: this.preguntaFORM,
   
         preguntaFORM: this.pregunta,
@@ -109,6 +113,8 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
         promos: this._fb.array([])
   
       });
+
+      console.log("valores fg:", this.fg.value)
   }
 
   get promos() {
@@ -187,7 +193,6 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
     }
     this.lista_opciones_preguntas_avance.push(opciones_de_una_pregunta);
     console.log(this.lista_opciones_preguntas_avance);
-
     
   }
 
@@ -226,9 +231,6 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
     //clear opcion_pregunta
     //this.opcion_pregunta = [];
   }
-
-  
-
 
   tipoPregunta(arg: any) {
 
