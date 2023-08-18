@@ -32,12 +32,12 @@
         <br>
         
         Fecha Inicio:
-        <!--
-        FECHA INICIO MOSTRANDO CALENDARIO (HAY QUE MODIFICAR EL .ts PARA QUE FUNCIONE)
-        <input style="width: 150px;" matInput placeholder="dd-mm-aaaa" type="date" class="form-control" id="fecha_inicio">
-        -->
-
-        <input style="width: 210px;" matInput placeholder="Fecha Inicio" type="text" class="form-control" id="fecha_inicio{{nombre_practica}}">
+        <mat-form-field>
+            <input matInput [matDatepicker]="picker" placeholder="Elige una fecha" id="fecha_inicio{{nombre_practica}}">          
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>          
+            <mat-datepicker #picker ></mat-datepicker>          
+        </mat-form-field>
+        
 
         <br>
 

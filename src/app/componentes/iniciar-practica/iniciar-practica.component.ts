@@ -12,11 +12,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 
 export class IniciarPracticaComponent implements OnInit{
-
+  @Input() id_config_practica = -1
   @Input() id_estudiante = -1
   @Input() nombre_practica: string = ""
   config_practica: any = []
-  id_config_practica_seleccionada: number = -1
   cantidades: number[] = []
   modalidades: string[] = []
 
@@ -37,7 +36,7 @@ export class IniciarPracticaComponent implements OnInit{
 
     let aux:any = {} 
 
-    this.service.registrar_practica(this.id_estudiante, this.id_config_practica_seleccionada, nombre_supervisor, correo_supervisor, nombre_empresa, rut_empresa, fecha_inicio).subscribe(
+    this.service.registrar_practica(this.id_estudiante, this.id_config_practica, nombre_supervisor, correo_supervisor, nombre_empresa, rut_empresa, fecha_inicio).subscribe(
       {
         next: (data: any) => {
           aux = {...aux, ...data}
@@ -51,7 +50,6 @@ export class IniciarPracticaComponent implements OnInit{
           this._snackBar.open("Práctica iniciada", "Cerrar", {
             panelClass: ['green-snackbar']
           });
-          window.location.reload()
         }
       }
     )

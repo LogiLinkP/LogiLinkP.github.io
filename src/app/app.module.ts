@@ -16,6 +16,7 @@ import { TextFieldModule } from '@angular/cdk/text-field';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -97,6 +98,7 @@ import { SubirArchivoComponent } from './componentes/subir-archivo/subir-archivo
     MatCardModule,
     MatListModule,
     MatDatepickerModule,
+    MatNativeDateModule,
     MatSelectModule,
     MatToolbarModule,
     TextFieldModule,
