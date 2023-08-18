@@ -6,6 +6,7 @@ import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table'
 
 import { BarraLateralService } from 'src/app/servicios/encargado/barra-lateral/barra-lateral.service';
+import { ConfigService } from 'src/app/servicios/encargado/config-practica/config.service';
 
 @Component({
   selector: 'app-configuracion-practica-existente',
@@ -15,7 +16,8 @@ import { BarraLateralService } from 'src/app/servicios/encargado/barra-lateral/b
 export class ConfiguracionPracticaExistenteComponent implements OnInit {
 
   constructor(private _fb: FormBuilder, private cd: ChangeDetectorRef, @Inject(DOCUMENT) private document: Document,
-                private service: BarraLateralService, private _snackBar: MatSnackBar, private route: ActivatedRoute) {}
+                private serviceBarra: BarraLateralService, private _snackBar: MatSnackBar, private route: ActivatedRoute,
+                private serviceComplete: ConfigService) {}
 
   config: any;
   flag: boolean = false;
@@ -28,13 +30,13 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
   
   opcion_pregunta = new FormControl('')
   nombrePractica: string;
-  cant_horas = new FormControl('') //arreglos
-  cant_meses = new FormControl('') //arreglos
+  cant_horas: number[];
+  cant_meses: number[];
   horas: boolean;
   meses: boolean;
-  frecuenciaInformes: string;
-  informeFinal: boolean;
-  preguntaFORM = new FormControl('')
+  frecuenciaInformes = new FormControl('');
+  informeFinal = new FormControl('');
+  preguntaFORM = new FormControl('');
 
   pregunta: string;
   tipo_pregunta: string;
@@ -59,7 +61,7 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
       this.nombre_config = params.get('nombre');
     })
 
-    this.service.obtenerConfigPracticaNombre(this.nombre_config).subscribe({
+    this.serviceBarra.obtenerConfigPracticaNombre(this.nombre_config).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
@@ -79,6 +81,35 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
     });
   };
 
+  mandarDatos() {
+    let respuesta: any = {};
+
+    let modalidad: Array<boolean> = [this.horas, this.meses];
+    let cant_horas: Array<number> = this.cant_horas;
+    let cant_meses: Array<number> = this.cant_meses;
+
+    this.serviceComplete.crearConfigPracticaCompleto(this.nombrePractica, modalidad, cant_horas, cant_meses, this.frecuenciaInformes.value,
+                                                this.informeFinal.value, this.horas, this.meses,).subscribe({
+        next: (data: any) => {
+            respuesta = { ...respuesta, ...data }
+        },
+        error: (error: any) => {
+            this._snackBar.open("Error al actualizar configuracion de practica", "Cerrar", {
+            duration: 3500,
+            panelClass: ['red-snackbar']
+            });
+            console.log("Error al actualizar configuracion de practica", error);
+        },
+        complete: () => {
+            this._snackBar.open("Configuracion de practica actualizada", "Cerrar", {
+            duration: 3500,
+            panelClass: ['green-snackbar']
+            });
+            console.log("Configuracion de practica actualizada");
+        }
+    });
+  }
+
   generarFormulario() {
     // set modalidades
     for (let i = 0; i < this.config.length; i++) {
@@ -91,17 +122,21 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
         //if (this.config[i].modalidad == "convalidable") {
         //  this.convalidable = true;
         //}
-        }
+    }
+
+    // set informes
+    this.frecuenciaInformes = this.config[0].frecuencia_informes;
+    this.informeFinal = this.config[0].informe_final;
 
     this.fg = this._fb.group({
-        opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
-        nombrePractica: new FormControl("Practica 1"),
-        cant_horas: this.cant_horas,
-        cant_meses: this.cant_meses,
+        opcion_preguntaFORM: [this.opcion_pregunta], //para poder definir tipo de pregunta
+        nombrePractica: new FormControl(this.config[0].nombre),
+        cant_horas: new FormControl(),
+        cant_meses: new FormControl(),
         horas: new FormControl(this.horas),
         meses: new FormControl(this.meses),
-        frecuenciaInformes: new FormControl(this.config[0].frecuencia_informes),
-        informeFinal: new FormControl(this.config[0].informe_final),
+        frecuenciaInformes: [this.frecuenciaInformes],
+        informeFinal: [this.informeFinal],
         //pregunta: this.preguntaFORM,
   
         preguntaFORM: this.pregunta,
@@ -109,6 +144,8 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
         promos: this._fb.array([])
   
       });
+
+      console.log("valores fg:", this.fg.value)
   }
 
   get promos() {
@@ -187,7 +224,6 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
     }
     this.lista_opciones_preguntas_avance.push(opciones_de_una_pregunta);
     console.log(this.lista_opciones_preguntas_avance);
-
     
   }
 
@@ -226,9 +262,6 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
     //clear opcion_pregunta
     //this.opcion_pregunta = [];
   }
-
-  
-
 
   tipoPregunta(arg: any) {
 
