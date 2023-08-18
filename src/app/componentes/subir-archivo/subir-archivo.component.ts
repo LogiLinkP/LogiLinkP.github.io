@@ -50,7 +50,9 @@ export class SubirArchivoComponent {
         return;
       }
       let [, file] = result;
+      console.log(tipo_archivo, file)
       this.archivo_service.checkFileType(file, tipo_archivo).then((type_file: boolean) => {
+        console.log("HOLAA SUBIENDO ARCHIVOS4")
         if (!type_file) {
           this._snackBar.open("Archivo con formato incorrecto", "Cerrar", {
             panelClass: ['red-snackbar'],

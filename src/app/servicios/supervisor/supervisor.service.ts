@@ -25,7 +25,7 @@ export class SupervisorService {
     console.log("servicio correo",correo);
     console.log("servicio nom_sup",nom_sup);
     console.log("servicio nom_estudiante",nom_estudiante);
-    const req = new HttpRequest('POST', `${environment.url_back}/supervisor/gen_token`, { correo, nom_sup, nom_estudiante });
+    const req = new HttpRequest('POST', `${environment.url_back}/evaluacion/gen_token`, { correo, nom_sup, nom_estudiante });
     return this._http.request(req);
   }
 

@@ -3,6 +3,9 @@ import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.serv
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'src/environments/environment';
+import { GestionarService } from 'src/app/servicios/alumno/gestionar_practica.service';
+import { SupervisorService } from 'src/app/servicios/supervisor/supervisor.service';
+import { Router } from "@angular/router"
 
 @Component({
   selector: 'alumno',
@@ -30,7 +33,8 @@ export class DetalleAlumnoComponent implements OnInit{
   doc_str = "documento";
   doc_extra_str = "documento_extra";
 
-  constructor(private service: ObtenerDatosService , private route: ActivatedRoute, private _snackBar: MatSnackBar) {
+  constructor(private service_datos: ObtenerDatosService , private route: ActivatedRoute, private _snackBar: MatSnackBar, 
+              private service_gestion: GestionarService, private service_supervisor: SupervisorService, private router: Router) {
     this.id_usuario = parseInt(this.route.snapshot.paramMap.get('id') || "-1");
   }
 
@@ -38,7 +42,7 @@ export class DetalleAlumnoComponent implements OnInit{
     let respuesta: any = {};
 
     // Request para obtener al estudiante de acuerdo a su id de usuario
-    this.service.obtener_estudiante(this.id_usuario).subscribe({
+    this.service_datos.obtener_estudiante(this.id_usuario).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
@@ -47,7 +51,7 @@ export class DetalleAlumnoComponent implements OnInit{
         this.estudiante = respuesta.body;
 
         // Request para obtener las practicas de acuerdo al id del estudiante
-        this.service.obtener_todos_config_practica().subscribe({
+        this.service_datos.obtener_todos_config_practica().subscribe({
           next: (data: any) => {
             respuesta = { ...respuesta, ...data }
           }      ,
@@ -65,7 +69,7 @@ export class DetalleAlumnoComponent implements OnInit{
             console.log("Nombres de configuraciones de practica:",this.nombres_distintos_config_practica)
 
             // Request para obtener todas las practicas de acuerdo al id del estudiante
-            this.service.obtener_practica(this.estudiante.id).subscribe({
+            this.service_datos.obtener_practica(this.estudiante.id).subscribe({
               next: (data: any) => {
                 respuesta = { ...respuesta, ...data }
               },
@@ -102,10 +106,18 @@ export class DetalleAlumnoComponent implements OnInit{
       horas_trabajadas = 0;
     }
 
+    if (key == "") {
+      this._snackBar.open("Debe ingresar texto en la casilla de actividades","Cerrar",{
+        panelClass: ['red-snackbar'],
+        duration: 3000
+      })
+      return;
+    }
+
     console.log("id_practica:", practica.id);
     console.log("casilla horas:", horas_trabajadas);
     
-    this.service.ingresar_informe(practica.id, key, id_config_informe, horas_trabajadas).subscribe({
+    this.service_datos.ingresar_informe(practica.id, key, id_config_informe, horas_trabajadas).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
         console.log("Respuesta ingresar informe:",data);
@@ -147,7 +159,52 @@ export class DetalleAlumnoComponent implements OnInit{
         ventana.document.write("<textarea style='width: 100%; height: 100%; resize: none; border: none;'>" + informe.key + "</textarea>");
       }
     }    
-  } 
+  }
+  
+  finalizar_practica(practica: any) {
+    let resultado: any = {};
+    console.log("practica",practica)
+
+    this.service_gestion.finalizar_practica(this.estudiante.id, practica.id, environment.estado_practica.finalizada).subscribe({
+      next: (data: any) => {
+        console.log("Respuesta finalizar practica:",data);
+      },
+      error: (error: any) => console.log("Error en finalizar practica:",error),
+      complete: () => {
+        this._snackBar.open("Práctica Finalizada","Cerrar",{
+          panelClass: ['red-snackbar'],
+          duration: 3000
+        })
+
+        console.log("practica",practica, "estudiante",this.estudiante)
+        this.service_supervisor.enviarLink(practica.supervisor.correo, practica.supervisor.nombre, this.estudiante.usuario.nombre).subscribe(
+          {
+            next: (data:any) => {
+              resultado = { ...resultado, ...data };
+            },
+            error: (error:any) => {
+              console.log("enviar mail error",error);
+
+              this._snackBar.open("Se ha producido un error interno", "Cerrar", {
+                panelClass: ['red-snackbar'],
+                duration: 3000
+              });
+            },
+            complete: () => {
+              this._snackBar.open("Solicitud Ingresada Correctamente", "Cerrar", {
+                panelClass:['red-snackbar'],
+                duration:3000
+              });
+              console.log("Correo enviado");
+              //reload page
+              window.location.reload();
+            }
+          }
+        );    
+
+      }
+    });
+  }
 }
 
 
