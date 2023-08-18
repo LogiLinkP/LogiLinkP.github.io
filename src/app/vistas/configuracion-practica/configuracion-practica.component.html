@@ -22,7 +22,7 @@
 
                 <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitPractica()">
 
-                    <input type="text" class="form-control col-6" placeholder="Practica Profesional" formControlName="nombrePractica">
+                    <input type="text" class="form-control col-6" formControlName="nombrePractica">
                     <input type="checkbox" formControlName="horas"> Horas
                     <input type="checkbox" formControlName="meses"> Meses
                     <input type="text" class="form-control col-lg-3 col-6" placeholder="Cantidad de Horas" formControlName="cant_horas">

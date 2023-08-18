@@ -15,30 +15,18 @@ export class ConfiguracionPracticaComponent implements OnInit {
 
     displayedColumns = ["opcion_pregunta", "eliminar"]
     dataSourcePacks!: MatTableDataSource<any>;
-
-    
-    
-    //nombrePractica: string;
-    //horas: boolean;
-    //meses: boolean;
-    //cant_horas: string;
-    //cant_meses: string;
-    //frecuencia_informe: any;
-    //informe_final: any;
-    
-
-    //title = 'form-array';
   
     fg!: FormGroup
     
+    //! Sacar de aca los FormControl e incluir tipo de la variable
     opcion_pregunta = new FormControl('')
-    nombrePractica = new FormControl('')
+    nombrePractica: string;
     cant_horas = new FormControl('')
     cant_meses = new FormControl('')
-    horas = new FormControl('')
-    meses = new FormControl('')
-    frecuenciaInformes = new FormControl('')
-    informeFinal = new FormControl('')
+    horas: boolean;
+    meses: boolean;
+    frecuenciaInformes: string;
+    informeFinal: boolean;
     preguntaFORM = new FormControl('')
   
     constructor(private _fb: FormBuilder,
@@ -64,16 +52,16 @@ export class ConfiguracionPracticaComponent implements OnInit {
     
   
     ngOnInit(): void {
-  
+    //! Agregar aca todos los FormControl
       this.fg = this._fb.group({
         opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
-        nombrePractica: this.nombrePractica,
+        nombrePractica: new FormControl("Practica 1"),
         cant_horas: this.cant_horas,
         cant_meses: this.cant_meses,
-        horas: this.horas,
-        meses: this.meses,
-        frecuenciaInformes: this.frecuenciaInformes,
-        informeFinal: this.informeFinal,
+        horas: new FormControl(),
+        meses: new FormControl(),
+        frecuenciaInformes: new FormControl(),
+        informeFinal: new FormControl(),
         //pregunta: this.preguntaFORM,
 
         preguntaFORM: this.pregunta,
@@ -118,13 +106,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
       this.cant_meses = this.fg.value.cant_meses;
       this.frecuenciaInformes = this.fg.value.frecuenciaInformes;
       this.informeFinal = this.fg.value.informeFinal;
-      console.log(this.nombrePractica);
-      console.log(this.horas);
-      console.log(this.meses);
-      console.log(this.cant_horas);
-      console.log(this.cant_meses);
-      console.log(this.frecuenciaInformes);
-      console.log(this.informeFinal);
+      console.log(this.fg.value);
     }
 
     onSubmitAddPreguntaAvance() {
