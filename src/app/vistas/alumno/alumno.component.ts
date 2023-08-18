@@ -84,9 +84,16 @@ export class DetalleAlumnoComponent implements OnInit{
                   // de nombres distintos y agregar la practica en el arreglo que se encarga de mantener la correspondencia entre nombre y practica
                   if(element.config_practica.nombre == this.nombres_distintos_config_practica.find((elemento: any) => elemento == element.config_practica.nombre)){
                     let index = this.nombres_distintos_config_practica.indexOf(element.config_practica.nombre);
+                    element.documentos.map((doc:any) => {
+                      doc.solicitud_documento.tipo_archivo = doc.solicitud_documento.tipo_archivo.split(",");
+                      console.log("doc:",doc)
+                      return doc;
+                    });
+                    //element.documento.solicitud_documento.tipo_archivo = element.documento.solicitud_documento.tipo_archivo.split(",");
                     this.practicas_correspondiente_nombre[index].push(element);                    
                   }
-                });                
+                });
+                this.flag = true;                
                 console.log("Practicas correspondientes a nombre:",this.practicas_correspondiente_nombre)
               }
             });

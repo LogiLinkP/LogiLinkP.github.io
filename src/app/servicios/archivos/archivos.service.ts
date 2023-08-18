@@ -33,15 +33,17 @@ export class ArchivosService {
     return false;
   }
 
-  async checkFileType(file: File, type: string[], slicing: number = 100): Promise<boolean> {
+  async checkFileType(file: File, type: string[] | string, slicing: number = 100): Promise<boolean> {    
+    if(typeof type == "string"){
+      type = type.split(",");
+    }
     if (!file || !type || type.length == 0) return false;
-
+    
     let _filename = file.name.toLowerCase();
     // obtiene la extensión teniendo en cuenta que el nombre del archivo puede no tener puntos o partir con puntos
     let file_ext = _filename.slice((_filename.lastIndexOf(".") - 1 >>> 0) + 2)
     let _types = type.map((t: string) => t.toLowerCase());
     if (!_types.includes(file_ext)) return false;
-
     let blob = file.slice(0, slicing);
     let data = new Uint8Array(await blob.arrayBuffer());
     return this.hayInterseccion(filetypename(data), _types);
@@ -70,7 +72,7 @@ export class ArchivosService {
 
     console.log("RUTA PARA SUBIR ARCHIVO",`${environment.url_back}/${environment.ruta_documento}/upload`)
   
-    const req = new HttpRequest('PUT', `${environment.url_back}/${environment.ruta_documento}/upload`, formData, {
+    const req = new HttpRequest('POST', `${environment.url_back}/${environment.ruta_documento}/upload`, formData, {
       reportProgress: true,
       responseType: 'text'
     });

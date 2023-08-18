@@ -51,31 +51,41 @@ export class SubirArchivoComponent {
       }
       let [, file] = result;
       console.log(tipo_archivo, file)
-
-      let _data: any = {};
-      
-      this.archivo_service.subirDocumento(file, id_solicitud, id_practica).subscribe({
-        next: data => {
-          _data = { ..._data, ...data }
-        },
-        complete: () => {
-          if (_data.status == 200) {
-            this._snackBar.open("Archivo subido correctamente", "Cerrar", {
-              panelClass: ['green-snackbar'],
-              duration: 3000
-            });
-          } else if (_data.status == 415) {
-            this._snackBar.open("Archivo con formato incorrecto", "Cerrar", {
-              panelClass: ['red-snackbar'],
-              duration: 3000
-            });
-          } else {
-            this._snackBar.open("Error al subir archivo", "Cerrar", {
-              panelClass: ['red-snackbar'],
-              duration: 3000
-            });
-          }
+      this.archivo_service.checkFileType(file, tipo_archivo).then((type_file: boolean) => {
+        if (!type_file) {
+          this._snackBar.open("Archivo con formato incorrecto", "Cerrar", {
+            panelClass: ['red-snackbar'],
+            duration: 3000
+          });
+          return;
         }
+
+        let _data: any = {};
+        
+        this.archivo_service.subirDocumento(file, id_solicitud, id_practica).subscribe({
+          next: data => {
+            _data = { ..._data, ...data }
+          },
+          complete: () => {
+            if (_data.status == 200) {
+              this._snackBar.open("Archivo subido correctamente", "Cerrar", {
+                panelClass: ['green-snackbar'],
+                duration: 3000
+              });
+            } else if (_data.status == 415) {
+              this._snackBar.open("Archivo con formato incorrecto", "Cerrar", {
+                panelClass: ['red-snackbar'],
+                duration: 3000
+              });
+            } else {
+              this._snackBar.open("Error al subir archivo", "Cerrar", {
+                panelClass: ['red-snackbar'],
+                duration: 3000
+              });
+            }
+            window.location.reload();
+          }
+        });
       });
     });
   }
