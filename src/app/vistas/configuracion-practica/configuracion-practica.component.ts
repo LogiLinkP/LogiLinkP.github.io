@@ -1,8 +1,12 @@
 import { DOCUMENT } from '@angular/common';
-import { ChangeDetectorRef, Component, Inject, OnInit, Input } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
-
 import { MatTableDataSource } from '@angular/material/table'
+
+import { BarraLateralService } from 'src/app/servicios/encargado/barra-lateral/barra-lateral.service';
+import { ConfigService } from 'src/app/servicios/encargado/config-practica/config.service';
 
 @Component({
   selector: 'app-configuracion-practica',
@@ -10,18 +14,27 @@ import { MatTableDataSource } from '@angular/material/table'
   styleUrls: ['./configuracion-practica.component.scss']
 })
 
-
 export class ConfiguracionPracticaComponent implements OnInit {
-    dataSourcePacks!: MatTableDataSource<any>;
-    fg!: FormGroup;
 
-    displayedColumns = ["opcion_pregunta", "eliminar"]
-    opcion_pregunta = new FormControl('')
+    constructor(private _fb: FormBuilder, private cd: ChangeDetectorRef, @Inject(DOCUMENT) private document: Document,
+                private serviceBarra: BarraLateralService, private _snackBar: MatSnackBar, private route: ActivatedRoute,
+                private serviceComplete: ConfigService) {}
+
+    config: any;
+    flag: boolean = false;
+    nombre_config: string | null; //parece que alguna veces se vuelve null y queda la caga
+    
+    fg!: FormGroup;
 
     dataSourcePacksHoras!: MatTableDataSource<any>;
     dataSourcePacksMeses!: MatTableDataSource<any>;
+    dataSourcePacks!: MatTableDataSource<any>;
+
+    displayedColumns = ["opcion_pregunta", "eliminar"]
     displayedColumnsHoras = ["opcion_horas", "eliminar"]
     displayedColumnsMeses = ["opcion_meses", "eliminar"]
+
+    opcion_pregunta = new FormControl('')
     opcion_horas = new FormControl('')
     opcion_meses = new FormControl('')
 
@@ -33,13 +46,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
     frecuenciaInformes: string;
     informeFinal: string;
     preguntaFORM = new FormControl('')
-  
-    constructor(private _fb: FormBuilder,
-      private cd: ChangeDetectorRef) {
-  
-    }
 
-    formdata: any;
     pregunta: string;
     tipo_pregunta: string;
 
@@ -59,33 +66,87 @@ export class ConfiguracionPracticaComponent implements OnInit {
     lista_nombre_solicitud_documentos: string[] = [];
     lista_description_solicitud_documentos: string[] = [];
     lista_tipo_solicitud_documentos: string[] = [];
+
+    scrollToTop(): void {
+        this.document.body.scrollTop = 0;
+        this.document.documentElement.scrollTop = 0;
+    }
   
     ngOnInit(): void {
-    //! Agregar aca todos los FormControl
-      this.fg = this._fb.group({
-        opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
-        opcion_horasFORM: this.opcion_horas,
-        opcion_mesesFORM: this.opcion_meses,
+        let respuesta: any = {};
 
-
-        nombrePractica: new FormControl("Practica 1"),
-        cant_horas: this.cant_horas,
-        cant_meses: this.cant_meses,
-        horas: new FormControl(),
-        meses: new FormControl(),
-        frecuenciaInformes: new FormControl(),
-        informeFinal: new FormControl(),
-        //pregunta: this.preguntaFORM,
-
-        preguntaFORM: this.pregunta,
-        
-        promos: this._fb.array([]),
-        arregloHoras: this._fb.array([]),
-        arregloMeses: this._fb.array([])
-
-      });
-  
+        this.route.paramMap.subscribe((params: ParamMap) => {
+          this.nombre_config = params.get('nombre');
+        })
+    
+        this.serviceBarra.obtenerConfigPracticaNombre(this.nombre_config).subscribe({
+          next: (data: any) => {
+            respuesta = { ...respuesta, ...data }
+          },
+          error: (error: any) => {
+            this._snackBar.open("Error al buscar configuracion de practica", "Cerrar", {
+              duration: 3000,
+              panelClass: ['red-snackbar']
+            });
+            console.log("Error al buscar configuracion de practica", error);
+          },
+          complete: () => {
+            this.config = respuesta.body;
+            console.log(this.config);
+            this.generarFormulario();
+            this.flag = true;
+            }
+        });
     };
+
+    generarFormulario() {
+        if (this.nombre_config == "blanco") {
+            this.nombrePractica = "Practica 1";
+            this.horas = false;
+            this.meses = false;
+            this.frecuenciaInformes = "";
+            this.informeFinal = "";
+        } else {
+            // practica existente
+            // set modalidades
+            for (let i = 0; i < this.config.length; i++) {
+                if (this.config[i].modalidad == "horas") {
+                    this.horas = true;
+                }
+                if (this.config[i].modalidad == "meses") {
+                    this.meses = true;
+                }
+                //if (this.config[i].modalidad == "convalidable") {
+                //  this.convalidable = true;
+                //}
+            }
+            // set informes
+            this.frecuenciaInformes = this.config[0].frecuencia_informes;
+            this.informeFinal = this.config[0].informe_final;
+        }
+
+        this.fg = this._fb.group({
+            opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
+            opcion_horasFORM: this.opcion_horas,
+            opcion_mesesFORM: this.opcion_meses,
+    
+            nombrePractica: new FormControl(this.nombrePractica),
+            cant_horas: this.cant_horas,
+            cant_meses: this.cant_meses,
+            horas: new FormControl(this.horas),
+            meses: new FormControl(this.meses),
+            frecuenciaInformes: new FormControl(this.frecuenciaInformes),
+            informeFinal: new FormControl(this.informeFinal),
+            //pregunta: this.preguntaFORM,
+    
+            preguntaFORM: this.pregunta,
+            
+            promos: this._fb.array([]),
+            arregloHoras: this._fb.array([]),
+            arregloMeses: this._fb.array([])
+    
+        });
+    }
 
     habilitarHorasFunc(arg: any) {
         this.habilitarHoras = arg.target.checked;
@@ -320,4 +381,34 @@ export class ConfiguracionPracticaComponent implements OnInit {
     onSubmitAddSolicitudDoc(){
       console.log("documento agregado");
     }
-  }
+
+    mandarDatos() {
+        let respuesta: any = {};
+    
+        let modalidad: Array<boolean> = [this.horas, this.meses];
+        let cant_horas: Array<number> = this.cant_horas;
+        let cant_meses: Array<number> = this.cant_meses;
+    
+        this.serviceComplete.crearConfigPracticaCompleto(this.nombrePractica, modalidad, cant_horas, cant_meses, this.frecuenciaInformes,
+                                                    this.informeFinal, this.horas, this.meses,).subscribe({
+            next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+                this._snackBar.open("Error al actualizar configuracion de practica", "Cerrar", {
+                duration: 3500,
+                panelClass: ['red-snackbar']
+                });
+                console.log("Error al actualizar configuracion de practica", error);
+            },
+            complete: () => {
+                this._snackBar.open("Configuracion de practica actualizada", "Cerrar", {
+                duration: 3500,
+                panelClass: ['green-snackbar']
+                });
+                console.log("Configuracion de practica actualizada");
+            }
+        });
+    }
+
+}
