@@ -49,8 +49,7 @@
                 <td>
                     
                     <select name="modalidad" class="form-select" id="modalidad{{nombre_practica}}" 
-                    (change)="actualizar_cantidades($event)" style="width:100%" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="true">
+                    (change)="actualizar_cantidades($event)" >
                         <option value="" disabled selected hidden>Seleccione modalidad</option>
                     </select>
                 </td>
@@ -61,7 +60,7 @@
                     Seleccione cantidad de tiempo:
                 </td>
                 <td>
-                    <select name = "cantidad" class="form-select" id="cantidad{{nombre_practica}}" style="width:100%">
+                    <select name = "cantidad" class="form-select" id="cantidad{{nombre_practica}}" >
                         <option value="" disabled selected hidden>Seleccione cantidad</option>
                     </select>
                 </td>

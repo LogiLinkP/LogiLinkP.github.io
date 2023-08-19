@@ -246,7 +246,8 @@ export class DetalleAlumnoComponent implements OnInit{
               });
               console.log("Correo enviado");
               //reload page
-              const newUrl = this.router.url + "?finalizacion_success=success";
+              let newUrl = this.router.url.split("?")[0];
+              newUrl += "?finalizacion_success=success";
               window.location.href = newUrl;
             }
           }

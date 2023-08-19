@@ -34,6 +34,13 @@ export class IniciarPracticaComponent implements OnInit{
 
     let aux:any = {}
 
+    if(modalidad == "" || cantidad == "" || nombre_supervisor == "" || correo_supervisor == "" || nombre_empresa == "" || rut_empresa == "" || fecha_inicio == ""){
+      this._snackBar.open("Debe llenar todos los campos", "Cerrar", {
+        panelClass: ['red-snackbar'],
+        duration: 3000
+      });
+      return
+    }
 
     this.service.buscar_config_practica(this.nombre_practica, modalidad, parseInt(cantidad)).subscribe({
       next: (data: any) => {
@@ -98,7 +105,8 @@ export class IniciarPracticaComponent implements OnInit{
                         } else{
                           inscripcion_string = "?inscripcion_success=error";
                         }         
-                        const newUrl = this.router.url + inscripcion_string;
+                        let newUrl = this.router.url.split("?")[0];
+                        newUrl += inscripcion_string;
                         window.location.href = newUrl;
                       }
                     });
@@ -167,15 +175,19 @@ export class IniciarPracticaComponent implements OnInit{
     var dropdown_cantidad = document.getElementById("cantidad"+this.nombre_practica)
     
     // actualizar el dropdown de cantidad con el contenido de this.cantidades
-    for (let i = 0; i < this.cantidades.length; i++) {
-      //chequear si cantidades[i] es un numero
-      if(isNaN(this.cantidades[i])){
-        continue
+    if(this.cantidades.length > 0){
+      if(this.cantidades[0] != null){
+        for (let i = 0; i < this.cantidades.length; i++) {
+          //chequear si cantidades[i] es un numero
+          if(isNaN(this.cantidades[i])){
+            continue
+          }
+          var option = document.createElement("option")
+          option.text = this.cantidades[i].toString()
+          option.value = this.cantidades[i].toString()
+          dropdown_cantidad?.appendChild(option)
+        }
       }
-      var option = document.createElement("option")
-      option.text = this.cantidades[i].toString()
-      option.value = this.cantidades[i].toString()
-      dropdown_cantidad?.appendChild(option)
     }
   }
 
