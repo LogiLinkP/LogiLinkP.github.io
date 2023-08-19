@@ -12,21 +12,26 @@ import { MatTableDataSource } from '@angular/material/table'
 
 
 export class ConfiguracionPracticaComponent implements OnInit {
+    dataSourcePacks!: MatTableDataSource<any>;
+    fg!: FormGroup;
 
     displayedColumns = ["opcion_pregunta", "eliminar"]
-    dataSourcePacks!: MatTableDataSource<any>;
-  
-    fg!: FormGroup
-    
-    //! Sacar de aca los FormControl e incluir tipo de la variable
     opcion_pregunta = new FormControl('')
+
+    dataSourcePacksHoras!: MatTableDataSource<any>;
+    dataSourcePacksMeses!: MatTableDataSource<any>;
+    displayedColumnsHoras = ["opcion_horas", "eliminar"]
+    displayedColumnsMeses = ["opcion_meses", "eliminar"]
+    opcion_horas = new FormControl('')
+    opcion_meses = new FormControl('')
+
     nombrePractica: string;
-    cant_horas: number ;
-    cant_meses: number ;
+    cant_horas: number[] = [];
+    cant_meses: number[] = [];
     horas: boolean;
     meses: boolean;
     frecuenciaInformes: string;
-    informeFinal: boolean;
+    informeFinal: string;
     preguntaFORM = new FormControl('')
   
     constructor(private _fb: FormBuilder,
@@ -40,6 +45,8 @@ export class ConfiguracionPracticaComponent implements OnInit {
 
     //decide que se muestra en el html
     estado: string = "configuracion_general";
+    habilitarHoras: boolean = false;    
+    habilitarMeses: boolean = false;
 
     lista_preguntas_avance: string[] = [];
     tipos_preguntas_avance: string[] = [];
@@ -57,6 +64,10 @@ export class ConfiguracionPracticaComponent implements OnInit {
     //! Agregar aca todos los FormControl
       this.fg = this._fb.group({
         opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
+        opcion_horasFORM: this.opcion_horas,
+        opcion_mesesFORM: this.opcion_meses,
+
+
         nombrePractica: new FormControl("Practica 1"),
         cant_horas: this.cant_horas,
         cant_meses: this.cant_meses,
@@ -68,30 +79,61 @@ export class ConfiguracionPracticaComponent implements OnInit {
 
         preguntaFORM: this.pregunta,
         
-        promos: this._fb.array([])
+        promos: this._fb.array([]),
+        arregloHoras: this._fb.array([]),
+        arregloMeses: this._fb.array([])
 
       });
   
     };
-  
+
+    habilitarHorasFunc(arg: any) {
+        this.habilitarHoras = arg.target.checked;
+    }
+
+    habilitarMesesFunc(arg: any) {
+        this.habilitarMeses = arg.target.checked;
+    }
+
     get promos() {
-      return this.fg.controls["promos"] as FormArray;
+        return this.fg.controls["promos"] as FormArray;
+    };
+    get arregloHoras() {
+        return this.fg.controls["arregloHoras"] as FormArray;
+    };
+    get arregloMeses() {
+        return this.fg.controls["arregloMeses"] as FormArray;
     };
   
     addLesson(): void {
-  
       const lessonForm = this._fb.group({
         opcion_pregunta: [''],
       });
-  
-  
+   
       this.promos.push(lessonForm);
       this.dataSourcePacks = new MatTableDataSource(this.promos.controls);
   
       this.cd.detectChanges();
   
     };
-  
+    addHoras(): void {
+        const horasForm = this._fb.group({
+            opcion_horas: [''],
+        });
+
+        this.arregloHoras.push(horasForm);
+        this.dataSourcePacksHoras = new MatTableDataSource(this.arregloHoras.controls);
+        this.cd.detectChanges();
+    }
+    addMeses(): void {
+        const mesesForm = this._fb.group({
+            opcion_meses: [''],
+        });
+
+        this.arregloMeses.push(mesesForm);
+        this.dataSourcePacksMeses = new MatTableDataSource(this.arregloMeses.controls);
+        this.cd.detectChanges();
+    }
   
     deleteLesson(lessonIndex: number): void {
   
@@ -99,40 +141,51 @@ export class ConfiguracionPracticaComponent implements OnInit {
       this.dataSourcePacks = new MatTableDataSource(this.promos.controls);
   
     };
+    deleteHoras(horasIndex: number): void {
   
-    onSubmitPractica(){
+        this.arregloHoras.removeAt(horasIndex);
+        this.dataSourcePacksHoras = new MatTableDataSource(this.arregloHoras.controls);
+    
+    };
+    deleteMeses(mesesIndex: number): void {
+  
+        this.arregloMeses.removeAt(mesesIndex);
+        this.dataSourcePacksMeses = new MatTableDataSource(this.arregloMeses.controls);
+    
+    };
+
+  
+    onSubmitPractica() {
       this.nombrePractica = this.fg.value.nombrePractica;
       this.horas = this.fg.value.horas;
       this.meses = this.fg.value.meses;
-      this.cant_horas = this.fg.value.cant_horas;
-      this.cant_meses = this.fg.value.cant_meses;
       this.frecuenciaInformes = this.fg.value.frecuenciaInformes;
       this.informeFinal = this.fg.value.informeFinal;
-      console.log(this.fg.value);
+      this.opcion_horas = this.arregloHoras.value;
+      this.opcion_meses = this.arregloMeses.value;
 
-      if (this.fg.value.informeFinal == "informeFinalNO"){
-        this.informeFinal = false
+      for (let i = 0; i < Object.keys(this.opcion_horas).length; i++) {
+        this.cant_horas.push(Number(Object.values(Object.values(this.opcion_horas)[i])[0]))
       }
-      else if (this.fg.value.informeFinal == "informeFinalSI"){
-        this.informeFinal = true
+      for (let i = 0; i < Object.keys(this.opcion_meses).length; i++) {
+        this.cant_horas.push(Number(Object.values(Object.values(this.opcion_meses)[i])[0]))
       }
 
       //cambio estado vista
-      console.log(this.frecuenciaInformes);
-      console.log(this.informeFinal);
-      if (this.frecuenciaInformes == "sinAvance" && this.informeFinal == false){
+      if (this.frecuenciaInformes == "sinAvance" && this.informeFinal == "no") {
         this.estado = "solicitud_documentos";
         console.log("documentos");
       }
-      else if (this.frecuenciaInformes =="sinAvance" && this.informeFinal == true){
+      else if (this.frecuenciaInformes =="sinAvance" && this.informeFinal == "si") {
         this.estado = "informe_final";
         console.log("informe final");
       }
-      else if (this.frecuenciaInformes !="sinAvance"){
+      else if (this.frecuenciaInformes !="sinAvance") {
         this.estado = "informe_avance";
         console.log("informe avance");
       }
-      console.log(this.estado);
+      console.log("estado:", this.estado);
+      console.log("fg values:", this.fg.value);
     }
 
     onSubmitAddPreguntaAvance() {
@@ -156,7 +209,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
       if (Object.keys(this.opcion_pregunta).length == 0) {
         console.log("no hay opciones");
       }
-      else{
+      else {
         console.log("hay opciones");
         //var string_pregunta = String(this.pregunta)
         for (let i = 0; i < Object.keys(this.opcion_pregunta).length; i++) {
@@ -252,10 +305,10 @@ export class ConfiguracionPracticaComponent implements OnInit {
     }
 
     avanzarDesdePreguntasAvance(){
-      if (this.informeFinal == true){
+      if (this.informeFinal == "si") {
         this.estado = "informe_final";
       }
-      else{
+      else {
         this.estado = "solicitud_documentos";
       }
     }

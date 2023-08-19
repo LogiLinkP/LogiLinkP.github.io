@@ -23,24 +23,99 @@
                 <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitPractica()">
 
                     <input type="text" class="form-control col-6" formControlName="nombrePractica">
-                    <input type="checkbox" formControlName="horas"> Horas
-                    <input type="checkbox" formControlName="meses"> Meses
-                    <input type="text" class="form-control col-lg-3 col-6" placeholder="Cantidad de Horas" formControlName="cant_horas">
-                    <input type="text" class="form-control col-lg-3 col-6" placeholder="Cantidad de Meses" formControlName="cant_meses">
+                    <input type="checkbox" formControlName="horas" (change)="habilitarHorasFunc($event)"> Horas
+                    <input type="checkbox" formControlName="meses" (change)="habilitarMesesFunc($event)"> Meses
+                    
+                    <!-- ========CANTIDAD HORAS======== -->
+                    <div *ngIf="habilitarHoras">                        
+                        <mat-table [dataSource]="dataSourcePacksHoras">
+                            <ng-container formArrayName="arregloHoras">
+                                <!-- Cant Column -->
+                                <ng-container matColumnDef="opcion_horas">
+                                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                <mat-cell *matCellDef="let element;" [formGroup]="element">
+                                    <mat-form-field>
+                                    <input matInput placeholder="Agregar opcion de horas" formControlName="opcion_horas" required>
+                                    </mat-form-field>
+                                </mat-cell>
+                                </ng-container>
+                        
+                                <!-- Delete Column -->
+                                <ng-container matColumnDef="eliminar">
+                                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
+                        
+                                    <button type="button" (click)="deleteHoras(i)">
+                                    <mat-icon matSuffix>Eliminar opción</mat-icon>
+                                    </button>
+                        
+                                </mat-cell>
+                                </ng-container>
+                        
+                                <!-- header titles -->
+                        
+                                <mat-header-row *matHeaderRowDef="displayedColumnsHoras"></mat-header-row>
+                                <mat-row *matRowDef="let row; columns: displayedColumnsHoras;"></mat-row>
+                            </ng-container>
+                        </mat-table>
+                        <div class="button">
+                            <button type="button" (click)="addHoras()">Agregar opcion de horas</button>
+                        </div>
+                    </div>
+                    <!-- ======FIN CANTIDAD HORAS========== -->
+
+                    <!-- ======== CANTIDAD MESES ======== -->
+                    <div *ngIf="habilitarMeses">                        
+                        <mat-table [dataSource]="dataSourcePacksMeses">
+                            <ng-container formArrayName="arregloMeses">
+                                <!-- Cant Column -->
+                                <ng-container matColumnDef="opcion_meses">
+                                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                <mat-cell *matCellDef="let element;" [formGroup]="element">
+                                    <mat-form-field>
+                                    <input matInput placeholder="Agregar opcion de meses" formControlName="opcion_meses" required>
+                                    </mat-form-field>
+                                </mat-cell>
+                                </ng-container>
+                        
+                                <!-- Delete Column -->
+                                <ng-container matColumnDef="eliminar">
+                                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
+                        
+                                    <button type="button" (click)="deleteMeses(i)">
+                                    <mat-icon matSuffix>Eliminar opción</mat-icon>
+                                    </button>
+                        
+                                </mat-cell>
+                                </ng-container>
+                        
+                                <!-- header titles -->
+                        
+                                <mat-header-row *matHeaderRowDef="displayedColumnsMeses"></mat-header-row>
+                                <mat-row *matRowDef="let row; columns: displayedColumnsMeses;"></mat-row>
+                            </ng-container>
+                        </mat-table>
+                        <div class="button">
+                            <button type="button" (click)="addMeses()">Agregar opcion de meses</button>
+                        </div>
+                    </div>
+                    <!-- ====== FIN CANTIDAD MESES ========== -->
+
                     <br>
                     <p> Frecuencia informes de avance (bitacoras) </p>
 
                     <!-- Opciones avance informes-->
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="frecuenciaInformes" id="informeDiario" value="informeDiario" formControlName="frecuenciaInformes">
+                        <input class="form-check-input" type="radio" name="frecuenciaInformes" id="informeDiario" value="diario" formControlName="frecuenciaInformes">
                         <label class="form-check-label" for="informeDiario">Diario</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="frecuenciaInformes" id="infomreSemanal" value="infomreSemanal" formControlName="frecuenciaInformes">
+                        <input class="form-check-input" type="radio" name="frecuenciaInformes" id="infomreSemanal" value="semanal" formControlName="frecuenciaInformes">
                         <label class="form-check-label" for="infomreSemanal">Semanal</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="frecuenciaInformes" id="informeMensual" value="informeMensual" formControlName="frecuenciaInformes">
+                        <input class="form-check-input" type="radio" name="frecuenciaInformes" id="informeMensual" value="mensual" formControlName="frecuenciaInformes">
                         <label class="form-check-label" for="informeMensual">Mensual</label>
                     </div>
                     <div class="form-check form-check-inline">
@@ -53,11 +128,11 @@
                     <p> Informe Final </p>
 
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="informeFinal" id="informeFinalSI" value="informeFinalSI" formControlName="informeFinal">
+                        <input class="form-check-input" type="radio" name="informeFinal" id="informeFinalSI" value="si" formControlName="informeFinal">
                         <label class="form-check-label" for="informeFinalSI">Si</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="informeFinal" id="informeFinalNO" value="informeFinalNO" formControlName="informeFinal">
+                        <input class="form-check-input" type="radio" name="informeFinal" id="informeFinalNO" value="no" formControlName="informeFinal">
                         <label class="form-check-label" for="informeFinalNO">No</label>
                     </div>
                     <br>
@@ -121,10 +196,6 @@
 
                           <br>
                           <!-- <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddOpcion()"> -->
-
-                              <div class="button">
-                                <button type="button" (click)="addLesson()">Agregar opción</button>
-                              </div>
                             
                               <mat-table [dataSource]="dataSourcePacks">
                                 <ng-container formArrayName="promos">
@@ -157,6 +228,9 @@
                                   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                                 </ng-container>
                               </mat-table>
+                              <div class="button">
+                                <button type="button" (click)="addLesson()">Agregar opción</button>
+                              </div>
                             
                             <!-- </form> -->
                           
