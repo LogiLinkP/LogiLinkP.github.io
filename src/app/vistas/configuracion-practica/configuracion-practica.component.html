@@ -197,8 +197,8 @@
                           <br>
                           <!-- <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddOpcion()"> -->
                             
-                              <mat-table [dataSource]="dataSourcePacks">
-                                <ng-container formArrayName="promos">
+                              <mat-table [dataSource]="dataSourcePacksOpcionesPregunta">
+                                <ng-container formArrayName="arregloOpcionesPreguntas">
                             
                                   <!-- Cant Column -->
                                   <ng-container matColumnDef="opcion_pregunta">
@@ -215,7 +215,7 @@
                                     <mat-header-cell *matHeaderCellDef></mat-header-cell>
                                     <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
                             
-                                      <button type="button" (click)="deleteLesson(i)">
+                                      <button type="button" (click)="deleteOpcionPregunta(i)">
                                         <mat-icon matSuffix>Eliminar opción</mat-icon>
                                       </button>
                             
@@ -224,12 +224,12 @@
                             
                                   <!-- header titles -->
                             
-                                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                                  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                                  <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
+                                  <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
                                 </ng-container>
                               </mat-table>
                               <div class="button">
-                                <button type="button" (click)="addLesson()">Agregar opción</button>
+                                <button type="button" (click)="addOpcionPregunta()">Agregar opción</button>
                               </div>
                             
                             <!-- </form> -->
@@ -245,11 +245,11 @@
                           <!-- <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddOpcion()"> -->
 
                               <div class="button">
-                                <button type="button" (click)="addLesson()">Agregar opción</button>
+                                <button type="button" (click)="addOpcionPregunta()">Agregar opción</button>
                               </div>
                             
-                              <mat-table [dataSource]="dataSourcePacks">
-                                <ng-container formArrayName="promos">
+                              <mat-table [dataSource]="dataSourcePacksOpcionesPregunta">
+                                <ng-container formArrayName="arregloOpcionesPreguntas">
                             
                                   <!-- Cant Column -->
                                   <ng-container matColumnDef="opcion_pregunta">
@@ -266,7 +266,7 @@
                                     <mat-header-cell *matHeaderCellDef></mat-header-cell>
                                     <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
                             
-                                      <button type="button" (click)="deleteLesson(i)">
+                                      <button type="button" (click)="deleteOpcionPregunta(i)">
                                         <mat-icon matSuffix>Eliminar opción</mat-icon>
                                       </button>
                             
@@ -275,8 +275,8 @@
                             
                                   <!-- header titles -->
                             
-                                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                                  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                                  <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
+                                  <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
                                 </ng-container>
                               </mat-table>
                             
@@ -347,11 +347,11 @@
                         <!-- <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddOpcion()"> -->
 
                             <div class="button">
-                              <button type="button" (click)="addLesson()">Agregar opción</button>
+                              <button type="button" (click)="addOpcionPregunta()">Agregar opción</button>
                             </div>
                           
-                            <mat-table [dataSource]="dataSourcePacks">
-                              <ng-container formArrayName="promos">
+                            <mat-table [dataSource]="dataSourcePacksOpcionesPregunta">
+                              <ng-container formArrayName="arregloOpcionesPreguntas">
                           
                                 <!-- Cant Column -->
                                 <ng-container matColumnDef="opcion_pregunta">
@@ -368,7 +368,7 @@
                                   <mat-header-cell *matHeaderCellDef></mat-header-cell>
                                   <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
                           
-                                    <button type="button" (click)="deleteLesson(i)">
+                                    <button type="button" (click)="deleteOpcionPregunta(i)">
                                       <mat-icon matSuffix>Eliminar opción</mat-icon>
                                     </button>
                           
@@ -377,8 +377,8 @@
                           
                                 <!-- header titles -->
                           
-                                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                                <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
+                                <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
                               </ng-container>
                             </mat-table>
                           
@@ -396,11 +396,11 @@
                         <!-- <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddOpcion()"> -->
 
                             <div class="button">
-                              <button type="button" (click)="addLesson()">Agregar opción</button>
+                              <button type="button" (click)="addOpcionPregunta()">Agregar opción</button>
                             </div>
                           
-                            <mat-table [dataSource]="dataSourcePacks">
-                              <ng-container formArrayName="promos">
+                            <mat-table [dataSource]="dataSourcePacksOpcionesPregunta">
+                              <ng-container formArrayName="arregloOpcionesPreguntas">
                           
                                 <!-- Cant Column -->
                                 <ng-container matColumnDef="opcion_pregunta">
@@ -417,7 +417,7 @@
                                   <mat-header-cell *matHeaderCellDef></mat-header-cell>
                                   <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
                           
-                                    <button type="button" (click)="deleteLesson(i)">
+                                    <button type="button" (click)="deleteOpcionPregunta(i)">
                                       <mat-icon matSuffix>Eliminar opción</mat-icon>
                                     </button>
                           
@@ -426,8 +426,8 @@
                           
                                 <!-- header titles -->
                           
-                                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                                <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
+                                <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
                               </ng-container>
                             </mat-table>
                           
