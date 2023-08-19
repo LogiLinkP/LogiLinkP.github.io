@@ -66,21 +66,44 @@ export class IniciarPracticaComponent implements OnInit{
                 console.log("supervisor registrado")
                 let id_supervisor = aux.body.id
                 console.log("ID DE SUPERVISOR", id_supervisor)
-    
-                this.service.registrar_practica(this.id_estudiante, this.id_config_practica, 
-                                                  fecha_inicio, id_empresa, id_supervisor, -1).subscribe({
+
+                this.service.buscar_encargados().subscribe({
                   next: (data: any) => {
                     aux = { ...aux, ...data }
                   },
                   error: (error: any) => console.log(error),
                   complete: () => {
-                    console.log("practica registrada")
-                    this._snackBar.open("Práctica registrada", "", {
-                      duration: 3000,
+                    console.log("encargados encontrados")
+                    //seleccionar el primer encargado
+                    let id_encargado = aux.body[0].id
+                    console.log("ID DE ENCARGADO", id_encargado)
+
+                    this.service.registrar_practica(this.id_estudiante, this.id_config_practica, 
+                                                    fecha_inicio, id_empresa, id_supervisor, id_encargado).subscribe({
+                      next: (data: any) => {
+                        aux = { ...aux, ...data }
+                      },
+                      error: (error: any) => {
+                        // use snackbar to show error
+                        console.log(error)
+                        this._snackBar.open("Error al iniciar practica", "Cerrar", {
+                          panelClass: ['red-snackbar'],
+                          duration: 3000
+                        });
+                      },
+                      complete: () => {
+                        let inscripcion_string = "";
+                        if (aux.status == 200) {
+                          inscripcion_string = "?inscripcion_success=success";
+                        } else{
+                          inscripcion_string = "?inscripcion_success=error";
+                        }         
+                        const newUrl = this.router.url + inscripcion_string;
+                        window.location.href = newUrl;
+                      }
                     });
-                    window.location.reload();
-                  }
-                });
+                  }                  
+                });              
               }
             });
           }

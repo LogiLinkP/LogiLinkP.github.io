@@ -33,12 +33,45 @@ export class DetalleAlumnoComponent implements OnInit{
   doc_str = "documento";
   doc_extra_str = "documento_extra";
 
-  constructor(private service_datos: ObtenerDatosService , private route: ActivatedRoute, private _snackBar: MatSnackBar, 
+  constructor(private service_datos: ObtenerDatosService , private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, 
               private service_gestion: GestionarService, private service_supervisor: SupervisorService, private router: Router) {
-    this.id_usuario = parseInt(this.route.snapshot.paramMap.get('id') || "-1");
+    this.id_usuario = parseInt(this.activated_route.snapshot.paramMap.get('id') || "-1");
   }
 
   ngOnInit() {
+    const param_upload_success = this.activated_route.snapshot.queryParamMap.get('upload_success');
+
+    console.log("PARAMETRO URL",param_upload_success);
+    if (param_upload_success == "success") {
+      this._snackBar.open("Archivo subido correctamente", "Cerrar", {
+        panelClass: ['green-snackbar'],
+        duration: 3000
+      });
+    } else if (param_upload_success == "format") {
+      this._snackBar.open("Archivo con formato incorrecto", "Cerrar", {
+        panelClass: ['red-snackbar'],
+        duration: 3000
+      });
+    } else if (param_upload_success == "error") {
+      this._snackBar.open("Error al subir archivo", "Cerrar", {
+        panelClass: ['red-snackbar'],
+        duration: 3000
+      });
+    }
+
+    const param_inscripcion_success = this.activated_route.snapshot.queryParamMap.get('inscripcion_success');
+    if (param_inscripcion_success == "success") {
+      this._snackBar.open("Práctica inscrita correctamente", "Cerrar", {
+        panelClass: ['green-snackbar'],
+        duration: 3000
+      });
+    } else if (param_inscripcion_success == "error") {
+      this._snackBar.open("Error al inscribir práctica", "Cerrar", {
+        panelClass: ['red-snackbar'],
+        duration: 3000
+      });
+    }    
+
     let respuesta: any = {};
 
     // Request para obtener al estudiante de acuerdo a su id de usuario

@@ -75,4 +75,11 @@ export class GestionarService {
     });
     return this.http.request(req);
   }
+
+  buscar_encargados() {
+    const req = new HttpRequest('GET', `${environment.url_back}/encargado/todos`, {
+      responseType: 'json'
+    });
+    return this.http.request(req);
+  }
 }

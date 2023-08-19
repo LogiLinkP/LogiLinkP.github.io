@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
@@ -10,6 +10,8 @@ import { CommonModule } from '@angular/common'
 import { DocumentosService } from '../../servicios/encargado/documentos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ArchivosService } from '../../servicios/archivos/archivos.service';
+import { ActivatedRoute, Router} from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 export interface DialogData {
   nombre_solicitud: string;
@@ -23,13 +25,16 @@ export interface DialogData {
   styleUrls: ['./subir-archivo.component.scss']
 })
 export class SubirArchivoComponent {
+
   @Input() id_solicitud: number = 0;
   @Input() id_practica: number = 0;
   @Input() nombre_solicitud: string = "";
   @Input() descripcion: string = "";
   @Input() tipo_archivo: string[] = [];
+  @Input() id_usuario: number = 0;
 
-  constructor(public dialog: MatDialog, private _snackBar: MatSnackBar, private archivo_service: ArchivosService) { }
+  constructor(public dialog: MatDialog, private _snackBar: MatSnackBar, private archivo_service: ArchivosService, private router: Router, 
+              private activated_route: ActivatedRoute) {}
 
   subir_archivos() {
     let id_solicitud = this.id_solicitud;
@@ -67,12 +72,19 @@ export class SubirArchivoComponent {
             _data = { ..._data, ...data }
           },
           complete: () => {
+            let upload_string = "";
             if (_data.status == 200) {
-              this._snackBar.open("Archivo subido correctamente", "Cerrar", {
-                panelClass: ['green-snackbar'],
-                duration: 3000
-              });
+              upload_string = "?upload_success=success";
             } else if (_data.status == 415) {
+              upload_string = "?upload_success=format";
+            } else {
+              upload_string = "?upload_success=error";
+            }         
+            const newUrl = this.router.url + upload_string;
+            window.location.href = newUrl;
+          },
+          error: error => {
+            if (error.status == 415) {
               this._snackBar.open("Archivo con formato incorrecto", "Cerrar", {
                 panelClass: ['red-snackbar'],
                 duration: 3000
@@ -83,12 +95,13 @@ export class SubirArchivoComponent {
                 duration: 3000
               });
             }
-            window.location.reload();
           }
         });
       });
     });
   }
+
+
 }
 
 @Component({
