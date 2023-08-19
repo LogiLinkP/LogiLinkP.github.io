@@ -12,10 +12,11 @@ import { MatTableDataSource } from '@angular/material/table'
 
 
 export class ConfiguracionPracticaComponent implements OnInit {
-    dataSourcePacks!: MatTableDataSource<any>;
+
+    dataSourcePacksOpcionesPregunta!: MatTableDataSource<any>;
     fg!: FormGroup;
 
-    displayedColumns = ["opcion_pregunta", "eliminar"]
+    displayedColumnsOpcionesPregunta = ["opcion_pregunta", "eliminar"]
     opcion_pregunta = new FormControl('')
 
     dataSourcePacksHoras!: MatTableDataSource<any>;
@@ -79,7 +80,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
 
         preguntaFORM: this.pregunta,
         
-        promos: this._fb.array([]),
+        arregloOpcionesPreguntas: this._fb.array([]),
         arregloHoras: this._fb.array([]),
         arregloMeses: this._fb.array([])
 
@@ -95,8 +96,8 @@ export class ConfiguracionPracticaComponent implements OnInit {
         this.habilitarMeses = arg.target.checked;
     }
 
-    get promos() {
-        return this.fg.controls["promos"] as FormArray;
+    get arregloOpcionesPreguntas() {
+        return this.fg.controls["arregloOpcionesPreguntas"] as FormArray;
     };
     get arregloHoras() {
         return this.fg.controls["arregloHoras"] as FormArray;
@@ -105,13 +106,13 @@ export class ConfiguracionPracticaComponent implements OnInit {
         return this.fg.controls["arregloMeses"] as FormArray;
     };
   
-    addLesson(): void {
-      const lessonForm = this._fb.group({
+    addOpcionPregunta(): void {
+      const opcionesPreguntaForm = this._fb.group({
         opcion_pregunta: [''],
       });
    
-      this.promos.push(lessonForm);
-      this.dataSourcePacks = new MatTableDataSource(this.promos.controls);
+      this.arregloOpcionesPreguntas.push(opcionesPreguntaForm);
+      this.dataSourcePacksOpcionesPregunta = new MatTableDataSource(this.arregloOpcionesPreguntas.controls);
   
       this.cd.detectChanges();
   
@@ -135,10 +136,10 @@ export class ConfiguracionPracticaComponent implements OnInit {
         this.cd.detectChanges();
     }
   
-    deleteLesson(lessonIndex: number): void {
+    deleteOpcionPregunta(opcionPreguntaIndex: number): void {
   
-      this.promos.removeAt(lessonIndex);
-      this.dataSourcePacks = new MatTableDataSource(this.promos.controls);
+      this.arregloOpcionesPreguntas.removeAt(opcionPreguntaIndex);
+      this.dataSourcePacksOpcionesPregunta = new MatTableDataSource(this.arregloOpcionesPreguntas.controls);
   
     };
     deleteHoras(horasIndex: number): void {
@@ -192,7 +193,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
       //this.lista_opciones_preguntas = [];
       this.pregunta = this.fg.value.preguntaFORM;
 
-      this.opcion_pregunta = this.promos.value;
+      this.opcion_pregunta = this.arregloOpcionesPreguntas.value;
       //console.log(typeof this.opcion_pregunta);
 
       var string_pregunta = String(this.pregunta)
@@ -227,15 +228,17 @@ export class ConfiguracionPracticaComponent implements OnInit {
       }
       this.lista_opciones_preguntas_avance.push(opciones_de_una_pregunta);
       console.log(this.lista_opciones_preguntas_avance);
+
+      //limpieza opciones anteriores
+      this.arregloOpcionesPreguntas.clear();
     }
 
-    //CAMBIAR
     onSubmitAddPreguntaFinal() {
 
       //this.lista_opciones_preguntas = [];
       this.pregunta = this.fg.value.preguntaFORM;
 
-      this.opcion_pregunta = this.promos.value;
+      this.opcion_pregunta = this.arregloOpcionesPreguntas.value;
       //console.log(typeof this.opcion_pregunta);
 
       var string_pregunta = String(this.pregunta)
@@ -269,6 +272,9 @@ export class ConfiguracionPracticaComponent implements OnInit {
 
       this.lista_opciones_preguntas_final.push(opciones_de_una_pregunta);
       console.log(this.lista_opciones_preguntas_final);
+
+      //limpieza opciones anteriores
+      this.arregloOpcionesPreguntas.clear();
     }
 
     tipoPregunta(arg: any) {
@@ -276,14 +282,14 @@ export class ConfiguracionPracticaComponent implements OnInit {
       if (arg.target.value == "0") {
         this.tipo_pregunta = "sin_tipo";
         //vacia el array de opciones guardadas anteriormente
-        this.promos.clear();
+        this.arregloOpcionesPreguntas.clear();
         console.log(this.tipo_pregunta);
       }
   
       if (arg.target.value == "1") {
         this.tipo_pregunta = "abierta";
         //vacia el array de opciones guardadas anteriormente
-        this.promos.clear();
+        this.arregloOpcionesPreguntas.clear();
         console.log(this.tipo_pregunta);
       }
       else if (arg.target.value == "2") {
@@ -311,6 +317,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
       else {
         this.estado = "solicitud_documentos";
       }
+      this.arregloOpcionesPreguntas.clear();
     }
 
     avanzarDesdePreguntasFinal(){
