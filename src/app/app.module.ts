@@ -17,6 +17,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatNativeDateModule } from '@angular/material/core';
+import {MAT_DATE_LOCALE} from '@angular/material/core';
+
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -119,7 +121,8 @@ import { SubirArchivoComponent } from './componentes/subir-archivo/subir-archivo
     SetDetallesAlumnoService,
     ArchivosService,
     SupervisorService,
-    CookieService],
+    CookieService,
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

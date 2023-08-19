@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GestionarService } from '../../servicios/alumno/gestionar_practica.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from "@angular/router"
 import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
 import { SupervisorService } from 'src/app/servicios/supervisor/supervisor.service';
 
@@ -19,8 +18,9 @@ export class FinalizacionComponent {
   estudiante: any = {};
   practica: any = {};
 
-  constructor(private service: GestionarService, private serviceEstudiante: ObtenerDatosService,private serviceSupervisor: SupervisorService, private route: ActivatedRoute, private _snackBar: MatSnackBar, private router: Router) {
-    this.sub = this.route.params.subscribe(params => {
+  constructor(private service: GestionarService, private serviceEstudiante: ObtenerDatosService,private serviceSupervisor: SupervisorService, 
+              private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, private router: Router) {
+    this.sub = this.activated_route.params.subscribe(params => {
       this.id_estudiante = +params['id']; // (+) converts string 'id' to a number
       this.id_practica = +params['n'];
     });
@@ -100,7 +100,8 @@ export class FinalizacionComponent {
                               duration:3000
                             });
                             console.log("Correo enviado");
-                            this.router.navigate(['/'])
+                            const newUrl = this.router.url + "?finalizacion_success=success";
+                            window.location.href = newUrl;
                           }
                         }
                       );                      

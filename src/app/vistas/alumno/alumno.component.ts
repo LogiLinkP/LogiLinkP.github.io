@@ -25,9 +25,8 @@ export class DetalleAlumnoComponent implements OnInit{
   //posición del nombre en el arreglo anterior, por lo que se crea un arreglo de arreglos, que va a tener
   //como primer elemento el nombre de la práctica y como segundo elemento la practica de ese tipo, si es que la está realizando
   practicas_correspondiente_nombre: any = [];
-
-  flag: boolean = false;
-
+  
+  flags_inscripcion_list: boolean[] = [];
   link_finalizacion = ""
   link_inscripcion = ""
   doc_str = "documento";
@@ -70,7 +69,17 @@ export class DetalleAlumnoComponent implements OnInit{
         panelClass: ['red-snackbar'],
         duration: 3000
       });
-    }    
+    }
+
+
+    const param_finalizacion_success = this.activated_route.snapshot.queryParamMap.get('finalizacion_success');
+    if (param_finalizacion_success == "success") {
+      this._snackBar.open("Práctica finalizada correctamente", "Cerrar", {
+        panelClass: ['green-snackbar'],
+        duration: 3000
+      });
+    } 
+       
 
     let respuesta: any = {};
 
@@ -113,6 +122,7 @@ export class DetalleAlumnoComponent implements OnInit{
 
                 // Guardar nombres y practicas en un arreglo
                 this.practicas.forEach((element: any) => {
+                  this.flags_inscripcion_list.push(false);
                   // Para cada practica que el alumno tiene, encontrar el nombre de la configuracion de practica en el arreglo
                   // de nombres distintos y agregar la practica en el arreglo que se encarga de mantener la correspondencia entre nombre y practica
                   if(element.config_practica.nombre == this.nombres_distintos_config_practica.find((elemento: any) => elemento == element.config_practica.nombre)){
@@ -125,8 +135,7 @@ export class DetalleAlumnoComponent implements OnInit{
                     //element.documento.solicitud_documento.tipo_archivo = element.documento.solicitud_documento.tipo_archivo.split(",");
                     this.practicas_correspondiente_nombre[index].push(element);                    
                   }
-                });
-                this.flag = true;                
+                });               
                 console.log("Practicas correspondientes a nombre:",this.practicas_correspondiente_nombre)
               }
             });
@@ -237,13 +246,30 @@ export class DetalleAlumnoComponent implements OnInit{
               });
               console.log("Correo enviado");
               //reload page
-              window.location.reload();
+              const newUrl = this.router.url + "?finalizacion_success=success";
+              window.location.href = newUrl;
             }
           }
         );    
 
       }
     });
+  }
+
+  abrir_inscripcion(index: number) {
+    // checkear si el estudiante ya tiene una práctica inscrita por cada practica en el arreglo practicas
+    // si es así, no se puede inscribir a otra práctica
+    let practicas_inscritas = this.practicas.filter((practica: any) => practica.estado == environment.estado_practica.en_curso);
+    if (practicas_inscritas.length > 0) {
+      this._snackBar.open("Error, ya tiene una práctica en curso.", "Cerrar", {
+        panelClass: ['red-snackbar'],
+        duration: 3000
+      });
+      return;
+    }
+    else{
+      this.flags_inscripcion_list[index] = true;
+    }        
   }
 }
 

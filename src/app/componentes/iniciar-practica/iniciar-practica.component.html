@@ -40,20 +40,33 @@
         
 
         <br>
-
-        Selecciona modalidad de tiempo:
-
-        <select name ="modalidad" id="modalidad{{nombre_practica}}" (change)="actualizar_cantidades($event)" style="width:40%">
-            <option value="" disabled selected hidden>Seleccione modalidad</option>
-        </select>
-
-        <br>
-    
-        Selecciona cantidad de tiempo:
-
-        <select name = "cantidad" id="cantidad{{nombre_practica}}" style="width:40%">
-            <option value="" disabled selected hidden>Seleccione cantidad</option>
-        </select>
+        
+        <table style="width: 100%">
+            <tr>
+                <td>
+                    Seleccione modalidad de tiempo:
+                </td>
+                <td>
+                    
+                    <select name="modalidad" class="form-select" id="modalidad{{nombre_practica}}" 
+                    (change)="actualizar_cantidades($event)" style="width:100%" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="true">
+                        <option value="" disabled selected hidden>Seleccione modalidad</option>
+                    </select>
+                </td>
+                <br>
+            </tr>
+            <tr>
+                <td>
+                    Seleccione cantidad de tiempo:
+                </td>
+                <td>
+                    <select name = "cantidad" class="form-select" id="cantidad{{nombre_practica}}" style="width:100%">
+                        <option value="" disabled selected hidden>Seleccione cantidad</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
 
         <br>
         
