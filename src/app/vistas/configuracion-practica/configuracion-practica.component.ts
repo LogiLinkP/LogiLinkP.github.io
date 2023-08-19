@@ -29,11 +29,12 @@ export class ConfiguracionPracticaComponent implements OnInit {
     dataSourcePacks!: MatTableDataSource<any>;
     fg!: FormGroup;
 
+    
+    dataSourcePacksOpcionesPregunta!: MatTableDataSource<any>;
     dataSourcePacksHoras!: MatTableDataSource<any>;
     dataSourcePacksMeses!: MatTableDataSource<any>;
-    dataSourcePacks!: MatTableDataSource<any>;
 
-    displayedColumns = ["opcion_pregunta", "eliminar"]
+    displayedColumnsOpcionesPregunta = ["opcion_pregunta", "eliminar"]
     displayedColumnsHoras = ["opcion_horas", "eliminar"]
     displayedColumnsMeses = ["opcion_meses", "eliminar"]
 
@@ -145,7 +146,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
     
             preguntaFORM: this.pregunta,
             
-            promos: this._fb.array([]),
+            arregloOpcionesPreguntas: this._fb.array([]),
             arregloHoras: this._fb.array([]),
             arregloMeses: this._fb.array([])
     
