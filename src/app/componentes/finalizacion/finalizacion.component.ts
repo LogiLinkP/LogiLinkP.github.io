@@ -81,7 +81,7 @@ export class FinalizacionComponent {
                       console.log("practica",this.practica.correo_supervisor);
                       console.log("estudiante",this.estudiante.nombre);
                       console.log("supervisor",this.practica.nombre_supervisor);
-                      this.serviceSupervisor.enviarLink(this.practica.correo_supervisor,this.practica.nombre_supervisor,this.estudiante.nombre).subscribe(
+                      this.serviceSupervisor.enviarLink(this.practica.id, this.practica.correo_supervisor,this.practica.nombre_supervisor,this.estudiante.nombre).subscribe(
                         {
                           next: (data:any) => {
                             resultado = { ...resultado, ...data };

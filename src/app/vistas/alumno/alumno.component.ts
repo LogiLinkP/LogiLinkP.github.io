@@ -226,7 +226,7 @@ export class DetalleAlumnoComponent implements OnInit{
         })
 
         console.log("practica",practica, "estudiante",this.estudiante)
-        this.service_supervisor.enviarLink(practica.supervisor.correo, practica.supervisor.nombre, this.estudiante.usuario.nombre).subscribe(
+        this.service_supervisor.enviarLink(practica.id, practica.supervisor.correo, practica.supervisor.nombre, this.estudiante.usuario.nombre).subscribe(
           {
             next: (data:any) => {
               resultado = { ...resultado, ...data };
