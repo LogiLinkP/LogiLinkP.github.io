@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
 import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
+import { CookieService } from 'ngx-cookie-service';
+import { NotisChatService } from 'src/app/servicios/notis-chat/notis-chat.service';
 
 @Component({
   selector: 'app-barra-superior',
@@ -19,7 +21,12 @@ export class BarraSuperiorComponent implements OnInit{
 
   id1:number = 0;
 
-  constructor(private Service: DataUsuarioService, private Salumno: ObtenerDatosService, private router: ActivatedRoute){
+  notificaciones: any = [];
+
+  constructor(private Service: DataUsuarioService,
+              private router: ActivatedRoute,
+              private cookie: CookieService,
+              private noti: NotisChatService){
     this.router.params.subscribe(params => {this.Id = +params['id'];});
   }
 
@@ -56,6 +63,20 @@ export class BarraSuperiorComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.cookie.set("notificaciones", this.Id.toString());
+
+    this.Service.obtener_notificaciones(this.Id).subscribe({
+      next: (data:any) => {
+        this.respuesta = { ...this.respuesta, ...data}
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+        this.notificaciones = this.respuesta.body();
+      }
+    })
+
     this.Service.obtener_usuario(this.Id).subscribe({
       next: (data: any) => {
         this.respuesta = { ...this.respuesta, ...data }

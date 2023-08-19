@@ -30,4 +30,9 @@ export class DataUsuarioService {
     const req = new HttpRequest('GET', `${environment.url_back}/estudiante/encargados?id_estudiante=${id_estudiante}`);
     return this._http.request(req);
   }
+
+  obtener_notificaciones(id_usuario: number){
+    const req = new HttpRequest('GET', `${environment.url_back}/usuario?id=${id_usuario}notificaciones`);
+    return this._http.request(req);
+  }
 }
