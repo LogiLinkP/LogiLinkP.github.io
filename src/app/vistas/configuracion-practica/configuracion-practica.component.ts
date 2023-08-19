@@ -8,6 +8,8 @@ import { MatTableDataSource } from '@angular/material/table'
 import { BarraLateralService } from 'src/app/servicios/encargado/barra-lateral/barra-lateral.service';
 import { ConfigService } from 'src/app/servicios/encargado/config-practica/config.service';
 
+import { map, tap } from 'rxjs/operators';
+
 @Component({
   selector: 'app-configuracion-practica',
   templateUrl: './configuracion-practica.component.html',
@@ -108,6 +110,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
             this.informeFinal = "";
         } else {
             // practica existente
+            this.nombrePractica = this.config[0].nombre;
             // set modalidades
             for (let i = 0; i < this.config.length; i++) {
                 if (this.config[i].modalidad == "horas") {
@@ -215,7 +218,6 @@ export class ConfiguracionPracticaComponent implements OnInit {
     
     };
 
-  
     onSubmitPractica() {
       this.nombrePractica = this.fg.value.nombrePractica;
       this.horas = this.fg.value.horas;
@@ -229,7 +231,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
         this.cant_horas.push(Number(Object.values(Object.values(this.opcion_horas)[i])[0]))
       }
       for (let i = 0; i < Object.keys(this.opcion_meses).length; i++) {
-        this.cant_horas.push(Number(Object.values(Object.values(this.opcion_meses)[i])[0]))
+        this.cant_meses.push(Number(Object.values(Object.values(this.opcion_meses)[i])[0]))
       }
 
       //cambio estado vista
@@ -383,32 +385,51 @@ export class ConfiguracionPracticaComponent implements OnInit {
     }
 
     mandarDatos() {
+        let respuestas = [];
         let respuesta: any = {};
-    
-        let modalidad: Array<boolean> = [this.horas, this.meses];
-        let cant_horas: Array<number> = this.cant_horas;
-        let cant_meses: Array<number> = this.cant_meses;
-    
-        this.serviceComplete.crearConfigPracticaCompleto(this.nombrePractica, modalidad, cant_horas, cant_meses, this.frecuenciaInformes,
-                                                    this.informeFinal, this.horas, this.meses,).subscribe({
+        
+        let _horas = Number(this.arregloHoras.value[0].opcion_horas);
+        let modalidad: string = this.horas ? "horas" : "meses";
+        let tipo_entrada: string;
+
+        if (this.nombre_config == "blanco") {
+            tipo_entrada = "crear";
+        } else {
+            tipo_entrada = "actualizar";
+        }
+
+        let print = {
+            nombre: this.nombrePractica,
+            modalidad: modalidad,
+            cantidad_tiempo: _horas,
+            frecuencia_informes: this.frecuenciaInformes,
+            informe_final: this.informeFinal
+        }
+
+        console.log("print: ", print);
+
+        this.serviceComplete.crearConfigPracticaFila(this.nombrePractica, modalidad, _horas, this.frecuenciaInformes, this.informeFinal).subscribe({
             next: (data: any) => {
                 respuesta = { ...respuesta, ...data }
             },
             error: (error: any) => {
-                this._snackBar.open("Error al actualizar configuracion de practica", "Cerrar", {
+                this._snackBar.open("Error al guardar configuracion de practica", "Cerrar", {
                 duration: 3500,
                 panelClass: ['red-snackbar']
                 });
-                console.log("Error al actualizar configuracion de practica", error);
+                console.log("Error al guardar configuracion de practica", error);
             },
             complete: () => {
-                this._snackBar.open("Configuracion de practica actualizada", "Cerrar", {
+                console.log("respuesta mandarDatos:", respuesta.body)
+                respuestas.push(respuesta.body);
+                this._snackBar.open("Configuracion de practica guardada exitosamente", "Cerrar", {
                 duration: 3500,
                 panelClass: ['green-snackbar']
                 });
-                console.log("Configuracion de practica actualizada");
+                console.log("Configuracion de practica guardada exitosamente");
             }
         });
+
     }
 
 }
