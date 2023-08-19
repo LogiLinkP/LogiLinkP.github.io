@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { ChangeDetectorRef, Component, Inject, OnInit, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table'
 
@@ -23,23 +23,36 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
   flag: boolean = false;
   nombre_config: string | null; //parece que alguna veces se vuelve null y queda la caga
 
-  displayedColumns = ["opcion_pregunta", "eliminar"]
-  dataSourcePacks!: MatTableDataSource<any>;
-
   fg!: FormGroup
+
   
+  dataSourcePacks!: MatTableDataSource<any>;
+  dataSourcePacksHoras!: MatTableDataSource<any>;
+  dataSourcePacksMeses!: MatTableDataSource<any>;
+
+  displayedColumns = ["opcion_pregunta", "eliminar"]
+  displayedColumnsHoras = ["opcion_horas", "eliminar"]
+  displayedColumnsMeses = ["opcion_meses", "eliminar"]
+
   opcion_pregunta = new FormControl('')
+  opcion_horas = new FormControl('')
+  opcion_meses = new FormControl('')
+  
   nombrePractica: string;
-  cant_horas: number[];
-  cant_meses: number[];
+  cant_horas: number[] = [];
+  cant_meses: number[] = [];
   horas: boolean;
   meses: boolean;
-  frecuenciaInformes = new FormControl('');
-  informeFinal = new FormControl('');
+  frecuenciaInformes: string;
+  informeFinal: string;
   preguntaFORM = new FormControl('');
 
   pregunta: string;
   tipo_pregunta: string;
+
+  estado: string = "configuracion_general";
+  habilitarHoras: boolean = false;    
+  habilitarMeses: boolean = false;
 
   lista_preguntas_avance: string[] = [];
   tipos_preguntas_avance: string[] = [];
@@ -88,8 +101,8 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
     let cant_horas: Array<number> = this.cant_horas;
     let cant_meses: Array<number> = this.cant_meses;
 
-    this.serviceComplete.crearConfigPracticaCompleto(this.nombrePractica, modalidad, cant_horas, cant_meses, this.frecuenciaInformes.value,
-                                                this.informeFinal.value, this.horas, this.meses,).subscribe({
+    this.serviceComplete.crearConfigPracticaCompleto(this.nombrePractica, modalidad, cant_horas, cant_meses, this.frecuenciaInformes,
+                                                this.informeFinal, this.horas, this.meses,).subscribe({
         next: (data: any) => {
             respuesta = { ...respuesta, ...data }
         },
@@ -145,46 +158,111 @@ export class ConfiguracionPracticaExistenteComponent implements OnInit {
   
       });
 
-      console.log("valores fg:", this.fg.value)
+      console.log("valores fg al crear formulario:", this.fg.value)
   }
 
-  get promos() {
-    return this.fg.controls["promos"] as FormArray;
-  };
+    habilitarHorasFunc(arg: any) {
+        this.habilitarHoras = arg.target.checked;
+    }
 
-  addLesson(): void {
+    habilitarMesesFunc(arg: any) {
+        this.habilitarMeses = arg.target.checked;
+    }
 
-    const lessonForm = this._fb.group({
-      opcion_pregunta: [''],
-    });
+    get promos() {
+        return this.fg.controls["promos"] as FormArray;
+    };
+    get arregloHoras() {
+        return this.fg.controls["arregloHoras"] as FormArray;
+    };
+    get arregloMeses() {
+        return this.fg.controls["arregloMeses"] as FormArray;
+    };
+
+    addLesson(): void {
+
+        const lessonForm = this._fb.group({
+        opcion_pregunta: [''],
+        });
 
 
-    this.promos.push(lessonForm);
-    this.dataSourcePacks = new MatTableDataSource(this.promos.controls);
+        this.promos.push(lessonForm);
+        this.dataSourcePacks = new MatTableDataSource(this.promos.controls);
 
-    this.cd.detectChanges();
+        this.cd.detectChanges();
 
-  };
+    };
+    addHoras(): void {
+        const horasForm = this._fb.group({
+            opcion_horas: [''],
+        });
+
+        this.arregloHoras.push(horasForm);
+        this.dataSourcePacksHoras = new MatTableDataSource(this.arregloHoras.controls);
+        this.cd.detectChanges();
+    }
+    addMeses(): void {
+        const mesesForm = this._fb.group({
+            opcion_meses: [''],
+        });
+
+        this.arregloMeses.push(mesesForm);
+        this.dataSourcePacksMeses = new MatTableDataSource(this.arregloMeses.controls);
+        this.cd.detectChanges();
+    }
 
 
-  deleteLesson(lessonIndex: number): void {
+    deleteLesson(lessonIndex: number): void {
+  
+        this.promos.removeAt(lessonIndex);
+        this.dataSourcePacks = new MatTableDataSource(this.promos.controls);
+    
+    };
+    deleteHoras(horasIndex: number): void {
 
-    this.promos.removeAt(lessonIndex);
-    this.dataSourcePacks = new MatTableDataSource(this.promos.controls);
+        this.arregloHoras.removeAt(horasIndex);
+        this.dataSourcePacksHoras = new MatTableDataSource(this.arregloHoras.controls);
+    
+    };
+    deleteMeses(mesesIndex: number): void {
 
-  };
+        this.arregloMeses.removeAt(mesesIndex);
+        this.dataSourcePacksMeses = new MatTableDataSource(this.arregloMeses.controls);
+    
+    };
 
-  onSubmitPractica(){
-    this.nombrePractica = this.fg.value.nombrePractica;
-    this.horas = this.fg.value.horas;
-    this.meses = this.fg.value.meses;
-    this.cant_horas = this.fg.value.cant_horas;
-    this.cant_meses = this.fg.value.cant_meses;
-    this.frecuenciaInformes = this.fg.value.frecuenciaInformes;
-    this.informeFinal = this.fg.value.informeFinal;
-    console.log(this.fg.value);
-    console.log(this.horas, this.meses);
-  }
+    onSubmitPractica() {
+        this.nombrePractica = this.fg.value.nombrePractica;
+        this.horas = this.fg.value.horas;
+        this.meses = this.fg.value.meses;
+        this.frecuenciaInformes = this.fg.value.frecuenciaInformes;
+        this.informeFinal = this.fg.value.informeFinal;
+        this.opcion_horas = this.arregloHoras.value;
+        this.opcion_meses = this.arregloMeses.value;
+  
+        for (let i = 0; i < Object.keys(this.opcion_horas).length; i++) {
+            this.cant_horas.push(Number(Object.values(Object.values(this.opcion_horas)[i])[0]))
+        }
+        for (let i = 0; i < Object.keys(this.opcion_meses).length; i++) {
+            this.cant_horas.push(Number(Object.values(Object.values(this.opcion_meses)[i])[0]))
+        }
+  
+        //cambio estado vista
+        if (this.frecuenciaInformes == "sinAvance" && this.informeFinal == "no") {
+          this.estado = "solicitud_documentos";
+          console.log("documentos");
+        }
+        else if (this.frecuenciaInformes =="sinAvance" && this.informeFinal == "si") {
+          this.estado = "informe_final";
+          console.log("informe final");
+        }
+        else if (this.frecuenciaInformes !="sinAvance") {
+          this.estado = "informe_avance";
+          console.log("informe avance");
+        }
+        console.log("estado:", this.estado);
+        console.log("fg values:", this.fg.value);
+      }
 
   onSubmitAddPreguntaAvance() {
     //this.lista_opciones_preguntas = [];
