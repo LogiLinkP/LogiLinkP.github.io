@@ -33,7 +33,7 @@
                                 <div *ngSwitchCase="2">
                                     <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample" v-on:click="getPractica(nombre)">
                                         <h2 class="m-0 font-weight-bold text-primary">{{ practica[0] }} </h2>
-                                        <div class="m-0 text-gray-800">Estado: {{ practica[1].estado }}</div>                                        
+                                        <div class="m-0 text-gray-800">Estado: {{ practica[1]?.estado }}</div>                                        
                                     </a>  
                                     <div  class="collapse show" id="collapseCardExample">
                                         <div class="card-body">
@@ -65,24 +65,24 @@
                                                                             <table style="width:40%">
                                                                                 <tr>
                                                                                     <td>Estado:</td>
-                                                                                    <td>{{ practica[1].estado }}</td>
+                                                                                    <td>{{ practica[1]?.estado }}</td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>Modalidad:</td>
-                                                                                    <td>{{ practica[1].config_practica.cantidad_tiempo}} 
-                                                                                        {{ practica[1].config_practica.modalidad}}</td>
+                                                                                    <td>{{ practica[1]?.config_practica?.cantidad_tiempo}} 
+                                                                                        {{ practica[1]?.config_practica?.modalidad}}</td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>Fecha Inicio:</td>
-                                                                                    <td>{{ practica[1].fecha_inicio | date: 'dd/MM/yyyy' }}</td>
+                                                                                    <td>{{ practica[1]?.fecha_inicio | date: 'dd/MM/yyyy' }}</td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>Fecha Término:</td>
-                                                                                    <td>{{ practica[1].fecha_termino | date: 'dd/MM/yyyy' }}</td>
+                                                                                    <td>{{ practica[1]?.fecha_termino | date: 'dd/MM/yyyy' }}</td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>Frecuencia de Informes:</td>
-                                                                                    <td>{{ practica[1].config_practica.frecuencia_informes }}</td>
+                                                                                    <td>{{ practica[1]?.config_practica?.frecuencia_informes }}</td>
                                                                                 </tr>
                                                                                 
                                                                             </table>
@@ -104,23 +104,23 @@
                                                                             <table style="width:80%">
                                                                                 <tr>
                                                                                     <td>Nombre Empresa:</td>
-                                                                                    <td>{{ practica[1].empresa.nombre_empresa }}</td>
+                                                                                    <td>{{ practica[1]?.empresa.nombre_empresa }}</td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>Nombre Supervisor:</td>
-                                                                                    <td>{{ practica[1].supervisor.nombre }}</td>
+                                                                                    <td>{{ practica[1]?.supervisor.nombre }}</td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>Correo Supervisor:</td>
-                                                                                    <td>{{ practica[1].supervisor.correo }}</td>
+                                                                                    <td>{{ practica[1]?.supervisor.correo }}</td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>Rut Empresa:</td>
-                                                                                    <td>{{ practica[1].empresa.rut_empresa }}</td>
+                                                                                    <td>{{ practica[1]?.empresa.rut_empresa }}</td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>Empresa Verificada?:</td>
-                                                                                    <td>{{ practica[1].empresa_verificada }}</td>
+                                                                                    <td>{{ practica[1]?.empresa_verificada }}</td>
                                                                                 </tr>                                                                                    
                                                                             </table>
                                                                         </div>
@@ -156,9 +156,9 @@
                                                                                         </thead>
                                                                                         <tbody>
                                                                                             <tr *ngFor="let informe of practica[1].informes;">
-                                                                                                <td>{{ informe.config_informe.tipo_informe }}</td>
-                                                                                                <td>{{ informe.horas_trabajadas }}</td>
-                                                                                                <td>{{ informe.fecha | date: 'dd/MM/yyyy' }}</td>
+                                                                                                <td>{{ informe?.config_informe?.tipo_informe }}</td>
+                                                                                                <td>{{ informe?.horas_trabajadas }}</td>
+                                                                                                <td>{{ informe?.fecha | date: 'dd/MM/yyyy' }}</td>
                                                                                                 <td><button class="btn btn-primary btn-sm btn-block" (click)="mostrar_informe(practica[1].informes,informe.id)">Ver
                                                                                                     Informe</button></td>
                                                                                             </tr>
@@ -195,8 +195,8 @@
                                                                                         </thead>
                                                                                         <tbody>
                                                                                             <tr *ngFor="let solicitud of practica[1].config_practica.solicitud_documentos;">
-                                                                                                <td>{{solicitud.nombre_solicitud}}</td>
-                                                                                                <td>{{solicitud.tipo_archivo}}</td>
+                                                                                                <td>{{solicitud?.nombre_solicitud}}</td>
+                                                                                                <td>{{solicitud?.tipo_archivo}}</td>
                                                                                                 <td>Normal</td>                                                                                                
                                                                                                 <td [ngSwitch]="solicitud.documentos.length" >                                                                                                    
                                                                                                     <app-subir-archivo *ngSwitchCase="0" [id_solicitud] = solicitud.id 
@@ -208,11 +208,11 @@
                                                                                                 </td>
                                                                                             </tr>
                                                                                             <tr *ngFor="let doc_extra of practica[1].documento_extras;">
-                                                                                                <td>{{doc_extra.nombre_solicitud}}</td>
-                                                                                                <td>{{doc_extra.tipo_archivo}}</td>
+                                                                                                <td>{{doc_extra?.nombre_solicitud}}</td>
+                                                                                                <td>{{doc_extra?.tipo_archivo}}</td>
                                                                                                 <td>Extra</td>
                                                                                                 <td [ngSwitch]="doc_extra.key" >
-                                                                                                    <app-subir-archivo-extra *ngSwitchCase="0" [id_documento_extra] = doc_extra.id 
+                                                                                                    <app-subir-archivo-extra *ngSwitchCase="null || ''" [id_documento_extra] = doc_extra.id 
                                                                                                                         [descripcion]="doc_extra.descripcion" [nombre_solicitud]="doc_extra.nombre_solicitud" 
                                                                                                                         [tipo_archivo]="doc_extra.tipo_archivo">
                                                                                                     </app-subir-archivo-extra>

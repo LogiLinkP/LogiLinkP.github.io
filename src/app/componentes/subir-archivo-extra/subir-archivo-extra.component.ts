@@ -74,9 +74,10 @@ export class SubirArchivoExtraComponent {
             } else {
               upload_string = "?upload_success=error";
             }         
-            const newUrl = this.router.url + upload_string;
-            window.location.href = newUrl;
-            
+            // check if the current url already has a query string and remove it
+            let newUrl = this.router.url.split("?")[0];
+            newUrl += upload_string;
+            window.location.href = newUrl;            
           },
           error: error => {
             if (error.status == 415) {

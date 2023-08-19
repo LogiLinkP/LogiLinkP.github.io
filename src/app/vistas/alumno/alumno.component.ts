@@ -14,7 +14,7 @@ import { Router } from "@angular/router"
 })
 export class DetalleAlumnoComponent implements OnInit{
   id_usuario: number = -1;
-  estudiante:any = [];  
+  estudiante:any = {id_estudiante: -1, usuario: {nombre: ""}} 
   config_practica: any = [];
   practicas: any = [];
   //Se deberían mostrar todos los tipos de practica que se pueden realizar - el desafío aquí es

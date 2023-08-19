@@ -43,7 +43,7 @@ export class SubirArchivoComponent {
     let descripcion = this.descripcion;
     let tipo_archivo = this.tipo_archivo;
 
-    const dialogRef = this.dialog.open(Dialog, {
+    const dialogRef = this.dialog.open(Dialog2, {
       width: '400px',
       enterAnimationDuration: "100ms",
       exitAnimationDuration: "100ms",
@@ -79,8 +79,10 @@ export class SubirArchivoComponent {
               upload_string = "?upload_success=format";
             } else {
               upload_string = "?upload_success=error";
-            }         
-            const newUrl = this.router.url + upload_string;
+            }
+            // check if the current url already has a query string and remove it
+            let newUrl = this.router.url.split("?")[0];
+            newUrl += upload_string;
             window.location.href = newUrl;
           },
           error: error => {
@@ -105,16 +107,16 @@ export class SubirArchivoComponent {
 }
 
 @Component({
-  selector: 'app-dialog',
-  templateUrl: 'dialog.html',
+  selector: 'app-dialog2',
+  templateUrl: 'dialog2.html',
   standalone: true,
   imports: [MatDialogModule, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatSelectModule, CommonModule,
     NgFor],
 })
-export class Dialog {
+export class Dialog2 {
   selectedFile: File | null = null;
 
-  constructor(public dialogRef: MatDialogRef<Dialog>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+  constructor(public dialogRef: MatDialogRef<Dialog2>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0] ?? null;
