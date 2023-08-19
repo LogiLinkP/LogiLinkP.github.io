@@ -28,7 +28,10 @@ export class ChatComponent implements OnInit {
   respuesta:any = [];
   room: string="";
 
-  constructor(private service: NotisChatService, private router: ActivatedRoute, private datetime: DatePipe, private cookie: CookieService) {
+  constructor(private service: NotisChatService,
+              private router: ActivatedRoute,
+              private datetime: DatePipe,
+              private cookie: CookieService) {
     this.router.params.subscribe(params => {this.Id = +params['id1'];});
     this.router.params.subscribe(params => {this.Id2 = +params['id2'];});
     this.router.params.subscribe(params => {this.tipo = params['tipo'];});   
