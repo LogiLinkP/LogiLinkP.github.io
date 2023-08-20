@@ -18,8 +18,8 @@
                             <div class="card-header">
                                 Chat
                             </div>
-                            <div class="card-body overflow-auto" >
-                                <div class = "contenedordemensajes" *ngIf = "tipo == 'estudiante'">
+                            <div class="card-body overflow-auto" #messageContainer>
+                                <div class = "contenedordemensajes" *ngIf = "tipo == 'estudiante'" >
 
                                     <div *ngFor = "let mensaje of Historial.mensajes" [ngClass]="(mensaje.emisor=='estudiante')? 'enviado' : 'recibido'">
                                         <p class="texto">{{mensaje.texto}}</p>

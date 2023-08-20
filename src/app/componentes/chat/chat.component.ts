@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NotisChatService } from 'src/app/servicios/notis-chat/notis-chat.service';
 import { DatePipe } from '@angular/common';
@@ -11,6 +11,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 
 export class ChatComponent implements OnInit {
+  @ViewChild('messageContainer') messageContainer!: ElementRef;
 
   Id: number = -1;
   Id2: number = -1;
@@ -82,10 +83,10 @@ export class ChatComponent implements OnInit {
             error: (error: any) => console.log("Error en post chat:",error),
             complete: () => {
               console.log("Chat creado");
-              console.log(this.respuesta);
+              console.log(this.respuesta);              
             }
           });
-        }   
+        }  
       }
     });     
   }  
@@ -128,4 +129,15 @@ export class ChatComponent implements OnInit {
     window.history.back();
   }
   
+  ngAfterViewChecked() {
+    this.scrollToBottom(); // Scroll to the bottom after view initialization
+  }
+
+  // Method to scroll to the bottom of the chat container
+  scrollToBottom() {
+    if (this.messageContainer) {
+      const element = this.messageContainer.nativeElement;
+      element.scrollTop = element.scrollHeight;
+    }
+  }
 }
