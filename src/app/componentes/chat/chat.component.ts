@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NotisChatService } from 'src/app/servicios/notis-chat/notis-chat.service';
 import { DatePipe } from '@angular/common';
@@ -7,11 +7,13 @@ import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css']
+  styleUrls: ['./chat.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class ChatComponent implements OnInit {
-  @ViewChild('messageContainer') messageContainer!: ElementRef;
+  @ViewChild('messageContainer') messageContainer!: ElementRef; //para scrollear al final
+  @ViewChild('sendButton') sendButton!: ElementRef; //para poder apretar el boton sin salirse del textarea
 
   Id: number = -1;
   Id2: number = -1;
@@ -86,7 +88,12 @@ export class ChatComponent implements OnInit {
               console.log(this.respuesta);              
             }
           });
-        }  
+        }
+        this.cdr.detectChanges();  
+        this.service.event$.subscribe(res => {
+          this.Historial.mensajes.push(res);
+          this.cdr.detectChanges(); 
+        });
       }
     });     
   }  
@@ -107,12 +114,13 @@ export class ChatComponent implements OnInit {
       },
       error: (error: any) => console.log("Error en enviar mensaje:",error),  
       complete: () => {
-        console.log("Mensaje Enviado");
+        console.log("Mensaje Enviado", mensaje);
         console.log(this.respuesta);
         this.service.emitEvent(mensaje);
         this.Nmensaje="";    
-        this.Historial.push(mensaje);
-        this.cdr.detectChanges();
+        this.Historial.mensajes.push(mensaje);
+        this.sendButton.nativeElement.click();
+        this.cdr.detectChanges(); 
       }
     });
   };

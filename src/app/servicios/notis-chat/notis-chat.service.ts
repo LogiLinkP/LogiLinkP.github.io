@@ -2,6 +2,7 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Socket } from 'ngx-socket-io';
+import { Subject } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 
@@ -10,6 +11,9 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class NotisChatService extends Socket{
+  
+  private eventSubject: Subject<any> = new Subject<any>();
+  event$ = this.eventSubject.asObservable();
 
   @Output() outEven: EventEmitter<any> = new EventEmitter();
 
@@ -24,13 +28,15 @@ export class NotisChatService extends Socket{
       }
     });
     
+    
     this.listen();
   }
 
   
 
   listen = () => {
-    this.ioSocket.on('evento', (res:any) => {console.log("Evento recibido", res)});   
+    this.ioSocket.on('evento', (res:any) => {console.log("Evento recibido", res); this.eventSubject.next(res);});
+    
   }
 
   emitEvent = (payload = {}) => {

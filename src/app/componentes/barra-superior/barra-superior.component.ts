@@ -66,13 +66,13 @@ export class BarraSuperiorComponent implements OnInit{
           return;
         },
         complete: () => {
-          if (this.respuesta.body.practicas.length == 0){
+          if (this.respuesta.body[0].practicas.length == 0){
             return;
           }
-          for (let i = 0; i < this.respuesta.body.practicas.length; i++){
+          for (let i = 0; i < this.respuesta.body[0].practicas.length; i++){
             if (!this.id_personas.includes(this.respuesta.body[0].practicas[i].id_estudiante)){
-              this.id_personas.push(this.respuesta.body.practicas[i].id_estudiante);
-              this.personas.push(this.respuesta.body.practicas[i].estudiante);
+              this.id_personas.push(this.respuesta.body[0].practicas[i].id_estudiante);
+              this.personas.push(this.respuesta.body[0].practicas[i].estudiante);
             }
           }
         }
