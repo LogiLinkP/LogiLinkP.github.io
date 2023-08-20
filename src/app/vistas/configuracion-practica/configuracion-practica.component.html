@@ -145,7 +145,7 @@
 
             <!------------------------------------------------ CONFIGURACION PREGUNTAS AVANCE --------------------------------------------------------------->
             <div *ngIf="estado == 'informe_avance'" class="container-fluid">
-              <form (ngSubmit)="avanzarDesdePreguntasAvance()"> 
+              
                   <br>
 
                   <p> Preguntas informe de avance </p>
@@ -160,20 +160,26 @@
                           Opciones:
                           {{lista_opciones_preguntas_avance[i]}}
                           <br>
-                          <button>
-                            Eliminar Pregunta
-                          </button>
+                          <form (ngSubmit)="eliminarPreguntaAvance(i)">
+                            <button>
+                              Eliminar Pregunta
+                            </button>
+                          </form>
                       </div>
 
                       <div *ngIf="lista_opciones_preguntas_avance[i] == ''">
-                          <button>
-                            Eliminar Pregunta
-                          </button>
+                          <form (ngSubmit)="eliminarPreguntaAvance(i)">
+                            <button>
+                              Eliminar Pregunta
+                            </button>
+                          </form>
                       </div>
 
                   </div>
 
                   <br>
+                
+              <form (ngSubmit)="avanzarDesdePreguntasAvance()"> 
 
                   <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddPreguntaAvance()">
 
@@ -231,7 +237,7 @@
                               <div class="button">
                                 <button type="button" (click)="addOpcionPregunta()">Agregar opción</button>
                               </div>
-                            
+                              <br>
                             <!-- </form> -->
                           
                       </div>
@@ -243,10 +249,6 @@
                           <!-- FORMULARIO OPCIONES -->
                           <br>
                           <!-- <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddOpcion()"> -->
-
-                              <div class="button">
-                                <button type="button" (click)="addOpcionPregunta()">Agregar opción</button>
-                              </div>
                             
                               <mat-table [dataSource]="dataSourcePacksOpcionesPregunta">
                                 <ng-container formArrayName="arregloOpcionesPreguntas">
@@ -279,7 +281,11 @@
                                   <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
                                 </ng-container>
                               </mat-table>
-                            
+
+                              <div class="button">
+                                <button type="button" (click)="addOpcionPregunta()">Agregar opción</button>
+                              </div>
+                              <br>
                             <!-- </form> -->
 
 
@@ -295,7 +301,7 @@
 
             <!-------------------------------------------------- CONFIGURACION PREGUNTAS INFORME FINAL -------------------------------------------------------------->
             <div *ngIf="estado == 'informe_final'" class="container-fluid">
-              <form (ngSubmit)="avanzarDesdePreguntasFinal()">
+              
                 <br>
 
                 <p> Preguntas informe final </p>
@@ -310,19 +316,25 @@
                       Opciones:
                       {{lista_opciones_preguntas_final[i]}}
                       <br>
-                      <button>
-                        Eliminar Pregunta
-                      </button>
+                      <form (ngSubmit)="eliminarPreguntaFinal(i)">
+                        <button>
+                          Eliminar Pregunta
+                        </button>
+                      </form>
                   </div>
 
                   <div *ngIf="lista_opciones_preguntas_final[i] == ''">
-                      <button>
-                        Eliminar Pregunta
-                      </button>
+                      <form (ngSubmit)="eliminarPreguntaFinal(i)">
+                        <button>
+                          Eliminar Pregunta
+                        </button>
+                      </form>
                   </div>
                 </div>
 
                 <br>
+
+              <form (ngSubmit)="avanzarDesdePreguntasFinal()">
 
                 <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddPreguntaFinal()">
 
@@ -345,10 +357,6 @@
 
                         <br>
                         <!-- <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddOpcion()"> -->
-
-                            <div class="button">
-                              <button type="button" (click)="addOpcionPregunta()">Agregar opción</button>
-                            </div>
                           
                             <mat-table [dataSource]="dataSourcePacksOpcionesPregunta">
                               <ng-container formArrayName="arregloOpcionesPreguntas">
@@ -381,6 +389,11 @@
                                 <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
                               </ng-container>
                             </mat-table>
+
+                            <div class="button">
+                              <button type="button" (click)="addOpcionPregunta()">Agregar opción</button>
+                            </div>
+                            <br>
                           
                           <!-- </form> -->
                         
@@ -394,10 +407,6 @@
                         <!-- FORMULARIO OPCIONES -->
                         <br>
                         <!-- <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddOpcion()"> -->
-
-                            <div class="button">
-                              <button type="button" (click)="addOpcionPregunta()">Agregar opción</button>
-                            </div>
                           
                             <mat-table [dataSource]="dataSourcePacksOpcionesPregunta">
                               <ng-container formArrayName="arregloOpcionesPreguntas">
@@ -430,6 +439,11 @@
                                 <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
                               </ng-container>
                             </mat-table>
+
+                            <div class="button">
+                              <button type="button" (click)="addOpcionPregunta()">Agregar opción</button>
+                            </div>
+                            <br>
                           
                           <!-- </form> -->
 

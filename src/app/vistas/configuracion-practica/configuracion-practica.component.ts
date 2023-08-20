@@ -228,8 +228,13 @@ export class ConfiguracionPracticaComponent implements OnInit {
       }
       this.lista_opciones_preguntas_avance.push(opciones_de_una_pregunta);
       console.log(this.lista_opciones_preguntas_avance);
-
+      
       //limpieza opciones anteriores
+
+      for (let i = 0; i < this.arregloOpcionesPreguntas.length; i++){
+        this.deleteOpcionPregunta(i);
+      }
+
       this.arregloOpcionesPreguntas.clear();
     }
 
@@ -274,6 +279,11 @@ export class ConfiguracionPracticaComponent implements OnInit {
       console.log(this.lista_opciones_preguntas_final);
 
       //limpieza opciones anteriores
+
+      for (let i = 0; i < this.arregloOpcionesPreguntas.length; i++){
+        this.deleteOpcionPregunta(i);
+      }
+
       this.arregloOpcionesPreguntas.clear();
     }
 
@@ -326,5 +336,19 @@ export class ConfiguracionPracticaComponent implements OnInit {
 
     onSubmitAddSolicitudDoc(){
       console.log("documento agregado");
+    }
+
+    eliminarPreguntaAvance(index: number){
+      console.log("eliminando pregunta", index);
+      this.lista_preguntas_avance.splice(index, 1);
+      this.lista_opciones_preguntas_avance.splice(index, 1);
+      this.tipos_preguntas_avance.splice(index, 1);
+    }
+
+    eliminarPreguntaFinal(index: number){
+      console.log("eliminando pregunta", index);
+      this.lista_preguntas_final.splice(index, 1);
+      this.lista_opciones_preguntas_final.splice(index, 1);
+      this.tipos_preguntas_final.splice(index, 1);
     }
   }
