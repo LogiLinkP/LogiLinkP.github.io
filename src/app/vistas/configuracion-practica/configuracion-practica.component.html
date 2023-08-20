@@ -459,21 +459,55 @@
               </form>
             </div>
 
-            <!-------------------------------------------------- CONFIGURACION  -------------------------------------------------------------->
+            <!-------------------------------------------------- CONFIGURACION DOCUMENTOS -------------------------------------------------------------->
 
-            <div class="container-fluid">
+            <div *ngIf="estado == 'solicitud_documentos'" class="container-fluid">
               <br>
               Solicitud Documentos
+              <br>
 
               <!-- Ng if donde se muestran los documentos  -->
 
-              <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddSolicitudDoc()">
+              <div *ngFor="let nombre_doc of lista_nombre_solicitud_documentos; let i = index">
+                <br>
+                Solicitud Documento Ingresada:
+                <br>
+                Nombre: {{nombre_doc}}
+                <br>
+                Descripción: {{lista_descripcion_solicitud_documentos[i]}}
+                <br>
+                Tipo documento: {{lista_tipo_solicitud_documentos[i]}}
+                <br>
+                <form *ngIf="flag" (ngSubmit)="eliminarSolicitudDocumento(i)">
+                  <button>
+                    Eliminar Solicitud Documento
+                  </button>
+                </form>
 
-                <input type="text" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
-                <input type="text" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
-                <input type="text" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
+                
+              </div>
 
+              <form *ngIf="flag" (ngSubmit)="avanzarDesdeSolicitudDocumentos()">
 
+                <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddSolicitudDoc()">
+
+                  <br>
+                  Nombre solicitud del documento:
+                  <input type="text" class="form-control col-lg-3 col-6" placeholder="Nombre solicitud" formControlName="nombre_solicitud_documentos">
+                  <br>
+                  
+                  Descripción solicitud del documento:
+                  <input type="text" class="form-control col-lg-3 col-6" placeholder="Descripción solicitud" formControlName="descripcion_solicitud_documentos">
+                  <br>
+                  Tipo de documento esperado:
+                  <input type="text" class="form-control col-lg-3 col-6" placeholder="Tipo documento" formControlName="tipo_solicitud_documentos">
+                  <br>
+                  
+
+                  <button class="btn-save" type="submit">Agregar solicitud de documento </button>
+                </form>
+
+                <button class="btn-save" type="submit">Siguiente</button>
               </form>
 
             </div>

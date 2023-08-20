@@ -67,8 +67,15 @@ export class ConfiguracionPracticaComponent implements OnInit {
     tipos_preguntas_final: string[] = [];
     lista_opciones_preguntas_final: string[] = [];
 
+
+    nombre_solicitud_documentos: string;
+    descripcion_solicitud_documentos: string;
+    tipo_solicitud_documentos: string;
+    //descripcion_solicitud_documentos = new FormControl('')
+    //tipo_solicitud_documentos = new FormControl('')
+
     lista_nombre_solicitud_documentos: string[] = [];
-    lista_description_solicitud_documentos: string[] = [];
+    lista_descripcion_solicitud_documentos: string[] = [];
     lista_tipo_solicitud_documentos: string[] = [];
 
     scrollToTop(): void {
@@ -143,12 +150,19 @@ export class ConfiguracionPracticaComponent implements OnInit {
             frecuenciaInformes: new FormControl(this.frecuenciaInformes),
             informeFinal: new FormControl(this.informeFinal),
             //pregunta: this.preguntaFORM,
+
     
             preguntaFORM: this.pregunta,
             
             arregloOpcionesPreguntas: this._fb.array([]),
             arregloHoras: this._fb.array([]),
-            arregloMeses: this._fb.array([])
+            arregloMeses: this._fb.array([]),
+
+            //documentos
+            nombre_solicitud_documentos: new FormControl(this.nombre_solicitud_documentos),
+            descripcion_solicitud_documentos: new FormControl(this.descripcion_solicitud_documentos),
+            tipo_solicitud_documentos: new FormControl(this.tipo_solicitud_documentos),
+            
     
         });
     }
@@ -398,8 +412,29 @@ export class ConfiguracionPracticaComponent implements OnInit {
       this.estado = "solicitud_documentos";
     }
 
+    avanzarDesdeSolicitudDocumentos(){
+      this.estado = "encuesta_final";
+    }
+
     onSubmitAddSolicitudDoc(){
       console.log("documento agregado");
+
+      /*
+      this.nombre_solicitud_documentos = this.fg.value.nombre_solicitud_documentos;
+      this.descripcion_solicitud_documentos = this.fg.value.descripcion_solicitud_documentos;
+      this.tipo_solicitud_documentos = this.fg.value.tipo_solicitud_documentos;
+
+      console.log(this.nombre_solicitud_documentos);
+      console.log(this.descripcion_solicitud_documentos);
+      console.log(this.tipo_solicitud_documentos);
+      */
+
+      this.lista_nombre_solicitud_documentos.push(this.fg.value.nombre_solicitud_documentos);
+      this.lista_descripcion_solicitud_documentos.push(this.fg.value.descripcion_solicitud_documentos);
+      this.lista_tipo_solicitud_documentos.push(this.fg.value.tipo_solicitud_documentos);
+      console.log(this.lista_nombre_solicitud_documentos);
+      console.log(this.lista_descripcion_solicitud_documentos);
+      console.log(this.lista_tipo_solicitud_documentos);
     }
 
     eliminarPreguntaAvance(index: number){
@@ -415,6 +450,14 @@ export class ConfiguracionPracticaComponent implements OnInit {
       this.lista_opciones_preguntas_final.splice(index, 1);
       this.tipos_preguntas_final.splice(index, 1);
     }
+
+    eliminarSolicitudDocumento(index: number){
+      console.log("eliminando solicitud de documento", index);
+      this.lista_nombre_solicitud_documentos.splice(index, 1);
+      this.lista_descripcion_solicitud_documentos.splice(index, 1);
+      this.lista_tipo_solicitud_documentos.splice(index, 1);
+    }
+
   
     mandarDatos() {
         let respuestas = [];
