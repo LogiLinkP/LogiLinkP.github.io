@@ -17,7 +17,7 @@ export class BarraSuperiorComponent implements OnInit{
   respuesta:any = [];
 
   Yo:any=[];
-  usuarios:any=[];
+  personas:any=[];
 
   id1:number = 0;
 
@@ -30,7 +30,7 @@ export class BarraSuperiorComponent implements OnInit{
     this.router.params.subscribe(params => {this.Id = +params['id'];});
   }
 
-  obtener_usuarios(ID:number, IS:number){
+  obtener_personas(ID:number, IS:number){
     if (IS == 1){
       this.Service.obtener_encargados_practicas(ID).subscribe({
         next: (data:any) => {
@@ -41,8 +41,13 @@ export class BarraSuperiorComponent implements OnInit{
           return;
         },
         complete: () => {
-          this.usuarios = this.respuesta.body[0].practicas;
-          console.log(this.usuarios);
+          for (let i = 0; i < this.respuesta.body[0].practicas.length; i++){
+            // check if the person is already in the list
+            if (!this.personas.includes(this.respuesta.body[0].practicas[i].id_encargado)){
+              this.personas.push(this.respuesta.body[0].practicas[i].id_encargado);
+            }
+          }
+          console.log("ENCARGADOS:",this.personas);
         }
       })
     }
@@ -56,7 +61,11 @@ export class BarraSuperiorComponent implements OnInit{
           return;
         },
         complete: () => {
-          this.usuarios = this.respuesta.body.practicas;
+          for (let i = 0; i < this.respuesta.body.practicas.length; i++){
+            if (!this.personas.includes(this.respuesta.body[0].practicas[i].id_estudiante)){
+              this.personas.push(this.respuesta.body.practicas[i].id_estudiante);
+            }
+          }
         }
       })
     } 
@@ -98,7 +107,7 @@ export class BarraSuperiorComponent implements OnInit{
             },
             complete:()=>{
               this.id1 = this.respuesta.body.id;
-              this.obtener_usuarios(this.id1, this.es_alumno);
+              this.obtener_personas(this.id1, this.es_alumno);
             }
           })
         }
@@ -114,7 +123,7 @@ export class BarraSuperiorComponent implements OnInit{
             },
             complete:()=>{
               this.id1 = this.respuesta.body.id;
-              this.obtener_usuarios(this.id1, this.es_alumno);
+              this.obtener_personas(this.id1, this.es_alumno);
             }
           })
         }

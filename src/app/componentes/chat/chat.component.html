@@ -1,11 +1,11 @@
-<div class ="card text-center cardcontainer">
 
+<div class ="card shadow text-center cardcontainer">
     <div class="card-header">
         Chat
     </div>
-    <div class="card-body">
-        <div class = "contenedordemensajes h=100">
-            <p *ngFor = "let mensaje of Historial.mensajes" [ngClass]="(mensaje.emisor==Id)? 'enviado' : 'recibido'">
+    <div class="card-body overflow-auto" >
+        <div class = "contenedordemensajes overflow-auto"> 
+            <p *ngFor = "let mensaje of Historial.mensajes" [ngClass]="(mensaje.emisor==Id)? 'enviado' : 'recibido'" style="max-width: 20%;">
                 {{mensaje.texto}}
                 <br>
                 <!-- show fecha and parse the date and time-->
@@ -17,7 +17,7 @@
     <form class="card-footer text-muted input-group mb-3" (ngSubmit)="enviarmensaje()" [(ngModel)]="Nmensaje" [ngModelOptions]="{standalone:true}" >
         <input type="text" class="form-control" placeholder="Escriba su Mensaje..." [(ngModel)]="Nmensaje" [ngModelOptions]="{standalone:true}">
         <div class="input-group-append" (click)="enviarmensaje()">
-          <span class="input-group-text" id="basic-addon2">Enviar</span>
+          <span class="input-group-text btn btn-primary" id="basic-addon2">Enviar</span>
         </div>
     </form>
 </div>

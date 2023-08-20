@@ -39,7 +39,8 @@ const routes: Routes = [
           { path: 'empresas', component: EmpresasComponent},
           { path: 'finalizacion/:n', component: FinalizacionComponent },
           { path: 'iniciarpractica/:n', component: IniciarPracticaComponent },
-          { path: 'chat/:room/:id1/:id2/:tipo', component: ChatComponent},        ]
+          
+        ]
       }
     ]
   },
@@ -53,7 +54,7 @@ const routes: Routes = [
   { path: 'resetPass', component: ForgotPasswordComponent },
   { path: 'estadisticas', component: EstadisticasComponent },
   { path: 'informaciones', component: InformacionesComponent },
-  { path: '**/:idu/chat/:room/:id1/:id2/:tipo', component: ChatComponent},
+  { path: environment.ruta_alumno+'/:id/chat/:room/:id1/:id2/:tipo', component: ChatComponent},
   { path: '**', component: PnfComponent }
 ];
 
