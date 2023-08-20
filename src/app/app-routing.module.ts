@@ -22,7 +22,6 @@ import { ChatComponent } from './componentes/chat/chat.component';
 import { TestsComponent } from './vistas/tests/tests.component';
 import { EmpresasComponent } from './vistas/empresas/empresas.component';
 import { CuestionarioComponent } from './vistas/cuestionario/cuestionario.component';
-import { NotificacionesComponent } from './componentes/notificaciones/notificaciones.component';
 import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
 
 import { environment } from 'src/environments/environment';
@@ -39,7 +38,8 @@ const routes: Routes = [
           { path: 'cuestionario/:n', component: CuestionarioComponent },
           { path: 'empresas', component: EmpresasComponent},
           { path: 'finalizacion/:n', component: FinalizacionComponent },
-          { path: 'iniciarpractica/:n', component: IniciarPracticaComponent }
+          { path: 'iniciarpractica/:n', component: IniciarPracticaComponent },
+          
         ]
       }
     ]
@@ -54,9 +54,8 @@ const routes: Routes = [
   { path: 'resetPass', component: ForgotPasswordComponent },
   { path: 'estadisticas', component: EstadisticasComponent },
   { path: 'informaciones', component: InformacionesComponent },
-  { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
-  { path: 'chat/:room/:id1/:id2/:tipo', component: ChatComponent},
-  { path: '**', component: PnfComponent }  
+  { path: environment.ruta_alumno+'/:id/chat/:room/:id1/:id2/:tipo', component: ChatComponent},
+  { path: '**', component: PnfComponent }
 ];
 
 @NgModule({
@@ -84,6 +83,5 @@ export const routingComponents = [
   TestsComponent,
   EmpresasComponent,
   CuestionarioComponent,
-  NotificacionesComponent,
   ChatComponent
 ]

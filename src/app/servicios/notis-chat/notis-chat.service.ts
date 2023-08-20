@@ -13,8 +13,8 @@ export class NotisChatService extends Socket{
 
   @Output() outEven: EventEmitter<any> = new EventEmitter();
 
+  
   constructor(private _http: HttpClient, cookie: CookieService) {
-    
     super({
       url: environment.url_back_chat,
       options: {
@@ -23,8 +23,11 @@ export class NotisChatService extends Socket{
         },
       }
     });
+    
     this.listen();
   }
+
+  
 
   listen = () => {
     this.ioSocket.on('evento', (res:any) => {console.log("Evento recibido", res)});   
@@ -65,5 +68,4 @@ export class NotisChatService extends Socket{
     const req = new HttpRequest('DELETE', `${environment.url_back}/notificacion/eliminar/?id_usuario=${id_usuario}`);
     return this._http.request(req);
   }
-
 }
