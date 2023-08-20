@@ -2,8 +2,6 @@
     max-height: 100vh;
 }
 
-
-
 .col-lg-12{
     max-height: 80vh;
     padding: 0;
@@ -67,8 +65,9 @@
 }
 
 .card-footer{
-    max-height: 12%;
+    height: 100px;
 }
+
 
 .form-control{
     resize: none;

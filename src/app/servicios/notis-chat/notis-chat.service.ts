@@ -28,15 +28,12 @@ export class NotisChatService extends Socket{
       }
     });
     
-    
+
     this.listen();
   }
-
   
-
   listen = () => {
     this.ioSocket.on('evento', (res:any) => {console.log("Evento recibido", res); this.eventSubject.next(res);});
-    
   }
 
   emitEvent = (payload = {}) => {
@@ -59,7 +56,6 @@ export class NotisChatService extends Socket{
     return this._http.request(req);
   }
   
-  
   postnotificacion(id_usuario:number, mensaje:any){
     const req = new HttpRequest('POST', `${environment.url_back}/notificacion/crear`, {id_usuario:id_usuario, mensaje:mensaje}, {responseType: 'text'});
     return this._http.request(req);
@@ -72,6 +68,12 @@ export class NotisChatService extends Socket{
 
   deleteallnotificacion(id_usuario:number){
     const req = new HttpRequest('DELETE', `${environment.url_back}/notificacion/eliminar/?id_usuario=${id_usuario}`);
+    return this._http.request(req);
+  }
+
+  getusuario(id_usuario:number){
+    console.log("id_usuario EN REQUEST", id_usuario);
+    const req = new HttpRequest('GET', `${environment.url_back}/usuario/?id=${id_usuario}`);
     return this._http.request(req);
   }
 }
