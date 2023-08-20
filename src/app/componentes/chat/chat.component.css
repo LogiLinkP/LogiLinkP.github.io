@@ -1,13 +1,19 @@
+.wrapper{
+    max-height: 100vh;
+}
+
+
+
+.col-lg-12{
+    max-height: 80vh;
+    padding: 0;
+}
+
 .cardcontainer{
-    max-height: 90%; 
     max-width: 60%; 
     margin-top: 1%; 
     margin-left: 20%;
-    height: 90%;
-}
-
-.card-body{
-    max-height: 90%;
+    height: 100%;      
 }
 
 .cardheader{
@@ -15,31 +21,65 @@
     font-weight: 700;
 }
 
+
+.contenedordemensajes::-webkit-scrollbar{
+    display: none;
+}
+
 .enviado{
     display: block;
     float: right;
-    background-color: #3f51b5;
+    background-color: #4a6ed3;
     color: white;
     min-width: 50.01%;
     border-radius: 10px;
-    text-align: right;
+    text-align: left;
+    padding-left: 2%;
+    padding-right: 2%;
+    padding-top: 1%;
+    padding-bottom: .5%;
+    margin-top: 1%;
 }
 
 .recibido{
     display: block;
     float: left;
-    background-color: #3f51b5;
+    background-color: #4a6ed3;
     color: white;
     min-width: 50.01%;
     border-radius: 10px;
     text-align: left;
+    padding-left: 2%;
+    padding-right: 2%;
+    padding-top: 1%;
+    padding-bottom: .5%;
 }
 
-.contenedordemensajes{
-    overflow: scroll;
-    max-height: 90%;
+.texto{
+    margin: 0;
 }
 
-.contenedordemensajes::-webkit-scrollbar{
-    display: none;
+.horafecha{
+    margin-bottom: 0;
+    text-align: right;
+    font-size: small;
 }
+
+.card-footer{
+    max-height: 12%;
+}
+
+.form-control{
+    resize: none;
+    overflow: auto;
+    height: 100%;
+}
+
+.disabled-button {
+    pointer-events: none;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+

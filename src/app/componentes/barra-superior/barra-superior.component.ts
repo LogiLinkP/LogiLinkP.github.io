@@ -18,6 +18,7 @@ export class BarraSuperiorComponent implements OnInit{
 
   Yo:any=[];
   personas:any=[];
+  id_personas:any=[];
 
   id1:number = 0;
 
@@ -41,10 +42,14 @@ export class BarraSuperiorComponent implements OnInit{
           return;
         },
         complete: () => {
+          if (this.respuesta.body[0].practicas.length == 0){
+            return;
+          }
           for (let i = 0; i < this.respuesta.body[0].practicas.length; i++){
             // check if the person is already in the list
-            if (!this.personas.includes(this.respuesta.body[0].practicas[i].id_encargado)){
-              this.personas.push(this.respuesta.body[0].practicas[i].id_encargado);
+            if (!this.id_personas.includes(this.respuesta.body[0].practicas[i].id_encargado)){
+              this.id_personas.push(this.respuesta.body[0].practicas[i].id_encargado);
+              this.personas.push(this.respuesta.body[0].practicas[i].encargado);
             }
           }
           console.log("ENCARGADOS:",this.personas);
@@ -61,9 +66,13 @@ export class BarraSuperiorComponent implements OnInit{
           return;
         },
         complete: () => {
+          if (this.respuesta.body.practicas.length == 0){
+            return;
+          }
           for (let i = 0; i < this.respuesta.body.practicas.length; i++){
-            if (!this.personas.includes(this.respuesta.body[0].practicas[i].id_estudiante)){
-              this.personas.push(this.respuesta.body.practicas[i].id_estudiante);
+            if (!this.id_personas.includes(this.respuesta.body[0].practicas[i].id_estudiante)){
+              this.id_personas.push(this.respuesta.body.practicas[i].id_estudiante);
+              this.personas.push(this.respuesta.body.practicas[i].estudiante);
             }
           }
         }
@@ -82,7 +91,7 @@ export class BarraSuperiorComponent implements OnInit{
         console.log(error);
       },
       complete: () => {
-        this.notificaciones = this.respuesta.body();
+        this.notificaciones = this.respuesta.body;
       }
     })
 

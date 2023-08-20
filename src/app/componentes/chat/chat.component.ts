@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NotisChatService } from 'src/app/servicios/notis-chat/notis-chat.service';
 import { DatePipe } from '@angular/common';
@@ -17,6 +17,7 @@ export class ChatComponent implements OnInit {
 
   id_estudiante: number = -1;
   id_encargado: number = -1;
+  id_usuario: number = -1;
 
   tipo: String = "";
 
@@ -31,10 +32,12 @@ export class ChatComponent implements OnInit {
   constructor(private service: NotisChatService,
               private router: ActivatedRoute,
               private datetime: DatePipe,
-              private cookie: CookieService) {
+              private cookie: CookieService, private cdr: ChangeDetectorRef) {
     this.router.params.subscribe(params => {this.Id = +params['id1'];});
     this.router.params.subscribe(params => {this.Id2 = +params['id2'];});
-    this.router.params.subscribe(params => {this.tipo = params['tipo'];});   
+    this.router.params.subscribe(params => {this.id_usuario = +params['id'];});
+    this.router.params.subscribe(params => {this.tipo = params['tipo'];});
+
 
     this.service.outEven.subscribe(res => {
       this.enviarmensaje();
@@ -88,6 +91,9 @@ export class ChatComponent implements OnInit {
   }  
 
   enviarmensaje(){
+    if(this.Nmensaje.trim()==""){
+      return;
+    }
     let mensaje = {
       emisor: this.tipo,
       texto: this.Nmensaje,
@@ -103,11 +109,23 @@ export class ChatComponent implements OnInit {
         console.log("Mensaje Enviado");
         console.log(this.respuesta);
         this.service.emitEvent(mensaje);
-        console.log("MENSAJEEE",mensaje)
+        this.Nmensaje="";    
         this.Historial.push(mensaje);
-        this.Nmensaje="";        
+        this.cdr.detectChanges();
       }
     });
-  };  
+  };
+
+  isEnviarButtonDisabled() {
+    return this.Nmensaje.trim() === ''; // Disable button if input field is empty
+  }
+
+  updateButtonState() {
+    this.cdr.detectChanges(); // Trigger change detection
+  }
+
+  volver_atras(){
+    window.history.back();
+  }
   
 }
