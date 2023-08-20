@@ -20,7 +20,7 @@
 
                 <h1 class="h3 mb-4 text-gray-800">Configuracion Practica</h1>
 
-                <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitPractica()">
+                <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitPractica()">
 
                     <input type="text" class="form-control col-6" formControlName="nombrePractica">
                     <input type="checkbox" formControlName="horas" (change)="habilitarHorasFunc($event)"> Horas
@@ -160,7 +160,7 @@
                           Opciones:
                           {{lista_opciones_preguntas_avance[i]}}
                           <br>
-                          <form (ngSubmit)="eliminarPreguntaAvance(i)">
+                          <form *ngIf="flag" (ngSubmit)="eliminarPreguntaAvance(i)">
                             <button>
                               Eliminar Pregunta
                             </button>
@@ -168,7 +168,7 @@
                       </div>
 
                       <div *ngIf="lista_opciones_preguntas_avance[i] == ''">
-                          <form (ngSubmit)="eliminarPreguntaAvance(i)">
+                          <form *ngIf="flag" (ngSubmit)="eliminarPreguntaAvance(i)">
                             <button>
                               Eliminar Pregunta
                             </button>
@@ -179,9 +179,9 @@
 
                   <br>
                 
-              <form (ngSubmit)="avanzarDesdePreguntasAvance()"> 
+              <form *ngIf="flag" (ngSubmit)="avanzarDesdePreguntasAvance()"> 
 
-                  <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddPreguntaAvance()">
+                  <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddPreguntaAvance()">
 
                       <input type="text" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
                       <select name="tipo" id="tipo" (change) = "tipoPregunta($event)" class="form-select form-select-sm mb-4 col-4"  aria-label="Default select example">
@@ -316,7 +316,7 @@
                       Opciones:
                       {{lista_opciones_preguntas_final[i]}}
                       <br>
-                      <form (ngSubmit)="eliminarPreguntaFinal(i)">
+                      <form *ngIf="flag" (ngSubmit)="eliminarPreguntaFinal(i)">
                         <button>
                           Eliminar Pregunta
                         </button>
@@ -324,7 +324,7 @@
                   </div>
 
                   <div *ngIf="lista_opciones_preguntas_final[i] == ''">
-                      <form (ngSubmit)="eliminarPreguntaFinal(i)">
+                      <form *ngIf="flag" (ngSubmit)="eliminarPreguntaFinal(i)">
                         <button>
                           Eliminar Pregunta
                         </button>
@@ -334,9 +334,11 @@
 
                 <br>
 
-              <form (ngSubmit)="avanzarDesdePreguntasFinal()">
+              <!-- <form (ngSubmit)="avanzarDesdePreguntasFinal()"> -->
 
-                <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddPreguntaFinal()">
+              <form *ngIf="flag" (ngSubmit)="avanzarDesdePreguntasFinal()">
+
+                <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddPreguntaFinal()">
 
                     <input type="text" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
                     <select name="tipo" id="tipo" (change) = "tipoPregunta($event)" class="form-select form-select-sm mb-4 col-4"  aria-label="Default select example">
@@ -465,7 +467,7 @@
 
               <!-- Ng if donde se muestran los documentos  -->
 
-              <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddSolicitudDoc()">
+              <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddSolicitudDoc()">
 
                 <input type="text" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
                 <input type="text" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
@@ -474,6 +476,11 @@
 
               </form>
 
+            </div>
+
+            <!-- boton para terminar todo -->
+            <div style="text-align: right; margin-top: 50px; margin-right: 50px;">
+                <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" (click)="mandarDatos()">Terminar</button>
             </div>
 
             <!-- /.container-fluid -->
@@ -490,12 +497,10 @@
 </div>
 <!-- End of Page Wrapper -->
 
-<!-- Scroll to Top Button
-
-
+<!-- Scroll to Top Button -->
 <a class="scroll-to-top rounded" (click)="scrollToTop()">
     <i class="fas fa-angle-up"></i>
 </a>
--->
+
 <!-- Logout Modal-->
 <app-logout-modal></app-logout-modal>

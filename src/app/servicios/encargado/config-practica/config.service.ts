@@ -37,29 +37,49 @@ export class ConfigService {
         informe_final: informe_final
     }
 
-      const req = new HttpRequest('POST', `${environment.url_back}/practica/crear`, config, {
-        responseType: 'json'
-      });
+    const req = new HttpRequest('POST', `${environment.url_back}/config_practica/crear`, config, {
+      responseType: 'json'
+    });
 
-      return this._http.request(req);
+    return this._http.request(req);
   }
 
-  crearConfigPracticaCompleto(nombre: string, modalidad: Array<boolean>, cant_horas: Array<number>, cant_meses: Array<number>,
-                                frecuencia_informes: string | null, informe_final: string | null, meses: boolean, horas: boolean /*convalidable: boolean*/) {
+  crearConfigPracticaCompleto(tipo_entrada:string, nombre: string, modalidad: Array<boolean>, cant_horas: Array<number>, cant_meses: Array<number>,
+                                frecuencia_informes: string, informe_final: string) {
+    
+    let respuestas = [];
 
-    const config = {
-        nombre: nombre,
-        modalidad: modalidad,
-        cantidad_tiempo: cant_meses,
-        frecuencia_informes: frecuencia_informes,
-        informe_final: informe_final
+    for (let i = 0; i < modalidad.length; i++) {
+        if (modalidad[i] == true) {                
+            const config = {
+                nombre: nombre,
+                modalidad: modalidad[i],
+                cantidad_tiempo: cant_horas[0], //agregar otro for?
+                frecuencia_informes: frecuencia_informes,
+                informe_final: informe_final
+            }
+
+            const req = new HttpRequest('POST', `${environment.url_back}/practica/crear`, config, {
+                responseType: 'json'
+            });
+            respuestas.push(this._http.request(req));
+        } else {
+            const config = {
+                nombre: nombre,
+                modalidad: modalidad[i],
+                cantidad_tiempo: cant_meses[0],
+                frecuencia_informes: frecuencia_informes,
+                informe_final: informe_final
+            }
+
+            const req = new HttpRequest('POST', `${environment.url_back}/practica/crear`, config, {
+                responseType: 'json'
+            });
+            respuestas.push(this._http.request(req));
+        }
     }
 
-      const req = new HttpRequest('POST', `${environment.url_back}/practica/crear`, config, {
-        responseType: 'json'
-      });
-
-      return this._http.request(req);
+    return respuestas;
   }
 
 }

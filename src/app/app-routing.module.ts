@@ -27,7 +27,6 @@ import { NotificacionesComponent } from './componentes/notificaciones/notificaci
 import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
 
 import { environment } from 'src/environments/environment';
-import { ConfiguracionPracticaExistenteComponent } from './vistas/configuracion-practica-existente/configuracion-practica-existente.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -57,9 +56,7 @@ const routes: Routes = [
   { path: 'estadisticas', component: EstadisticasComponent },
   { path: 'informaciones', component: InformacionesComponent },
   { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
-  { path: 'configuracion', component: ConfiguracionPracticaComponent},
-  { path: 'configurar/:nombre', component: ConfiguracionPracticaExistenteComponent},
-  { path: 'configuracion/configBase', component: ConfiguracionPracticaExistenteComponent},
+  { path: 'configurar/:nombre', component: ConfiguracionPracticaComponent},
   { path: '**', component: PnfComponent },
 ];
 
@@ -90,5 +87,4 @@ export const routingComponents = [
   CuestionarioComponent,
   NotificacionesComponent,
   ConfiguracionPracticaComponent,
-  ConfiguracionPracticaExistenteComponent
 ]
