@@ -33,7 +33,7 @@ export class LoginComponent {
     let response: any = {};
     const data = this.loginForm.value;
     console.log(data.email, data.password);
-    this.usuario.login(data.email, data.password).subscribe( {
+    this.usuario.login(data.email, data.password, window.navigator.userAgent).subscribe( {
       next: data => {
         response = {...response,...data}
       },
@@ -42,10 +42,9 @@ export class LoginComponent {
         console.log("Error de inicio de sesion");
       },
       complete: () => {
-          console.log(response.body.userdata)
           const {message,userdata,token} = response.body;
-          this.dataUsuario = response.body.userdata
-          this.storage.saveUser(response.body) //¿response.body.userdata?
+          this.dataUsuario = userdata
+          this.storage.saveUser(this.dataUsuario,token) //¿response.body.userdata?
           if (this.dataUsuario.es_encargado) {
             this.router.navigate(["/"+environment.ruta_practicas])
           } else if (this.dataUsuario.es_estudiante) {

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
@@ -23,6 +23,7 @@ import { ArchivosService } from './servicios/archivos/archivos.service';
 import { GetDetallesAlumnoService } from './servicios/encargado/resumen_practicas.service';
 import { SetDetallesAlumnoService } from './servicios/encargado/decision.service';
 import { SupervisorService } from './servicios/supervisor/supervisor.service';
+import { TokenInterceptorService } from './interceptors/token-interceptor.service';
 
 import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_supervisor.component';
 import { DetallePracticaComponent } from './vistas/detalle-practica/detalle-practica.component';
@@ -44,6 +45,7 @@ import { BarraLateralEncargadoComponent } from './componentes/barra-lateral-enca
 import { DatosPracticaComponent } from './componentes/datos-practica/datos-practica.component';
 import { UpInformeComponent } from './componentes/up-informe/up-informe.component';
 import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
+import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 //import { ChatComponent } from './componentes/chat/chat.component';
 
 
@@ -106,6 +108,8 @@ import { SubirArchivoExtraComponent } from './componentes/subir-archivo-extra/su
     MatDialogModule
   ],
   providers: [
+    {provide: JWT_OPTIONS, useValue: JWT_OPTIONS},
+    JwtHelperService,
     GetDetallesAlumnoService,
     SetDetallesAlumnoService,
     ArchivosService,
@@ -115,7 +119,13 @@ import { SubirArchivoExtraComponent } from './componentes/subir-archivo-extra/su
     SetDetallesAlumnoService,
     ArchivosService,
     SupervisorService,
-    CookieService],
+    CookieService,
+    TokenInterceptorService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

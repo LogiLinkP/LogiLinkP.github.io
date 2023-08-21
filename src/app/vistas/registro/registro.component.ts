@@ -16,9 +16,10 @@ export class RegistroComponent implements OnInit {
   confirmPassword: string = "";
   es_supervisor: boolean;
   es_estudiante: boolean;
-  es_encargado: boolean = false;
+  es_encargado: boolean;
   RUT: string = "";
   extras = {};
+
 
   constructor(public usuario: UsuarioService, private fb: FormBuilder) {
     this.createForm();
@@ -30,8 +31,6 @@ export class RegistroComponent implements OnInit {
       email: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(3)]],
       confirmPassword: ['', Validators.required],
-      es_supervisor: [false],
-      es_estudiante: [false],
       RUT: []
       //crear validador custom para RUT real
     });
@@ -42,6 +41,7 @@ export class RegistroComponent implements OnInit {
 
   register() {
     this.nombre = this.nombre + " " + this.apellido;
+    console.log(this.es_estudiante)
     if(this.es_estudiante){
       this.extras = {RUT: this.RUT};
     }
@@ -52,6 +52,8 @@ export class RegistroComponent implements OnInit {
       this.extras = {};
     }
     const data = this.registroForm.value;
+    console.log(this.es_estudiante)
+    console.log(data)
     const user = {correo: data.email, password: data.password, cnfPwd: data.confirmPassword, nombre: data.nombre, es_encargado: this.es_encargado, es_supervisor: data.es_supervisor, es_estudiante: data.es_estudiante, es_admin: false, extras: data.extras};
     console.log(user);
     this.usuario.register(data.email,data.password,data.confirmPassword,data.nombre,false,data.es_supervisor,data.es_estudiante,false,data.extras).subscribe( {next: data => { user }, error: err => { console.log('Error de registro') } });
@@ -62,19 +64,23 @@ export class RegistroComponent implements OnInit {
       this.es_estudiante = true;
       this.es_supervisor = false;
       this.es_encargado = false;
+      console.log(1)
     }
     else if (arg.target.value = "2") {
       this.es_supervisor = true;
       this.es_estudiante = false;
       this.es_encargado = false;
+      console.log(2)
     }else if(arg.target.value == "3"){
       this.es_estudiante = false;
       this.es_supervisor = false;
       this.es_encargado = true;
+      console.log(3)
     }else{
       this.es_estudiante = false;
       this.es_supervisor = false;
       this.es_encargado = false;
+      console.log(4)
     }
   }
 }
