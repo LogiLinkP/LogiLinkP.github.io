@@ -526,48 +526,84 @@ export class ConfiguracionPracticaComponent implements OnInit {
         let respuestas = [];
         let respuesta: any = {};
         
-        let _horas = Number(this.arregloHoras.value[0].opcion_horas);
-        let modalidad: string = this.horas ? "horas" : "meses";
+        let modalidad: string;
         let tipo_entrada: string;
 
+        // tipo de request
         if (this.nombre_config == "blanco") {
             tipo_entrada = "crear";
         } else {
             tipo_entrada = "actualizar";
         }
 
-        let print = {
-            nombre: this.nombrePractica,
-            modalidad: modalidad,
-            cantidad_tiempo: _horas,
-            frecuencia_informes: this.frecuenciaInformes,
-            informe_final: this.informeFinal
+        // request con horas
+        if (this.horas == true) {
+
+            modalidad = "horas";
+            let _horas = Number(this.arregloHoras.value[0].opcion_horas); //una solicitud por cada opcion de hora?
+
+            let print = {
+                nombre: this.nombrePractica,
+                modalidad: modalidad,
+                cantidad_tiempo: _horas,
+                frecuencia_informes: this.frecuenciaInformes,
+                informe_final: this.informeFinal
+            }
+    
+            console.log("datos a mandar: ", print);
+
+            this.serviceComplete.crearConfigPracticaFila(this.nombrePractica, modalidad, _horas, this.frecuenciaInformes, this.informeFinal).subscribe({
+                next: (data: any) => {
+                    respuesta = { ...respuesta, ...data }
+                },
+                error: (error: any) => {
+                    this._snackBar.open("Error al guardar configuracion de practica", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['red-snackbar']
+                    });
+                    console.log("Error al guardar configuracion de practica", error);
+                },
+                complete: () => {
+                    console.log("respuesta mandarDatos:", respuesta.body)
+                    respuestas.push(respuesta.body);
+                    this._snackBar.open("Configuracion de practica guardada exitosamente", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['green-snackbar']
+                    });
+                    console.log("Configuracion de practica guardada exitosamente");
+                }
+            });
         }
 
-        console.log("print: ", print);
+        // request con meses
+        if (this.meses == true) {
 
-        this.serviceComplete.crearConfigPracticaFila(this.nombrePractica, modalidad, _horas, this.frecuenciaInformes, this.informeFinal).subscribe({
-            next: (data: any) => {
-                respuesta = { ...respuesta, ...data }
-            },
-            error: (error: any) => {
-                this._snackBar.open("Error al guardar configuracion de practica", "Cerrar", {
-                duration: 3500,
-                panelClass: ['red-snackbar']
-                });
-                console.log("Error al guardar configuracion de practica", error);
-            },
-            complete: () => {
-                console.log("respuesta mandarDatos:", respuesta.body)
-                respuestas.push(respuesta.body);
-                this._snackBar.open("Configuracion de practica guardada exitosamente", "Cerrar", {
-                duration: 3500,
-                panelClass: ['green-snackbar']
-                });
-                console.log("Configuracion de practica guardada exitosamente");
-            }
-        });
+            modalidad = "meses";
+            let _meses = Number(this.arregloMeses.value[0].opcion_meses); //una solicitud por cada opcion de mes?
 
+            this.serviceComplete.crearConfigPracticaFila(this.nombrePractica, modalidad, _meses, this.frecuenciaInformes, this.informeFinal).subscribe({
+                next: (data: any) => {
+                    respuesta = { ...respuesta, ...data }
+                },
+                error: (error: any) => {
+                    this._snackBar.open("Error al guardar configuracion de practica", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['red-snackbar']
+                    });
+                    console.log("Error al guardar configuracion de practica", error);
+                },
+                complete: () => {
+                    console.log("respuesta mandarDatos:", respuesta.body)
+                    respuestas.push(respuesta.body);
+                    this._snackBar.open("Configuracion de practica guardada exitosamente", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['green-snackbar']
+                    });
+                    console.log("Configuracion de practica guardada exitosamente");
+                }
+            });
+        }
+        
     }
 
 }
