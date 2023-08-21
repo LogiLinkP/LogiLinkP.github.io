@@ -100,6 +100,7 @@ export class RegistroComponent implements OnInit {
       this.es_estudiante = true;
       this.es_supervisor = false;
       this.es_encargado = false;
+      console.log(1)
     }
     else if (arg.target.value = "2") {
       this.checkEs = false;
@@ -116,6 +117,7 @@ export class RegistroComponent implements OnInit {
       this.es_estudiante = false;
       this.es_supervisor = false;
       this.es_encargado = false;
+      console.log(4)
     }
   }
 }
