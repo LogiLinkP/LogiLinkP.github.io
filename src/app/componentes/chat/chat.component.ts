@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NotisChatService } from 'src/app/servicios/notis-chat/notis-chat.service';
 import { DatePipe } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-chat',
@@ -33,10 +34,13 @@ export class ChatComponent implements OnInit {
   respuesta:any = [];
   room: string="";
 
-  constructor(private service: NotisChatService,
+  chatService: any;
+
+  constructor(private _http: HttpClient, 
               private router: ActivatedRoute,
               private datetime: DatePipe,
-              private cookie: CookieService, private cdr: ChangeDetectorRef) {
+              private cookieService: CookieService, 
+              private cdr: ChangeDetectorRef) {
 
     let auth_user = JSON.parse(localStorage.getItem("auth-user") || "{}");
 
@@ -50,15 +54,23 @@ export class ChatComponent implements OnInit {
       this.userid_otro_participante = +id_aux;
     }
 
-    this.service.outEven.subscribe(res => {
-      this.enviarmensaje();
-    })
+    this.router.params.subscribe(params => {this.room = params['room'];}); 
+
+    // check if the room is already set in the cookies, if it is destroy it
+    if(this.cookieService.check("room")){
+      console.log("Destruyendo cookie room", this.cookieService.get("room"));
+      this.cookieService.delete("room");
+    }
+    this.cookieService.set("room", this.room);
+    console.log("Room seteada en cookies:", this.room);    
   }
 
-  ngOnInit(): void{  
-    console.log("SETEANDO COOKIEEEEEEE")
-    this.router.params.subscribe(params => {this.room = params['room'];}); 
-    this.cookie.set("room", this.room);
+  ngOnInit(): void{
+    this.chatService = new NotisChatService(this._http, this.cookieService);
+
+    this.chatService.outEven.subscribe((res:any) => {
+      this.enviarmensaje();
+    })    
 
     if(this.tipo=="estudiante"){
       this.id_estudiante=this.Id;
@@ -75,7 +87,7 @@ export class ChatComponent implements OnInit {
     console.log("userid otro participante: ", this.userid_otro_participante);
 
     // buscar si chat existe en BD
-    this.service.getchat(this.id_estudiante,this.id_encargado).subscribe({
+    this.chatService.getchat(this.id_estudiante,this.id_encargado).subscribe({
       next: (data: any) => {
         this.respuesta = { ...this.respuesta, ...data }
       },
@@ -88,7 +100,7 @@ export class ChatComponent implements OnInit {
         console.log("CHAT RECIBIDO: ",this.Historial);
         if(this.Historial==null){
           console.log("Chat no encontrado, creando");
-          this.service.postchat(this.id_estudiante, this.id_encargado).subscribe({
+          this.chatService.postchat(this.id_estudiante, this.id_encargado).subscribe({
             next: (data: any) => {
               this.respuesta = { ...this.respuesta, ...data }
               console.log("Request aceptada");
@@ -101,7 +113,7 @@ export class ChatComponent implements OnInit {
           });
         }
         this.cdr.detectChanges();  
-        this.service.event$.subscribe(res => {
+        this.chatService.event$.subscribe( (res:any) => {
           this.Historial.mensajes.push(res);
           this.cdr.detectChanges(); 
         });
@@ -110,7 +122,7 @@ export class ChatComponent implements OnInit {
     
     // buscar datos del usuario otro participante
     if(this.userid_otro_participante!=-1){
-      this.service.getusuario(this.userid_otro_participante).subscribe({
+      this.chatService.getusuario(this.userid_otro_participante).subscribe({
         next: (data: any) => {
           this.respuesta = { ...this.respuesta, ...data }
         },
@@ -136,7 +148,7 @@ export class ChatComponent implements OnInit {
       texto: this.Nmensaje,
       fecha: this.datetime.transform((new Date), 'MM/dd/yyyy h:mm:ss'),
     }      
-    this.service.postmensaje(this.id_estudiante, this.id_encargado, mensaje).subscribe({
+    this.chatService.postmensaje(this.id_estudiante, this.id_encargado, mensaje).subscribe({
       next: (data: any) => {
         this.respuesta = { ...this.respuesta, ...data }
         console.log("Request aceptada");
@@ -145,7 +157,7 @@ export class ChatComponent implements OnInit {
       complete: () => {
         console.log("Mensaje Enviado", mensaje);
         console.log(this.respuesta);
-        this.service.emitEvent(mensaje);
+        this.chatService.emitEvent(mensaje);
         this.Nmensaje="";    
         this.Historial.mensajes.push(mensaje);
         this.sendButton.nativeElement.click();

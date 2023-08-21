@@ -91,6 +91,7 @@ export class BarraSuperiorComponent implements OnInit{
 
   ngOnInit(): void {
     this.cookie.set("notificaciones", this.id_usuario.toString());
+    this.destroy_cookie_sala();
 
     this.Service.obtener_notificaciones(this.id_usuario).subscribe({
       next: (data:any) => {
@@ -160,6 +161,18 @@ export class BarraSuperiorComponent implements OnInit{
     }
     else if(tipo=="estudiante"){
       window.location.href = "/chat/sala"+this.id_persona+id_otro_participante+"/"+this.id_persona+"/"+id_otro_participante+"/estudiante?userid_otro_participante="+userid_otro_participante
+    }
+  }
+
+  // destoy the cookie "room" if the url is not /chat or if the value in sala is not the same
+  // as the value in the cookie
+  destroy_cookie_sala(){    
+    let url = window.location.href;
+    let index = url.indexOf("sala");
+    if (index == -1 && this.cookie.check("room")){
+      console.log("Destroying cookie", this.cookie.get("room"), url, index);
+      this.cookie.delete("room");      
+      return;
     }
   }
 }

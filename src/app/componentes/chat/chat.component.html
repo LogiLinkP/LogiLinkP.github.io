@@ -36,7 +36,7 @@
                             </div>
 
                             <form name="formulario" class="card-footer text-muted input-group pb-3">
-                                <textarea type="text" class="form-control" placeholder="Escriba su Mensaje..." [(ngModel)]="Nmensaje" [ngModelOptions]="{standalone:true}" (input)="updateButtonState()"></textarea>
+                                <textarea type="text" class="form-control" placeholder="Escriba su Mensaje..." [(ngModel)]="Nmensaje" [ngModelOptions]="{standalone:true}" (input)="updateButtonState()" (keyup.enter)="enviarmensaje()"></textarea>
                                 <div #sendButton class="input-group-append" (click)="enviarmensaje()" (keyup.enter)="enviarmensaje()">
                                     <span class="input-group-text btn btn-primary" id="basic-addon2" [ngClass]="{'disabled-button': isEnviarButtonDisabled()}">Enviar</span>
                                 </div>
