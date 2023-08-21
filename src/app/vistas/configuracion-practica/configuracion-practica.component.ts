@@ -67,6 +67,10 @@ export class ConfiguracionPracticaComponent implements OnInit {
     tipos_preguntas_final: string[] = [];
     lista_opciones_preguntas_final: string[] = [];
 
+    lista_preguntas_encuesta: string[] = [];
+    tipos_preguntas_encuesta: string[] = [];
+    lista_opciones_preguntas_encuesta: string[] = [];
+
 
     nombre_solicitud_documentos: string;
     descripcion_solicitud_documentos: string;
@@ -365,6 +369,54 @@ export class ConfiguracionPracticaComponent implements OnInit {
       this.arregloOpcionesPreguntas.clear();
     }
 
+    onSubmitAddPreguntaEncuesta() {
+      //this.lista_opciones_preguntas = [];
+      this.pregunta = this.fg.value.preguntaFORM;
+
+      this.opcion_pregunta = this.arregloOpcionesPreguntas.value;
+      //console.log(typeof this.opcion_pregunta);
+
+      var string_pregunta = String(this.pregunta)
+
+      //console.log(string_pregunta);
+      this.lista_preguntas_encuesta.push(string_pregunta);
+      console.log(this.lista_preguntas_encuesta);
+
+      this.tipos_preguntas_encuesta.push(this.tipo_pregunta);
+      console.log(this.tipos_preguntas_encuesta);
+
+
+      var opciones_de_una_pregunta = ""
+      if (Object.keys(this.opcion_pregunta).length == 0) {
+        console.log("no hay opciones");
+      }
+      else{
+        console.log("hay opciones");
+        //var string_pregunta = String(this.pregunta)
+        for (let i = 0; i < Object.keys(this.opcion_pregunta).length; i++) {
+          string_pregunta = string_pregunta + ","
+          opciones_de_una_pregunta = opciones_de_una_pregunta + String(Object.values(Object.values(this.opcion_pregunta)[i])[0])
+          opciones_de_una_pregunta = opciones_de_una_pregunta + ","
+          //console.log(Object.values(Object.values(this.opcion_pregunta)[i])[0]);
+        }
+        opciones_de_una_pregunta = opciones_de_una_pregunta.slice(0, -1);
+        //console.log(string_pregunta);
+        //this.lista_preguntas_avance.push(string_pregunta);
+        //console.log(this.lista_preguntas_avance);
+      }
+
+      this.lista_opciones_preguntas_encuesta.push(opciones_de_una_pregunta);
+      console.log(this.lista_opciones_preguntas_encuesta);
+
+      //limpieza opciones anteriores
+
+      for (let i = 0; i < this.arregloOpcionesPreguntas.length; i++){
+        this.deleteOpcionPregunta(i);
+      }
+
+      this.arregloOpcionesPreguntas.clear();
+    }
+
     tipoPregunta(arg: any) {
 
       if (arg.target.value == "0") {
@@ -416,6 +468,10 @@ export class ConfiguracionPracticaComponent implements OnInit {
       this.estado = "encuesta_final";
     }
 
+    avanzarDesdePreguntasEncuesta(){
+      this.estado = "preguntas_supervisor";
+    }
+
     onSubmitAddSolicitudDoc(){
       console.log("documento agregado");
 
@@ -449,6 +505,13 @@ export class ConfiguracionPracticaComponent implements OnInit {
       this.lista_preguntas_final.splice(index, 1);
       this.lista_opciones_preguntas_final.splice(index, 1);
       this.tipos_preguntas_final.splice(index, 1);
+    }
+
+    eliminarPreguntaEncuesta(index: number){
+      console.log("eliminando pregunta", index);
+      this.lista_preguntas_encuesta.splice(index, 1);
+      this.lista_opciones_preguntas_encuesta.splice(index, 1);
+      this.tipos_preguntas_encuesta.splice(index, 1);
     }
 
     eliminarSolicitudDocumento(index: number){
