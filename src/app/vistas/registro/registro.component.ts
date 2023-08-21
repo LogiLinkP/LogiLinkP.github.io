@@ -119,6 +119,7 @@ export class RegistroComponent implements OnInit {
       this.es_estudiante = false;
       this.es_supervisor = false;
       this.es_encargado = false;
+      console.log(4)
     }
   }
 }

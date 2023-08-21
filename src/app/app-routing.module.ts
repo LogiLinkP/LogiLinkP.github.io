@@ -25,36 +25,51 @@ import { CuestionarioComponent } from './vistas/cuestionario/cuestionario.compon
 import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
 
 import { environment } from 'src/environments/environment';
+import { authGuardGuard } from './servicios/usuario/auth-guard.guard';
+import { estudianteGuard } from './servicios/usuario/estudiante.guard';
+import { supervisorGuard } from './servicios/usuario/supervisor.guard';
+import { encargadoGuard } from './servicios/usuario/encargado.guard';
+import { adminGuard } from './servicios/usuario/admin.guard';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
-  { path: environment.ruta_practicas, component: TablaComponent },
-  { path: environment.ruta_practicas+'/:id', component: DetallePracticaComponent},
-  { path: environment.ruta_practicas+'/:id/revision/:n', component: RevisionComponent },
-  { path: environment.ruta_alumno, 
+  {
+    path: environment.ruta_practicas, component: TablaComponent, canActivate: [encargadoGuard],
     children: [
-      { path: ':id', component: DetalleAlumnoComponent,
+      {
+        path: ':id', component: DetalleAlumnoComponent,
         children: [
-          { path: 'cuestionario/:n', component: CuestionarioComponent },
-          { path: 'empresas', component: EmpresasComponent},
-          { path: 'finalizacion/:n', component: FinalizacionComponent },
-          { path: 'iniciarpractica/:n', component: IniciarPracticaComponent },
-          
+          { path: 'revision/:n', component: RevisionComponent }
         ]
       }
     ]
   },
-  { path: environment.ruta_supervisor+'/evaluacion', component: EvaluacionComponent },
+  {
+    path: environment.ruta_alumno, canActivate: [estudianteGuard],
+    children: [
+      {
+        path: ':id', component: DetalleAlumnoComponent,
+        children: [
+          { path: 'cuestionario/:n', component: CuestionarioComponent },
+          { path: 'empresas', component: EmpresasComponent },
+          { path: 'finalizacion/:n', component: FinalizacionComponent },
+          { path: 'iniciarpractica/:n', component: IniciarPracticaComponent },
+
+        ]
+      }
+    ]
+  },
+  { path: environment.ruta_supervisor + '/evaluacion', component: EvaluacionComponent, canActivate: [supervisorGuard] },
   { path: environment.ruta_registro, component: RegistroComponent, data: { title: 'Registro' } },
-  { path: environment.ruta_login, component: LoginComponent, data: { title: 'Login' }},
-  { path: 'home', component: HomeComponent, data: { title: 'Home' }},
-  { path: 'logout', component: LogoutComponent},
-  { path: 'tests', component: TestsComponent},
+  { path: environment.ruta_login, component: LoginComponent, data: { title: 'Login' } },
+  { path: 'home', component: HomeComponent, data: { title: 'Home' } },
+  { path: 'logout', component: LogoutComponent },
+  { path: 'tests', component: TestsComponent, canActivate: [authGuardGuard] },
   { path: 'blank', component: BlankComponent },
   { path: 'resetPass', component: ForgotPasswordComponent },
-  { path: 'estadisticas', component: EstadisticasComponent },
-  { path: 'informaciones', component: InformacionesComponent },
-  { path: environment.ruta_alumno+'/:id/chat/:room/:id1/:id2/:tipo', component: ChatComponent},
+  { path: environment.ruta_alumno + '/:id/chat/:room/:id1/:id2/:tipo', component: ChatComponent },
+  { path: 'estadisticas', component: EstadisticasComponent, canActivate: [authGuardGuard] },
+  { path: 'informaciones', component: InformacionesComponent, canActivate: [authGuardGuard] },
   { path: '**', component: PnfComponent }
 ];
 

@@ -77,7 +77,7 @@
                                     <option value="3">Encargado</option>
                                 </select>
 
-                                <div *ngIf="!es_estudiante&&!es_supervisor"> </div>
+                                <div *ngIf="!es_estudiante&&!es_supervisor&&!es_encargado"> </div>
                                 <div *ngIf="es_estudiante">
                                     <input formControlName="RUT" type="text" name="RUT" placeholder="12345678-9"
                                         required="required" />
