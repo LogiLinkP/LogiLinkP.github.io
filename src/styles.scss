@@ -12,8 +12,18 @@ body {
     align-self: flex-end;
 }
 
+.navbar{
+    height: 10vh;
+    overflow: hidden
+}
 
-.d-flex{
+.main-content{
+    display: block;
+    height: 85vh;
+}
+
+.container-fluid{
     overflow: auto;
-    max-height: 100vh;
-  }
+    height: 85vh;
+    display: block;
+}
