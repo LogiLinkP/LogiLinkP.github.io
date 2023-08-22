@@ -56,8 +56,9 @@ const routes: Routes = [
   { path: 'resetPass', component: ForgotPasswordComponent },
   { path: 'estadisticas', component: EstadisticasComponent },
   { path: 'informaciones', component: InformacionesComponent },
-  { path: environment.ruta_alumno + '/:id/chat/:room/:id1/:id2/:tipo', component: ChatComponent },
   // { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
+  { path: environment.ruta_alumno+'/:id/chat/:room/:id1/:id2/:tipo', component: ChatComponent},
+  { path: 'chat/:room/:id1/:id2/:tipo', component: ChatComponent},
   { path: '**', component: PnfComponent }
 ];
 
