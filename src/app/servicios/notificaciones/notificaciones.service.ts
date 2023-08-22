@@ -10,7 +10,8 @@ import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class NotisChatService extends Socket{
+
+export class NotificacionesService extends Socket{
 
   private connectionReadySubject: Subject<void> = new Subject<void>();
   connectionReady$ = this.connectionReadySubject.asObservable();
@@ -26,27 +27,22 @@ export class NotisChatService extends Socket{
       url: environment.url_back_chat,
       options: {
         query: {
-          nameRoom: cookie.get('room')
+          nameRoom: cookie.get('notificaciones')
         },
       }
     });
     
-    if (cookie.check('room')){
+    if (cookie.check('notificaciones')){
       this.listen();
-      console.log("Conexion establecida en ROOM:", cookie.get('room'));
+      console.log("Conexion establecida con el usuario:", cookie.get('notificaiones'));
     }
     else{
-      console.log("Conexion no establecida con socketIO al no encontrarse room");
+      console.log("Conexion no establecida con socketIO al no encontrarse el usuario");
     }
   }
   
   listen = () => {
-    this.ioSocket.on('evento', (res:any) => {console.log("Evento recibido", res); this.eventSubject.next(res);});
-  }
-
-  emitEvent = (payload = {}) => {
-    console.log('emitiendo Evento', payload);
-    this.ioSocket.emit('evento', payload)
+    this.ioSocket.on('noti', (res:any) => {console.log("Evento recibido", res); this.eventSubject.next(res);});
   }
 
   waitForCookieToBeSet(): Observable<void> {
@@ -60,26 +56,18 @@ export class NotisChatService extends Socket{
     }));
   }
 
-  postchat(id_estudiante:number, id_encargado:number){    
-    const req = new HttpRequest('POST', `${environment.url_back}/chat/crear`,{id_estudiante, id_encargado}, {responseType: 'text'});
+  postnotificacion(id_usuario:number, mensaje:any){
+    const req = new HttpRequest('POST', `${environment.url_back}/notificacion/crear`, {id_usuario:id_usuario, mensaje:mensaje}, {responseType: 'text'});
     return this._http.request(req);
   }
 
-  getchat(id_estudiante:number, id_encargado:number){
-    const req = new HttpRequest('GET', `${environment.url_back}/chat/get?id_estudiante=${id_estudiante}&id_encargado=${id_encargado}`, {responseType: "text"});
+  getallnotificacion(id_usuario:number){
+    const req = new HttpRequest('GET', `${environment.url_back}/notificacion/todos/?id_usuario=${id_usuario}`);
     return this._http.request(req);
   }
 
-  postmensaje(id_estudiante:number, id_encargado:number, mensaje:any){
-    const req = new HttpRequest('POST', `${environment.url_back}/mensaje/crear`, {id_estudiante, id_encargado, mensaje:mensaje}, {responseType: 'text'});
+  deleteallnotificacion(id_usuario:number){
+    const req = new HttpRequest('DELETE', `${environment.url_back}/notificacion/eliminar/?id_usuario=${id_usuario}`);
     return this._http.request(req);
   }
-
-  getusuario(id_usuario:number){
-    console.log("id_usuario EN REQUEST", id_usuario);
-    const req = new HttpRequest('GET', `${environment.url_back}/usuario/?id=${id_usuario}`);
-    return this._http.request(req);
-  }
-
-
 }

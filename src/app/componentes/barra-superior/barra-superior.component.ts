@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
 import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
+import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
 import { CookieService } from 'ngx-cookie-service';
-import { NotisChatService } from 'src/app/servicios/notis-chat/notis-chat.service';
 
 @Component({
   selector: 'app-barra-superior',
@@ -27,7 +27,7 @@ export class BarraSuperiorComponent implements OnInit{
   constructor(private Service: DataUsuarioService,
               private router: ActivatedRoute,
               private cookie: CookieService,
-              private noti: NotisChatService){
+              private noti: NotificacionesService){
     // get user id from the local storage, in the key auth-user, userdata.id
     let auth_user = JSON.parse(localStorage.getItem("auth-user") || "{}");
     console.log("Auth User:", auth_user);
@@ -174,5 +174,22 @@ export class BarraSuperiorComponent implements OnInit{
       this.cookie.delete("room");      
       return;
     }
+  }
+
+  eliminar_notificaciones(id:number){
+    this.noti.deleteallnotificacion(id).subscribe({
+      next:(data:any) => {
+        this.respuesta = {...this.respuesta, ...data};
+      },
+      error:(error:any) => {
+        console.log(error);
+        return;
+      },
+      complete:() => {
+        this.notificaciones = [];
+        console.log("Notificaciones eliminadas");
+      }
+    })
+    this.notificaciones = [];
   }
 }
