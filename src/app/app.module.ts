@@ -122,7 +122,8 @@ import { SubirArchivoComponent } from './componentes/subir-archivo/subir-archivo
     ArchivosService,
     SupervisorService,
     CookieService,
-    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' }],
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

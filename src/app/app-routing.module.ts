@@ -29,32 +29,35 @@ import { environment } from 'src/environments/environment';
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: environment.ruta_practicas, component: TablaComponent },
-  { path: environment.ruta_practicas+'/:id', component: DetallePracticaComponent},
-  { path: environment.ruta_practicas+'/:id/revision/:n', component: RevisionComponent },
-  { path: environment.ruta_alumno, 
+  { path: environment.ruta_practicas + '/:id', component: DetallePracticaComponent },
+  { path: environment.ruta_practicas + '/:id/revision/:n', component: RevisionComponent },
+  {
+    path: environment.ruta_alumno,
     children: [
-      { path: ':id', component: DetalleAlumnoComponent,
+      {
+        path: ':id', component: DetalleAlumnoComponent,
         children: [
           { path: 'cuestionario/:n', component: CuestionarioComponent },
-          { path: 'empresas', component: EmpresasComponent},
+          { path: 'empresas', component: EmpresasComponent },
           { path: 'finalizacion/:n', component: FinalizacionComponent },
           { path: 'iniciarpractica/:n', component: IniciarPracticaComponent },
-          
+
         ]
       }
     ]
   },
-  { path: environment.ruta_supervisor+'/evaluacion', component: EvaluacionComponent },
+  { path: environment.ruta_supervisor + '/evaluacion', component: EvaluacionComponent },
   { path: environment.ruta_registro, component: RegistroComponent, data: { title: 'Registro' } },
-  { path: environment.ruta_login, component: LoginComponent, data: { title: 'Login' }},
-  { path: 'home', component: HomeComponent, data: { title: 'Home' }},
-  { path: 'logout', component: LogoutComponent},
-  { path: 'tests', component: TestsComponent},
+  { path: environment.ruta_login, component: LoginComponent, data: { title: 'Login' } },
+  { path: 'home', component: HomeComponent, data: { title: 'Home' } },
+  { path: 'logout', component: LogoutComponent },
+  { path: 'tests', component: TestsComponent },
   { path: 'blank', component: BlankComponent },
   { path: 'resetPass', component: ForgotPasswordComponent },
   { path: 'estadisticas', component: EstadisticasComponent },
   { path: 'informaciones', component: InformacionesComponent },
-  { path: environment.ruta_alumno+'/:id/chat/:room/:id1/:id2/:tipo', component: ChatComponent},
+  { path: environment.ruta_alumno + '/:id/chat/:room/:id1/:id2/:tipo', component: ChatComponent },
+  // { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
   { path: '**', component: PnfComponent }
 ];
 

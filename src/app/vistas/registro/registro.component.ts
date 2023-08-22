@@ -104,7 +104,12 @@ export class RegistroComponent implements OnInit {
       this.es_estudiante = true;
       this.es_supervisor = false;
       this.es_encargado = false;
+<<<<<<< HEAD
     } else if (arg.target.value = "2") {
+=======
+    }
+    else if (arg.target.value = "2") {
+>>>>>>> parent of bbd708d (Merge branch 'edit-sesiones' of https://github.com/rtallarr/PRAXUS into edit-sesiones)
       this.checkEs = false;
       this.es_supervisor = true;
       this.es_estudiante = false;
