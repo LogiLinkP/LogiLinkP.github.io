@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { SupervisorService } from '../../servicios/supervisor/supervisor.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from "@angular/router"
+import { Router, ActivatedRoute } from "@angular/router"
 import * as $ from 'jquery';
 
 @Component({
@@ -11,10 +11,10 @@ import * as $ from 'jquery';
 })
 export class EvaluacionComponent {
 
-  id_estudiante = 1;
-  id_config_practica = 1;
+  id_estudiante = -1;
+  id_config_practica = -1;
   pregunta_actual = 1;
-  constructor(private service: SupervisorService, private _snackbar: MatSnackBar, private router: Router) {
+  constructor(private service: SupervisorService, private _snackbar: MatSnackBar, private router: Router, private activated_route: ActivatedRoute) {
 
   }
 
@@ -73,5 +73,35 @@ export class EvaluacionComponent {
       }
     });
 
+  }
+
+  ngOnInit(): void {
+    //obtain id_practica from url
+    let token = "";
+    let iv = "";
+    let practica = {"id_estudiante":-1, "id_config_practica":-1};
+
+    this.activated_route.queryParams.subscribe(params => {
+      token = params['token'];
+      iv = params['iv'];
+    });
+
+    this.service.getPractica(token, iv).subscribe({
+      next: (data: any) => {
+        practica = {...practica, ...data};
+      },
+      error: (error: any) => {
+        console.log(error);
+        this._snackbar.open("Error al obtener la práctica", "Cerrar", {
+          duration: 2000,
+          panelClass: ['red-snackbar']
+        });
+      },
+      complete: () => {        
+        this.id_estudiante = practica.id_estudiante;
+        this.id_config_practica = practica.id_config_practica;
+        console.log(practica);
+      }      
+    });
   }
 }
