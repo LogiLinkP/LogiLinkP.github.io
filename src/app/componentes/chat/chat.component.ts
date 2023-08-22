@@ -28,7 +28,10 @@ export class ChatComponent implements OnInit {
   respuesta:any = [];
   room: string="";
 
-  constructor(private service: NotisChatService, private router: ActivatedRoute, private datetime: DatePipe, private cookie: CookieService) {
+  constructor(private service: NotisChatService,
+              private router: ActivatedRoute,
+              private datetime: DatePipe,
+              private cookie: CookieService) {
     this.router.params.subscribe(params => {this.Id = +params['id1'];});
     this.router.params.subscribe(params => {this.Id2 = +params['id2'];});
     this.router.params.subscribe(params => {this.tipo = params['tipo'];});   
@@ -66,7 +69,7 @@ export class ChatComponent implements OnInit {
       complete: () => {
         this.Historial = JSON.parse(this.respuesta.body);
         console.log("CHAT RECIBIDO: ",this.Historial);
-        if(this.Historial=="null"){
+        if(this.Historial==null){
           console.log("Chat no encontrado, creando");
           this.service.postchat(this.id_estudiante, this.id_encargado).subscribe({
             next: (data: any) => {
@@ -100,6 +103,7 @@ export class ChatComponent implements OnInit {
         console.log("Mensaje Enviado");
         console.log(this.respuesta);
         this.service.emitEvent(mensaje);
+        console.log("MENSAJEEE",mensaje)
         this.Historial.push(mensaje);
         this.Nmensaje="";        
       }

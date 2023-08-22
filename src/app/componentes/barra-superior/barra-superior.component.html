@@ -111,58 +111,40 @@
             <!-- Dropdown - Messages -->
             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="messagesDropdown">
+                <div *ngIf = "es_alumno == 1; else elseblock">
+                    <p style="margin-left: 5%; margin-top: 4%;">Encargados disponibles</p>
+                    <div *ngFor = "let persona of personas">
+                        <div class="dropdown-item d-flex align-items-center" routerLink="chat/sala{{id1}}{{persona}}/{{id1}}/{{persona}}/estudiante">
+                            <div class="dropdown-list-image mr-3">
+                                <img class="rounded-circle" src="../../../assets/img/undraw_profile_1.svg"
+                                    alt="...">
+                                <div class="status-indicator bg-success"></div>
+                            </div>
+                            Encargado #{{persona}}
+                            <div class="font-weight-bold"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <ng-template #elseblock>
+                    Habla con un Estudiante.
+                    <div *ngFor = "let persona of personas">
+                        <div class="dropdown-item d-flex align-items-center" routerLink="/chat/sala{{id1}}{{persona}}/{{id1}}/{{persona}}/encargado">
+                            <div class="dropdown-list-image mr-3">
+                                <img class="rounded-circle" src="../../../assets/img/undraw_profile_1.svg"
+                                    alt="...">
+                                <div class="status-indicator bg-success"></div>
+                            </div>
+                            Estudiante #{{persona}}
+                            <div class="font-weight-bold"></div>
+                        </div>
+                    </div>
+                </ng-template>
+
                 <h6 class="dropdown-header">
-                    Message Center
+                    
                 </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="../../../assets/img/undraw_profile_1.svg"
-                            alt="...">
-                        <div class="status-indicator bg-success"></div>
-                    </div>
-                    <div class="font-weight-bold">
-                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                            problem I've been having.</div>
-                        <div class="small text-gray-500">Emily Fowler · 58m</div>
-                    </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="../../../assets/img/undraw_profile_2.svg"
-                            alt="...">
-                        <div class="status-indicator"></div>
-                    </div>
-                    <div>
-                        <div class="text-truncate">I have the photos that you ordered last month, how
-                            would you like them sent to you?</div>
-                        <div class="small text-gray-500">Jae Chun · 1d</div>
-                    </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="../../../assets/img/undraw_profile_3.svg"
-                            alt="...">
-                        <div class="status-indicator bg-warning"></div>
-                    </div>
-                    <div>
-                        <div class="text-truncate">Last month's report looks great, I am very happy with
-                            the progress so far, keep up the good work!</div>
-                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                    </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
-                            alt="...">
-                        <div class="status-indicator bg-success"></div>
-                    </div>
-                    <div>
-                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
-                            told me that people say this to all dogs, even if they aren't good...</div>
-                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                    </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                <a class="dropdown-item text-center small text-gray-500" href="#">Más mensajes</a>
             </div>
         </li>
 

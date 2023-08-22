@@ -11,9 +11,9 @@ import { environment } from 'src/environments/environment';
   templateUrl: './resumen_practicas.component.html',
   styleUrls: ['./resumen_practicas.component.scss']
 })
-export class TablaComponent {
+export class TablaComponent{
   rutas = environment;
-
+  
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
@@ -22,10 +22,14 @@ export class TablaComponent {
   alumnos: any = [];
 
   constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar) {
+    console.log(this.rutas.ruta_practicas);
     this.dtOptions = {
       language: {
         url: 'assets/localisation/es-es.json'
       },
+      drawCallback: () => {
+        console.log(this.alumnos);
+      }
     };
 
     let respuesta: any = {};
@@ -41,7 +45,7 @@ export class TablaComponent {
         });
       },
       complete: () => {
-        this.alumnos = respuesta.body.filter((e: any) => Boolean(e.config_practica) && Boolean(e.estudiante.usuario)).map((alumno: any) => {
+        this.alumnos = respuesta.body.map((alumno: any) => {
           alumno.consistencia_nota = alumno.consistencia_nota ? `${Math.round(100 * alumno.consistencia_nota)}%` : "—";
           alumno.consistencia_informe = alumno.consistencia_informe ? `${Math.round(100 * alumno.consistencia_informe)}%` : "—";
           alumno.nota_evaluacion = alumno.nota_evaluacion ? alumno.nota_evaluacion : "—";
