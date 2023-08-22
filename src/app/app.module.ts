@@ -103,7 +103,6 @@ import { SubirArchivoComponent } from './componentes/subir-archivo/subir-archivo
     MatCardModule,
     MatListModule,
     MatDatepickerModule,
-    MatNativeDateModule,
     MatSelectModule,
     MatToolbarModule,
     TextFieldModule,
