@@ -11,8 +11,9 @@ import * as $ from 'jquery';
 })
 export class EvaluacionComponent {
 
-  id_estudiante = -1;
   id_config_practica = -1;
+  practica: any = {};
+  preguntas: any[] = [];
   pregunta_actual = 1;
   constructor(private service: SupervisorService, private _snackbar: MatSnackBar, private router: Router, private activated_route: ActivatedRoute) {
 
@@ -45,7 +46,7 @@ export class EvaluacionComponent {
     let pregunta2 = (document.getElementById("respuesta2") as HTMLInputElement)?.value;
     let evaluacion = +(document.querySelector('input[name="respuesta3"]:checked') as HTMLInputElement)?.value;
     let response = {};
-    this.service.sendAnswer(this.id_estudiante, this.id_config_practica, { pregunta1, pregunta2 }, evaluacion).subscribe({
+    this.service.sendAnswer(this.practica.id_estudiante, this.id_config_practica, { pregunta1, pregunta2 }, evaluacion).subscribe({
       next: (data: any) => {
         response = { ...response, ...data }
         if (data.status == 200) {
@@ -98,7 +99,7 @@ export class EvaluacionComponent {
         });
       },
       complete: () => {        
-        this.id_estudiante = practica.id_estudiante;
+        this.practica = practica;
         this.id_config_practica = practica.id_config_practica;
         console.log(practica);
       }      
