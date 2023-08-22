@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class RevisionComponent {
   @Input() id_estudiante: number = -1;
   @Input() id_config_practica: number = -1;
+  @Input() id_usuario_estudiante: number = -1; 
   private sub: any;
 
   constructor(private service: SetDetallesAlumnoService, private route: ActivatedRoute, private _snackBar: MatSnackBar) {
@@ -20,9 +21,10 @@ export class RevisionComponent {
 
   }
 
-  aprobar(id_estudiante: number, id_config_practica: number, aprobacion: 0 | 1) {
+  aprobar(aprobacion: 0 | 1) {
     let respuesta: any = {}
-    this.service.aprobar_practica(this.id_estudiante, this.id_config_practica, aprobacion).subscribe({
+    
+    this.service.aprobar_practica(this.id_usuario_estudiante, this.id_estudiante, this.id_config_practica, aprobacion).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },

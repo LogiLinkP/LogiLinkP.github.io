@@ -20,40 +20,29 @@ export class NotificacionesService extends Socket{
   event$ = this.eventSubject.asObservable();
 
   @Output() outEven: EventEmitter<any> = new EventEmitter();
+  @Output() callback: EventEmitter<any> = new EventEmitter();
 
   
-  constructor(private _http: HttpClient, private cookie: CookieService) {
+  constructor(private _http: HttpClient) {
     super({
       url: environment.url_back_chat,
       options: {
         query: {
-          nameRoom: cookie.get('notificaciones')
+          nameRoom: "notificaciones" + JSON.parse(localStorage.getItem("auth-user") || "{}").userdata.id
         },
       }
     });
-    
-    if (cookie.check('notificaciones')){
-      this.listen();
-      console.log("Conexion establecida con el usuario:", cookie.get('notificaiones'));
-    }
-    else{
-      console.log("Conexion no establecida con socketIO al no encontrarse el usuario");
-    }
-  }
-  
-  listen = () => {
-    this.ioSocket.on('noti', (res:any) => {console.log("Evento recibido", res); this.eventSubject.next(res);});
+    console.log("sala notificaciones" + JSON.parse(localStorage.getItem("auth-user") || "{}").userdata.id);
+    this.listen();
   }
 
-  waitForCookieToBeSet(): Observable<void> {
-    return from(new Promise<void>((resolve) => {
-      const checkInterval = setInterval(() => {
-        if (this.cookie.check('room')) {
-          clearInterval(checkInterval);
-          resolve();
-        }
-      }, 1000); // Check every 100ms
-    }));
+
+  
+  listen = () => {
+    this.ioSocket.on('notificacion', (res:any) => {
+      console.log("notificacion recibida, el mensaje es", res.mensaje);
+      this.callback.emit(res);
+    });
   }
 
   postnotificacion(id_usuario:number, mensaje:any){
@@ -66,8 +55,8 @@ export class NotificacionesService extends Socket{
     return this._http.request(req);
   }
 
-  deleteallnotificacion(id_usuario:number){
-    const req = new HttpRequest('DELETE', `${environment.url_back}/notificacion/eliminar/?id_usuario=${id_usuario}`);
+  notificaciones_vistas(id_usuario:number){
+    const req = new HttpRequest('PUT', `${environment.url_back}/notificacion/visto`, {id_usuario});
     return this._http.request(req);
   }
 }

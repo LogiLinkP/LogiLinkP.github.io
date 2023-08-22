@@ -32,7 +32,7 @@ export class DataUsuarioService {
   }
 
   obtener_notificaciones(id_usuario: number){
-    const req = new HttpRequest('GET', `${environment.url_back}/usuario?id=${id_usuario}notificaciones`);
+    const req = new HttpRequest('GET', `${environment.url_back}/notificacion/todos?id_usuario=${id_usuario}`);
     return this._http.request(req);
   }
 }

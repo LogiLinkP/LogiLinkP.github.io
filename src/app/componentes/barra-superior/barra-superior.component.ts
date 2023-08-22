@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
 import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
@@ -27,7 +27,8 @@ export class BarraSuperiorComponent implements OnInit{
   constructor(private Service: DataUsuarioService,
               private router: ActivatedRoute,
               private cookie: CookieService,
-              private noti: NotificacionesService){
+              private noti: NotificacionesService,
+              private cdr: ChangeDetectorRef){
     // get user id from the local storage, in the key auth-user, userdata.id
     let auth_user = JSON.parse(localStorage.getItem("auth-user") || "{}");
     console.log("Auth User:", auth_user);
@@ -37,7 +38,15 @@ export class BarraSuperiorComponent implements OnInit{
       if (userdata.id != undefined){
         this.id_usuario = userdata.id;
       }
-    }    
+    }
+    
+    this.noti.callback.subscribe(res => {
+      const {fecha, mensaje} = res;
+      console.log("mira esta notificacion " + mensaje);
+      this.notificaciones.push(res);
+      this.cdr.detectChanges();
+      console.log("Mira estas notificaciones"+ this.notificaciones);
+    })
   }
 
   obtener_personas(ID:number, IS:number){
@@ -90,8 +99,6 @@ export class BarraSuperiorComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.cookie.set("notificaciones", this.id_usuario.toString());
-    this.destroy_cookie_sala();
 
     this.Service.obtener_notificaciones(this.id_usuario).subscribe({
       next: (data:any) => {
@@ -101,7 +108,9 @@ export class BarraSuperiorComponent implements OnInit{
         console.log(error);
       },
       complete: () => {
-        this.notificaciones = this.respuesta.body;
+        console.log("Antes de pushear " + JSON.parse(this.respuesta.body));
+        this.notificaciones = this.respuesta[0];
+        console.log("Hola, estas son las notificaciones iniciales " + this.notificaciones);
       }
     })
 
@@ -153,6 +162,23 @@ export class BarraSuperiorComponent implements OnInit{
     });  
   }
 
+  eliminar_notificaciones(id:number){
+    this.noti.notificaciones_vistas(id).subscribe({
+      next:(data:any) => {
+        this.respuesta = {...this.respuesta, ...data};
+      },
+      error:(error:any) => {
+        console.log(error);
+        return;
+      },
+      complete:() => {
+        this.notificaciones = [];
+        console.log("Notificaciones cambiadas");
+      }
+    })
+    this.notificaciones = [];
+  }
+
   redirect_to_chat(id_otro_participante:number, userid_otro_participante:number, tipo:string){
     
     if(tipo=="encargado"){
@@ -164,32 +190,5 @@ export class BarraSuperiorComponent implements OnInit{
     }
   }
 
-  // destoy the cookie "room" if the url is not /chat or if the value in sala is not the same
-  // as the value in the cookie
-  destroy_cookie_sala(){    
-    let url = window.location.href;
-    let index = url.indexOf("sala");
-    if (index == -1 && this.cookie.check("room")){
-      console.log("Destroying cookie", this.cookie.get("room"), url, index);
-      this.cookie.delete("room");      
-      return;
-    }
-  }
 
-  eliminar_notificaciones(id:number){
-    this.noti.deleteallnotificacion(id).subscribe({
-      next:(data:any) => {
-        this.respuesta = {...this.respuesta, ...data};
-      },
-      error:(error:any) => {
-        console.log(error);
-        return;
-      },
-      complete:() => {
-        this.notificaciones = [];
-        console.log("Notificaciones eliminadas");
-      }
-    })
-    this.notificaciones = [];
-  }
 }
