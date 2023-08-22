@@ -9,6 +9,7 @@ import { BarraLateralService } from 'src/app/servicios/encargado/barra-lateral/b
 import { ConfigService } from 'src/app/servicios/encargado/config-practica/config.service';
 
 import { map, tap } from 'rxjs/operators';
+import e from 'express';
 
 @Component({
   selector: 'app-configuracion-practica',
@@ -50,6 +51,9 @@ export class ConfiguracionPracticaComponent implements OnInit {
     frecuenciaInformes: string;
     informeFinal: string;
     preguntaFORM = new FormControl('')
+    ramoFORM = new FormControl('')
+
+    ramo: string;
 
     pregunta: string;
     tipo_pregunta: string;
@@ -74,6 +78,8 @@ export class ConfiguracionPracticaComponent implements OnInit {
     lista_preguntas_supervisor: string[] = [];
     tipos_preguntas_supervisor: string[] = [];
     lista_opciones_preguntas_supervisor: string[] = [];
+
+    lista_ramos: string[] = [];
 
     nombre_solicitud_documentos: string;
     descripcion_solicitud_documentos: string;
@@ -160,6 +166,8 @@ export class ConfiguracionPracticaComponent implements OnInit {
 
     
             preguntaFORM: this.pregunta,
+
+            ramoFORM: this.ramo,
             
             arregloOpcionesPreguntas: this._fb.array([]),
             arregloHoras: this._fb.array([]),
@@ -300,13 +308,13 @@ export class ConfiguracionPracticaComponent implements OnInit {
         //var string_pregunta = String(this.pregunta)
         for (let i = 0; i < Object.keys(this.opcion_pregunta).length; i++) {
           opciones_de_una_pregunta = opciones_de_una_pregunta + String(Object.values(Object.values(this.opcion_pregunta)[i])[0])
-          opciones_de_una_pregunta = opciones_de_una_pregunta + ","
+          opciones_de_una_pregunta = opciones_de_una_pregunta + ";;"
           //string_pregunta = string_pregunta + ","
           //string_pregunta = string_pregunta + String(Object.values(Object.values(this.opcion_pregunta)[i])[0])
           //console.log(Object.values(Object.values(this.opcion_pregunta)[i])[0]);
           
         }
-        opciones_de_una_pregunta = opciones_de_una_pregunta.slice(0, -1);
+        opciones_de_una_pregunta = opciones_de_una_pregunta.slice(0, -2);
         //console.log(string_pregunta);
         //this.lista_preguntas_avance.push(string_pregunta);
         //console.log(this.lista_preguntas_avance);
@@ -350,12 +358,12 @@ export class ConfiguracionPracticaComponent implements OnInit {
         console.log("hay opciones");
         //var string_pregunta = String(this.pregunta)
         for (let i = 0; i < Object.keys(this.opcion_pregunta).length; i++) {
-          string_pregunta = string_pregunta + ","
+          //string_pregunta = string_pregunta + ","
           opciones_de_una_pregunta = opciones_de_una_pregunta + String(Object.values(Object.values(this.opcion_pregunta)[i])[0])
-          opciones_de_una_pregunta = opciones_de_una_pregunta + ","
+          opciones_de_una_pregunta = opciones_de_una_pregunta + ";;"
           //console.log(Object.values(Object.values(this.opcion_pregunta)[i])[0]);
         }
-        opciones_de_una_pregunta = opciones_de_una_pregunta.slice(0, -1);
+        opciones_de_una_pregunta = opciones_de_una_pregunta.slice(0, -2);
         //console.log(string_pregunta);
         //this.lista_preguntas_avance.push(string_pregunta);
         //console.log(this.lista_preguntas_avance);
@@ -399,12 +407,12 @@ export class ConfiguracionPracticaComponent implements OnInit {
         console.log("hay opciones");
         //var string_pregunta = String(this.pregunta)
         for (let i = 0; i < Object.keys(this.opcion_pregunta).length; i++) {
-          string_pregunta = string_pregunta + ","
+          //string_pregunta = string_pregunta + ","
           opciones_de_una_pregunta = opciones_de_una_pregunta + String(Object.values(Object.values(this.opcion_pregunta)[i])[0])
-          opciones_de_una_pregunta = opciones_de_una_pregunta + ","
+          opciones_de_una_pregunta = opciones_de_una_pregunta + ";;"
           //console.log(Object.values(Object.values(this.opcion_pregunta)[i])[0]);
         }
-        opciones_de_una_pregunta = opciones_de_una_pregunta.slice(0, -1);
+        opciones_de_una_pregunta = opciones_de_una_pregunta.slice(0, -2);
         //console.log(string_pregunta);
         //this.lista_preguntas_avance.push(string_pregunta);
         //console.log(this.lista_preguntas_avance);
@@ -421,6 +429,14 @@ export class ConfiguracionPracticaComponent implements OnInit {
 
       this.arregloOpcionesPreguntas.clear();
       this.pregunta = "";
+    }
+
+    onSubmitAddRamo(){
+      this.ramo = this.fg.value.ramoFORM;
+      this.lista_ramos.push(this.ramo);
+      console.log(this.lista_ramos);
+
+      this.ramo = "";
     }
 
     onSubmitAddPreguntaSupervisor() {
@@ -448,12 +464,12 @@ export class ConfiguracionPracticaComponent implements OnInit {
         console.log("hay opciones");
         //var string_pregunta = String(this.pregunta)
         for (let i = 0; i < Object.keys(this.opcion_pregunta).length; i++) {
-          string_pregunta = string_pregunta + ","
+          //string_pregunta = string_pregunta + ","
           opciones_de_una_pregunta = opciones_de_una_pregunta + String(Object.values(Object.values(this.opcion_pregunta)[i])[0])
-          opciones_de_una_pregunta = opciones_de_una_pregunta + ","
+          opciones_de_una_pregunta = opciones_de_una_pregunta + ";;"
           //console.log(Object.values(Object.values(this.opcion_pregunta)[i])[0]);
         }
-        opciones_de_una_pregunta = opciones_de_una_pregunta.slice(0, -1);
+        opciones_de_una_pregunta = opciones_de_una_pregunta.slice(0, -2);
         //console.log(string_pregunta);
         //this.lista_preguntas_avance.push(string_pregunta);
         //console.log(this.lista_preguntas_avance);
@@ -528,6 +544,11 @@ export class ConfiguracionPracticaComponent implements OnInit {
     }
 
     avanzarDesdePreguntasEncuesta(){
+      this.estado = "agregar_ramos";
+      this.printForm();
+    }
+
+    avanzarDesdeRamos(){
       this.estado = "preguntas_supervisor";
       this.printForm();
     }
@@ -537,10 +558,58 @@ export class ConfiguracionPracticaComponent implements OnInit {
       this.printForm();
     }
 
+    volver(){
+
+      console.log("volver");
+      console.log(this.estado);
+      //volver desde preguntas avance
+      if (this.estado == "informe_avance") {
+        this.estado = "configuracion_general";
+      }
+
+      //volver desde preguntas final
+      if (this.estado == "informe_final") {
+        if (this.frecuenciaInformes == "sinAvance"){
+          this.estado = "configuracion_general";
+        }
+        else {
+          this.estado = "informe_avance";
+        }
+      }
+      //volver desde solicitud de documentos
+      else if (this.estado == "solicitud_documentos") {
+        if (this.informeFinal == "si") {
+          this.estado = "informe_final";
+        }
+        else if (this.frecuenciaInformes == "sinAvance") {
+          this.estado = "configuracion_general";
+        }
+        else {
+          this.estado = "informe_avance";
+        }
+      }
+      //volver desde encuesta final
+      else if (this.estado == "encuesta_final") {
+        this.estado = "solicitud_documentos";
+      }
+      //volver desde agregar ramos
+      else if (this.estado == "agregar_ramos") {
+        this.estado = "encuesta_final";
+      }
+      //volver desde preguntas supervisor
+      else if (this.estado == "preguntas_supervisor") {
+        this.estado = "agregar_ramos";
+      }
+      //volver desde fin configuracion
+      else if (this.estado == "fin_configuracion") {
+        this.estado = "preguntas_supervisor";
+      }
+      //this.printForm();
+    }
+
     printForm() {
         console.log(this.fg.value);
     }
-
 
     onSubmitAddSolicitudDoc(){
       console.log("documento agregado");
@@ -587,8 +656,29 @@ export class ConfiguracionPracticaComponent implements OnInit {
       this.lista_tipo_solicitud_documentos.splice(index, 1);
     }
 
+    eliminarRamo(index: number){
+      console.log("eliminando ramo", index);
+      this.lista_ramos.splice(index, 1);
+    }
   
     mandarDatos() {
+
+        var opciones_ramos = ""
+        for (let i = 0; i < this.lista_ramos.length; i++) {
+            opciones_ramos = opciones_ramos + this.lista_ramos[i]
+            opciones_ramos = opciones_ramos + ";;"
+        }
+        opciones_ramos = opciones_ramos.slice(0, -2);
+
+        //agregando pregunta de ramos
+        this.lista_preguntas_encuesta.push("Selecciona los ramos que fueron mas utiles durante tu practica");
+        this.tipos_preguntas_encuesta.push("casillas");
+        this.lista_opciones_preguntas_encuesta.push(opciones_ramos);
+
+        //console.log("lista_preguntas_encuesta: ", this.lista_preguntas_encuesta);
+        //console.log("tipos_preguntas_encuesta: ", this.tipos_preguntas_encuesta);
+        //console.log("lista_opciones_preguntas_encuesta: ", this.lista_opciones_preguntas_encuesta);
+
         let respuestas = [];
         let respuesta: any = {};
         

@@ -138,7 +138,7 @@
                     <br>
                     <br>
 
-                    <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Siguiente</button>
+                    <button mat-raised-button [ngStyle]="{'background-color': 'green', 'color': 'white'}" class="linea" type="submit">Siguiente</button>
                 </form>
             </div>
 
@@ -294,9 +294,11 @@
 
                       <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Agregar Pregunta</button>
                   </form>
-
-                <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Siguiente</button>
+                  <br>
+                <button mat-raised-button [ngStyle]="{'background-color': 'green', 'color': 'white'}" class="btn-save" type="submit">Siguiente</button>
               </form>
+              <br>
+              <button mat-raised-button [ngStyle]="{'background-color': 'yellow', 'color': 'black'}" class="linea" type="submit" (click)="volver()">Volver</button>
             </div>
 
             <!-------------------------------------------------- CONFIGURACION PREGUNTAS INFORME FINAL -------------------------------------------------------------->
@@ -455,8 +457,11 @@
 
                     <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Agregar Pregunta</button>
                 </form>
-                <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Siguiente</button>
+                <br>
+                <button mat-raised-button [ngStyle]="{'background-color': 'green', 'color': 'white'}" class="btn-save" type="submit">Siguiente</button>
               </form>
+              <br>
+              <button mat-raised-button [ngStyle]="{'background-color': 'yellow', 'color': 'black'}" class="linea" type="submit" (click)="volver()">Volver</button>
             </div>
 
             <!-------------------------------------------------- CONFIGURACION DOCUMENTOS -------------------------------------------------------------->
@@ -506,10 +511,11 @@
 
                   <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Agregar solicitud de documento </button>
                 </form>
-
-                <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Siguiente</button>
+                <br>
+                <button mat-raised-button [ngStyle]="{'background-color': 'green', 'color': 'white'}" class="btn-save" type="submit">Siguiente</button>
               </form>
-
+              <br>
+              <button mat-raised-button [ngStyle]="{'background-color': 'yellow', 'color': 'black'}" class="linea" type="submit" (click)="volver()">Volver</button>
             </div>
 
             <!-------------------------------------------------- CONFIGURACION  PREGUNTAS ENCUESTA -------------------------------------------------------------->
@@ -673,11 +679,52 @@
                   
 
                 </form>
-
-                <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Siguiente</button>
+                <br>
+                <button mat-raised-button [ngStyle]="{'background-color': 'green', 'color': 'white'}" class="btn-save" type="submit">Siguiente</button>
               </form>
+              <br>
+              <button mat-raised-button [ngStyle]="{'background-color': 'yellow', 'color': 'black'}" class="linea" type="submit" (click)="volver()">Volver</button>
+            </div>
+
+            <!----------------------------------------------------- CONFIGURACION RAMOS ENCUESTA ------------------------------------------------------------------>
+
+            <div *ngIf="estado == 'agregar_ramos'" class="container-fluid">
+              <br>
+
+              <p>Ingresar Ramos para Encuesta Practicantes Post-Practica</p>
+              
+              <div *ngFor="let ramo of lista_ramos; let i = index">
+                <br>
+                Ramo Ingresado:
+                <br>
+                {{ramo}}
+
+                <br>
+                    <form *ngIf="flag" (ngSubmit)="eliminarRamo(i)">
+                      <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}">
+                        Eliminar Ramo
+                      </button>
+                    </form>
+              </div>
+
+              <br>
+
+              <form *ngIf="flag" (ngSubmit)="avanzarDesdeRamos()">
+
+                <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddRamo()">
 
 
+                  Ingresar Ramo
+                  <input type="text" [(ngModel)]="ramo" class="form-control col-lg-3 col-6" placeholder="Ingresar Ramo" formControlName="ramoFORM">
+
+                  <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Agregar Ramo</button>
+
+                </form>
+                <br>
+                <button mat-raised-button [ngStyle]="{'background-color': 'green', 'color': 'white'}" class="btn-save" type="submit">Siguiente</button>
+              </form>
+              <br>
+              <button mat-raised-button [ngStyle]="{'background-color': 'yellow', 'color': 'black'}" class="linea" type="submit" (click)="volver()">Volver</button>
             </div>
 
             <!-------------------------------------------------- CONFIGURACION  PREGUNTAS SUPERVISOR -------------------------------------------------------------->
@@ -845,9 +892,11 @@
                   
 
                 </form>
-
-                <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Siguiente</button>
+                <br>
+                <button mat-raised-button [ngStyle]="{'background-color': 'green', 'color': 'white'}" class="btn-save" type="submit">Siguiente</button>
               </form>
+              <br>
+              <button mat-raised-button [ngStyle]="{'background-color': 'yellow', 'color': 'black'}" class="linea" type="submit" (click)="volver()">Volver</button>
             </div>
 
             <!-------------------------------------------------- CONFIGURACION  FINAL -------------------------------------------------------------->
@@ -856,14 +905,19 @@
 
               <p>Fin configuración práctica</p>
 
+              <!-- boton para terminar todo -->
+              <div style="text-align: right; margin-top: 50px; margin-right: 50px;">
+                <button mat-raised-button [ngStyle]="{'background-color': 'green', 'color': 'white'}" (click)="mandarDatos()">Terminar</button>
+              </div>
+
+              <br>
+              <button mat-raised-button [ngStyle]="{'background-color': 'yellow', 'color': 'black'}" class="linea" type="submit" (click)="volver()">Volver</button>
+
               <!-- boton terminar aqui -->
 
             </div>
 
-            <!-- boton para terminar todo -->
-            <div style="text-align: right; margin-top: 50px; margin-right: 50px;">
-                <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" (click)="mandarDatos()">Terminar</button>
-            </div>
+            
 
         </div>
         <!-- End of Main Content -->
