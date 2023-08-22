@@ -30,10 +30,10 @@
             <span>Configurar Prácticas</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
+            <div *ngIf="configs_nombres.length > 0" class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Practicas Actuales:</h6>
                 <!-- cambiar a navigate? no se cambian las vistas sin pasar por otra -->
-                <a *ngFor="let practica of practicas_creadas" class="collapse-item" [routerLink]="['/configurar', practica.nombre]">{{practica.nombre}}</a>
+                <a *ngFor="let practica of configs_nombres" class="collapse-item" [routerLink]="['/configurar', practica]">{{practica}}</a>
                 <h6 class="collapse-header">Crear Nueva:</h6>
                 <a class="collapse-item" [routerLink]="['/configurar', 'configBase']">Planilla base</a>
                 <a class="collapse-item" [routerLink]="['/configurar', 'blanco']">Planilla en blanco</a>

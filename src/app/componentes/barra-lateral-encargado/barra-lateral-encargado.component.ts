@@ -29,16 +29,21 @@ export class BarraLateralEncargadoComponent {
           duration: 5000,
           panelClass: ['red-snackbar']
         });
+        console.log("error:", error);
       },
       complete: () => {
-        for (let i = 0; i < respuesta.body.length; i++) {
-          //si es que no se ha agregado a la lista ni es la planilla
-          if (!this.configs_nombres.includes(respuesta.body[i].nombre)) {
-            if (respuesta.body[i].nombre != "configBase") {
-              this.practicas_creadas.push(respuesta.body[i])
-              this.configs_nombres.push(respuesta.body[i].nombre)
+        console.log("respuesta:", respuesta.body)
+        if (respuesta.body.length > 0) {
+            for (let i = 0; i < respuesta.body.length; i++) {
+                //si es que no se ha agregado a la lista ni es la planilla
+                if (!this.configs_nombres.includes(respuesta.body[i].nombre)) {
+                    if (respuesta.body[i].nombre != "configBase") {
+                        //this.practicas_creadas.push(respuesta.body[i])
+                        this.configs_nombres.push(respuesta.body[i].nombre)
+                    }
+                }
             }
-          }
+            console.log("nombres:",this.configs_nombres)
         }
       }
     });
