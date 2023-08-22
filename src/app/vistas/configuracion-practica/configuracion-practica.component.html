@@ -45,7 +45,7 @@
                                 <mat-header-cell *matHeaderCellDef></mat-header-cell>
                                 <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
                         
-                                    <button type="button" (click)="deleteHoras(i)">
+                                    <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}" type="button" (click)="deleteHoras(i)">
                                     <mat-icon matSuffix>Eliminar opción</mat-icon>
                                     </button>
                         
@@ -59,7 +59,7 @@
                             </ng-container>
                         </mat-table>
                         <div class="button">
-                            <button type="button" (click)="addHoras()">Agregar opcion de horas</button>
+                            <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" type="button" (click)="addHoras()">Agregar opcion de horas</button>
                         </div>
                     </div>
                     <!-- ======FIN CANTIDAD HORAS========== -->
@@ -83,7 +83,7 @@
                                 <mat-header-cell *matHeaderCellDef></mat-header-cell>
                                 <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
                         
-                                    <button type="button" (click)="deleteMeses(i)">
+                                    <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}" type="button" (click)="deleteMeses(i)">
                                     <mat-icon matSuffix>Eliminar opción</mat-icon>
                                     </button>
                         
@@ -96,8 +96,8 @@
                                 <mat-row *matRowDef="let row; columns: displayedColumnsMeses;"></mat-row>
                             </ng-container>
                         </mat-table>
-                        <div class="button">
-                            <button type="button" (click)="addMeses()">Agregar opcion de meses</button>
+                        <div  class="button">
+                            <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" type="button" (click)="addMeses()">Agregar opcion de meses</button>
                         </div>
                     </div>
                     <!-- ====== FIN CANTIDAD MESES ========== -->
@@ -138,7 +138,7 @@
                     <br>
                     <br>
 
-                    <button class="btn-save" type="submit">Siguiente</button>
+                    <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Siguiente</button>
                 </form>
             </div>
 
@@ -161,7 +161,7 @@
                           {{lista_opciones_preguntas_avance[i]}}
                           <br>
                           <form *ngIf="flag" (ngSubmit)="eliminarPreguntaAvance(i)">
-                            <button>
+                            <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}">
                               Eliminar Pregunta
                             </button>
                           </form>
@@ -169,7 +169,7 @@
 
                       <div *ngIf="lista_opciones_preguntas_avance[i] == ''">
                           <form *ngIf="flag" (ngSubmit)="eliminarPreguntaAvance(i)">
-                            <button>
+                            <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}">
                               Eliminar Pregunta
                             </button>
                           </form>
@@ -183,7 +183,7 @@
 
                   <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddPreguntaAvance()">
 
-                      <input type="text" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
+                      <input type="text" [(ngModel)]="pregunta" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
                       <select name="tipo" id="tipo" (change) = "tipoPregunta($event)" class="form-select form-select-sm mb-4 col-4"  aria-label="Default select example">
                           <option value="0">Seleccione el tipo de respuesta</option>
                           <option value="1">Abierta</option>
@@ -221,7 +221,7 @@
                                     <mat-header-cell *matHeaderCellDef></mat-header-cell>
                                     <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
                             
-                                      <button type="button" (click)="deleteOpcionPregunta(i)">
+                                      <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}" type="button" (click)="deleteOpcionPregunta(i)">
                                         <mat-icon matSuffix>Eliminar opción</mat-icon>
                                       </button>
                             
@@ -235,7 +235,7 @@
                                 </ng-container>
                               </mat-table>
                               <div class="button">
-                                <button type="button" (click)="addOpcionPregunta()">Agregar opción</button>
+                                <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" type="button" (click)="addOpcionPregunta()">Agregar opción</button>
                               </div>
                               <br>
                             <!-- </form> -->
@@ -268,7 +268,7 @@
                                     <mat-header-cell *matHeaderCellDef></mat-header-cell>
                                     <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
                             
-                                      <button type="button" (click)="deleteOpcionPregunta(i)">
+                                      <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" type="button" (click)="deleteOpcionPregunta(i)">
                                         <mat-icon matSuffix>Eliminar opción</mat-icon>
                                       </button>
                             
@@ -283,7 +283,7 @@
                               </mat-table>
 
                               <div class="button">
-                                <button type="button" (click)="addOpcionPregunta()">Agregar opción</button>
+                                <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" type="button" (click)="addOpcionPregunta()">Agregar opción</button>
                               </div>
                               <br>
                             <!-- </form> -->
@@ -292,10 +292,10 @@
                       </div>
                       
 
-                      <button class="btn-save" type="submit">Agregar Pregunta</button>
+                      <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Agregar Pregunta</button>
                   </form>
 
-                <button class="btn-save" type="submit">Siguiente</button>
+                <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Siguiente</button>
               </form>
             </div>
 
@@ -317,7 +317,7 @@
                       {{lista_opciones_preguntas_final[i]}}
                       <br>
                       <form *ngIf="flag" (ngSubmit)="eliminarPreguntaFinal(i)">
-                        <button>
+                        <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}">
                           Eliminar Pregunta
                         </button>
                       </form>
@@ -325,7 +325,7 @@
 
                   <div *ngIf="lista_opciones_preguntas_final[i] == ''">
                       <form *ngIf="flag" (ngSubmit)="eliminarPreguntaFinal(i)">
-                        <button>
+                        <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}">
                           Eliminar Pregunta
                         </button>
                       </form>
@@ -340,7 +340,7 @@
 
                 <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddPreguntaFinal()">
 
-                    <input type="text" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
+                    <input type="text" [(ngModel)]="pregunta" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
                     <select name="tipo" id="tipo" (change) = "tipoPregunta($event)" class="form-select form-select-sm mb-4 col-4"  aria-label="Default select example">
                         <option value="0">Seleccione el tipo de respuesta</option>
                         <option value="1">Abierta</option>
@@ -378,7 +378,7 @@
                                   <mat-header-cell *matHeaderCellDef></mat-header-cell>
                                   <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
                           
-                                    <button type="button" (click)="deleteOpcionPregunta(i)">
+                                    <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}" type="button" (click)="deleteOpcionPregunta(i)">
                                       <mat-icon matSuffix>Eliminar opción</mat-icon>
                                     </button>
                           
@@ -393,7 +393,7 @@
                             </mat-table>
 
                             <div class="button">
-                              <button type="button" (click)="addOpcionPregunta()">Agregar opción</button>
+                              <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" type="button" (click)="addOpcionPregunta()">Agregar opción</button>
                             </div>
                             <br>
                           
@@ -428,7 +428,7 @@
                                   <mat-header-cell *matHeaderCellDef></mat-header-cell>
                                   <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
                           
-                                    <button type="button" (click)="deleteOpcionPregunta(i)">
+                                    <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" type="button" (click)="deleteOpcionPregunta(i)">
                                       <mat-icon matSuffix>Eliminar opción</mat-icon>
                                     </button>
                           
@@ -443,7 +443,7 @@
                             </mat-table>
 
                             <div class="button">
-                              <button type="button" (click)="addOpcionPregunta()">Agregar opción</button>
+                              <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" type="button" (click)="addOpcionPregunta()">Agregar opción</button>
                             </div>
                             <br>
                           
@@ -453,9 +453,9 @@
                     </div>
                     
 
-                    <button class="btn-save" type="submit">Agregar Pregunta</button>
+                    <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Agregar Pregunta</button>
                 </form>
-                <button class="btn-save" type="submit">Siguiente</button>
+                <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Siguiente</button>
               </form>
             </div>
 
@@ -479,7 +479,7 @@
                 Tipo documento: {{lista_tipo_solicitud_documentos[i]}}
                 <br>
                 <form *ngIf="flag" (ngSubmit)="eliminarSolicitudDocumento(i)">
-                  <button>
+                  <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}">
                     Eliminar Solicitud Documento
                   </button>
                 </form>
@@ -504,10 +504,10 @@
                   <br>
                   
 
-                  <button class="btn-save" type="submit">Agregar solicitud de documento </button>
+                  <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Agregar solicitud de documento </button>
                 </form>
 
-                <button class="btn-save" type="submit">Siguiente</button>
+                <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Siguiente</button>
               </form>
 
             </div>
@@ -533,7 +533,7 @@
                     {{lista_opciones_preguntas_encuesta[i]}}
                     <br>
                     <form *ngIf="flag" (ngSubmit)="eliminarPreguntaEncuesta(i)">
-                      <button>
+                      <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}">
                         Eliminar Pregunta
                       </button>
                     </form>
@@ -541,7 +541,7 @@
 
                 <div *ngIf="lista_opciones_preguntas_encuesta[i] == ''">
                     <form *ngIf="flag" (ngSubmit)="eliminarPreguntaEncuesta(i)">
-                      <button>
+                      <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}">
                         Eliminar Pregunta
                       </button>
                     </form>
@@ -554,7 +554,7 @@
 
                 <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddPreguntaEncuesta()">
 
-                  <input type="text" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
+                  <input type="text" [(ngModel)]="pregunta" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
                     <select name="tipo" id="tipo" (change) = "tipoPregunta($event)" class="form-select form-select-sm mb-4 col-4"  aria-label="Default select example">
                         <option value="0">Seleccione el tipo de respuesta</option>
                         <option value="1">Abierta</option>
@@ -592,7 +592,7 @@
                                   <mat-header-cell *matHeaderCellDef></mat-header-cell>
                                   <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
                           
-                                    <button type="button" (click)="deleteOpcionPregunta(i)">
+                                    <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}" type="button" (click)="deleteOpcionPregunta(i)">
                                       <mat-icon matSuffix>Eliminar opción</mat-icon>
                                     </button>
                           
@@ -607,7 +607,7 @@
                             </mat-table>
 
                             <div class="button">
-                              <button type="button" (click)="addOpcionPregunta()">Agregar opción</button>
+                              <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" type="button" (click)="addOpcionPregunta()">Agregar opción</button>
                             </div>
                             <br>
                           
@@ -642,7 +642,7 @@
                                   <mat-header-cell *matHeaderCellDef></mat-header-cell>
                                   <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
                           
-                                    <button type="button" (click)="deleteOpcionPregunta(i)">
+                                    <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" type="button" (click)="deleteOpcionPregunta(i)">
                                       <mat-icon matSuffix>Eliminar opción</mat-icon>
                                     </button>
                           
@@ -657,7 +657,7 @@
                             </mat-table>
 
                             <div class="button">
-                              <button type="button" (click)="addOpcionPregunta()">Agregar opción</button>
+                              <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" type="button" (click)="addOpcionPregunta()">Agregar opción</button>
                             </div>
                             <br>
                           
@@ -669,12 +669,12 @@
 
                     <!-- boton agregar pregunta -->
 
-                    <button class="btn-save" type="submit">Agregar Pregunta</button>
+                    <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Agregar Pregunta</button>
                   
 
                 </form>
 
-                <button class="btn-save" type="submit">Siguiente</button>
+                <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Siguiente</button>
               </form>
 
 
@@ -700,7 +700,7 @@
                     {{lista_opciones_preguntas_supervisor[i]}}
                     <br>
                     <form *ngIf="flag" (ngSubmit)="eliminarPreguntaSupervisor(i)">
-                      <button>
+                      <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}">
                         Eliminar Pregunta
                       </button>
                     </form>
@@ -708,7 +708,7 @@
 
                 <div *ngIf="lista_opciones_preguntas_supervisor[i] == ''">
                     <form *ngIf="flag" (ngSubmit)="eliminarPreguntaSupervisor(i)">
-                      <button>
+                      <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}">
                         Eliminar Pregunta
                       </button>
                     </form>
@@ -721,7 +721,7 @@
 
                 <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddPreguntaSupervisor()">
 
-                  <input type="text" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
+                  <input type="text" [(ngModel)]="pregunta" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
                     <select name="tipo" id="tipo" (change) = "tipoPregunta($event)" class="form-select form-select-sm mb-4 col-4"  aria-label="Default select example">
                         <option value="0">Seleccione el tipo de respuesta</option>
                         <option value="1">Abierta</option>
@@ -760,7 +760,7 @@
                                   <mat-header-cell *matHeaderCellDef></mat-header-cell>
                                   <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
                           
-                                    <button type="button" (click)="deleteOpcionPregunta(i)">
+                                    <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}" type="button" (click)="deleteOpcionPregunta(i)">
                                       <mat-icon matSuffix>Eliminar opción</mat-icon>
                                     </button>
                           
@@ -775,7 +775,7 @@
                             </mat-table>
 
                             <div class="button">
-                              <button type="button" (click)="addOpcionPregunta()">Agregar opción</button>
+                              <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" type="button" (click)="addOpcionPregunta()">Agregar opción</button>
                             </div>
                             <br>
                           
@@ -810,7 +810,7 @@
                                   <mat-header-cell *matHeaderCellDef></mat-header-cell>
                                   <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
                           
-                                    <button type="button" (click)="deleteOpcionPregunta(i)">
+                                    <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" type="button" (click)="deleteOpcionPregunta(i)">
                                       <mat-icon matSuffix>Eliminar opción</mat-icon>
                                     </button>
                           
@@ -825,7 +825,7 @@
                             </mat-table>
 
                             <div class="button">
-                              <button type="button" (click)="addOpcionPregunta()">Agregar opción</button>
+                              <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" type="button" (click)="addOpcionPregunta()">Agregar opción</button>
                             </div>
                             <br>
                           
@@ -841,12 +841,12 @@
 
                     <!-- boton agregar pregunta -->
 
-                    <button class="btn-save" type="submit">Agregar Pregunta</button>
+                    <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Agregar Pregunta</button>
                   
 
                 </form>
 
-                <button class="btn-save" type="submit">Siguiente</button>
+                <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Siguiente</button>
               </form>
             </div>
 

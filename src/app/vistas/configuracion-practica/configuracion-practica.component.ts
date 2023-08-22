@@ -321,6 +321,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
       }
 
       this.arregloOpcionesPreguntas.clear();
+      this.pregunta = "";
     }
 
     onSubmitAddPreguntaFinal() {
@@ -370,6 +371,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
       }
 
       this.arregloOpcionesPreguntas.clear();
+      this.pregunta = "";
     }
 
     onSubmitAddPreguntaEncuesta() {
@@ -418,6 +420,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
       }
 
       this.arregloOpcionesPreguntas.clear();
+      this.pregunta = "";
     }
 
     onSubmitAddPreguntaSupervisor() {
@@ -466,6 +469,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
       }
 
       this.arregloOpcionesPreguntas.clear();
+      this.pregunta = "";
     }
 
     tipoPregunta(arg: any) {
@@ -509,6 +513,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
         this.estado = "solicitud_documentos";
       }
       this.arregloOpcionesPreguntas.clear();
+      this.pregunta = "";
     }
 
     avanzarDesdePreguntasFinal(){
