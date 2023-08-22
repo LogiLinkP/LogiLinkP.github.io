@@ -1,9 +1,13 @@
-.carcontainer{
-    width: 300px;
-    height: 500px;
-    position: fixed;
-    right: 0.5rem;
-    bottom: 0;
+.cardcontainer{
+    max-height: 90%; 
+    max-width: 60%; 
+    margin-top: 1%; 
+    margin-left: 20%;
+    height: 90%;
+}
+
+.card-body{
+    max-height: 90%;
 }
 
 .cardheader{
@@ -33,6 +37,7 @@
 
 .contenedordemensajes{
     overflow: scroll;
+    max-height: 90%;
 }
 
 .contenedordemensajes::-webkit-scrollbar{

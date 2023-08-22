@@ -13,12 +13,13 @@ export class UsuarioService {
 
   constructor(private http: HttpClient, private cookies: CookieService) { }
 
-  login(email: string, password: string, useragent: string): Observable<any>{
-    const req = new HttpRequest('POST',`${this.url}/usuario/login`,{email,password,useragent});
+  login(email: string, password: string): Observable<any>{
+    const req = new HttpRequest('POST',`${this.url}/usuario/login`,{email,password});
     return this.http.request(req);
   }
 
   register(email: string, password: string, cnfPwd: string ,nombre: string, es_encargado: boolean, es_supervisor: boolean, es_estudiante: boolean, es_admin: boolean, extras: any): Observable<any>{
+    console.log('hola');
     const req = new HttpRequest('POST',`${this.url}/usuario/register`,{email,password,cnfPwd,nombre,es_encargado,es_supervisor,es_estudiante,es_admin,extras});
     return this.http.request(req);
   }
