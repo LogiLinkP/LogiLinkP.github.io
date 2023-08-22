@@ -108,8 +108,7 @@ export class BarraSuperiorComponent implements OnInit{
         console.log(error);
       },
       complete: () => {
-        console.log("Antes de pushear " + JSON.parse(this.respuesta.body));
-        this.notificaciones = this.respuesta[0];
+        this.notificaciones = this.respuesta.body;
         console.log("Hola, estas son las notificaciones iniciales " + this.notificaciones);
       }
     })

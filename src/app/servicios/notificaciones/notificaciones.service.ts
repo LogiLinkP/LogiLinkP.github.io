@@ -40,7 +40,7 @@ export class NotificacionesService extends Socket{
   
   listen = () => {
     this.ioSocket.on('notificacion', (res:any) => {
-      console.log("notificacion recibida, el mensaje es", res.mensaje);
+      console.log("notificacion recibida, el mensaje es", res.texto);
       this.callback.emit(res);
     });
   }
