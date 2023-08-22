@@ -22,6 +22,7 @@ import { ChatComponent } from './componentes/chat/chat.component';
 import { TestsComponent } from './vistas/tests/tests.component';
 import { EmpresasComponent } from './vistas/empresas/empresas.component';
 import { CuestionarioComponent } from './vistas/cuestionario/cuestionario.component';
+import { NotificacionesComponent } from './componentes/notificaciones/notificaciones.component';
 import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
 
 import { environment } from 'src/environments/environment';
@@ -53,8 +54,7 @@ const routes: Routes = [
           { path: 'cuestionario/:n', component: CuestionarioComponent },
           { path: 'empresas', component: EmpresasComponent },
           { path: 'finalizacion/:n', component: FinalizacionComponent },
-          { path: 'iniciarpractica/:n', component: IniciarPracticaComponent },
-
+          { path: 'iniciarpractica/:n', component: IniciarPracticaComponent }
         ]
       }
     ]
@@ -98,5 +98,6 @@ export const routingComponents = [
   TestsComponent,
   EmpresasComponent,
   CuestionarioComponent,
+  NotificacionesComponent,
   ChatComponent
 ]

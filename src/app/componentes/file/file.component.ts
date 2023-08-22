@@ -4,7 +4,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NotisChatService } from 'src/app/servicios/notis-chat/notis-chat.service';
 
 @Component({
   selector: 'app-file',
@@ -22,10 +21,7 @@ export class FileComponent {
   currentFile?: File;
   message: string = '';
 
-  constructor(private service: ArchivosService,
-              private _snackBar: MatSnackBar,
-              private router: ActivatedRoute,
-              private noti: NotisChatService) {
+  constructor(private service: ArchivosService, private _snackBar: MatSnackBar, private router: ActivatedRoute) {
     this.router.params.subscribe(params => {
       this.id_estudiante = +params['id'];
     });

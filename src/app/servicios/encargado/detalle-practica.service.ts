@@ -12,7 +12,7 @@ export class DetallePracticaService {
   constructor(private _http: HttpClient) { }
 
   obtener_practica(id_practica: number) {
-    const req = new HttpRequest('GET', `${environment.url_back}/practica/?id=${id_practica}/get_asEncargado`);
+    const req = new HttpRequest('GET', `${environment.url_back}/practica/?id=${id_practica}`);
     return this._http.request(req);
   }
 
