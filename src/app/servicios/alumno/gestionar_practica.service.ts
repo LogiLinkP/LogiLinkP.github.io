@@ -1,15 +1,37 @@
 import { GetDetallesAlumnoService } from '../encargado/resumen_practicas.service';
 import { HttpClient, HttpRequest, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { Socket } from 'ngx-socket-io';
 
 @Injectable({
   providedIn: 'root'
 })
-export class GestionarService {
+export class GestionarService extends Socket{
+  
+  @Output() outEven: EventEmitter<any> = new EventEmitter();
+  @Output() callback: EventEmitter<any> = new EventEmitter();
 
-  constructor(private service: GetDetallesAlumnoService, private http: HttpClient) { }
+  constructor(private service: GetDetallesAlumnoService, private http: HttpClient) {
+    super({
+      url: environment.url_back_chat,
+      options: {
+        query: {
+          nameRoom: "notificaciones" + JSON.parse(localStorage.getItem("auth-user") || "{}").userdata.id
+        },
+      }
+    });
+    console.log("sala notificaciones" + JSON.parse(localStorage.getItem("auth-user") || "{}").userdata.id);
+    this.listen();
+  }
+
+  listen = () => {
+    this.ioSocket.on('notificacion', (res:any) => {
+      console.log("notificacion recibida, el mensaje es", res.texto);
+      this.callback.emit(res);
+    });
+  }
 
   registrar_empresa(nombre_empresa: string, rut_empresa: string) {
     console.log("Registrando empresa con nombre: ", nombre_empresa, " y rut: ", rut_empresa)

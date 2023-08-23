@@ -1,14 +1,35 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter, Output } from '@angular/core';
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { Socket } from 'ngx-socket-io';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SupervisorService {
+export class SupervisorService extends Socket{
+  @Output() outEven: EventEmitter<any> = new EventEmitter();
+  @Output() callback: EventEmitter<any> = new EventEmitter();
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient) { 
+    super({
+      url: environment.url_back_chat,
+      options: {
+        query: {
+          nameRoom: "notificaciones" + JSON.parse(localStorage.getItem("auth-user") || "{}").userdata.id
+        },
+      }
+    });
+    console.log("sala notificaciones" + JSON.parse(localStorage.getItem("auth-user") || "{}").userdata.id);
+    this.listen();
+  }
+
+  listen = () => {
+    this.ioSocket.on('notificacion', (res:any) => {
+      console.log("notificacion recibida, el mensaje es", res.texto);
+      this.callback.emit(res);
+    });
+  }
 
   sendAnswer(id_estudiante: number, id_config_practica: number, respuestas: any, evaluacion: number): Observable<any> {
     const data = {

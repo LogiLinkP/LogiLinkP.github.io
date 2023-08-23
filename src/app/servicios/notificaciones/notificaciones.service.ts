@@ -1,6 +1,5 @@
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { EventEmitter, Injectable, Output } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
 import { Socket } from 'ngx-socket-io';
 import { Observable, Subject, from } from 'rxjs';
 
@@ -36,8 +35,6 @@ export class NotificacionesService extends Socket{
     this.listen();
   }
 
-
-  
   listen = () => {
     this.ioSocket.on('notificacion', (res:any) => {
       console.log("notificacion recibida, el mensaje es", res.texto);
