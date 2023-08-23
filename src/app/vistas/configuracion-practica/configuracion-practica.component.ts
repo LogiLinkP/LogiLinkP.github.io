@@ -661,7 +661,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
       this.lista_ramos.splice(index, 1);
     }
   
-    mandarDatos() {
+    mandarDatos() { //se estan apilando los snackbars positivos (dejar los negativos)
 
         var opciones_ramos = ""
         for (let i = 0; i < this.lista_ramos.length; i++) {
@@ -692,19 +692,19 @@ export class ConfiguracionPracticaComponent implements OnInit {
             tipo_entrada = "actualizar";
         }
 
-        // request con horas
+        // ========= REQUESTS HORAS =========
         if (this.horas == true) {
             modalidad = "horas";
 
             //requests tabla config practica
             for (let i = 0; i < Object.keys(this.opcion_horas).length; i++) {
-                console.log("datos a mandar: ", {
-                    nombre: this.nombrePractica,
-                    modalidad: modalidad,
-                    cantidad_tiempo: Number(Object.values(Object.values(this.opcion_horas)[i])[0]),
-                    frecuencia_informes: this.frecuenciaInformes,
-                    informe_final: this.informeFinal
-                });
+                //console.log("datos a mandar: ", {
+                //    nombre: this.nombrePractica,
+                //    modalidad: modalidad,
+                //    cantidad_tiempo: Number(Object.values(Object.values(this.opcion_horas)[i])[0]),
+                //    frecuencia_informes: this.frecuenciaInformes,
+                //    informe_final: this.informeFinal
+                //});
 
                 this.serviceComplete.crearConfigPracticaFila(this.nombrePractica, modalidad, Number(Object.values(Object.values(this.opcion_horas)[i])[0]), 
                     this.frecuenciaInformes, this.informeFinal).subscribe({
@@ -737,8 +737,9 @@ export class ConfiguracionPracticaComponent implements OnInit {
                 });
             }
         }
+        // ========= FIN REQUESTS HORAS =========
 
-        // request con meses
+        // ========= REQUESTS MESES =========
         if (this.meses == true) {
             modalidad = "meses";
 
@@ -768,6 +769,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
             }
 
         }
+        // ========= FIN REQUESTS HORAS =========
     }
 
     crearConfigInforme(id_config_practica: number, tipoInforme: string) {

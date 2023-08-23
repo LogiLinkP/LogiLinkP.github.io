@@ -22,7 +22,6 @@ export class TablaComponent{
   alumnos: any = [];
 
   constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar) {
-    console.log(this.rutas.ruta_practicas);
     this.dtOptions = {
       language: {
         url: 'assets/localisation/es-es.json'

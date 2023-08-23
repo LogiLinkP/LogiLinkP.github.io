@@ -32,7 +32,7 @@ export class BarraLateralEncargadoComponent {
         console.log("error:", error);
       },
       complete: () => {
-        console.log("respuesta:", respuesta.body)
+        //console.log("respuesta:", respuesta.body)
         if (respuesta.body.length > 0) {
             for (let i = 0; i < respuesta.body.length; i++) {
                 //si es que no se ha agregado a la lista ni es la planilla
@@ -43,7 +43,7 @@ export class BarraLateralEncargadoComponent {
                     }
                 }
             }
-            console.log("nombres:",this.configs_nombres)
+            //console.log("nombres:",this.configs_nombres)
         }
       }
     });

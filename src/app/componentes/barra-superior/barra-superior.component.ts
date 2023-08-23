@@ -30,7 +30,7 @@ export class BarraSuperiorComponent implements OnInit{
               private noti: NotisChatService){
     // get user id from the local storage, in the key auth-user, userdata.id
     let auth_user = JSON.parse(localStorage.getItem("auth-user") || "{}");
-    console.log("Auth User:", auth_user);
+    //console.log("Auth User:", auth_user);
     if (auth_user.userdata != undefined){
       let userdata = auth_user.userdata;
       console.log("Userdata:", userdata);

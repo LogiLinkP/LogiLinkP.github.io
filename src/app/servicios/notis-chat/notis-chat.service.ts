@@ -36,7 +36,7 @@ export class NotisChatService extends Socket{
       console.log("Conexion establecida en ROOM:", cookie.get('room'));
     }
     else{
-      console.log("Conexion no establecida con socketIO al no encontrarse room");
+      //console.log("Conexion no establecida con socketIO al no encontrarse room");
     }    
     
   }
