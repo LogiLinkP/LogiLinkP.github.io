@@ -80,7 +80,7 @@ export class EvaluacionComponent {
     //obtain id_practica from url
     let token = "";
     let iv = "";
-    let practica = {"id_estudiante":-1, "id_config_practica":-1};
+    let practica = {body: {}};
 
     this.activated_route.queryParams.subscribe(params => {
       token = params['token'];
@@ -99,9 +99,10 @@ export class EvaluacionComponent {
         });
       },
       complete: () => {        
-        this.practica = practica;
-        this.id_config_practica = practica.id_config_practica;
-        console.log(practica);
+        //this.practica = practica.body;
+        //console.log("PRACTICA OBTENIDA",practica);
+        //this.id_config_practica = practica.id_config_practica;
+        
       }      
     });
   }
