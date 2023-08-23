@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { GestionarService } from 'src/app/servicios/alumno/gestionar_practica.service';
 import { SupervisorService } from 'src/app/servicios/supervisor/supervisor.service';
 import { Router } from "@angular/router"
+import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
 
 @Component({
   selector: 'alumno',
@@ -17,6 +18,7 @@ export class DetalleAlumnoComponent implements OnInit{
   estudiante:any = {id_estudiante: -1, usuario: {nombre: ""}} 
   config_practica: any = [];
   practicas: any = [];
+  respuesta: any = [];
   //Se deberían mostrar todos los tipos de practica que se pueden realizar - el desafío aquí es
   //que definimos que en la tabla se van a repetir los nombres para cada modalidad de tiempo, por ejemplo
   //por lo que hay que preocuparse de extraer sólo los nombres distintos
@@ -33,7 +35,8 @@ export class DetalleAlumnoComponent implements OnInit{
   doc_extra_str = "documento_extra";
 
   constructor(private service_datos: ObtenerDatosService , private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, 
-              private service_gestion: GestionarService, private service_supervisor: SupervisorService, private router: Router) {
+              private service_gestion: GestionarService, private service_supervisor: SupervisorService, private router: Router,
+              private service_noti: NotificacionesService) {
     this.id_usuario = parseInt(this.activated_route.snapshot.paramMap.get('id') || "-1");
   }
 
@@ -150,6 +153,7 @@ export class DetalleAlumnoComponent implements OnInit{
     let key = (document.getElementById("informe") as HTMLInputElement).value;
     let horas_trabajadas = (document.getElementById("horas") as HTMLInputElement).valueAsNumber;
     let id_config_informe = practica.config_practica.id;
+    let id_encargado = this.config_practica.id_encargado;
 
     if (Number.isNaN(horas_trabajadas)){
       horas_trabajadas = 0;
@@ -166,13 +170,14 @@ export class DetalleAlumnoComponent implements OnInit{
     console.log("id_practica:", practica.id);
     console.log("casilla horas:", horas_trabajadas);
     
-    this.service_datos.ingresar_informe(practica.id, key, id_config_informe, horas_trabajadas).subscribe({
+    this.service_datos.ingresar_informe(practica.id, key, id_config_informe, horas_trabajadas, id_encargado).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
         console.log("Respuesta ingresar informe:",data);
       },
       error: (error: any) => console.log("Error en ingresar informe:",error),
       complete: () => {
+        this.service_noti.postnotificacion(this.id_usuario, "El alumno "+ this.estudiante.nombre + " ha ingresado un informe diario")
         this._snackBar.open("Informe Ingresado","Cerrar",{
           panelClass: ['red-snackbar'],
           duration: 3000
@@ -220,6 +225,7 @@ export class DetalleAlumnoComponent implements OnInit{
       },
       error: (error: any) => console.log("Error en finalizar practica:",error),
       complete: () => {
+        this.service_noti.postnotificacion(this.id_usuario, "El alumno " + this.estudiante.nombre + " ha finalizado su práctica y desea su realización");
         this._snackBar.open("Práctica Finalizada","Cerrar",{
           panelClass: ['red-snackbar'],
           duration: 3000

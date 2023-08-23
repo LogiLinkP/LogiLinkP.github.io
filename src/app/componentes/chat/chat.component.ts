@@ -4,6 +4,7 @@ import { NotisChatService } from 'src/app/servicios/notis-chat/notis-chat.servic
 import { DatePipe } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
+import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
 
 @Component({
   selector: 'app-chat',
@@ -36,11 +37,8 @@ export class ChatComponent implements OnInit {
 
   chatService: any;
 
-  constructor(private _http: HttpClient, 
-              private router: ActivatedRoute,
-              private datetime: DatePipe,
-              private cookieService: CookieService, 
-              private cdr: ChangeDetectorRef) {
+  constructor(private _http: HttpClient, private router: ActivatedRoute, private datetime: DatePipe,
+              private cookieService: CookieService, private cdr: ChangeDetectorRef, private service_noti: NotificacionesService) {
 
     let auth_user = JSON.parse(localStorage.getItem("auth-user") || "{}");
 
@@ -154,7 +152,13 @@ export class ChatComponent implements OnInit {
         console.log("Request aceptada");
       },
       error: (error: any) => console.log("Error en enviar mensaje:",error),  
-      complete: () => {
+      complete: () =>{
+        if(mensaje.emisor == "encargado"){
+          this.service_noti.postnotificacion(this.id_estudiante, "El encargado "+ this.id_encargado +" te ha enviado un mensaje");
+        }
+        else{
+          this.service_noti.postnotificacion(this.id_estudiante, "El encargado "+ this.id_estudiante +" te ha enviado un mensaje");
+        }
         console.log("Mensaje Enviado", mensaje);
         console.log(this.respuesta);
         this.chatService.emitEvent(mensaje);

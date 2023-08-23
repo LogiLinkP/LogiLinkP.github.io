@@ -4,6 +4,7 @@ import { ObtenerDatosService } from '../../servicios/alumno/obtener_datos.servic
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
 
 @Component({
   selector: 'app-iniciar-practica',
@@ -14,12 +15,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class IniciarPracticaComponent implements OnInit{
   @Input() id_estudiante = -1
   @Input() nombre_practica: string = ""
+  @Input() id_usuario = -1
   id_config_practica = -1
   config_practica: any = []
   cantidades: number[] = []
   modalidades: string[] = []
 
-  constructor(private service: GestionarService, private service2: ObtenerDatosService, private _snackBar: MatSnackBar, private route:ActivatedRoute, private router: Router) {}
+  constructor(private service: GestionarService, private service2: ObtenerDatosService,
+              private _snackBar: MatSnackBar, private route:ActivatedRoute, private router: Router,
+              private service_noti: NotificacionesService) {}
 
  enviar(){
     // obtener los datos de los inputs
@@ -99,6 +103,7 @@ export class IniciarPracticaComponent implements OnInit{
                         });
                       },
                       complete: () => {
+                        this.service_noti.postnotificacion(this.id_usuario, "El estudiante "+ this.id_estudiante + " ha comenzado una nueva práctica");
                         let inscripcion_string = "";
                         if (aux.status == 200) {
                           inscripcion_string = "?inscripcion_success=success";
