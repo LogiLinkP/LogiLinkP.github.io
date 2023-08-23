@@ -7,7 +7,7 @@
     <div id="content-wrapper" class="d-flex flex-column">
 
         <!-- Main Content -->
-        <div id="content">
+        <div id="content" class="main-content">
 
             <!-- Topbar -->
             <app-barra-superior></app-barra-superior>
@@ -40,15 +40,15 @@
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let people of alumnos;">
-                                        <td routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.estudiante.usuario.nombre}}</td>
-                                        <td routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.estudiante.rut}}</td>
-                                        <td routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.config_practica.nombre}}</td>
-                                        <td routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.consistencia_informe}}</td>
-                                        <td routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.consistencia_nota}}</td>
-                                        <td routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.estado}}</td>
-                                        <td routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.interpretacion_nota}}</td>
-                                        <td routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.interpretacion_informe}}</td>
-                                        <td routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.nota_evaluacion}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.estudiante.usuario.nombre}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.estudiante.rut}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.config_practica.nombre}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.consistencia_informe}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.consistencia_nota}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.estado}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.interpretacion_nota}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.interpretacion_informe}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.nota_evaluacion}}</td>
                                         <td [ngSwitch]="people.estado" style="vertical-align: center;">
                                             <app-revision *ngSwitchCase="'Evaluada'" [id_estudiante]="people.id_estudiante"
                                                 [id_config_practica]="people.config_practica.id">
@@ -67,14 +67,14 @@
                         </div>
                     </div>
                 </div>
-
+                
             </div>
             <!-- /.container-fluid -->
 
         </div>
         <!-- End of Main Content -->
 
-        <app-footer></app-footer>
+        
 
     </div>
     <!-- End of Content Wrapper -->

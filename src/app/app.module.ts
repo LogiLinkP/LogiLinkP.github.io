@@ -58,6 +58,7 @@ import { BotonSolicitarArchivoComponent } from './componentes/boton-solicitar-ar
 
 import { SubirArchivoExtraComponent } from './componentes/subir-archivo-extra/subir-archivo-extra.component';
 import { SubirArchivoComponent } from './componentes/subir-archivo/subir-archivo.component';
+import { FragmentosComponent } from './vistas/fragmentos/fragmentos.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,8 @@ import { SubirArchivoComponent } from './componentes/subir-archivo/subir-archivo
     TablaComponent,
     ChatComponent,
     SubirArchivoExtraComponent,
-    SubirArchivoComponent
+    SubirArchivoComponent,
+    FragmentosComponent
   ],
   imports: [
     BrowserModule,
@@ -122,7 +124,8 @@ import { SubirArchivoComponent } from './componentes/subir-archivo/subir-archivo
     ArchivosService,
     SupervisorService,
     CookieService,
-    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' }],
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

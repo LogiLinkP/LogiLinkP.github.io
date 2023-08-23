@@ -1,0 +1,24 @@
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <app-barra-lateral-encargado></app-barra-lateral-encargado>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content" class="main-content">
+
+            <!-- Topbar -->
+            <app-barra-superior></app-barra-superior>
+
+            <!-- Begin Page Content -->
+            <p *ngFor="let item of fragmentos_informes">
+                {{item}}
+            </p>
+            <p *ngFor="let item of fragmentos_supervisor">
+                {{item}}
+            </p>
+        </div>
+    </div>
+</div>
