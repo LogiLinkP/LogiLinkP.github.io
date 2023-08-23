@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
@@ -10,7 +10,6 @@ import { CommonModule } from '@angular/common'
 import { DocumentosService } from '../../servicios/encargado/documentos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ArchivosService } from '../../servicios/archivos/archivos.service';
-import { ActivatedRoute, Router} from '@angular/router';
 
 
 export interface DialogData {
@@ -25,21 +24,10 @@ export interface DialogData {
   styleUrls: ['./subir-archivo-extra.component.scss']
 })
 export class SubirArchivoExtraComponent {
-  @Input() id_documento_extra: number = -1;
-  @Input() nombre_solicitud: string = "";
-  @Input() descripcion: string = "";
-  @Input() tipo_archivo: string[] = [];
+  constructor(public dialog: MatDialog, private doc_service: DocumentosService,
+    private _snackBar: MatSnackBar, private archivo_service: ArchivosService) { }
 
-  constructor(public dialog: MatDialog, private doc_service: DocumentosService, private router: Router, 
-              private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, 
-              private archivo_service: ArchivosService) { }
-
-  subir_archivos() {
-    let id_documento_extra = this.id_documento_extra;
-    let nombre_solicitud = this.nombre_solicitud;
-    let descripcion = this.descripcion;
-    let tipo_archivo = this.tipo_archivo;
-
+  subir_archivos(id_documento_extra: number, nombre_solicitud: string, descripcion: string, tipo_archivo: string[]) {
     const dialogRef = this.dialog.open(Dialog, {
       width: '300px',
       enterAnimationDuration: "100ms",
@@ -66,18 +54,22 @@ export class SubirArchivoExtraComponent {
             _data = { ..._data, ...data }
           },
           complete: () => {
-            let upload_string = "";
             if (_data.status == 200) {
-              upload_string = "?upload_success=success";
+              this._snackBar.open("Archivo subido correctamente", "Cerrar", {
+                panelClass: ['green-snackbar'],
+                duration: 3000
+              });
             } else if (_data.status == 415) {
-              upload_string = "?upload_success=format";
+              this._snackBar.open("Archivo con formato incorrecto", "Cerrar", {
+                panelClass: ['red-snackbar'],
+                duration: 3000
+              });
             } else {
-              upload_string = "?upload_success=error";
-            }         
-            // check if the current url already has a query string and remove it
-            let newUrl = this.router.url.split("?")[0];
-            newUrl += upload_string;
-            window.location.href = newUrl;            
+              this._snackBar.open("Error al subir archivo", "Cerrar", {
+                panelClass: ['red-snackbar'],
+                duration: 3000
+              });
+            }
           },
           error: error => {
             if (error.status == 415) {
