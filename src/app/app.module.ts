@@ -102,6 +102,7 @@ import { FragmentosComponent } from './vistas/fragmentos/fragmentos.component';
     MatCardModule,
     MatListModule,
     MatDatepickerModule,
+    MatNativeDateModule,
     MatSelectModule,
     MatToolbarModule,
     TextFieldModule,
