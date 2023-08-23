@@ -15,6 +15,7 @@ import { EmpresasComponent } from './vistas/empresas/empresas.component';
 import { CuestionarioComponent } from './vistas/cuestionario/cuestionario.component';
 import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
 import { ConfiguracionPracticaComponent } from './vistas/configuracion-practica/configuracion-practica.component';
+import { EncuestaFinPracticaComponent } from './vistas/encuesta-fin-practica/encuesta-fin-practica.component';
 
 import { PnfComponent } from './componentes/pnf/pnf.component';
 import { RevisionComponent } from './componentes/revision/revision.component';
@@ -61,6 +62,7 @@ const routes: Routes = [
   { path: 'configurar/:nombre', component: ConfiguracionPracticaComponent},
   { path: environment.ruta_alumno+'/:id/chat/:room/:id1/:id2/:tipo', component: ChatComponent},
   { path: 'chat/:room/:id1/:id2/:tipo', component: ChatComponent},
+  { path: 'encuestaFinal', component: EncuestaFinPracticaComponent },
   { path: '**', component: PnfComponent },
 ];
 
