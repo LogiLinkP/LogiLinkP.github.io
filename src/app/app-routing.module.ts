@@ -23,6 +23,7 @@ import { TestsComponent } from './vistas/tests/tests.component';
 import { EmpresasComponent } from './vistas/empresas/empresas.component';
 import { CuestionarioComponent } from './vistas/cuestionario/cuestionario.component';
 import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
+import { FragmentosComponent } from './vistas/fragmentos/fragmentos.component';
 
 import { environment } from 'src/environments/environment';
 
@@ -57,8 +58,9 @@ const routes: Routes = [
   { path: 'estadisticas', component: EstadisticasComponent },
   { path: 'informaciones', component: InformacionesComponent },
   // { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
-  { path: environment.ruta_alumno+'/:id/chat/:room/:id1/:id2/:tipo', component: ChatComponent},
-  { path: 'chat/:room/:id1/:id2/:tipo', component: ChatComponent},
+  { path: environment.ruta_alumno + '/:id/chat/:room/:id1/:id2/:tipo', component: ChatComponent },
+  { path: 'chat/:room/:id1/:id2/:tipo', component: ChatComponent },
+  { path: "fragmentos/:id", component: FragmentosComponent },
   { path: '**', component: PnfComponent }
 ];
 
