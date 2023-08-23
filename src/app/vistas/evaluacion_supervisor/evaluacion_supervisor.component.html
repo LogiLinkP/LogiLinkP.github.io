@@ -35,8 +35,41 @@
                             </div>
                         </div><!-- Fin tarjeta inicial-->
                         <!-- For que recorre -->
-                        <div class="card border-left-primary shadow h-100 py-2" *ngFor="let pregunta of practica.config_practica.pregunta_supervisors">
-                            "Hola"
+                        <div class="card border-left-primary shadow h-100 py-2" *ngFor="let pregunta of preguntas; let i = index">
+                            <div class="h6 mb-2 ml-2 font-weight-bold text-gray-800"> 
+                                Pregunta {{i+1}} de {{preguntas.length}}
+                            </div>
+                            <div class="h4 mb-3 font-weight-bold text-gray-800 text-center"> 
+                                {{ pregunta.enunciado }}
+                            </div>
+                            <div [ngSwitch]="pregunta.tipo_respuesta" class="d-flex justify-content-center">
+                                <ng-container *ngSwitchCase="'abierta'">
+                                    <textarea class="form-control" rows="3" placeholder="Escriba su respuesta aquí..."></textarea>
+                                </ng-container>
+                                <div class="form-check" *ngSwitchCase="'casillas'"> 
+                                    <div *ngFor="let opcion of pregunta.opciones.split(';;'); let j = index">                              
+                                        <input class="form-check-input" type="checkbox" value="{{opcion}}" id="checkbox{{i}}_{{j}}">
+                                        <label class="form-check-label" for="checkbox{{i}}_{{j}}">
+                                            {{opcion}}
+                                        </label>
+                                    </div>  
+                                </div>
+                                <div class="form-check" *ngSwitchCase="'alternativas'">
+                                    <div *ngFor="let opcion of pregunta.opciones.split(';;'); let j = index">
+                                        <input class="form-check-input" type="radio" name="radio{{i}}" id="radioOpcion{{i}}_{{j}}">
+                                        <label class="form-check-label" for="radioOpcion{{i}}_{{j}}">
+                                            {{opcion}}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-check" *ngSwitchCase="'evaluacion'">
+                                    <!-- make radio input that goes from the number 1 to the number 7 as options--> 
+                                    <div *ngFor="let index of [0,1,2,3,4]; let j = index">                                  
+                                        <input class="form-check-input" type="radio" name="radioEval{{i}}" id="radioEvalOpcion{{i}}_{{j+1}}">
+                                        <label class="form-check-label" for="radioEvalOpcion{{i}}_{{j+1}}">{{j+1}}</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

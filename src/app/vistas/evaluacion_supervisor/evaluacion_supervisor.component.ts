@@ -15,6 +15,7 @@ export class EvaluacionComponent {
   practica: any = {};
   preguntas: any[] = [];
   pregunta_actual = 1;
+
   constructor(private service: SupervisorService, private _snackbar: MatSnackBar, private router: Router, private activated_route: ActivatedRoute) {
 
   }
@@ -99,10 +100,39 @@ export class EvaluacionComponent {
         });
       },
       complete: () => {        
-        //this.practica = practica.body;
-        //console.log("PRACTICA OBTENIDA",practica);
-        //this.id_config_practica = practica.id_config_practica;
-        
+        this.practica = practica.body;
+        console.log("PRACTICA OBTENIDA",practica);
+        if(this.practica.hasOwnProperty('id_config_practica') && this.practica.hasOwnProperty('config_practica')){
+          this.id_config_practica = this.practica.id_config_practica
+          if(this.practica.config_practica.hasOwnProperty('pregunta_supervisors')){
+            this.preguntas = this.practica.config_practica.pregunta_supervisors;
+            console.log("PREGUNTAS",this.preguntas);
+            if(this.preguntas.length > 0){
+              
+            }
+            else{
+              this._snackbar.open("Error: la práctica no tiene preguntas asociadas.", "Cerrar", {
+                duration: 2000,
+                panelClass: ['red-snackbar']
+              });
+              return;
+            }
+          }
+          else{
+            this._snackbar.open("Error: la práctica no tiene preguntas asociadas.", "Cerrar", {
+              duration: 2000,
+              panelClass: ['red-snackbar']
+            });
+            return;
+          }
+        }
+        else{
+          this._snackbar.open("Error: la práctica no tiene configuración asociada.", "Cerrar", {
+            duration: 2000,
+            panelClass: ['red-snackbar']
+          });
+          return;
+        }
       }      
     });
   }
