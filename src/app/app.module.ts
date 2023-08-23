@@ -16,6 +16,9 @@ import { TextFieldModule } from '@angular/cdk/text-field';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MAT_DATE_LOCALE} from '@angular/material/core';
+
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -44,7 +47,7 @@ import { BarraLateralEncargadoComponent } from './componentes/barra-lateral-enca
 import { DatosPracticaComponent } from './componentes/datos-practica/datos-practica.component';
 import { UpInformeComponent } from './componentes/up-informe/up-informe.component';
 import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
-//import { ChatComponent } from './componentes/chat/chat.component';
+import { ChatComponent } from './componentes/chat/chat.component';
 
 
 import { AppRoutingModule, routingComponents } from './app-routing.module';
@@ -54,6 +57,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { BotonSolicitarArchivoComponent } from './componentes/boton-solicitar-archivo/boton-solicitar-archivo.component';
 
 import { SubirArchivoExtraComponent } from './componentes/subir-archivo-extra/subir-archivo-extra.component';
+import { SubirArchivoComponent } from './componentes/subir-archivo/subir-archivo.component';
 
 @NgModule({
   declarations: [
@@ -79,8 +83,9 @@ import { SubirArchivoExtraComponent } from './componentes/subir-archivo-extra/su
     BotonSolicitarArchivoComponent,
     UpInformeComponent,
     TablaComponent,
-    //ChatComponent,,
-    SubirArchivoExtraComponent
+    ChatComponent,
+    SubirArchivoExtraComponent,
+    SubirArchivoComponent
   ],
   imports: [
     BrowserModule,
@@ -115,6 +120,8 @@ import { SubirArchivoExtraComponent } from './componentes/subir-archivo-extra/su
     SetDetallesAlumnoService,
     ArchivosService,
     SupervisorService,
+    CookieService,
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
     CookieService],
   bootstrap: [AppComponent]
 })

@@ -20,7 +20,7 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run build:prod
+        run: npm run build:dev
 
       - name: GitHub Pages
         uses: crazy-max/ghaction-github-pages@v3.1.0

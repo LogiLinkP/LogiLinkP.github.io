@@ -1,6 +1,8 @@
 import { Component, OnInit} from '@angular/core';
 import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'alumno',
@@ -8,41 +10,144 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./alumno.component.scss']
 })
 export class DetalleAlumnoComponent implements OnInit{
-  id_alumno: number = -1;
-  alumno:any = []
-  practica: any = [];
+  id_usuario: number = -1;
+  estudiante:any = [];  
+  config_practica: any = [];
+  practicas: any = [];
+  //Se deberían mostrar todos los tipos de practica que se pueden realizar - el desafío aquí es
+  //que definimos que en la tabla se van a repetir los nombres para cada modalidad de tiempo, por ejemplo
+  //por lo que hay que preocuparse de extraer sólo los nombres distintos
+  nombres_distintos_config_practica: any = [];
+  //Además, va ha haber que hacer una correspondencia entre la práctica que está dando el estudiante y la
+  //posición del nombre en el arreglo anterior, por lo que se crea un arreglo de arreglos, que va a tener
+  //como primer elemento el nombre de la práctica y como segundo elemento la practica de ese tipo, si es que la está realizando
+  practicas_correspondiente_nombre: any = [];
+
   flag: boolean = false;
 
   link_finalizacion = ""
   link_inscripcion = ""
+  doc_str = "documento";
+  doc_extra_str = "documento_extra";
 
-  constructor(private service: ObtenerDatosService , private router: ActivatedRoute) {
-    this.router.params.subscribe(params => {this.id_alumno = +params['id'];});
+  constructor(private service: ObtenerDatosService , private route: ActivatedRoute, private _snackBar: MatSnackBar) {
+    this.id_usuario = parseInt(this.route.snapshot.paramMap.get('id') || "-1");
   }
 
   ngOnInit() {
     let respuesta: any = {};
 
-    this.service.obtener_alumno(this.id_alumno).subscribe({
+    // Request para obtener al estudiante de acuerdo a su id de usuario
+    this.service.obtener_estudiante(this.id_usuario).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
       error: (error: any) => console.log(error),
       complete: () => {
-        this.alumno = respuesta.body;
-        this.link_finalizacion = "/alumno/"+this.alumno.id+"/finalizacion/1";
-        this.link_inscripcion = "/alumno/"+this.alumno.id+"/iniciarpractica/1"; 
+        this.estudiante = respuesta.body;
+
+        // Request para obtener las practicas de acuerdo al id del estudiante
+        this.service.obtener_todos_config_practica().subscribe({
+          next: (data: any) => {
+            respuesta = { ...respuesta, ...data }
+          }      ,
+          error: (error: any) => console.log(error),
+          complete: () => {
+            this.config_practica = respuesta.body;
+            console.log("Configuraciones de practica:",this.config_practica)
+            // Guardar los distintos nombres de las practicas en un arreglo
+            this.config_practica.forEach((element: any) => {
+              if(!this.nombres_distintos_config_practica.includes(element.nombre)){
+                this.nombres_distintos_config_practica.push(element.nombre)
+                this.practicas_correspondiente_nombre.push([element.nombre])
+              }
+            });
+            console.log("Nombres de configuraciones de practica:",this.nombres_distintos_config_practica)
+
+            // Request para obtener todas las practicas de acuerdo al id del estudiante
+            this.service.obtener_practica(this.estudiante.id).subscribe({
+              next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+              },
+              error: (error: any) => console.log(error),
+              complete: () => {
+                this.practicas = respuesta.body;
+                console.log("Practicas:",this.practicas)
+
+                // Guardar nombres y practicas en un arreglo
+                this.practicas.forEach((element: any) => {
+                  // Para cada practica que el alumno tiene, encontrar el nombre de la configuracion de practica en el arreglo
+                  // de nombres distintos y agregar la practica en el arreglo que se encarga de mantener la correspondencia entre nombre y practica
+                  if(element.config_practica.nombre == this.nombres_distintos_config_practica.find((elemento: any) => elemento == element.config_practica.nombre)){
+                    let index = this.nombres_distintos_config_practica.indexOf(element.config_practica.nombre);
+                    this.practicas_correspondiente_nombre[index].push(element);                    
+                  }
+                });                
+                console.log("Practicas correspondientes a nombre:",this.practicas_correspondiente_nombre)
+              }
+            });
+          }
+        });
       }
-    });
+    });   
+  }
+
+  ingresarInforme(practica: any){
+    let respuesta: any = {};
+    let key = (document.getElementById("informe") as HTMLInputElement).value;
+    let horas_trabajadas = (document.getElementById("horas") as HTMLInputElement).valueAsNumber;
+    let id_config_informe = practica.config_practica.id;
+
+    if (Number.isNaN(horas_trabajadas)){
+      horas_trabajadas = 0;
+    }
+
+    console.log("id_practica:", practica.id);
+    console.log("casilla horas:", horas_trabajadas);
     
-    this.service.obtener_practica(this.id_alumno).subscribe({
+    this.service.ingresar_informe(practica.id, key, id_config_informe, horas_trabajadas).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
+        console.log("Respuesta ingresar informe:",data);
       },
-      error: (error: any) => console.log(error),
+      error: (error: any) => console.log("Error en ingresar informe:",error),
       complete: () => {
-        this.practica = respuesta.body;
+        this._snackBar.open("Informe Ingresado","Cerrar",{
+          panelClass: ['red-snackbar'],
+          duration: 3000
+        })
+        window.location.reload();
       }
     });
   }
+
+  
+  descargar_documento(documento_id: string, solicitud_tipo: string) {
+    console.log("decargar documento")
+    // abrir nueva pestaña con url de descarga, que es url_backend (sacada desde el env) + /documentos/ + documento_key
+    if(solicitud_tipo == "documento"){
+      window.open(environment.url_back+"/documento/download?id=" + documento_id, "_blank");
+    } 
+    else{
+      window.open(environment.url_back+"/documento_extra/download?id=" + documento_id, "_blank");
+    }
+  }
+
+  mostrar_informe(informes: any, informe_id: string) {
+    console.log("informes:",informes,"id",informe_id)
+    // abrir una ventana modal que muestre el texto del informe
+    let informe = informes.find((informe: any) => informe.id == informe_id);
+    if(informe){
+      // abrir una ventana pequeña que muestre el texto del informe dentro de un textarea
+      let ventana = window.open("", "_blank", "width=800,height=400");
+      if (!ventana) {
+        alert("Por favor, deshabilite el bloqueador de ventanas emergentes para este sitio");
+      }
+      else{
+        ventana.document.write("<textarea style='width: 100%; height: 100%; resize: none; border: none;'>" + informe.key + "</textarea>");
+      }
+    }    
+  } 
 }
+
+

@@ -38,10 +38,12 @@ export class LoginComponent {
         response = {...response,...data}
       },
       error: err => {
+        console.log(err)
         console.log("Error de inicio de sesion");
       },
       complete: () => {
           console.log(response.body.userdata)
+          const {message,userdata,token} = response.body;
           this.dataUsuario = response.body.userdata
           this.storage.saveUser(response.body) //¿response.body.userdata?
           if (this.dataUsuario.es_encargado) {

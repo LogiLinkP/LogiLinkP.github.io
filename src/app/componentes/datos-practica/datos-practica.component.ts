@@ -10,8 +10,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 
 export class DatosPracticaComponent implements OnInit{
-  id_alumno: number = -1;
-  alumno:any = []
+  id_estudiante: number = -1;
+  estudiante:any = []
   practica: any = [];
   config_practica: any = [];
   permitir_finalizacion: boolean = true;
@@ -19,73 +19,25 @@ export class DatosPracticaComponent implements OnInit{
   link_finalizacion = ""
 
   constructor(private service: ObtenerDatosService, private router: ActivatedRoute, private _snackBar: MatSnackBar) {
-    this.router.params.subscribe(params => {this.id_alumno = +params['id'];});
+    this.router.params.subscribe(params => {this.id_estudiante = +params['id'];});
   }
 
-  ingresarInforme(){
-    let respuesta: any = {};
-    let key = (document.getElementById("informe") as HTMLInputElement).value;
-    let horas = (document.getElementById("horas") as HTMLInputElement).valueAsNumber;
-    let horas_actuales = this.practica.horas;
-
-
-    if (Number.isNaN(horas)){
-      horas = 0;
-    }
-    if (Number.isNaN(horas_actuales)){
-      horas_actuales = 0;
-    }
-
-    let horas_nuevas = horas_actuales + horas;
-
-    console.log("id_practica:",this.practica.id);
-    console.log("casilla horas:",horas);
-    console.log("cantidad horas en base de datos:",horas_actuales);
-    console.log("cantidad a ingresar en bd:",horas_nuevas);
-
-    //actualizar horas
-    
-    this.service.actualizar_hora(this.practica.id, horas_nuevas).subscribe({
-      next: (data: any) => {
-        respuesta = { ...respuesta, ...data }
-        console.log("Respuesta actualizar horas:",data);
-      },
-      error: (error: any) => console.log("Error en actualizar hora:",error),  
-      complete: () => {
-        let id_config_informe = 1;
-        console.log("Ingresar informe");
-        this.service.ingresar_informe(this.practica.id, key, id_config_informe).subscribe({
-          next: (data: any) => {
-            respuesta = { ...respuesta, ...data }
-            console.log("Respuesta ingresar informe:",data);
-          },
-          error: (error: any) => console.log("Error en ingresar informe:",error),
-          complete: () => {
-            this._snackBar.open("Informe Ingresado","Cerrar",{
-              panelClass: ['red-snackbar'],
-              duration: 3000
-            })
-            window.location.reload();
-          }
-    });
-      }
-    });
-  }
+  
 
   ngOnInit() {
     let respuesta: any = {};
-    this.service.obtener_alumno(this.id_alumno).subscribe({
+    this.service.obtener_estudiante(this.id_estudiante).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
       error: (error: any) => console.log(error),
       complete: () => {
-        this.alumno = respuesta.body;
-        this.link_finalizacion = "/alumno/"+this.alumno.id+"/finalizacion/1";
+        this.estudiante = respuesta.body;
+        this.link_finalizacion = "/alumno/"+this.estudiante.id+"/finalizacion/1";
       }
     });
     
-    this.service.obtener_practica(this.id_alumno).subscribe({
+    this.service.obtener_practica(this.id_estudiante).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
