@@ -17,7 +17,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
+import {MAT_DATE_LOCALE} from '@angular/material/core';
 
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
