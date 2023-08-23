@@ -32,6 +32,10 @@ export class IniciarPracticaComponent implements OnInit{
     let rut_empresa = (document.getElementById("rut_empresa"+this.nombre_practica) as HTMLInputElement).value
     let fecha_inicio = (document.getElementById("fecha_inicio"+this.nombre_practica) as HTMLInputElement).value
 
+    //convertir fecha_inicio a formato yyyy-mm-dd para que sea compatible con la base de datos
+    let fecha_inicio_array = fecha_inicio.split("/")
+    fecha_inicio = fecha_inicio_array[2] + "-" + fecha_inicio_array[1] + "-" + fecha_inicio_array[0]
+
     let aux:any = {}
 
     if(modalidad == "" || cantidad == "" || nombre_supervisor == "" || correo_supervisor == "" || nombre_empresa == "" || rut_empresa == "" || fecha_inicio == ""){
