@@ -15,4 +15,12 @@ export class PreguntasEncuestaFinalService {
     return this._http.request(req);
   }
 
+  agregar_respuesta(id_pregunta_encuesta_final: number, respuesta: string) {
+    const req = new HttpRequest('POST', `${environment.url_back}/respuesta_encuesta_final/crear`, {
+      id_pregunta_encuesta_final: id_pregunta_encuesta_final,
+      respuesta: respuesta
+    });
+    return this._http.request(req);
+  }
+
 }

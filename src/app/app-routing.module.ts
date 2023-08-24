@@ -62,7 +62,7 @@ const routes: Routes = [
   { path: 'configurar/:nombre', component: ConfiguracionPracticaComponent},
   { path: environment.ruta_alumno+'/:id/chat/:room/:id1/:id2/:tipo', component: ChatComponent},
   { path: 'chat/:room/:id1/:id2/:tipo', component: ChatComponent},
-  { path: 'encuestaFinal', component: EncuestaFinPracticaComponent },
+  { path: 'encuestaFinal/:id_config_practica', component: EncuestaFinPracticaComponent },
   { path: '**', component: PnfComponent },
 ];
 
