@@ -14,7 +14,7 @@
                 <!-- Page Heading -->
                 <div class="row">
                         <div class="col-xl-10">
-                            <h1 class="h3 mb-2 text-gray-800">Prácticas de {{ estudiante.usuario.nombre }} <br></h1>
+                            <h1 class="h3 mb-2 text-gray-800">Prácticas de {{ usuario.nombre }} <br></h1>
                             <p class="mb-4">Aquí puedes ver tus prácticas cursadas, en curso o no iniciadas aún.</p>
                         </div>
                 </div>
@@ -32,7 +32,7 @@
                                 <!-- Carta que se muestra en caso de que alumno efectivamente tenga una practica registrada -->
                                 <div *ngSwitchCase="2">
                                     <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample" v-on:click="getPractica(nombre)">
-                                        <h2 class="m-0 font-weight-bold text-primary">{{ practica[0] }} </h2>
+                                        <h2 class="m-0 font-weight-bold text-primary">{{ practica}} </h2>
                                         <div class="m-0 text-gray-800">Estado: {{ practica[1]?.estado }}</div>                                        
                                     </a>  
                                     <div  class="collapse show" id="collapseCardExample">

@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
 })
 export class GestionarService {
 
-  constructor(private service: GetDetallesAlumnoService, private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   registrar_empresa(nombre_empresa: string, rut_empresa: string) {
     console.log("Registrando empresa con nombre: ", nombre_empresa, " y rut: ", rut_empresa)
@@ -39,12 +39,12 @@ export class GestionarService {
     return this.http.request(req);
   }
 
-  registrar_practica(id_estudiante: number, id_config_practica: number, fecha_inicio: string,
+  registrar_practica(id_estudiante: number, id_modalidad: number, fecha_inicio: string,
                       id_empresa:number, id_supervisor:number, id_encargado:number) {
     const nueva_practica = {
       estado: environment.estado_practica.en_curso,
       id_estudiante: id_estudiante,
-      id_config_practica: id_config_practica,
+      id_modalidad: id_modalidad,
       fecha_inicio: fecha_inicio,
       horas: 0,
       id_empresa: id_empresa,
