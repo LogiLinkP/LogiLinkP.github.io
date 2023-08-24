@@ -39,14 +39,6 @@ export class ConfigService {
         return this._http.request(req);
     }
 
-    getPreguntasInforme(id_config_practica: number) { //! deprecated?
-        const req = new HttpRequest('GET', `${environment.url_back}/modalidad/id_config_practica?id=${id_config_practica}`, {
-            responseType: 'json'
-        });
-
-        return this._http.request(req);
-    }
-
     getPreguntaEncuestaFinal(id_config_practica: number) {
         const req = new HttpRequest('GET', `${environment.url_back}/pregunta_encuesta_final/id_config_practica?id_config_practica=${id_config_practica}`, {
             responseType: 'json'
@@ -56,6 +48,14 @@ export class ConfigService {
     }
 
     getPreguntaSupervisor(id_config_practica: number) {
+        const req = new HttpRequest('GET', `${environment.url_back}/pregunta_supervisor/id_config_practica?id=${id_config_practica}`, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
+    getPreguntasInforme(id_config_practica: number) { //! deprecated?
         const req = new HttpRequest('GET', `${environment.url_back}/modalidad/id_config_practica?id=${id_config_practica}`, {
             responseType: 'json'
         });

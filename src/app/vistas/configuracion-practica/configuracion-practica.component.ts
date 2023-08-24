@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table'
 
 import { BarraLateralService } from 'src/app/servicios/encargado/barra-lateral/barra-lateral.service';
 import { ConfigService } from 'src/app/servicios/encargado/config-practica/config.service';
+import { response } from 'express';
 
 @Component({
   selector: 'app-configuracion-practica',
@@ -117,13 +118,13 @@ export class ConfiguracionPracticaComponent implements OnInit {
             complete: () => {
                 this.config = respuesta.body;
                 console.log("request practica existente:", this.config);
-                this.generarFormulario(this.config[0].id); //se asume que la primera que se creó es la buena
+                this.generarFormulario(this.config.id);
                 }
             });
         }
     };
 
-    async generarFormulario(id_config_practica: number) {
+    generarFormulario(id_config_practica: number) {
         let respuesta: any = {};
 
         // set valores iniciales
@@ -165,10 +166,10 @@ export class ConfiguracionPracticaComponent implements OnInit {
             this.flag = true;
 
         } else {
-            // set basicos
-            this.nombrePractica = this.config[0].nombre;
-            this.frecuenciaInformes = this.config[0].frecuencia_informes;
-            this.informeFinal = this.config[0].informe_final;
+            //* set basicos
+            this.nombrePractica = this.config.nombre;
+            this.frecuenciaInformes = this.config.frecuencia_informes;
+            this.informeFinal = this.config.informe_final;
 
             //* set modalidad
             this.serviceComplete.getModalidades(id_config_practica).subscribe({ 
@@ -185,7 +186,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
                 complete: () => {
                     console.log("request modalidades existentes:", respuesta.body);
 
-                    //set modalidades
+                    //* set modalidades
                     for (let i = 0; i < respuesta.body.length; i++) {
                         if (respuesta.body[i].tipo_modalidad == "horas") {
                             this.horas = true;
@@ -211,7 +212,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
                         complete: () => {
                             console.log("request config informe:", respuesta.body);
                             
-                            // set preguntas informe
+                            //* set preguntas informe
                             for (let i = 0; i < respuesta.body[0].pregunta_informes.length; i++) {
                                 if (respuesta.body[0].tipo_informe == "informe final") {
                                     this.lista_preguntas_final.push(respuesta.body[0].pregunta_informes[i].enunciado);
@@ -245,35 +246,57 @@ export class ConfiguracionPracticaComponent implements OnInit {
                                         this.lista_opciones_preguntas_encuesta.push(respuesta.body[i].opciones);
                                     }
 
-                                    this.fg = this._fb.group({
-                                        opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
-                                        opcion_horasFORM: this.opcion_horas,
-                                        opcion_mesesFORM: this.opcion_meses,
-                                
-                                        nombrePractica: new FormControl(this.nombrePractica),
-                                        cant_horas: this.cant_horas,
-                                        cant_meses: this.cant_meses,
-                                        horas: new FormControl(this.horas),
-                                        meses: new FormControl(this.meses),
-                                        frecuenciaInformes: new FormControl(this.frecuenciaInformes),
-                                        informeFinal: new FormControl(this.informeFinal),
-                                        //pregunta: this.preguntaFORM,
-                                
-                                        preguntaFORM: this.pregunta,
-                            
-                                        ramoFORM: this.ramo,
-                                        
-                                        arregloOpcionesPreguntas: this._fb.array([]),
-                                        arregloHoras: this._fb.array([]),
-                                        arregloMeses: this._fb.array([]),
-                            
-                                        //documentos
-                                        nombre_solicitud_documentos: new FormControl(this.nombre_solicitud_documentos),
-                                        descripcion_solicitud_documentos: new FormControl(this.descripcion_solicitud_documentos),
-                                        tipo_solicitud_documentos: new FormControl(this.tipo_solicitud_documentos),
-                                    });
-                                    this.flag = true;
+                                    //* set preguntas supervisor
+                                    this.serviceComplete.getPreguntaSupervisor(id_config_practica).subscribe({
+                                        next: (data: any) => {
+                                            respuesta = { ...respuesta, ...data }
+                                        },
+                                        error: (error: any) => {
+                                            this._snackBar.open("Error al buscar pregunta supervisor", "Cerrar", {
+                                            duration: 3000,
+                                            panelClass: ['red-snackbar']
+                                            });
+                                            console.log("Error al buscar pregunta supervisor", error);
+                                        },
+                                        complete: () => {
+                                            console.log("pregunta supervisor:", respuesta.body);
+                                            for (let i = 0; i < respuesta.body.length; i++) {
+                                                this.lista_preguntas_supervisor.push(respuesta.body[i].enunciado);
+                                                this.tipos_preguntas_supervisor.push(respuesta.body[i].tipo_respuesta);
+                                                this.lista_opciones_preguntas_supervisor.push(respuesta.body[i].opciones);
+                                            } 
 
+                                            this.fg = this._fb.group({
+                                                opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
+                                                opcion_horasFORM: this.opcion_horas,
+                                                opcion_mesesFORM: this.opcion_meses,
+                                        
+                                                nombrePractica: new FormControl(this.nombrePractica),
+                                                cant_horas: this.cant_horas,
+                                                cant_meses: this.cant_meses,
+                                                horas: new FormControl(this.horas),
+                                                meses: new FormControl(this.meses),
+                                                frecuenciaInformes: new FormControl(this.frecuenciaInformes),
+                                                informeFinal: new FormControl(this.informeFinal),
+                                                //pregunta: this.preguntaFORM,
+                                        
+                                                preguntaFORM: this.pregunta,
+                                    
+                                                ramoFORM: this.ramo,
+                                                
+                                                arregloOpcionesPreguntas: this._fb.array([]),
+                                                arregloHoras: this._fb.array([]),
+                                                arregloMeses: this._fb.array([]),
+                                    
+                                                //documentos
+                                                nombre_solicitud_documentos: new FormControl(this.nombre_solicitud_documentos),
+                                                descripcion_solicitud_documentos: new FormControl(this.descripcion_solicitud_documentos),
+                                                tipo_solicitud_documentos: new FormControl(this.tipo_solicitud_documentos),
+                                            });
+                                            this.flag = true;
+
+                                        }
+                                    });
                                 }
                             });
                         }
