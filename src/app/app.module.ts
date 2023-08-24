@@ -59,6 +59,7 @@ import { BotonSolicitarArchivoComponent } from './componentes/boton-solicitar-ar
 import { SubirArchivoExtraComponent } from './componentes/subir-archivo-extra/subir-archivo-extra.component';
 import { SubirArchivoComponent } from './componentes/subir-archivo/subir-archivo.component';
 import { EncuestaFinPracticaComponent } from './vistas/encuesta-fin-practica/encuesta-fin-practica.component';
+import { FragmentosComponent } from './vistas/fragmentos/fragmentos.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { EncuestaFinPracticaComponent } from './vistas/encuesta-fin-practica/enc
     SubirArchivoExtraComponent,
     SubirArchivoComponent,
     EncuestaFinPracticaComponent,
+    FragmentosComponent
   ],
   imports: [
     BrowserModule,
@@ -102,6 +104,7 @@ import { EncuestaFinPracticaComponent } from './vistas/encuesta-fin-practica/enc
     MatCardModule,
     MatListModule,
     MatDatepickerModule,
+    MatNativeDateModule,
     MatSelectModule,
     MatToolbarModule,
     TextFieldModule,

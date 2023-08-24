@@ -12,55 +12,135 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 
 export class IniciarPracticaComponent implements OnInit{
-
   @Input() id_estudiante = -1
   @Input() nombre_practica: string = ""
+  id_config_practica = -1
   config_practica: any = []
-  id_config_practica_seleccionada: number = -1
   cantidades: number[] = []
-  modalidades: string[] = []
+  modalidades: any = []
 
-  constructor(private service: GestionarService, private service2: ObtenerDatosService, private _snackBar: MatSnackBar, private route:ActivatedRoute, private router: Router) {}
+  constructor(private service: GestionarService, private service2: ObtenerDatosService, private _snackBar: MatSnackBar, private router: Router) {}
 
  enviar(){
-    console.log("ENVIAR")
-  
+    // obtener los datos de los inputs
+    let modalidad = (document.getElementById("modalidad"+this.nombre_practica) as HTMLInputElement).value
+    let cantidad = (document.getElementById("cantidad"+this.nombre_practica) as HTMLInputElement).value
+
     let nombre_supervisor = (document.getElementById("nombre_supervisor"+this.nombre_practica) as HTMLInputElement).value
     let correo_supervisor = (document.getElementById("correo_supervisor"+this.nombre_practica) as HTMLInputElement).value
     let nombre_empresa = (document.getElementById("nombre_empresa"+this.nombre_practica) as HTMLInputElement).value
     let rut_empresa = (document.getElementById("rut_empresa"+this.nombre_practica) as HTMLInputElement).value
     let fecha_inicio = (document.getElementById("fecha_inicio"+this.nombre_practica) as HTMLInputElement).value
 
-    console.log("ENVIAR2")
+    //convertir fecha_inicio a formato yyyy-mm-dd para que sea compatible con la base de datos
+    let fecha_inicio_array = fecha_inicio.split("/")
+    fecha_inicio = fecha_inicio_array[2] + "-" + fecha_inicio_array[1] + "-" + fecha_inicio_array[0]
 
-    console.log(this.id_estudiante)
+    let aux:any = {}
 
-    let aux:any = {} 
+    if(modalidad == "" || cantidad == "" || nombre_supervisor == "" || correo_supervisor == "" || nombre_empresa == "" || rut_empresa == "" || fecha_inicio == ""){
+      this._snackBar.open("Debe llenar todos los campos", "Cerrar", {
+        panelClass: ['red-snackbar'],
+        duration: 3000
+      });
+      return
+    }
 
-    this.service.registrar_practica(this.id_estudiante, this.id_config_practica_seleccionada, nombre_supervisor, correo_supervisor, nombre_empresa, rut_empresa, fecha_inicio).subscribe(
-      {
-        next: (data: any) => {
-          aux = {...aux, ...data}
-          console.log("DATA EN NEXT:",data)
-        },
-        error: error => {
-          console.log("ERROR EN REGISTRAR PRACTICA",error)
-        },
-        complete: () => {
-          console.log("Esto en complietetware:",aux)
-          this._snackBar.open("Práctica iniciada", "Cerrar", {
-            panelClass: ['green-snackbar']
-          });
-          window.location.reload()
-        }
+    this.service.buscar_config_practica(this.nombre_practica).subscribe({ // Ahora el nombre debería ser único
+      next: (data: any) => {
+        aux = { ...aux, ...data }
+      },
+      error: (error: any) => console.log(error),
+      complete: () => {
+        console.log("config_practica encontrada")
+        this.id_config_practica = aux.body.id
+        console.log("ID DE CONFIG PRACTICA", this.id_config_practica)
+
+        this.service.buscar_modalidad(this.id_config_practica, modalidad, parseInt(cantidad)).subscribe({
+          next: (data: any) => {
+            aux = { ...aux, ...data }
+          },
+          error: (error: any) => console.log(error),
+          complete: () => {
+            console.log("modalidad encontrada")
+            let id_modalidad = aux.body.id
+            console.log("ID DE MODALIDAD", id_modalidad)
+            
+            // INICIO DE CREACION DE EMPRESA, SUPERVISOR Y PRACTICA
+            this.service.registrar_empresa(nombre_empresa, rut_empresa).subscribe({
+              next: (data: any) => {
+                aux = { ...aux, ...data }
+              },
+              error: (error: any) => console.log("Error:",error),
+              complete: () => {
+                console.log("empresa registrada")
+                // parse de body as json
+                let id_empresa = aux.body.id
+                console.log("ID DE EMPRESA", id_empresa)
+        
+                this.service.registrar_supervisor(nombre_supervisor, correo_supervisor).subscribe({
+                  next: (data: any) => {
+                    aux = { ...aux, ...data }
+                  },
+                  error: (error: any) => console.log(error),
+                  complete: () => {
+                    console.log("supervisor registrado")
+                    let id_supervisor = aux.body.id
+                    console.log("ID DE SUPERVISOR", id_supervisor)
+
+                    this.service.buscar_encargados().subscribe({
+                      next: (data: any) => {
+                        aux = { ...aux, ...data }
+                      },
+                      error: (error: any) => console.log(error),
+                      complete: () => {
+                        console.log("encargados encontrados")
+                        //seleccionar el primer encargado
+                        let id_encargado = aux.body[0].id
+                        console.log("ID DE ENCARGADO", id_encargado)
+
+                        this.service.registrar_practica(this.id_estudiante, id_modalidad, fecha_inicio, 
+                                                        id_empresa, id_supervisor, id_encargado).subscribe({
+                          next: (data: any) => {
+                            aux = { ...aux, ...data }
+                          },
+                          error: (error: any) => {
+                            // use snackbar to show error
+                            console.log(error)
+                            this._snackBar.open("Error al iniciar practica", "Cerrar", {
+                              panelClass: ['red-snackbar'],
+                              duration: 3000
+                            });
+                          },
+                          complete: () => {
+                            let inscripcion_string = "";
+                            if (aux.status == 200) {
+                              inscripcion_string = "?inscripcion_success=success";
+                            } else{
+                              inscripcion_string = "?inscripcion_success=error";
+                            }         
+                            let newUrl = this.router.url.split("?")[0];
+                            newUrl += inscripcion_string;
+                            window.location.href = newUrl;
+                          }
+                        });
+                      }                  
+                    });              
+                  }
+                });
+              }
+            });
+          }
+        });
       }
-    )
+    });
+    // Crear empresa, supervisor y practica
+    
   } 
 
   ngOnInit() {
     let respuesta: any = {};
     
-    console.log("En componente iniciar practica el nombre es:",this.nombre_practica)
     this.service2.obtener_config_practica(this.nombre_practica).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
@@ -69,9 +149,14 @@ export class IniciarPracticaComponent implements OnInit{
       complete: () => {
         this.config_practica = respuesta.body
 
+        let modalidades_nombres: string[] = []
+
         // iterar sobre config_practica y llenar el array de modalidades con config_practica.modalidad
-        this.config_practica.forEach((element: any) => {
-          this.modalidades.push(element.modalidad)
+        this.config_practica.modalidads.forEach((element: any) => {
+          this.modalidades.push(element)          
+          if(!modalidades_nombres.includes(element.tipo_modalidad)){
+            modalidades_nombres.push(element.tipo_modalidad)   
+          }                
         });
 
         console.log("modalidades definidas para la practica",this.nombre_practica,this.modalidades)
@@ -80,10 +165,10 @@ export class IniciarPracticaComponent implements OnInit{
         var dropdown = document.getElementById("modalidad"+this.nombre_practica)
         
         // actualizar el dropdown de modalidad con el contenido de this.modalidades
-        for (let i = 0; i < this.modalidades.length; i++) {
+        for (let i = 0; i < modalidades_nombres.length; i++) {
           var option = document.createElement("option")
-          option.text = this.modalidades[i]
-          option.value = this.modalidades[i]
+          option.text = modalidades_nombres[i]
+          option.value = modalidades_nombres[i]
           dropdown?.appendChild(option)
         }
 
@@ -101,24 +186,30 @@ export class IniciarPracticaComponent implements OnInit{
     }
     this.cantidades = []
     
-    this.config_practica.forEach((element: any) => {
-      if(element.modalidad == modalidad.target.value){
-        this.cantidades.push(element.cantidad_tiempo)
+    this.modalidades.forEach((element: any) => {
+      if(element.tipo_modalidad == modalidad.target.value){
+        if(!this.cantidades.includes(element.cantidad_tiempo)){
+          this.cantidades.push(element.cantidad_tiempo)
+        }
       }
     });
 
     var dropdown_cantidad = document.getElementById("cantidad"+this.nombre_practica)
     
     // actualizar el dropdown de cantidad con el contenido de this.cantidades
-    for (let i = 0; i < this.cantidades.length; i++) {
-      //chequear si cantidades[i] es un numero
-      if(isNaN(this.cantidades[i])){
-        continue
+    if(this.cantidades.length > 0){
+      if(this.cantidades[0] != null){
+        for (let i = 0; i < this.cantidades.length; i++) {
+          //chequear si cantidades[i] es un numero
+          if(isNaN(this.cantidades[i])){
+            continue
+          }
+          var option = document.createElement("option")
+          option.text = this.cantidades[i].toString()
+          option.value = this.cantidades[i].toString()
+          dropdown_cantidad?.appendChild(option)
+        }
       }
-      var option = document.createElement("option")
-      option.text = this.cantidades[i].toString()
-      option.value = this.cantidades[i].toString()
-      dropdown_cantidad?.appendChild(option)
     }
   }
 

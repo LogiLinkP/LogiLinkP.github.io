@@ -60,6 +60,7 @@ export class DetallePracticaComponent implements OnInit{
         },
         complete: () => {
           this.practica = respuesta.body;
+          console.log("practicA: ", this.practica);
           this.documentos = this.practica.documentos;
           this.documento_extras = this.practica.documento_extras;
           this.informes = this.practica.informes;
@@ -97,6 +98,10 @@ export class DetallePracticaComponent implements OnInit{
   }
 
   ngOnInit() {
+  }
+
+  isDataEmpty(data:any): boolean {
+    return Object.keys(data).length === 0 && data.constructor === Object;
   }
 
   aprobar(id_estudiante: number, id_config_practica: number, aprobacion: 0 | 1) {

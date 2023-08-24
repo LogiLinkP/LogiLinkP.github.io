@@ -19,7 +19,7 @@ export class TablaComponent{
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
 
-  alumnos: any = [];
+  practicas: any = [];
 
   constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar) {
     this.dtOptions = {
@@ -27,7 +27,7 @@ export class TablaComponent{
         url: 'assets/localisation/es-es.json'
       },
       drawCallback: () => {
-        console.log(this.alumnos);
+        console.log(this.practicas);
       }
     };
 
@@ -37,14 +37,14 @@ export class TablaComponent{
         respuesta = { ...respuesta, ...data }
       },
       error: (error: any) => {
-        this.alumnos = [];
+        this.practicas = [];
         this._snackBar.open("Error al solicitar datos", "Cerrar", {
           duration: 10000,
           panelClass: ['red-snackbar']
         });
       },
       complete: () => {
-        this.alumnos = respuesta.body.map((alumno: any) => {
+        this.practicas = respuesta.body.map((alumno: any) => {
           alumno.consistencia_nota = alumno.consistencia_nota ? `${Math.round(100 * alumno.consistencia_nota)}%` : "—";
           alumno.consistencia_informe = alumno.consistencia_informe ? `${Math.round(100 * alumno.consistencia_informe)}%` : "—";
           alumno.nota_evaluacion = alumno.nota_evaluacion ? alumno.nota_evaluacion : "—";
@@ -57,12 +57,6 @@ export class TablaComponent{
     });
   }
   rerender(): void {
-    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      // Destroy the table first
-      dtInstance.destroy();
-      // Call the dtTrigger to rerender again
-      this.dtTrigger.next(0);
-    });
   }
 
   ngAfterViewInit(): void {

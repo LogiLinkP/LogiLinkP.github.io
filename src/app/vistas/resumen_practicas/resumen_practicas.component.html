@@ -39,25 +39,25 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let people of alumnos;">
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.estudiante.usuario.nombre}}</td>
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.estudiante.rut}}</td>
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.config_practica.nombre}}</td>
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.consistencia_informe}}</td>
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.consistencia_nota}}</td>
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.estado}}</td>
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.interpretacion_nota}}</td>
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.interpretacion_informe}}</td>
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{people.id}}">{{people.nota_evaluacion}}</td>
-                                        <td [ngSwitch]="people.estado" style="vertical-align: center;">
-                                            <app-revision *ngSwitchCase="'Evaluada'" [id_estudiante]="people.id_estudiante"
-                                                [id_config_practica]="people.config_practica.id">
+                                    <tr *ngFor="let practica of practicas;">
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}">{{practica.estudiante.usuario.nombre}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}">{{practica.estudiante.rut}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}">{{practica.modalidad.config_practica.nombre}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}">{{practica.consistencia_informe}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}">{{practica.consistencia_nota}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}">{{practica.estado}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}">{{practica.interpretacion_nota}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}">{{practica.interpretacion_informe}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}">{{practica.nota_evaluacion}}</td>
+                                        <td [ngSwitch]="practica.estado" style="vertical-align: center;">
+                                            <app-revision *ngSwitchCase="'Evaluada'" [id_estudiante]="practica.id_estudiante"
+                                                [id_config_practica]="practica.modalidad.config_practica.id">
                                             </app-revision>
-                                            <app-revision *ngSwitchCase="'Aprobada'" [id_estudiante]="people.id_estudiante"
-                                                [id_config_practica]="people.config_practica.id">
+                                            <app-revision *ngSwitchCase="'Aprobada'" [id_estudiante]="practica.id_estudiante"
+                                                [id_config_practica]="practica.modalidad.config_practica.id">
                                             </app-revision>
-                                            <app-revision *ngSwitchCase="'Reprobada'" [id_estudiante]="people.id_estudiante"
-                                                [id_config_practica]="people.config_practica.id">
+                                            <app-revision *ngSwitchCase="'Reprobada'" [id_estudiante]="practica.id_estudiante"
+                                                [id_config_practica]="practica.modalidad.config_practica.id">
                                             </app-revision>
                                             <div *ngSwitchDefault>Esperando evaluacion del supervisor</div>
                                         </td>
