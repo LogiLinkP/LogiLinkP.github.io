@@ -1,67 +1,126 @@
-<div class="container text-center mt-5">
-    <div class="cont_pregunta row_mb-3 w-100" id="cont_respuesta1">
-        <div class="col-lg">
-            <h2>Resuma las actividades realizadas por el estudiante:</h2>
-            <textarea name="" id="respuesta1" cols="60" rows="10" placeholder="Escriba aqui el texto"></textarea>
-        </div>
-    </div>
-    <div class="cont_pregunta row_mb-3 w-100" id="cont_respuesta2" style="display: none;">
-        <div class="col-lg">
-            <h2>¿Cuál es su opinión sobre las habilidades blandas del estudiante?</h2>
-            <textarea name="" id="respuesta2" cols="60" rows="10" placeholder="Escriba aqui el texto"></textarea>
-        </div>
-    </div>
-    <div class="cont_pregunta row_mb-3 w-100" id="cont_respuesta3" style="display: none;">
-        <div class="col-lg">
-            <p class="pregunta_desempeño">Del 1 al 5 ¿cómo evaluaría el desempeño del estudiante?</p>
-            <label class="radio-inline">
-                <input type="radio" name="respuesta3" id="inlineRadio1" value="1"> 1
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="respuesta3" id="inlineRadio2" value="2"> 2
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="respuesta3" id="inlineRadio3" value="3"> 3
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="respuesta3" id="inlineRadio4" value="4"> 4
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="respuesta3" id="inlineRadio5" value="5"> 5
-            </label>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            &nbsp;
-        </div>
-        <div class="col">
-            <div class="row">
-                <div class="col">
-                    <button mat-raised-button color="primary" (click)="izq()" [disabled]="pregunta_actual<=1">
-                        <span class="material-symbols-outlined modal-dialog-centered">
-                            arrow_back
-                        </span>
-                    </button>
-                </div>
-                <div class="col">
-                    <button mat-raised-button color="primary" type="button" (click)="send()"> Enviar</button>
-                </div>
-                <div class="col">
-                    <button mat-raised-button color="primary" (click)="der()" [disabled]="pregunta_actual>=3">
-                        <span class="material-symbols-outlined modal-dialog-centered">
-                            arrow_forward
-                        </span>
-                    </button>
+<div id="wrapper">
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content" class="main-content">
+            <!-- Begin Page Content -->
+            <div class="container-fluid" style="height: 100vh;">
+                <!-- Page Heading -->
+                <div class="row pt-5">
+                    <div class="col-lg-2"></div>
+                    <!-- Column -->
+                    <div class="col-lg-8" [ngSwitch]="pregunta_actual">
+                        <!-- Tarjeta inicial-->
+                        <div class="card border-left-primary shadow py-2" *ngSwitchDefault id="cont_respuesta0" >
+                            <div class="card-body">
+                                <div class="h4 mb-3 font-weight-bold text-gray-800 text-center"> 
+                                    ¡Bienvenid@ a Praxus!
+                                </div>
+                                <div class="h5 mb-3 text-gray-800 text-center mx-auto w-50"> 
+                                    En esta página podrás evaluar al estudiante en práctica.
+                                </div>
+                                <div class="h5 mb-3 text-gray-800 text-center mx-auto w-50"> 
+                                    Para hacerlo, se te guiará por un par de preguntas.
+                                </div>
+                                <div class="h5 mb-3 text-gray-800 text-center mx-auto w-50"> 
+                                    Podrás avanzar o retrodecer en ellas haciendo click en los botones de abajo.
+                                </div>
+                                
+                                <div class="h5 mb-3 text-gray-800 text-center mx-auto w-50"> 
+                                    ¡Comencemos!
+                                </div>
+                                <button class="btn btn-primary btn-user btn-block btn-lg mx-auto w-25" (click)="der()">
+                                    Comenzar Evaluación
+                                </button>
+                            </div>
+                        </div><!-- Fin tarjeta inicial-->
+                        <!-- For que recorre -->
+                        <div class="card border-left-primary shadow py-2" *ngFor="let pregunta of preguntas; let i = index" style="display: none;" id="cont_respuesta{{i+1}}">
+                            <div class="card-body">
+                                <div class="h6 ml-4 mt-2  font-weight-bold text-gray-800"> 
+                                    Pregunta {{i+1}} de {{preguntas.length}}
+                                </div>
+                                <div class="h4 mb-3 font-weight-bold text-gray-800 text-center"> 
+                                    {{ pregunta.enunciado }}
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-2"></div>
+                                    <div class="col-xl-8">
+                                        <div [ngSwitch]="pregunta.tipo_respuesta">
+                                            <!-- Para cada tipo de respuesta -->
+                                            <div *ngSwitchCase="'abierta'" >
+                                                <textarea class="form-control" rows="3" placeholder="Escriba su respuesta aquí..." id="abierta{{i}}"
+                                                    [(ngModel)]="respuestas[i]" (ngModelChange)="updateRespuestasAbierta(i, $event)" ></textarea>
+                                            </div>
+                                            <div class="form-check" *ngSwitchCase="'casillas'">
+                                                <div class="row">
+                                                    <div class="col-xl-5"></div>
+                                                    <div class="col-xl-4">
+                                                        <div *ngFor="let opcion of pregunta.opciones.split(';;'); let j = index">                              
+                                                            <input class="form-check-input" type="checkbox" value="{{opcion}}" id="checkbox{{i}}_{{j}}" 
+                                                                [(ngModel)]="respuestas[i][j]" (ngModelChange)="updateRespuestasCasillas(i, j, $event)">
+                                                            <label class="form-check-label" for="checkbox{{i}}_{{j}}">
+                                                                {{opcion}}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>  
+                                            </div>
+                                            <div class="form-check" *ngSwitchCase="'alternativas'" >
+                                                <div class="row">
+                                                    <div class="col-xl-5"></div>
+                                                    <div class="col-xl-4">
+                                                        <div *ngFor="let opcion of pregunta.opciones.split(';;'); let j = index">
+                                                            <input class="form-check-input" type="radio" name="radio{{i}}" id="radioOpcion{{i}}_{{j}}" value="{{opcion}}"
+                                                                [(ngModel)]="respuestas[i]" (ngModelChange)="updateRespuestasAlternativas(i, $event)">
+                                                            <label class="form-check-label" for="radioOpcion{{i}}_{{j}}">
+                                                                {{opcion}}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-check" *ngSwitchCase="'evaluacion'" >
+                                                <div class="row">
+                                                    <div class="col-xl-4"></div>
+                                                    <div class="col-xl-4">
+                                                        <div class="d-flex justify-content-between">
+                                                            <div *ngFor="let index of [0,1,2,3,4]; let j = index">                                  
+                                                                <input class="form-check-input" type="radio" name="radioEval{{i}}" id="radioEvalOpcion{{i}}_{{j+1}}" value="{{j+1}}"
+                                                                [(ngModel)]="respuestas[i]" (ngModelChange)="updateRespuestasEvaluacion(i, $event)">
+                                                                <label class="form-check-label" for="radioEvalOpcion{{i}}_{{j+1}}">{{j+1}}</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><!-- Fin ngSwitch --> 
+                                    </div><!-- Fin col -->
+                                </div><!-- Fin row -->
+                                <div class="row mt-5 mb-3 align-items-end">
+                                    <div class="col-xl-1"></div>                                
+                                    <div class="col-xl-4">
+                                        <button class="btn btn-primary btn-user btn-block btn-md" (click)="izq()">
+                                            Anterior
+                                        </button>
+                                    </div>
+                                    <div class="col-xl-2"></div>
+                                    <div class="col-xl-4" *ngIf="i+1!=preguntas.length">
+                                        <button  class="btn btn-primary btn-user btn-block btn-md" (click)="der()">
+                                            Siguiente
+                                        </button>
+                                    </div>
+                                    <div class="col-xl-4" *ngIf="i+1==preguntas.length">
+                                        <button  class="btn btn-success btn-user btn-block btn-md" (click)="enviarEvaluacion()">
+                                            Finalizar
+                                        </button>
+                                    </div>
+                                </div> <!-- Fin row -->
+                            </div> <!-- Fin card-body -->                           
+                        </div><!-- Fin for -->
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col">
-            &nbsp;
-        </div>
-
-
     </div>
-
 </div>
