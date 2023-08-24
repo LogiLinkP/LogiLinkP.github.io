@@ -55,6 +55,14 @@ export class ConfigService {
         return this._http.request(req);
     }
 
+    getSolicitudDocumento(id_config_practica: number) {
+        const req = new HttpRequest('GET', `${environment.url_back}/solicitud_documento/id_config_practica?id=${id_config_practica}`, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
     getPreguntasInforme(id_config_practica: number) { //! deprecated?
         const req = new HttpRequest('GET', `${environment.url_back}/modalidad/id_config_practica?id=${id_config_practica}`, {
             responseType: 'json'

@@ -51,6 +51,10 @@ export class ConfiguracionPracticaComponent implements OnInit {
     preguntaFORM = new FormControl('')
     ramoFORM = new FormControl('')
 
+    nombre_solicitud_documentos: string;
+    descripcion_solicitud_documentos: string;
+    tipo_solicitud_documentos: string;
+
     ramo: string;
 
     pregunta: string;
@@ -60,6 +64,8 @@ export class ConfiguracionPracticaComponent implements OnInit {
     estado: string = "configuracion_general";
     habilitarHoras: boolean = false;    
     habilitarMeses: boolean = false;
+
+    lista_ramos: string[] = [];
 
     lista_preguntas_avance: string[] = [];
     tipos_preguntas_avance: string[] = [];
@@ -76,14 +82,6 @@ export class ConfiguracionPracticaComponent implements OnInit {
     lista_preguntas_supervisor: string[] = [];
     tipos_preguntas_supervisor: string[] = [];
     lista_opciones_preguntas_supervisor: string[] = [];
-
-    lista_ramos: string[] = [];
-
-    nombre_solicitud_documentos: string;
-    descripcion_solicitud_documentos: string;
-    tipo_solicitud_documentos: string;
-    //descripcion_solicitud_documentos = new FormControl('')
-    //tipo_solicitud_documentos = new FormControl('')
 
     lista_nombre_solicitud_documentos: string[] = [];
     lista_descripcion_solicitud_documentos: string[] = [];
@@ -264,7 +262,29 @@ export class ConfiguracionPracticaComponent implements OnInit {
                                                 this.lista_preguntas_supervisor.push(respuesta.body[i].enunciado);
                                                 this.tipos_preguntas_supervisor.push(respuesta.body[i].tipo_respuesta);
                                                 this.lista_opciones_preguntas_supervisor.push(respuesta.body[i].opciones);
-                                            } 
+                                            }
+
+                                            //* set solicitudes documentos
+                                            this.serviceComplete.getSolicitudDocumento(id_config_practica).subscribe({
+                                                next: (data: any) => {
+                                                    respuesta = { ...respuesta, ...data }
+                                                },
+                                                error: (error: any) => {
+                                                    this._snackBar.open("Error al buscar solicitud de documento", "Cerrar", {
+                                                    duration: 3000,
+                                                    panelClass: ['red-snackbar']
+                                                    });
+                                                    console.log("Error al buscar solicitud de documento", error);
+                                                },
+                                                complete: () => {
+                                                    console.log("request solicitud de documento:", respuesta.body);
+                                                    for (let i = 0; i < respuesta.body.length; i++) {
+                                                        this.lista_nombre_solicitud_documentos.push(respuesta.body[i].nombre_solicitud);
+                                                        this.lista_descripcion_solicitud_documentos.push(respuesta.body[i].descripcion);
+                                                        this.lista_tipo_solicitud_documentos.push(respuesta.body[i].tipo_archivo);
+                                                    }
+                                                }
+                                            });
 
                                             this.fg = this._fb.group({
                                                 opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
@@ -733,7 +753,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
     }
 
     printForm() {
-        console.log(this.fg.value);
+        //console.log(this.fg.value);
     }
 
     onSubmitAddSolicitudDoc(){
@@ -858,36 +878,47 @@ export class ConfiguracionPracticaComponent implements OnInit {
         if (this.meses == true) {
             tipo_modalidad = "meses";
 
-            for (let i = 0; i < Object.keys(this.opcion_meses).length; i++) {
-                this.serviceComplete.crearConfigPractica(this.nombrePractica, this.frecuenciaInformes, this.informeFinal).subscribe({
-                    next: (data: any) => {
-                        respuesta = { ...respuesta, ...data }
-                    },
-                    error: (error: any) => {
-                        this._snackBar.open("Error al guardar configuracion de practica", "Cerrar", {
-                            duration: 3500,
-                            panelClass: ['red-snackbar']
-                        });
-                        console.log("Error al guardar configuracion de practica", error);
-                    },
-                    complete: () => {
-                        console.log("respuesta mandarDatos:", respuesta.body)
-                        respuestas.push(respuesta.body);
-                        this._snackBar.open("Configuracion de practica guardada exitosamente", "Cerrar", {
-                            duration: 3500,
-                            panelClass: ['green-snackbar']
-                        });
-                        console.log("Configuracion de practica guardada exitosamente");
+            this.serviceComplete.crearConfigPractica(this.nombrePractica, this.frecuenciaInformes, this.informeFinal).subscribe({
+                next: (data: any) => {
+                    respuesta = { ...respuesta, ...data }
+                },
+                error: (error: any) => {
+                    this._snackBar.open("Error al guardar configuracion de practica", "Cerrar", {
+                        duration: 3500,
+                        panelClass: ['red-snackbar']
+                    });
+                    console.log("Error al guardar configuracion de practica", error);
+                },
+                complete: () => {
+                    respuestas.push(respuesta.body);
+                    this._snackBar.open("Configuracion de practica guardada exitosamente", "Cerrar", {
+                        duration: 3500,
+                        panelClass: ['green-snackbar']
+                    });
+                    console.log("Configuracion de practica guardada exitosamente");
+
+                    this.tablaModalidad(respuesta.body.id, tipo_modalidad, Object.values(this.opcion_meses)); //asumiendo que funciona
+                    for (let i = 0; i < this.lista_preguntas_encuesta.length; i++) {
+                        this.crearPreguntaEncuestaFinal(respuesta.body.id, this.lista_preguntas_encuesta[i], this.tipos_preguntas_encuesta[i], this.lista_opciones_preguntas_encuesta[i]);
                     }
-                });
-            }
+                    for (let i = 0; i < this.lista_preguntas_supervisor.length; i++) {
+                        this.crearPreguntaEncuestaFinal(respuesta.body.id, this.lista_preguntas_supervisor[i], this.tipos_preguntas_supervisor[i], this.lista_opciones_preguntas_supervisor[i]);
+                    }
+                    if (this.informeFinal == "si") {
+                        this.crearConfigInforme(respuesta.body.id, "informe final")
+                    }
+                    if (this.frecuenciaInformes != "sinAvance") {
+                        this.crearConfigInforme(respuesta.body.id, "informe avance") //mandando 2 request simultaneos?
+                    }
+                }
+            });
         }
         // ========= FIN REQUESTS MESES =========
     }
 
     tablaModalidad(id_config_practica: number, tipo_modalidad: string, lista_cant: number[]) {
         let respuesta: any = {};
-        for (let i = 0; i < Object.keys(this.opcion_horas).length; i++) {
+        for (let i = 0; i < Object.keys(lista_cant).length; i++) {
             this.serviceComplete.crearModalidad(id_config_practica, tipo_modalidad, Number(Object.values(lista_cant[i])[0])).subscribe({
                 next: (data: any) => {
                     respuesta = { ...respuesta, ...data }
