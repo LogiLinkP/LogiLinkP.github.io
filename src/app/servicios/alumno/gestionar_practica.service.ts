@@ -62,7 +62,7 @@ export class GestionarService extends Socket{
   }
 
   registrar_practica(id_estudiante: number, id_config_practica: number, fecha_inicio: string,
-                      id_empresa:number, id_supervisor:number, id_encargado:number) {
+                      id_empresa:number, id_supervisor:number, id_encargado:number, correo_encargado:String) {
     const nueva_practica = {
       estado: environment.estado_practica.en_curso,
       id_estudiante: id_estudiante,
@@ -80,7 +80,7 @@ export class GestionarService extends Socket{
   }   
 
 
-  finalizar_practica(id_estudiante: number, id_practica: number, estado: string) {
+  finalizar_practica(id_estudiante: number, id_practica: number, estado: string, correo_encargado:string) {
     console.log("Finalizando practica con id: ", id_practica, " y estado: ", estado, " para estudiante con id: ", id_estudiante)
     const req = new HttpRequest('PUT', `${environment.url_back}/practica/finalizar`, {
       id_estudiante, id_practica, estado

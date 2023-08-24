@@ -7,6 +7,7 @@ import { GestionarService } from 'src/app/servicios/alumno/gestionar_practica.se
 import { SupervisorService } from 'src/app/servicios/supervisor/supervisor.service';
 import { Router } from "@angular/router"
 import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
+import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
 
 @Component({
   selector: 'alumno',
@@ -18,7 +19,7 @@ export class DetalleAlumnoComponent implements OnInit{
   estudiante:any = {id_estudiante: -1, usuario: {nombre: ""}} 
   config_practica: any = [];
   practicas: any = [];
-  respuesta: any = [];
+  correo_encargado: String = "";
   //Se deberían mostrar todos los tipos de practica que se pueden realizar - el desafío aquí es
   //que definimos que en la tabla se van a repetir los nombres para cada modalidad de tiempo, por ejemplo
   //por lo que hay que preocuparse de extraer sólo los nombres distintos
@@ -36,7 +37,7 @@ export class DetalleAlumnoComponent implements OnInit{
 
   constructor(private service_datos: ObtenerDatosService , private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, 
               private service_gestion: GestionarService, private service_supervisor: SupervisorService, private router: Router,
-              private service_noti: NotificacionesService) {
+              private service_noti: NotificacionesService, private service_obtener: DataUsuarioService) {
     this.id_usuario = parseInt(this.activated_route.snapshot.paramMap.get('id') || "-1");
   }
 
@@ -154,7 +155,21 @@ export class DetalleAlumnoComponent implements OnInit{
     let horas_trabajadas = (document.getElementById("horas") as HTMLInputElement).valueAsNumber;
     let id_config_informe = practica.config_practica.id;
     let id_encargado = this.config_practica.id_encargado;
+    let correo_encargado: String = "";
 
+    this.service_obtener.obtener_encargado(id_encargado).subscribe({
+      next:(data:any) => {
+        respuesta = {...respuesta, ...data};
+      },
+      error:(error:any) => {
+        console.log(error);
+        return;
+      },
+      complete:() => {
+        correo_encargado = respuesta.body.correo;
+      }
+    })
+    
     if (Number.isNaN(horas_trabajadas)){
       horas_trabajadas = 0;
     }
@@ -170,7 +185,7 @@ export class DetalleAlumnoComponent implements OnInit{
     console.log("id_practica:", practica.id);
     console.log("casilla horas:", horas_trabajadas);
     
-    this.service_datos.ingresar_informe(practica.id, key, id_config_informe, horas_trabajadas, id_encargado).subscribe({
+    this.service_datos.ingresar_informe(practica.id, key, id_config_informe, horas_trabajadas, id_encargado, correo_encargado).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
         console.log("Respuesta ingresar informe:",data);
@@ -216,10 +231,28 @@ export class DetalleAlumnoComponent implements OnInit{
   }
   
   finalizar_practica(practica: any) {
+    let respuesta: any = [];
+    let id_encargado = this.config_practica.id_encargado;
+    let correo_encargado: string = "";
+
+    this.service_obtener.obtener_encargado(id_encargado).subscribe({
+      next:(data:any) => {
+        respuesta = {...respuesta, ...data};
+      },
+      error:(error:any) => {
+        console.log(error);
+        return;
+      },
+      complete:() => {
+        correo_encargado = respuesta.body.correo;
+      }
+    })
+    
+    
     let resultado: any = {};
     console.log("practica",practica)
 
-    this.service_gestion.finalizar_practica(this.estudiante.id, practica.id, environment.estado_practica.finalizada).subscribe({
+    this.service_gestion.finalizar_practica(this.estudiante.id, practica.id, environment.estado_practica.finalizada, correo_encargado).subscribe({
       next: (data: any) => {
         console.log("Respuesta finalizar practica:",data);
       },

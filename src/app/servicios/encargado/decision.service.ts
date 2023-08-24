@@ -10,7 +10,7 @@ export class SetDetallesAlumnoService {
 
   constructor(private _http: HttpClient) { }
 
-  aprobar_practica(id_usuario:number , id_estudiante: number, id_config_practica: number, aprobacion: 0 | 1) {
+  aprobar_practica(id_usuario:number , id_estudiante: number, id_config_practica: number, aprobacion: 0 | 1, correo_estudiante:String) {
     const req = new HttpRequest('PUT', `${environment.url_back}/practica/aprobar`, {
       id_usuario, id_estudiante, id_config_practica, aprobacion
     }, {

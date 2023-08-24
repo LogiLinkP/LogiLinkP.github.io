@@ -3,8 +3,9 @@ import { GestionarService } from '../../servicios/alumno/gestionar_practica.serv
 import { ObtenerDatosService } from '../../servicios/alumno/obtener_datos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
+import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
 
 @Component({
   selector: 'app-iniciar-practica',
@@ -21,9 +22,13 @@ export class IniciarPracticaComponent implements OnInit{
   cantidades: number[] = []
   modalidades: string[] = []
 
+  correo_encargado: String = "";
+
+  respuesta:any = [];
+
   constructor(private service: GestionarService, private service2: ObtenerDatosService,
               private _snackBar: MatSnackBar, private route:ActivatedRoute, private router: Router,
-              private service_noti: NotificacionesService) {}
+              private service_noti: NotificacionesService, private service_obtener: DataUsuarioService) {}
 
  enviar(){
     // obtener los datos de los inputs
@@ -89,8 +94,21 @@ export class IniciarPracticaComponent implements OnInit{
                     let id_encargado = aux.body[0].id
                     console.log("ID DE ENCARGADO", id_encargado)
 
+                    this.service_obtener.obtener_encargado(id_encargado).subscribe({
+                      next:(data:any) => {
+                        this.respuesta = {...this.respuesta, ...data};
+                      },
+                      error:(error:any) => {
+                        console.log(error);
+                        return;
+                      },
+                      complete:() => {
+                        this.correo_encargado = this.respuesta.body.correo;
+                      }
+                    })
+
                     this.service.registrar_practica(this.id_estudiante, this.id_config_practica, 
-                                                    fecha_inicio, id_empresa, id_supervisor, id_encargado).subscribe({
+                                                    fecha_inicio, id_empresa, id_supervisor, id_encargado, this.correo_encargado).subscribe({
                       next: (data: any) => {
                         aux = { ...aux, ...data }
                       },
@@ -128,6 +146,7 @@ export class IniciarPracticaComponent implements OnInit{
   } 
 
   ngOnInit() {
+
     let respuesta: any = {};
     
     console.log("En componente iniciar practica el nombre es:",this.nombre_practica)
