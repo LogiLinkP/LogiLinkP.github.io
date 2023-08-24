@@ -102,7 +102,6 @@ export class ConfiguracionPracticaComponent implements OnInit {
 
         if (this.nombre_config == "blanco") {
             this.generarFormulario(-1);
-            this.flag = true;
         } else {
             this.serviceBarra.obtenerConfigPracticaNombre(this.nombre_config).subscribe({
             next: (data: any) => {
@@ -119,7 +118,6 @@ export class ConfiguracionPracticaComponent implements OnInit {
                 this.config = respuesta.body;
                 console.log("request practica existente:", this.config);
                 this.generarFormulario(this.config[0].id); //se asume que la primera que se creó es la buena
-                this.flag = true;
                 }
             });
         }
@@ -135,14 +133,45 @@ export class ConfiguracionPracticaComponent implements OnInit {
             this.meses = false;
             this.frecuenciaInformes = "";
             this.informeFinal = "";
+
+            this.fg = this._fb.group({
+                opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
+                opcion_horasFORM: this.opcion_horas,
+                opcion_mesesFORM: this.opcion_meses,
+        
+                nombrePractica: new FormControl(this.nombrePractica),
+                cant_horas: this.cant_horas,
+                cant_meses: this.cant_meses,
+                horas: new FormControl(this.horas),
+                meses: new FormControl(this.meses),
+                frecuenciaInformes: new FormControl(this.frecuenciaInformes),
+                informeFinal: new FormControl(this.informeFinal),
+                //pregunta: this.preguntaFORM,
+        
+                preguntaFORM: this.pregunta,
+    
+                ramoFORM: this.ramo,
+                
+                arregloOpcionesPreguntas: this._fb.array([]),
+                arregloHoras: this._fb.array([]),
+                arregloMeses: this._fb.array([]),
+    
+                //documentos
+                nombre_solicitud_documentos: new FormControl(this.nombre_solicitud_documentos),
+                descripcion_solicitud_documentos: new FormControl(this.descripcion_solicitud_documentos),
+                tipo_solicitud_documentos: new FormControl(this.tipo_solicitud_documentos),
+            });
+
+            this.flag = true;
+
         } else {
             // set basicos
             this.nombrePractica = this.config[0].nombre;
             this.frecuenciaInformes = this.config[0].frecuencia_informes;
             this.informeFinal = this.config[0].informe_final;
 
-            // set modalidad
-            this.serviceComplete.getModalidades(id_config_practica).subscribe({ //! awaiteate
+            //* set modalidad
+            this.serviceComplete.getModalidades(id_config_practica).subscribe({ 
                 next: (data: any) => {
                     respuesta = { ...respuesta, ...data }
                 },
@@ -166,68 +195,93 @@ export class ConfiguracionPracticaComponent implements OnInit {
                         }
                     }
                     console.log("horas:", this.horas, "meses:", this.meses);
-                }
-            });
 
-            // set config informe
-            this.serviceComplete.getConfigInforme(id_config_practica).subscribe({ //! awaiteate
-                next: (data: any) => {
-                    respuesta = { ...respuesta, ...data }
-                },
-                error: (error: any) => {
-                    this._snackBar.open("Error al buscar informes de configuracion de practica", "Cerrar", {
-                        duration: 3000,
-                        panelClass: ['red-snackbar']
+                    //* set config informe
+                    this.serviceComplete.getConfigInforme(id_config_practica).subscribe({
+                        next: (data: any) => {
+                            respuesta = { ...respuesta, ...data }
+                        },
+                        error: (error: any) => {
+                            this._snackBar.open("Error al buscar informes de configuracion de practica", "Cerrar", {
+                                duration: 3000,
+                                panelClass: ['red-snackbar']
+                            });
+                            console.log("Error al buscar informes de configuracion de practica", error);
+                        },
+                        complete: () => {
+                            console.log("request config informe:", respuesta.body);
+                            
+                            // set preguntas informe
+                            for (let i = 0; i < respuesta.body[0].pregunta_informes.length; i++) {
+                                if (respuesta.body[0].tipo_informe == "informe final") {
+                                    this.lista_preguntas_final.push(respuesta.body[0].pregunta_informes[i].enunciado);
+                                    this.tipos_preguntas_final.push(respuesta.body[0].pregunta_informes[i].tipo_respuesta);
+                                    this.lista_opciones_preguntas_final.push(respuesta.body[0].pregunta_informes[i].opciones);
+                                }
+                                if (respuesta.body[i].tipo_informe == "informe avance") {
+                                    this.lista_preguntas_avance.push(respuesta.body[0].pregunta_informes[i].enunciado);
+                                    this.tipos_preguntas_avance.push(respuesta.body[0].pregunta_informes[i].tipo_respuesta);
+                                    this.lista_opciones_preguntas_avance.push(respuesta.body[0].pregunta_informes[i].opciones);
+                                }
+                            }
+
+                            //* set preguntas encuesta
+                            this.serviceComplete.getPreguntaEncuestaFinal(id_config_practica).subscribe({
+                                next: (data: any) => {
+                                    respuesta = { ...respuesta, ...data }
+                                },
+                                error: (error: any) => {
+                                    this._snackBar.open("Error al buscar encuesta final", "Cerrar", {
+                                    duration: 3000,
+                                    panelClass: ['red-snackbar']
+                                    });
+                                    console.log("Error al buscar encuesta final", error);
+                                },
+                                complete: () => {
+                                    console.log("request encuesta final:", respuesta.body);
+                                    for (let i = 0; i < respuesta.body.length; i++) {
+                                        this.lista_preguntas_encuesta.push(respuesta.body[i].enunciado);
+                                        this.tipos_preguntas_encuesta.push(respuesta.body[i].tipo_respuesta);
+                                        this.lista_opciones_preguntas_encuesta.push(respuesta.body[i].opciones);
+                                    }
+
+                                    this.fg = this._fb.group({
+                                        opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
+                                        opcion_horasFORM: this.opcion_horas,
+                                        opcion_mesesFORM: this.opcion_meses,
+                                
+                                        nombrePractica: new FormControl(this.nombrePractica),
+                                        cant_horas: this.cant_horas,
+                                        cant_meses: this.cant_meses,
+                                        horas: new FormControl(this.horas),
+                                        meses: new FormControl(this.meses),
+                                        frecuenciaInformes: new FormControl(this.frecuenciaInformes),
+                                        informeFinal: new FormControl(this.informeFinal),
+                                        //pregunta: this.preguntaFORM,
+                                
+                                        preguntaFORM: this.pregunta,
+                            
+                                        ramoFORM: this.ramo,
+                                        
+                                        arregloOpcionesPreguntas: this._fb.array([]),
+                                        arregloHoras: this._fb.array([]),
+                                        arregloMeses: this._fb.array([]),
+                            
+                                        //documentos
+                                        nombre_solicitud_documentos: new FormControl(this.nombre_solicitud_documentos),
+                                        descripcion_solicitud_documentos: new FormControl(this.descripcion_solicitud_documentos),
+                                        tipo_solicitud_documentos: new FormControl(this.tipo_solicitud_documentos),
+                                    });
+                                    this.flag = true;
+
+                                }
+                            });
+                        }
                     });
-                    console.log("Error al buscar informes de configuracion de practica", error);
-                },
-                complete: () => {
-                    console.log("request config informe:", respuesta.body);
-                    
-                    // set preguntas informe
-                    for (let i = 0; i < respuesta.body.length; i++) {
-                        if (respuesta.body[i].tipo_informe == "informe final") {
-                            this.lista_preguntas_final.push(respuesta.body[i].enunciado);
-                            this.tipos_preguntas_final.push(respuesta.body[i].tipo_respuesta);
-                            this.lista_opciones_preguntas_final.push(respuesta.body[i].opciones);
-                        }
-                        if (respuesta.body[i].tipo_informe == "informe avance") {
-                            this.lista_preguntas_avance.push(respuesta.body[i].enunciado);
-                            this.tipos_preguntas_avance.push(respuesta.body[i].tipo_respuesta);
-                            this.lista_opciones_preguntas_avance.push(respuesta.body[i].opciones);
-                        }
-                    }
+                    // ===== fin set config informe =====
                 }
             });
         }
-
-        this.fg = this._fb.group({
-            opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
-            opcion_horasFORM: this.opcion_horas,
-            opcion_mesesFORM: this.opcion_meses,
-    
-            nombrePractica: new FormControl(this.nombrePractica),
-            cant_horas: this.cant_horas,
-            cant_meses: this.cant_meses,
-            horas: new FormControl(this.horas),
-            meses: new FormControl(this.meses),
-            frecuenciaInformes: new FormControl(this.frecuenciaInformes),
-            informeFinal: new FormControl(this.informeFinal),
-            //pregunta: this.preguntaFORM,
-    
-            preguntaFORM: this.pregunta,
-
-            ramoFORM: this.ramo,
-            
-            arregloOpcionesPreguntas: this._fb.array([]),
-            arregloHoras: this._fb.array([]),
-            arregloMeses: this._fb.array([]),
-
-            //documentos
-            nombre_solicitud_documentos: new FormControl(this.nombre_solicitud_documentos),
-            descripcion_solicitud_documentos: new FormControl(this.descripcion_solicitud_documentos),
-            tipo_solicitud_documentos: new FormControl(this.tipo_solicitud_documentos),
-        });
     }
 
     habilitarHorasFunc(arg: any) {

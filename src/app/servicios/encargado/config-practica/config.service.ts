@@ -39,7 +39,7 @@ export class ConfigService {
         return this._http.request(req);
     }
 
-    getPreguntasInforme(id_config_practica: number) {
+    getPreguntasInforme(id_config_practica: number) { //! deprecated?
         const req = new HttpRequest('GET', `${environment.url_back}/modalidad/id_config_practica?id=${id_config_practica}`, {
             responseType: 'json'
         });
@@ -48,7 +48,7 @@ export class ConfigService {
     }
 
     getPreguntaEncuestaFinal(id_config_practica: number) {
-        const req = new HttpRequest('GET', `${environment.url_back}/modalidad/id_config_practica?id=${id_config_practica}`, {
+        const req = new HttpRequest('GET', `${environment.url_back}/pregunta_encuesta_final/id_config_practica?id_config_practica=${id_config_practica}`, {
             responseType: 'json'
         });
 
