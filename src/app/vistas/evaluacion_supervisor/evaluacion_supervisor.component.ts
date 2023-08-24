@@ -22,31 +22,47 @@ export class EvaluacionComponent {
 
 
   constructor(private service_supervisor: SupervisorService, private _snackbar: MatSnackBar, private router: Router, private activated_route: ActivatedRoute) {}
-
+   
+  isAnimating = false; // Flag to indicate whether an animation is in progress
   izq() {
+    if (this.isAnimating) {
+      return; // Don't allow animation if one is already in progress
+    }
+    
     let id = `#cont_respuesta${this.pregunta_actual}`;
     let id_izq = `#cont_respuesta${this.pregunta_actual - 1}`;
+  
+    this.isAnimating = true; // Set the flag
+  
     $(id).fadeOut(() => {
       $(id).css("display", "none");
       $(id_izq).css({ "display": "block" });
-      $(id_izq).fadeIn();
+      $(id_izq).fadeIn(() => {
+        this.isAnimating = false; // Reset the flag when animation is complete
+      });
       this.pregunta_actual -= 1;
     });
   }
-
+  
   der() {
+    if (this.isAnimating) {
+      return; // Don't allow animation if one is already in progress
+    }
+    
     let id = `#cont_respuesta${this.pregunta_actual}`;
     let id_der = `#cont_respuesta${this.pregunta_actual + 1}`;
-    console.log("HOla", id, id_der);
+  
+    this.isAnimating = true; // Set the flag
+  
     $(id).fadeOut(() => {
-      console.log("HOla", id, id_der);
       $(id).css("display", "none");
       $(id_der).css({ "display": "block" });
-      $(id_der).fadeIn();
-      this.pregunta_actual += 1;      
+      $(id_der).fadeIn(() => {
+        this.isAnimating = false; // Reset the flag when animation is complete
+      });
+      this.pregunta_actual += 1;
     });
   }
-
 
   ngOnInit(): void {
     //obtain id_practica from url
