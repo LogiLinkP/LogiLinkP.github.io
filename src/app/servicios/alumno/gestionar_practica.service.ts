@@ -68,9 +68,18 @@ export class GestionarService {
     return this.http.request(req);
   }
 
-  buscar_config_practica(nombre: string, modalidad: string, cantidad_tiempo: number) {
-    console.log("Buscando configuracion de practica con nombre: ", nombre, " modalidad: ", modalidad, " y cantidad: ", cantidad_tiempo)
-    const req = new HttpRequest('GET', `${environment.url_back}/config_practica/buscar?nombre=${nombre}&modalidad=${modalidad}&cantidad_tiempo=${cantidad_tiempo}`, {
+  buscar_config_practica(nombre: string) {
+    console.log("Buscando configuracion de practica con nombre: ", nombre)
+    const req = new HttpRequest('GET', `${environment.url_back}/config_practica/buscar?nombre=${nombre}`, {
+      responseType: 'json'
+    });
+    return this.http.request(req);
+  }
+
+  //buscar modalidad en base a id_config_practica, tipo_modalidad y cantidad_tiempo
+  buscar_modalidad(id_config_practica: number, tipo_modalidad: string, cantidad_tiempo: number) {
+    console.log("Buscando modalidad con id_config_practica: ", id_config_practica, " tipo_modalidad: ", tipo_modalidad, " y cantidad_tiempo: ", cantidad_tiempo)
+    const req = new HttpRequest('GET', `${environment.url_back}/modalidad/buscar?id_config_practica=${id_config_practica}&tipo_modalidad=${tipo_modalidad}&cantidad_tiempo=${cantidad_tiempo}`, {
       responseType: 'json'
     });
     return this.http.request(req);

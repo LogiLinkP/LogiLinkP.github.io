@@ -32,7 +32,7 @@
                                 <!-- Carta que se muestra en caso de que alumno efectivamente tenga una practica registrada -->
                                 <div *ngSwitchCase="2">
                                     <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample" v-on:click="getPractica(nombre)">
-                                        <h2 class="m-0 font-weight-bold text-primary">{{ practica}} </h2>
+                                        <h2 class="m-0 font-weight-bold text-primary">{{ practica[0] }} </h2>
                                         <div class="m-0 text-gray-800">Estado: {{ practica[1]?.estado }}</div>                                        
                                     </a>  
                                     <div  class="collapse show" id="collapseCardExample">
@@ -69,8 +69,8 @@
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>Modalidad:</td>
-                                                                                    <td>{{ practica[1]?.config_practica?.cantidad_tiempo}} 
-                                                                                        {{ practica[1]?.config_practica?.modalidad}}</td>
+                                                                                    <td>{{ practica[1]?.modalidad.cantidad_tiempo}} 
+                                                                                        {{ practica[1]?.modalidad.tipo_modalidad}}</td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>Fecha Inicio:</td>
@@ -194,7 +194,7 @@
                                                                                             </tr>
                                                                                         </thead>
                                                                                         <tbody>
-                                                                                            <tr *ngFor="let solicitud of practica[1].config_practica.solicitud_documentos;">
+                                                                                            <tr *ngFor="let solicitud of practica[1].modalidad.config_practica.solicitud_documentos;">
                                                                                                 <td>{{solicitud?.nombre_solicitud}}</td>
                                                                                                 <td>{{solicitud?.tipo_archivo}}</td>
                                                                                                 <td>Normal</td>                                                                                                
@@ -255,7 +255,7 @@
                                                                                       </tr>
                                                                                       <tr>
                                                                                         <td></td>
-                                                                                        <td style="text-align:right"><button class="btn btn-primary btn-lg btn-block" (click) = "ingresarInforme(practica[1])">Enviar</button></td>
+                                                                                        <td style="text-align:right"><button class="btn btn-primary btn-lg btn-block">Enviar</button></td>
                                                                                       </tr>
                                                                                     </table>
                                                                                   </div>

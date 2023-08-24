@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
 import { ActivatedRoute } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { environment } from 'src/environments/environment';
 import { GestionarService } from 'src/app/servicios/alumno/gestionar_practica.service';
 import { SupervisorService } from 'src/app/servicios/supervisor/supervisor.service';
@@ -39,19 +39,21 @@ export class DetalleAlumnoComponent implements OnInit{
   ngOnInit() {
     const param_upload_success = this.activated_route.snapshot.queryParamMap.get('upload_success');
 
+    let snackBarRef: MatSnackBarRef<any> | undefined = undefined;
+
     console.log("PARAMETRO URL",param_upload_success);
     if (param_upload_success == "success") {
-      this._snackBar.open("Archivo subido correctamente", "Cerrar", {
+      snackBarRef = this._snackBar.open("Archivo subido correctamente", "Cerrar", {
         panelClass: ['green-snackbar'],
         duration: 3000
       });
     } else if (param_upload_success == "format") {
-      this._snackBar.open("Archivo con formato incorrecto", "Cerrar", {
+      snackBarRef = this._snackBar.open("Archivo con formato incorrecto", "Cerrar", {
         panelClass: ['red-snackbar'],
         duration: 3000
       });
     } else if (param_upload_success == "error") {
-      this._snackBar.open("Error al subir archivo", "Cerrar", {
+      snackBarRef = this._snackBar.open("Error al subir archivo", "Cerrar", {
         panelClass: ['red-snackbar'],
         duration: 3000
       });
@@ -59,26 +61,24 @@ export class DetalleAlumnoComponent implements OnInit{
 
     const param_inscripcion_success = this.activated_route.snapshot.queryParamMap.get('inscripcion_success');
     if (param_inscripcion_success == "success") {
-      this._snackBar.open("Práctica inscrita correctamente", "Cerrar", {
+      snackBarRef = this._snackBar.open("Práctica inscrita correctamente", "Cerrar", {
         panelClass: ['green-snackbar'],
         duration: 3000
       });
     } else if (param_inscripcion_success == "error") {
-      this._snackBar.open("Error al inscribir práctica", "Cerrar", {
+      snackBarRef = this._snackBar.open("Error al inscribir práctica", "Cerrar", {
         panelClass: ['red-snackbar'],
         duration: 3000
       });
     }
-
-
+    
     const param_finalizacion_success = this.activated_route.snapshot.queryParamMap.get('finalizacion_success');
     if (param_finalizacion_success == "success") {
-      this._snackBar.open("Práctica finalizada correctamente", "Cerrar", {
+      snackBarRef = this._snackBar.open("Práctica finalizada correctamente", "Cerrar", {
         panelClass: ['green-snackbar'],
         duration: 3000
       });
-    } 
-       
+    }        
 
     let respuesta: any = {};
 
@@ -115,8 +115,8 @@ export class DetalleAlumnoComponent implements OnInit{
               this.flags_inscripcion_list.push(false);
               // Para cada practica que el alumno tiene, encontrar el nombre de la configuracion de practica en el arreglo
               // de nombres y agregar la practica en el arreglo que se encarga de mantener la correspondencia entre nombre y practica
-              if(element.modalidad.config_practica.nombre == this.config_practicas.find((elemento: any) => elemento == element.config_practica.nombre)){
-                let index = this.nombres_config_practica.indexOf(element.config_practica.nombre);
+              if(element.modalidad.config_practica.nombre == this.nombres_config_practica.find((elemento: any) => elemento == element.modalidad.config_practica.nombre)){
+                let index = this.nombres_config_practica.indexOf(element.modalidad.config_practica.nombre);
                 element.documentos.map((doc:any) => {
                   doc.solicitud_documento.tipo_archivo = doc.solicitud_documento.tipo_archivo.split(",");
                   console.log("doc:",doc)
@@ -133,11 +133,12 @@ export class DetalleAlumnoComponent implements OnInit{
     });  
   }
 
+  /*
   ingresarInforme(practica: any){
     let respuesta: any = {};
     let key = (document.getElementById("informe") as HTMLInputElement).value;
     let horas_trabajadas = (document.getElementById("horas") as HTMLInputElement).valueAsNumber;
-    let id_config_informe = practica.config_practica.id;
+    let id_config_informe = practica.modalidad.config_practica.id;
 
     if (Number.isNaN(horas_trabajadas)){
       horas_trabajadas = 0;
@@ -165,10 +166,10 @@ export class DetalleAlumnoComponent implements OnInit{
           panelClass: ['red-snackbar'],
           duration: 3000
         })
-        window.location.reload();
+        window.location.reload();        
       }
     });
-  }
+  }*/
 
   
   descargar_documento(documento_id: string, solicitud_tipo: string) {
