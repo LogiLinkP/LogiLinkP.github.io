@@ -70,8 +70,8 @@ export class NotisChatService extends Socket{
     return this._http.request(req);
   }
 
-  postmensaje(id_estudiante:number, id_encargado:number, mensaje:any){
-    const req = new HttpRequest('POST', `${environment.url_back}/mensaje/crear`, {id_estudiante, id_encargado, mensaje:mensaje}, {responseType: 'text'});
+  postmensaje(id_estudiante:number, id_encargado:number, mensaje:any, correo:string){
+    const req = new HttpRequest('POST', `${environment.url_back}/mensaje/crear`, {id_estudiante, id_encargado, mensaje:mensaje, correo}, {responseType: 'text'});
     return this._http.request(req);
   }
 

@@ -5,6 +5,7 @@ import { DatePipe } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
 import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
+import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
 
 @Component({
   selector: 'app-chat',
@@ -37,8 +38,12 @@ export class ChatComponent implements OnInit {
 
   chatService: any;
 
+  correo_estudiante: string = "";
+  correo_encargado: string = "";
+
   constructor(private _http: HttpClient, private router: ActivatedRoute, private datetime: DatePipe,
-              private cookieService: CookieService, private cdr: ChangeDetectorRef, private service_noti: NotificacionesService) {
+              private cookieService: CookieService, private cdr: ChangeDetectorRef,
+              private service_noti: NotificacionesService, private service_obtener : DataUsuarioService) {
 
     let auth_user = JSON.parse(localStorage.getItem("auth-user") || "{}");
 
@@ -78,6 +83,15 @@ export class ChatComponent implements OnInit {
       this.id_encargado=this.Id;
       this.id_estudiante=this.Id2;
     }
+
+    /*
+    this.service_obtener.obtener_encargado(this.id_encargado){
+
+    }
+    this.service_obtener.obtener_estudiante(this.id_estudiante){
+
+    }
+    */
 
     console.log("Id estudiante: ", this.id_estudiante);
     console.log("Id encargado: ", this.id_encargado); 
@@ -146,7 +160,7 @@ export class ChatComponent implements OnInit {
       texto: this.Nmensaje,
       fecha: this.datetime.transform((new Date), 'MM/dd/yyyy h:mm:ss'),
     }      
-    this.chatService.postmensaje(this.id_estudiante, this.id_encargado, mensaje).subscribe({
+    this.chatService.postmensaje(this.id_estudiante, this.id_encargado, mensaje, this.correo_estudiante, this.correo_encargado).subscribe({
       next: (data: any) => {
         this.respuesta = { ...this.respuesta, ...data }
         console.log("Request aceptada");

@@ -83,7 +83,7 @@ export class GestionarService extends Socket{
   finalizar_practica(id_estudiante: number, id_practica: number, estado: string, correo_encargado:string) {
     console.log("Finalizando practica con id: ", id_practica, " y estado: ", estado, " para estudiante con id: ", id_estudiante)
     const req = new HttpRequest('PUT', `${environment.url_back}/practica/finalizar`, {
-      id_estudiante, id_practica, estado
+      id_estudiante, id_practica, estado, correo_encargado
     }, {
       responseType: 'json'
     });

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
 import { SupervisorService } from 'src/app/servicios/supervisor/supervisor.service';
+import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
 
 
 @Component({
@@ -18,8 +19,11 @@ export class FinalizacionComponent {
   estudiante: any = {};
   practica: any = {};
 
+  correo_encargado: string= "";
+
   constructor(private service: GestionarService, private serviceEstudiante: ObtenerDatosService,private serviceSupervisor: SupervisorService, 
-              private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, private router: Router) {
+              private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, private router: Router,
+              private service_obtener: DataUsuarioService) {
     this.sub = this.activated_route.params.subscribe(params => {
       this.id_estudiante = +params['id']; // (+) converts string 'id' to a number
       this.id_practica = +params['n'];
@@ -27,12 +31,35 @@ export class FinalizacionComponent {
   }
 
   ngOnInit() {
-
+    let respuesta : any = [];
+    this.serviceEstudiante.obtener_practica(this.id_estudiante).subscribe({
+      next:(data:any) =>{
+        respuesta = {...respuesta, ...data};
+      },
+      error:(error:any) => {
+        console.log(error);
+        return;
+      },
+      complete:() => {
+        this.service_obtener.obtener_encargado(respuesta.body.id_encargado).subscribe({
+          next:(data:any) => {
+            respuesta = {...respuesta, ...data};
+          },
+          error:(error:any) => {
+            console.log(error);
+            return;
+          },
+          complete:()=> {
+            this.correo_encargado = respuesta.body.correo;
+          }
+        })
+      }
+    })
   }
 
   finalizar() {
     let resultado: any = {};
-    this.service.finalizar_practica(this.id_estudiante, this.id_practica, "Finalizada").subscribe(
+    this.service.finalizar_practica(this.id_estudiante, this.id_practica, "Finalizada", this.correo_encargado).subscribe(
       {
         next: data => {
           resultado = { ...resultado, ...data };
