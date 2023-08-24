@@ -14,16 +14,14 @@ export class EvaluacionComponent {
   id_config_practica = -1;
   practica: any = {};
   preguntas: any[] = [];
-  pregunta_actual = 1;
+  pregunta_actual = 0;
   tipo_respuestas: any[] = [];
 
   // Aqui se guardan temporalmente las respuestas mientras se llena el formulario. Estas se procesan antes de enviarlas al backend.
   respuestas: any[] = []; 
 
 
-  constructor(private service_supervisor: SupervisorService, private _snackbar: MatSnackBar, private router: Router, private activated_route: ActivatedRoute) {
-
-  }
+  constructor(private service_supervisor: SupervisorService, private _snackbar: MatSnackBar, private router: Router, private activated_route: ActivatedRoute) {}
 
   izq() {
     let id = `#cont_respuesta${this.pregunta_actual}`;
@@ -39,11 +37,13 @@ export class EvaluacionComponent {
   der() {
     let id = `#cont_respuesta${this.pregunta_actual}`;
     let id_der = `#cont_respuesta${this.pregunta_actual + 1}`;
+    console.log("HOla", id, id_der);
     $(id).fadeOut(() => {
+      console.log("HOla", id, id_der);
       $(id).css("display", "none");
       $(id_der).css({ "display": "block" });
       $(id_der).fadeIn();
-      this.pregunta_actual += 1;
+      this.pregunta_actual += 1;      
     });
   }
 
@@ -210,14 +210,18 @@ export class EvaluacionComponent {
           });
         },
         complete: () => {
-          this._snackbar.open("Evaluación enviada", "Cerrar", {
-            duration: 2000,
+          this._snackbar.open("Evaluación enviada. Redirigiendo a página principal...", "Cerrar", {
+            duration: 3000,
             panelClass: ['green-snackbar']
           });
         }
       });
     }
     console.log("RESPUESTAS A ENVIAR EN QUERY", respuestas_aux);
-
+    // after 2 seconds, redirect to home
+    setTimeout(() => {
+      this.router.navigate(['/']);
+    }
+      , 3000); 
   }
 }
