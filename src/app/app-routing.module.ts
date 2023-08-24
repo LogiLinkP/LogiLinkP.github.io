@@ -65,6 +65,7 @@ const routes: Routes = [
   { path: 'chat/:room/:id1/:id2/:tipo', component: ChatComponent },
   { path: "fragmentos/:id", component: FragmentosComponent },
   { path: 'encuestaFinal/:id_config_practica', component: EncuestaFinPracticaComponent },
+  //{ path: 'estadisticas_encuesta', component: EstadisticasEncuestaFinalComponent },
   { path: '**', component: PnfComponent },
 ];
 
@@ -94,5 +95,6 @@ export const routingComponents = [
   EmpresasComponent,
   CuestionarioComponent,
   ChatComponent,
-  ConfiguracionPracticaComponent
+  ConfiguracionPracticaComponent,
+  EncuestaFinPracticaComponent
 ]
