@@ -9,18 +9,68 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 export class ConfigService {
     constructor(private _http: HttpClient) { }
 
-    //! Opciones es un arreglo?
-
-    crearConfigPracticaFila(nombre: string, modalidad: string, cantidad_tiempo: number, frecuencia_informes: string, informe_final: string) {
+    crearConfigPractica(nombre: string, frecuencia_informes: string, informe_final: string) {
         const config = {
             nombre: nombre,
-            modalidad: modalidad,
-            cantidad_tiempo: cantidad_tiempo,
             frecuencia_informes: frecuencia_informes,
             informe_final: informe_final
         }
 
         const req = new HttpRequest('POST', `${environment.url_back}/config_practica/crear`, config, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
+    getModalidades(id_config_practica: number) {
+        const req = new HttpRequest('GET', `${environment.url_back}/modalidad/id_config_practica?id=${id_config_practica}`, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
+    getConfigInforme(id_config_practica: number) {
+        const req = new HttpRequest('GET', `${environment.url_back}/config_informe/id_config_practica?id=${id_config_practica}`, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
+    getPreguntasInforme(id_config_practica: number) {
+        const req = new HttpRequest('GET', `${environment.url_back}/modalidad/id_config_practica?id=${id_config_practica}`, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
+    getPreguntaEncuestaFinal(id_config_practica: number) {
+        const req = new HttpRequest('GET', `${environment.url_back}/modalidad/id_config_practica?id=${id_config_practica}`, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
+    getPreguntaSupervisor(id_config_practica: number) {
+        const req = new HttpRequest('GET', `${environment.url_back}/modalidad/id_config_practica?id=${id_config_practica}`, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
+    crearModalidad(id_config_practica: number, modalidad: string, cantidad_tiempo: number) {
+        const config = {
+            id_config_practica: id_config_practica,
+            tipo_modalidad: modalidad,
+            cantidad_tiempo: cantidad_tiempo
+        }
+
+        const req = new HttpRequest('POST', `${environment.url_back}/modalidad/crear`, config, {
             responseType: 'json'
         });
 
@@ -40,9 +90,9 @@ export class ConfigService {
         return this._http.request(req);
     }
 
-    crearPreguntaInforme(id_config_inform: number, enunciado: string, tipo_respuesta: string, opciones: string) {
+    crearPreguntaInforme(id_config_informe: number, enunciado: string, tipo_respuesta: string, opciones: string) {
         const pregunta = {
-            id_config_informe: id_config_inform,
+            id_config_informe: id_config_informe,
             enunciado: enunciado,
             tipo_respuesta: tipo_respuesta,
             opciones: opciones
@@ -69,19 +119,6 @@ export class ConfigService {
 
         return this._http.request(req);
     }
-  
-    //crearRespuestaEncuestaFinal(id_pregunta_encuesta_final: number, respuesta: string) {
-    //    const respuesta_encuesta_final = {
-    //        id_pregunta_encuesta_final: id_pregunta_encuesta_final,
-    //        respuesta: respuesta
-    //    }
-//
-    //    const req = new HttpRequest('POST', `${environment.url_back}/respuesta_encuesta_final/crear`, respuesta_encuesta_final, {
-    //        responseType: 'json'
-    //    });
-    //    
-    //    return this._http.request(req);
-    //}
     
     crearPreguntaSupervisor(id_config_practica: number, enunciado: string, tipo_respuesta: string, opciones: string) {
         const pregunta = {

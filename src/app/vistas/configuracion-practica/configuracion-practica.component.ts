@@ -8,9 +8,6 @@ import { MatTableDataSource } from '@angular/material/table'
 import { BarraLateralService } from 'src/app/servicios/encargado/barra-lateral/barra-lateral.service';
 import { ConfigService } from 'src/app/servicios/encargado/config-practica/config.service';
 
-import { map, tap } from 'rxjs/operators';
-import e from 'express';
-
 @Component({
   selector: 'app-configuracion-practica',
   templateUrl: './configuracion-practica.component.html',
@@ -102,52 +99,106 @@ export class ConfiguracionPracticaComponent implements OnInit {
         this.route.paramMap.subscribe((params: ParamMap) => {
           this.nombre_config = params.get('nombre');
         })
-    
-        this.serviceBarra.obtenerConfigPracticaNombre(this.nombre_config).subscribe({
-          next: (data: any) => {
-            respuesta = { ...respuesta, ...data }
-          },
-          error: (error: any) => {
-            this._snackBar.open("Error al buscar configuracion de practica", "Cerrar", {
-              duration: 3000,
-              panelClass: ['red-snackbar']
-            });
-            console.log("Error al buscar configuracion de practica", error);
-          },
-          complete: () => {
-            this.config = respuesta.body;
-            console.log(this.config);
-            this.generarFormulario();
+
+        if (this.nombre_config == "blanco") {
+            this.generarFormulario(-1);
             this.flag = true;
-            }
-        });
+        } else {
+            this.serviceBarra.obtenerConfigPracticaNombre(this.nombre_config).subscribe({
+            next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+                this._snackBar.open("Error al buscar configuracion de practica", "Cerrar", {
+                duration: 3000,
+                panelClass: ['red-snackbar']
+                });
+                console.log("Error al buscar configuracion de practica", error);
+            },
+            complete: () => {
+                this.config = respuesta.body;
+                console.log("request practica existente:", this.config);
+                this.generarFormulario(this.config[0].id); //se asume que la primera que se creó es la buena
+                this.flag = true;
+                }
+            });
+        }
     };
 
-    generarFormulario() {
-        if (this.nombre_config == "blanco") {
+    async generarFormulario(id_config_practica: number) {
+        let respuesta: any = {};
+
+        // set valores iniciales
+        if (id_config_practica == -1) {
             this.nombrePractica = "Practica 1";
             this.horas = false;
             this.meses = false;
             this.frecuenciaInformes = "";
             this.informeFinal = "";
         } else {
-            // practica existente
+            // set basicos
             this.nombrePractica = this.config[0].nombre;
-            // set modalidades
-            for (let i = 0; i < this.config.length; i++) {
-                if (this.config[i].modalidad == "horas") {
-                    this.horas = true;
-                }
-                if (this.config[i].modalidad == "meses") {
-                    this.meses = true;
-                }
-                //if (this.config[i].modalidad == "convalidable") {
-                //  this.convalidable = true;
-                //}
-            }
-            // set informes
             this.frecuenciaInformes = this.config[0].frecuencia_informes;
             this.informeFinal = this.config[0].informe_final;
+
+            // set modalidad
+            this.serviceComplete.getModalidades(id_config_practica).subscribe({ //! awaiteate
+                next: (data: any) => {
+                    respuesta = { ...respuesta, ...data }
+                },
+                error: (error: any) => {
+                    this._snackBar.open("Error al buscar modalidades de configuracion de practica", "Cerrar", {
+                        duration: 3000,
+                        panelClass: ['red-snackbar']
+                    });
+                    console.log("Error al buscar modalidades de configuracion de practica", error);
+                },
+                complete: () => {
+                    console.log("request modalidades existentes:", respuesta.body);
+
+                    //set modalidades
+                    for (let i = 0; i < respuesta.body.length; i++) {
+                        if (respuesta.body[i].tipo_modalidad == "horas") {
+                            this.horas = true;
+                        }
+                        if (respuesta.body[i].tipo_modalidad == "meses") {
+                            this.meses = true;
+                        }
+                    }
+                    console.log("horas:", this.horas, "meses:", this.meses);
+                }
+            });
+
+            // set config informe
+            this.serviceComplete.getConfigInforme(id_config_practica).subscribe({ //! awaiteate
+                next: (data: any) => {
+                    respuesta = { ...respuesta, ...data }
+                },
+                error: (error: any) => {
+                    this._snackBar.open("Error al buscar informes de configuracion de practica", "Cerrar", {
+                        duration: 3000,
+                        panelClass: ['red-snackbar']
+                    });
+                    console.log("Error al buscar informes de configuracion de practica", error);
+                },
+                complete: () => {
+                    console.log("request config informe:", respuesta.body);
+                    
+                    // set preguntas informe
+                    for (let i = 0; i < respuesta.body.length; i++) {
+                        if (respuesta.body[i].tipo_informe == "informe final") {
+                            this.lista_preguntas_final.push(respuesta.body[i].enunciado);
+                            this.tipos_preguntas_final.push(respuesta.body[i].tipo_respuesta);
+                            this.lista_opciones_preguntas_final.push(respuesta.body[i].opciones);
+                        }
+                        if (respuesta.body[i].tipo_informe == "informe avance") {
+                            this.lista_preguntas_avance.push(respuesta.body[i].enunciado);
+                            this.tipos_preguntas_avance.push(respuesta.body[i].tipo_respuesta);
+                            this.lista_opciones_preguntas_avance.push(respuesta.body[i].opciones);
+                        }
+                    }
+                }
+            });
         }
 
         this.fg = this._fb.group({
@@ -163,7 +214,6 @@ export class ConfiguracionPracticaComponent implements OnInit {
             frecuenciaInformes: new FormControl(this.frecuenciaInformes),
             informeFinal: new FormControl(this.informeFinal),
             //pregunta: this.preguntaFORM,
-
     
             preguntaFORM: this.pregunta,
 
@@ -177,8 +227,6 @@ export class ConfiguracionPracticaComponent implements OnInit {
             nombre_solicitud_documentos: new FormControl(this.nombre_solicitud_documentos),
             descripcion_solicitud_documentos: new FormControl(this.descripcion_solicitud_documentos),
             tipo_solicitud_documentos: new FormControl(this.tipo_solicitud_documentos),
-            
-    
         });
     }
 
@@ -675,77 +723,66 @@ export class ConfiguracionPracticaComponent implements OnInit {
         this.tipos_preguntas_encuesta.push("casillas");
         this.lista_opciones_preguntas_encuesta.push(opciones_ramos);
 
-        //console.log("lista_preguntas_encuesta: ", this.lista_preguntas_encuesta);
-        //console.log("tipos_preguntas_encuesta: ", this.tipos_preguntas_encuesta);
-        //console.log("lista_opciones_preguntas_encuesta: ", this.lista_opciones_preguntas_encuesta);
-
         let respuestas = [];
         let respuesta: any = {};
         
-        let modalidad: string;
-        let tipo_entrada: string;
+        let tipo_modalidad: string;
+        let tipo_request: string;
 
         // tipo de request
         if (this.nombre_config == "blanco") {
-            tipo_entrada = "crear";
+            tipo_request = "crear";
         } else {
-            tipo_entrada = "actualizar";
+            tipo_request = "actualizar";
         }
 
         // ========= REQUESTS HORAS =========
         if (this.horas == true) {
-            modalidad = "horas";
+            tipo_modalidad = "horas";
 
-            //requests tabla config practica
-            for (let i = 0; i < Object.keys(this.opcion_horas).length; i++) {
-                //console.log("datos a mandar: ", {
-                //    nombre: this.nombrePractica,
-                //    modalidad: modalidad,
-                //    cantidad_tiempo: Number(Object.values(Object.values(this.opcion_horas)[i])[0]),
-                //    frecuencia_informes: this.frecuenciaInformes,
-                //    informe_final: this.informeFinal
-                //});
+            this.serviceComplete.crearConfigPractica(this.nombrePractica, this.frecuenciaInformes, this.informeFinal).subscribe({
+                next: (data: any) => {
+                    respuesta = { ...respuesta, ...data }
+                },
+                error: (error: any) => {
+                    this._snackBar.open("Error al guardar configuracion de practica", "Cerrar", {
+                        duration: 3500,
+                        panelClass: ['red-snackbar']
+                    });
+                    console.log("Error al guardar configuracion de practica", error);
+                },
+                complete: () => {
+                    respuestas.push(respuesta.body);
+                    this._snackBar.open("Configuracion de practica guardada exitosamente", "Cerrar", {
+                        duration: 3500,
+                        panelClass: ['green-snackbar']
+                    });
+                    console.log("Configuracion de practica guardada exitosamente");
 
-                this.serviceComplete.crearConfigPracticaFila(this.nombrePractica, modalidad, Number(Object.values(Object.values(this.opcion_horas)[i])[0]), 
-                    this.frecuenciaInformes, this.informeFinal).subscribe({
-                    next: (data: any) => {
-                        respuesta = { ...respuesta, ...data }
-                    },
-                    error: (error: any) => {
-                        this._snackBar.open("Error al guardar configuracion de practica", "Cerrar", {
-                            duration: 3500,
-                            panelClass: ['red-snackbar']
-                        });
-                        console.log("Error al guardar configuracion de practica", error);
-                    },
-                    complete: () => {
-                        console.log("respuesta mandarDatos:", respuesta.body)
-                        respuestas.push(respuesta.body); //no manda el ID, agregarlo en el back
-                        this._snackBar.open("Configuracion de practica guardada exitosamente", "Cerrar", {
-                            duration: 3500,
-                            panelClass: ['green-snackbar']
-                        });
-                        console.log("Configuracion de practica guardada exitosamente");
-
-                        if (this.informeFinal == "si") {
-                            this.crearConfigInforme(respuesta.body.id, "informe final")
-                        }
-                        if (this.frecuenciaInformes != "sinAvance") {
-                            this.crearConfigInforme(respuesta.body.id, "informe avance") //mandando 2 request simultaneos?
-                        }
+                    this.tablaModalidad(respuesta.body.id, tipo_modalidad, Object.values(this.opcion_horas)); //asumiendo que funciona
+                    for (let i = 0; i < this.lista_preguntas_encuesta.length; i++) {
+                        this.crearPreguntaEncuestaFinal(respuesta.body.id, this.lista_preguntas_encuesta[i], this.tipos_preguntas_encuesta[i], this.lista_opciones_preguntas_encuesta[i]);
                     }
-                });
-            }
+                    for (let i = 0; i < this.lista_preguntas_supervisor.length; i++) {
+                        this.crearPreguntaEncuestaFinal(respuesta.body.id, this.lista_preguntas_supervisor[i], this.tipos_preguntas_supervisor[i], this.lista_opciones_preguntas_supervisor[i]);
+                    }
+                    if (this.informeFinal == "si") {
+                        this.crearConfigInforme(respuesta.body.id, "informe final")
+                    }
+                    if (this.frecuenciaInformes != "sinAvance") {
+                        this.crearConfigInforme(respuesta.body.id, "informe avance") //mandando 2 request simultaneos?
+                    }
+                }
+            });
         }
         // ========= FIN REQUESTS HORAS =========
 
         // ========= REQUESTS MESES =========
         if (this.meses == true) {
-            modalidad = "meses";
+            tipo_modalidad = "meses";
 
             for (let i = 0; i < Object.keys(this.opcion_meses).length; i++) {
-                this.serviceComplete.crearConfigPracticaFila(this.nombrePractica, modalidad, Number(Object.values(Object.values(this.opcion_meses)[i])[0]), 
-                    this.frecuenciaInformes, this.informeFinal).subscribe({
+                this.serviceComplete.crearConfigPractica(this.nombrePractica, this.frecuenciaInformes, this.informeFinal).subscribe({
                     next: (data: any) => {
                         respuesta = { ...respuesta, ...data }
                     },
@@ -767,9 +804,33 @@ export class ConfiguracionPracticaComponent implements OnInit {
                     }
                 });
             }
-
         }
-        // ========= FIN REQUESTS HORAS =========
+        // ========= FIN REQUESTS MESES =========
+    }
+
+    tablaModalidad(id_config_practica: number, tipo_modalidad: string, lista_cant: number[]) {
+        let respuesta: any = {};
+        for (let i = 0; i < Object.keys(this.opcion_horas).length; i++) {
+            this.serviceComplete.crearModalidad(id_config_practica, tipo_modalidad, Number(Object.values(lista_cant[i])[0])).subscribe({
+                next: (data: any) => {
+                    respuesta = { ...respuesta, ...data }
+                },
+                error: (error: any) => {
+                    this._snackBar.open("Error al guardar modalidad", "Cerrar", {
+                        duration: 3500,
+                        panelClass: ['red-snackbar']
+                    });
+                    console.log("Error al guardar modalidad", error);
+                },
+                complete: () => {
+                    this._snackBar.open("Modalidad guardada exitosamente", "Cerrar", {
+                        duration: 3500,
+                        panelClass: ['green-snackbar']
+                    });
+                    console.log("Modalidad guardada exitosamente");
+                }
+            });
+        }
     }
 
     crearConfigInforme(id_config_practica: number, tipoInforme: string) {
@@ -793,12 +854,12 @@ export class ConfiguracionPracticaComponent implements OnInit {
                 });
                 if (tipoInforme == "informe final") {
                     for (let i = 0; i < this.lista_preguntas_final.length; i++) {
-                        this.crearPreguntaInforme(respuesta.body.id, this.lista_preguntas_final[i], this.tipos_preguntas_final[i], this.lista_opciones_preguntas_final[i]);
+                        this.crearPreguntaInforme(id_config_practica, this.lista_preguntas_final[i], this.tipos_preguntas_final[i], this.lista_opciones_preguntas_final[i]);
                     }
                 }
                 if (tipoInforme == "informe avance") {
                     for (let i = 0; i < this.lista_preguntas_avance.length; i++) {
-                        this.crearPreguntaInforme(respuesta.body.id, this.lista_preguntas_avance[i], this.tipos_preguntas_avance[i], this.lista_opciones_preguntas_avance[i]);
+                        this.crearPreguntaInforme(id_config_practica, this.lista_preguntas_avance[i], this.tipos_preguntas_avance[i], this.lista_opciones_preguntas_avance[i]);
                     }
                 }
             }
@@ -829,8 +890,52 @@ export class ConfiguracionPracticaComponent implements OnInit {
         });
     }
 
-}
+    crearPreguntaEncuestaFinal(id_config_practica: number, pregunta: string, tipo_pregunta: string, opciones: string) {
+        let respuesta: any = {};
 
-//lista_preguntas_final: string[] = [];
-//tipos_preguntas_final: string[] = [];
-//lista_opciones_preguntas_final: string[] = [];
+        this.serviceComplete.crearPreguntaEncuestaFinal(id_config_practica, pregunta, tipo_pregunta, opciones).subscribe({
+            next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+                this._snackBar.open("Error al guardar pregunta de encuesta", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['red-snackbar']
+                });
+                console.log("Error al guardar pregunta de encuesta", error);
+            },
+            complete: () => {
+                this._snackBar.open("Pregunta de encuesta guardada exitosamente", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['green-snackbar']
+                });
+                console.log("Pregunta de encuesta guardada exitosamente");
+            }
+        });
+    }
+
+    crearPreguntaSupervisor(id_config_practica: number, pregunta: string, tipo_pregunta: string, opciones: string) {
+        let respuesta: any = {};
+
+        this.serviceComplete.crearPreguntaSupervisor(id_config_practica, pregunta, tipo_pregunta, opciones).subscribe({
+            next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+                this._snackBar.open("Error al guardar pregunta de supervisor", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['red-snackbar']
+                });
+                console.log("Error al guardar pregunta de supervisor", error);
+            },
+            complete: () => {
+                this._snackBar.open("Pregunta de supervisor guardada exitosamente", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['green-snackbar']
+                });
+                console.log("Pregunta de supervisor guardada exitosamente");
+            }
+        });
+    }
+
+}
