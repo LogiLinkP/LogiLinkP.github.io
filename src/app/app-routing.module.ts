@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { HomeComponent } from './vistas/home/home.component';
 import { DetalleAlumnoComponent } from './vistas/alumno/alumno.component';
 import { LoginComponent } from './vistas/login/login.component';
@@ -9,6 +10,11 @@ import { ForgotPasswordComponent } from './vistas/forgot-password/forgot-passwor
 import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.component';
 import { DetallePracticaComponent } from './vistas/detalle-practica/detalle-practica.component';
 import { InformacionesComponent } from './vistas/informaciones/informaciones.component';
+import { TestsComponent } from './vistas/tests/tests.component';
+import { EmpresasComponent } from './vistas/empresas/empresas.component';
+import { CuestionarioComponent } from './vistas/cuestionario/cuestionario.component';
+import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
+import { ConfiguracionPracticaComponent } from './vistas/configuracion-practica/configuracion-practica.component';
 
 import { PnfComponent } from './componentes/pnf/pnf.component';
 import { RevisionComponent } from './componentes/revision/revision.component';
@@ -18,11 +24,7 @@ import { IniciarPracticaComponent } from './componentes/iniciar-practica/iniciar
 import { FileComponent } from './componentes/file/file.component';
 import { LogoutComponent } from './componentes/logout/logout.component';
 import { ChatComponent } from './componentes/chat/chat.component';
-
-import { TestsComponent } from './vistas/tests/tests.component';
-import { EmpresasComponent } from './vistas/empresas/empresas.component';
-import { CuestionarioComponent } from './vistas/cuestionario/cuestionario.component';
-import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
+import { FragmentosComponent } from './vistas/fragmentos/fragmentos.component';
 
 import { environment } from 'src/environments/environment';
 
@@ -57,9 +59,11 @@ const routes: Routes = [
   { path: 'estadisticas', component: EstadisticasComponent },
   { path: 'informaciones', component: InformacionesComponent },
   // { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
-  { path: environment.ruta_alumno+'/:id/chat/:room/:id1/:id2/:tipo', component: ChatComponent},
-  { path: 'chat/:room/:id1/:id2/:tipo', component: ChatComponent},
-  { path: '**', component: PnfComponent }
+  { path: 'configurar/:nombre', component: ConfiguracionPracticaComponent},
+  { path: environment.ruta_alumno + '/:id/chat/:room/:id1/:id2/:tipo', component: ChatComponent },
+  { path: 'chat/:room/:id1/:id2/:tipo', component: ChatComponent },
+  { path: "fragmentos/:id", component: FragmentosComponent },
+  { path: '**', component: PnfComponent },
 ];
 
 @NgModule({
@@ -87,5 +91,6 @@ export const routingComponents = [
   TestsComponent,
   EmpresasComponent,
   CuestionarioComponent,
-  ChatComponent
+  ChatComponent,
+  ConfiguracionPracticaComponent
 ]

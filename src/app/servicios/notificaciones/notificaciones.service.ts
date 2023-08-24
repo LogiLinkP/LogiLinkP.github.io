@@ -37,14 +37,16 @@ export class NotificacionesService extends Socket{
 
   listen = () => {
     this.ioSocket.on('notificacion', (res:any) => {
-      console.log("notificacion recibida, el mensaje es", res.texto);
+      console.log("notificacion recibida, el mensaje es", res.message);
       this.callback.emit(res);
     });
   }
 
-  postnotificacion(id_usuario:number, mensaje:any){
-    const req = new HttpRequest('POST', `${environment.url_back}/notificacion/crear`, {id_usuario:id_usuario, mensaje:mensaje}, {responseType: 'text'});
+  postnotificacion(id_usuario:number, mensaje:any, correo: string){
+    const req = new HttpRequest('POST', `${environment.url_back}/notificacion/crear`, {id_usuario, mensaje, correo}, {responseType: 'text'});
     return this._http.request(req);
+
+    
   }
 
   getallnotificacion(id_usuario:number){

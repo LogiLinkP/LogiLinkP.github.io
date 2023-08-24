@@ -3,6 +3,7 @@ import { SetDetallesAlumnoService } from '../../servicios/encargado/decision.ser
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
+import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
 
 @Component({
   selector: 'app-revision',
@@ -15,11 +16,12 @@ export class RevisionComponent {
   @Input() id_usuario_estudiante: number = -1; 
   private sub: any;
 
-  correo_estudiante: String= ""
+  correo_estudiante: string= ""
   respuesta: any = [];
 
   constructor(private service: SetDetallesAlumnoService, private route: ActivatedRoute,
-              private _snackBar: MatSnackBar, private service_obtener: DataUsuarioService) {
+              private _snackBar: MatSnackBar, private service_obtener: DataUsuarioService,
+              private service_noti: NotificacionesService) {
   }
 
   ngOnInit() {
@@ -46,6 +48,27 @@ export class RevisionComponent {
       },
       error: (error: any) => console.log(error),
       complete: () => {
+        let mensaje:string = "";
+        if(aprobacion == 0){
+          mensaje = "Desafortunadamente, has reprobado esta práctica";
+        }
+        else{
+          mensaje = "Felicidades, has aprobado esta práctica";
+        }
+        this.service_noti.postnotificacion(this.id_estudiante, mensaje, this.correo_estudiante).subscribe({
+          next:(data:any) => {
+            respuesta = {...respuesta, ...data}
+          },
+          error:(error:any) => {
+            console.log(error);
+            return
+          },
+          complete:() => {
+            console.log("Notificación de resultado de revisión exitosa");
+          }
+        })
+
+        
         if (respuesta.status == 200) {
           this._snackBar.open("Práctica actualizada", "Cerrar", {
             panelClass: ['green-snackbar'],

@@ -1,36 +1,14 @@
-import { GetDetallesAlumnoService } from '../encargado/resumen_practicas.service';
-import { HttpClient, HttpRequest, HttpHeaders } from '@angular/common/http';
-import { EventEmitter, Injectable, Output } from '@angular/core';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpRequest } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Socket } from 'ngx-socket-io';
 
 @Injectable({
   providedIn: 'root'
 })
-export class GestionarService extends Socket{
+export class GestionarService {
   
-  @Output() outEven: EventEmitter<any> = new EventEmitter();
-  @Output() callback: EventEmitter<any> = new EventEmitter();
 
-  constructor(private service: GetDetallesAlumnoService, private http: HttpClient) {
-    super({
-      url: environment.url_back_chat,
-      options: {
-        query: {
-          nameRoom: "notificaciones" + JSON.parse(localStorage.getItem("auth-user") || "{}").userdata.id
-        },
-      }
-    });
-    console.log("sala notificaciones" + JSON.parse(localStorage.getItem("auth-user") || "{}").userdata.id);
-    this.listen();
-  }
-
-  listen = () => {
-    this.ioSocket.on('notificacion', (res:any) => {
-      console.log("notificacion recibida, el mensaje es", res.texto);
-      this.callback.emit(res);
-    });
+  constructor(private http: HttpClient) { 
   }
 
   registrar_empresa(nombre_empresa: string, rut_empresa: string) {
@@ -62,7 +40,7 @@ export class GestionarService extends Socket{
   }
 
   registrar_practica(id_estudiante: number, id_config_practica: number, fecha_inicio: string,
-                      id_empresa:number, id_supervisor:number, id_encargado:number, correo_encargado:String) {
+                      id_empresa:number, id_supervisor:number, id_encargado:number) {
     const nueva_practica = {
       estado: environment.estado_practica.en_curso,
       id_estudiante: id_estudiante,
@@ -79,14 +57,10 @@ export class GestionarService extends Socket{
     return this.http.request(req);
   }   
 
-
-  finalizar_practica(id_estudiante: number, id_practica: number, estado: string, correo_encargado:string) {
+  finalizar_practica(id_estudiante: number, id_practica: number, estado: string) {
     console.log("Finalizando practica con id: ", id_practica, " y estado: ", estado, " para estudiante con id: ", id_estudiante)
-    const req = new HttpRequest('PUT', `${environment.url_back}/practica/finalizar`, {
-      id_estudiante, id_practica, estado, correo_encargado
-    }, {
-      responseType: 'json'
-    });
+    const req = new HttpRequest('PUT', `${environment.url_back}/practica/finalizar`,
+                                  {id_estudiante, id_practica, estado}, {responseType: 'json' });
     return this.http.request(req);
   }
 

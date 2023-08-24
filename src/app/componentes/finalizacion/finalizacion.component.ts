@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
 import { SupervisorService } from 'src/app/servicios/supervisor/supervisor.service';
 import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
+import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class FinalizacionComponent {
 
   constructor(private service: GestionarService, private serviceEstudiante: ObtenerDatosService,private serviceSupervisor: SupervisorService, 
               private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, private router: Router,
-              private service_obtener: DataUsuarioService) {
+              private service_obtener: DataUsuarioService, private service_noti: NotificacionesService) {
     this.sub = this.activated_route.params.subscribe(params => {
       this.id_estudiante = +params['id']; // (+) converts string 'id' to a number
       this.id_practica = +params['n'];
@@ -59,7 +60,7 @@ export class FinalizacionComponent {
 
   finalizar() {
     let resultado: any = {};
-    this.service.finalizar_practica(this.id_estudiante, this.id_practica, "Finalizada", this.correo_encargado).subscribe(
+    this.service.finalizar_practica(this.id_estudiante, this.id_practica, "Finalizada").subscribe(
       {
         next: data => {
           resultado = { ...resultado, ...data };
@@ -103,6 +104,8 @@ export class FinalizacionComponent {
                       });
                     },
                     complete: () => {
+                      let correo_encargado:string = this.practica.correo_encargado;
+                      let id_usuario_encargado:number = this.practica.id_encargado;
                       this.practica = resultado.body;
                       resultado = {};
                       console.log("practica",this.practica.correo_supervisor);
@@ -122,6 +125,19 @@ export class FinalizacionComponent {
                             });
                           },
                           complete: () => {
+                            let respuesta:any = [];
+                            this.service_noti.postnotificacion(id_usuario_encargado, "El alumno" + this.id_estudiante + " ha finalizado su práctica y desea su revisión", correo_encargado).subscribe({
+                              next:(data:any) => {
+                                respuesta = {...respuesta, ...data};
+                              },
+                              error:(error:any) => {
+                                console.log(error);
+                                return;
+                              },
+                              complete:() => {
+                                console.log("Notificación de finalización enviada con éxito");
+                              }
+                            })
                             this._snackBar.open("Solicitud Ingresada Correctamente", "Cerrar", {
                               panelClass:['red-snackbar'],
                               duration:3000

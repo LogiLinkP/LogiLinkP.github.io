@@ -19,7 +19,7 @@ export class DetalleAlumnoComponent implements OnInit{
   estudiante:any = {id_estudiante: -1, usuario: {nombre: ""}} 
   config_practica: any = [];
   practicas: any = [];
-  correo_encargado: String = "";
+
   //Se deberían mostrar todos los tipos de practica que se pueden realizar - el desafío aquí es
   //que definimos que en la tabla se van a repetir los nombres para cada modalidad de tiempo, por ejemplo
   //por lo que hay que preocuparse de extraer sólo los nombres distintos
@@ -155,7 +155,7 @@ export class DetalleAlumnoComponent implements OnInit{
     let horas_trabajadas = (document.getElementById("horas") as HTMLInputElement).valueAsNumber;
     let id_config_informe = practica.config_practica.id;
     let id_encargado = this.config_practica.id_encargado;
-    let correo_encargado: String = "";
+    let correo_encargado: string = "";
 
     this.service_obtener.obtener_encargado(id_encargado).subscribe({
       next:(data:any) => {
@@ -185,14 +185,14 @@ export class DetalleAlumnoComponent implements OnInit{
     console.log("id_practica:", practica.id);
     console.log("casilla horas:", horas_trabajadas);
     
-    this.service_datos.ingresar_informe(practica.id, key, id_config_informe, horas_trabajadas, id_encargado, correo_encargado).subscribe({
+    this.service_datos.ingresar_informe(practica.id, key, id_config_informe, horas_trabajadas, id_encargado).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
         console.log("Respuesta ingresar informe:",data);
       },
       error: (error: any) => console.log("Error en ingresar informe:",error),
       complete: () => {
-        this.service_noti.postnotificacion(this.id_usuario, "El alumno "+ this.estudiante.nombre + " ha ingresado un informe diario")
+        this.service_noti.postnotificacion(this.id_usuario, "El alumno "+ this.estudiante.nombre + " ha ingresado un informe diario", correo_encargado)
         this._snackBar.open("Informe Ingresado","Cerrar",{
           panelClass: ['red-snackbar'],
           duration: 3000
@@ -252,13 +252,13 @@ export class DetalleAlumnoComponent implements OnInit{
     let resultado: any = {};
     console.log("practica",practica)
 
-    this.service_gestion.finalizar_practica(this.estudiante.id, practica.id, environment.estado_practica.finalizada, correo_encargado).subscribe({
+    this.service_gestion.finalizar_practica(this.estudiante.id, practica.id, environment.estado_practica.finalizada).subscribe({
       next: (data: any) => {
         console.log("Respuesta finalizar practica:",data);
       },
       error: (error: any) => console.log("Error en finalizar practica:",error),
       complete: () => {
-        this.service_noti.postnotificacion(this.id_usuario, "El alumno " + this.estudiante.nombre + " ha finalizado su práctica y desea su realización");
+        this.service_noti.postnotificacion(this.id_usuario, "El alumno " + this.estudiante.nombre + " ha finalizado su práctica y desea su realización", correo_encargado);
         this._snackBar.open("Práctica Finalizada","Cerrar",{
           panelClass: ['red-snackbar'],
           duration: 3000

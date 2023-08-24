@@ -1,35 +1,16 @@
 import { HttpClient, HttpRequest } from '@angular/common/http';
-import { Injectable, EventEmitter, Output } from '@angular/core';
-import { Socket } from 'ngx-socket-io';
+import { Injectable } from '@angular/core';
 
 import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ObtenerDatosService extends Socket{
-  @Output() outEven: EventEmitter<any> = new EventEmitter();
-  @Output() callback: EventEmitter<any> = new EventEmitter();
+export class ObtenerDatosService {
+
 
   constructor(private _http: HttpClient) {
-    super({
-      url: environment.url_back_chat,
-      options: {
-        query: {
-          nameRoom: "notificaciones" + JSON.parse(localStorage.getItem("auth-user") || "{}").userdata.id
-        },
-      }
-    });
-    console.log("sala notificaciones" + JSON.parse(localStorage.getItem("auth-user") || "{}").userdata.id);
-    this.listen();
    }
-
-   listen = () => {
-    this.ioSocket.on('notificacion', (res:any) => {
-      console.log("notificacion recibida, el mensaje es", res.texto);
-      this.callback.emit(res);
-    });
-  }
 
   obtener_estudiante(id_usuario:number) {
     const req = new HttpRequest('GET', `${environment.url_back}/estudiante/usuario?id_usuario=${id_usuario}`);
@@ -56,8 +37,8 @@ export class ObtenerDatosService extends Socket{
     return this._http.request(req);
   }
 
-  ingresar_informe(id_practica: number, key: any, id_config_informe: number, horas_trabajadas: number, id_encargado: number, correo_encargado: String){
-    const req = new HttpRequest('POST', `${environment.url_back}/informe/crear`, {id_practica, key, id_config_informe, horas_trabajadas, id_encargado, correo_encargado}, {responseType: 'text'});
+  ingresar_informe(id_practica: number, key: any, id_config_informe: number, horas_trabajadas: number, id_encargado: number){
+    const req = new HttpRequest('POST', `${environment.url_back}/informe/crear`, {id_practica, key, id_config_informe, horas_trabajadas, id_encargado}, {responseType: 'text'});
     return this._http.request(req);
   }
 

@@ -167,11 +167,14 @@ export class ChatComponent implements OnInit {
       },
       error: (error: any) => console.log("Error en enviar mensaje:",error),  
       complete: () =>{
+        let noti: string = "";
         if(mensaje.emisor == "encargado"){
-          this.service_noti.postnotificacion(this.id_estudiante, "El encargado "+ this.id_encargado +" te ha enviado un mensaje");
+          noti = "El encargado "+ this.id_encargado +" te ha enviado un mensaje"
+          this.service_noti.postnotificacion(this.id_estudiante, noti, this.correo_estudiante);
         }
         else{
-          this.service_noti.postnotificacion(this.id_estudiante, "El encargado "+ this.id_estudiante +" te ha enviado un mensaje");
+          noti = "El encargado "+ this.id_estudiante +" te ha enviado un mensaje"
+          this.service_noti.postnotificacion(this.id_estudiante, noti, this.correo_encargado);
         }
         console.log("Mensaje Enviado", mensaje);
         console.log(this.respuesta);

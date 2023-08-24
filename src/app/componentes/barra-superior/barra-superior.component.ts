@@ -4,6 +4,7 @@ import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.
 import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
 import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
 import { CookieService } from 'ngx-cookie-service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-barra-superior',
@@ -25,13 +26,12 @@ export class BarraSuperiorComponent implements OnInit{
   notificaciones: any = [];
 
   constructor(private Service: DataUsuarioService,
-              private router: ActivatedRoute,
-              private cookie: CookieService,
               private noti: NotificacionesService,
-              private cdr: ChangeDetectorRef){
+              private cdr: ChangeDetectorRef,
+              private datetime: DatePipe){
     // get user id from the local storage, in the key auth-user, userdata.id
     let auth_user = JSON.parse(localStorage.getItem("auth-user") || "{}");
-    console.log("Auth User:", auth_user);
+    //console.log("Auth User:", auth_user);
     if (auth_user.userdata != undefined){
       let userdata = auth_user.userdata;
       console.log("Userdata:", userdata);
@@ -41,11 +41,11 @@ export class BarraSuperiorComponent implements OnInit{
     }
     
     this.noti.callback.subscribe(res => {
-      const {fecha, mensaje} = res;
-      console.log("mira esta notificacion " + mensaje);
-      this.notificaciones.push(res);
+      let fecha = this.datetime.transform((new Date), 'MM/dd/yyyy h:mm:ss')
+      let mensaje = res.message;
+
+      this.notificaciones.push({fecha: fecha, texto: mensaje});
       this.cdr.detectChanges();
-      console.log("Mira estas notificaciones"+ this.notificaciones);
     })
   }
 
@@ -109,7 +109,6 @@ export class BarraSuperiorComponent implements OnInit{
       },
       complete: () => {
         this.notificaciones = this.respuesta.body;
-        console.log("Hola, estas son las notificaciones iniciales " + this.notificaciones);
       }
     })
 
