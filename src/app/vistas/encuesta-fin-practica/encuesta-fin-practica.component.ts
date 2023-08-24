@@ -125,9 +125,9 @@ export class EncuestaFinPracticaComponent {
         console.log('complete');
 
         this.preguntas = respuesta.body;
-        console.log(this.preguntas);
+        //console.log(this.preguntas);
 
-        console.log(this.preguntas[2].opciones.split(';;'));
+        //console.log(this.preguntas[2].opciones.split(';;'));
 
         if (this.preguntas.length > 0) {
           for (let pregunta of this.preguntas) {
