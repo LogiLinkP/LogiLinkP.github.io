@@ -90,7 +90,7 @@ import { InformeComponent } from './vistas/informe/informe.component';
     SubirArchivoExtraComponent,
     SubirArchivoComponent,
     EncuestaFinPracticaComponent,
-    FragmentosComponent
+    FragmentosComponent,
     InformeComponent
   ],
   imports: [
