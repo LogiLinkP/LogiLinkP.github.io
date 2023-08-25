@@ -60,7 +60,6 @@ import { SubirArchivoExtraComponent } from './componentes/subir-archivo-extra/su
 import { SubirArchivoComponent } from './componentes/subir-archivo/subir-archivo.component';
 import { EncuestaFinPracticaComponent } from './vistas/encuesta-fin-practica/encuesta-fin-practica.component';
 import { FragmentosComponent } from './vistas/fragmentos/fragmentos.component';
-import { EstadisticasEncuestaFinalComponent } from './vistas/estadisticas-encuesta-final/estadisticas-encuesta-final.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +90,6 @@ import { EstadisticasEncuestaFinalComponent } from './vistas/estadisticas-encues
     SubirArchivoComponent,
     EncuestaFinPracticaComponent,
     FragmentosComponent,
-    EstadisticasEncuestaFinalComponent
   ],
   imports: [
     BrowserModule,
