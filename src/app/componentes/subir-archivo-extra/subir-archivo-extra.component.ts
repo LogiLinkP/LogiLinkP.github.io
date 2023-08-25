@@ -71,6 +71,7 @@ export class SubirArchivoExtraComponent {
           },
           complete: () => {
             let respuesta:any =[];
+            console.log("Este es el correo del encargado" + this.correo_encargado);
             this.service_noti.postnotificacion(this.id_encargado_usuario, "El alumno ha subido el archivo extra solicitado", this.correo_encargado).subscribe({
               next:(data:any) => {
                 respuesta = {...respuesta, ...data};
