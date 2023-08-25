@@ -188,7 +188,7 @@ export class DetalleAlumnoComponent implements OnInit{
             console.log(error);
           },
           complete:()=>{
-            console.log("Notificación enviada");
+            console.log("Notificacion enviada con éxito");
           }
         })
         this._snackBar.open("Informe Ingresado","Cerrar",{
@@ -198,17 +198,7 @@ export class DetalleAlumnoComponent implements OnInit{
         window.location.reload();
       }
     });
-    this.service_noti.postnotificacion(id_encargado_usuario, "El alumno "+ this.estudiante.nombre + " ha ingresado un informe diario", correo_encargado).subscribe({
-      next:(data:any) => {
-        respuesta = {...respuesta, ...data};
-      },
-      error:(error:any) =>{
-        console.log(error);
-      },
-      complete:()=>{
-        console.log("Notificación enviada");
-      }
-    })
+    this.service_noti.postnotificacion(id_encargado_usuario, "El alumno "+ this.estudiante.nombre + " ha ingresado un informe diario", correo_encargado)
   }
 
   
