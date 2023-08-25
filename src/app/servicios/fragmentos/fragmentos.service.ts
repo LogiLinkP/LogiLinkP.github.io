@@ -16,4 +16,11 @@ export class FragmentosService {
     });
     return this.http.request(req);
   }
+
+  update_fragmentos_practica(id_practica: number, cantidad: number = 10) {
+    const req = new HttpRequest('PUT', `${environment.url_back}/similitud/frases_representativas_practica/${id_practica}?cantidad=${cantidad}`, {
+      responseType: 'json'
+    });
+    return this.http.request(req);
+  }
 }

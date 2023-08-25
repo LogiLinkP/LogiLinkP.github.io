@@ -221,8 +221,14 @@
                                                             <td>{{ informe.config_informe.tipo_informe }}</td>
                                                             <td>{{ informe.horas_trabajadas }}</td>
                                                             <td>{{ informe.fecha | date: 'dd/MM/yyyy' }}</td>
-                                                            <td><button class = "btn btn-primary btn-sm btn-block" (click)="mostrar_informe(informe.id)">Ver
-                                                                    Informe</button></td>
+                                                            <td>
+                                                                <a class="nostyle"
+                                                                    href="/informe/{{practica.id}}/{{informe.id}}">
+                                                                    <button class="btn btn-primary btn-sm btn-block">
+                                                                        Ver Informe
+                                                                    </button>
+                                                                </a>
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -262,7 +268,7 @@
                                                             <td>{{doc.solicitud_documento.tipo_archivo}}</td>
                                                             <td>Normal</td>
                                                             <!--add button that calls the function descargar documento with the parameter doc.key-->
-                                                            <td><button class = "btn btn-primary btn-sm btn-block"
+                                                            <td><button class="btn btn-primary btn-sm btn-block"
                                                                     (click)="descargar_documento(doc.id, doc_str)">Descargar</button>
                                                             </td>
                                                         </tr>
@@ -270,7 +276,7 @@
                                                             <td>{{doc_extra.nombre_solicitud}}</td>
                                                             <td>{{doc_extra.tipo_archivo}}</td>
                                                             <td>Extra</td>
-                                                            <td><button class = "btn btn-primary btn-sm btn-block"
+                                                            <td><button class="btn btn-primary btn-sm btn-block"
                                                                     (click)="descargar_documento(doc_extra.id, doc_extra_str)">Descargar</button>
                                                             </td>
                                                         </tr>
@@ -289,8 +295,9 @@
                         <div class="col-lg-6">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Accordion -->
-                                <a href="#collapseCardEvaluacion" class="d-block card-header py-3" data-toggle="collapse"
-                                    role="button" aria-expanded="true" aria-controls="collapseCardEvaluacion">
+                                <a href="#collapseCardEvaluacion" class="d-block card-header py-3"
+                                    data-toggle="collapse" role="button" aria-expanded="true"
+                                    aria-controls="collapseCardEvaluacion">
                                     <h6 class="m-0 font-weight-bold text-primary">Evaluación del Supervisor</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
@@ -324,8 +331,9 @@
                         <div class="col-lg-6">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Accordion -->
-                                <a href="#collapseCardSupervisor" class="d-block card-header py-3" data-toggle="collapse"
-                                    role="button" aria-expanded="true" aria-controls="collapseCardSupervisor">
+                                <a href="#collapseCardSupervisor" class="d-block card-header py-3"
+                                    data-toggle="collapse" role="button" aria-expanded="true"
+                                    aria-controls="collapseCardSupervisor">
                                     <h6 class="m-0 font-weight-bold text-primary">Reseñas del Supervisor</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
@@ -361,8 +369,9 @@
                         <div class="col-lg-12">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Accordion -->
-                                <a href="#collapseCardConsistencias" class="d-block card-header py-3" data-toggle="collapse"
-                                    role="button" aria-expanded="true" aria-controls="collapseCardConsistencias">
+                                <a href="#collapseCardConsistencias" class="d-block card-header py-3"
+                                    data-toggle="collapse" role="button" aria-expanded="true"
+                                    aria-controls="collapseCardConsistencias">
                                     <h6 class="m-0 font-weight-bold text-primary">Consistencia de Informes</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
@@ -461,11 +470,11 @@
                         </div><!-- Fin Tarjeta Consistencia -->
                     </div><!-- Fin Fila -->
                 </div>
-                
+
             </div>
             <!-- End of Main Content -->
 
-            
+
 
         </div>
         <!-- End of Content Wrapper -->
