@@ -11,6 +11,7 @@ import { DocumentosService } from '../../servicios/encargado/documentos.service'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ArchivosService } from '../../servicios/archivos/archivos.service';
 import { ActivatedRoute, Router} from '@angular/router';
+import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
 
 
 export interface DialogData {
@@ -31,18 +32,17 @@ export class SubirArchivoExtraComponent {
   @Input() tipo_archivo: string[] = [];
 
   @Input() id_encargado_usuario:number = -1;
+  @Input() correo_encargado:string = "";
 
   constructor(public dialog: MatDialog, private doc_service: DocumentosService, private router: Router, 
               private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, 
-              private archivo_service: ArchivosService) { }
+              private archivo_service: ArchivosService, private service_noti: NotificacionesService) { }
 
   subir_archivos() {
     let id_documento_extra = this.id_documento_extra;
     let nombre_solicitud = this.nombre_solicitud;
     let descripcion = this.descripcion;
-    let tipo_archivo = this.tipo_archivo;
-    let id_encargado_usuario = this.id_encargado_usuario;
-    
+    let tipo_archivo = this.tipo_archivo;    
 
     const dialogRef = this.dialog.open(Dialog, {
       width: '300px',
@@ -70,6 +70,20 @@ export class SubirArchivoExtraComponent {
             _data = { ..._data, ...data }
           },
           complete: () => {
+            let respuesta:any =[];
+            this.service_noti.postnotificacion(this.id_encargado_usuario, "El alumno ha subido el archivo extra solicitado", this.correo_encargado).subscribe({
+              next:(data:any) => {
+                respuesta = {...respuesta, ...data};
+              },
+              error:(error:any) =>{
+                console.log(error);
+                return;
+              },
+              complete:()=>{
+                console.log("Notificacion enviada con exito");
+              }
+            })
+
             let upload_string = "";
             if (_data.status == 200) {
               upload_string = "?upload_success=success";

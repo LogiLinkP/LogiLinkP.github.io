@@ -27,8 +27,8 @@
                     <!-- Page Heading -->
                     <div class="row">
                         <div class="col-lg-10">
-                            <h1 class="h3 mb-2 text-gray-800">{{ practica.estudiante.usuario.nombre }} <br> {{
-                                practica.config_practica.nombre }}</h1>
+                            <h1 class="h3 mb-2 text-gray-800">{{ practica?.estudiante?.usuario.nombre }} <br> {{
+                                practica?.modalidad?.config_practica?.nombre }}</h1>
                         </div>
                         <div class="col-lg-1">
                             <button type="button" class="btn btn-primary btn-lg btn-block"
@@ -45,7 +45,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Estado</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"> {{ practica.estado }}
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"> {{ practica?.estado }}
                                             </div>
                                         </div>
                                         <div class="col-auto">
@@ -65,7 +65,7 @@
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Empresa</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{
-                                                practica.empresa.nombre_empresa }}</div>
+                                                practica?.empresa?.nombre_empresa }}</div>
                                         </div>
                                         <div class="col-auto">
                                             <!-- <i class="fas fa-dollar-sign fa-2x text-gray-300"></i> -->
@@ -84,7 +84,7 @@
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 Supervisor</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{
-                                                practica.supervisor.nombre }}</div>
+                                                practica?.supervisor?.nombre }}</div>
                                         </div>
                                         <div class="col-auto">
                                             <!-- <i class="fas fa-comments fa-2x text-gray-300"></i> -->
@@ -103,7 +103,7 @@
                                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                                 Modalidad</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{
-                                                practica.config_practica.modalidad}}</div>
+                                                practica?.modalidad?.tipo_modalidad}}</div>
                                         </div>
                                         <div class="col-auto">
                                             <!-- <i class="fas fa-comments fa-2x text-gray-300"></i> -->
@@ -114,10 +114,6 @@
                         </div>
 
 
-                    </div>
-                    <div class="row">
-                        <app-subir-archivo-extra></app-subir-archivo-extra>
-                        <app-boton-solicitar-archivo></app-boton-solicitar-archivo>
                     </div>
 
                     <!-- Fila de Información general y Archivos -->
@@ -136,19 +132,19 @@
                                         <table style="width:80%">
                                             <tr>
                                                 <td>Correo Estudiante:</td>
-                                                <td>{{ practica.estudiante.usuario.correo }}</td>
+                                                <td>{{ practica?.estudiante?.usuario.correo }}</td>
                                             </tr>
                                             <tr>
                                                 <td>Correo Supervisor:</td>
-                                                <td>{{ practica.supervisor.correo }}</td>
+                                                <td>{{ practica?.supervisor?.correo }}</td>
                                             </tr>
                                             <tr>
                                                 <td>Fecha Inicio:</td>
-                                                <td>{{ practica.fecha_inicio | date: 'dd/MM/yyyy' }}</td>
+                                                <td>{{ practica?.fecha_inicio | date: 'dd/MM/yyyy' }}</td>
                                             </tr>
                                             <tr>
                                                 <td>Fecha Termino:</td>
-                                                <td>{{ practica.fecha_termino | date: 'dd/MM/yyyy' }}</td>
+                                                <td>{{ practica?.fecha_termino | date: 'dd/MM/yyyy' }}</td>
                                             </tr>
                                         </table>
 
@@ -172,19 +168,26 @@
                                             <div class="col-lg-1"></div>
                                             <div class="col-lg-5">
                                                 <button type="button" class="btn btn-success btn-lg btn-block"
+<<<<<<< HEAD
                                                     (click)="aprobar(practica.estudiante.id_usuario, practica.estudiante.id, practica.config_practica.id, 1)">Aprobar</button>
                                             </div>
                                             <div class="col-lg-5">
                                                 <button type="button" class="btn btn-danger btn-lg btn-block"
                                                     (click)="aprobar(practica.estudiante.id_usuario, practica.estudiante.id, practica.config_practica.id, 0)">Reprobar</button>
+=======
+                                                    (click)="aprobar(practica?.estudiante?.id, practica?.modalidad?.config_practica?.id, 1)">Aprobar</button>
+                                            </div>
+                                            <div class="col-lg-5">
+                                                <button type="button" class="btn btn-danger btn-lg btn-block"
+                                                    (click)="aprobar(practica?.estudiante?.id, practica?.modalidad?.config_practica?.id, 0)">Reprobar</button>
+>>>>>>> dev
                                             </div>
                                         </div>
                                         <br>
                                         <div class="row">
                                             <div class="col-lg-1"></div>
                                             <div class="col-lg-5">
-                                                <button type="button" class="btn btn-primary btn-lg btn-block">Generar
-                                                    PDF de Práctica</button>
+                                                <app-boton-solicitar-archivo></app-boton-solicitar-archivo>
                                             </div>
                                             <div class="col-lg-5">
                                                 <button type="button" class="btn btn-primary btn-lg btn-block">Resumir
@@ -226,7 +229,7 @@
                                                             <td>{{ informe.config_informe.tipo_informe }}</td>
                                                             <td>{{ informe.horas_trabajadas }}</td>
                                                             <td>{{ informe.fecha | date: 'dd/MM/yyyy' }}</td>
-                                                            <td><button (click)="mostrar_informe(informe.id)">Ver
+                                                            <td><button class = "btn btn-primary btn-sm btn-block" (click)="mostrar_informe(informe.id)">Ver
                                                                     Informe</button></td>
                                                         </tr>
                                                     </tbody>
@@ -267,7 +270,7 @@
                                                             <td>{{doc.solicitud_documento.tipo_archivo}}</td>
                                                             <td>Normal</td>
                                                             <!--add button that calls the function descargar documento with the parameter doc.key-->
-                                                            <td><button
+                                                            <td><button class = "btn btn-primary btn-sm btn-block"
                                                                     (click)="descargar_documento(doc.id, doc_str)">Descargar</button>
                                                             </td>
                                                         </tr>
@@ -275,7 +278,7 @@
                                                             <td>{{doc_extra.nombre_solicitud}}</td>
                                                             <td>{{doc_extra.tipo_archivo}}</td>
                                                             <td>Extra</td>
-                                                            <td><button
+                                                            <td><button class = "btn btn-primary btn-sm btn-block"
                                                                     (click)="descargar_documento(doc_extra.id, doc_extra_str)">Descargar</button>
                                                             </td>
                                                         </tr>
@@ -313,7 +316,7 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr *ngFor="let eval of evaluaciones;">
-                                                            <td>{{eval.pregunta_supervisor.enunciado}}</td>
+                                                            <td>{{eval.pregunta_supervisor?.enunciado}}</td>
                                                             <td>{{eval.respuesta}}</td>
                                                         </tr>
                                                     </tbody>
@@ -348,7 +351,7 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr *ngFor="let resp of respuestas_supervisor;">
-                                                            <td>{{resp.pregunta_supervisor.enunciado}}</td>
+                                                            <td>{{resp.pregunta_supervisor?.enunciado}}</td>
                                                             <td>{{resp.respuesta}}</td>
                                                         </tr>
                                                     </tbody>
@@ -386,7 +389,7 @@
                                                                         class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                                         Consistencia Informe</div>
                                                                     <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                                        {{ practica.consistencia_informe }}
+                                                                        {{ practica?.consistencia_informe }}
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-auto">
@@ -406,7 +409,7 @@
                                                                         class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                                         Consistencia Nota</div>
                                                                     <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                                        {{ practica.consistencia_nota }}</div>
+                                                                        {{ practica?.consistencia_nota }}</div>
                                                                 </div>
                                                                 <div class="col-auto">
                                                                     <!--  <i class="fas fa-calendar fa-2x text-gray-300"></i> -->
@@ -431,7 +434,7 @@
                                                             </thead>
                                                             <tbody>
                                                                 <tr *ngFor="let resp of respuestas_supervisor;">
-                                                                    <td>{{resp.pregunta_supervisor.enunciado}}</td>
+                                                                    <td>{{resp.pregunta_supervisor?.enunciado}}</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -448,7 +451,7 @@
                                                             </thead>
                                                             <tbody>
                                                                 <tr *ngFor="let resp of respuestas_supervisor;">
-                                                                    <td>{{resp.pregunta_supervisor.enunciado}}</td>
+                                                                    <td>{{resp.pregunta_supervisor?.enunciado}}</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>

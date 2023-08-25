@@ -69,6 +69,7 @@ export class DetallePracticaComponent implements OnInit{
         },
         complete: () => {
           this.practica = respuesta.body;
+          console.log("practicA: ", this.practica);
           this.documentos = this.practica.documentos;
           this.documento_extras = this.practica.documento_extras;
           this.informes = this.practica.informes;
@@ -121,7 +122,15 @@ export class DetallePracticaComponent implements OnInit{
     })
   }
 
+<<<<<<< HEAD
   aprobar(id_usuario:number, id_estudiante: number, id_config_practica: number, aprobacion: 0 | 1) {
+=======
+  isDataEmpty(data:any): boolean {
+    return Object.keys(data).length === 0 && data.constructor === Object;
+  }
+
+  aprobar(id_estudiante: number, id_config_practica: number, aprobacion: 0 | 1) {
+>>>>>>> dev
     let respuesta: any = {}
     this.service2.aprobar_practica(id_usuario, id_estudiante, id_config_practica, aprobacion, this.correo_estudiante).subscribe({
       next: (data: any) => {

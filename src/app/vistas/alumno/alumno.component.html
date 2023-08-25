@@ -14,7 +14,7 @@
                 <!-- Page Heading -->
                 <div class="row">
                         <div class="col-xl-10">
-                            <h1 class="h3 mb-2 text-gray-800">Prácticas de {{ estudiante.usuario.nombre }} <br></h1>
+                            <h1 class="h3 mb-2 text-gray-800">Prácticas de {{ usuario.nombre }} <br></h1>
                             <p class="mb-4">Aquí puedes ver tus prácticas cursadas, en curso o no iniciadas aún.</p>
                         </div>
                 </div>
@@ -69,8 +69,8 @@
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>Modalidad:</td>
-                                                                                    <td>{{ practica[1]?.config_practica?.cantidad_tiempo}} 
-                                                                                        {{ practica[1]?.config_practica?.modalidad}}</td>
+                                                                                    <td>{{ practica[1]?.modalidad.cantidad_tiempo}} 
+                                                                                        {{ practica[1]?.modalidad.tipo_modalidad}}</td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>Fecha Inicio:</td>
@@ -194,7 +194,7 @@
                                                                                             </tr>
                                                                                         </thead>
                                                                                         <tbody>
-                                                                                            <tr *ngFor="let solicitud of practica[1].config_practica.solicitud_documentos;">
+                                                                                            <tr *ngFor="let solicitud of practica[1].modalidad.config_practica.solicitud_documentos;">
                                                                                                 <td>{{solicitud?.nombre_solicitud}}</td>
                                                                                                 <td>{{solicitud?.tipo_archivo}}</td>
                                                                                                 <td>Normal</td>                                                                                                
@@ -215,6 +215,7 @@
                                                                                                     <app-subir-archivo-extra *ngSwitchCase="null || ''" [id_documento_extra] = doc_extra.id 
                                                                                                                         [descripcion]="doc_extra.descripcion" [nombre_solicitud]="doc_extra.nombre_solicitud" 
                                                                                                                         [tipo_archivo]="doc_extra.tipo_archivo" [id_encargado_usuario]=" practica[1].encargado.id_usuario"
+                                                                                                                        [correo_encargado]="practica[1].encargado.usuario.correo"
                                                                                                                         >
                                                                                                     </app-subir-archivo-extra>
                                                                                                     <button *ngSwitchDefault class="btn btn-success btn-sm btn-block"
@@ -256,7 +257,7 @@
                                                                                       </tr>
                                                                                       <tr>
                                                                                         <td></td>
-                                                                                        <td style="text-align:right"><button class="btn btn-primary btn-lg btn-block" (click) = "ingresarInforme(practica[1])">Enviar</button></td>
+                                                                                        <td style="text-align:right"><button class="btn btn-primary btn-lg btn-block">Enviar</button></td>
                                                                                       </tr>
                                                                                     </table>
                                                                                   </div>

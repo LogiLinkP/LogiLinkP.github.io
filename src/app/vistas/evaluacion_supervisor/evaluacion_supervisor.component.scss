@@ -1,30 +1,9 @@
 textarea {
     resize: none;
+    height: 100px;
+    width: 100%;
 }
 
-.radio-inline {
-    padding-left: 7px;
-    padding-right: 4px;
-    font-weight: 500;
-    font-size: large;
-}
-
-.row_mb-3 {
-    padding-top: 15px;
-    padding-bottom: 5px;
-}
-
-.row_mb-2 {
-    padding-top: 5px;
-    padding-bottom: 20px;
-}
-
-.pregunta_desempeño {
-    margin-bottom: 0px;
-    font-size: 20px;
-    font-weight: 500;
-}
-
-.cont_pregunta {
-    height: 334px;
-}
+.radio-button-group input[type="radio"] {
+    margin-right: 2px; /* You can adjust this value to make the gap shorter */
+  }
