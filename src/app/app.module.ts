@@ -17,7 +17,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatNativeDateModule } from '@angular/material/core';
-import {MAT_DATE_LOCALE} from '@angular/material/core';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -59,7 +59,8 @@ import { BotonSolicitarArchivoComponent } from './componentes/boton-solicitar-ar
 import { SubirArchivoExtraComponent } from './componentes/subir-archivo-extra/subir-archivo-extra.component';
 import { SubirArchivoComponent } from './componentes/subir-archivo/subir-archivo.component';
 import { EncuestaFinPracticaComponent } from './vistas/encuesta-fin-practica/encuesta-fin-practica.component';
-import { FragmentosComponent } from './vistas/fragmentos/fragmentos.component';
+import { FragmentosComponent } from './componentes/fragmentos/fragmentos.component';
+import { InformeComponent } from './vistas/informe/informe.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +91,7 @@ import { FragmentosComponent } from './vistas/fragmentos/fragmentos.component';
     SubirArchivoComponent,
     EncuestaFinPracticaComponent,
     FragmentosComponent
+    InformeComponent
   ],
   imports: [
     BrowserModule,
