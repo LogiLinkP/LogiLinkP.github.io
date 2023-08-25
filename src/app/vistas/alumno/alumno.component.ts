@@ -154,21 +154,9 @@ export class DetalleAlumnoComponent implements OnInit{
     let key = (document.getElementById("informe") as HTMLInputElement).value;
     let horas_trabajadas = (document.getElementById("horas") as HTMLInputElement).valueAsNumber;
     let id_config_informe = practica.config_practica.id;
-    let id_encargado = this.config_practica.id_encargado;
+    let id_encargado = practica.encargado.id;
+    let id_encargado_usuario = practica.encargado.id_usuario;
     let correo_encargado: string = "";
-
-    this.service_obtener.obtener_encargado(id_encargado).subscribe({
-      next:(data:any) => {
-        respuesta = {...respuesta, ...data};
-      },
-      error:(error:any) => {
-        console.log(error);
-        return;
-      },
-      complete:() => {
-        correo_encargado = respuesta.body.correo;
-      }
-    })
     
     if (Number.isNaN(horas_trabajadas)){
       horas_trabajadas = 0;
@@ -192,7 +180,17 @@ export class DetalleAlumnoComponent implements OnInit{
       },
       error: (error: any) => console.log("Error en ingresar informe:",error),
       complete: () => {
-        this.service_noti.postnotificacion(this.id_usuario, "El alumno "+ this.estudiante.nombre + " ha ingresado un informe diario", correo_encargado)
+        this.service_noti.postnotificacion(id_encargado_usuario, "El alumno "+ this.estudiante.nombre + " ha ingresado un informe diario", correo_encargado).subscribe({
+          next:(data:any) => {
+            respuesta = {...respuesta, ...data};
+          },
+          error:(error:any) =>{
+            console.log(error);
+          },
+          complete:()=>{
+            console.log("Notificación enviada");
+          }
+        })
         this._snackBar.open("Informe Ingresado","Cerrar",{
           panelClass: ['red-snackbar'],
           duration: 3000
@@ -200,6 +198,17 @@ export class DetalleAlumnoComponent implements OnInit{
         window.location.reload();
       }
     });
+    this.service_noti.postnotificacion(id_encargado_usuario, "El alumno "+ this.estudiante.nombre + " ha ingresado un informe diario", correo_encargado).subscribe({
+      next:(data:any) => {
+        respuesta = {...respuesta, ...data};
+      },
+      error:(error:any) =>{
+        console.log(error);
+      },
+      complete:()=>{
+        console.log("Notificación enviada");
+      }
+    })
   }
 
   

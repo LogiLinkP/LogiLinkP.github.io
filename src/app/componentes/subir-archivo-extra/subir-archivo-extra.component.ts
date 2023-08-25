@@ -30,6 +30,8 @@ export class SubirArchivoExtraComponent {
   @Input() descripcion: string = "";
   @Input() tipo_archivo: string[] = [];
 
+  @Input() id_encargado_usuario:number = -1;
+
   constructor(public dialog: MatDialog, private doc_service: DocumentosService, private router: Router, 
               private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, 
               private archivo_service: ArchivosService) { }
@@ -39,6 +41,8 @@ export class SubirArchivoExtraComponent {
     let nombre_solicitud = this.nombre_solicitud;
     let descripcion = this.descripcion;
     let tipo_archivo = this.tipo_archivo;
+    let id_encargado_usuario = this.id_encargado_usuario;
+    
 
     const dialogRef = this.dialog.open(Dialog, {
       width: '300px',

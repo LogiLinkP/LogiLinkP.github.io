@@ -214,7 +214,8 @@
                                                                                                 <td [ngSwitch]="doc_extra.key" >
                                                                                                     <app-subir-archivo-extra *ngSwitchCase="null || ''" [id_documento_extra] = doc_extra.id 
                                                                                                                         [descripcion]="doc_extra.descripcion" [nombre_solicitud]="doc_extra.nombre_solicitud" 
-                                                                                                                        [tipo_archivo]="doc_extra.tipo_archivo">
+                                                                                                                        [tipo_archivo]="doc_extra.tipo_archivo" [id_encargado_usuario]=" practica[1].encargado.id_usuario"
+                                                                                                                        >
                                                                                                     </app-subir-archivo-extra>
                                                                                                     <button *ngSwitchDefault class="btn btn-success btn-sm btn-block"
                                                                                                     (click)="descargar_documento(doc_extra.id, doc_extra_str)">Descargar</button>
