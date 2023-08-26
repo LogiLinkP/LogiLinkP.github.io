@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table'
@@ -15,11 +15,36 @@ import { response } from 'express';
   styleUrls: ['./configuracion-practica.component.scss']
 })
 
-export class ConfiguracionPracticaComponent implements OnInit {
+export class ConfiguracionPracticaComponent {
+
+    currentRoute: string;
     
     constructor(private _fb: FormBuilder, private cd: ChangeDetectorRef, @Inject(DOCUMENT) private document: Document,
                 private serviceBarra: BarraLateralService, private _snackBar: MatSnackBar, private route: ActivatedRoute,
-                private serviceComplete: ConfigService) {}
+                private serviceComplete: ConfigService, private router: Router) {
+                    this.currentRoute = "";
+                    this.router.events.subscribe((event: Event) => {
+                        if (event instanceof NavigationStart) {
+                            // Show loading indicator
+                            //console.log("NavigationStart:", event.url);
+                            this.currentRoute = event.url;
+                        }
+            
+                        if (event instanceof NavigationEnd) {
+                            // Hide loading indicator
+                            console.log("NavigationEnd:", event.url);
+                            this.currentRoute = event.url;
+                            this.requestInicial();
+                        }
+            
+                        if (event instanceof NavigationError) {
+                            // Hide loading indicator
+                            // Present error to user
+                            console.log("NavigationError:", event.error);
+                            this.currentRoute = event.url;
+                        }
+                    });
+                }
 
     config: any;
     flag: boolean = false;
@@ -91,8 +116,8 @@ export class ConfiguracionPracticaComponent implements OnInit {
         this.document.body.scrollTop = 0;
         this.document.documentElement.scrollTop = 0;
     }
-  
-    ngOnInit(): void {
+
+    requestInicial() {
         let respuesta: any = {};
 
         this.route.paramMap.subscribe((params: ParamMap) => {
@@ -120,7 +145,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
                 }
             });
         }
-    };
+    }
 
     generarFormulario(id_config_practica: number) {
         let respuesta: any = {};
