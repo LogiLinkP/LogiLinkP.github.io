@@ -15,8 +15,8 @@ export class BarraSuperiorComponent implements OnInit{
   tipo: string = "";
   id_usuario:number = 0;
   respuesta:any = [];
+  nombre_usuario:string = "";
 
-  Yo:any=[];
   personas:any=[];
   id_personas:any=[];
 
@@ -36,6 +36,7 @@ export class BarraSuperiorComponent implements OnInit{
       console.log("Userdata:", userdata);
       if (userdata.id != undefined){
         this.id_usuario = userdata.id;
+        this.nombre_usuario = userdata.nombre;
       }
     }    
   }
