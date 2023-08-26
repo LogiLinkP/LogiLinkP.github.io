@@ -41,6 +41,10 @@ export class ConfiguracionPracticaComponent {
                             // Hide loading indicator
                             // Present error to user
                             console.log("NavigationError:", event.error);
+                            _snackBar.open("Error al cargar la página", "Cerrar", {
+                                duration: 3000,
+                                panelClass: ['red-snackbar']
+                            });
                             this.currentRoute = event.url;
                         }
                     });
