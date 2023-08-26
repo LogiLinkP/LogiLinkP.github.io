@@ -45,8 +45,6 @@ export class NotificacionesService extends Socket{
   postnotificacion(id_usuario:number, mensaje:any, correo: string){
     const req = new HttpRequest('POST', `${environment.url_back}/notificacion/crear`, {id_usuario, mensaje, correo}, {responseType: 'text'});
     return this._http.request(req);
-
-    
   }
 
   getallnotificacion(id_usuario:number){
@@ -56,6 +54,11 @@ export class NotificacionesService extends Socket{
 
   notificaciones_vistas(id_usuario:number){
     const req = new HttpRequest('PUT', `${environment.url_back}/notificacion/visto`, {id_usuario});
+    return this._http.request(req);
+  }
+
+  cambiar_configuración_notificaciones(id:number, estado:string){
+    const req = new HttpRequest('PUT', `${environment.url_back}/usuario/estado_config`, {id, estado});
     return this._http.request(req);
   }
 }

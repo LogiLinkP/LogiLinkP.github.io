@@ -25,8 +25,10 @@ export class BarraSuperiorComponent implements OnInit{
 
   notificaciones: any = [];
 
+  estados_configuracion = ["Notificaciones y Correo","Sólo Notificaciones", "Sólo Correo", "Ninguno"];
+
   constructor(private Service: DataUsuarioService,
-              private noti: NotificacionesService,
+              private service_noti: NotificacionesService,
               private cdr: ChangeDetectorRef,
               private datetime: DatePipe){
     // get user id from the local storage, in the key auth-user, userdata.id
@@ -39,13 +41,28 @@ export class BarraSuperiorComponent implements OnInit{
         this.id_usuario = userdata.id;
       }
     }
-    
-    this.noti.callback.subscribe(res => {
+   
+    this.service_noti.callback.subscribe(res => {
       let fecha = this.datetime.transform((new Date), 'MM/dd/yyyy h:mm:ss')
       let mensaje = res.message;
 
       this.notificaciones.push({fecha: fecha, texto: mensaje});
       this.cdr.detectChanges();
+    })
+  }
+
+  cambiar_configuracion_notificacion(Id:number, estado:string){
+    this.service_noti.cambiar_configuración_notificaciones(Id, estado).subscribe({
+      next:(data:any) => {
+        this.respuesta = {...this.respuesta, ...data};
+      },
+      error:(error:any) => {
+        console.log(error);
+        return;
+      },
+      complete:() => {
+        console.log("Estado cambiado con éxito");
+      }
     })
   }
 
@@ -161,7 +178,7 @@ export class BarraSuperiorComponent implements OnInit{
   }
 
   eliminar_notificaciones(id:number){
-    this.noti.notificaciones_vistas(id).subscribe({
+    this.service_noti.notificaciones_vistas(id).subscribe({
       next:(data:any) => {
         this.respuesta = {...this.respuesta, ...data};
       },

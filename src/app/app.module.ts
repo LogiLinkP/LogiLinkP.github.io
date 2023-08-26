@@ -18,6 +18,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import {MatRadioModule} from '@angular/material/radio';
 
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -113,7 +114,8 @@ import { InformeComponent } from './vistas/informe/informe.component';
     MatSortModule,
     FormsModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatRadioModule,
   ],
   providers: [
     GetDetallesAlumnoService,
