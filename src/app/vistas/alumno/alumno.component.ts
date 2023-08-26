@@ -20,6 +20,8 @@ export class DetalleAlumnoComponent implements OnInit{
   config_practicas: any = [];
   practicas: any = [];
 
+  estado_congig:string = "";
+
   nombres_config_practica: string[] = [];
   practicas_correspondiente_nombre: any = [];
   
@@ -244,7 +246,19 @@ export class DetalleAlumnoComponent implements OnInit{
       },
       error: (error: any) => console.log("Error en finalizar practica:",error),
       complete: () => {
-        this.service_noti.postnotificacion(id_encargado, "El alumno " + this.estudiante.nombre + " ha finalizado su práctica y desea su realización", correo_encargado);
+        let respuesta: any = [];
+        this.service_noti.postnotificacion(id_encargado, "El alumno " + this.estudiante.nombre + " ha finalizado su práctica y desea su realización", correo_encargado, this.estado_congig).subscribe({
+          next:(data:any) => {
+            respuesta = {...respuesta, ...data};
+          },
+          error:(error:any) => {
+            console.log(error);
+            return;
+          },
+          complete:() => {
+            console.log("Notificación enviada con éxito");
+          }
+        });
         this._snackBar.open("Práctica Finalizada","Cerrar",{
           panelClass: ['red-snackbar'],
           duration: 3000

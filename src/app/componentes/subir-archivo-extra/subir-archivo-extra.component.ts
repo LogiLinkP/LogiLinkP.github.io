@@ -34,6 +34,8 @@ export class SubirArchivoExtraComponent {
   @Input() id_encargado_usuario:number = -1;
   @Input() correo_encargado:string = "";
 
+  @Input()estado_config:string = "";
+
   constructor(public dialog: MatDialog, private doc_service: DocumentosService, private router: Router, 
               private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, 
               private archivo_service: ArchivosService, private service_noti: NotificacionesService) { }
@@ -72,7 +74,7 @@ export class SubirArchivoExtraComponent {
           complete: () => {
             let respuesta:any =[];
             console.log("Este es el correo del encargado" + this.correo_encargado);
-            this.service_noti.postnotificacion(this.id_encargado_usuario, "El alumno ha subido el archivo extra solicitado", this.correo_encargado).subscribe({
+            this.service_noti.postnotificacion(this.id_encargado_usuario, "El alumno ha subido el archivo extra solicitado", this.correo_encargado, this.estado_config).subscribe({
               next:(data:any) => {
                 respuesta = {...respuesta, ...data};
               },

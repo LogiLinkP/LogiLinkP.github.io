@@ -16,6 +16,7 @@ export class RevisionComponent {
   @Input() id_usuario_estudiante: number = -1; 
   private sub: any;
 
+  estado_config: string = ""
   correo_estudiante: string= ""
   respuesta: any = [];
 
@@ -55,7 +56,7 @@ export class RevisionComponent {
         else{
           mensaje = "Felicidades, has aprobado esta práctica";
         }
-        this.service_noti.postnotificacion(this.id_estudiante, mensaje, this.correo_estudiante).subscribe({
+        this.service_noti.postnotificacion(this.id_estudiante, mensaje, this.correo_estudiante, this.estado_config).subscribe({
           next:(data:any) => {
             respuesta = {...respuesta, ...data}
           },

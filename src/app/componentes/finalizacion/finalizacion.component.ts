@@ -20,6 +20,8 @@ export class FinalizacionComponent {
   estudiante: any = {};
   practica: any = {};
 
+  estado_config: string = "";
+
   correo_encargado: string= "";
 
   constructor(private service: GestionarService, private serviceEstudiante: ObtenerDatosService,private serviceSupervisor: SupervisorService, 
@@ -126,7 +128,7 @@ export class FinalizacionComponent {
                           },
                           complete: () => {
                             let respuesta:any = [];
-                            this.service_noti.postnotificacion(id_usuario_encargado, "El alumno" + this.id_estudiante + " ha finalizado su práctica y desea su revisión", correo_encargado).subscribe({
+                            this.service_noti.postnotificacion(id_usuario_encargado, "El alumno" + this.id_estudiante + " ha finalizado su práctica y desea su revisión", correo_encargado, this.estado_config).subscribe({
                               next:(data:any) => {
                                 respuesta = {...respuesta, ...data};
                               },

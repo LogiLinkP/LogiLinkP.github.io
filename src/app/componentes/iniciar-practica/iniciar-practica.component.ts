@@ -23,6 +23,8 @@ export class IniciarPracticaComponent implements OnInit{
   cantidades: number[] = []
   modalidades: any = []
 
+  estado_config: string = ""
+
   correo_encargado: string = "";
 
   respuesta:any = [];
@@ -141,7 +143,18 @@ export class IniciarPracticaComponent implements OnInit{
                         let texto: string = "El estudiante "+ this.id_estudiante + " ha comenzado una nueva práctica";
                         console.log("Ahora a mandar la notificación");
                         
-                        this.service_noti.postnotificacion(this.id_usuario, {fecha, texto}, this.correo_encargado);
+                        this.service_noti.postnotificacion(this.id_usuario, {fecha, texto}, this.correo_encargado, this.estado_config).subscribe({
+                          next:(data:any) => {
+                            this.respuesta = {...this.respuesta, ...data};
+                          },
+                          error:(error:any) => {
+                            console.log(error);
+                            return;
+                          },
+                          complete:() => {
+                            console.log("Notificación enviada con éxito");
+                          }
+                        });
                         let inscripcion_string = "";
                             if (aux.status == 200) {
                               inscripcion_string = "?inscripcion_success=success";
