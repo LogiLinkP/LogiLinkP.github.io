@@ -850,14 +850,12 @@ export class ConfiguracionPracticaComponent implements OnInit {
                     panelClass: ['green-snackbar']
                 });
                 console.log("Configuracion de practica guardada exitosamente");
-                console.log("largo:", this.lista_nombre_solicitud_documentos.length);
-                
 
                 if (this.horas == true) {
-                    this.tablaModalidad(respuesta.body.id, "horas", Object.values(this.opcion_horas)); //asumiendo que funciona
+                    this.tablaModalidad(respuesta.body.id, "horas", Object.values(this.opcion_horas));
                 }
                 if (this.meses == true) {
-                    this.tablaModalidad(respuesta.body.id, "meses", Object.values(this.opcion_meses)); //asumiendo que funciona
+                    this.tablaModalidad(respuesta.body.id, "meses", Object.values(this.opcion_meses));
                 }
                 for (let i = 0; i < this.lista_preguntas_encuesta.length; i++) {
                     this.crearPreguntaEncuestaFinal(respuesta.body.id, this.lista_preguntas_encuesta[i], this.tipos_preguntas_encuesta[i], this.lista_opciones_preguntas_encuesta[i]);
