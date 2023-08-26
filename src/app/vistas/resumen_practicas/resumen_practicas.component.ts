@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { GetDetallesAlumnoService } from '../../servicios/encargado/resumen_practicas.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -9,7 +9,8 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'resumen_practicas',
   templateUrl: './resumen_practicas.component.html',
-  styleUrls: ['./resumen_practicas.component.scss']
+  styleUrls: ['./resumen_practicas.component.scss'],
+  encapsulation: ViewEncapsulation.None // para poder customizar el mat-tooltip
 })
 export class TablaComponent{
   rutas = environment;
@@ -20,6 +21,22 @@ export class TablaComponent{
   dtTrigger: Subject<any> = new Subject();
 
   practicas: any = [];
+
+  texto_consistencia_informe: string = "Indica qué tan relacionados están los informes del\n"+
+                                       "estudiante con lo que escribió su supervisor.\n"+
+                                       "Para más información, haga click en el botón.";
+
+  texto_consistencia_evaluacion: string = "Indica qué tan relacionada está la evaluación escrita del\n"+
+                                          "supervisor, con las notas que este mismo le haya puesto.\n"+
+                                          "Para más información, haga click en el botón.";
+
+  texto_interpretacion_nota: string = "Texto que ayuda a entender qué significa el puntaje\n"+
+                                      "de consistencia evaluación obtenido.\n"+
+                                      "Para más información, haga click en el botón.";
+                                  
+  texto_interpretacion_informes: string = "Texto que ayuda a entender qué significa el puntaje\n"+
+                                          "de consistencia informes obtenido.\n"+
+                                          "Para más información, haga click en el botón.";
 
   constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar) {
     this.dtOptions = {
