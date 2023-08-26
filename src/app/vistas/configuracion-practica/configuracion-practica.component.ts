@@ -211,16 +211,18 @@ export class ConfiguracionPracticaComponent implements OnInit {
                             console.log("request config informe:", respuesta.body);
                             
                             //* set preguntas informe
-                            for (let i = 0; i < respuesta.body[0].pregunta_informes.length; i++) {
-                                if (respuesta.body[0].tipo_informe == "informe final") {
-                                    this.lista_preguntas_final.push(respuesta.body[0].pregunta_informes[i].enunciado);
-                                    this.tipos_preguntas_final.push(respuesta.body[0].pregunta_informes[i].tipo_respuesta);
-                                    this.lista_opciones_preguntas_final.push(respuesta.body[0].pregunta_informes[i].opciones);
-                                }
-                                if (respuesta.body[i].tipo_informe == "informe avance") {
-                                    this.lista_preguntas_avance.push(respuesta.body[0].pregunta_informes[i].enunciado);
-                                    this.tipos_preguntas_avance.push(respuesta.body[0].pregunta_informes[i].tipo_respuesta);
-                                    this.lista_opciones_preguntas_avance.push(respuesta.body[0].pregunta_informes[i].opciones);
+                            if (respuesta.body?.length) { // el encargado seteó preguntas de informe
+                                for (let i = 0; i < respuesta.body[0].pregunta_informes.length; i++) {
+                                    if (respuesta.body[0].tipo_informe == "informe final") {
+                                        this.lista_preguntas_final.push(respuesta.body[0].pregunta_informes[i].enunciado);
+                                        this.tipos_preguntas_final.push(respuesta.body[0].pregunta_informes[i].tipo_respuesta);
+                                        this.lista_opciones_preguntas_final.push(respuesta.body[0].pregunta_informes[i].opciones);
+                                    }
+                                    if (respuesta.body[0].tipo_informe == "informe avance") {
+                                        this.lista_preguntas_avance.push(respuesta.body[0].pregunta_informes[i].enunciado);
+                                        this.tipos_preguntas_avance.push(respuesta.body[0].pregunta_informes[i].tipo_respuesta);
+                                        this.lista_opciones_preguntas_avance.push(respuesta.body[0].pregunta_informes[i].opciones);
+                                    }
                                 }
                             }
 
@@ -820,10 +822,8 @@ export class ConfiguracionPracticaComponent implements OnInit {
         this.tipos_preguntas_encuesta.push("casillas");
         this.lista_opciones_preguntas_encuesta.push(opciones_ramos);
 
-        let respuestas = [];
         let respuesta: any = {};
-        
-        let tipo_modalidad: string;
+    
         let tipo_request: string;
 
         // tipo de request
@@ -833,87 +833,49 @@ export class ConfiguracionPracticaComponent implements OnInit {
             tipo_request = "actualizar";
         }
 
-        // ========= REQUESTS HORAS =========
-        if (this.horas == true) {
-            tipo_modalidad = "horas";
+        this.serviceComplete.crearConfigPractica(this.nombrePractica, this.frecuenciaInformes, this.informeFinal).subscribe({
+            next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+                this._snackBar.open("Error al guardar configuracion de practica", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['red-snackbar']
+                });
+                console.log("Error al guardar configuracion de practica", error);
+            },
+            complete: () => {
+                this._snackBar.open("Configuracion de practica guardada exitosamente", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['green-snackbar']
+                });
+                console.log("Configuracion de practica guardada exitosamente");
+                console.log("largo:", this.lista_nombre_solicitud_documentos.length);
+                
 
-            this.serviceComplete.crearConfigPractica(this.nombrePractica, this.frecuenciaInformes, this.informeFinal).subscribe({
-                next: (data: any) => {
-                    respuesta = { ...respuesta, ...data }
-                },
-                error: (error: any) => {
-                    this._snackBar.open("Error al guardar configuracion de practica", "Cerrar", {
-                        duration: 3500,
-                        panelClass: ['red-snackbar']
-                    });
-                    console.log("Error al guardar configuracion de practica", error);
-                },
-                complete: () => {
-                    respuestas.push(respuesta.body);
-                    this._snackBar.open("Configuracion de practica guardada exitosamente", "Cerrar", {
-                        duration: 3500,
-                        panelClass: ['green-snackbar']
-                    });
-                    console.log("Configuracion de practica guardada exitosamente");
-
-                    this.tablaModalidad(respuesta.body.id, tipo_modalidad, Object.values(this.opcion_horas)); //asumiendo que funciona
-                    for (let i = 0; i < this.lista_preguntas_encuesta.length; i++) {
-                        this.crearPreguntaEncuestaFinal(respuesta.body.id, this.lista_preguntas_encuesta[i], this.tipos_preguntas_encuesta[i], this.lista_opciones_preguntas_encuesta[i]);
-                    }
-                    for (let i = 0; i < this.lista_preguntas_supervisor.length; i++) {
-                        this.crearPreguntaEncuestaFinal(respuesta.body.id, this.lista_preguntas_supervisor[i], this.tipos_preguntas_supervisor[i], this.lista_opciones_preguntas_supervisor[i]);
-                    }
-                    if (this.informeFinal == "si") {
-                        this.crearConfigInforme(respuesta.body.id, "informe final")
-                    }
-                    if (this.frecuenciaInformes != "sinAvance") {
-                        this.crearConfigInforme(respuesta.body.id, "informe avance") //mandando 2 request simultaneos?
-                    }
+                if (this.horas == true) {
+                    this.tablaModalidad(respuesta.body.id, "horas", Object.values(this.opcion_horas)); //asumiendo que funciona
                 }
-            });
-        }
-        // ========= FIN REQUESTS HORAS =========
-
-        // ========= REQUESTS MESES =========
-        if (this.meses == true) {
-            tipo_modalidad = "meses";
-
-            this.serviceComplete.crearConfigPractica(this.nombrePractica, this.frecuenciaInformes, this.informeFinal).subscribe({
-                next: (data: any) => {
-                    respuesta = { ...respuesta, ...data }
-                },
-                error: (error: any) => {
-                    this._snackBar.open("Error al guardar configuracion de practica", "Cerrar", {
-                        duration: 3500,
-                        panelClass: ['red-snackbar']
-                    });
-                    console.log("Error al guardar configuracion de practica", error);
-                },
-                complete: () => {
-                    respuestas.push(respuesta.body);
-                    this._snackBar.open("Configuracion de practica guardada exitosamente", "Cerrar", {
-                        duration: 3500,
-                        panelClass: ['green-snackbar']
-                    });
-                    console.log("Configuracion de practica guardada exitosamente");
-
-                    this.tablaModalidad(respuesta.body.id, tipo_modalidad, Object.values(this.opcion_meses)); //asumiendo que funciona
-                    for (let i = 0; i < this.lista_preguntas_encuesta.length; i++) {
-                        this.crearPreguntaEncuestaFinal(respuesta.body.id, this.lista_preguntas_encuesta[i], this.tipos_preguntas_encuesta[i], this.lista_opciones_preguntas_encuesta[i]);
-                    }
-                    for (let i = 0; i < this.lista_preguntas_supervisor.length; i++) {
-                        this.crearPreguntaEncuestaFinal(respuesta.body.id, this.lista_preguntas_supervisor[i], this.tipos_preguntas_supervisor[i], this.lista_opciones_preguntas_supervisor[i]);
-                    }
-                    if (this.informeFinal == "si") {
-                        this.crearConfigInforme(respuesta.body.id, "informe final")
-                    }
-                    if (this.frecuenciaInformes != "sinAvance") {
-                        this.crearConfigInforme(respuesta.body.id, "informe avance") //mandando 2 request simultaneos?
-                    }
+                if (this.meses == true) {
+                    this.tablaModalidad(respuesta.body.id, "meses", Object.values(this.opcion_meses)); //asumiendo que funciona
                 }
-            });
-        }
-        // ========= FIN REQUESTS MESES =========
+                for (let i = 0; i < this.lista_preguntas_encuesta.length; i++) {
+                    this.crearPreguntaEncuestaFinal(respuesta.body.id, this.lista_preguntas_encuesta[i], this.tipos_preguntas_encuesta[i], this.lista_opciones_preguntas_encuesta[i]);
+                }
+                for (let i = 0; i < this.lista_preguntas_supervisor.length; i++) {
+                    this.crearPreguntaSupervisor(respuesta.body.id, this.lista_preguntas_supervisor[i], this.tipos_preguntas_supervisor[i], this.lista_opciones_preguntas_supervisor[i]);
+                }
+                for (let i = 0; i < this.lista_nombre_solicitud_documentos.length; i++) {
+                    this.crearSolicitudDocumento(respuesta.body.id, this.lista_nombre_solicitud_documentos[i], this.lista_descripcion_solicitud_documentos[i], this.lista_tipo_solicitud_documentos[i]);
+                }
+                if (this.informeFinal == "si") {
+                    this.crearConfigInforme(respuesta.body.id, "informe final")
+                }
+                if (this.frecuenciaInformes != "sinAvance") {
+                    this.crearConfigInforme(respuesta.body.id, "informe avance")
+                }
+            }
+        });
     }
 
     tablaModalidad(id_config_practica: number, tipo_modalidad: string, lista_cant: number[]) {
@@ -962,6 +924,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
                 });
                 if (tipoInforme == "informe final") {
                     for (let i = 0; i < this.lista_preguntas_final.length; i++) {
+                        //console.log("lista pregunta final: ", this.lista_preguntas_final[i], "tipos preguntas final: ", this.tipos_preguntas_final[i], "lista opciones preguntas final: ", this.lista_opciones_preguntas_final[i]);
                         this.crearPreguntaInforme(id_config_practica, this.lista_preguntas_final[i], this.tipos_preguntas_final[i], this.lista_opciones_preguntas_final[i]);
                     }
                 }
@@ -976,6 +939,7 @@ export class ConfiguracionPracticaComponent implements OnInit {
 
     crearPreguntaInforme(id_config_informe: number, pregunta: string, tipo_pregunta: string, opciones: string) {
         let respuesta: any = {};
+        console.log("pregunta: ", pregunta, "tipo_pregunta: ", tipo_pregunta, "opciones: ", opciones);
 
         this.serviceComplete.crearPreguntaInforme(id_config_informe, pregunta, tipo_pregunta, opciones).subscribe({
             next: (data: any) => {
@@ -1042,6 +1006,30 @@ export class ConfiguracionPracticaComponent implements OnInit {
                     panelClass: ['green-snackbar']
                 });
                 console.log("Pregunta de supervisor guardada exitosamente");
+            }
+        });
+    }
+
+    crearSolicitudDocumento(id_config_practica: number, nombre: string, descripcion: string, tipo: string) {
+        let respuesta: any = {};
+
+        this.serviceComplete.crearSolicitudDocumento(id_config_practica, nombre, descripcion, tipo).subscribe({
+            next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+                this._snackBar.open("Error al guardar solicitud de documento", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['red-snackbar']
+                });
+                console.log("Error al guardar solicitud de documento", error);
+            },
+            complete: () => {
+                this._snackBar.open("Solicitud de documento guardada exitosamente", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['green-snackbar']
+                });
+                console.log("Solicitud de documento guardada exitosamente");
             }
         });
     }

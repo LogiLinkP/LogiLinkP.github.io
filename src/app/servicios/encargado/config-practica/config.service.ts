@@ -143,6 +143,21 @@ export class ConfigService {
         return this._http.request(req);
     }
 
+    crearSolicitudDocumento(id_config_practica: number, tipo: string, nombre: string, descripcion: string) {
+        const pregunta = {
+            id_config_practica: id_config_practica,
+            tipo_archivo: tipo,
+            nombre_solicitud: nombre,
+            descripcion: descripcion
+        }
+
+        const req = new HttpRequest('POST', `${environment.url_back}/solicitud_documento/crear`, pregunta, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
     crearConfigPracticaCompleto(tipo_entrada:string, nombre: string, modalidad: Array<boolean>, cant_horas: Array<number>, cant_meses: Array<number>,
                                     frecuencia_informes: string, informe_final: string) {
         
