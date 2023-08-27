@@ -8,7 +8,9 @@ import { environment } from '../../../environments/environment';
 })
 export class ObtenerDatosService {
 
-  constructor(private _http: HttpClient) { }
+
+  constructor(private _http: HttpClient) {
+   }
 
   obtener_estudiante(id_usuario:number) {
     const req = new HttpRequest('GET', `${environment.url_back}/estudiante/usuario?id_usuario=${id_usuario}`);
@@ -35,8 +37,8 @@ export class ObtenerDatosService {
     return this._http.request(req);
   }
 
-  ingresar_informe(id_practica: number, key: any, id_config_informe: number, horas_trabajadas: number){
-    const req = new HttpRequest('POST', `${environment.url_back}/informe/crear`, {id_practica, key, id_config_informe, horas_trabajadas}, {responseType: 'text'});
+  ingresar_informe(id_practica: number, key: any, id_config_informe: number, horas_trabajadas: number, id_encargado: number){
+    const req = new HttpRequest('POST', `${environment.url_back}/informe/crear`, {id_practica, key, id_config_informe, horas_trabajadas, id_encargado}, {responseType: 'text'});
     return this._http.request(req);
   }
 

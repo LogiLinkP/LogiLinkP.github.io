@@ -3,12 +3,15 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class SupervisorService {
 
-  constructor(private _http: HttpClient) { }
+
+  constructor(private _http: HttpClient) { 
+  }
 
   sendAnswer(id_pregunta_supervisor: number, id_practica: number, respuesta: any): Observable<any> {
     const data = {
