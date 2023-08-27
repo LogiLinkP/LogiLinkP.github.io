@@ -23,7 +23,7 @@ export class IniciarPracticaComponent implements OnInit{
   cantidades: number[] = []
   modalidades: any = []
 
-  estado_config: string = ""
+  @Input() estado_config: string = ""
 
   correo_encargado: string = "";
 

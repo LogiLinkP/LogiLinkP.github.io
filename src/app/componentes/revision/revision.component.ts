@@ -36,6 +36,7 @@ export class RevisionComponent {
       },
       complete:() => {
         this.correo_estudiante = this.respuesta.body.correo;
+        this.estado_config = this.respuesta.body.config;
       }
     })
   }

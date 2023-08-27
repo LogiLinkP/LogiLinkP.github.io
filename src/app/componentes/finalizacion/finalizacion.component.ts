@@ -54,6 +54,7 @@ export class FinalizacionComponent {
           },
           complete:()=> {
             this.correo_encargado = respuesta.body.correo;
+            this.estado_config = respuesta.body.config;
           }
         })
       }

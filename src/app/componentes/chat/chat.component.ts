@@ -38,7 +38,8 @@ export class ChatComponent implements OnInit {
 
   chatService: any;
 
-  estado_config: string = "";
+  estado_config_estudiante: string = "";
+  estado_config_encargado: string = "";
 
   correo_estudiante: string = "";
   correo_encargado: string = "";
@@ -172,11 +173,11 @@ export class ChatComponent implements OnInit {
         let noti: string = "";
         if(mensaje.emisor == "encargado"){
           noti = "El encargado "+ this.id_encargado +" te ha enviado un mensaje"
-          this.service_noti.postnotificacion(this.id_estudiante, noti, this.correo_estudiante, this.estado_config);
+          this.service_noti.postnotificacion(this.id_estudiante, noti, this.correo_estudiante, this.estado_config_estudiante);
         }
         else{
           noti = "El encargado "+ this.id_estudiante +" te ha enviado un mensaje"
-          this.service_noti.postnotificacion(this.id_estudiante, noti, this.correo_encargado, this. estado_config).subscribe({
+          this.service_noti.postnotificacion(this.id_estudiante, noti, this.correo_encargado, this. estado_config_encargado).subscribe({
             next:(data:any) => {
               this.respuesta = {...this.respuesta, ...data};
             },

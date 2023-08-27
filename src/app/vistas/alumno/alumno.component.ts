@@ -20,7 +20,7 @@ export class DetalleAlumnoComponent implements OnInit{
   config_practicas: any = [];
   practicas: any = [];
 
-  estado_congig:string = "";
+  estado_config:string = "";
 
   nombres_config_practica: string[] = [];
   practicas_correspondiente_nombre: any = [];
@@ -36,6 +36,7 @@ export class DetalleAlumnoComponent implements OnInit{
               private service_noti: NotificacionesService, private service_obtener: DataUsuarioService) {
     this.usuario = JSON.parse(localStorage.getItem('auth-user') || '{}').userdata;
     this.estudiante = this.usuario.estudiante;
+    this.estado_config = this.usuario.body;
 
     console.log("usuario:",this.usuario);
     console.log("estudiante:",this.estudiante);
@@ -232,6 +233,8 @@ export class DetalleAlumnoComponent implements OnInit{
         return;
       },
       complete:() => {
+        console.log("Así se ve la configuración de estados");
+        console.log(respuesta.body.config);
         correo_encargado = respuesta.body.correo;
       }
     })
@@ -247,7 +250,7 @@ export class DetalleAlumnoComponent implements OnInit{
       error: (error: any) => console.log("Error en finalizar practica:",error),
       complete: () => {
         let respuesta: any = [];
-        this.service_noti.postnotificacion(id_encargado, "El alumno " + this.estudiante.nombre + " ha finalizado su práctica y desea su realización", correo_encargado, this.estado_congig).subscribe({
+        this.service_noti.postnotificacion(id_encargado, "El alumno " + this.estudiante.nombre + " ha finalizado su práctica y desea su realización", correo_encargado, this.estado_config).subscribe({
           next:(data:any) => {
             respuesta = {...respuesta, ...data};
           },
