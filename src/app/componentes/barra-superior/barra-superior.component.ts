@@ -22,6 +22,7 @@ export class BarraSuperiorComponent implements OnInit{
   id_personas:any=[];
 
   id_persona:number = 0;
+  estado_config:string = "";
 
   notificaciones: any = [];
 
@@ -40,6 +41,7 @@ export class BarraSuperiorComponent implements OnInit{
       if (userdata.id != undefined){
         this.id_usuario = userdata.id;
         this.nombre_usuario = userdata.nombre;
+        this.estado_config = userdata.config;
       }
     }
    
@@ -63,6 +65,7 @@ export class BarraSuperiorComponent implements OnInit{
       },
       complete:() => {
         console.log("Estado cambiado con éxito");
+        this.respuesta = [];
       }
     })
   }
@@ -88,6 +91,7 @@ export class BarraSuperiorComponent implements OnInit{
               this.personas.push(this.respuesta.body[0].practicas[i].encargado);
             }
           }
+          this.respuesta = [];
           console.log("ENCARGADOS:",this.personas);
         }
       })
@@ -111,14 +115,14 @@ export class BarraSuperiorComponent implements OnInit{
               this.personas.push(this.respuesta.body[0].practicas[i].estudiante);
             }
           }
+          this.respuesta = [];
         }
       })
     } 
   }
 
   ngOnInit(): void {
-
-    this.Service.obtener_notificaciones(this.id_usuario).subscribe({
+    this.Service.obtener_notificaciones(this.id_usuario, this.estado_config).subscribe({
       next: (data:any) => {
         this.respuesta = { ...this.respuesta, ...data}
       },
@@ -127,6 +131,7 @@ export class BarraSuperiorComponent implements OnInit{
       },
       complete: () => {
         this.notificaciones = this.respuesta.body;
+        this.respuesta = [];
       }
     })
 
@@ -174,6 +179,7 @@ export class BarraSuperiorComponent implements OnInit{
         else{
           return;
         }
+        this.respuesta = [];
       }
     });  
   }
@@ -190,6 +196,7 @@ export class BarraSuperiorComponent implements OnInit{
       complete:() => {
         this.notificaciones = [];
         console.log("Notificaciones cambiadas");
+        this.respuesta = [];
       }
     })
     this.notificaciones = [];

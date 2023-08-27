@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
@@ -25,7 +25,7 @@ export interface DialogData {
   templateUrl: './subir-archivo-extra.component.html',
   styleUrls: ['./subir-archivo-extra.component.scss']
 })
-export class SubirArchivoExtraComponent {
+export class SubirArchivoExtraComponent implements OnInit{
   @Input() id_documento_extra: number = -1;
   @Input() nombre_solicitud: string = "";
   @Input() descripcion: string = "";
@@ -34,11 +34,14 @@ export class SubirArchivoExtraComponent {
   @Input() id_encargado_usuario:number = -1;
   @Input() correo_encargado:string = "";
 
-  @Input()estado_config:string = "";
+  @Input() estado_config:string = "";
 
   constructor(public dialog: MatDialog, private doc_service: DocumentosService, private router: Router, 
               private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, 
-              private archivo_service: ArchivosService, private service_noti: NotificacionesService) { }
+              private archivo_service: ArchivosService, private service_noti: NotificacionesService) {}
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
 
   subir_archivos() {
     let id_documento_extra = this.id_documento_extra;
@@ -73,7 +76,7 @@ export class SubirArchivoExtraComponent {
           },
           complete: () => {
             let respuesta:any =[];
-            console.log("Este es el correo del encargado" + this.correo_encargado);
+            
             this.service_noti.postnotificacion(this.id_encargado_usuario, "El alumno ha subido el archivo extra solicitado", this.correo_encargado, this.estado_config).subscribe({
               next:(data:any) => {
                 respuesta = {...respuesta, ...data};
