@@ -18,6 +18,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 
@@ -117,7 +118,8 @@ import { InformeComponent } from './vistas/informe/informe.component';
     FormsModule,
     ReactiveFormsModule,
     MatDialogModule,
-    MatTooltipModule
+    MatRadioModule,
+    MatTooltipModule,
   ],
   providers: [
     GetDetallesAlumnoService,

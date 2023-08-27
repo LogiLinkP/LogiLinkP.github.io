@@ -6,6 +6,8 @@ import { environment } from 'src/environments/environment';
 import { GestionarService } from 'src/app/servicios/alumno/gestionar_practica.service';
 import { SupervisorService } from 'src/app/servicios/supervisor/supervisor.service';
 import { Router } from "@angular/router"
+import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
+import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
 
 @Component({
   selector: 'alumno',
@@ -18,6 +20,8 @@ export class DetalleAlumnoComponent implements OnInit{
   config_practicas: any = [];
   practicas: any = [];
 
+  estado_config:string = "";
+
   nombres_config_practica: string[] = [];
   practicas_correspondiente_nombre: any = [];
   
@@ -28,9 +32,11 @@ export class DetalleAlumnoComponent implements OnInit{
   doc_extra_str = "documento_extra";
 
   constructor(private service_datos: ObtenerDatosService , private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, 
-              private service_gestion: GestionarService, private service_supervisor: SupervisorService, private router: Router) {
+              private service_gestion: GestionarService, private service_supervisor: SupervisorService, private router: Router,
+              private service_noti: NotificacionesService, private service_obtener: DataUsuarioService) {
     this.usuario = JSON.parse(localStorage.getItem('auth-user') || '{}').userdata;
     this.estudiante = this.usuario.estudiante;
+    this.estado_config = this.usuario.body;
 
     console.log("usuario:",this.usuario);
     console.log("estudiante:",this.estudiante);
@@ -139,7 +145,10 @@ export class DetalleAlumnoComponent implements OnInit{
     let key = (document.getElementById("informe") as HTMLInputElement).value;
     let horas_trabajadas = (document.getElementById("horas") as HTMLInputElement).valueAsNumber;
     let id_config_informe = practica.modalidad.config_practica.id;
-
+    let id_encargado = practica.encargado.id;
+    let id_encargado_usuario = practica.encargado.id_usuario;
+    let correo_encargado: string = "";
+    
     if (Number.isNaN(horas_trabajadas)){
       horas_trabajadas = 0;
     }
@@ -155,13 +164,24 @@ export class DetalleAlumnoComponent implements OnInit{
     console.log("id_practica:", practica.id);
     console.log("casilla horas:", horas_trabajadas);
     
-    this.service_datos.ingresar_informe(practica.id, key, id_config_informe, horas_trabajadas).subscribe({
+    this.service_datos.ingresar_informe(practica.id, key, id_config_informe, horas_trabajadas, id_encargado).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
         console.log("Respuesta ingresar informe:",data);
       },
       error: (error: any) => console.log("Error en ingresar informe:",error),
       complete: () => {
+        this.service_noti.postnotificacion(id_encargado_usuario, "El alumno "+ this.estudiante.nombre + " ha ingresado un informe diario", correo_encargado).subscribe({
+          next:(data:any) => {
+            respuesta = {...respuesta, ...data};
+          },
+          error:(error:any) =>{
+            console.log(error);
+          },
+          complete:()=>{
+            console.log("Notificacion enviada con éxito");
+          }
+        })
         this._snackBar.open("Informe Ingresado","Cerrar",{
           panelClass: ['red-snackbar'],
           duration: 3000
@@ -200,15 +220,48 @@ export class DetalleAlumnoComponent implements OnInit{
   }
   
   finalizar_practica(practica: any) {
+    let respuesta: any = [];
+    let id_encargado = practica.encargado.id_usuario;
+    let correo_encargado: string = "";
+
+    this.service_obtener.obtener_encargado(id_encargado).subscribe({
+      next:(data:any) => {
+        respuesta = {...respuesta, ...data};
+      },
+      error:(error:any) => {
+        console.log(error);
+        return;
+      },
+      complete:() => {
+        console.log("Así se ve la configuración de estados");
+        console.log(respuesta.body.config);
+        correo_encargado = respuesta.body.correo;
+      }
+    })
+    
+    
     let resultado: any = {};
     console.log("practica",practica)
 
-    this.service_gestion.finalizar_practica(this.estudiante.id, practica.id, environment.estado_practica.finalizada).subscribe({
+    this.service_gestion.finalizar_practica(id_encargado, practica.id, environment.estado_practica.finalizada).subscribe({
       next: (data: any) => {
         console.log("Respuesta finalizar practica:",data);
       },
       error: (error: any) => console.log("Error en finalizar practica:",error),
       complete: () => {
+        let respuesta: any = [];
+        this.service_noti.postnotificacion(id_encargado, "El alumno " + this.estudiante.nombre + " ha finalizado su práctica y desea su realización", correo_encargado, this.estado_config).subscribe({
+          next:(data:any) => {
+            respuesta = {...respuesta, ...data};
+          },
+          error:(error:any) => {
+            console.log(error);
+            return;
+          },
+          complete:() => {
+            console.log("Notificación enviada con éxito");
+          }
+        });
         this._snackBar.open("Práctica Finalizada","Cerrar",{
           panelClass: ['red-snackbar'],
           duration: 3000

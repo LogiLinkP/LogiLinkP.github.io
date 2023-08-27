@@ -60,13 +60,13 @@
                                         <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}" style="vertical-align: middle;">{{practica.nota_evaluacion}}</td>
                                         <td [ngSwitch]="practica.estado" style="vertical-align: middle;">
                                             <app-revision *ngSwitchCase="'Evaluada'" [id_estudiante]="practica.id_estudiante"
-                                                [id_config_practica]="practica.modalidad.config_practica.id">
+                                                [id_config_practica]="practica.modalidad.config_practica.id" [id_usuario_estudiante]="practica.estudiante.id_usuario">
                                             </app-revision>
                                             <app-revision *ngSwitchCase="'Aprobada'" [id_estudiante]="practica.id_estudiante"
-                                                [id_config_practica]="practica.modalidad.config_practica.id">
+                                                [id_config_practica]="practica.modalidad.config_practica.id" [id_usuario_estudiante]="practica.estudiante.id_usuario">
                                             </app-revision>
                                             <app-revision *ngSwitchCase="'Reprobada'" [id_estudiante]="practica.id_estudiante"
-                                                [id_config_practica]="practica.modalidad.config_practica.id">
+                                                [id_config_practica]="practica.modalidad.config_practica.id" [id_usuario_estudiante]="practica.estudiante.id_usuario">
                                             </app-revision>
                                             <div *ngSwitchDefault>Esperando evaluacion del supervisor</div>
                                         </td>

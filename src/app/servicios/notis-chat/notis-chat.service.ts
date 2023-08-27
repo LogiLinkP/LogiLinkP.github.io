@@ -36,9 +36,8 @@ export class NotisChatService extends Socket{
       console.log("Conexion establecida en ROOM:", cookie.get('room'));
     }
     else{
-      //console.log("Conexion no establecida con socketIO al no encontrarse room");
-    }    
-    
+      console.log("Conexion no establecida con socketIO al no encontrarse room");
+    }
   }
   
   listen = () => {
@@ -71,23 +70,8 @@ export class NotisChatService extends Socket{
     return this._http.request(req);
   }
 
-  postmensaje(id_estudiante:number, id_encargado:number, mensaje:any){
-    const req = new HttpRequest('POST', `${environment.url_back}/mensaje/crear`, {id_estudiante, id_encargado, mensaje:mensaje}, {responseType: 'text'});
-    return this._http.request(req);
-  }
-  
-  postnotificacion(id_usuario:number, mensaje:any){
-    const req = new HttpRequest('POST', `${environment.url_back}/notificacion/crear`, {id_usuario:id_usuario, mensaje:mensaje}, {responseType: 'text'});
-    return this._http.request(req);
-  }
-
-  getallnotificacion(id_usuario:number){
-    const req = new HttpRequest('GET', `${environment.url_back}/notificacion/todos/?id_usuario=${id_usuario}`);
-    return this._http.request(req);
-  }
-
-  deleteallnotificacion(id_usuario:number){
-    const req = new HttpRequest('DELETE', `${environment.url_back}/notificacion/eliminar/?id_usuario=${id_usuario}`);
+  postmensaje(id_estudiante:number, id_encargado:number, mensaje:any, correo:string){
+    const req = new HttpRequest('POST', `${environment.url_back}/mensaje/crear`, {id_estudiante, id_encargado, mensaje:mensaje, correo}, {responseType: 'text'});
     return this._http.request(req);
   }
 

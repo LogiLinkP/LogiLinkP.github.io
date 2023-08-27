@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
 
 @Component({
   selector: 'app-detalle-practica',
@@ -29,8 +30,16 @@ export class DetallePracticaComponent implements OnInit{
   doc_str = "documento";
   doc_extra_str = "documento_extra";
 
-  constructor(private service: DetallePracticaService, private service2: SetDetallesAlumnoService, private _snackBar: MatSnackBar, private route: ActivatedRoute) {
-    this.dtOptions = {
+  id_estudiante: number = -1
+  correo_estudiante: string = "";
+
+  constructor(private service: DetallePracticaService, private service2: SetDetallesAlumnoService,
+              private _snackBar: MatSnackBar, private route: ActivatedRoute,
+              private service_obtener: DataUsuarioService) {
+    
+      this.route.params.subscribe(params => {this.id_estudiante = +params['id'];});
+    
+      this.dtOptions = {
       language: {
         url: 'assets/localisation/es-es.json'
       },
@@ -98,15 +107,29 @@ export class DetallePracticaComponent implements OnInit{
   }
 
   ngOnInit() {
+    let respuesta: any = [];
+    this.service_obtener.obtener_estudiante(this.id_estudiante).subscribe({
+      next:(data:any) => {
+        respuesta = {...respuesta, ...data};
+      },
+      error:(error:any) => {
+        console.log(error);
+        return;
+      },
+      complete: () =>{
+        this.correo_estudiante = respuesta.body.correo;
+      }
+    })
   }
+
 
   isDataEmpty(data:any): boolean {
     return Object.keys(data).length === 0 && data.constructor === Object;
   }
 
-  aprobar(id_estudiante: number, id_config_practica: number, aprobacion: 0 | 1) {
+  aprobar(id_usuario:number, id_estudiante: number, id_config_practica: number, aprobacion: 0 | 1) {
     let respuesta: any = {}
-    this.service2.aprobar_practica(id_estudiante, id_config_practica, aprobacion).subscribe({
+    this.service2.aprobar_practica(id_usuario, id_estudiante, id_config_practica, aprobacion, this.correo_estudiante).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
