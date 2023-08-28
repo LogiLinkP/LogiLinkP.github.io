@@ -1,10 +1,11 @@
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
-import { Subject } from 'rxjs';
+import { Observable, Subject, from } from 'rxjs';
 import { DatePipe } from '@angular/common';
 
 import { environment } from '../../../environments/environment';
+import { DatepickerDropdownPositionX } from '@angular/material/datepicker';
 
 
 @Injectable({
@@ -45,6 +46,7 @@ export class NotificacionesService extends Socket{
 
   postnotificacion(id_usuario:number, mensaje:any, correo: string, estado:string){
     let fecha = this.datetime.transform((new Date), 'MM/dd/yyyy h:mm:ss');
+
     const req = new HttpRequest('POST', `${environment.url_back}/notificacion/crear`, {id_usuario, fecha, mensaje, correo, estado}, {responseType: 'text'});
     return this._http.request(req);
   }
