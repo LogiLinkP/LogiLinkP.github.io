@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table'
 
 import { BarraLateralService } from 'src/app/servicios/encargado/barra-lateral/barra-lateral.service';
 import { ConfigService } from 'src/app/servicios/encargado/config-practica/config.service';
+import { environment } from 'src/environments/environment';
 import { response } from 'express';
 
 @Component({
@@ -929,6 +930,8 @@ export class ConfiguracionPracticaComponent {
                         if (this.frecuenciaInformes != "sinAvance") {
                             this.crearConfigInforme(respuesta.body.id, "informe avance")
                         }
+
+                        this.router.navigate(["/configurar/"+nombre])
                     }
                 });
             }
@@ -955,7 +958,7 @@ export class ConfiguracionPracticaComponent {
                 respuesta = { ...respuesta, ...data }
             },
             error: (error: any) => {
-                this._snackBar.open("Error al guardar configuracion de practica", "Cerrar", {
+                this._snackBar.open("Se ha producido un error al guardar la configuracion de practica", "Cerrar", {
                     duration: 3500,
                     panelClass: ['red-snackbar']
                 });
@@ -963,7 +966,7 @@ export class ConfiguracionPracticaComponent {
             },
             complete: () => {
                 this._snackBar.open("Configuracion de practica guardada exitosamente", "Cerrar", {
-                    duration: 3500,
+                    duration: 5000,
                     panelClass: ['green-snackbar']
                 });
                 console.log("Configuracion de practica guardada exitosamente");
@@ -989,6 +992,7 @@ export class ConfiguracionPracticaComponent {
                 if (this.frecuenciaInformes != "sinAvance") {
                     this.crearConfigInforme(respuesta.body.id, "informe avance")
                 }
+                this.router.navigate(["/"+environment.ruta_practicas])
             }
         });
     }
@@ -1008,10 +1012,6 @@ export class ConfiguracionPracticaComponent {
                     console.log("Error al guardar modalidad", error);
                 },
                 complete: () => {
-                    this._snackBar.open("Modalidad guardada exitosamente", "Cerrar", {
-                        duration: 3500,
-                        panelClass: ['green-snackbar']
-                    });
                     console.log("Modalidad guardada exitosamente");
                 }
             });
@@ -1058,10 +1058,6 @@ export class ConfiguracionPracticaComponent {
                 console.log("Error al guardar configuracion de informe", error);
             },
             complete: () => {
-                this._snackBar.open("Configuracion de informe guardada exitosamente", "Cerrar", {
-                    duration: 3500,
-                    panelClass: ['green-snackbar']
-                });
                 if (tipoInforme == "informe final") {
                     for (let i = 0; i < this.lista_preguntas_final.length; i++) {
                         //console.log("lista pregunta final: ", this.lista_preguntas_final[i], "tipos preguntas final: ", this.tipos_preguntas_final[i], "lista opciones preguntas final: ", this.lista_opciones_preguntas_final[i]);
@@ -1093,10 +1089,6 @@ export class ConfiguracionPracticaComponent {
                 console.log("Error al guardar pregunta de informe", error);
             },
             complete: () => {
-                this._snackBar.open("Pregunta de informe guardada exitosamente", "Cerrar", {
-                    duration: 3500,
-                    panelClass: ['green-snackbar']
-                });
                 console.log("Pregunta de informe guardada exitosamente");
             }
         });
@@ -1117,10 +1109,6 @@ export class ConfiguracionPracticaComponent {
                 console.log("Error al guardar pregunta de encuesta", error);
             },
             complete: () => {
-                this._snackBar.open("Pregunta de encuesta guardada exitosamente", "Cerrar", {
-                    duration: 3500,
-                    panelClass: ['green-snackbar']
-                });
                 console.log("Pregunta de encuesta guardada exitosamente");
             }
         });
@@ -1141,10 +1129,6 @@ export class ConfiguracionPracticaComponent {
                 console.log("Error al guardar pregunta de supervisor", error);
             },
             complete: () => {
-                this._snackBar.open("Pregunta de supervisor guardada exitosamente", "Cerrar", {
-                    duration: 3500,
-                    panelClass: ['green-snackbar']
-                });
                 console.log("Pregunta de supervisor guardada exitosamente");
             }
         });
@@ -1165,10 +1149,6 @@ export class ConfiguracionPracticaComponent {
                 console.log("Error al guardar solicitud de documento", error);
             },
             complete: () => {
-                this._snackBar.open("Solicitud de documento guardada exitosamente", "Cerrar", {
-                    duration: 3500,
-                    panelClass: ['green-snackbar']
-                });
                 console.log("Solicitud de documento guardada exitosamente");
             }
         });
