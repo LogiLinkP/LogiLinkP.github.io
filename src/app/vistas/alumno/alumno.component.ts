@@ -139,7 +139,7 @@ export class DetalleAlumnoComponent implements OnInit{
     });  
   }
 
-  /*
+  
   ingresarInforme(practica: any){
     let respuesta: any = {};
     let key = (document.getElementById("informe") as HTMLInputElement).value;
@@ -171,7 +171,7 @@ export class DetalleAlumnoComponent implements OnInit{
       },
       error: (error: any) => console.log("Error en ingresar informe:",error),
       complete: () => {
-        this.service_noti.postnotificacion(id_encargado_usuario, "El alumno "+ this.estudiante.nombre + " ha ingresado un informe diario", correo_encargado).subscribe({
+        /*this.service_noti.postnotificacion(id_encargado_usuario, "El alumno "+ this.estudiante.nombre + " ha ingresado un informe diario", correo_encargado).subscribe({
           next:(data:any) => {
             respuesta = {...respuesta, ...data};
           },
@@ -181,7 +181,7 @@ export class DetalleAlumnoComponent implements OnInit{
           complete:()=>{
             console.log("Notificacion enviada con éxito");
           }
-        })
+        })*/
         this._snackBar.open("Informe Ingresado","Cerrar",{
           panelClass: ['red-snackbar'],
           duration: 3000
@@ -189,7 +189,7 @@ export class DetalleAlumnoComponent implements OnInit{
         window.location.reload();        
       }
     });
-  }*/
+  }
 
   
   descargar_documento(documento_id: string, solicitud_tipo: string) {
