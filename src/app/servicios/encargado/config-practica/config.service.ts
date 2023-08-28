@@ -23,6 +23,20 @@ export class ConfigService {
         return this._http.request(req);
     }
 
+    actualizarConfigPractica(nombre: string, frecuencia_informes: string, informe_final: string) {
+        const config = {
+            nombre: nombre,
+            frecuencia_informes: frecuencia_informes,
+            informe_final: informe_final
+        }
+
+        const req = new HttpRequest('PUT', `${environment.url_back}/config_practica/actualizar`, config, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
     getModalidades(id_config_practica: number) {
         const req = new HttpRequest('GET', `${environment.url_back}/modalidad/id_config_practica?id=${id_config_practica}`, {
             responseType: 'json'
@@ -85,6 +99,20 @@ export class ConfigService {
         return this._http.request(req);
     }
 
+    actualizarModalidad(id_config_practica: number, modalidad: string, cantidad_tiempo: number) {
+        const config = {
+            id_config_practica: id_config_practica,
+            tipo_modalidad: modalidad,
+            cantidad_tiempo: cantidad_tiempo
+        }
+
+        const req = new HttpRequest('PUT', `${environment.url_back}/modalidad/actualizar`, config, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
     crearConfigInforme(id_config_practica: number, tipo_informe: string) {
         const config = {
             id_config_practica: id_config_practica,
@@ -92,6 +120,19 @@ export class ConfigService {
         }
 
         const req = new HttpRequest('POST', `${environment.url_back}/config_informe/crear`, config, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
+    actualizarConfigInforme(id_config_practica: number, tipo_informe: string) {
+        const config = {
+            id_config_practica: id_config_practica,
+            tipo_informe: tipo_informe
+        }
+
+        const req = new HttpRequest('PUT', `${environment.url_back}/config_informe/actualizar`, config, {
             responseType: 'json'
         });
 
@@ -113,6 +154,21 @@ export class ConfigService {
         return this._http.request(req);
     }
 
+    actualizarPreguntaInforme(id_config_informe: number, enunciado: string, tipo_respuesta: string, opciones: string) {
+        const pregunta = {
+            id_config_informe: id_config_informe,
+            enunciado: enunciado,
+            tipo_respuesta: tipo_respuesta,
+            opciones: opciones
+        }
+
+        const req = new HttpRequest('PUT', `${environment.url_back}/pregunta_informe/actualizar`, pregunta, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
     crearPreguntaEncuestaFinal(id_config_practica: number, enunciado: string, tipo_respuesta: string, opciones: string) {
         const pregunta = {
             id_config_practica: id_config_practica,
@@ -122,6 +178,21 @@ export class ConfigService {
         }
 
         const req = new HttpRequest('POST', `${environment.url_back}/pregunta_encuesta_final/crear`, pregunta, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
+    actualizarPreguntaEncuestaFinal(id_config_practica: number, enunciado: string, tipo_respuesta: string, opciones: string) {
+        const pregunta = {
+            id_config_practica: id_config_practica,
+            enunciado: enunciado,
+            tipo_respuesta: tipo_respuesta,
+            opciones: opciones
+        }
+
+        const req = new HttpRequest('PUT', `${environment.url_back}/pregunta_encuesta_final/actualizar`, pregunta, {
             responseType: 'json'
         });
 
@@ -143,6 +214,21 @@ export class ConfigService {
         return this._http.request(req);
     }
 
+    actualizarPreguntaSupervisor(id_config_practica: number, enunciado: string, tipo_respuesta: string, opciones: string) {
+        const pregunta = {
+            id_config_practica: id_config_practica,
+            enunciado: enunciado,
+            tipo_respuesta: tipo_respuesta,
+            opciones: opciones
+        }
+
+        const req = new HttpRequest('PUT', `${environment.url_back}/pregunta_supervisor/actualizar`, pregunta, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
     crearSolicitudDocumento(id_config_practica: number, tipo: string, nombre: string, descripcion: string) {
         const pregunta = {
             id_config_practica: id_config_practica,
@@ -152,6 +238,21 @@ export class ConfigService {
         }
 
         const req = new HttpRequest('POST', `${environment.url_back}/solicitud_documento/crear`, pregunta, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
+    actualizarSolicitudDocumento(id_config_practica: number, tipo: string, nombre: string, descripcion: string) {
+        const pregunta = {
+            id_config_practica: id_config_practica,
+            tipo_archivo: tipo,
+            nombre_solicitud: nombre,
+            descripcion: descripcion
+        }
+
+        const req = new HttpRequest('PUT', `${environment.url_back}/solicitud_documento/actualizar`, pregunta, {
             responseType: 'json'
         });
 
@@ -194,5 +295,4 @@ export class ConfigService {
         }
         return respuestas;
     }
-
 }

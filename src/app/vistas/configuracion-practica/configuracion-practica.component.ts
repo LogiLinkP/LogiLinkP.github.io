@@ -314,45 +314,44 @@ export class ConfiguracionPracticaComponent {
                                                         this.lista_descripcion_solicitud_documentos.push(respuesta.body[i].descripcion);
                                                         this.lista_tipo_solicitud_documentos.push(respuesta.body[i].tipo_archivo);
                                                     }
+
+                                                    this.fg = this._fb.group({
+                                                        opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
+                                                        opcion_horasFORM: this.opcion_horas,
+                                                        opcion_mesesFORM: this.opcion_meses,
+                                                
+                                                        nombrePractica: new FormControl(this.nombrePractica),
+                                                        cant_horas: this.cant_horas,
+                                                        cant_meses: this.cant_meses,
+                                                        horas: new FormControl(this.horas),
+                                                        meses: new FormControl(this.meses),
+                                                        frecuenciaInformes: new FormControl(this.frecuenciaInformes),
+                                                        informeFinal: new FormControl(this.informeFinal),
+                                                        //pregunta: this.preguntaFORM,
+                                                
+                                                        preguntaFORM: this.pregunta,
+                                            
+                                                        ramoFORM: this.ramo,
+                                                        
+                                                        arregloOpcionesPreguntas: this._fb.array([]),
+                                                        arregloHoras: this._fb.array([]),
+                                                        arregloMeses: this._fb.array([]),
+                                            
+                                                        //documentos
+                                                        nombre_solicitud_documentos: new FormControl(this.nombre_solicitud_documentos),
+                                                        descripcion_solicitud_documentos: new FormControl(this.descripcion_solicitud_documentos),
+                                                        tipo_solicitud_documentos: new FormControl(this.tipo_solicitud_documentos),
+                                                    });
+                                                    this.flag = true;
+
                                                 }
                                             });
-
-                                            this.fg = this._fb.group({
-                                                opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
-                                                opcion_horasFORM: this.opcion_horas,
-                                                opcion_mesesFORM: this.opcion_meses,
-                                        
-                                                nombrePractica: new FormControl(this.nombrePractica),
-                                                cant_horas: this.cant_horas,
-                                                cant_meses: this.cant_meses,
-                                                horas: new FormControl(this.horas),
-                                                meses: new FormControl(this.meses),
-                                                frecuenciaInformes: new FormControl(this.frecuenciaInformes),
-                                                informeFinal: new FormControl(this.informeFinal),
-                                                //pregunta: this.preguntaFORM,
-                                        
-                                                preguntaFORM: this.pregunta,
-                                    
-                                                ramoFORM: this.ramo,
-                                                
-                                                arregloOpcionesPreguntas: this._fb.array([]),
-                                                arregloHoras: this._fb.array([]),
-                                                arregloMeses: this._fb.array([]),
-                                    
-                                                //documentos
-                                                nombre_solicitud_documentos: new FormControl(this.nombre_solicitud_documentos),
-                                                descripcion_solicitud_documentos: new FormControl(this.descripcion_solicitud_documentos),
-                                                tipo_solicitud_documentos: new FormControl(this.tipo_solicitud_documentos),
-                                            });
-                                            this.flag = true;
-
                                         }
                                     });
                                 }
                             });
                         }
                     });
-                    // ===== fin set config informe =====
                 }
             });
         }
@@ -578,8 +577,7 @@ export class ConfiguracionPracticaComponent {
       var opciones_de_una_pregunta = ""
       if (Object.keys(this.opcion_pregunta).length == 0) {
         console.log("no hay opciones");
-      }
-      else{
+      } else {
         console.log("hay opciones");
         //var string_pregunta = String(this.pregunta)
         for (let i = 0; i < Object.keys(this.opcion_pregunta).length; i++) {
@@ -850,8 +848,6 @@ export class ConfiguracionPracticaComponent {
         this.lista_preguntas_encuesta.push("Selecciona los ramos que fueron mas utiles durante tu practica");
         this.tipos_preguntas_encuesta.push("casillas");
         this.lista_opciones_preguntas_encuesta.push(opciones_ramos);
-
-        let respuesta: any = {};
     
         let tipo_request: string;
 
@@ -862,7 +858,64 @@ export class ConfiguracionPracticaComponent {
             tipo_request = "actualizar";
         }
 
-        this.serviceComplete.crearConfigPractica(this.nombrePractica, this.frecuenciaInformes, this.informeFinal).subscribe({
+        if (tipo_request == "crear") {
+            this.crearConfigPractica(this.nombrePractica, this.frecuenciaInformes, this.informeFinal);
+        } else {
+            this.actualizarConfigPractica(this.nombrePractica, this.frecuenciaInformes, this.informeFinal);
+        }
+
+    }
+
+    actualizarConfigPractica(nombre: string, frecuencia: string, final: string) {
+        let respuesta: any = {};
+
+        this.serviceComplete.actualizarConfigPractica(nombre, frecuencia, final).subscribe({
+            next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+                this._snackBar.open("Error al guardar configuracion de practica", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['red-snackbar']
+                });
+                console.log("Error al guardar configuracion de practica", error);
+            },
+            complete: () => {
+                this._snackBar.open("Configuracion de practica guardada exitosamente", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['green-snackbar']
+                });
+                console.log("Configuracion de practica guardada exitosamente");
+
+                if (this.horas == true) {
+                    this.tablaModalidad(respuesta.body.id, "horas", Object.values(this.opcion_horas));
+                }
+                if (this.meses == true) {
+                    this.tablaModalidad(respuesta.body.id, "meses", Object.values(this.opcion_meses));
+                }
+                for (let i = 0; i < this.lista_preguntas_encuesta.length; i++) {
+                    this.crearPreguntaEncuestaFinal(respuesta.body.id, this.lista_preguntas_encuesta[i], this.tipos_preguntas_encuesta[i], this.lista_opciones_preguntas_encuesta[i]);
+                }
+                for (let i = 0; i < this.lista_preguntas_supervisor.length; i++) {
+                    this.crearPreguntaSupervisor(respuesta.body.id, this.lista_preguntas_supervisor[i], this.tipos_preguntas_supervisor[i], this.lista_opciones_preguntas_supervisor[i]);
+                }
+                for (let i = 0; i < this.lista_nombre_solicitud_documentos.length; i++) {
+                    this.crearSolicitudDocumento(respuesta.body.id, this.lista_nombre_solicitud_documentos[i], this.lista_descripcion_solicitud_documentos[i], this.lista_tipo_solicitud_documentos[i]);
+                }
+                if (this.informeFinal == "si") {
+                    this.crearConfigInforme(respuesta.body.id, "informe final")
+                }
+                if (this.frecuenciaInformes != "sinAvance") {
+                    this.crearConfigInforme(respuesta.body.id, "informe avance")
+                }
+            }
+        });
+    }
+
+    crearConfigPractica(nombre: string, frecuencia: string, final: string) {
+        let respuesta: any = {};
+
+        this.serviceComplete.crearConfigPractica(nombre, frecuencia, final).subscribe({
             next: (data: any) => {
                 respuesta = { ...respuesta, ...data }
             },
@@ -909,6 +962,31 @@ export class ConfiguracionPracticaComponent {
         let respuesta: any = {};
         for (let i = 0; i < Object.keys(lista_cant).length; i++) {
             this.serviceComplete.crearModalidad(id_config_practica, tipo_modalidad, Number(Object.values(lista_cant[i])[0])).subscribe({
+                next: (data: any) => {
+                    respuesta = { ...respuesta, ...data }
+                },
+                error: (error: any) => {
+                    this._snackBar.open("Error al guardar modalidad", "Cerrar", {
+                        duration: 3500,
+                        panelClass: ['red-snackbar']
+                    });
+                    console.log("Error al guardar modalidad", error);
+                },
+                complete: () => {
+                    this._snackBar.open("Modalidad guardada exitosamente", "Cerrar", {
+                        duration: 3500,
+                        panelClass: ['green-snackbar']
+                    });
+                    console.log("Modalidad guardada exitosamente");
+                }
+            });
+        }
+    }
+
+    actualizarTablaModalidad(id_config_practica: number, tipo_modalidad: string, lista_cant: number[]) {
+        let respuesta: any = {};
+        for (let i = 0; i < Object.keys(lista_cant).length; i++) {
+            this.serviceComplete.actualizarModalidad(id_config_practica, tipo_modalidad, Number(Object.values(lista_cant[i])[0])).subscribe({
                 next: (data: any) => {
                     respuesta = { ...respuesta, ...data }
                 },
