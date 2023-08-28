@@ -30,6 +30,8 @@ export class DetallePracticaComponent implements OnInit{
   doc_str = "documento";
   doc_extra_str = "documento_extra";
 
+  botones_habilitados: boolean = false;
+
   id_estudiante: number = -1
   correo_estudiante: string = "";
 
@@ -44,7 +46,7 @@ export class DetallePracticaComponent implements OnInit{
         url: 'assets/localisation/es-es.json'
       },
       drawCallback: () => {
-        console.log(this.documentos);
+        //console.log(this.documentos);
       }
     };
     
@@ -54,7 +56,7 @@ export class DetallePracticaComponent implements OnInit{
 
     if(!isNaN(id_practica)) {
       
-      console.log("id_practica: ", id_practica);
+      //console.log("id_practica: ", id_practica);
       //====REQUEST para obtener la practica (con el estudiante, config_practica y otras tablas)====//
       this.service.obtener_practica(id_practica).subscribe({
         next: (data: any) => {
@@ -69,7 +71,12 @@ export class DetallePracticaComponent implements OnInit{
         },
         complete: () => {
           this.practica = respuesta.body;
-          console.log("practicA: ", this.practica);
+
+          if(this.practica.estado == "Evaluada" || this.practica.estado == "Aprobada" || this.practica.estado == "Reprobada"){
+            this.botones_habilitados = true;
+            console.log("botones habilitados");
+          }
+          
           this.documentos = this.practica.documentos;
           this.documento_extras = this.practica.documento_extras;
           this.informes = this.practica.informes;
@@ -77,12 +84,12 @@ export class DetallePracticaComponent implements OnInit{
           this.evaluaciones = this.practica.respuesta_supervisors.filter((respuesta_supervisor: any) => {
             return !isNaN(respuesta_supervisor.respuesta);
           });
-          console.log("evaluaciones: ", this.evaluaciones);
+          //console.log("evaluaciones: ", this.evaluaciones);
           // considerar como respuestas todas las que sean strings
           this.respuestas_supervisor = this.practica.respuesta_supervisors.filter((respuesta_supervisor: any) => {
             return isNaN(respuesta_supervisor.respuesta);
           });
-          console.log("respuestas_supervisor: ", this.respuestas_supervisor);
+          //console.log("respuestas_supervisor: ", this.respuestas_supervisor);
         }
       }); // fin request para obtener la practica  
     } 
@@ -113,7 +120,7 @@ export class DetallePracticaComponent implements OnInit{
         respuesta = {...respuesta, ...data};
       },
       error:(error:any) => {
-        console.log(error);
+        //console.log(error);
         return;
       },
       complete: () =>{
@@ -129,7 +136,7 @@ export class DetallePracticaComponent implements OnInit{
 
   aprobar(id_usuario:number, id_estudiante: number, id_config_practica: number, aprobacion: 0 | 1) {
     let respuesta: any = {}
-    this.service2.aprobar_practica(id_usuario, id_estudiante, id_config_practica, aprobacion, this.correo_estudiante).subscribe({
+    this.service2.aprobar_practica(id_estudiante, id_config_practica, aprobacion).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
