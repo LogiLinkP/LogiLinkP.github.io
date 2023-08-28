@@ -211,15 +211,15 @@
                                                                                                 <td>{{doc_extra?.nombre_solicitud}}</td>
                                                                                                 <td>{{doc_extra?.tipo_archivo}}</td>
                                                                                                 <td>Extra</td>
-                                                                                                <td [ngSwitch]="doc_extra.key" >
-                                                                                                    <app-subir-archivo-extra *ngSwitchCase="null || ''" [id_documento_extra] = doc_extra.id 
+                                                                                                <td>
+                                                                                                    <app-subir-archivo-extra *ngIf="!doc_extra.key || doc_extra.key.length==0; else elseBlock" [id_documento_extra] = doc_extra.id 
                                                                                                                         [descripcion]="doc_extra.descripcion" [nombre_solicitud]="doc_extra.nombre_solicitud" 
                                                                                                                         [tipo_archivo]="doc_extra.tipo_archivo" [id_encargado_usuario]=" practica[1].encargado.id_usuario"
                                                                                                                         [correo_encargado]="practica[1].encargado.usuario.correo" [estado_config]="estado_config"
                                                                                                                         >
                                                                                                     </app-subir-archivo-extra>
-                                                                                                    <button *ngSwitchDefault class="btn btn-success btn-sm btn-block"
-                                                                                                    (click)="descargar_documento(doc_extra.id, doc_extra_str)">Descargar</button>
+                                                                                                    <ng-template #elseBlock> <button  class="btn btn-success btn-sm btn-block"
+                                                                                                    (click)="descargar_documento(doc_extra.id, doc_extra_str)">Descargar</button></ng-template>
                                                                                                 </td>
                                                                                             </tr>
                                                                                         </tbody>
