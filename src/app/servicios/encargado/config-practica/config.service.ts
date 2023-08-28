@@ -295,4 +295,62 @@ export class ConfigService {
         }
         return respuestas;
     }
+
+    delConfigPractica(id: number) {
+        const req = new HttpRequest('DELETE', `${environment.url_back}/config_practica/eliminar?id=${id}`,  {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
+    delModalidad(id_config_practica: number) {
+        const req = new HttpRequest('DELETE', `${environment.url_back}/modalidad/eliminar_config?id=${id_config_practica}`, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
+    delConfigInforme(id_config_practica: number) {
+        const req = new HttpRequest('DELETE', `${environment.url_back}/config_informe/eliminar_config?id=${id_config_practica}`, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
+    delPreguntaInforme(id_config_informe: number) {
+        const req = new HttpRequest('DELETE', `${environment.url_back}/pregunta_informe/eliminar_config?id=${id_config_informe}`, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
+    delPreguntaEncuestaFinal(id_config_practica: number) {
+        const req = new HttpRequest('DELETE', `${environment.url_back}/pregunta_encuesta_final/eliminar_config?id=${id_config_practica}`, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
+    delPreguntaSupervisor(id_config_practica: number) {
+        const req = new HttpRequest('DELETE', `${environment.url_back}/pregunta_supervisor/eliminar_config?id=${id_config_practica}`, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
+    delSolicitudDocumento(id_config_practica: number) {
+        const req = new HttpRequest('DELETE', `${environment.url_back}/solicitud_documento/eliminar_config?id=${id_config_practica}`, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
+
 }

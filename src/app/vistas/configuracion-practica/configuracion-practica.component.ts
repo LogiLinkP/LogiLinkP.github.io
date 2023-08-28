@@ -51,6 +51,7 @@ export class ConfiguracionPracticaComponent {
                 }
 
     config: any;
+    ids_config_informe: number[] = [];
     flag: boolean = false;
     nombre_config: string | null; //parece que alguna veces se vuelve null y queda la caga
     
@@ -237,10 +238,15 @@ export class ConfiguracionPracticaComponent {
                         },
                         complete: () => {
                             console.log("request config informe:", respuesta.body);
+
+                            //* guardar id's para poder actualizar mas tarde
+                            for (let i = 0; i < respuesta.body.length; i++) {
+                                this.ids_config_informe.push(respuesta.body[i].id);
+                            }
                             
                             //* set preguntas informe
                             if (respuesta.body?.length) { // el encargado seteó preguntas de informe
-                                for (let i = 0; i < respuesta.body[0].pregunta_informes.length; i++) {
+                                for (let i = 0; i < respuesta.body[0].pregunta_informes.length; i++) { //falta un for para body[i]?
                                     if (respuesta.body[0].tipo_informe == "informe final") {
                                         this.lista_preguntas_final.push(respuesta.body[0].pregunta_informes[i].enunciado);
                                         this.tipos_preguntas_final.push(respuesta.body[0].pregunta_informes[i].tipo_respuesta);
@@ -835,19 +841,6 @@ export class ConfiguracionPracticaComponent {
     }
   
     mandarDatos() { //se estan apilando los snackbars positivos (dejar los negativos)
-
-        var opciones_ramos = ""
-        for (let i = 0; i < this.lista_ramos.length; i++) {
-            opciones_ramos = opciones_ramos + this.lista_ramos[i]
-            opciones_ramos = opciones_ramos + ";;"
-        }
-        opciones_ramos = opciones_ramos.slice(0, -2);
-
-        //agregando pregunta de ramos
-        this.lista_preguntas_encuesta.push("Selecciona los ramos que fueron mas utiles durante tu practica");
-        this.tipos_preguntas_encuesta.push("casillas");
-        this.lista_opciones_preguntas_encuesta.push(opciones_ramos);
-    
         let tipo_request: string;
 
         // tipo de request
@@ -868,50 +861,93 @@ export class ConfiguracionPracticaComponent {
     actualizarConfigPractica(nombre: string, frecuencia: string, final: string) {
         let respuesta: any = {};
 
-        this.serviceComplete.actualizarConfigPractica(nombre, frecuencia, final).subscribe({
+        this.serviceComplete.delConfigPractica(this.config.id).subscribe({
             next: (data: any) => {
                 respuesta = { ...respuesta, ...data }
             },
             error: (error: any) => {
-                this._snackBar.open("Error al guardar configuracion de practica", "Cerrar", {
+                this._snackBar.open("Error al eliminar configuracion de practica", "Cerrar", {
                     duration: 3500,
                     panelClass: ['red-snackbar']
                 });
-                console.log("Error al guardar configuracion de practica", error);
+                console.log("Error al eliminar configuracion de practica", error);
             },
             complete: () => {
-                this._snackBar.open("Configuracion de practica guardada exitosamente", "Cerrar", {
+                this._snackBar.open("Configuracion de practica eliminada exitosamente", "Cerrar", {
                     duration: 3500,
                     panelClass: ['green-snackbar']
                 });
-                console.log("Configuracion de practica guardada exitosamente");
+                console.log("Configuracion de practica eliminada exitosamente");
 
-                if (this.horas == true) {
-                    this.tablaModalidad(respuesta.body.id, "horas", Object.values(this.opcion_horas));
+                //eliminar actuales
+                this.delConfigInforme(this.config.id);
+                this.delPreguntaSupervisor(this.config.id);
+                this.delSolicitudDocumento(this.config.id);
+                this.delPreguntaEncuestaFinal(this.config.id);
+                this.delModalidad(this.config.id);
+                for (let i = 0; i < this.ids_config_informe.length; i++) {
+                    this.delPreguntaInforme(this.ids_config_informe[i]);
                 }
-                if (this.meses == true) {
-                    this.tablaModalidad(respuesta.body.id, "meses", Object.values(this.opcion_meses));
-                }
-                for (let i = 0; i < this.lista_preguntas_encuesta.length; i++) {
-                    this.crearPreguntaEncuestaFinal(respuesta.body.id, this.lista_preguntas_encuesta[i], this.tipos_preguntas_encuesta[i], this.lista_opciones_preguntas_encuesta[i]);
-                }
-                for (let i = 0; i < this.lista_preguntas_supervisor.length; i++) {
-                    this.crearPreguntaSupervisor(respuesta.body.id, this.lista_preguntas_supervisor[i], this.tipos_preguntas_supervisor[i], this.lista_opciones_preguntas_supervisor[i]);
-                }
-                for (let i = 0; i < this.lista_nombre_solicitud_documentos.length; i++) {
-                    this.crearSolicitudDocumento(respuesta.body.id, this.lista_nombre_solicitud_documentos[i], this.lista_descripcion_solicitud_documentos[i], this.lista_tipo_solicitud_documentos[i]);
-                }
-                if (this.informeFinal == "si") {
-                    this.crearConfigInforme(respuesta.body.id, "informe final")
-                }
-                if (this.frecuenciaInformes != "sinAvance") {
-                    this.crearConfigInforme(respuesta.body.id, "informe avance")
-                }
+
+                //crear nuevos
+                this.serviceComplete.crearConfigPractica(nombre, frecuencia, final).subscribe({
+                    next: (data: any) => {
+                        respuesta = { ...respuesta, ...data }
+                    },
+                    error: (error: any) => {
+                        this._snackBar.open("Error al guardar configuracion de practica", "Cerrar", {
+                            duration: 3500,
+                            panelClass: ['red-snackbar']
+                        });
+                        console.log("Error al guardar configuracion de practica", error);
+                    },
+                    complete: () => {
+                        this._snackBar.open("Configuracion de practica guardada exitosamente", "Cerrar", {
+                            duration: 3500,
+                            panelClass: ['green-snackbar']
+                        });
+                        console.log("Configuracion de practica guardada exitosamente");
+        
+                        if (this.horas == true) {
+                            this.tablaModalidad(respuesta.body.id, "horas", Object.values(this.opcion_horas));
+                        }
+                        if (this.meses == true) {
+                            this.tablaModalidad(respuesta.body.id, "meses", Object.values(this.opcion_meses));
+                        }
+                        for (let i = 0; i < this.lista_preguntas_encuesta.length; i++) {
+                            this.crearPreguntaEncuestaFinal(respuesta.body.id, this.lista_preguntas_encuesta[i], this.tipos_preguntas_encuesta[i], this.lista_opciones_preguntas_encuesta[i]);
+                        }
+                        for (let i = 0; i < this.lista_preguntas_supervisor.length; i++) {
+                            this.crearPreguntaSupervisor(respuesta.body.id, this.lista_preguntas_supervisor[i], this.tipos_preguntas_supervisor[i], this.lista_opciones_preguntas_supervisor[i]);
+                        }
+                        for (let i = 0; i < this.lista_nombre_solicitud_documentos.length; i++) {
+                            this.crearSolicitudDocumento(respuesta.body.id, this.lista_nombre_solicitud_documentos[i], this.lista_descripcion_solicitud_documentos[i], this.lista_tipo_solicitud_documentos[i]);
+                        }
+                        if (this.informeFinal == "si") {
+                            this.crearConfigInforme(respuesta.body.id, "informe final")
+                        }
+                        if (this.frecuenciaInformes != "sinAvance") {
+                            this.crearConfigInforme(respuesta.body.id, "informe avance")
+                        }
+                    }
+                });
             }
         });
     }
 
     crearConfigPractica(nombre: string, frecuencia: string, final: string) {
+        var opciones_ramos = ""
+        for (let i = 0; i < this.lista_ramos.length; i++) {
+            opciones_ramos = opciones_ramos + this.lista_ramos[i]
+            opciones_ramos = opciones_ramos + ";;"
+        }
+        opciones_ramos = opciones_ramos.slice(0, -2);
+
+        //agregando pregunta de ramos
+        this.lista_preguntas_encuesta.push("Selecciona los ramos que fueron mas utiles durante tu practica");
+        this.tipos_preguntas_encuesta.push("casillas");
+        this.lista_opciones_preguntas_encuesta.push(opciones_ramos);
+
         let respuesta: any = {};
 
         this.serviceComplete.crearConfigPractica(nombre, frecuencia, final).subscribe({
@@ -1134,6 +1170,134 @@ export class ConfiguracionPracticaComponent {
                     panelClass: ['green-snackbar']
                 });
                 console.log("Solicitud de documento guardada exitosamente");
+            }
+        });
+    }
+
+    delConfigInforme(id_config_practica: number) {
+        let respuesta: any = {};
+
+        this.serviceComplete.delConfigInforme(id_config_practica).subscribe({
+            next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+                this._snackBar.open("Error al eliminar configuracion de informe", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['red-snackbar']
+                });
+                console.log("Error al eliminar configuracion de informe", error);
+            },
+            complete: () => {
+                this._snackBar.open("Configuracion de informe eliminada exitosamente", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['green-snackbar']
+                });
+                console.log("Configuracion de informe eliminada exitosamente");
+            }
+        });
+    }
+
+    delModalidad(id_config_practica: number) {
+        let respuesta: any = {};
+
+        this.serviceComplete.delModalidad(id_config_practica).subscribe({
+            next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+                this._snackBar.open("Error al eliminar modalidad", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['red-snackbar']
+                });
+                console.log("Error al eliminar modalidad", error);
+            },
+            complete: () => {
+                this._snackBar.open("modalidad eliminada exitosamente", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['green-snackbar']
+                });
+                console.log("modalidad eliminada exitosamente");
+            }
+        });
+    }
+
+    delPreguntaInforme(id_config_informe: number) {
+        let respuesta: any = {};
+
+        this.serviceComplete.delPreguntaInforme(id_config_informe).subscribe({
+            next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+                this._snackBar.open("Error al eliminar pregunta de informe", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['red-snackbar']
+                });
+                console.log("Error al eliminar pregunta de informe", error);
+            },
+            complete: () => {
+                console.log("Pregunta de informe eliminada exitosamente");
+            }
+        });
+    }
+
+    delPreguntaEncuestaFinal(id_config_practica: number) {
+        let respuesta: any = {};
+
+        this.serviceComplete.delPreguntaEncuestaFinal(id_config_practica).subscribe({
+            next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+                this._snackBar.open("Error al eliminar pregunta de encuesta", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['red-snackbar']
+                });
+                console.log("Error al eliminar pregunta de encuesta", error);
+            },
+            complete: () => {
+                console.log("Pregunta de encuesta eliminada exitosamente");
+            }
+        });
+    }
+
+    delPreguntaSupervisor(id_config_practica: number) {
+        let respuesta: any = {};
+
+        this.serviceComplete.delPreguntaSupervisor(id_config_practica).subscribe({
+            next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+                this._snackBar.open("Error al eliminar pregunta de supervisor", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['red-snackbar']
+                });
+                console.log("Error al eliminar pregunta de supervisor", error);
+            },
+            complete: () => {
+                console.log("Pregunta de supervisor eliminada exitosamente");
+            }
+        });
+    }
+
+    delSolicitudDocumento(id_config_practica: number) {
+        let respuesta: any = {};
+
+        this.serviceComplete.delSolicitudDocumento(id_config_practica).subscribe({
+            next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+                this._snackBar.open("Error al eliminar solicitud de documento", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['red-snackbar']
+                });
+                console.log("Error al eliminar solicitud de documento", error);
+            },
+            complete: () => {
+                console.log("Solicitud de documento eliminada exitosamente");
             }
         });
     }
