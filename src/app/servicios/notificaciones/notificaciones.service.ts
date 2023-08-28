@@ -2,8 +2,10 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { Observable, Subject, from } from 'rxjs';
+import { DatePipe } from '@angular/common';
 
 import { environment } from '../../../environments/environment';
+import { DatepickerDropdownPositionX } from '@angular/material/datepicker';
 
 
 @Injectable({
@@ -22,7 +24,7 @@ export class NotificacionesService extends Socket{
   @Output() callback: EventEmitter<any> = new EventEmitter();
 
   
-  constructor(private _http: HttpClient) {
+  constructor(private _http: HttpClient, private datetime: DatePipe) {
     super({
       url: environment.url_back_chat,
       options: {
@@ -43,7 +45,9 @@ export class NotificacionesService extends Socket{
   }
 
   postnotificacion(id_usuario:number, mensaje:any, correo: string, estado:string){
-    const req = new HttpRequest('POST', `${environment.url_back}/notificacion/crear`, {id_usuario, mensaje, correo, estado}, {responseType: 'text'});
+    let fecha = this.datetime.transform((new Date), 'MM/dd/yyyy h:mm:ss');
+
+    const req = new HttpRequest('POST', `${environment.url_back}/notificacion/crear`, {id_usuario, fecha, mensaje, correo, estado}, {responseType: 'text'});
     return this._http.request(req);
   }
 
