@@ -224,26 +224,17 @@ export class DetalleAlumnoComponent implements OnInit{
     let id_encargado = practica.encargado.id_usuario;
     let correo_encargado: string = "";
 
-    this.service_obtener.obtener_encargado(id_encargado).subscribe({
-      next:(data:any) => {
-        respuesta = {...respuesta, ...data};
-      },
-      error:(error:any) => {
-        console.log(error);
-        return;
-      },
-      complete:() => {
-        console.log("Así se ve la configuración de estados");
-        console.log(respuesta.body.config);
-        correo_encargado = respuesta.body.correo;
-      }
-    })
-    
-    
-    let resultado: any = {};
-    console.log("practica",practica)
+    //console.log("Así se ve la configuración de estados");
+    //console.log(respuesta.body.config);
+    correo_encargado = practica.encargado.usuario.correo;
+    console.log("correo_encargado:",correo_encargado);
 
-    this.service_gestion.finalizar_practica(id_encargado, practica.id, environment.estado_practica.finalizada).subscribe({
+    let correo_supervisor: string = practica.supervisor.correo;
+
+    console.log("practica",practica)
+    let nom_estudiante: string = this.usuario.nombre;
+
+    this.service_gestion.finalizar_practica(id_encargado, practica.id, environment.estado_practica.finalizada, correo_supervisor, nom_estudiante).subscribe({
       next: (data: any) => {
         console.log("Respuesta finalizar practica:",data);
       },
@@ -266,37 +257,8 @@ export class DetalleAlumnoComponent implements OnInit{
           panelClass: ['red-snackbar'],
           duration: 3000
         })
-
-        console.log("practica",practica, "estudiante",this.estudiante)
-        this.service_supervisor.enviarLink(practica.id, practica.supervisor.correo, practica.supervisor.nombre, this.estudiante.usuario.nombre).subscribe(
-          {
-            next: (data:any) => {
-              resultado = { ...resultado, ...data };
-            },
-            error: (error:any) => {
-              console.log("enviar mail error",error);
-
-              this._snackBar.open("Se ha producido un error interno", "Cerrar", {
-                panelClass: ['red-snackbar'],
-                duration: 3000
-              });
-            },
-            complete: () => {
-              this._snackBar.open("Solicitud Ingresada Correctamente", "Cerrar", {
-                panelClass:['red-snackbar'],
-                duration:3000
-              });
-              console.log("Correo enviado");
-              //reload page
-              let newUrl = this.router.url.split("?")[0];
-              newUrl += "?finalizacion_success=success";
-              window.location.href = newUrl;
-            }
-          }
-        );    
-
       }
-    });
+    }); 
   }
 
   abrir_inscripcion(index: number) {
