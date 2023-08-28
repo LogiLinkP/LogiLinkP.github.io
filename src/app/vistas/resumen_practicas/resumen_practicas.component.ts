@@ -39,14 +39,14 @@ export class TablaComponent{
                                           "Para más información, haga click en el botón.";
 
   constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar) {
-    console.log("ESTE ES EL COMPONENTE ENCARGADO");
+    //console.log("ESTE ES EL COMPONENTE ENCARGADO");
     
     this.dtOptions = {
       language: {
         url: 'assets/localisation/es-es.json'
       },
       drawCallback: () => {
-        console.log(this.practicas);
+        //console.log(this.practicas);
       }
     };
 
@@ -71,6 +71,7 @@ export class TablaComponent{
           alumno.interpretacion_informe = alumno.interpretacion_informe ? alumno.interpretacion_informe : "—";
           return alumno;
         });
+        //console.log("practicas: ", this.practicas);
         this.rerender();
       }
     });

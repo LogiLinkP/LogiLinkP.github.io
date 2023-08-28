@@ -12,7 +12,7 @@ import { NotificacionesService } from 'src/app/servicios/notificaciones/notifica
 })
 export class RevisionComponent {
   @Input() id_estudiante: number = -1;
-  @Input() id_config_practica: number = -1;
+  @Input() id_modalidad: number = -1;
   @Input() id_usuario_estudiante: number = -1; 
   private sub: any;
 
@@ -44,7 +44,9 @@ export class RevisionComponent {
   aprobar(aprobacion: 0 | 1) {
     let respuesta: any = {}
     
-    this.service.aprobar_practica(this.id_usuario_estudiante, this.id_estudiante, this.id_config_practica, aprobacion, this.correo_estudiante).subscribe({
+    //console.log("la modalidad es: ", this.id_modalidad);
+
+    this.service.aprobar_practica(this.id_estudiante, this.id_modalidad, aprobacion).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
