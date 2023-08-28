@@ -234,7 +234,7 @@ export class DetalleAlumnoComponent implements OnInit{
     console.log("practica",practica)
     let nom_estudiante: string = this.usuario.nombre;
 
-    this.service_gestion.finalizar_practica(id_encargado, practica.id, environment.estado_practica.finalizada, correo_supervisor, nom_estudiante).subscribe({
+    this.service_gestion.finalizar_practica(practica.id_estudiante, practica.id, environment.estado_practica.finalizada, correo_supervisor, nom_estudiante).subscribe({
       next: (data: any) => {
         console.log("Respuesta finalizar practica:",data);
       },
@@ -257,6 +257,12 @@ export class DetalleAlumnoComponent implements OnInit{
           panelClass: ['red-snackbar'],
           duration: 3000
         })
+        // after 3 seconds reload the page
+        setTimeout(() => {
+          window.location.reload();
+        }
+        , 3000);
+
       }
     }); 
   }
