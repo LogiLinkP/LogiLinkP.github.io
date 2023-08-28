@@ -56,7 +56,6 @@ export class ConfiguracionPracticaComponent {
     
     dataSourcePacks!: MatTableDataSource<any>;
     fg!: FormGroup;
-
     
     dataSourcePacksOpcionesPregunta!: MatTableDataSource<any>;
     dataSourcePacksHoras!: MatTableDataSource<any>;
