@@ -89,10 +89,10 @@ export class EvaluacionComponent {
       complete: () => {
         this.practica = practica.body;
         console.log("PRACTICA OBTENIDA", practica);
-        if (this.practica.hasOwnProperty('id_config_practica') && this.practica.hasOwnProperty('config_practica')) {
-          this.id_config_practica = this.practica.id_config_practica
-          if (this.practica.config_practica.hasOwnProperty('pregunta_supervisors')) {
-            this.preguntas = this.practica.config_practica.pregunta_supervisors;
+        if (this.practica.hasOwnProperty('modalidad') && this.practica.modalidad.hasOwnProperty('id_config_practica')) {
+          this.id_config_practica = this.practica.modalidad.id_config_practica
+          if (this.practica.modalidad.config_practica.hasOwnProperty('pregunta_supervisors')) {
+            this.preguntas = this.practica.modalidad.config_practica.pregunta_supervisors;
             console.log("PREGUNTAS", this.preguntas);
             if (this.preguntas.length > 0) {
               for (let pregunta of this.preguntas) {
