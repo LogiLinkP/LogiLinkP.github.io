@@ -14,6 +14,7 @@ export const commonEnv = {
         en_curso: 'En curso',
         finalizada: 'Finalizada',
         reprobada: 'Reprobada',
-        aprobada: 'Aprobada'
+        aprobada: 'Aprobada',
+        evaluada: 'Evaluada'
     }
 };
