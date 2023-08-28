@@ -135,9 +135,9 @@ export class DetallePracticaComponent implements OnInit {
     return Object.keys(data).length === 0 && data.constructor === Object;
   }
 
-  aprobar(id_usuario: number, id_estudiante: number, id_config_practica: number, aprobacion: 0 | 1) {
+  aprobar(id_usuario: number, id_estudiante: number, id_modalidad: number, aprobacion: 0 | 1) {
     let respuesta: any = {}
-    this.service2.aprobar_practica(id_estudiante, id_config_practica, aprobacion).subscribe({
+    this.service2.aprobar_practica(id_estudiante, id_modalidad, aprobacion).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
