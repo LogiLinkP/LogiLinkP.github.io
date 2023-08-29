@@ -6,6 +6,11 @@ import { NotificacionesService } from 'src/app/servicios/notificaciones/notifica
 import { CookieService } from 'ngx-cookie-service';
 import { DatePipe } from '@angular/common';
 
+import * as dayjs from 'dayjs'
+dayjs().format()
+const customParseFormat = require('dayjs/plugin/customParseFormat');
+dayjs.extend(customParseFormat);
+
 @Component({
   selector: 'app-barra-superior',
   templateUrl: './barra-superior.component.html',
@@ -131,6 +136,11 @@ export class BarraSuperiorComponent implements OnInit{
       },
       complete: () => {
         this.notificaciones = this.respuesta.body;
+        this.notificaciones = this.notificaciones.map((notificacion:any ) => {
+          notificacion.fecha = dayjs(notificacion.fecha, "YYYY-MM-DDTHH:mm:ssZ").format("DD/MM/YYYY HH:mm");
+          return notificacion;
+        });
+
         this.respuesta = [];
       }
     })
