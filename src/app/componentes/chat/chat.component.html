@@ -20,7 +20,7 @@
                             </div>
                             <div class="card-body overflow-auto" #messageContainer>
                                 <div class = "contenedordemensajes" *ngIf = "tipo == 'estudiante'" >
-                                    <div *ngFor = "let mensaje of Historial.mensajes" [ngClass]="(mensaje.emisor=='estudiante')? 'enviado' : 'recibido'">
+                                    <div *ngFor = "let mensaje of Historial?.mensajes" [ngClass]="(mensaje.emisor=='estudiante')? 'enviado' : 'recibido'">
                                         <p class="texto">{{mensaje.texto}}</p>
                                         <!-- show fecha and parse the date and time-->
                                         <p class="horafecha">Enviado: {{mensaje.fecha | date:'dd/MM/yyyy'}} a las {{mensaje.fecha | date:'HH:mm'}}</p>
@@ -36,8 +36,8 @@
                             </div>
 
                             <form name="formulario" class="card-footer text-muted input-group pb-3">
-                                <textarea type="text" class="form-control" placeholder="Escriba su Mensaje..." [(ngModel)]="Nmensaje" [ngModelOptions]="{standalone:true}" (input)="updateButtonState()" (keyup.enter)="enviarmensaje()"></textarea>
-                                <div #sendButton class="input-group-append" (click)="enviarmensaje()" (keyup.enter)="enviarmensaje()">
+                                <textarea type="text" class="form-control" placeholder="Escriba su Mensaje..." [(ngModel)]="Nmensaje" [ngModelOptions]="{standalone:true}" (input)="updateButtonState()" (keydown)="onKeyDown($event)"></textarea>
+                                <div #sendButton class="input-group-append" (click)="enviarmensaje()">
                                     <span class="input-group-text btn btn-primary" id="basic-addon2" [ngClass]="{'disabled-button': isEnviarButtonDisabled()}">Enviar</span>
                                 </div>
                             </form>
