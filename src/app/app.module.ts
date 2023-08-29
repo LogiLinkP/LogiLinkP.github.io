@@ -50,6 +50,7 @@ import { DatosPracticaComponent } from './componentes/datos-practica/datos-pract
 import { UpInformeComponent } from './componentes/up-informe/up-informe.component';
 import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
 import { ChatComponent } from './componentes/chat/chat.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 import { AppRoutingModule, routingComponents } from './app-routing.module';
@@ -120,6 +121,7 @@ import { InformeComponent } from './vistas/informe/informe.component';
     MatDialogModule,
     MatRadioModule,
     MatTooltipModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     GetDetallesAlumnoService,

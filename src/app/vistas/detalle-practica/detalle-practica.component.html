@@ -167,11 +167,13 @@
                                         <div class="row">
                                             <div class="col-lg-1"></div>
                                             <div class="col-lg-5">
-                                                <button type="button" class="btn btn-success btn-lg btn-block" [disabled] = "!botones_habilitados"
+                                                <button type="button" class="btn btn-success btn-lg btn-block"
+                                                    [disabled]="!botones_habilitados"
                                                     (click)="aprobar(practica?.estudiante?.id_usuario, practica?.estudiante?.id, practica?.modalidad?.id, 1)">Aprobar</button>
                                             </div>
                                             <div class="col-lg-5">
-                                                <button type="button" class="btn btn-danger btn-lg btn-block" [disabled] = "!botones_habilitados"
+                                                <button type="button" class="btn btn-danger btn-lg btn-block"
+                                                    [disabled]="!botones_habilitados"
                                                     (click)="aprobar(practica?.estudiante?.id_usuario, practica?.estudiante?.id, practica?.modalidad?.id, 0)">Reprobar</button>
                                             </div>
                                         </div>
@@ -434,9 +436,25 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr *ngFor="let resp of respuestas_supervisor;">
-                                                                    <td>{{resp.pregunta_supervisor?.enunciado}}</td>
+                                                                <tr>
+                                                                    <td *ngIf="!hay_resumen;else resumen1">
+                                                                        <button id="boton_informe" type="button"
+                                                                            class="btn btn-primary btn-lg btn-block"
+                                                                            (click)="generar_resumen()">
+                                                                            Generar resumen
+                                                                        </button>
+                                                                    </td>
+                                                                    <ng-template #resumen1>
+                                                                        <td id="resumen_informes">
+                                                                            {{practica.resumen.informe}}
+                                                                        </td>
+                                                                    </ng-template>
+
+
                                                                 </tr>
+                                                                <!-- <tr *ngFor="let resp of respuestas_supervisor;">
+                                                                    <td>{{resp.pregunta_supervisor?.enunciado}}</td>
+                                                                </tr> -->
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -451,9 +469,26 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr *ngFor="let resp of respuestas_supervisor;">
-                                                                    <td>{{resp.pregunta_supervisor?.enunciado}}</td>
+                                                                <tr>
+                                                                    <td *ngIf="!hay_resumen;else resumen2">
+
+
+                                                                        <button id="boton_supervisor" type="button"
+                                                                            class="btn btn-primary btn-lg btn-block"
+                                                                            (click)="generar_resumen()">
+                                                                            Generar resumen
+                                                                        </button>
+                                                                    </td>
+                                                                    <ng-template #resumen2>
+                                                                        <td id="resumen_supervisor">
+                                                                            {{practica.resumen.supervisor}}
+                                                                        </td>
+                                                                    </ng-template>
                                                                 </tr>
+
+                                                                <!-- <tr *ngFor="let resp of respuestas_supervisor;">
+                                                                    <td>{{resp.pregunta_supervisor?.enunciado}}</td>
+                                                                </tr> -->
                                                             </tbody>
                                                         </table>
                                                     </div>
