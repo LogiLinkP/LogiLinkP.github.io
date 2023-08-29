@@ -63,6 +63,7 @@ import { SubirArchivoComponent } from './componentes/subir-archivo/subir-archivo
 import { EncuestaFinPracticaComponent } from './vistas/encuesta-fin-practica/encuesta-fin-practica.component';
 import { FragmentosComponent } from './componentes/fragmentos/fragmentos.component';
 import { InformeComponent } from './vistas/informe/informe.component';
+import { ExplicacionConsistenciaComponent } from './vistas/explicacion-consistencia/explicacion-consistencia.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +94,8 @@ import { InformeComponent } from './vistas/informe/informe.component';
     SubirArchivoComponent,
     EncuestaFinPracticaComponent,
     FragmentosComponent,
-    InformeComponent
+    InformeComponent,
+    ExplicacionConsistenciaComponent,
   ],
   imports: [
     BrowserModule,

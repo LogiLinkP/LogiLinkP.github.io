@@ -16,6 +16,8 @@ import { CuestionarioComponent } from './vistas/cuestionario/cuestionario.compon
 import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
 import { ConfiguracionPracticaComponent } from './vistas/configuracion-practica/configuracion-practica.component';
 import { EncuestaFinPracticaComponent } from './vistas/encuesta-fin-practica/encuesta-fin-practica.component';
+//import { ConsistenciaComponent } from './vistas/consistencia/consistencia.component';
+import { ExplicacionConsistenciaComponent } from './vistas/explicacion-consistencia/explicacion-consistencia.component';
 
 import { PnfComponent } from './componentes/pnf/pnf.component';
 import { RevisionComponent } from './componentes/revision/revision.component';
@@ -65,6 +67,7 @@ const routes: Routes = [
   { path: 'chat/:room/:id1/:id2/:tipo', component: ChatComponent },
   { path: 'informe/:id_practica/:id_informe', component: InformeComponent },
   { path: 'encuestaFinal/:id_config_practica', component: EncuestaFinPracticaComponent },
+  { path: 'consistencia', component: ExplicacionConsistenciaComponent },
   { path: '**', component: PnfComponent },
 ];
 
