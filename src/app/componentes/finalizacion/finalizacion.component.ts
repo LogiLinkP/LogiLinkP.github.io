@@ -14,6 +14,7 @@ import { NotificacionesService } from 'src/app/servicios/notificaciones/notifica
   styleUrls: ['./finalizacion.component.scss']
 })
 export class FinalizacionComponent {
+  /*
   id_estudiante: number = -1;
   id_practica: number = -1;
   private sub: any;
@@ -160,5 +161,5 @@ export class FinalizacionComponent {
         }
       }
     );
-  }
+  }*/
 }

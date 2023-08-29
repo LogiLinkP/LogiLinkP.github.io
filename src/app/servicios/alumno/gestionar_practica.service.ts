@@ -55,10 +55,10 @@ export class GestionarService {
     return this.http.request(req);
   }   
 
-  finalizar_practica(id_estudiante: number, id_practica: number, estado: string) {
+  finalizar_practica(id_estudiante: number, id_practica: number, estado: string, correo: string, nom_estudiante: string) {
     console.log("Finalizando practica con id: ", id_practica, " y estado: ", estado, " para estudiante con id: ", id_estudiante)
     const req = new HttpRequest('PUT', `${environment.url_back}/practica/finalizar`, {
-      id_estudiante, id_practica, estado
+      id_estudiante, id_practica, estado, correo, nom_estudiante
     }, {
       responseType: 'json'
     });
