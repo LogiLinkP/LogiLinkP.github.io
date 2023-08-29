@@ -16,6 +16,7 @@ export class EvaluacionComponent {
   preguntas: any[] = [];
   pregunta_actual = 0;
   tipo_respuestas: any[] = [];
+  boton_comenzar_deshabilitado = true;
 
   // Aqui se guardan temporalmente las respuestas mientras se llena el formulario. Estas se procesan antes de enviarlas al backend.
   respuestas: any[] = []; 
@@ -89,10 +90,25 @@ export class EvaluacionComponent {
       complete: () => {
         this.practica = practica.body;
         console.log("PRACTICA OBTENIDA", practica);
+        if(this.practica.hasOwnProperty('estado') && this.practica.estado == "Evaluada" || 
+        this.practica.estado == "Aprobada" || this.practica.estado == "Reprobada") {
+          this._snackbar.open("Error: la práctica ya ha sido evaluada.", "Cerrar", {
+            duration: 3000,
+            panelClass: ['red-snackbar']
+          });
+          setTimeout(() => {
+            this.router.navigate(['/']);
+            return;
+          }, 2000);          
+        }
+        else{
+          this.boton_comenzar_deshabilitado = false;
+        }
+
         if (this.practica.hasOwnProperty('modalidad') && this.practica.modalidad.hasOwnProperty('id_config_practica')) {
           this.id_config_practica = this.practica.modalidad.id_config_practica
           if (this.practica.modalidad.config_practica.hasOwnProperty('pregunta_supervisors')) {
-            this.preguntas = this.practica.modalidad.config_practica.pregunta_supervisors;
+            this.preguntas = this.practica.modalidad.config_practica.pregunta_supervisors;            
             console.log("PREGUNTAS", this.preguntas);
             if (this.preguntas.length > 0) {
               for (let pregunta of this.preguntas) {
@@ -232,14 +248,12 @@ export class EvaluacionComponent {
           duration: 3000,
           panelClass: ['green-snackbar']
         });
+        // after 2 seconds, redirect to home
+        setTimeout(() => {
+          this.router.navigate(['/']);
+          return;
+        }, 2000); 
       }
-    });
-
-    console.log("RESPUESTAS A ENVIAR EN QUERY", respuestas_aux);
-    // after 2 seconds, redirect to home
-    setTimeout(() => {
-      this.router.navigate(['/']);
-    }
-      , 2000); 
+    });    
   }
 }
