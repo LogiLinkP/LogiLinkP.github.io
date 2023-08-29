@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { error } from 'jquery';
 import { DetallePracticaService } from 'src/app/servicios/encargado/detalle-practica.service';
 import { SetDetallesAlumnoService } from '../../servicios/encargado/decision.service';
 import { ActivatedRoute } from '@angular/router';
@@ -8,6 +7,7 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
+import { FragmentosService } from '../../servicios/fragmentos/fragmentos.service';
 
 @Component({
   selector: 'app-detalle-practica',
@@ -26,16 +26,19 @@ export class DetallePracticaComponent implements OnInit {
   documento_extras: any = [];
   informes: any = [];
   evaluaciones: any = [];
-  respuestas_supervisor: any = [];
+  respuestas_supervisor: any = {};
+  data_supervisor_rdy: boolean = false;
   doc_str = "documento";
   doc_extra_str = "documento_extra";
+  fragmentos_sup: any = [];
+  respuestas_sup_parsed: any = [];
 
   botones_habilitados: boolean = false;
 
   id_estudiante: number = -1
   correo_estudiante: string = "";
 
-  constructor(private service: DetallePracticaService, private service2: SetDetallesAlumnoService,
+  constructor(private fragmentosService: FragmentosService, private service: DetallePracticaService, private service2: SetDetallesAlumnoService,
     private _snackBar: MatSnackBar, private route: ActivatedRoute,
     private service_obtener: DataUsuarioService) {
 
@@ -53,6 +56,8 @@ export class DetallePracticaComponent implements OnInit {
     let respuesta: any = {};
 
     let id_practica = parseInt(this.route.snapshot.url[1].path); //obtener el id de práctica de la url
+
+
 
     if (!isNaN(id_practica)) {
 
@@ -90,10 +95,46 @@ export class DetallePracticaComponent implements OnInit {
           this.respuestas_supervisor = this.practica.respuesta_supervisors.filter((respuesta_supervisor: any) => {
             return isNaN(respuesta_supervisor.respuesta);
           });
+          this.get_fragmentos_sup(id_practica);
+
+
           //console.log("respuestas_supervisor: ", this.respuestas_supervisor);
         }
       }); // fin request para obtener la practica  
     }
+  }
+
+  get_fragmentos_sup(id_practica: number) {
+    let dataFrag: any = {};
+    this.fragmentosService.update_fragmentos_practica(id_practica).subscribe({
+      next: (data: any) => {
+        dataFrag = { ...dataFrag, ...data };
+      },
+      error: (err: any) => { },
+      complete: () => {
+        if (!dataFrag.body || !dataFrag.body.supervisor) return;
+        this.fragmentos_sup = dataFrag.body.supervisor
+        console.log("fragmentos_sup!!", this.fragmentos_sup)
+        this.respuestas_sup_parsed = this.respuestas_supervisor.map((resp: any) => {
+          if (!(resp.id in this.fragmentos_sup)) {
+            return [true, resp.pregunta_supervisor.enunciado, resp.respuesta]
+          } else {
+            let palabras = resp.respuesta.split(" ");
+            return [
+              false,
+              resp.pregunta_supervisor.enunciado,
+              [
+                palabras.slice(0, this.fragmentos_sup[resp.id][0].fragmento[0]).join(" "),
+                palabras.slice(this.fragmentos_sup[resp.id][0].fragmento[0], this.fragmentos_sup[resp.id][0].fragmento[1] + 1).join(" "),
+                palabras.slice(this.fragmentos_sup[resp.id][0].fragmento[1] + 1, palabras.length).join(" ")
+              ]
+            ]
+          }
+        });
+        this.data_supervisor_rdy = true;
+        console.log(dataFrag.body);
+      }
+    });
   }
 
   rerender(): void {

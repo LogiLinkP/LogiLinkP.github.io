@@ -167,11 +167,13 @@
                                         <div class="row">
                                             <div class="col-lg-1"></div>
                                             <div class="col-lg-5">
-                                                <button type="button" class="btn btn-success btn-lg btn-block" [disabled] = "!botones_habilitados"
+                                                <button type="button" class="btn btn-success btn-lg btn-block"
+                                                    [disabled]="!botones_habilitados"
                                                     (click)="aprobar(practica?.estudiante?.id_usuario, practica?.estudiante?.id, practica?.modalidad?.id, 1)">Aprobar</button>
                                             </div>
                                             <div class="col-lg-5">
-                                                <button type="button" class="btn btn-danger btn-lg btn-block" [disabled] = "!botones_habilitados"
+                                                <button type="button" class="btn btn-danger btn-lg btn-block"
+                                                    [disabled]="!botones_habilitados"
                                                     (click)="aprobar(practica?.estudiante?.id_usuario, practica?.estudiante?.id, practica?.modalidad?.id, 0)">Reprobar</button>
                                             </div>
                                         </div>
@@ -338,7 +340,7 @@
                                 </a>
                                 <!-- Card Content - Collapse -->
                                 <div class="collapse" id="collapseCardSupervisor">
-                                    <div class="card-body">
+                                    <div class="card-body" *ngIf="data_supervisor_rdy;else supervisor_data">
                                         <div class="overflow-auto">
                                             <div class="table-responsive ">
                                                 <table class="table table-bordered hoverTable" id="dataTable"
@@ -350,15 +352,33 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr *ngFor="let resp of respuestas_supervisor;">
-                                                            <td>{{resp.pregunta_supervisor?.enunciado}}</td>
-                                                            <td>{{resp.respuesta}}</td>
+                                                        <tr *ngFor="let resp of respuestas_sup_parsed;">
+                                                            <td>{{resp[1]}}</td>
+                                                            <td *ngIf="resp[0];else textoSolo">
+                                                                {{resp[2]}}
+                                                            </td>
+                                                            <ng-template #textoSolo>
+                                                                <td>
+                                                                    {{resp[2][0]}}
+                                                                    <span class="bg-gradient-success">
+                                                                        {{resp[2][1]}}
+                                                                    </span>
+                                                                    {{resp[2][2]}}
+                                                                </td>
+                                                            </ng-template>
+
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
                                     </div>
+
+                                    <ng-template #supervisor_data>
+                                        <div class="spinner-border" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </ng-template>
                                 </div>
                             </div>
                         </div><!-- Fin Tarjeta Otras respuestas supervisor -->
