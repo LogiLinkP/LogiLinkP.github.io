@@ -8,6 +8,8 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
+import { ResumenService } from 'src/app/servicios/resumen/resumen.service';
+
 
 @Component({
   selector: 'app-detalle-practica',
@@ -29,6 +31,7 @@ export class DetallePracticaComponent implements OnInit {
   respuestas_supervisor: any = [];
   doc_str = "documento";
   doc_extra_str = "documento_extra";
+  hay_resumen: boolean = false;
 
   botones_habilitados: boolean = false;
 
@@ -37,7 +40,7 @@ export class DetallePracticaComponent implements OnInit {
 
   constructor(private service: DetallePracticaService, private service2: SetDetallesAlumnoService,
     private _snackBar: MatSnackBar, private route: ActivatedRoute,
-    private service_obtener: DataUsuarioService) {
+    private service_obtener: DataUsuarioService, private service_resumen: ResumenService) {
 
     this.route.params.subscribe(params => { this.id_estudiante = +params['id']; });
 
@@ -71,6 +74,8 @@ export class DetallePracticaComponent implements OnInit {
         },
         complete: () => {
           this.practica = respuesta.body;
+          this.check_resumen();
+
 
           if (this.practica.estado == environment.estado_practica.evaluada ||
             this.practica.estado == environment.estado_practica.aprobada ||
@@ -93,6 +98,74 @@ export class DetallePracticaComponent implements OnInit {
           //console.log("respuestas_supervisor: ", this.respuestas_supervisor);
         }
       }); // fin request para obtener la practica  
+    }
+  }
+
+  generar_resumen() {
+    let bot_inf = document.getElementById("boton_informe") as HTMLElement;
+    let bot_sup = document.getElementById("boton_supervisor") as HTMLElement;
+    bot_inf.innerHTML = `
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    `
+    bot_sup.innerHTML = `
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    `
+
+    let data: any = {};
+    if (this.practica.resumen && Object.keys(this.practica.resumen).length > 0) {
+      this.hay_resumen = true;
+      return;
+    }
+    this.service_resumen.get_informe_preguntas(this.practica.id).subscribe({
+      next: (_data: any) => {
+        data = { ...data, ..._data };
+      },
+      complete: () => {
+        console.log(data.body)
+        if (!data.body) {
+          this._snackBar.open("Error al solicitar resumen, por favor vuelva más tarde", "Cerrar", {
+            panelClass: ['red-snackbar'],
+            duration: 3000
+          });
+          return;
+        }
+        if (!data.body.informe)
+          data.body.informe = "No hay información disponible."
+        if (!data.body.supervisor)
+          data.body.supervisor = "No hay información disponible."
+        this.practica.resumen = data.body;
+        this.hay_resumen = true;
+      },
+      error: (error: any) => {
+        console.error(error);
+        this._snackBar.open("Error al solicitar resumen, por favor vuelva más tarde", "Cerrar", {
+          panelClass: ['red-snackbar'],
+          duration: 3000
+        });
+      }
+    });
+  }
+
+  check_resumen() {
+    if (!this.practica.resumen) {
+      this.hay_resumen = false;
+      return
+    }
+    if (Object.keys(this.practica.resumen).length == 2) {
+      this.hay_resumen = true;
+    } else if (Object.keys(this.practica.resumen).length == 1) {
+      if (!this.practica.resumen.informe) {
+        this.practica.resumen.informe = "No hay información disponible."
+      } else {
+        this.practica.resumen.supervisor = "No hay información disponible."
+      }
+      this.hay_resumen = true;
+    } else {
+      this.hay_resumen = false;
     }
   }
 
