@@ -278,11 +278,11 @@
                                 </div>
                                 <!-- Carta que se muestra en caso de que alumno no tenga una practica registrada -->
                                 <div *ngSwitchCase="1">
-                                    <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample" v-on:click="getPractica(nombre)">
+                                    <a [href]="'#card'+ i" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" [attr.aria-controls]="'card'+ i" v-on:click="getPractica(nombre)">
                                         <h2 class="m-0 font-weight-bold text-primary">{{ practica[0] }}</h2>
                                         <div class="m-0 text-gray-800">Estado: No iniciada</div>
                                     </a>  
-                                    <div class="collapse show" id="collapseCardExample">
+                                    <div class="collapse show" id="{{ 'card' + i }}">
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-xl-5" *ngIf="!flags_inscripcion_list[i]"></div>                 
