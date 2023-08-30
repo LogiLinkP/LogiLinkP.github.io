@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { GetDetallesAlumnoService } from '../../servicios/encargado/resumen_practicas.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -9,7 +9,8 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'resumen_practicas',
   templateUrl: './resumen_practicas.component.html',
-  styleUrls: ['./resumen_practicas.component.scss']
+  styleUrls: ['./resumen_practicas.component.scss'],
+  encapsulation: ViewEncapsulation.None // para poder customizar el mat-tooltip
 })
 export class TablaComponent{
   rutas = environment;
@@ -19,16 +20,33 @@ export class TablaComponent{
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
 
-  alumnos: any = [];
+  practicas: any = [];
+
+  texto_consistencia_informe: string = "Indica qué tan relacionados están los informes del\n"+
+                                       "estudiante con lo que escribió su supervisor.\n"+
+                                       "Para más información, haga click en el botón.";
+
+  texto_consistencia_evaluacion: string = "Indica qué tan relacionada está la evaluación escrita del\n"+
+                                          "supervisor, con las notas que este mismo le haya puesto.\n"+
+                                          "Para más información, haga click en el botón.";
+
+  texto_interpretacion_nota: string = "Texto que ayuda a entender qué significa el puntaje\n"+
+                                      "de consistencia evaluación obtenido.\n"+
+                                      "Para más información, haga click en el botón.";
+                                  
+  texto_interpretacion_informes: string = "Texto que ayuda a entender qué significa el puntaje\n"+
+                                          "de consistencia informes obtenido.\n"+
+                                          "Para más información, haga click en el botón.";
 
   constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar) {
-    console.log(this.rutas.ruta_practicas);
+    //console.log("ESTE ES EL COMPONENTE ENCARGADO");
+    
     this.dtOptions = {
       language: {
         url: 'assets/localisation/es-es.json'
       },
       drawCallback: () => {
-        console.log(this.alumnos);
+        //console.log(this.practicas);
       }
     };
 
@@ -38,14 +56,14 @@ export class TablaComponent{
         respuesta = { ...respuesta, ...data }
       },
       error: (error: any) => {
-        this.alumnos = [];
+        this.practicas = [];
         this._snackBar.open("Error al solicitar datos", "Cerrar", {
           duration: 10000,
           panelClass: ['red-snackbar']
         });
       },
       complete: () => {
-        this.alumnos = respuesta.body.map((alumno: any) => {
+        this.practicas = respuesta.body.map((alumno: any) => {
           alumno.consistencia_nota = alumno.consistencia_nota ? `${Math.round(100 * alumno.consistencia_nota)}%` : "—";
           alumno.consistencia_informe = alumno.consistencia_informe ? `${Math.round(100 * alumno.consistencia_informe)}%` : "—";
           alumno.nota_evaluacion = alumno.nota_evaluacion ? alumno.nota_evaluacion : "—";
@@ -53,17 +71,12 @@ export class TablaComponent{
           alumno.interpretacion_informe = alumno.interpretacion_informe ? alumno.interpretacion_informe : "—";
           return alumno;
         });
+        //console.log("practicas: ", this.practicas);
         this.rerender();
       }
     });
   }
   rerender(): void {
-    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      // Destroy the table first
-      dtInstance.destroy();
-      // Call the dtTrigger to rerender again
-      this.dtTrigger.next(0);
-    });
   }
 
   ngAfterViewInit(): void {

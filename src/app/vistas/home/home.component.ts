@@ -10,6 +10,5 @@ export class HomeComponent {
   title = "Praxus"
 
   constructor(private storage: StorageUserService){
-    console.log("hola",this.storage.getUser())
   }
 }

@@ -25,4 +25,11 @@ export class DetallePracticaService {
     const req = new HttpRequest('GET', `${environment.url_back}/documento_extra/get?id_practica=${id_practica}`);
     return this._http.request(req);
   }
+
+  obtener_solicitudes_documentos(id_practica: number, id_config_practica: number) {
+    const req = new HttpRequest('GET', `${environment.url_back}/solicitud_documento/todos_docs_practica?id=${id_config_practica}&id_practica=${id_practica}`);
+    return this._http.request(req);
+  }
+
+
 }

@@ -22,7 +22,7 @@
         Interface
     </div>
 
-    <!-- Nav Item - Practicas Collapse Menu -->
+    <!-- Nav Item - Config Practicas Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">
@@ -30,13 +30,19 @@
             <span>Configurar Prácticas</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Practicas Actuales:</h6>
-                <a class="collapse-item" [routerLink]="['']">Practica Industrial</a>
-                <a class="collapse-item" [routerLink]="">Practica Profesional</a>
+            <div *ngIf="configs_nombres.length > 0" class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Practicas Activas:</h6>
+                <a *ngFor="let practica of configs_nombres" class="collapse-item" [routerLink]="['/configurar', practica]">{{practica}}</a>
                 <h6 class="collapse-header">Crear Nueva:</h6>
-                <a class="collapse-item" [routerLink]="">Planilla en blanco</a>
-                <a class="collapse-item" [routerLink]="">Importar configuracion</a>
+                <!-- <a class="collapse-item" [routerLink]="['/configurar', 'configBase']">Planilla base</a> -->
+                <a class="collapse-item" [routerLink]="['/configurar', 'blanco']">
+                    <i class="fas fa-regular fa-plus fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Plantilla en blanco
+                </a>
+                <a class="collapse-item" href="#" data-toggle="modal" data-target="#importModal">
+                    <i class="fas fa-regular fa-clipboard fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Importar existente
+                </a>
             </div>
         </div>
     </li>
@@ -108,3 +114,5 @@
     </div>
     
 </ul>
+
+<app-import-modal></app-import-modal>

@@ -1,18 +1,25 @@
-.overflow-auto{
-    max-height: 150px;
+.overflow-auto {
+    max-height: 200px;
     font-size: medium;
 }
 
-.overflow-auto_consistencia{
+.overflow-auto_consistencia {
     max-height: 300px;
     font-size: medium;
 }
 
- .m-0{
+.m-0 {
     font-size: medium;
- }
+}
 
-.hoverTable tbody tr :hover{
-    background: #f5f5f5;
-    cursor: pointer;
- }
+a.nostyle:link {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+}
+
+a.nostyle:visited {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+}

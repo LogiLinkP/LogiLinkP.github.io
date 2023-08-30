@@ -16,7 +16,7 @@
         <div id="content-wrapper" class="d-flex flex-column">
 
             <!-- Main Content -->
-            <div id="content">
+            <div id="content" class="main-content">
 
                 <!-- Topbar -->
                 <app-barra-superior></app-barra-superior>
@@ -27,8 +27,8 @@
                     <!-- Page Heading -->
                     <div class="row">
                         <div class="col-lg-10">
-                            <h1 class="h3 mb-2 text-gray-800">{{ practica.estudiante.usuario.nombre }} <br> {{
-                                practica.config_practica.nombre }}</h1>
+                            <h1 class="h3 mb-2 text-gray-800">{{ practica?.estudiante?.usuario.nombre }} <br> {{
+                                practica?.modalidad?.config_practica?.nombre }}</h1>
                         </div>
                         <div class="col-lg-1">
                             <button type="button" class="btn btn-primary btn-lg btn-block"
@@ -45,7 +45,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Estado</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"> {{ practica.estado }}
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"> {{ practica?.estado }}
                                             </div>
                                         </div>
                                         <div class="col-auto">
@@ -65,7 +65,7 @@
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Empresa</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{
-                                                practica.empresa.nombre_empresa }}</div>
+                                                practica?.empresa?.nombre_empresa }}</div>
                                         </div>
                                         <div class="col-auto">
                                             <!-- <i class="fas fa-dollar-sign fa-2x text-gray-300"></i> -->
@@ -84,7 +84,7 @@
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 Supervisor</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{
-                                                practica.supervisor.nombre }}</div>
+                                                practica?.supervisor?.nombre }}</div>
                                         </div>
                                         <div class="col-auto">
                                             <!-- <i class="fas fa-comments fa-2x text-gray-300"></i> -->
@@ -103,7 +103,7 @@
                                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                                 Modalidad</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{
-                                                practica.config_practica.modalidad}}</div>
+                                                practica?.modalidad?.tipo_modalidad}}</div>
                                         </div>
                                         <div class="col-auto">
                                             <!-- <i class="fas fa-comments fa-2x text-gray-300"></i> -->
@@ -115,10 +115,6 @@
 
 
                     </div>
-                    <div class="row">
-                        <app-subir-archivo-extra></app-subir-archivo-extra>
-                        <app-boton-solicitar-archivo></app-boton-solicitar-archivo>
-                    </div>
 
                     <!-- Fila de Información general y Archivos -->
                     <div class="row">
@@ -126,29 +122,33 @@
                         <div class="col-lg-6">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Accordion -->
-                                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
-                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                <a href="#collapseCardGeneral" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardGeneral">
                                     <h6 class="m-0 font-weight-bold text-primary">Información General</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
-                                <div class="collapse show" id="collapseCardExample">
+                                <div class="collapse" id="collapseCardGeneral">
                                     <div class="card-body">
                                         <table style="width:80%">
                                             <tr>
                                                 <td>Correo Estudiante:</td>
-                                                <td>{{ practica.estudiante.usuario.correo }}</td>
+                                                <td>{{ practica?.estudiante?.usuario.correo }}</td>
                                             </tr>
                                             <tr>
                                                 <td>Correo Supervisor:</td>
-                                                <td>{{ practica.supervisor.correo }}</td>
+                                                <td>{{ practica?.supervisor?.correo }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Horas Trabajadas:</td>
+                                                <td>{{ horas_totales }}</td>
                                             </tr>
                                             <tr>
                                                 <td>Fecha Inicio:</td>
-                                                <td>{{ practica.fecha_inicio | date: 'dd/MM/yyyy' }}</td>
+                                                <td>{{ practica?.fecha_inicio | date: 'dd/MM/yyyy' }}</td>
                                             </tr>
                                             <tr>
                                                 <td>Fecha Termino:</td>
-                                                <td>{{ practica.fecha_termino | date: 'dd/MM/yyyy' }}</td>
+                                                <td>{{ practica?.fecha_termino | date: 'dd/MM/yyyy' }}</td>
                                             </tr>
                                         </table>
 
@@ -161,30 +161,32 @@
                         <div class="col-lg-6">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Accordion -->
-                                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
-                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                <a href="#collapseCardAcciones" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardAcciones">
                                     <h6 class="m-0 font-weight-bold text-primary">Acciones</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
-                                <div class="collapse show" id="collapseCardExample">
+                                <div class="collapse" id="collapseCardAcciones">
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-lg-1"></div>
                                             <div class="col-lg-5">
                                                 <button type="button" class="btn btn-success btn-lg btn-block"
-                                                    (click)="aprobar(practica.estudiante.id, practica.config_practica.id, 1)">Aprobar</button>
+                                                    [disabled]="!botones_habilitados"
+                                                    (click)="aprobar(practica?.estudiante?.id_usuario, practica?.estudiante?.id, practica?.modalidad?.id, 1)">Aprobar</button>
                                             </div>
                                             <div class="col-lg-5">
                                                 <button type="button" class="btn btn-danger btn-lg btn-block"
-                                                    (click)="aprobar(practica.estudiante.id, practica.config_practica.id, 0)">Reprobar</button>
+                                                    [disabled]="!botones_habilitados"
+                                                    (click)="aprobar(practica?.estudiante?.id_usuario, practica?.estudiante?.id, practica?.modalidad?.id, 0)">Reprobar</button>
                                             </div>
                                         </div>
                                         <br>
                                         <div class="row">
                                             <div class="col-lg-1"></div>
                                             <div class="col-lg-5">
-                                                <button type="button" class="btn btn-primary btn-lg btn-block">Generar
-                                                    PDF de Práctica</button>
+                                                <app-boton-solicitar-archivo [id_alumno]="id_estudiante" [correo_alumno]="correo_estudiante"
+                                                                            [configuración_alumno]="config_estudiante"></app-boton-solicitar-archivo>
                                             </div>
                                             <div class="col-lg-5">
                                                 <button type="button" class="btn btn-primary btn-lg btn-block">Resumir
@@ -202,12 +204,12 @@
                         <div class="col-lg-6">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Accordion -->
-                                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
-                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                <a href="#collapseCardInformes" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardInformes">
                                     <h6 class="m-0 font-weight-bold text-primary">Informes Realizados</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
-                                <div class="collapse show" id="collapseCardExample">
+                                <div class="collapse" id="collapseCardInformes">
                                     <div class="card-body">
                                         <div class="overflow-auto">
                                             <div class="table-responsive ">
@@ -226,8 +228,14 @@
                                                             <td>{{ informe.config_informe.tipo_informe }}</td>
                                                             <td>{{ informe.horas_trabajadas }}</td>
                                                             <td>{{ informe.fecha | date: 'dd/MM/yyyy' }}</td>
-                                                            <td><button (click)="mostrar_informe(informe.id)">Ver
-                                                                    Informe</button></td>
+                                                            <td>
+                                                                <a class="nostyle"
+                                                                    href="/informe/{{practica.id}}/{{informe.id}}">
+                                                                    <button class="btn btn-primary btn-sm btn-block">
+                                                                        Ver Informe
+                                                                    </button>
+                                                                </a>
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -242,12 +250,12 @@
                         <div class="col-lg-6">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Accordion -->
-                                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
-                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                                    <h6 class="m-0 font-weight-bold text-primary">Archivos Subidos</h6>
+                                <a href="#collapseCardArchivos" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardArchivos">
+                                    <h6 class="m-0 font-weight-bold text-primary">Solicitudes de Archivos</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
-                                <div class="collapse show" id="collapseCardExample">
+                                <div class="collapse" id="collapseCardArchivos">
                                     <div class="card-body">
                                         <div class="overflow-auto">
                                             <div class="table-responsive">
@@ -262,20 +270,23 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr *ngFor="let doc of documentos;">
-                                                            <td>{{doc.solicitud_documento.nombre_solicitud}}</td>
-                                                            <td>{{doc.solicitud_documento.tipo_archivo}}</td>
+                                                        <tr *ngFor="let solicitud of solicitudes_documentos;">
+                                                            <td>{{solicitud.nombre_solicitud}}</td>
+                                                            <td>{{solicitud.tipo_archivo}}</td>
                                                             <td>Normal</td>
-                                                            <!--add button that calls the function descargar documento with the parameter doc.key-->
-                                                            <td><button
-                                                                    (click)="descargar_documento(doc.id, doc_str)">Descargar</button>
+                                                            <td><button class="btn btn-primary btn-sm btn-block"
+                                                                    *ngIf="solicitud.documentos.length != 0; else no_doc" 
+                                                                    (click)="descargar_documento(solicitud.documentos[0].id, doc_str)">Descargar</button>
+                                                                <ng-template #no_doc>
+                                                                    <b>No subido aún</b>
+                                                                </ng-template>
                                                             </td>
                                                         </tr>
                                                         <tr *ngFor="let doc_extra of documento_extras;">
                                                             <td>{{doc_extra.nombre_solicitud}}</td>
                                                             <td>{{doc_extra.tipo_archivo}}</td>
                                                             <td>Extra</td>
-                                                            <td><button
+                                                            <td><button class="btn btn-primary btn-sm btn-block"
                                                                     (click)="descargar_documento(doc_extra.id, doc_extra_str)">Descargar</button>
                                                             </td>
                                                         </tr>
@@ -294,12 +305,13 @@
                         <div class="col-lg-6">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Accordion -->
-                                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
-                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                <a href="#collapseCardEvaluacion" class="d-block card-header py-3"
+                                    data-toggle="collapse" role="button" aria-expanded="true"
+                                    aria-controls="collapseCardEvaluacion">
                                     <h6 class="m-0 font-weight-bold text-primary">Evaluación del Supervisor</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
-                                <div class="collapse show" id="collapseCardExample">
+                                <div class="collapse" id="collapseCardEvaluacion">
                                     <div class="card-body">
                                         <div class="overflow-auto">
                                             <div class="table-responsive ">
@@ -313,7 +325,7 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr *ngFor="let eval of evaluaciones;">
-                                                            <td>{{eval.pregunta_supervisor.enunciado}}</td>
+                                                            <td>{{eval.pregunta_supervisor?.enunciado}}</td>
                                                             <td>{{eval.respuesta}}</td>
                                                         </tr>
                                                     </tbody>
@@ -329,13 +341,14 @@
                         <div class="col-lg-6">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Accordion -->
-                                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
-                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                <a href="#collapseCardSupervisor" class="d-block card-header py-3"
+                                    data-toggle="collapse" role="button" aria-expanded="true"
+                                    aria-controls="collapseCardSupervisor">
                                     <h6 class="m-0 font-weight-bold text-primary">Reseñas del Supervisor</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
-                                <div class="collapse show" id="collapseCardExample">
-                                    <div class="card-body">
+                                <div class="collapse" id="collapseCardSupervisor">
+                                    <div class="card-body" *ngIf="data_supervisor_rdy;else supervisor_data">
                                         <div class="overflow-auto">
                                             <div class="table-responsive ">
                                                 <table class="table table-bordered hoverTable" id="dataTable"
@@ -347,15 +360,33 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr *ngFor="let resp of respuestas_supervisor;">
-                                                            <td>{{resp.pregunta_supervisor.enunciado}}</td>
-                                                            <td>{{resp.respuesta}}</td>
+                                                        <tr *ngFor="let resp of respuestas_sup_parsed;">
+                                                            <td style="vertical-align: middle;">{{resp[1]}}</td>
+                                                            <td *ngIf="resp[0];else textoSolo" style="vertical-align: middle;">
+                                                                {{resp[2]}}
+                                                            </td>
+                                                            <ng-template #textoSolo style="vertical-align: middle;">
+                                                                <td style="vertical-align: middle;">
+                                                                    {{resp[2][0]}}
+                                                                    <span class="bg-gradient-success" style="vertical-align: middle;">
+                                                                        {{resp[2][1]}}
+                                                                    </span>
+                                                                    {{resp[2][2]}}
+                                                                </td>
+                                                            </ng-template>
+
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
                                     </div>
+
+                                    <ng-template #supervisor_data>
+                                        <div class="spinner-border" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </ng-template>
                                 </div>
                             </div>
                         </div><!-- Fin Tarjeta Otras respuestas supervisor -->
@@ -366,12 +397,13 @@
                         <div class="col-lg-12">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Accordion -->
-                                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
-                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                <a href="#collapseCardConsistencias" class="d-block card-header py-3"
+                                    data-toggle="collapse" role="button" aria-expanded="true"
+                                    aria-controls="collapseCardConsistencias">
                                     <h6 class="m-0 font-weight-bold text-primary">Consistencia de Informes</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
-                                <div class="collapse show" id="collapseCardExample">
+                                <div class="collapse" id="collapseCardConsistencias">
                                     <div class="card-body">
                                         <div class="overflow-auto_consistencia">
                                             <!-- tarjetas internas consistencia_informe y consistencia_nota-->
@@ -386,7 +418,7 @@
                                                                         class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                                         Consistencia Informe</div>
                                                                     <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                                        {{ practica.consistencia_informe }}
+                                                                        {{ practica?.consistencia_informe }}
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-auto">
@@ -406,7 +438,7 @@
                                                                         class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                                         Consistencia Nota</div>
                                                                     <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                                        {{ practica.consistencia_nota }}</div>
+                                                                        {{ practica?.consistencia_nota }}</div>
                                                                 </div>
                                                                 <div class="col-auto">
                                                                     <!--  <i class="fas fa-calendar fa-2x text-gray-300"></i> -->
@@ -430,9 +462,25 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr *ngFor="let resp of respuestas_supervisor;">
-                                                                    <td>{{resp.pregunta_supervisor.enunciado}}</td>
+                                                                <tr>
+                                                                    <td *ngIf="!hay_resumen;else resumen1">
+                                                                        <button id="boton_informe" type="button"
+                                                                            class="btn btn-primary btn-lg btn-block"
+                                                                            (click)="generar_resumen()">
+                                                                            Generar resumen
+                                                                        </button>
+                                                                    </td>
+                                                                    <ng-template #resumen1>
+                                                                        <td id="resumen_informes">
+                                                                            {{practica.resumen.informe}}
+                                                                        </td>
+                                                                    </ng-template>
+
+
                                                                 </tr>
+                                                                <!-- <tr *ngFor="let resp of respuestas_supervisor;">
+                                                                    <td>{{resp.pregunta_supervisor?.enunciado}}</td>
+                                                                </tr> -->
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -447,9 +495,26 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr *ngFor="let resp of respuestas_supervisor;">
-                                                                    <td>{{resp.pregunta_supervisor.enunciado}}</td>
+                                                                <tr>
+                                                                    <td *ngIf="!hay_resumen;else resumen2">
+
+
+                                                                        <button id="boton_supervisor" type="button"
+                                                                            class="btn btn-primary btn-lg btn-block"
+                                                                            (click)="generar_resumen()">
+                                                                            Generar resumen
+                                                                        </button>
+                                                                    </td>
+                                                                    <ng-template #resumen2>
+                                                                        <td id="resumen_supervisor">
+                                                                            {{practica.resumen.supervisor}}
+                                                                        </td>
+                                                                    </ng-template>
                                                                 </tr>
+
+                                                                <!-- <tr *ngFor="let resp of respuestas_supervisor;">
+                                                                    <td>{{resp.pregunta_supervisor?.enunciado}}</td>
+                                                                </tr> -->
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -466,10 +531,11 @@
                         </div><!-- Fin Tarjeta Consistencia -->
                     </div><!-- Fin Fila -->
                 </div>
+
             </div>
             <!-- End of Main Content -->
 
-            <app-footer></app-footer>
+
 
         </div>
         <!-- End of Content Wrapper -->
@@ -483,22 +549,5 @@
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <app-logout-modal></app-logout-modal>
 </body>
