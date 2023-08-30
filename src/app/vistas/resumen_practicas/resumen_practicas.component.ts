@@ -4,6 +4,7 @@ import { GetDetallesAlumnoService } from '../../servicios/encargado/resumen_prac
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Router } from "@angular/router";
 
 
 @Component({
@@ -38,7 +39,7 @@ export class TablaComponent{
                                           "de consistencia informes obtenido.\n"+
                                           "Para más información, haga click en el botón.";
 
-  constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar) {
+  constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar, private router: Router) {
     //console.log("ESTE ES EL COMPONENTE ENCARGADO");
     
     this.dtOptions = {
@@ -81,6 +82,10 @@ export class TablaComponent{
 
   ngAfterViewInit(): void {
     this.dtTrigger.next(0);
+  }
+  
+  redirecting() {
+    this.router.navigate(["/consistencia"])
   }
 
   ngOnDestroy(): void {
