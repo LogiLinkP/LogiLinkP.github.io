@@ -101,6 +101,7 @@ export class DetallePracticaComponent implements OnInit {
             return isNaN(respuesta_supervisor.respuesta);
           });
           this.get_fragmentos_sup(id_practica);
+          this.id_estudiante = this.practica.estudiante.usuario.id;
           this.correo_estudiante = this.practica.estudiante.usuario.correo;
           this.config_estudiante = this.practica.estudiante.usuario.config;
 
@@ -284,7 +285,8 @@ export class DetallePracticaComponent implements OnInit {
           });
         }
         respuesta = {};
-        this.service_noti.postnotificacion(id_usuario, mensaje, this.correo_estudiante, this.config_estudiante).subscribe({
+        let enlace: string = "localhost:4200/alumno/" + id_usuario;
+        this.service_noti.postnotificacion(id_usuario, mensaje, this.correo_estudiante, this.config_estudiante, enlace).subscribe({
           next:(data:any) => {
             respuesta = {...respuesta, ...data};
           },
