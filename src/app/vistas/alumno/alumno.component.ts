@@ -139,16 +139,15 @@ export class DetalleAlumnoComponent implements OnInit{
     });  
   }
 
-  
+  /*
   ingresarInforme(practica: any){
     let respuesta: any = {};
-    let texto_informe = (document.getElementById("informe") as HTMLInputElement).value;
+    let key = (document.getElementById("informe") as HTMLInputElement).value;
     let horas_trabajadas = (document.getElementById("horas") as HTMLInputElement).valueAsNumber;
-    let id_config_informe = practica.modalidad.config_practica.config_informes[0].id; // AGARRA EL PRIMER CONFIG INFORME QUE ENCUENTRE
+    let id_config_informe = practica.modalidad.config_practica.id;
     let id_encargado = practica.encargado.id;
-
-    let key = JSON.stringify({[practica.modalidad.config_practica.config_informes[0].
-                              pregunta_informes[0].id]: texto_informe}); //AGARRA LA PRIMERA PREGUNTA DEL CONFIG INFORME QUE ENCUENTRE Y LE ASIGNA EL TEXTO DEL INFORME
+    let id_encargado_usuario = practica.encargado.id_usuario;
+    let correo_encargado: string = "";
     
     if (Number.isNaN(horas_trabajadas)){
       horas_trabajadas = 0;
@@ -172,9 +171,6 @@ export class DetalleAlumnoComponent implements OnInit{
       },
       error: (error: any) => console.log("Error en ingresar informe:",error),
       complete: () => {
-        /*
-        let id_encargado_usuario = practica.encargado.id_usuario;
-        let correo_encargado: string = "";
         this.service_noti.postnotificacion(id_encargado_usuario, "El alumno "+ this.estudiante.nombre + " ha ingresado un informe diario", correo_encargado).subscribe({
           next:(data:any) => {
             respuesta = {...respuesta, ...data};
@@ -185,7 +181,7 @@ export class DetalleAlumnoComponent implements OnInit{
           complete:()=>{
             console.log("Notificacion enviada con éxito");
           }
-        })*/
+        })
         this._snackBar.open("Informe Ingresado","Cerrar",{
           panelClass: ['red-snackbar'],
           duration: 3000
@@ -193,7 +189,7 @@ export class DetalleAlumnoComponent implements OnInit{
         window.location.reload();        
       }
     });
-  }
+  }*/
 
   
   descargar_documento(documento_id: string, solicitud_tipo: string) {
@@ -208,7 +204,7 @@ export class DetalleAlumnoComponent implements OnInit{
   }
 
   mostrar_informe(informes: any, informe_id: string) {
-    //console.log("informes:",informes,"id",informe_id)
+    console.log("informes:",informes,"id",informe_id)
     // abrir una ventana modal que muestre el texto del informe
     let informe = informes.find((informe: any) => informe.id == informe_id);
     if(informe){
@@ -218,12 +214,7 @@ export class DetalleAlumnoComponent implements OnInit{
         alert("Por favor, deshabilite el bloqueador de ventanas emergentes para este sitio");
       }
       else{
-        let respuestas = informe.key
-        // obtener las llaves del json donde estan las respuestas a las preguntas
-        let keys = Object.keys(respuestas);
-        let texto_informe = respuestas[keys[0]]; // AGARRA EL TEXTO DE LA PRIMERA RESPUESTA 
-        //console.log("texto_informe:",texto_informe);
-        ventana.document.write("<textarea style='width: 100%; height: 100%; resize: none; border: none;'>" + texto_informe + "</textarea>");
+        ventana.document.write("<textarea style='width: 100%; height: 100%; resize: none; border: none;'>" + informe.key + "</textarea>");
       }
     }    
   }
