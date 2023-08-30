@@ -46,4 +46,9 @@ export class ObtenerDatosService {
     const req = new HttpRequest('GET', `${environment.url_back}/informe/todos_practica?id_practica=${id_practica}`);
     return this._http.request(req);
   }
+
+  obtener_solicitudes_documentos_practica(id_config_practica: number, id_practica: number){
+    const req = new HttpRequest('GET', `${environment.url_back}/solicitud_documento/todos_docs_practica?id=${id_config_practica}&id_practica=${id_practica}`);
+    return this._http.request(req);
+  }
 }
