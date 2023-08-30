@@ -102,8 +102,11 @@ export class DetalleAlumnoComponent implements OnInit{
 
         // Guardar nombres de las configuraciones de practica en un arreglo
         this.config_practicas.forEach((element: any) => {
-          this.nombres_config_practica.push(element.nombre);
-          this.practicas_correspondiente_nombre.push([element.nombre]);
+          // verificar que el nombre no este en el arreglo
+          if(!this.nombres_config_practica.includes(element.nombre)){
+            this.nombres_config_practica.push(element.nombre);
+            this.practicas_correspondiente_nombre.push([element.nombre]);
+          }
         });
         console.log("Nombres de configuraciones de practica:",this.nombres_config_practica)
 
