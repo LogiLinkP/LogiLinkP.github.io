@@ -20,6 +20,7 @@ export class ConfiguracionPracticaComponent {
 
     currentRoute: string;
     importada: boolean = false;
+    migracion_legal: boolean = true;
     
     constructor(private _fb: FormBuilder, private cd: ChangeDetectorRef, @Inject(DOCUMENT) private document: Document,
                 private serviceBarra: BarraLateralService, private _snackBar: MatSnackBar, private route: ActivatedRoute,
@@ -817,7 +818,7 @@ export class ConfiguracionPracticaComponent {
     }
 
     printForm() {
-        //console.log(this.fg.value);
+        console.log(this.fg.value);
     }
 
     onSubmitAddSolicitudDoc(){
@@ -835,6 +836,7 @@ export class ConfiguracionPracticaComponent {
       this.lista_preguntas_avance.splice(index, 1);
       this.lista_opciones_preguntas_avance.splice(index, 1);
       this.tipos_preguntas_avance.splice(index, 1);
+      this.migracion_legal = false;
     }
 
     eliminarPreguntaFinal(index: number){
@@ -842,6 +844,7 @@ export class ConfiguracionPracticaComponent {
       this.lista_preguntas_final.splice(index, 1);
       this.lista_opciones_preguntas_final.splice(index, 1);
       this.tipos_preguntas_final.splice(index, 1);
+      this.migracion_legal = false;
     }
 
     eliminarPreguntaEncuesta(index: number){
@@ -849,6 +852,7 @@ export class ConfiguracionPracticaComponent {
       this.lista_preguntas_encuesta.splice(index, 1);
       this.lista_opciones_preguntas_encuesta.splice(index, 1);
       this.tipos_preguntas_encuesta.splice(index, 1);
+      this.migracion_legal = false;
     }
 
     eliminarPreguntaSupervisor(index: number){
@@ -856,6 +860,7 @@ export class ConfiguracionPracticaComponent {
       this.lista_preguntas_supervisor.splice(index, 1);
       this.lista_opciones_preguntas_supervisor.splice(index, 1);
       this.tipos_preguntas_supervisor.splice(index, 1);
+      this.migracion_legal = false;
     }
 
     eliminarSolicitudDocumento(index: number){
@@ -863,15 +868,19 @@ export class ConfiguracionPracticaComponent {
       this.lista_nombre_solicitud_documentos.splice(index, 1);
       this.lista_descripcion_solicitud_documentos.splice(index, 1);
       this.lista_tipo_solicitud_documentos.splice(index, 1);
+      this.migracion_legal = false;
     }
 
     eliminarRamo(index: number){
       console.log("eliminando ramo", index);
       this.lista_ramos.splice(index, 1);
+      this.migracion_legal = false;
     }
   
     mandarDatos() { //se estan apilando los snackbars positivos (dejar los negativos)
         let tipo_request: string;
+
+        //checkear si se puede migrar
 
         // tipo de request
         if (this.nombre_config == "blanco" || this.importada) {
@@ -961,6 +970,24 @@ export class ConfiguracionPracticaComponent {
                         }
 
                         this.router.navigate(["/configurar/"+nombre])
+                    }
+                }); 
+
+                this.serviceComplete.getPracticasConConfig(this.config.id).subscribe({
+                    next: (data: any) => {
+                        respuesta = { ...respuesta, ...data }
+                    },
+                    error: (error: any) => {
+                        this._snackBar.open("Error al buscar practicas con config", "Cerrar", {
+                            duration: 3500,
+                            panelClass: ['red-snackbar']
+                        });
+                        console.log("Error al buscar practicas con config", error);
+                    },
+                    complete: () => {
+                        console.log("request practicas con config:", respuesta.body);
+
+                        //if (this.migracion_legal) {}
                     }
                 });
             }

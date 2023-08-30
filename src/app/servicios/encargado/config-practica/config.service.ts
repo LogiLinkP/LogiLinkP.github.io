@@ -351,5 +351,13 @@ export class ConfigService {
         return this._http.request(req);
     }
 
+    getPracticasConConfig(id_config_practica: number) {
+        const req = new HttpRequest('GET', `${environment.url_back}/practica/configs?id=${id_config_practica}`, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
 
 }
