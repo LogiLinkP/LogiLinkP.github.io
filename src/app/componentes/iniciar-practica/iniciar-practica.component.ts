@@ -3,7 +3,10 @@ import { GestionarService } from '../../servicios/alumno/gestionar_practica.serv
 import { ObtenerDatosService } from '../../servicios/alumno/obtener_datos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Data, Router } from '@angular/router';
+import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
+import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-iniciar-practica',
@@ -14,12 +17,22 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class IniciarPracticaComponent implements OnInit{
   @Input() id_estudiante = -1
   @Input() nombre_practica: string = ""
+  @Input() id_usuario = -1
   id_config_practica = -1
   config_practica: any = []
   cantidades: number[] = []
   modalidades: any = []
 
-  constructor(private service: GestionarService, private service2: ObtenerDatosService, private _snackBar: MatSnackBar, private router: Router) {}
+  @Input() estado_config: string = ""
+
+  correo_encargado: string = "";
+
+  respuesta:any = [];
+
+  constructor(private service: GestionarService, private service2: ObtenerDatosService,
+              private _snackBar: MatSnackBar, private route:ActivatedRoute, private router: Router,
+              private service_noti: NotificacionesService, private service_obtener: DataUsuarioService,
+              private datetime: DatePipe) {}
 
  enviar(){
     // obtener los datos de los inputs
@@ -88,16 +101,29 @@ export class IniciarPracticaComponent implements OnInit{
                     let id_supervisor = aux.body.id
                     console.log("ID DE SUPERVISOR", id_supervisor)
 
-                    this.service.buscar_encargados().subscribe({
-                      next: (data: any) => {
-                        aux = { ...aux, ...data }
+                this.service.buscar_encargados().subscribe({
+                  next: (data: any) => {
+                    aux = { ...aux, ...data }
+                  },
+                  error: (error: any) => console.log(error),
+                  complete: () => {
+                    console.log("encargados encontrados")
+                    //seleccionar el primer encargado
+                    let id_encargado = aux.body[0].id
+                    console.log("ID DE ENCARGADO", id_encargado)
+
+                    this.service_obtener.obtener_encargado(aux.body[0].id_usuario).subscribe({
+                      next:(data:any) => {
+                        this.respuesta = {...this.respuesta, ...data};
                       },
-                      error: (error: any) => console.log(error),
-                      complete: () => {
-                        console.log("encargados encontrados")
-                        //seleccionar el primer encargado
-                        let id_encargado = aux.body[0].id
-                        console.log("ID DE ENCARGADO", id_encargado)
+                      error:(error:any) => {
+                        console.log(error);
+                        return;
+                      },
+                      complete:() => {
+                        this.correo_encargado = this.respuesta.body.correo;
+                      }
+                    })
 
                         this.service.registrar_practica(this.id_estudiante, id_modalidad, fecha_inicio, 
                                                         id_empresa, id_supervisor, id_encargado).subscribe({
@@ -113,7 +139,23 @@ export class IniciarPracticaComponent implements OnInit{
                             });
                           },
                           complete: () => {
-                            let inscripcion_string = "";
+                            let fecha: any = this.datetime.transform((new Date), 'MM/dd/yyyy h:mm:ss');
+                        let texto: string = "El estudiante "+ this.id_estudiante + " ha comenzado una nueva práctica";
+                        console.log("Ahora a mandar la notificación");
+                        
+                        this.service_noti.postnotificacion(this.id_usuario, {fecha, texto}, this.correo_encargado, this.estado_config).subscribe({
+                          next:(data:any) => {
+                            this.respuesta = {...this.respuesta, ...data};
+                          },
+                          error:(error:any) => {
+                            console.log(error);
+                            return;
+                          },
+                          complete:() => {
+                            console.log("Notificación enviada con éxito");
+                          }
+                        });
+                        let inscripcion_string = "";
                             if (aux.status == 200) {
                               inscripcion_string = "?inscripcion_success=success";
                             } else{
@@ -139,6 +181,7 @@ export class IniciarPracticaComponent implements OnInit{
   } 
 
   ngOnInit() {
+
     let respuesta: any = {};
     
     this.service2.obtener_config_practica(this.nombre_practica).subscribe({

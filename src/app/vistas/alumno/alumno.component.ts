@@ -6,6 +6,8 @@ import { environment } from 'src/environments/environment';
 import { GestionarService } from 'src/app/servicios/alumno/gestionar_practica.service';
 import { SupervisorService } from 'src/app/servicios/supervisor/supervisor.service';
 import { Router } from "@angular/router"
+import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
+import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
 
 @Component({
   selector: 'alumno',
@@ -18,6 +20,8 @@ export class DetalleAlumnoComponent implements OnInit{
   config_practicas: any = [];
   practicas: any = [];
 
+  estado_config:string = "";
+
   nombres_config_practica: string[] = [];
   practicas_correspondiente_nombre: any = [];
   
@@ -28,9 +32,11 @@ export class DetalleAlumnoComponent implements OnInit{
   doc_extra_str = "documento_extra";
 
   constructor(private service_datos: ObtenerDatosService , private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, 
-              private service_gestion: GestionarService, private service_supervisor: SupervisorService, private router: Router) {
+              private service_gestion: GestionarService, private service_supervisor: SupervisorService, private router: Router,
+              private service_noti: NotificacionesService, private service_obtener: DataUsuarioService) {
     this.usuario = JSON.parse(localStorage.getItem('auth-user') || '{}').userdata;
     this.estudiante = this.usuario.estudiante;
+    this.estado_config = this.usuario.body;
 
     console.log("usuario:",this.usuario);
     console.log("estudiante:",this.estudiante);
@@ -133,13 +139,17 @@ export class DetalleAlumnoComponent implements OnInit{
     });  
   }
 
-  /*
+  
   ingresarInforme(practica: any){
     let respuesta: any = {};
-    let key = (document.getElementById("informe") as HTMLInputElement).value;
+    let texto_informe = (document.getElementById("informe") as HTMLInputElement).value;
     let horas_trabajadas = (document.getElementById("horas") as HTMLInputElement).valueAsNumber;
-    let id_config_informe = practica.modalidad.config_practica.id;
+    let id_config_informe = practica.modalidad.config_practica.config_informes[0].id; // AGARRA EL PRIMER CONFIG INFORME QUE ENCUENTRE
+    let id_encargado = practica.encargado.id;
 
+    let key = JSON.stringify({[practica.modalidad.config_practica.config_informes[0].
+                              pregunta_informes[0].id]: texto_informe}); //AGARRA LA PRIMERA PREGUNTA DEL CONFIG INFORME QUE ENCUENTRE Y LE ASIGNA EL TEXTO DEL INFORME
+    
     if (Number.isNaN(horas_trabajadas)){
       horas_trabajadas = 0;
     }
@@ -155,13 +165,27 @@ export class DetalleAlumnoComponent implements OnInit{
     console.log("id_practica:", practica.id);
     console.log("casilla horas:", horas_trabajadas);
     
-    this.service_datos.ingresar_informe(practica.id, key, id_config_informe, horas_trabajadas).subscribe({
+    this.service_datos.ingresar_informe(practica.id, key, id_config_informe, horas_trabajadas, id_encargado).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
         console.log("Respuesta ingresar informe:",data);
       },
       error: (error: any) => console.log("Error en ingresar informe:",error),
       complete: () => {
+        /*
+        let id_encargado_usuario = practica.encargado.id_usuario;
+        let correo_encargado: string = "";
+        this.service_noti.postnotificacion(id_encargado_usuario, "El alumno "+ this.estudiante.nombre + " ha ingresado un informe diario", correo_encargado).subscribe({
+          next:(data:any) => {
+            respuesta = {...respuesta, ...data};
+          },
+          error:(error:any) =>{
+            console.log(error);
+          },
+          complete:()=>{
+            console.log("Notificacion enviada con éxito");
+          }
+        })*/
         this._snackBar.open("Informe Ingresado","Cerrar",{
           panelClass: ['red-snackbar'],
           duration: 3000
@@ -169,7 +193,7 @@ export class DetalleAlumnoComponent implements OnInit{
         window.location.reload();        
       }
     });
-  }*/
+  }
 
   
   descargar_documento(documento_id: string, solicitud_tipo: string) {
@@ -184,7 +208,7 @@ export class DetalleAlumnoComponent implements OnInit{
   }
 
   mostrar_informe(informes: any, informe_id: string) {
-    console.log("informes:",informes,"id",informe_id)
+    //console.log("informes:",informes,"id",informe_id)
     // abrir una ventana modal que muestre el texto del informe
     let informe = informes.find((informe: any) => informe.id == informe_id);
     if(informe){
@@ -194,56 +218,62 @@ export class DetalleAlumnoComponent implements OnInit{
         alert("Por favor, deshabilite el bloqueador de ventanas emergentes para este sitio");
       }
       else{
-        ventana.document.write("<textarea style='width: 100%; height: 100%; resize: none; border: none;'>" + informe.key + "</textarea>");
+        let respuestas = informe.key
+        // obtener las llaves del json donde estan las respuestas a las preguntas
+        let keys = Object.keys(respuestas);
+        let texto_informe = respuestas[keys[0]]; // AGARRA EL TEXTO DE LA PRIMERA RESPUESTA 
+        //console.log("texto_informe:",texto_informe);
+        ventana.document.write("<textarea style='width: 100%; height: 100%; resize: none; border: none;'>" + texto_informe + "</textarea>");
       }
     }    
   }
   
   finalizar_practica(practica: any) {
-    let resultado: any = {};
-    console.log("practica",practica)
+    let respuesta: any = [];
+    let id_encargado = practica.encargado.id_usuario;
+    let correo_encargado: string = "";
 
-    this.service_gestion.finalizar_practica(this.estudiante.id, practica.id, environment.estado_practica.finalizada).subscribe({
+    //console.log("Así se ve la configuración de estados");
+    //console.log(respuesta.body.config);
+    correo_encargado = practica.encargado.usuario.correo;
+    console.log("correo_encargado:",correo_encargado);
+
+    let correo_supervisor: string = practica.supervisor.correo;
+
+    console.log("practica",practica)
+    let nom_estudiante: string = this.usuario.nombre;
+
+    this.service_gestion.finalizar_practica(practica.id_estudiante, practica.id, environment.estado_practica.finalizada, correo_supervisor, nom_estudiante).subscribe({
       next: (data: any) => {
         console.log("Respuesta finalizar practica:",data);
       },
       error: (error: any) => console.log("Error en finalizar practica:",error),
       complete: () => {
+        let respuesta: any = [];
+        this.service_noti.postnotificacion(id_encargado, "El alumno " + this.estudiante.nombre + " ha finalizado su práctica y desea su realización", correo_encargado, this.estado_config).subscribe({
+          next:(data:any) => {
+            respuesta = {...respuesta, ...data};
+          },
+          error:(error:any) => {
+            console.log(error);
+            return;
+          },
+          complete:() => {
+            console.log("Notificación enviada con éxito");
+          }
+        });
         this._snackBar.open("Práctica Finalizada","Cerrar",{
           panelClass: ['red-snackbar'],
           duration: 3000
         })
-
-        console.log("practica",practica, "estudiante",this.estudiante)
-        this.service_supervisor.enviarLink(practica.id, practica.supervisor.correo, practica.supervisor.nombre, this.estudiante.usuario.nombre).subscribe(
-          {
-            next: (data:any) => {
-              resultado = { ...resultado, ...data };
-            },
-            error: (error:any) => {
-              console.log("enviar mail error",error);
-
-              this._snackBar.open("Se ha producido un error interno", "Cerrar", {
-                panelClass: ['red-snackbar'],
-                duration: 3000
-              });
-            },
-            complete: () => {
-              this._snackBar.open("Solicitud Ingresada Correctamente", "Cerrar", {
-                panelClass:['red-snackbar'],
-                duration:3000
-              });
-              console.log("Correo enviado");
-              //reload page
-              let newUrl = this.router.url.split("?")[0];
-              newUrl += "?finalizacion_success=success";
-              window.location.href = newUrl;
-            }
-          }
-        );    
+        // after 3 seconds reload the page
+        setTimeout(() => {
+          window.location.reload();
+        }
+        , 3000);
 
       }
-    });
+    }); 
   }
 
   abrir_inscripcion(index: number) {

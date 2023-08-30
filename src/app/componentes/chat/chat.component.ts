@@ -4,6 +4,8 @@ import { NotisChatService } from 'src/app/servicios/notis-chat/notis-chat.servic
 import { DatePipe } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
+import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
+import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
 
 @Component({
   selector: 'app-chat',
@@ -36,11 +38,15 @@ export class ChatComponent implements OnInit {
 
   chatService: any;
 
-  constructor(private _http: HttpClient, 
-              private router: ActivatedRoute,
-              private datetime: DatePipe,
-              private cookieService: CookieService, 
-              private cdr: ChangeDetectorRef) {
+  estado_config_estudiante: string = "";
+  estado_config_encargado: string = "";
+
+  correo_estudiante: string = "";
+  correo_encargado: string = "";
+
+  constructor(private _http: HttpClient, private router: ActivatedRoute, private datetime: DatePipe,
+              private cookieService: CookieService, private cdr: ChangeDetectorRef,
+              private service_noti: NotificacionesService, private service_obtener : DataUsuarioService) {
 
     let auth_user = JSON.parse(localStorage.getItem("auth-user") || "{}");
 
@@ -80,6 +86,15 @@ export class ChatComponent implements OnInit {
       this.id_encargado=this.Id;
       this.id_estudiante=this.Id2;
     }
+
+    /*
+    this.service_obtener.obtener_encargado(this.id_encargado){
+
+    }
+    this.service_obtener.obtener_estudiante(this.id_estudiante){
+
+    }
+    */
 
     console.log("Id estudiante: ", this.id_estudiante);
     console.log("Id encargado: ", this.id_encargado); 
@@ -148,13 +163,33 @@ export class ChatComponent implements OnInit {
       texto: this.Nmensaje,
       fecha: this.datetime.transform((new Date), 'MM/dd/yyyy h:mm:ss'),
     }      
-    this.chatService.postmensaje(this.id_estudiante, this.id_encargado, mensaje).subscribe({
+    this.chatService.postmensaje(this.id_estudiante, this.id_encargado, mensaje, this.correo_estudiante, this.correo_encargado).subscribe({
       next: (data: any) => {
         this.respuesta = { ...this.respuesta, ...data }
         console.log("Request aceptada");
       },
       error: (error: any) => console.log("Error en enviar mensaje:",error),  
-      complete: () => {
+      complete: () =>{
+        let noti: string = "";
+        if(mensaje.emisor == "encargado"){
+          noti = "El encargado "+ this.id_encargado +" te ha enviado un mensaje"
+          this.service_noti.postnotificacion(this.id_estudiante, noti, this.correo_estudiante, this.estado_config_estudiante);
+        }
+        else{
+          noti = "El encargado "+ this.id_estudiante +" te ha enviado un mensaje"
+          this.service_noti.postnotificacion(this.id_estudiante, noti, this.correo_encargado, this. estado_config_encargado).subscribe({
+            next:(data:any) => {
+              this.respuesta = {...this.respuesta, ...data};
+            },
+            error:(error:any) => {
+              console.log(error);
+              return;
+            },
+            complete:() => {
+              console.log("Notificación enviada conéxito");
+            }
+          });
+        }
         console.log("Mensaje Enviado", mensaje);
         console.log(this.respuesta);
         this.chatService.emitEvent(mensaje);

@@ -1,9 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
 import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
+import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
 import { CookieService } from 'ngx-cookie-service';
-import { NotisChatService } from 'src/app/servicios/notis-chat/notis-chat.service';
+import { DatePipe } from '@angular/common';
+
+import * as dayjs from 'dayjs'
+dayjs().format()
+const customParseFormat = require('dayjs/plugin/customParseFormat');
+dayjs.extend(customParseFormat);
 
 @Component({
   selector: 'app-barra-superior',
@@ -15,19 +21,22 @@ export class BarraSuperiorComponent implements OnInit{
   tipo: string = "";
   id_usuario:number = 0;
   respuesta:any = [];
+  nombre_usuario:string = "";
 
-  Yo:any=[];
   personas:any=[];
   id_personas:any=[];
 
   id_persona:number = 0;
+  estado_config:string = "";
 
   notificaciones: any = [];
 
+  estados_configuracion = ["Notificaciones y Correo","Sólo Notificaciones", "Sólo Correo", "Ninguno"];
+
   constructor(private Service: DataUsuarioService,
-              private router: ActivatedRoute,
-              private cookie: CookieService,
-              private noti: NotisChatService){
+              private service_noti: NotificacionesService,
+              private cdr: ChangeDetectorRef,
+              private datetime: DatePipe){
     // get user id from the local storage, in the key auth-user, userdata.id
     let auth_user = JSON.parse(localStorage.getItem("auth-user") || "{}");
     //console.log("Auth User:", auth_user);
@@ -36,8 +45,34 @@ export class BarraSuperiorComponent implements OnInit{
       console.log("Userdata:", userdata);
       if (userdata.id != undefined){
         this.id_usuario = userdata.id;
+        this.nombre_usuario = userdata.nombre;
+        this.estado_config = userdata.config;
       }
-    }    
+    }
+   
+    this.service_noti.callback.subscribe(res => {
+      let fecha = this.datetime.transform((new Date), 'MM/dd/yyyy h:mm:ss')
+      let mensaje = res.message;
+
+      this.notificaciones.push({fecha: fecha, texto: mensaje});
+      this.cdr.detectChanges();
+    })
+  }
+
+  cambiar_configuracion_notificacion(Id:number, estado:string){
+    this.service_noti.cambiar_configuración_notificaciones(Id, estado).subscribe({
+      next:(data:any) => {
+        this.respuesta = {...this.respuesta, ...data};
+      },
+      error:(error:any) => {
+        console.log(error);
+        return;
+      },
+      complete:() => {
+        console.log("Estado cambiado con éxito");
+        this.respuesta = [];
+      }
+    })
   }
 
   obtener_personas(ID:number, IS:number){
@@ -61,6 +96,7 @@ export class BarraSuperiorComponent implements OnInit{
               this.personas.push(this.respuesta.body[0].practicas[i].encargado);
             }
           }
+          this.respuesta = [];
           console.log("ENCARGADOS:",this.personas);
         }
       })
@@ -84,16 +120,15 @@ export class BarraSuperiorComponent implements OnInit{
               this.personas.push(this.respuesta.body[0].practicas[i].estudiante);
             }
           }
+          this.respuesta = [];
         }
       })
     } 
   }
 
   ngOnInit(): void {
-    this.cookie.set("notificaciones", this.id_usuario.toString());
-    this.destroy_cookie_sala();
-
-    this.Service.obtener_notificaciones(this.id_usuario).subscribe({
+    console.log(this.id_usuario);
+    this.Service.obtener_notificaciones(this.id_usuario, this.estado_config).subscribe({
       next: (data:any) => {
         this.respuesta = { ...this.respuesta, ...data}
       },
@@ -102,6 +137,12 @@ export class BarraSuperiorComponent implements OnInit{
       },
       complete: () => {
         this.notificaciones = this.respuesta.body;
+        this.notificaciones = this.notificaciones.map((notificacion:any ) => {
+          notificacion.fecha = dayjs(notificacion.fecha, "YYYY-MM-DDTHH:mm:ssZ").format("DD/MM/YYYY HH:mm");
+          return notificacion;
+        });
+
+        this.respuesta = [];
       }
     })
 
@@ -149,8 +190,27 @@ export class BarraSuperiorComponent implements OnInit{
         else{
           return;
         }
+        this.respuesta = [];
       }
     });  
+  }
+
+  eliminar_notificaciones(id:number){
+    this.service_noti.notificaciones_vistas(id).subscribe({
+      next:(data:any) => {
+        this.respuesta = {...this.respuesta, ...data};
+      },
+      error:(error:any) => {
+        console.log(error);
+        return;
+      },
+      complete:() => {
+        this.notificaciones = [];
+        console.log("Notificaciones cambiadas");
+        this.respuesta = [];
+      }
+    })
+    this.notificaciones = [];
   }
 
   redirect_to_chat(id_otro_participante:number, userid_otro_participante:number, tipo:string){
@@ -164,15 +224,5 @@ export class BarraSuperiorComponent implements OnInit{
     }
   }
 
-  // destoy the cookie "room" if the url is not /chat or if the value in sala is not the same
-  // as the value in the cookie
-  destroy_cookie_sala(){    
-    let url = window.location.href;
-    let index = url.indexOf("sala");
-    if (index == -1 && this.cookie.check("room")){
-      console.log("Destroying cookie", this.cookie.get("room"), url, index);
-      this.cookie.delete("room");      
-      return;
-    }
-  }
+
 }

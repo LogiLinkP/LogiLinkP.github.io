@@ -1,0 +1,30 @@
+<div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Crear configuracion de practica en base a otra</h5>
+            </div>
+            <div class="modal-body">
+                Selecciona la practica que deseas importar para una nueva configuracion
+                <div *ngIf="configs_nombres.length > 0" class="bg-white py-2 collapse-inner rounded">
+                    <h5>Practicas Activas:</h5>
+                    <ul *ngFor="let practica of configs_nombres">
+                        <li>
+                            <a [routerLink]="['/configurar', practica, 'copia']" data-dismiss="modal">
+                                {{practica}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div *ngIf="configs_nombres.length == 0" class="bg-white py-2 collapse-inner rounded">
+                    <h5>No hay practicas activas</h5>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <!-- <a class="btn btn-primary">Guardar</a> -->
+            </div>
+        </div>
+    </div>
+</div>

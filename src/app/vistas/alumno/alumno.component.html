@@ -14,7 +14,7 @@
                 <!-- Page Heading -->
                 <div class="row">
                         <div class="col-xl-10">
-                            <h1 class="h3 mb-2 text-gray-800">Prácticas de {{ usuario.nombre }} <br></h1>
+                            <div class="h3 mb-2 font-weight-bold text-gray-800">Prácticas de {{ usuario.nombre }} <br></div>
                             <p class="mb-4">Aquí puedes ver tus prácticas cursadas, en curso o no iniciadas aún.</p>
                         </div>
                 </div>
@@ -211,13 +211,15 @@
                                                                                                 <td>{{doc_extra?.nombre_solicitud}}</td>
                                                                                                 <td>{{doc_extra?.tipo_archivo}}</td>
                                                                                                 <td>Extra</td>
-                                                                                                <td [ngSwitch]="doc_extra.key" >
-                                                                                                    <app-subir-archivo-extra *ngSwitchCase="null || ''" [id_documento_extra] = doc_extra.id 
+                                                                                                <td>
+                                                                                                    <app-subir-archivo-extra *ngIf="!doc_extra.key || doc_extra.key.length==0; else elseBlock" [id_documento_extra] = doc_extra.id 
                                                                                                                         [descripcion]="doc_extra.descripcion" [nombre_solicitud]="doc_extra.nombre_solicitud" 
-                                                                                                                        [tipo_archivo]="doc_extra.tipo_archivo">
+                                                                                                                        [tipo_archivo]="doc_extra.tipo_archivo" [id_encargado_usuario]=" practica[1].encargado.id_usuario"
+                                                                                                                        [correo_encargado]="practica[1].encargado.usuario.correo" [estado_config]="estado_config"
+                                                                                                                        >
                                                                                                     </app-subir-archivo-extra>
-                                                                                                    <button *ngSwitchDefault class="btn btn-success btn-sm btn-block"
-                                                                                                    (click)="descargar_documento(doc_extra.id, doc_extra_str)">Descargar</button>
+                                                                                                    <ng-template #elseBlock> <button  class="btn btn-success btn-sm btn-block"
+                                                                                                    (click)="descargar_documento(doc_extra.id, doc_extra_str)">Descargar</button></ng-template>
                                                                                                 </td>
                                                                                             </tr>
                                                                                         </tbody>
@@ -255,7 +257,8 @@
                                                                                       </tr>
                                                                                       <tr>
                                                                                         <td></td>
-                                                                                        <td style="text-align:right"><button class="btn btn-primary btn-lg btn-block">Enviar</button></td>
+                                                                                        <td style="text-align:right"><button class="btn btn-primary btn-lg btn-block" 
+                                                                                            (click)="ingresarInforme(practica[1])">Enviar</button></td>
                                                                                       </tr>
                                                                                     </table>
                                                                                   </div>
@@ -276,18 +279,20 @@
                                 </div>
                                 <!-- Carta que se muestra en caso de que alumno no tenga una practica registrada -->
                                 <div *ngSwitchCase="1">
-                                    <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample" v-on:click="getPractica(nombre)">
+                                    <a [href]="'#card'+ i" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" [attr.aria-controls]="'card'+ i" v-on:click="getPractica(nombre)">
                                         <h2 class="m-0 font-weight-bold text-primary">{{ practica[0] }}</h2>
                                         <div class="m-0 text-gray-800">Estado: No iniciada</div>
                                     </a>  
-                                    <div class="collapse show" id="collapseCardExample">
+                                    <div class="collapse show" id="{{ 'card' + i }}">
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-xl-5" *ngIf="!flags_inscripcion_list[i]"></div>                 
                                                 <div class="col-xl-2">
                                                     <button *ngIf="!flags_inscripcion_list[i]" type="button" class="btn btn-primary btn-lg btn-block" (click)="abrir_inscripcion(i)">
                                                         Inscribir Práctica</button>                                                
-                                                    <app-iniciar-practica *ngIf="flags_inscripcion_list[i]" [id_estudiante] = estudiante.id [nombre_practica] = practica[0]></app-iniciar-practica>
+                                                    <app-iniciar-practica *ngIf="flags_inscripcion_list[i]" [id_estudiante] = estudiante.id [nombre_practica] = practica[0]
+                                                                                                            [estado_config] ="estado_config">
+                                                    </app-iniciar-practica>
                                                 </div>
                                             </div>
                                         </div>

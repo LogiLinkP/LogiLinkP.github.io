@@ -25,7 +25,8 @@ import { IniciarPracticaComponent } from './componentes/iniciar-practica/iniciar
 import { FileComponent } from './componentes/file/file.component';
 import { LogoutComponent } from './componentes/logout/logout.component';
 import { ChatComponent } from './componentes/chat/chat.component';
-import { FragmentosComponent } from './vistas/fragmentos/fragmentos.component';
+import { InformeComponent } from "./vistas/informe/informe.component";
+import { NotisHistorialComponent } from './vistas/notis-historial/notis-historial.component';
 
 import { environment } from 'src/environments/environment';
 
@@ -44,7 +45,6 @@ const routes: Routes = [
           { path: 'empresas', component: EmpresasComponent },
           { path: 'finalizacion/:n', component: FinalizacionComponent },
           { path: 'iniciarpractica/:n', component: IniciarPracticaComponent },
-
         ]
       }
     ]
@@ -60,10 +60,13 @@ const routes: Routes = [
   { path: 'estadisticas', component: EstadisticasComponent },
   { path: 'informaciones', component: InformacionesComponent },
   // { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
-  { path: 'configurar/:nombre', component: ConfiguracionPracticaComponent},
+  { path: 'configurar/:nombre', component: ConfiguracionPracticaComponent },
+  { path: 'configurar/:nombre/copia', component: ConfiguracionPracticaComponent },
   { path: environment.ruta_alumno + '/:id/chat/:room/:id1/:id2/:tipo', component: ChatComponent },
+  { path: environment.ruta_alumno +'/:id/historial', component: NotisHistorialComponent},
+  { path: "historial", component: NotisHistorialComponent},
   { path: 'chat/:room/:id1/:id2/:tipo', component: ChatComponent },
-  { path: "fragmentos/:id", component: FragmentosComponent },
+  { path: 'informe/:id_practica/:id_informe', component: InformeComponent },
   { path: 'encuestaFinal/:id_config_practica', component: EncuestaFinPracticaComponent },
   //{ path: 'estadisticas_encuesta', component: EstadisticasEncuestaFinalComponent },
   { path: '**', component: PnfComponent },

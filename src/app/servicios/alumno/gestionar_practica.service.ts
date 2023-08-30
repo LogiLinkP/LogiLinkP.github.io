@@ -1,7 +1,5 @@
-import { GetDetallesAlumnoService } from '../encargado/resumen_practicas.service';
-import { HttpClient, HttpRequest, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -9,7 +7,7 @@ import { environment } from '../../../environments/environment';
 })
 export class GestionarService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient ) { }
 
   registrar_empresa(nombre_empresa: string, rut_empresa: string) {
     console.log("Registrando empresa con nombre: ", nombre_empresa, " y rut: ", rut_empresa)
@@ -57,11 +55,10 @@ export class GestionarService {
     return this.http.request(req);
   }   
 
-
-  finalizar_practica(id_estudiante: number, id_practica: number, estado: string) {
+  finalizar_practica(id_estudiante: number, id_practica: number, estado: string, correo: string, nom_estudiante: string) {
     console.log("Finalizando practica con id: ", id_practica, " y estado: ", estado, " para estudiante con id: ", id_estudiante)
     const req = new HttpRequest('PUT', `${environment.url_back}/practica/finalizar`, {
-      id_estudiante, id_practica, estado
+      id_estudiante, id_practica, estado, correo, nom_estudiante
     }, {
       responseType: 'json'
     });

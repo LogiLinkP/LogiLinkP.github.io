@@ -24,7 +24,6 @@ export class LogoutComponent {
       next: res => {
         console.log(res);
         this.storage.clean();
-
         window.location.reload();
       },
       error: err => {

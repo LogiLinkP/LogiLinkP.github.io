@@ -16,6 +16,7 @@ export class EvaluacionComponent {
   preguntas: any[] = [];
   pregunta_actual = 0;
   tipo_respuestas: any[] = [];
+  boton_comenzar_deshabilitado = true;
 
   // Aqui se guardan temporalmente las respuestas mientras se llena el formulario. Estas se procesan antes de enviarlas al backend.
   respuestas: any[] = []; 
@@ -89,10 +90,25 @@ export class EvaluacionComponent {
       complete: () => {
         this.practica = practica.body;
         console.log("PRACTICA OBTENIDA", practica);
-        if (this.practica.hasOwnProperty('id_config_practica') && this.practica.hasOwnProperty('config_practica')) {
-          this.id_config_practica = this.practica.id_config_practica
-          if (this.practica.config_practica.hasOwnProperty('pregunta_supervisors')) {
-            this.preguntas = this.practica.config_practica.pregunta_supervisors;
+        if(this.practica.hasOwnProperty('estado') && this.practica.estado == "Evaluada" || 
+        this.practica.estado == "Aprobada" || this.practica.estado == "Reprobada") {
+          this._snackbar.open("Error: la práctica ya ha sido evaluada.", "Cerrar", {
+            duration: 3000,
+            panelClass: ['red-snackbar']
+          });
+          setTimeout(() => {
+            this.router.navigate(['/']);
+            return;
+          }, 2000);          
+        }
+        else{
+          this.boton_comenzar_deshabilitado = false;
+        }
+
+        if (this.practica.hasOwnProperty('modalidad') && this.practica.modalidad.hasOwnProperty('id_config_practica')) {
+          this.id_config_practica = this.practica.modalidad.id_config_practica
+          if (this.practica.modalidad.config_practica.hasOwnProperty('pregunta_supervisors')) {
+            this.preguntas = this.practica.modalidad.config_practica.pregunta_supervisors;            
             console.log("PREGUNTAS", this.preguntas);
             if (this.preguntas.length > 0) {
               for (let pregunta of this.preguntas) {
@@ -141,32 +157,33 @@ export class EvaluacionComponent {
   }
 
   updateRespuestasAbierta(index: number, value: string) {
-    console.log("UPDATEANDO RESPUESTAS abierta", value)
+    //console.log("UPDATEANDO RESPUESTAS abierta", value)
     this.respuestas[index] = value;
-    console.log(this.respuestas);
+    //console.log(this.respuestas);
   }
 
   updateRespuestasCasillas(i: number, j: number, value: string) {
-    console.log("UPDATEANDO RESPUESTAS casillas", value)
+    //console.log("UPDATEANDO RESPUESTAS casillas", value)
     this.respuestas[i][j] = value;
-    console.log(this.respuestas);
+    //console.log(this.respuestas);
   }
 
   updateRespuestasAlternativas(i: number, value: string) {
-    console.log("UPDATEANDO RESPUESTAS alternativas", value);
+    //console.log("UPDATEANDO RESPUESTAS alternativas", value);
     this.respuestas[i] = value;
-    console.log(this.respuestas);
+    //console.log(this.respuestas);
   }
 
   updateRespuestasEvaluacion(index: number, value: number) {
-    console.log("UPDATEANDO RESPUESTAS evaluacion", value);
+    //console.log("UPDATEANDO RESPUESTAS evaluacion", value);
     this.respuestas[index] = value;
-    console.log(this.respuestas);
+    //console.log(this.respuestas);
   }
 
   enviarEvaluacion() {
     console.log("Enviando evaluación...")
     let respuestas_aux = [];
+    let ids_preguntas = [];
 
     // chequear que se hayan respondido todas las preguntas
     for (let i = 0; i < this.respuestas.length; i++) {
@@ -213,31 +230,30 @@ export class EvaluacionComponent {
         }
       }
       respuestas_aux.push(respuesta_aux);
-
-      // enviar respuestas al backend
-      this.service_supervisor.sendAnswer(this.preguntas[i].id, this.practica.id, respuesta_aux).subscribe({
-        next: (data: any) => {
-        },
-        error: (error: any) => {
-          console.log(error);
-          this._snackbar.open("Error al enviar la respuesta", "Cerrar", {
-            duration: 2000,
-            panelClass: ['red-snackbar']
-          });
-        },
-        complete: () => {
-          this._snackbar.open("Evaluación enviada. Redirigiendo a página principal...", "Cerrar", {
-            duration: 3000,
-            panelClass: ['green-snackbar']
-          });
-        }
-      });
+      ids_preguntas.push(this.preguntas[i].id);     
     }
-    console.log("RESPUESTAS A ENVIAR EN QUERY", respuestas_aux);
-    // after 2 seconds, redirect to home
-    setTimeout(() => {
-      this.router.navigate(['/']);
-    }
-      , 3000); 
+    // enviar respuestas al backend
+    this.service_supervisor.sendAnswer(ids_preguntas, this.practica.id, respuestas_aux).subscribe({
+      next: (data: any) => {
+      },
+      error: (error: any) => {
+        console.log(error);
+        this._snackbar.open("Error al enviar la respuesta", "Cerrar", {
+          duration: 2000,
+          panelClass: ['red-snackbar']
+        });
+      },
+      complete: () => {
+        this._snackbar.open("Evaluación enviada. Redirigiendo a página principal...", "Cerrar", {
+          duration: 3000,
+          panelClass: ['green-snackbar']
+        });
+        // after 2 seconds, redirect to home
+        setTimeout(() => {
+          this.router.navigate(['/']);
+          return;
+        }, 2000); 
+      }
+    });    
   }
 }

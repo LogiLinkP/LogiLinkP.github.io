@@ -17,7 +17,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatNativeDateModule } from '@angular/material/core';
-import {MAT_DATE_LOCALE} from '@angular/material/core';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -48,6 +50,7 @@ import { DatosPracticaComponent } from './componentes/datos-practica/datos-pract
 import { UpInformeComponent } from './componentes/up-informe/up-informe.component';
 import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
 import { ChatComponent } from './componentes/chat/chat.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 import { AppRoutingModule, routingComponents } from './app-routing.module';
@@ -59,7 +62,10 @@ import { BotonSolicitarArchivoComponent } from './componentes/boton-solicitar-ar
 import { SubirArchivoExtraComponent } from './componentes/subir-archivo-extra/subir-archivo-extra.component';
 import { SubirArchivoComponent } from './componentes/subir-archivo/subir-archivo.component';
 import { EncuestaFinPracticaComponent } from './vistas/encuesta-fin-practica/encuesta-fin-practica.component';
-import { FragmentosComponent } from './vistas/fragmentos/fragmentos.component';
+import { FragmentosComponent } from './componentes/fragmentos/fragmentos.component';
+import { InformeComponent } from './vistas/informe/informe.component';
+import { NotisHistorialComponent } from './vistas/notis-historial/notis-historial.component';
+import { ImportModalComponent } from './componentes/import-modal/import-modal.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +96,9 @@ import { FragmentosComponent } from './vistas/fragmentos/fragmentos.component';
     SubirArchivoComponent,
     EncuestaFinPracticaComponent,
     FragmentosComponent,
+    InformeComponent,
+    NotisHistorialComponent,
+    ImportModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -113,7 +122,10 @@ import { FragmentosComponent } from './vistas/fragmentos/fragmentos.component';
     MatSortModule,
     FormsModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatRadioModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     GetDetallesAlumnoService,
@@ -126,8 +138,9 @@ import { FragmentosComponent } from './vistas/fragmentos/fragmentos.component';
     ArchivosService,
     SupervisorService,
     CookieService,
-    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
-    CookieService],
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' }],
   bootstrap: [AppComponent]
 })
+
+
 export class AppModule { }
