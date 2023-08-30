@@ -103,7 +103,22 @@ export class DetallePracticaComponent implements OnInit {
           for(let i=0; i<this.informes.length; i++){
             this.horas_totales += this.informes[i].horas_trabajadas;
           }
-          console.log("HORAS TOTALES", this.horas_totales)
+
+          for(let i=0; i<this.respuestas_supervisor.length; i++){
+            if(this.respuestas_supervisor[i].pregunta_supervisor.tipo_respuesta != "abierta"){
+              let opciones = this.respuestas_supervisor[i].pregunta_supervisor.opciones.split(";;");
+              let respuestas = this.respuestas_supervisor[i].respuesta.split(",");
+              let respuestas_traducidas = "";
+              for(let j=0; j<opciones.length; j++){
+                if(respuestas[j] == "1"){
+                  respuestas_traducidas += opciones[j] + ", ";
+                }          
+              }              
+              respuestas_traducidas = respuestas_traducidas.slice(0, -2);
+              console.log(respuestas_traducidas);
+              this.respuestas_supervisor[i].respuesta = respuestas_traducidas;
+            }
+          }
         }
       }); // fin request para obtener la practica  
     }
