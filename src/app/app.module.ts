@@ -50,6 +50,7 @@ import { DatosPracticaComponent } from './componentes/datos-practica/datos-pract
 import { UpInformeComponent } from './componentes/up-informe/up-informe.component';
 import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
 import { ChatComponent } from './componentes/chat/chat.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 import { AppRoutingModule, routingComponents } from './app-routing.module';
@@ -63,6 +64,7 @@ import { SubirArchivoComponent } from './componentes/subir-archivo/subir-archivo
 import { EncuestaFinPracticaComponent } from './vistas/encuesta-fin-practica/encuesta-fin-practica.component';
 import { FragmentosComponent } from './componentes/fragmentos/fragmentos.component';
 import { InformeComponent } from './vistas/informe/informe.component';
+import { NotisHistorialComponent } from './vistas/notis-historial/notis-historial.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +95,8 @@ import { InformeComponent } from './vistas/informe/informe.component';
     SubirArchivoComponent,
     EncuestaFinPracticaComponent,
     FragmentosComponent,
-    InformeComponent
+    InformeComponent,
+    NotisHistorialComponent
   ],
   imports: [
     BrowserModule,
@@ -120,6 +123,7 @@ import { InformeComponent } from './vistas/informe/informe.component';
     MatDialogModule,
     MatRadioModule,
     MatTooltipModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     GetDetallesAlumnoService,

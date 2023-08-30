@@ -127,6 +127,7 @@ export class BarraSuperiorComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    console.log(this.id_usuario);
     this.Service.obtener_notificaciones(this.id_usuario, this.estado_config).subscribe({
       next: (data:any) => {
         this.respuesta = { ...this.respuesta, ...data}
