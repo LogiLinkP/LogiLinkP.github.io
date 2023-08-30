@@ -250,7 +250,7 @@ export class DetalleAlumnoComponent implements OnInit{
       error: (error: any) => console.log("Error en finalizar practica:",error),
       complete: () => {
         let respuesta: any = [];
-        this.service_noti.postnotificacion(id_encargado, "El alumno " + this.estudiante.nombre + " ha finalizado su práctica y desea su realización", correo_encargado, this.estado_config).subscribe({
+        this.service_noti.postnotificacion(id_encargado, "El alumno " + this.estudiante.nombre + " ha finalizado su práctica y desea su revisión", correo_encargado, this.estado_config).subscribe({
           next:(data:any) => {
             respuesta = {...respuesta, ...data};
           },

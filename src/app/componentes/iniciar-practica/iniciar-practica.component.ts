@@ -139,11 +139,10 @@ export class IniciarPracticaComponent implements OnInit{
                             });
                           },
                           complete: () => {
-                            let fecha: any = this.datetime.transform((new Date), 'MM/dd/yyyy h:mm:ss');
-                        let texto: string = "El estudiante "+ this.id_estudiante + " ha comenzado una nueva práctica";
+                        let texto: string = "El estudiante "+ this.id_estudiante + " ha comenzado una nueva práctica. Ahora debe estar atento a sus próximos pasos.";
                         console.log("Ahora a mandar la notificación");
                         
-                        this.service_noti.postnotificacion(this.id_usuario, {fecha, texto}, this.correo_encargado, this.estado_config).subscribe({
+                        this.service_noti.postnotificacion(this.id_usuario, texto, this.correo_encargado, this.estado_config).subscribe({
                           next:(data:any) => {
                             this.respuesta = {...this.respuesta, ...data};
                           },
