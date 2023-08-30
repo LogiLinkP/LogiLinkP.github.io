@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ComunicacionService } from 'src/app/servicios/com-componentes/comunicacion.service';
 import { BarraLateralService } from 'src/app/servicios/encargado/barra-lateral/barra-lateral.service';
 import { environment } from 'src/environments/environment';
 
@@ -32,7 +31,7 @@ export class BarraLateralEncargadoComponent {
         console.log("error:", error);
       },
       complete: () => {
-        console.log("respuesta:", respuesta.body)
+        //console.log("respuesta:", respuesta.body)
         if (respuesta.body.length > 0) {
             for (let i = 0; i < respuesta.body.length; i++) {
                 //si es que no es la planilla

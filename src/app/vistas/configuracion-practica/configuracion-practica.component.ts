@@ -19,6 +19,7 @@ import { response } from 'express';
 export class ConfiguracionPracticaComponent {
 
     currentRoute: string;
+    importada: boolean = false;
     
     constructor(private _fb: FormBuilder, private cd: ChangeDetectorRef, @Inject(DOCUMENT) private document: Document,
                 private serviceBarra: BarraLateralService, private _snackBar: MatSnackBar, private route: ActivatedRoute,
@@ -33,9 +34,15 @@ export class ConfiguracionPracticaComponent {
             
                         if (event instanceof NavigationEnd) {
                             // Hide loading indicator
-                            console.log("NavigationEnd:", event.url);
                             this.currentRoute = event.url;
-                            this.requestInicial();
+                            let ruta_cortada = event.url.split("/");
+                            console.log("NavigationEnd:", event.url, "split", ruta_cortada);
+                            if (ruta_cortada[ruta_cortada.length-1] == "copia") {
+                                this.requestInicial(true);
+                                this.importada = true;
+                            } else {
+                                this.requestInicial();
+                            }
                         }
             
                         if (event instanceof NavigationError) {
@@ -122,15 +129,37 @@ export class ConfiguracionPracticaComponent {
         this.document.documentElement.scrollTop = 0;
     }
 
-    requestInicial() {
+    requestInicial(importada: boolean = false) {
         let respuesta: any = {};
 
         this.route.paramMap.subscribe((params: ParamMap) => {
           this.nombre_config = params.get('nombre');
         })
 
+        //console.log("nombre_config:", this.nombre_config);
+
         if (this.nombre_config == "blanco") {
             this.generarFormulario(-1);
+        } else if (importada) {
+            console.log("dentro de importada");
+            this.serviceBarra.obtenerConfigPracticaNombre(this.nombre_config).subscribe({
+                next: (data: any) => {
+                    respuesta = { ...respuesta, ...data }
+                },
+                error: (error: any) => {
+                    this._snackBar.open("Error al buscar configuracion de practica", "Cerrar", {
+                    duration: 3000,
+                    panelClass: ['red-snackbar']
+                    });
+                    console.log("Error al buscar configuracion de practica", error);
+                },
+                complete: () => {
+                    this.config = respuesta.body;
+                    this.config.nombre = this.config.nombre + " (copia)";
+                    console.log("request practica existente:", this.config);
+                    this.generarFormulario(this.config.id);
+                }
+            });
         } else {
             this.serviceBarra.obtenerConfigPracticaNombre(this.nombre_config).subscribe({
             next: (data: any) => {
@@ -145,14 +174,14 @@ export class ConfiguracionPracticaComponent {
             },
             complete: () => {
                 this.config = respuesta.body;
-                console.log("request practica existente:", this.config);
+                //console.log("request practica existente:", this.config);
                 this.generarFormulario(this.config.id);
                 }
             });
         }
     }
 
-    generarFormulario(id_config_practica: number) {
+    generarFormulario(id_config_practica: number, importada: boolean = false) {
         let respuesta: any = {};
 
         // set valores iniciales
@@ -212,7 +241,7 @@ export class ConfiguracionPracticaComponent {
                     console.log("Error al buscar modalidades de configuracion de practica", error);
                 },
                 complete: () => {
-                    console.log("request modalidades existentes:", respuesta.body);
+                    //console.log("request modalidades existentes:", respuesta.body);
 
                     //* set modalidades
                     for (let i = 0; i < respuesta.body.length; i++) {
@@ -223,7 +252,7 @@ export class ConfiguracionPracticaComponent {
                             this.meses = true;
                         }
                     }
-                    console.log("horas:", this.horas, "meses:", this.meses);
+                    //console.log("horas:", this.horas, "meses:", this.meses);
 
                     //* set config informe
                     this.serviceComplete.getConfigInforme(id_config_practica).subscribe({
@@ -238,7 +267,7 @@ export class ConfiguracionPracticaComponent {
                             console.log("Error al buscar informes de configuracion de practica", error);
                         },
                         complete: () => {
-                            console.log("request config informe:", respuesta.body);
+                            //console.log("request config informe:", respuesta.body);
 
                             //* guardar id's para poder actualizar mas tarde
                             for (let i = 0; i < respuesta.body.length; i++) {
@@ -274,7 +303,7 @@ export class ConfiguracionPracticaComponent {
                                     console.log("Error al buscar encuesta final", error);
                                 },
                                 complete: () => {
-                                    console.log("request encuesta final:", respuesta.body);
+                                    //console.log("request encuesta final:", respuesta.body);
                                     for (let i = 0; i < respuesta.body.length; i++) {
                                         this.lista_preguntas_encuesta.push(respuesta.body[i].enunciado);
                                         this.tipos_preguntas_encuesta.push(respuesta.body[i].tipo_respuesta);
@@ -294,7 +323,7 @@ export class ConfiguracionPracticaComponent {
                                             console.log("Error al buscar pregunta supervisor", error);
                                         },
                                         complete: () => {
-                                            console.log("pregunta supervisor:", respuesta.body);
+                                            //console.log("pregunta supervisor:", respuesta.body);
                                             for (let i = 0; i < respuesta.body.length; i++) {
                                                 this.lista_preguntas_supervisor.push(respuesta.body[i].enunciado);
                                                 this.tipos_preguntas_supervisor.push(respuesta.body[i].tipo_respuesta);
@@ -314,7 +343,7 @@ export class ConfiguracionPracticaComponent {
                                                     console.log("Error al buscar solicitud de documento", error);
                                                 },
                                                 complete: () => {
-                                                    console.log("request solicitud de documento:", respuesta.body);
+                                                    //console.log("request solicitud de documento:", respuesta.body);
                                                     for (let i = 0; i < respuesta.body.length; i++) {
                                                         this.lista_nombre_solicitud_documentos.push(respuesta.body[i].nombre_solicitud);
                                                         this.lista_descripcion_solicitud_documentos.push(respuesta.body[i].descripcion);
@@ -845,7 +874,7 @@ export class ConfiguracionPracticaComponent {
         let tipo_request: string;
 
         // tipo de request
-        if (this.nombre_config == "blanco") {
+        if (this.nombre_config == "blanco" || this.importada) {
             tipo_request = "crear";
         } else {
             tipo_request = "actualizar";

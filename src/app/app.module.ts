@@ -65,6 +65,7 @@ import { EncuestaFinPracticaComponent } from './vistas/encuesta-fin-practica/enc
 import { FragmentosComponent } from './componentes/fragmentos/fragmentos.component';
 import { InformeComponent } from './vistas/informe/informe.component';
 import { NotisHistorialComponent } from './vistas/notis-historial/notis-historial.component';
+import { ImportModalComponent } from './componentes/import-modal/import-modal.component';
 
 @NgModule({
   declarations: [
@@ -96,7 +97,8 @@ import { NotisHistorialComponent } from './vistas/notis-historial/notis-historia
     EncuestaFinPracticaComponent,
     FragmentosComponent,
     InformeComponent,
-    NotisHistorialComponent
+    NotisHistorialComponent,
+    ImportModalComponent
   ],
   imports: [
     BrowserModule,

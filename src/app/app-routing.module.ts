@@ -61,6 +61,7 @@ const routes: Routes = [
   { path: 'informaciones', component: InformacionesComponent },
   // { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
   { path: 'configurar/:nombre', component: ConfiguracionPracticaComponent },
+  { path: 'configurar/:nombre/copia', component: ConfiguracionPracticaComponent },
   { path: environment.ruta_alumno + '/:id/chat/:room/:id1/:id2/:tipo', component: ChatComponent },
   { path: environment.ruta_alumno +'/:id/historial', component: NotisHistorialComponent},
   { path: "historial", component: NotisHistorialComponent},
