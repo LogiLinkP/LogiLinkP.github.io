@@ -34,6 +34,7 @@ export class DetallePracticaComponent implements OnInit {
   fragmentos_sup: any = [];
   respuestas_sup_parsed: any = [];
   hay_resumen: boolean = false;
+  horas_totales: number = 0;
 
   botones_habilitados: boolean = false;
 
@@ -43,8 +44,6 @@ export class DetallePracticaComponent implements OnInit {
   constructor(private fragmentosService: FragmentosService, private service: DetallePracticaService, private service2: SetDetallesAlumnoService,
     private _snackBar: MatSnackBar, private route: ActivatedRoute,
     private service_obtener: DataUsuarioService, private service_resumen: ResumenService) {
-
-    this.route.params.subscribe(params => { this.id_estudiante = +params['id']; });
 
     this.dtOptions = {
       language: {
@@ -58,8 +57,6 @@ export class DetallePracticaComponent implements OnInit {
     let respuesta: any = {};
 
     let id_practica = parseInt(this.route.snapshot.url[1].path); //obtener el id de práctica de la url
-
-
 
     if (!isNaN(id_practica)) {
 
@@ -80,6 +77,7 @@ export class DetallePracticaComponent implements OnInit {
           this.practica = respuesta.body;
           this.check_resumen();
 
+          //console.log("ID_ESTUDIANTE",this.id_estudiante)
 
           if (this.practica.estado == environment.estado_practica.evaluada ||
             this.practica.estado == environment.estado_practica.aprobada ||
@@ -100,9 +98,12 @@ export class DetallePracticaComponent implements OnInit {
             return isNaN(respuesta_supervisor.respuesta);
           });
           this.get_fragmentos_sup(id_practica);
-
-
+          this.correo_estudiante = this.practica.estudiante.usuario.correo;
           //console.log("respuestas_supervisor: ", this.respuestas_supervisor);
+          for(let i=0; i<this.informes.length; i++){
+            this.horas_totales += this.informes[i].horas_trabajadas;
+          }
+          console.log("HORAS TOTALES", this.horas_totales)
         }
       }); // fin request para obtener la practica  
     }
@@ -229,19 +230,7 @@ export class DetallePracticaComponent implements OnInit {
   }
 
   ngOnInit() {
-    let respuesta: any = [];
-    this.service_obtener.obtener_estudiante(this.id_estudiante).subscribe({
-      next: (data: any) => {
-        respuesta = { ...respuesta, ...data };
-      },
-      error: (error: any) => {
-        //console.log(error);
-        return;
-      },
-      complete: () => {
-        this.correo_estudiante = respuesta.body.correo;
-      }
-    })
+    
   }
 
 
