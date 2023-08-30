@@ -357,14 +357,14 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr *ngFor="let resp of respuestas_sup_parsed;">
-                                                            <td>{{resp[1]}}</td>
-                                                            <td *ngIf="resp[0];else textoSolo">
+                                                            <td style="vertical-align: middle;">{{resp[1]}}</td>
+                                                            <td *ngIf="resp[0];else textoSolo" style="vertical-align: middle;">
                                                                 {{resp[2]}}
                                                             </td>
-                                                            <ng-template #textoSolo>
-                                                                <td>
+                                                            <ng-template #textoSolo style="vertical-align: middle;">
+                                                                <td style="vertical-align: middle;">
                                                                     {{resp[2][0]}}
-                                                                    <span class="bg-gradient-success">
+                                                                    <span class="bg-gradient-success" style="vertical-align: middle;">
                                                                         {{resp[2][1]}}
                                                                     </span>
                                                                     {{resp[2][2]}}
