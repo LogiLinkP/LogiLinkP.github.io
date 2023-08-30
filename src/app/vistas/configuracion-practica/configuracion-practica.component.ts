@@ -891,7 +891,7 @@ export class ConfiguracionPracticaComponent {
     actualizarConfigPractica(nombre: string, frecuencia: string, final: string) {
         let respuesta: any = {};
 
-        this.serviceComplete.delConfigPractica(this.config.id).subscribe({
+        this.serviceComplete.actualizarConfigPractica(this.config.id, true).subscribe({
             next: (data: any) => {
                 respuesta = { ...respuesta, ...data }
             },
@@ -910,14 +910,14 @@ export class ConfiguracionPracticaComponent {
                 console.log("Configuracion de practica eliminada exitosamente");
 
                 //eliminar actuales
-                this.delConfigInforme(this.config.id);
-                this.delPreguntaSupervisor(this.config.id);
-                this.delSolicitudDocumento(this.config.id);
-                this.delPreguntaEncuestaFinal(this.config.id);
-                this.delModalidad(this.config.id);
-                for (let i = 0; i < this.ids_config_informe.length; i++) {
-                    this.delPreguntaInforme(this.ids_config_informe[i]);
-                }
+                //this.delConfigInforme(this.config.id);
+                //this.delPreguntaSupervisor(this.config.id);
+                //this.delSolicitudDocumento(this.config.id);
+                //this.delPreguntaEncuestaFinal(this.config.id);
+                //this.delModalidad(this.config.id);
+                //for (let i = 0; i < this.ids_config_informe.length; i++) {
+                //    this.delPreguntaInforme(this.ids_config_informe[i]);
+                //}
 
                 //crear nuevos
                 this.serviceComplete.crearConfigPractica(nombre, frecuencia, final).subscribe({
