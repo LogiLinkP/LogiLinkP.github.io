@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material/table'
 import { BarraLateralService } from 'src/app/servicios/encargado/barra-lateral/barra-lateral.service';
 import { ConfigService } from 'src/app/servicios/encargado/config-practica/config.service';
 import { environment } from 'src/environments/environment';
+import { Express } from 'express'; //! NO BORRAR! SE MUERE TODO. PORQUE? NI IDEA, SALU2
 
 @Component({
   selector: 'app-configuracion-practica',
@@ -890,7 +891,7 @@ export class ConfiguracionPracticaComponent {
     actualizarConfigPractica(nombre: string, frecuencia: string, final: string) {
         let respuesta: any = {};
 
-        this.serviceComplete.actualizarConfigPractica(nombre, true).subscribe({
+        this.serviceComplete.actualizarConfigPractica(this.config.id, false).subscribe({
             next: (data: any) => {
                 respuesta = { ...respuesta, ...data }
             },
@@ -918,7 +919,7 @@ export class ConfiguracionPracticaComponent {
                 //    this.delPreguntaInforme(this.ids_config_informe[i]);
                 //}
 
-                //crear nuevos
+                //crear nuevos (copias)
                 this.serviceComplete.crearConfigPractica(nombre, frecuencia, final).subscribe({
                     next: (data: any) => {
                         respuesta = { ...respuesta, ...data }

@@ -23,9 +23,9 @@ export class ConfigService {
         return this._http.request(req);
     }
 
-    actualizarConfigPractica(nombre: string, activada: boolean) {
+    actualizarConfigPractica(id: number, activada: boolean) {
         const config = {
-            nombre: nombre,
+            id: id,
             activada: activada
         }
 
