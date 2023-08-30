@@ -252,7 +252,7 @@
                                 <!-- Card Header - Accordion -->
                                 <a href="#collapseCardArchivos" class="d-block card-header py-3" data-toggle="collapse"
                                     role="button" aria-expanded="true" aria-controls="collapseCardArchivos">
-                                    <h6 class="m-0 font-weight-bold text-primary">Archivos Subidos</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Solicitudes de Archivos</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
                                 <div class="collapse" id="collapseCardArchivos">
@@ -270,13 +270,16 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr *ngFor="let doc of documentos;">
-                                                            <td>{{doc.solicitud_documento.nombre_solicitud}}</td>
-                                                            <td>{{doc.solicitud_documento.tipo_archivo}}</td>
+                                                        <tr *ngFor="let solicitud of solicitudes_documentos;">
+                                                            <td>{{solicitud.nombre_solicitud}}</td>
+                                                            <td>{{solicitud.tipo_archivo}}</td>
                                                             <td>Normal</td>
-                                                            <!--add button that calls the function descargar documento with the parameter doc.key-->
                                                             <td><button class="btn btn-primary btn-sm btn-block"
-                                                                    (click)="descargar_documento(doc.id, doc_str)">Descargar</button>
+                                                                    *ngIf="solicitud.documentos.length != 0; else no_doc" 
+                                                                    (click)="descargar_documento(solicitud.documentos[0].id, doc_str)">Descargar</button>
+                                                                <ng-template #no_doc>
+                                                                    <b>No subido aún</b>
+                                                                </ng-template>
                                                             </td>
                                                         </tr>
                                                         <tr *ngFor="let doc_extra of documento_extras;">
