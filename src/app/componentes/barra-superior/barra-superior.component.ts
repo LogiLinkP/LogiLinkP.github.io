@@ -213,14 +213,14 @@ export class BarraSuperiorComponent implements OnInit{
     this.notificaciones = [];
   }
 
-  redirect_to_chat(id_otro_participante:number, userid_otro_participante:number, tipo:string){
+  redirect_to_chat(userid_otro_participante:number, tipo:string){
     
     if(tipo=="encargado"){
       // reditect to url
-      window.location.href = "/chat/sala"+id_otro_participante+this.id_persona+"/"+this.id_persona+"/"+id_otro_participante+"/encargado?userid_otro_participante="+userid_otro_participante
+      window.location.href = "/chat/sala"+userid_otro_participante+this.id_usuario+"/"+this.id_usuario+"/"+userid_otro_participante+"/encargado"
     }
     else if(tipo=="estudiante"){
-      window.location.href = "/chat/sala"+this.id_persona+id_otro_participante+"/"+this.id_persona+"/"+id_otro_participante+"/estudiante?userid_otro_participante="+userid_otro_participante
+      window.location.href = "/chat/sala"+this.id_usuario+userid_otro_participante+"/"+this.id_usuario+"/"+userid_otro_participante+"/estudiante"
     }
   }
 
