@@ -140,10 +140,9 @@ export class IniciarPracticaComponent implements OnInit{
                           },
                           complete: () => {
                         let texto: string = "El estudiante "+ this.id_estudiante + " ha comenzado una nueva práctica";
-                        console.log("Ahora a mandar la notificación");
-                        
                         let enlace = "http://localhost:4200/practicas/" + this.id_estudiante;
                         this.service_noti.postnotificacion(this.id_usuario, texto, this.correo_encargado, this.estado_config, enlace).subscribe({
+
                           next:(data:any) => {
                             this.respuesta = {...this.respuesta, ...data};
                           },
