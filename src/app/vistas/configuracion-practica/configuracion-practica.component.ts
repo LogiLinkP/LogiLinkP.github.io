@@ -1,14 +1,13 @@
 import { DOCUMENT } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject} from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table'
 
 import { BarraLateralService } from 'src/app/servicios/encargado/barra-lateral/barra-lateral.service';
 import { ConfigService } from 'src/app/servicios/encargado/config-practica/config.service';
 import { environment } from 'src/environments/environment';
-import { response } from 'express';
 
 @Component({
   selector: 'app-configuracion-practica',
@@ -891,23 +890,23 @@ export class ConfiguracionPracticaComponent {
     actualizarConfigPractica(nombre: string, frecuencia: string, final: string) {
         let respuesta: any = {};
 
-        this.serviceComplete.actualizarConfigPractica(this.config.id, true).subscribe({
+        this.serviceComplete.actualizarConfigPractica(nombre, true).subscribe({
             next: (data: any) => {
                 respuesta = { ...respuesta, ...data }
             },
             error: (error: any) => {
-                this._snackBar.open("Error al eliminar configuracion de practica", "Cerrar", {
+                this._snackBar.open("Error al actualizar configuracion de practica", "Cerrar", {
                     duration: 3500,
                     panelClass: ['red-snackbar']
                 });
-                console.log("Error al eliminar configuracion de practica", error);
+                console.log("Error al actualizar configuracion de practica", error);
             },
             complete: () => {
-                this._snackBar.open("Configuracion de practica eliminada exitosamente", "Cerrar", {
+                this._snackBar.open("Configuracion de practica actualizar exitosamente", "Cerrar", {
                     duration: 3500,
                     panelClass: ['green-snackbar']
                 });
-                console.log("Configuracion de practica eliminada exitosamente");
+                console.log("Configuracion de practica actualizar exitosamente");
 
                 //eliminar actuales
                 //this.delConfigInforme(this.config.id);
