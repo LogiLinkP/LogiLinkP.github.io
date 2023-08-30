@@ -54,7 +54,7 @@ export class BarraSuperiorComponent implements OnInit{
       let fecha = this.datetime.transform((new Date), 'MM/dd/yyyy h:mm:ss')
       let mensaje = res.message;
 
-      this.notificaciones.push({fecha: fecha, texto: mensaje});
+      this.notificaciones.push({fecha: fecha, texto: mensaje, link: res.link});
       this.cdr.detectChanges();
     })
   }

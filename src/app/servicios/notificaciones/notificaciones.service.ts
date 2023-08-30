@@ -41,10 +41,10 @@ export class NotificacionesService extends Socket{
     });
   }
 
-  postnotificacion(id_usuario:number, mensaje:any, correo: string, estado:string){
+  postnotificacion(id_usuario:number, mensaje:any, correo: string, estado:string, enlace:string){
     let fecha = this.datetime.transform(new Date);
 
-    const req = new HttpRequest('POST', `${environment.url_back}/notificacion/crear`, {id_usuario, fecha, mensaje, correo, estado}, {responseType: 'text'});
+    const req = new HttpRequest('POST', `${environment.url_back}/notificacion/crear`, {id_usuario, fecha, mensaje, correo, estado, enlace}, {responseType: 'text'});
     return this._http.request(req);
   }
 

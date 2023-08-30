@@ -1,5 +1,5 @@
 <div id="wrapper">
-    <div *ngIf = "esalumno == 1; else elseblock">
+    <div *ngIf="esalumno == 1; else elseblock">
         <app-barra-lateral-alumno></app-barra-lateral-alumno>
     </div>
     <ng-template #elseblock>
@@ -7,13 +7,13 @@
     </ng-template>
 
     <div id="content-wrapper" class="d-flex flex-column">
-        
-        <div id="content" class="main-content" >
+
+        <div id="content" class="main-content">
             <app-barra-superior></app-barra-superior>
-            
+
             <h1>Historial de Notificaciones</h1>
-            <div *ngFor = "let noti of historial">
-                <a class="dropdown-item d-flex align-items-center" href="#">
+            <div *ngFor="let noti of historial">
+                <a class="dropdown-item d-flex align-items-center" [href]="noti?.link">
                     <div class="mr-3">
                         <div class="icon-circle bg-primary">
                             <i class="fas fa-file-alt text-white"></i>
@@ -27,6 +27,6 @@
             </div>
 
         </div>
-        <button (click) = "volver_atras()" class="btn btn-primary">Volver</button>
+        <button (click)="volver_atras()" class="btn btn-primary">Volver</button>
     </div>
 </div>
