@@ -64,11 +64,11 @@ export class ChatComponent implements OnInit {
 
     // check if the room is already set in the cookies, if it is destroy it
     if(this.cookieService.check("room")){
-      console.log("Destruyendo cookie room", this.cookieService.get("room"));
+      //console.log("Destruyendo cookie room", this.cookieService.get("room"));
       this.cookieService.delete("room");
     }
     this.cookieService.set("room", this.room);
-    console.log("Room seteada en cookies:", this.room);    
+    //console.log("Room seteada en cookies:", this.room);    
   }
 
   ngOnInit(): void{
@@ -96,10 +96,10 @@ export class ChatComponent implements OnInit {
     }
     */
 
-    console.log("Id estudiante: ", this.id_estudiante);
-    console.log("Id encargado: ", this.id_encargado); 
-    console.log("Id usuario: ", this.id_usuario);
-    console.log("userid otro participante: ", this.userid_otro_participante);
+    //console.log("Id estudiante: ", this.id_estudiante);
+    //console.log("Id encargado: ", this.id_encargado); 
+    //console.log("Id usuario: ", this.id_usuario);
+    //console.log("userid otro participante: ", this.userid_otro_participante);
 
     // buscar si chat existe en BD
     this.chatService.getchat(this.id_estudiante,this.id_encargado).subscribe({
@@ -107,31 +107,38 @@ export class ChatComponent implements OnInit {
         this.respuesta = { ...this.respuesta, ...data }
       },
       error: (error: any) => {
-        console.log(error);
+        //console.log(error);
         return;
       },
       complete: () => {
         this.Historial = JSON.parse(this.respuesta.body);
-        console.log("CHAT RECIBIDO: ",this.Historial);
+        //console.log("CHAT RECIBIDO: ",this.Historial);
         if(this.Historial==null){
-          console.log("Chat no encontrado, creando");
+          //console.log("Chat no encontrado, creando");
           this.chatService.postchat(this.id_estudiante, this.id_encargado).subscribe({
             next: (data: any) => {
               this.respuesta = { ...this.respuesta, ...data }
-              console.log("Request aceptada");
+              //console.log("Request aceptada");
             },
             error: (error: any) => console.log("Error en post chat:",error),
             complete: () => {
-              console.log("Chat creado");
-              console.log(this.respuesta);              
+              //console.log("Chat creado");
+              //console.log(this.respuesta);
+              this.cdr.detectChanges();  
+              this.chatService.event$.subscribe( (res:any) => {                
+                this.cdr.detectChanges(); 
+              });
+              this.Historial = {mensajes:[]}     
             }
           });
         }
-        this.cdr.detectChanges();  
-        this.chatService.event$.subscribe( (res:any) => {
-          this.Historial.mensajes.push(res);
-          this.cdr.detectChanges(); 
-        });
+        else{
+          this.cdr.detectChanges();  
+          this.chatService.event$.subscribe( (res:any) => {
+            this.Historial.mensajes.push(res);
+            this.cdr.detectChanges(); 
+          });
+        }
       }
     });
     
@@ -142,12 +149,12 @@ export class ChatComponent implements OnInit {
           this.respuesta = { ...this.respuesta, ...data }
         },
         error: (error: any) => {
-          console.log(error);
+          //console.log(error);
           return;
         },
         complete: () => {
           this.usuario_otro_participante = this.respuesta.body;
-          console.log("Nombre del otro participante: ",this.usuario_otro_participante.nombre);
+          //console.log("Nombre del otro participante: ",this.usuario_otro_participante.nombre);
           this.cdr.detectChanges();
         }
       });
@@ -166,7 +173,7 @@ export class ChatComponent implements OnInit {
     this.chatService.postmensaje(this.id_estudiante, this.id_encargado, mensaje, this.correo_estudiante, this.correo_encargado).subscribe({
       next: (data: any) => {
         this.respuesta = { ...this.respuesta, ...data }
-        console.log("Request aceptada");
+        //console.log("Request aceptada");
       },
       error: (error: any) => console.log("Error en enviar mensaje:",error),  
       complete: () =>{
@@ -182,16 +189,16 @@ export class ChatComponent implements OnInit {
               this.respuesta = {...this.respuesta, ...data};
             },
             error:(error:any) => {
-              console.log(error);
+              //console.log(error);
               return;
             },
             complete:() => {
-              console.log("Notificación enviada conéxito");
+              //console.log("Notificación enviada conéxito");
             }
           });
         }
-        console.log("Mensaje Enviado", mensaje);
-        console.log(this.respuesta);
+        //console.log("Mensaje Enviado", mensaje);
+        //console.log(this.respuesta);
         this.chatService.emitEvent(mensaje);
         this.Nmensaje="";    
         this.Historial.mensajes.push(mensaje);
@@ -222,6 +229,13 @@ export class ChatComponent implements OnInit {
     if (this.messageContainer) {
       const element = this.messageContainer.nativeElement;
       element.scrollTop = element.scrollHeight;
+    }
+  }
+
+  onKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault(); // Prevent default Enter behavior (carriage return)
+      this.enviarmensaje();
     }
   }
 }
