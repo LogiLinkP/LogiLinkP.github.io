@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
 import { FragmentosService } from '../../servicios/fragmentos/fragmentos.service';
 import { ResumenService } from 'src/app/servicios/resumen/resumen.service';
+import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
 
 @Component({
   selector: 'app-detalle-practica',
@@ -40,10 +41,12 @@ export class DetallePracticaComponent implements OnInit {
 
   id_estudiante: number = -1
   correo_estudiante: string = "";
+  config_estudiante: string = "";
 
   constructor(private fragmentosService: FragmentosService, private service: DetallePracticaService, private service2: SetDetallesAlumnoService,
     private _snackBar: MatSnackBar, private route: ActivatedRoute,
-    private service_obtener: DataUsuarioService, private service_resumen: ResumenService) {
+    private service_obtener: DataUsuarioService, private service_resumen: ResumenService,
+    private service_noti: NotificacionesService) {
 
     this.dtOptions = {
       language: {
@@ -99,6 +102,8 @@ export class DetallePracticaComponent implements OnInit {
           });
           this.get_fragmentos_sup(id_practica);
           this.correo_estudiante = this.practica.estudiante.usuario.correo;
+          this.config_estudiante = this.practica.estudiante.usuario.config;
+
           //console.log("respuestas_supervisor: ", this.respuestas_supervisor);
           for(let i=0; i<this.informes.length; i++){
             this.horas_totales += this.informes[i].horas_trabajadas;
@@ -255,6 +260,13 @@ export class DetallePracticaComponent implements OnInit {
 
   aprobar(id_usuario: number, id_estudiante: number, id_modalidad: number, aprobacion: 0 | 1) {
     let respuesta: any = {}
+    let mensaje : string = "";
+    if (aprobacion == 1){
+      mensaje = "Felicidades, has aprobado esta práctica";
+    }
+    else{
+      mensaje = "Deafortunadamente, has reprobado esta práctica";
+    }
     this.service2.aprobar_practica(id_estudiante, id_modalidad, aprobacion).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
@@ -271,10 +283,22 @@ export class DetallePracticaComponent implements OnInit {
             panelClass: ['red-snackbar']
           });
         }
-        window.location.reload()
+        respuesta = {};
+        this.service_noti.postnotificacion(id_usuario, mensaje, this.correo_estudiante, this.config_estudiante).subscribe({
+          next:(data:any) => {
+            respuesta = {...respuesta, ...data};
+          },
+          error:(error:any) => {
+            console.log(error);
+            return;
+          },
+          complete:() => {
+            console.log("Notificación enviada con éxito");
+            window.location.reload()
+          }
+        })
       }
     });
-
   }
 
   descargar_documento(documento_id: string, solicitud_tipo: string) {
