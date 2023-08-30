@@ -173,11 +173,13 @@ export class ChatComponent implements OnInit {
         let noti: string = "";
         if(mensaje.emisor == "encargado"){
           noti = "El encargado "+ this.id_encargado +" te ha enviado un mensaje"
-          this.service_noti.postnotificacion(this.id_estudiante, noti, this.correo_estudiante, this.estado_config_estudiante);
+          let enlace:string = "http://localhost:4200/alumno/" + this.id_estudiante + "chat/sala" + this.id_estudiante + this.id_encargado + "/" + this.id_estudiante + "/" + this.id_encargado + "estudiante";
+          this.service_noti.postnotificacion(this.id_estudiante, noti, this.correo_estudiante, this.estado_config_estudiante, enlace);
         }
         else{
           noti = "El encargado "+ this.id_estudiante +" te ha enviado un mensaje"
-          this.service_noti.postnotificacion(this.id_estudiante, noti, this.correo_encargado, this. estado_config_encargado).subscribe({
+          let enlace:string = "http://localhost:4200/practicas/chat/sala" + this.id_encargado + this.id_estudiante + "/" + this.id_encargado + "/" + this.id_estudiante + "/encargado";
+          this.service_noti.postnotificacion(this.id_estudiante, noti, this.correo_encargado, this. estado_config_encargado, enlace).subscribe({
             next:(data:any) => {
               this.respuesta = {...this.respuesta, ...data};
             },
