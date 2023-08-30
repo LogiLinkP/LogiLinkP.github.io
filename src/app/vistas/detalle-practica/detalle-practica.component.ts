@@ -10,6 +10,13 @@ import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.
 import { FragmentosService } from '../../servicios/fragmentos/fragmentos.service';
 import { ResumenService } from 'src/app/servicios/resumen/resumen.service';
 
+//import pdfMake from 'pdfmake/build/pdfmake';
+//import pdfFonts from 'pdfmake/build/vfs_fonts';
+//pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+import { jsPDF } from "jspdf"; 
+
+
 @Component({
   selector: 'app-detalle-practica',
   templateUrl: './detalle-practica.component.html',
@@ -206,6 +213,29 @@ export class DetallePracticaComponent implements OnInit {
     });
   }
 
+  
+  generar_pdf_resumen(){
+
+    let pdf = new jsPDF();
+
+    pdf.text("Resumen de práctica", 10, 10);
+    pdf.save("resumen.pdf");
+
+    /*
+    console.log("generando pdf")
+    let PDF_doc: any = {
+      content: [
+        {
+          text: "Resumen de práctica"
+        }
+      ]
+    };
+
+    const pdf = pdfMake.createPdf(PDF_doc);
+    pdf.open();
+    */
+  }
+  
 
   check_resumen() {
     if (!this.practica.resumen) {
