@@ -2,7 +2,7 @@
 <div id="wrapper">
 
     <!-- Sidebar -->
-    <app-barra-lateral-alumno></app-barra-lateral-alumno>
+    <app-barra-lateral-encargado></app-barra-lateral-encargado>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -68,7 +68,7 @@
                                         <div *ngIf="!isNumber(pos) && k>1">
                                         
                                             <h4 class="small font-weight-bold">{{pregunta[k]}} <span
-                                            class="float-right">{{pregunta[k+1]}}%</span></h4>
+                                            class="float-right">{{toInt(pregunta[k+1])}}%</span></h4>
                                             <div class="progress mb-4">
                                                 <div class="progress-bar" role="progressbar" [style]="'width: '+pregunta[k+1]+'%'"
                                                     aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">

@@ -24,4 +24,25 @@ export class EstadisticasService {
     const req = new HttpRequest('GET', `${environment.url_back}/pregunta_encuesta_final/todos`);
     return this._http.request(req);
   }
+
+  obtener_todas_estadisticas(){
+    const req = new HttpRequest('GET', `${environment.url_back}/estadistica/todos`);
+    return this._http.request(req);
+  }
+
+  crear_estadistica(estadistica: any) {
+    const req = new HttpRequest('POST', `${environment.url_back}/estadistica/crear`, estadistica);
+    return this._http.request(req);
+  }
+
+  actualizar_estadistica(estadistica: any) {
+    const req = new HttpRequest('PUT', `${environment.url_back}/estadistica/actualizar`, estadistica);
+    return this._http.request(req);
+  }
+
+  borrar_estadistica(estadistica: any) {
+    const req = new HttpRequest('DELETE', `${environment.url_back}/estadistica/eliminar_todos`, estadistica);
+    return this._http.request(req);
+  }
+
 }
