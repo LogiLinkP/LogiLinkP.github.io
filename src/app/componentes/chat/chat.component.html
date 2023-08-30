@@ -27,7 +27,7 @@
                                     </div>
                                 </div>
                                 <div class = "contenedordemensajes" *ngIf = "tipo == 'encargado'" >
-                                    <div *ngFor = "let mensaje of Historial.mensajes" [ngClass]="(mensaje.emisor=='encargado')? 'enviado' : 'recibido'">
+                                    <div *ngFor = "let mensaje of Historial?.mensajes" [ngClass]="(mensaje.emisor=='encargado')? 'enviado' : 'recibido'">
                                         <p class="texto" style="white-space: pre-line;">{{mensaje.texto}}</p>
                                         <!-- show fecha and parse the date and time-->
                                         <p class="horafecha">Enviado: {{mensaje.fecha | date:'dd/MM/yyyy'}} a las {{mensaje.fecha | date:'HH:mm'}}</p>
