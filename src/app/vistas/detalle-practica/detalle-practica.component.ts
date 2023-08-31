@@ -304,7 +304,7 @@ export class DetallePracticaComponent implements OnInit {
           });
         }
         respuesta = {};
-        let enlace: string = "localhost:4200/alumno/" + id_usuario;
+        let enlace: string = environment.url_front + "/alumno/" + id_usuario;
         this.service_noti.postnotificacion(id_usuario, mensaje, this.correo_estudiante, this.config_estudiante, enlace).subscribe({
           next: (data: any) => {
             respuesta = { ...respuesta, ...data };
