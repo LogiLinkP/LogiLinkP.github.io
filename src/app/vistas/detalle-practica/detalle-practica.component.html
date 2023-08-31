@@ -294,8 +294,11 @@
                                                             <td>{{doc_extra.nombre_solicitud}}</td>
                                                             <td>{{doc_extra.tipo_archivo}}</td>
                                                             <td>Extra</td>
-                                                            <td><button class="btn btn-primary btn-sm btn-block"
+                                                            <td><button *ngIf="doc_extra.key!=null && doc_extra.key!=''; else no_doc_extra" class="btn btn-primary btn-sm btn-block"
                                                                     (click)="descargar_documento(doc_extra.id, doc_extra_str)">Descargar</button>
+                                                                <ng-template #no_doc_extra>
+                                                                    <b>No subido aún</b>
+                                                                </ng-template>
                                                             </td>
                                                         </tr>
                                                     </tbody>
