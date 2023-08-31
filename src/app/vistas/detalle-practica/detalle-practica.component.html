@@ -22,7 +22,7 @@
                 <app-barra-superior></app-barra-superior>
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <div class="container-fluid" id="pdfTable2" #pdfTable2>
 
                     <!-- Page Heading -->
                     <div class="row">
@@ -40,6 +40,7 @@
                             (click)="generar_pdf_resumen();">Descargar Resumen PDF</button>
                         </div>
                     </div>
+                    <br>
                     <!-- Fila de "Tarjetas" -->
                     <div class="row">
                         <!-- Tarjeta de Estado -->
@@ -532,7 +533,6 @@
                         </div><!-- Fin Tarjeta Consistencia -->
                     </div><!-- Fin Fila -->
                 </div>
-
             </div>
             <!-- End of Main Content -->
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input , ElementRef, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DetallePracticaService } from 'src/app/servicios/encargado/detalle-practica.service';
 import { SetDetallesAlumnoService } from '../../servicios/encargado/decision.service';
@@ -14,7 +14,14 @@ import { ResumenService } from 'src/app/servicios/resumen/resumen.service';
 //import pdfFonts from 'pdfmake/build/vfs_fonts';
 //pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-import { jsPDF } from "jspdf"; 
+import jsPDF from 'jspdf';
+//import pdfMake from 'pdfmake/build/pdfmake';
+//import pdfFonts from 'pdfmake/build/vfs_fonts';
+//pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import htmlToPdfmake from 'html-to-pdfmake';
+import e from 'express';
+
+//import { jsPDF } from "jspdf"; 
 
 
 @Component({
@@ -23,7 +30,14 @@ import { jsPDF } from "jspdf";
   styleUrls: ['./detalle-practica.component.css']
 })
 export class DetallePracticaComponent implements OnInit {
-  @ViewChild(DataTableDirective, { static: false })
+  //@ViewChild(DataTableDirective, { static: false })
+
+  //@ViewChild('content', { static: false }) el!: ElementRef;
+
+  @ViewChild('pdfTable') pdfTable: ElementRef;
+  @ViewChild('pdfTable2') pdfTable2: ElementRef;
+
+  //window.jsPDF = this.window.jspdf.jsPDF;
 
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
@@ -213,27 +227,168 @@ export class DetallePracticaComponent implements OnInit {
     });
   }
 
+  /*
+  downloadAsPDF(){
+    console.log("generando pdf")
+    let pdf = new jsPDF('l', 'pt', 'a3');
+
+    const pdfTable = this.pdfTable2.nativeElement;
+
+    pdf.html(this.pdfTable2.nativeElement, {
+      callback: (doc) => {
+        doc.save("resumen.pdf");
+      }
+    });
+    //console.log(pdfTable.innerHTML)
+    //var html = htmlToPdfmake(pdfTable.innerHTML);
+
+    //const documentDefinition = { content: html };
+    
+    //let PDF_doc: any = { documentDefinition };
+    
+  }
+  */
+
+  
   
   generar_pdf_resumen(){
 
     let pdf = new jsPDF();
 
-    pdf.text("Resumen de práctica", 10, 10);
-    pdf.save("resumen.pdf");
+    //console.log(this.id_estudiante)
+    pdf.setFontSize(20);
+    console.log(this.practica)
 
-    /*
-    console.log("generando pdf")
-    let PDF_doc: any = {
-      content: [
-        {
-          text: "Resumen de práctica"
+    pdf.text("Resumen " + this.practica.modalidad.config_practica.nombre, 15, 20);
+    pdf.setFontSize(15);
+    pdf.text(String(this.practica.estudiante.usuario.nombre), 15, 35);
+    pdf.text("Resultado de práctica: " + this.practica.estado, 15, 45);
+    pdf.text("Correo: " + this.practica.estudiante.usuario.correo, 15, 55);
+    pdf.text("Empresa: " + this.practica.empresa.nombre_empresa,15, 65);
+    pdf.text("Supervisor: " + this.practica.supervisor.nombre, 15, 75);
+    pdf.text("Correo supervisor: " + this.practica.supervisor.correo, 15, 85);
+    
+    //borrar desde caracter T en adelante de la fecha
+    let fecha_inicio = this.practica.fecha_inicio.split("T")[0];
+    let fecha_termino = this.practica.fecha_termino.split("T")[0];
+  
+    pdf.text("Fecha de inicio: " + fecha_inicio, 15, 95);
+    pdf.text("Fecha de término: " + fecha_termino, 15, 105);
+    //pdf.text("hola", 200, 20);
+
+    pdf.text("Informes del alumno: ", 15, 120);
+
+    pdf.setFontSize(13);
+
+    console.log(this.practica.informes[0])
+    console.log(this.practica.informes[0].key)
+
+    console.log(Object.values(this.practica.informes[0].key).length)
+
+    let keys = Object.keys(this.practica.informes[0].key)
+
+    let linea_actual = 0
+
+    let continuar_desde = 130
+
+    for (let i = 0; i < keys.length; i++) {
+
+      var informe = String(this.practica.informes[0].key[keys[i]])
+      var palabras_informe = informe.split(" ")
+      //var lista_cantidad_palabras = []
+      //var cantidad_caracteres = 0
+      //var cantidad_palabras = 0
+
+      var lista_aux = []
+
+      var aux_string = "- "
+      for (let x = 0; x < palabras_informe.length; x++) {
+
+        //console.log(aux_string)
+        if (x%10 == 0 && x != 0){
+          aux_string += (palabras_informe[x] + " ")
+          lista_aux.push(aux_string)
+          aux_string = ""
         }
-      ]
-    };
+        else if(x == palabras_informe.length - 1){
+          aux_string += (palabras_informe[x] + " ")
+          lista_aux.push(aux_string)
+        }
 
-    const pdf = pdfMake.createPdf(PDF_doc);
-    pdf.open();
-    */
+        else{
+          aux_string += (palabras_informe[x] + " ")
+        }
+      }
+
+      console.log(lista_aux)
+
+
+      for (let j = 0; j < lista_aux.length; j++) {
+        if (130 + i*5 + linea_actual*10 > 260){
+          pdf.addPage()
+          continuar_desde = 20
+          linea_actual = 0
+        }
+        pdf.text(lista_aux[j], 15, continuar_desde + i*5 + linea_actual*10);
+        linea_actual += 1
+      }
+
+
+      //pdf.text("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", 15, 260);
+
+      /*
+      //cantidad de palabras antes de llegar a 90 caracteres
+      for (let j = 0; j < palabras_informe.length; j++) {
+        if (cantidad_caracteres + palabras_informe[j].length > 90) {
+          lista_cantidad_palabras.push(cantidad_palabras)
+          cantidad_palabras = 1
+          cantidad_caracteres = palabras_informe[j].length
+        }
+        else {
+          cantidad_caracteres += palabras_informe[j].length
+          cantidad_palabras += 1
+        }
+      }
+
+      console.log(lista_cantidad_palabras)
+      var cantidad_palabras = 0
+      var iter_lista_cantidad_palabras = 0
+      var informe_aux = ""
+      for(let k = 0; k<palabras_informe.length; k++){
+        if (cantidad_palabras = lista_cantidad_palabras[iter_lista_cantidad_palabras]){
+          pdf.text(informe_aux, 15, 130 + i*10);
+          cantidad_palabras = 0
+          informe_aux = ""
+          iter_lista_cantidad_palabras += 1
+        }
+        else{
+          informe_aux += palabras_informe[k]
+          cantidad_palabras += 1
+        }
+      }
+      */
+
+      //dividir por espacios
+      
+      /*
+      palabras_informe[0] = " - " + palabras_informe[0]
+      var cantidad_caracteres = 0
+      for(let j =0; j<palabras_informe.length; j++){
+        cantidad_caracteres += palabras_informe[j].length
+        if(cantidad_caracteres < 90){
+          pdf.text(palabras_informe[j], 15, 130 + i*10);
+        }else{
+          pdf.text(palabras_informe[j], 15, 140 + i*10);
+          
+        }
+      }
+      */
+      //pdf.text(" - " + String(this.practica.informes[0].key[keys[i]]), 15, 130 + i*10);
+    }
+
+
+    pdf.save("resumen.pdf");
+    
   }
   
 
