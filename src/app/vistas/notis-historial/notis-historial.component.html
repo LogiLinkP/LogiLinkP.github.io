@@ -10,23 +10,27 @@
 
         <div id="content" class="main-content">
             <app-barra-superior></app-barra-superior>
-
-            <h1>Historial de Notificaciones</h1>
-            <div *ngFor="let noti of historial">
-                <a class="dropdown-item d-flex align-items-center" [href]="noti?.link">
-                    <div class="mr-3">
-                        <div class="icon-circle bg-primary">
-                            <i class="fas fa-file-alt text-white"></i>
+            
+            <div id="container-fluid overflow-auto" style="max-height: 80vh;">
+                <!--<button (click)="volver_atras()" class="btn btn-primary d-flex align-items-right">Volver</button>-->
+                <div class="h3 mt-2 ml-2">Historial de Notificaciones</div>
+                <div *ngFor="let noti of historial">
+                    <a class="dropdown-item d-flex align-items-center" [href]="noti?.link">
+                        <div class="mr-3">
+                            <div class="icon-circle bg-primary">
+                                <i class="fas fa-file-alt text-white"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <div class="small text-gray-500">{{noti?.fecha}}</div>
-                        <span class="font-weight-bold">{{noti?.texto}}</span>
-                    </div>
-                </a>
+                        <div class="mt-2">
+                            <div class="small text-gray-500">{{noti?.fecha}}</div>
+                            <span class="font-weight-bold">{{noti?.texto}}</span>
+                        </div>
+                    </a>
+                </div>
+                
             </div>
-
+            
         </div>
-        <button (click)="volver_atras()" class="btn btn-primary">Volver</button>
+        
     </div>
 </div>
