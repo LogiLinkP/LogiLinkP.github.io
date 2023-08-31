@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common'
 import { DocumentosService } from '../../servicios/encargado/documentos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
+import { environment } from 'src/environments/environment';
 
 export interface DialogData {
   formatos: Formato[];
@@ -72,7 +73,7 @@ export class BotonSolicitarArchivoComponent {
         },
         complete: () => {
           let respuesta:any = {};
-          let enlace:string = "localhost:4200/alumno/" + this.id_alumno;
+          let enlace:string = environment.url_front + "/" + this.id_alumno;
           this.service_noti.postnotificacion(this.id_alumno, "Se le solicita un documento extra para su práctica", this.correo_alumno, this.configuración_alumno, enlace).subscribe({
             next:(data:any) => {
               respuesta = {...respuesta, ...data};
