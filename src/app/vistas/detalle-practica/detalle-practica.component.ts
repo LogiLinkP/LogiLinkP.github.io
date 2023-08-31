@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
 import { FragmentosService } from '../../servicios/fragmentos/fragmentos.service';
 import { ResumenService } from 'src/app/servicios/resumen/resumen.service';
+import { InformeService } from 'src/app/servicios/informe/informe.service';
 
 //import pdfMake from 'pdfmake/build/pdfmake';
 //import pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -57,6 +58,8 @@ export class DetallePracticaComponent implements OnInit {
   hay_resumen: boolean = false;
   horas_totales: number = 0;
 
+  preguntas_respuestas_informe: any = []
+
   botones_habilitados: boolean = false;
 
   id_estudiante: number = -1
@@ -64,7 +67,7 @@ export class DetallePracticaComponent implements OnInit {
 
   constructor(private fragmentosService: FragmentosService, private service: DetallePracticaService, private service2: SetDetallesAlumnoService,
     private _snackBar: MatSnackBar, private route: ActivatedRoute,
-    private service_obtener: DataUsuarioService, private service_resumen: ResumenService) {
+    private service_obtener: DataUsuarioService, private service_resumen: ResumenService, private service_informe: InformeService) {
 
     this.dtOptions = {
       language: {
@@ -140,6 +143,75 @@ export class DetallePracticaComponent implements OnInit {
               this.respuestas_supervisor[i].respuesta = respuestas_traducidas;
             }
           }
+
+          console.log(this.practica.informes[0].key)
+          
+          //respuestas preguntas
+          let lista_informes = Object.values(this.practica.informes[0].key)
+          console.log(lista_informes)
+
+          //id preguntas
+          let keys = Object.keys(this.practica.informes[0].key)
+          console.log(keys)
+
+          let preguntas_informe: any = []
+
+          for (let i = 0; i < keys.length; i++) {
+            this.service_informe.get_pregunta_informe(Number(keys[i])).subscribe({
+              next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+              },
+              error: (error: any) => {
+                this._snackBar.open("Error al buscar configuracion de practica", "Cerrar", {
+                  duration: 3000,
+                  panelClass: ['red-snackbar']
+                });
+                console.log("Error al buscar configuracion de practica", error);
+              },
+              complete: () => {
+                preguntas_informe.push(respuesta.body)
+
+                if (i == keys.length - 1){
+
+                  console.log(preguntas_informe)
+                  //console.log(preguntas_informe.length)
+
+                  //orednar preguntas informe
+                  let preguntas_informe_ordenadas: any = []
+                  
+                  for(let id of keys){
+                    for (let pregunta of preguntas_informe){
+                      if (pregunta.id == id){
+                        preguntas_informe_ordenadas.push(pregunta.enunciado)
+                      }
+                    } 
+                  }
+                  
+                  console.log("preguntas informe ordenadas")
+                  console.log(preguntas_informe_ordenadas)
+
+                  let preguntas_respuestas_informes_aux = []
+
+                  for (let i = 0; i < preguntas_informe_ordenadas.length; i++) {
+                    preguntas_respuestas_informes_aux.push(preguntas_informe_ordenadas[i])
+                    preguntas_respuestas_informes_aux.push(lista_informes[i])
+                  }
+
+                  console.log("preguntas_respuestas_informes")
+                  console.log(preguntas_respuestas_informes_aux)
+
+                  this.preguntas_respuestas_informe = preguntas_respuestas_informes_aux
+
+                }
+              }
+            });
+          }
+
+          //console.log(preguntas_informe)
+
+
+
+
         }
       }); // fin request para obtener la practica  
     }
@@ -227,6 +299,9 @@ export class DetallePracticaComponent implements OnInit {
     });
   }
 
+  
+
+
   /*
   downloadAsPDF(){
     console.log("generando pdf")
@@ -253,11 +328,14 @@ export class DetallePracticaComponent implements OnInit {
   
   generar_pdf_resumen(){
 
+    let cantidad_paginas = 1
+
+    console.log("generando pdf")
     let pdf = new jsPDF();
 
     //console.log(this.id_estudiante)
     pdf.setFontSize(20);
-    console.log(this.practica)
+    //console.log(this.practica)
 
     pdf.text("Resumen " + this.practica.modalidad.config_practica.nombre, 15, 20);
     pdf.setFontSize(15);
@@ -280,25 +358,30 @@ export class DetallePracticaComponent implements OnInit {
 
     pdf.setFontSize(13);
 
-    console.log(this.practica.informes[0])
-    console.log(this.practica.informes[0].key)
+    //console.log(this.practica.informes[0])
+    
 
-    console.log(Object.values(this.practica.informes[0].key).length)
+    //let preguntas_informe[] = []
 
-    let keys = Object.keys(this.practica.informes[0].key)
+    //console.log(Object.values(this.practica.informes[0].key).length)
+
+    //let keys = Object.keys(this.practica.informes[0].key)
 
     let linea_actual = 0
 
     let continuar_desde = 130
 
-    for (let i = 0; i < keys.length; i++) {
+    //let respuesta: any = {}
 
-      var informe = String(this.practica.informes[0].key[keys[i]])
-      var palabras_informe = informe.split(" ")
-      //var lista_cantidad_palabras = []
-      //var cantidad_caracteres = 0
-      //var cantidad_palabras = 0
+    //let pregunta = ""
 
+    //console.log(keys)
+
+    console.log(this.preguntas_respuestas_informe)
+
+    for (let i = 0; i < this.preguntas_respuestas_informe.length; i++) {
+      var palabras_informe = this.preguntas_respuestas_informe[i].split(" ")
+      //console.log(palabras_informe)
       var lista_aux = []
 
       var aux_string = "- "
@@ -320,11 +403,14 @@ export class DetallePracticaComponent implements OnInit {
         }
       }
 
-      console.log(lista_aux)
-
-
       for (let j = 0; j < lista_aux.length; j++) {
-        if (130 + i*5 + linea_actual*10 > 260){
+        if (cantidad_paginas ==1 && 130 + i*5 + linea_actual*10 > 260){
+          pdf.addPage()
+          continuar_desde = 20
+          linea_actual = 0
+          cantidad_paginas += 1
+        }
+        else if (cantidad_paginas > 1 && i*5 + linea_actual*10 > 260){
           pdf.addPage()
           continuar_desde = 20
           linea_actual = 0
@@ -332,65 +418,125 @@ export class DetallePracticaComponent implements OnInit {
         pdf.text(lista_aux[j], 15, continuar_desde + i*5 + linea_actual*10);
         linea_actual += 1
       }
-
-
-      //pdf.text("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", 15, 260);
-
-      /*
-      //cantidad de palabras antes de llegar a 90 caracteres
-      for (let j = 0; j < palabras_informe.length; j++) {
-        if (cantidad_caracteres + palabras_informe[j].length > 90) {
-          lista_cantidad_palabras.push(cantidad_palabras)
-          cantidad_palabras = 1
-          cantidad_caracteres = palabras_informe[j].length
-        }
-        else {
-          cantidad_caracteres += palabras_informe[j].length
-          cantidad_palabras += 1
-        }
-      }
-
-      console.log(lista_cantidad_palabras)
-      var cantidad_palabras = 0
-      var iter_lista_cantidad_palabras = 0
-      var informe_aux = ""
-      for(let k = 0; k<palabras_informe.length; k++){
-        if (cantidad_palabras = lista_cantidad_palabras[iter_lista_cantidad_palabras]){
-          pdf.text(informe_aux, 15, 130 + i*10);
-          cantidad_palabras = 0
-          informe_aux = ""
-          iter_lista_cantidad_palabras += 1
-        }
-        else{
-          informe_aux += palabras_informe[k]
-          cantidad_palabras += 1
-        }
-      }
-      */
-
-      //dividir por espacios
-      
-      /*
-      palabras_informe[0] = " - " + palabras_informe[0]
-      var cantidad_caracteres = 0
-      for(let j =0; j<palabras_informe.length; j++){
-        cantidad_caracteres += palabras_informe[j].length
-        if(cantidad_caracteres < 90){
-          pdf.text(palabras_informe[j], 15, 130 + i*10);
-        }else{
-          pdf.text(palabras_informe[j], 15, 140 + i*10);
-          
-        }
-      }
-      */
-      //pdf.text(" - " + String(this.practica.informes[0].key[keys[i]]), 15, 130 + i*10);
     }
 
-
     pdf.save("resumen.pdf");
-    
+    /*
+
+
+    for (let i = 0; i < keys.length; i++) {
+
+    //for (let i = 0; i < keys.length; i++) {
+
+      //console.log("pregunta con id: ", keys[i])
+      this.service_informe.get_pregunta_informe(Number(keys[i])).subscribe({
+        next: (data: any) => {
+          respuesta = { ...respuesta, ...data }
+      },
+      error: (error: any) => {
+          this._snackBar.open("Error al buscar configuracion de practica", "Cerrar", {
+          duration: 3000,
+          panelClass: ['red-snackbar']
+          });
+          console.log("Error al buscar configuracion de practica", error);
+      },
+      complete: () => {
+          console.log("enunciado: ", respuesta.body.enunciado)
+          pregunta = respuesta.body.enunciado
+      
+        var palabras_pregunta = pregunta.split(" ")
+        //var lista_aux_pregunta = []
+
+        console.log(palabras_pregunta)
+
+        
+
+        var aux_string = "- "
+        for(let p = 0; p<palabras_pregunta.length; p++){  
+          if (p%10 == 0 && p != 0){
+            aux_string += (palabras_pregunta[p] + " ")
+            lista_aux_pregunta.push(aux_string)
+            aux_string = ""
+            }
+          else if(p == palabras_pregunta.length - 1){
+            aux_string += (palabras_pregunta[p] + " ")
+            lista_aux_pregunta.push(aux_string)
+          }
+          else{
+            aux_string += (palabras_pregunta[p] + " ")
+          }
+        }
+
+        for (let j = 0; j < lista_aux_pregunta.length; j++) {
+          if (130 + i*5 + linea_actual*10 > 260){
+            pdf.addPage()
+            continuar_desde = 20
+            linea_actual = 0
+          }
+          pdf.text(lista_aux_pregunta[j], 15, continuar_desde + i*5 + linea_actual*10);
+          linea_actual += 1
+        }
+
+        
+
+        // IMPRIMIER INFORME
+
+        var informe = String(this.practica.informes[0].key[keys[i]])
+        var palabras_informe = informe.split(" ")
+        //var lista_cantidad_palabras = []
+        //var cantidad_caracteres = 0
+        //var cantidad_palabras = 0
+        console.log(palabras_informe)
+
+        var lista_aux = []
+
+        var aux_string = "- "
+        for (let x = 0; x < palabras_informe.length; x++) {
+
+          //console.log(aux_string)
+          if (x%10 == 0 && x != 0){
+            aux_string += (palabras_informe[x] + " ")
+            lista_aux.push(aux_string)
+            aux_string = ""
+          }
+          else if(x == palabras_informe.length - 1){
+            aux_string += (palabras_informe[x] + " ")
+            lista_aux.push(aux_string)
+          }
+
+          else{
+            aux_string += (palabras_informe[x] + " ")
+          }
+        }
+
+        //console.log(lista_aux)
+
+
+        for (let j = 0; j < lista_aux.length; j++) {
+          if (130 + i*5 + linea_actual*10 > 260){
+            pdf.addPage()
+            continuar_desde = 20
+            linea_actual = 0
+          }
+          pdf.text(lista_aux[j], 15, continuar_desde + i*5 + linea_actual*10);
+          linea_actual += 1
+        }
+
+        if (i == keys.length - 1){
+          pdf.save("resumen.pdf");
+        }
+
+      }
+
+      });
+
+    }
+    //pdf.save("resumen.pdf");
+    */
   }
   
+  ngOnInit() {
+  }
 
   check_resumen() {
     if (!this.practica.resumen) {
@@ -428,11 +574,6 @@ export class DetallePracticaComponent implements OnInit {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
   }
-
-  ngOnInit() {
-    
-  }
-
 
   isDataEmpty(data: any): boolean {
     return Object.keys(data).length === 0 && data.constructor === Object;
