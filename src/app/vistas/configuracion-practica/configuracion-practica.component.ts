@@ -912,11 +912,11 @@ export class ConfiguracionPracticaComponent {
                 console.log("Error al actualizar configuracion de practica", error);
             },
             complete: () => {
-                this._snackBar.open("Configuracion de practica actualizar exitosamente", "Cerrar", {
+                this._snackBar.open("Configuracion de practica actualizada exitosamente", "Cerrar", {
                     duration: 3500,
                     panelClass: ['green-snackbar']
                 });
-                console.log("Configuracion de practica actualizar exitosamente");
+                console.log("Configuracion de practica actualizada exitosamente", respuesta);
 
                 //eliminar actuales
                 //this.delConfigInforme(this.config.id);
