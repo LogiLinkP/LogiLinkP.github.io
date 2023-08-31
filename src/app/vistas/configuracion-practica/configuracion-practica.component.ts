@@ -1,14 +1,14 @@
 import { DOCUMENT } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject} from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table'
 
 import { BarraLateralService } from 'src/app/servicios/encargado/barra-lateral/barra-lateral.service';
 import { ConfigService } from 'src/app/servicios/encargado/config-practica/config.service';
 import { environment } from 'src/environments/environment';
-import { response } from 'express';
+import { Express } from 'express'; //! NO BORRAR! SE MUERE TODO. PORQUE? NI IDEA, SALU2
 
 @Component({
   selector: 'app-configuracion-practica',
@@ -891,35 +891,35 @@ export class ConfiguracionPracticaComponent {
     actualizarConfigPractica(nombre: string, frecuencia: string, final: string) {
         let respuesta: any = {};
 
-        this.serviceComplete.delConfigPractica(this.config.id).subscribe({
+        this.serviceComplete.actualizarConfigPractica(this.config.id, false).subscribe({
             next: (data: any) => {
                 respuesta = { ...respuesta, ...data }
             },
             error: (error: any) => {
-                this._snackBar.open("Error al eliminar configuracion de practica", "Cerrar", {
+                this._snackBar.open("Error al actualizar configuracion de practica", "Cerrar", {
                     duration: 3500,
                     panelClass: ['red-snackbar']
                 });
-                console.log("Error al eliminar configuracion de practica", error);
+                console.log("Error al actualizar configuracion de practica", error);
             },
             complete: () => {
-                this._snackBar.open("Configuracion de practica eliminada exitosamente", "Cerrar", {
+                this._snackBar.open("Configuracion de practica actualizar exitosamente", "Cerrar", {
                     duration: 3500,
                     panelClass: ['green-snackbar']
                 });
-                console.log("Configuracion de practica eliminada exitosamente");
+                console.log("Configuracion de practica actualizar exitosamente");
 
                 //eliminar actuales
-                this.delConfigInforme(this.config.id);
-                this.delPreguntaSupervisor(this.config.id);
-                this.delSolicitudDocumento(this.config.id);
-                this.delPreguntaEncuestaFinal(this.config.id);
-                this.delModalidad(this.config.id);
-                for (let i = 0; i < this.ids_config_informe.length; i++) {
-                    this.delPreguntaInforme(this.ids_config_informe[i]);
-                }
+                //this.delConfigInforme(this.config.id);
+                //this.delPreguntaSupervisor(this.config.id);
+                //this.delSolicitudDocumento(this.config.id);
+                //this.delPreguntaEncuestaFinal(this.config.id);
+                //this.delModalidad(this.config.id);
+                //for (let i = 0; i < this.ids_config_informe.length; i++) {
+                //    this.delPreguntaInforme(this.ids_config_informe[i]);
+                //}
 
-                //crear nuevos
+                //crear nuevos (copias)
                 this.serviceComplete.crearConfigPractica(nombre, frecuencia, final).subscribe({
                     next: (data: any) => {
                         respuesta = { ...respuesta, ...data }

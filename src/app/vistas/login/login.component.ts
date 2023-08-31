@@ -51,7 +51,7 @@ export class LoginComponent {
           } else if (this.dataUsuario.es_estudiante) {
             this.router.navigate(["/"+environment.ruta_alumno+"/"+this.dataUsuario.id])
           } else if (this.dataUsuario.es_supervisor) {
-            this.router.navigate(["/"+environment.ruta_supervisor])
+            this.router.navigate(["/home_supervisor"])
           } else {
             console.log("Usuario no tiene tipo definido")
           }
