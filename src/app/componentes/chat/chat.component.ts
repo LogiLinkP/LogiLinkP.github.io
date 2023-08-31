@@ -104,6 +104,7 @@ export class ChatComponent implements OnInit {
         console.log(this.respuesta.body);
         this.nombre_estudiante = this.respuesta.body.usuario.nombre;
         this.correo_estudiante = this.respuesta.body.usuario.correo;
+        this.estado_config_estudiante = this.respuesta.body.usuario.config;
       }
     })
 
@@ -119,6 +120,7 @@ export class ChatComponent implements OnInit {
         console.log(this.respuesta.body);
         this.nombre_encargado = this.respuesta.body.usuario.nombre
         this.correo_encargado = this.respuesta.body.usuario.correo;
+        this.estado_config_encargado = this.respuesta.body.usuario.config;
       }
     })
 

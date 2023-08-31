@@ -1,0 +1,135 @@
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <app-barra-lateral-encargado></app-barra-lateral-encargado>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content" class="main-content">
+
+            <!-- Topbar -->
+            <app-barra-superior></app-barra-superior>
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="h2 mb-2 font-weight-bold text-gray-800">Explicación de Consistencias, Fragmentos y Repetición</div>
+
+                <!-- DataTales Example -->
+                
+                    <div class="card-body">
+                        
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Consistencia de Evaluación</h6>
+                            </div>
+                            <div class="card-body">
+                                <p>Indica que tan coherentes son el informe del supervisor y la evaluación al practicante que trabajo en su empresa.
+                                    <br><br>
+                                    Usando análisis de sentimientos, se extrae información significativa sobre emociones y opiniones del informe escrito del supervisor. De esta forma, se califica que tan positivo, neutral o negativo es el texto analizado.
+                                     Finalmente se calcula la relación entre la nota con la que el supervisor evaluó al practicante y los sentimientos identificados en el informe.
+                                    </p>
+                                
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="card-body">
+                        
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Consistencia de Informes</h6>
+                            </div>
+                            <div class="card-body">
+                                <p>Indica qué tan coherentes son el informe del supervisor y el o los informes escritos por el practicante.
+                                    <br><br>
+                                    El análisis de consistencia entre informes cuenta con dos módulos, por un lado, 
+                                    se cuenta con una inteligencia artificial que recibe los informes del alumno y del supervisor, 
+                                    a partir de ellos se asigna un puntaje según qué tan consistentes. Además, 
+                                    si los textos son suficientemente largos, se analizan palabras clave que puedan estar presentes en ambos, para esto, 
+                                    se eliminan palabras con una baja carga semántica (stop words) y se emplea lematización, 
+                                    el cual es un proceso lingüístico donde a partir de palabras en una forma flexionada (es decir, en plural, en femenino, conjugada, etc) se halla el lema correspondiente.
+                                    </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="card-body">
+                        
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Fragmentos más Relevantes</h6>
+                            </div>
+                            <div class="card-body">
+                                <p>Se muestran los fragmentos que más influyeron en el cálculo de consistencia.
+                                    <br><br>
+                                    Para esto, se usan las partes del texto que más información contienen, 
+                                    los fragmentos mostrados en el caso del practicante y supervisor serán los más relevantes a la hora de calcular la consistencia. 
+                                    El valor de un fragmento depende de su largo y la similitud que posee con el texto original.
+                                    </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="card-body">
+                        
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Índice de Repetición</h6>
+                            </div>
+                            <div class="card-body">
+                                <p>Indica qué tanto se repiten textos dentro de los informes del practicante.
+                                    <br><br>
+                                    Para realizar esta acción, se analizan fragmentos de los informes tanto del practicante como del supervisor, revisando cuántas veces 
+                                    se repite esa frase dentro de uno o múltiples informes. El índice de repetición indica cuántas veces una frase está siendo utilizada 
+                                    en todos los informes.
+                                    </p>
+                            </div>
+                        </div>
+
+                    </div>
+                
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<app-logout-modal></app-logout-modal>
+
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<!-- <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="vendor/datatables/dataTables.bootstrap4.min.js"></script> -->
+
+<!-- Page level custom scripts -->
+<script src="js/demo/datatables-demo.js"></script>
