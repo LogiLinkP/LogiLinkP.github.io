@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
 import { ChangeDetectorRef, Component, Inject} from '@angular/core';
-import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table'
 
 import { BarraLateralService } from 'src/app/servicios/encargado/barra-lateral/barra-lateral.service';
@@ -38,7 +38,7 @@ export class ConfiguracionPracticaComponent {
                             this.currentRoute = event.url;
                             let ruta_cortada = event.url.split("/");
                             //console.log("NavigationEnd:", event.url, "split", ruta_cortada);
-                            console.log("current route: ", this.currentRoute);
+                            //console.log("current route: ", this.currentRoute);
                             if (ruta_cortada[ruta_cortada.length-1] == "copia") {
                                 this.requestInicial(true);
                                 this.importada = true;
@@ -199,13 +199,13 @@ export class ConfiguracionPracticaComponent {
                 opcion_horasFORM: this.opcion_horas,
                 opcion_mesesFORM: this.opcion_meses,
         
-                nombrePractica: new FormControl(this.nombrePractica),
+                nombrePractica: new FormControl(this.nombrePractica, Validators.required),
                 cant_horas: this.cant_horas,
                 cant_meses: this.cant_meses,
                 horas: new FormControl(this.horas),
                 meses: new FormControl(this.meses),
-                frecuenciaInformes: new FormControl(this.frecuenciaInformes),
-                informeFinal: new FormControl(this.informeFinal),
+                frecuenciaInformes: new FormControl(this.frecuenciaInformes, Validators.required),
+                informeFinal: new FormControl(this.informeFinal, Validators.required),
                 //pregunta: this.preguntaFORM,
         
                 preguntaFORM: this.pregunta,
@@ -231,6 +231,8 @@ export class ConfiguracionPracticaComponent {
             this.informeFinal = this.config.informe_final;
 
             //* set modalidad
+            console.log("modalidad get id:", id_config_practica);
+            
             this.serviceComplete.getModalidades(id_config_practica).subscribe({ 
                 next: (data: any) => {
                     respuesta = { ...respuesta, ...data }
@@ -357,13 +359,13 @@ export class ConfiguracionPracticaComponent {
                                                         opcion_horasFORM: this.opcion_horas,
                                                         opcion_mesesFORM: this.opcion_meses,
                                                 
-                                                        nombrePractica: new FormControl(this.nombrePractica),
+                                                        nombrePractica: new FormControl(this.nombrePractica, Validators.required),
                                                         cant_horas: this.cant_horas,
                                                         cant_meses: this.cant_meses,
                                                         horas: new FormControl(this.horas),
                                                         meses: new FormControl(this.meses),
-                                                        frecuenciaInformes: new FormControl(this.frecuenciaInformes),
-                                                        informeFinal: new FormControl(this.informeFinal),
+                                                        frecuenciaInformes: new FormControl(this.frecuenciaInformes, Validators.required),
+                                                        informeFinal: new FormControl(this.informeFinal, Validators.required),
                                                         //pregunta: this.preguntaFORM,
                                                 
                                                         preguntaFORM: this.pregunta,
