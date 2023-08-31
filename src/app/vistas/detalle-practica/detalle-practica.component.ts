@@ -24,6 +24,7 @@ import e from 'express';
 
 //import { jsPDF } from "jspdf"; 
 
+import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
 
 @Component({
   selector: 'app-detalle-practica',
@@ -45,7 +46,7 @@ export class DetallePracticaComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject();
 
   practica: any = {};
-  documentos: any = [];
+  solicitudes_documentos: any = [];
   documento_extras: any = [];
   informes: any = [];
   evaluaciones: any = [];
@@ -64,10 +65,12 @@ export class DetallePracticaComponent implements OnInit {
 
   id_estudiante: number = -1
   correo_estudiante: string = "";
+  config_estudiante: string = "";
 
   constructor(private fragmentosService: FragmentosService, private service: DetallePracticaService, private service2: SetDetallesAlumnoService,
     private _snackBar: MatSnackBar, private route: ActivatedRoute,
-    private service_obtener: DataUsuarioService, private service_resumen: ResumenService, private service_informe: InformeService) {
+    private service_obtener: DataUsuarioService, private service_resumen: ResumenService, private service_informe: InformeService,
+    private service_noti: NotificacionesService) {
 
     this.dtOptions = {
       language: {
@@ -101,15 +104,31 @@ export class DetallePracticaComponent implements OnInit {
           this.practica = respuesta.body;
           this.check_resumen();
 
-          //console.log("ID_ESTUDIANTE",this.id_estudiante)
-
           if (this.practica.estado == environment.estado_practica.evaluada ||
             this.practica.estado == environment.estado_practica.aprobada ||
             this.practica.estado == environment.estado_practica.reprobada) {
             this.botones_habilitados = true;
           }
 
-          this.documentos = this.practica.documentos;
+
+          //make request to get solicitudes documentos in /todos_docs_practica
+          this.service.obtener_solicitudes_documentos(this.practica.id, this.practica.modalidad.config_practica.id).subscribe({
+            next: (data: any) => {
+              respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+              this.solicitudes_documentos = [];
+              this._snackBar.open("Error al solicitar solicitudes de documentos", "Cerrar", {
+                duration: 10000,
+                panelClass: ['red-snackbar']
+              });
+            },
+            complete: () => {
+              this.solicitudes_documentos = respuesta.body;
+            }
+          });
+
+
           this.documento_extras = this.practica.documento_extras;
           this.informes = this.practica.informes;
           // considerar como evaluaciones todas las respuestas que tengan un tipo_respuesta que sea un número
@@ -122,7 +141,10 @@ export class DetallePracticaComponent implements OnInit {
             return isNaN(respuesta_supervisor.respuesta);
           });
           this.get_fragmentos_sup(id_practica);
+          this.id_estudiante = this.practica.estudiante.usuario.id;
           this.correo_estudiante = this.practica.estudiante.usuario.correo;
+          this.config_estudiante = this.practica.estudiante.usuario.config;
+
           //console.log("respuestas_supervisor: ", this.respuestas_supervisor);
           for(let i=0; i<this.informes.length; i++){
             this.horas_totales += this.informes[i].horas_trabajadas;
@@ -581,6 +603,13 @@ export class DetallePracticaComponent implements OnInit {
 
   aprobar(id_usuario: number, id_estudiante: number, id_modalidad: number, aprobacion: 0 | 1) {
     let respuesta: any = {}
+    let mensaje : string = "";
+    if (aprobacion == 1){
+      mensaje = "Felicidades, has aprobado esta práctica";
+    }
+    else{
+      mensaje = "Deafortunadamente, has reprobado esta práctica";
+    }
     this.service2.aprobar_practica(id_estudiante, id_modalidad, aprobacion).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
@@ -597,10 +626,23 @@ export class DetallePracticaComponent implements OnInit {
             panelClass: ['red-snackbar']
           });
         }
-        window.location.reload()
+        respuesta = {};
+        let enlace: string = "localhost:4200/alumno/" + id_usuario;
+        this.service_noti.postnotificacion(id_usuario, mensaje, this.correo_estudiante, this.config_estudiante, enlace).subscribe({
+          next:(data:any) => {
+            respuesta = {...respuesta, ...data};
+          },
+          error:(error:any) => {
+            console.log(error);
+            return;
+          },
+          complete:() => {
+            console.log("Notificación enviada con éxito");
+            window.location.reload()
+          }
+        })
       }
     });
-
   }
 
   descargar_documento(documento_id: string, solicitud_tipo: string) {
