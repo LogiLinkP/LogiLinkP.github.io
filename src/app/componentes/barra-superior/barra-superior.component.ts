@@ -221,6 +221,7 @@ export class BarraSuperiorComponent implements OnInit{
         this.respuesta = [];
       }
     });  
+    console.log(this.personas);
   }
 
   eliminar_notificaciones(id:number){
