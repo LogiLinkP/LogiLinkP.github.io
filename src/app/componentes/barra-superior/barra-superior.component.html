@@ -66,7 +66,8 @@
                 <mat-radio-group aria-label="Seleccione su configuración de notificaciones">
                     <h6 class = "dropdown-item"> Seleccione su configuración de notificaciones</h6>
                     <div *ngFor = "let estado of estados_configuracion">
-                        <mat-radio-button (click)="cambiar_configuracion_notificacion(id_usuario, estado) ">{{estado}}</mat-radio-button>
+                        <mat-radio-button [checked]="estado.seleccionado" (click)="cambiar_configuracion_notificacion(id_usuario, estado.nombre)">
+                            {{estado.nombre}}</mat-radio-button>
                     </div>
                 </mat-radio-group>
                 <h6 class ="dropdown-item">Notificaciones Recibidas</h6>
