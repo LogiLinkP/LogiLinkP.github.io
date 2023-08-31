@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
 import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-revision',
@@ -59,7 +60,7 @@ export class RevisionComponent {
         else{
           mensaje = "Felicidades, has aprobado esta práctica";
         }
-        let enlace = "http://localhost:4200/alumno" + this.id_estudiante;
+        let enlace = environment.url_front + "/alumno" + this.id_estudiante;
 
         this.service_noti.postnotificacion(this.id_estudiante, mensaje, this.correo_estudiante, this.estado_config, enlace).subscribe({
           next:(data:any) => {
