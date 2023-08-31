@@ -11,7 +11,7 @@ import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  //changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class ChatComponent implements OnInit {
