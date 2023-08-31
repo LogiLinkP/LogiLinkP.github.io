@@ -101,5 +101,6 @@ export const routingComponents = [
   EmpresasComponent,
   CuestionarioComponent,
   ChatComponent,
-  ConfiguracionPracticaComponent
+  ConfiguracionPracticaComponent,
+  EncuestaFinPracticaComponent
 ]
