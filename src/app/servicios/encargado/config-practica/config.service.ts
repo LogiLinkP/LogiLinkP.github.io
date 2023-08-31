@@ -359,5 +359,17 @@ export class ConfigService {
         return this._http.request(req);
     }
 
+    actualizarEstudiantes(id_estudiante: number, id_config: number) {
+        const payload = {
+            id: id_estudiante,
+            id_config_practica: id_config
+        }
+
+        const req = new HttpRequest('PUT', `${environment.url_back}/estudiante/actualizarConfig`, payload, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
 
 }
