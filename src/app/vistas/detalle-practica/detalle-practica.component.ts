@@ -24,7 +24,7 @@ export class DetallePracticaComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject();
 
   practica: any = {};
-  documentos: any = [];
+  solicitudes_documentos: any = [];
   documento_extras: any = [];
   informes: any = [];
   evaluaciones: any = [];
@@ -80,15 +80,31 @@ export class DetallePracticaComponent implements OnInit {
           this.practica = respuesta.body;
           this.check_resumen();
 
-          //console.log("ID_ESTUDIANTE",this.id_estudiante)
-
           if (this.practica.estado == environment.estado_practica.evaluada ||
             this.practica.estado == environment.estado_practica.aprobada ||
             this.practica.estado == environment.estado_practica.reprobada) {
             this.botones_habilitados = true;
           }
 
-          this.documentos = this.practica.documentos;
+
+          //make request to get solicitudes documentos in /todos_docs_practica
+          this.service.obtener_solicitudes_documentos(this.practica.id, this.practica.modalidad.config_practica.id).subscribe({
+            next: (data: any) => {
+              respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+              this.solicitudes_documentos = [];
+              this._snackBar.open("Error al solicitar solicitudes de documentos", "Cerrar", {
+                duration: 10000,
+                panelClass: ['red-snackbar']
+              });
+            },
+            complete: () => {
+              this.solicitudes_documentos = respuesta.body;
+            }
+          });
+
+
           this.documento_extras = this.practica.documento_extras;
           this.informes = this.practica.informes;
           // considerar como evaluaciones todas las respuestas que tengan un tipo_respuesta que sea un número
@@ -101,6 +117,7 @@ export class DetallePracticaComponent implements OnInit {
             return isNaN(respuesta_supervisor.respuesta);
           });
           this.get_fragmentos_sup(id_practica);
+          this.id_estudiante = this.practica.estudiante.usuario.id;
           this.correo_estudiante = this.practica.estudiante.usuario.correo;
           this.config_estudiante = this.practica.estudiante.usuario.config;
 
@@ -284,7 +301,8 @@ export class DetallePracticaComponent implements OnInit {
           });
         }
         respuesta = {};
-        this.service_noti.postnotificacion(id_usuario, mensaje, this.correo_estudiante, this.config_estudiante).subscribe({
+        let enlace: string = "localhost:4200/alumno/" + id_usuario;
+        this.service_noti.postnotificacion(id_usuario, mensaje, this.correo_estudiante, this.config_estudiante, enlace).subscribe({
           next:(data:any) => {
             respuesta = {...respuesta, ...data};
           },

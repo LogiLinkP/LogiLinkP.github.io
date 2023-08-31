@@ -35,7 +35,7 @@ export class ImportModalComponent {
           if (respuesta.body.length > 0) {
               for (let i = 0; i < respuesta.body.length; i++) {
                   //si es que no es la planilla
-                  if (respuesta.body[i].nombre != "configBase") {
+                  if (respuesta.body[i].nombre != "configBase" && respuesta.body[i].activada == true) {
                       //this.practicas_creadas.push(respuesta.body[i])
                       this.configs_nombres.push(respuesta.body[i].nombre)
                   }

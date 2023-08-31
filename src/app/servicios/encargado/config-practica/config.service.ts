@@ -23,11 +23,10 @@ export class ConfigService {
         return this._http.request(req);
     }
 
-    actualizarConfigPractica(nombre: string, frecuencia_informes: string, informe_final: string) {
+    actualizarConfigPractica(id: number, activada: boolean) {
         const config = {
-            nombre: nombre,
-            frecuencia_informes: frecuencia_informes,
-            informe_final: informe_final
+            id: id,
+            activada: activada
         }
 
         const req = new HttpRequest('PUT', `${environment.url_back}/config_practica/actualizar`, config, {
