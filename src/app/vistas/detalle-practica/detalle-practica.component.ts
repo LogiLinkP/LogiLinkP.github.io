@@ -146,20 +146,20 @@ export class DetallePracticaComponent implements OnInit {
           this.config_estudiante = this.practica.estudiante.usuario.config;
 
           //console.log("respuestas_supervisor: ", this.respuestas_supervisor);
-          for(let i=0; i<this.informes.length; i++){
+          for (let i = 0; i < this.informes.length; i++) {
             this.horas_totales += this.informes[i].horas_trabajadas;
           }
 
-          for(let i=0; i<this.respuestas_supervisor.length; i++){
-            if(this.respuestas_supervisor[i].pregunta_supervisor.tipo_respuesta != "abierta"){
+          for (let i = 0; i < this.respuestas_supervisor.length; i++) {
+            if (this.respuestas_supervisor[i].pregunta_supervisor.tipo_respuesta != "abierta") {
               let opciones = this.respuestas_supervisor[i].pregunta_supervisor.opciones.split(";;");
               let respuestas = this.respuestas_supervisor[i].respuesta.split(",");
               let respuestas_traducidas = "";
-              for(let j=0; j<opciones.length; j++){
-                if(respuestas[j] == "1"){
+              for (let j = 0; j < opciones.length; j++) {
+                if (respuestas[j] == "1") {
                   respuestas_traducidas += opciones[j] + ", ";
-                }          
-              }              
+                }
+              }
               respuestas_traducidas = respuestas_traducidas.slice(0, -2);
               console.log(respuestas_traducidas);
               this.respuestas_supervisor[i].respuesta = respuestas_traducidas;
@@ -250,8 +250,11 @@ export class DetallePracticaComponent implements OnInit {
         if (!dataFrag.body || !dataFrag.body.supervisor) return;
         this.fragmentos_sup = dataFrag.body.supervisor
         console.log("fragmentos_sup!!", this.fragmentos_sup)
+        console.log("this.respuestas_supervisor: ", this.respuestas_supervisor)
         this.respuestas_sup_parsed = this.respuestas_supervisor.map((resp: any) => {
           if (!(resp.id in this.fragmentos_sup)) {
+            return [true, resp.pregunta_supervisor.enunciado, resp.respuesta]
+          } else if (this.fragmentos_sup[resp.id].length == 0) {
             return [true, resp.pregunta_supervisor.enunciado, resp.respuesta]
           } else {
             let palabras = resp.respuesta.split(" ");
@@ -268,7 +271,7 @@ export class DetallePracticaComponent implements OnInit {
         });
         this.data_supervisor_rdy = true;
         console.log(dataFrag.body);
-        }
+      }
     });
   }
 
@@ -316,7 +319,7 @@ export class DetallePracticaComponent implements OnInit {
         this._snackBar.open("Error al solicitar resumen, por favor vuelva más tarde", "Cerrar", {
           panelClass: ['red-snackbar'],
           duration: 3000
-       });
+        });
       }
     });
   }
@@ -578,7 +581,7 @@ export class DetallePracticaComponent implements OnInit {
       this.hay_resumen = false;
     }
   }
-  
+
   rerender(): void {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
       // Destroy the table first
@@ -603,11 +606,11 @@ export class DetallePracticaComponent implements OnInit {
 
   aprobar(id_usuario: number, id_estudiante: number, id_modalidad: number, aprobacion: 0 | 1) {
     let respuesta: any = {}
-    let mensaje : string = "";
-    if (aprobacion == 1){
+    let mensaje: string = "";
+    if (aprobacion == 1) {
       mensaje = "Felicidades, has aprobado esta práctica";
     }
-    else{
+    else {
       mensaje = "Deafortunadamente, has reprobado esta práctica";
     }
     this.service2.aprobar_practica(id_estudiante, id_modalidad, aprobacion).subscribe({
@@ -629,14 +632,14 @@ export class DetallePracticaComponent implements OnInit {
         respuesta = {};
         let enlace: string = "localhost:4200/alumno/" + id_usuario;
         this.service_noti.postnotificacion(id_usuario, mensaje, this.correo_estudiante, this.config_estudiante, enlace).subscribe({
-          next:(data:any) => {
-            respuesta = {...respuesta, ...data};
+          next: (data: any) => {
+            respuesta = { ...respuesta, ...data };
           },
-          error:(error:any) => {
+          error: (error: any) => {
             console.log(error);
             return;
           },
-          complete:() => {
+          complete: () => {
             console.log("Notificación enviada con éxito");
             window.location.reload()
           }

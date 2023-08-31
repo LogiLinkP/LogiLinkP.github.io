@@ -26,17 +26,17 @@
 
                     <!-- Page Heading -->
                     <div class="row">
-                        <div class="col-lg-10">
-                            <h1 class="h3 mb-2 text-gray-800">{{ practica?.estudiante?.usuario.nombre }} <br> {{
+                        <div class="col-lg-9">
+                            <h1 class="h3 mb-2 text-gray-800" >{{ practica?.estudiante?.usuario.nombre }} <br> {{
                                 practica?.modalidad?.config_practica?.nombre }}</h1>
                         </div>
-                        <div class="col-lg-1">
-                            <button type="button" class="btn btn-primary btn-lg btn-block"
+                        <div class="col-lg-1 d-flex justify-content-end align-items-center">
+                            <button type="button" class="btn btn-primary btn-md btn-block " 
                                 onclick="window.history.back();">Volver</button>
                         </div>
 
-                        <div class="col-lg-1" style="zoom: 75%;">
-                            <button type="button" class="btn btn-primary btn-lg btn-block"
+                        <div class="col-lg-2 d-flex justify-content-end align-items-center" style="zoom: 50%; ">
+                            <button type="button" class="btn btn-primary btn-md btn-block " 
                             (click)="generar_pdf_resumen();">Descargar Resumen PDF</button>
                         </div>
                     </div>
