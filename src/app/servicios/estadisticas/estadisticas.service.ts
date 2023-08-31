@@ -45,4 +45,9 @@ export class EstadisticasService {
     return this._http.request(req);
   }
 
+  obtener_actualizacion_estadistica(){
+    const req = new HttpRequest('GET', `${environment.url_back}/actualizacion_estadistica?id=${1}`);
+    return this._http.request(req);
+  }
+
 }
