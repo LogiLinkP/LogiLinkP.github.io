@@ -219,7 +219,7 @@ export class BarraSuperiorComponent implements OnInit{
       this.router.navigate(['/chat/sala'+userid_otro_participante+this.id_usuario+"/"+this.id_usuario+"/"+userid_otro_participante+"/encargado"]);
     }
     else if(tipo=="estudiante"){
-      window.location.href = "/chat/sala"+this.id_usuario+userid_otro_participante+"/"+this.id_usuario+"/"+userid_otro_participante+"/estudiante";
+      //window.location.href = "/chat/sala"+this.id_usuario+userid_otro_participante+"/"+this.id_usuario+"/"+userid_otro_participante+"/estudiante";
       this.router.navigate(['/chat/sala'+this.id_usuario+userid_otro_participante+"/"+this.id_usuario+"/"+userid_otro_participante+"/estudiante"]);
     }
   }
