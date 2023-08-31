@@ -30,7 +30,7 @@ export class NotificacionesService extends Socket {
         },
       }
     });
-    console.log("sala notificaciones" + JSON.parse(localStorage.getItem("auth-user") || "{}").userdata.id);
+    //console.log("sala notificaciones" + JSON.parse(localStorage.getItem("auth-user") || "{}").userdata.id);
     this.listen();
   }
 
