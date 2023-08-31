@@ -18,7 +18,7 @@ import { ConfiguracionPracticaComponent } from './vistas/configuracion-practica/
 import { EncuestaFinPracticaComponent } from './vistas/encuesta-fin-practica/encuesta-fin-practica.component';
 //import { ConsistenciaComponent } from './vistas/consistencia/consistencia.component';
 import { ExplicacionConsistenciaComponent } from './vistas/explicacion-consistencia/explicacion-consistencia.component';
-
+import { VistaSupervisorComponent } from './vistas/vista-supervisor/vista-supervisor/vista-supervisor.component';
 import { PnfComponent } from './componentes/pnf/pnf.component';
 import { RevisionComponent } from './componentes/revision/revision.component';
 import { FinalizacionComponent } from './componentes/finalizacion/finalizacion.component';
@@ -51,6 +51,7 @@ const routes: Routes = [
       }
     ]
   },
+  { path: 'home_supervisor', component: VistaSupervisorComponent},
   { path: environment.ruta_supervisor + '/evaluacion', component: EvaluacionComponent },
   { path: environment.ruta_registro, component: RegistroComponent, data: { title: 'Registro' } },
   { path: environment.ruta_login, component: LoginComponent, data: { title: 'Login' } },

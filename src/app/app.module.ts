@@ -64,6 +64,7 @@ import { EncuestaFinPracticaComponent } from './vistas/encuesta-fin-practica/enc
 import { FragmentosComponent } from './componentes/fragmentos/fragmentos.component';
 import { InformeComponent } from './vistas/informe/informe.component';
 import { ExplicacionConsistenciaComponent } from './vistas/explicacion-consistencia/explicacion-consistencia.component';
+import { VistaSupervisorComponent } from './vistas/vista-supervisor/vista-supervisor/vista-supervisor.component';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { ExplicacionConsistenciaComponent } from './vistas/explicacion-consisten
     FragmentosComponent,
     InformeComponent,
     ExplicacionConsistenciaComponent,
+    VistaSupervisorComponent,
   ],
   imports: [
     BrowserModule,
