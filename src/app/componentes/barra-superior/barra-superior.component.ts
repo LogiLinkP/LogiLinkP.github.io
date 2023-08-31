@@ -43,7 +43,7 @@ export class BarraSuperiorComponent implements OnInit{
     //console.log("Auth User:", auth_user);
     if (auth_user.userdata != undefined){
       let userdata = auth_user.userdata;
-      console.log("Userdata:", userdata);
+      //console.log("Userdata:", userdata);
       if (userdata.id != undefined){
         this.id_usuario = userdata.id;
 
@@ -56,7 +56,7 @@ export class BarraSuperiorComponent implements OnInit{
             return;
           },
           complete: () => {
-            console.log("RESPUESTA:",this.respuesta);
+            //console.log("RESPUESTA:",this.respuesta);
             this.nombre_usuario = this.respuesta.body.nombre;
             this.estado_config = this.respuesta.body.config;
             for (let i = 0; i < this.estados_configuracion.length; i++){
