@@ -185,8 +185,10 @@
                                         <div class="row">
                                             <div class="col-lg-1"></div>
                                             <div class="col-lg-5">
-                                                <app-boton-solicitar-archivo [id_alumno]="id_estudiante" [correo_alumno]="correo_estudiante"
-                                                                            [configuración_alumno]="config_estudiante"></app-boton-solicitar-archivo>
+                                                <app-boton-solicitar-archivo [id_alumno]="id_estudiante"
+                                                    [correo_alumno]="correo_estudiante"
+                                                    [configuración_alumno]="config_estudiante"
+                                                    [id_practica]="practica.id"></app-boton-solicitar-archivo>
                                             </div>
                                             <div class="col-lg-5">
                                                 <button type="button" class="btn btn-primary btn-lg btn-block">Resumir
@@ -275,7 +277,7 @@
                                                             <td>{{solicitud.tipo_archivo}}</td>
                                                             <td>Normal</td>
                                                             <td><button class="btn btn-primary btn-sm btn-block"
-                                                                    *ngIf="solicitud.documentos.length != 0; else no_doc" 
+                                                                    *ngIf="solicitud.documentos.length != 0; else no_doc"
                                                                     (click)="descargar_documento(solicitud.documentos[0].id, doc_str)">Descargar</button>
                                                                 <ng-template #no_doc>
                                                                     <b>No subido aún</b>
@@ -362,13 +364,15 @@
                                                     <tbody>
                                                         <tr *ngFor="let resp of respuestas_sup_parsed;">
                                                             <td style="vertical-align: middle;">{{resp[1]}}</td>
-                                                            <td *ngIf="resp[0];else textoSolo" style="vertical-align: middle;">
+                                                            <td *ngIf="resp[0];else textoSolo"
+                                                                style="vertical-align: middle;">
                                                                 {{resp[2]}}
                                                             </td>
                                                             <ng-template #textoSolo style="vertical-align: middle;">
                                                                 <td style="vertical-align: middle;">
                                                                     {{resp[2][0]}}
-                                                                    <span class="bg-gradient-success" style="vertical-align: middle;">
+                                                                    <span class="bg-gradient-success"
+                                                                        style="vertical-align: middle;">
                                                                         {{resp[2][1]}}
                                                                     </span>
                                                                     {{resp[2][2]}}
