@@ -284,7 +284,8 @@ export class DetalleAlumnoComponent implements OnInit{
         })
         // after 3 seconds reload the page
         setTimeout(() => {
-          window.location.reload();
+          //window.location.reload();
+          window.location.href = environment.url_front + "/encuestaFinal/" + practica.id;
         }
         , 3000);
 
