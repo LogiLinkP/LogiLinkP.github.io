@@ -6,13 +6,23 @@ aria-hidden="true">
                 <h5 class="modal-title" id="exampleModalLabel">Finalizar configuracion de pratica</h5>
             </div>
             <div class="modal-body">
-                <p>¿Desea migrar a los alumnos a la nueva configuracion?</p>
-                <p>Los cambios que ha realizado no son compatibles con migrar estudiantes</p>
-                <p>{{migrarLegal}}</p>
+                <!-- <p>{{migrarLegal}}</p> -->
+                <div *ngIf="migrarLegal">
+                    <p>
+                        Ha realizado cambios que afectan a estudiantes que estan cursando este tipo de practica <br>
+                        ¿Desea migrar a los alumnos a la nueva configuracion?
+                    </p>
+                </div>
+                <div *ngIf="!migrarLegal">
+                    <p>
+                        Los cambios que ha realizado no son compatibles con migrar estudiantes. Intente creando una nueva practica. Si desea usar esta como base use la opcion 
+                        <i>Importar existente</i>
+                    </p>
+                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                <!-- <a class="btn btn-primary">Guardar</a> -->
+                <button [disabled]="!migrarLegal" class="btn btn-primary" (click)="callParent()">Migrar</button>
             </div>
         </div>
     </div>

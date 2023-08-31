@@ -907,19 +907,22 @@
 
               <!-- boton para terminar todo -->
               <div style="text-align: right; margin-top: 50px; margin-right: 50px;">
-                <button mat-raised-button [ngStyle]="{'background-color': 'green', 'color': 'white'}" (click)="mandarDatos()">Terminar</button>
+                <div *ngIf="currentRoute == '/configurar/blanco'">
+                    <button mat-raised-button [ngStyle]="{'background-color': 'green', 'color': 'white'}" (click)="mandarDatos()">
+                        Terminar
+                    </button>
+                </div>
+                <div *ngIf="currentRoute != '/configurar/blanco'">
+                    <button mat-raised-button [ngStyle]="{'background-color': 'green', 'color': 'white'}" data-toggle="modal" data-target="#migrarModal">
+                        Terminar
+                    </button>
+                </div>
               </div>
-
-              <a class="collapse-item" href="#" data-toggle="modal" data-target="#migrarModal">Link migrar</a>
-
-              <br>
               <button mat-raised-button [ngStyle]="{'background-color': 'yellow', 'color': 'black'}" class="linea" type="submit" (click)="volver()">Volver</button>
 
               <!-- boton terminar aqui -->
 
             </div>
-
-            
 
         </div>
         <!-- End of Main Content -->
@@ -933,7 +936,7 @@
 </div>
 <!-- End of Page Wrapper -->
 
-<app-migrar-modal [migrarLegal]="migracion_legal"></app-migrar-modal>
+<app-migrar-modal [migrarLegal]="migracion_legal" (mandarDatosMigrar)="mandarDatos()"></app-migrar-modal>
 
 <!-- Scroll to Top Button -->
 <a class="scroll-to-top rounded" (click)="scrollToTop()">

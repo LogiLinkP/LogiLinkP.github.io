@@ -37,7 +37,8 @@ export class ConfiguracionPracticaComponent {
                             // Hide loading indicator
                             this.currentRoute = event.url;
                             let ruta_cortada = event.url.split("/");
-                            console.log("NavigationEnd:", event.url, "split", ruta_cortada);
+                            //console.log("NavigationEnd:", event.url, "split", ruta_cortada);
+                            console.log("current route: ", this.currentRoute);
                             if (ruta_cortada[ruta_cortada.length-1] == "copia") {
                                 this.requestInicial(true);
                                 this.importada = true;
@@ -242,7 +243,7 @@ export class ConfiguracionPracticaComponent {
                     console.log("Error al buscar modalidades de configuracion de practica", error);
                 },
                 complete: () => {
-                    //console.log("request modalidades existentes:", respuesta.body);
+                    console.log("request modalidades existentes:", respuesta.body);
 
                     //* set modalidades
                     for (let i = 0; i < respuesta.body.length; i++) {
@@ -818,7 +819,7 @@ export class ConfiguracionPracticaComponent {
     }
 
     printForm() {
-        console.log(this.fg.value);
+        //console.log(this.fg.value);
     }
 
     onSubmitAddSolicitudDoc(){
