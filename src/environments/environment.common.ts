@@ -9,7 +9,7 @@ export const commonEnv = {
     ruta_informe: "informe",
     url_back: 'http://localhost:3000',
     url_back_chat: 'http://localhost:5000',
-    url_front: 'https://localhost:4200',
+    url_front: 'http://localhost:4200',
     estado_practica: {
         no_iniciada: 'No iniciada',
         en_curso: 'En curso',
