@@ -22,19 +22,25 @@
                 <app-barra-superior></app-barra-superior>
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <div class="container-fluid" id="pdfTable2" #pdfTable2>
 
                     <!-- Page Heading -->
                     <div class="row">
-                        <div class="col-lg-10">
-                            <h1 class="h3 mb-2 text-gray-800">{{ practica?.estudiante?.usuario.nombre }} <br> {{
+                        <div class="col-lg-9">
+                            <h1 class="h3 mb-2 text-gray-800" >{{ practica?.estudiante?.usuario.nombre }} <br> {{
                                 practica?.modalidad?.config_practica?.nombre }}</h1>
                         </div>
-                        <div class="col-lg-1">
-                            <button type="button" class="btn btn-primary btn-lg btn-block"
+                        <div class="col-lg-1 d-flex justify-content-end align-items-center">
+                            <button type="button" class="btn btn-primary btn-md btn-block " 
                                 onclick="window.history.back();">Volver</button>
                         </div>
+
+                        <div class="col-lg-2 d-flex justify-content-end align-items-center" style="zoom: 50%; ">
+                            <button type="button" class="btn btn-primary btn-md btn-block " 
+                            (click)="generar_pdf_resumen();">Descargar Resumen PDF</button>
+                        </div>
                     </div>
+                    <br>
                     <!-- Fila de "Tarjetas" -->
                     <div class="row">
                         <!-- Tarjeta de Estado -->
@@ -535,7 +541,6 @@
                         </div><!-- Fin Tarjeta Consistencia -->
                     </div><!-- Fin Fila -->
                 </div>
-
             </div>
             <!-- End of Main Content -->
 
