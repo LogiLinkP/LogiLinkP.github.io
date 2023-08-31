@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input , ElementRef, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DetallePracticaService } from 'src/app/servicios/encargado/detalle-practica.service';
 import { SetDetallesAlumnoService } from '../../servicios/encargado/decision.service';
@@ -9,6 +9,21 @@ import { environment } from 'src/environments/environment';
 import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
 import { FragmentosService } from '../../servicios/fragmentos/fragmentos.service';
 import { ResumenService } from 'src/app/servicios/resumen/resumen.service';
+import { InformeService } from 'src/app/servicios/informe/informe.service';
+
+//import pdfMake from 'pdfmake/build/pdfmake';
+//import pdfFonts from 'pdfmake/build/vfs_fonts';
+//pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+import jsPDF from 'jspdf';
+//import pdfMake from 'pdfmake/build/pdfmake';
+//import pdfFonts from 'pdfmake/build/vfs_fonts';
+//pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import htmlToPdfmake from 'html-to-pdfmake';
+import e from 'express';
+
+//import { jsPDF } from "jspdf"; 
+
 import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
 
 @Component({
@@ -17,14 +32,21 @@ import { NotificacionesService } from 'src/app/servicios/notificaciones/notifica
   styleUrls: ['./detalle-practica.component.css']
 })
 export class DetallePracticaComponent implements OnInit {
-  @ViewChild(DataTableDirective, { static: false })
+  //@ViewChild(DataTableDirective, { static: false })
+
+  //@ViewChild('content', { static: false }) el!: ElementRef;
+
+  @ViewChild('pdfTable') pdfTable: ElementRef;
+  @ViewChild('pdfTable2') pdfTable2: ElementRef;
+
+  //window.jsPDF = this.window.jspdf.jsPDF;
 
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
 
   practica: any = {};
-  documentos: any = [];
+  solicitudes_documentos: any = [];
   documento_extras: any = [];
   informes: any = [];
   evaluaciones: any = [];
@@ -37,6 +59,8 @@ export class DetallePracticaComponent implements OnInit {
   hay_resumen: boolean = false;
   horas_totales: number = 0;
 
+  preguntas_respuestas_informe: any = []
+
   botones_habilitados: boolean = false;
 
   id_estudiante: number = -1
@@ -45,7 +69,7 @@ export class DetallePracticaComponent implements OnInit {
 
   constructor(private fragmentosService: FragmentosService, private service: DetallePracticaService, private service2: SetDetallesAlumnoService,
     private _snackBar: MatSnackBar, private route: ActivatedRoute,
-    private service_obtener: DataUsuarioService, private service_resumen: ResumenService,
+    private service_obtener: DataUsuarioService, private service_resumen: ResumenService, private service_informe: InformeService,
     private service_noti: NotificacionesService) {
 
     this.dtOptions = {
@@ -80,15 +104,31 @@ export class DetallePracticaComponent implements OnInit {
           this.practica = respuesta.body;
           this.check_resumen();
 
-          //console.log("ID_ESTUDIANTE",this.id_estudiante)
-
           if (this.practica.estado == environment.estado_practica.evaluada ||
             this.practica.estado == environment.estado_practica.aprobada ||
             this.practica.estado == environment.estado_practica.reprobada) {
             this.botones_habilitados = true;
           }
 
-          this.documentos = this.practica.documentos;
+
+          //make request to get solicitudes documentos in /todos_docs_practica
+          this.service.obtener_solicitudes_documentos(this.practica.id, this.practica.modalidad.config_practica.id).subscribe({
+            next: (data: any) => {
+              respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+              this.solicitudes_documentos = [];
+              this._snackBar.open("Error al solicitar solicitudes de documentos", "Cerrar", {
+                duration: 10000,
+                panelClass: ['red-snackbar']
+              });
+            },
+            complete: () => {
+              this.solicitudes_documentos = respuesta.body;
+            }
+          });
+
+
           this.documento_extras = this.practica.documento_extras;
           this.informes = this.practica.informes;
           // considerar como evaluaciones todas las respuestas que tengan un tipo_respuesta que sea un número
@@ -101,29 +141,99 @@ export class DetallePracticaComponent implements OnInit {
             return isNaN(respuesta_supervisor.respuesta);
           });
           this.get_fragmentos_sup(id_practica);
+          this.id_estudiante = this.practica.estudiante.usuario.id;
           this.correo_estudiante = this.practica.estudiante.usuario.correo;
           this.config_estudiante = this.practica.estudiante.usuario.config;
 
           //console.log("respuestas_supervisor: ", this.respuestas_supervisor);
-          for(let i=0; i<this.informes.length; i++){
+          for (let i = 0; i < this.informes.length; i++) {
             this.horas_totales += this.informes[i].horas_trabajadas;
           }
 
-          for(let i=0; i<this.respuestas_supervisor.length; i++){
-            if(this.respuestas_supervisor[i].pregunta_supervisor.tipo_respuesta != "abierta"){
+          for (let i = 0; i < this.respuestas_supervisor.length; i++) {
+            if (this.respuestas_supervisor[i].pregunta_supervisor.tipo_respuesta != "abierta") {
               let opciones = this.respuestas_supervisor[i].pregunta_supervisor.opciones.split(";;");
               let respuestas = this.respuestas_supervisor[i].respuesta.split(",");
               let respuestas_traducidas = "";
-              for(let j=0; j<opciones.length; j++){
-                if(respuestas[j] == "1"){
+              for (let j = 0; j < opciones.length; j++) {
+                if (respuestas[j] == "1") {
                   respuestas_traducidas += opciones[j] + ", ";
-                }          
-              }              
+                }
+              }
               respuestas_traducidas = respuestas_traducidas.slice(0, -2);
               console.log(respuestas_traducidas);
               this.respuestas_supervisor[i].respuesta = respuestas_traducidas;
             }
           }
+
+          console.log(this.practica.informes[0].key)
+          
+          //respuestas preguntas
+          let lista_informes = Object.values(this.practica.informes[0].key)
+          console.log(lista_informes)
+
+          //id preguntas
+          let keys = Object.keys(this.practica.informes[0].key)
+          console.log(keys)
+
+          let preguntas_informe: any = []
+
+          for (let i = 0; i < keys.length; i++) {
+            this.service_informe.get_pregunta_informe(Number(keys[i])).subscribe({
+              next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+              },
+              error: (error: any) => {
+                this._snackBar.open("Error al buscar configuracion de practica", "Cerrar", {
+                  duration: 3000,
+                  panelClass: ['red-snackbar']
+                });
+                console.log("Error al buscar configuracion de practica", error);
+              },
+              complete: () => {
+                preguntas_informe.push(respuesta.body)
+
+                if (i == keys.length - 1){
+
+                  console.log(preguntas_informe)
+                  //console.log(preguntas_informe.length)
+
+                  //orednar preguntas informe
+                  let preguntas_informe_ordenadas: any = []
+                  
+                  for(let id of keys){
+                    for (let pregunta of preguntas_informe){
+                      if (pregunta.id == id){
+                        preguntas_informe_ordenadas.push(pregunta.enunciado)
+                      }
+                    } 
+                  }
+                  
+                  console.log("preguntas informe ordenadas")
+                  console.log(preguntas_informe_ordenadas)
+
+                  let preguntas_respuestas_informes_aux = []
+
+                  for (let i = 0; i < preguntas_informe_ordenadas.length; i++) {
+                    preguntas_respuestas_informes_aux.push(preguntas_informe_ordenadas[i])
+                    preguntas_respuestas_informes_aux.push(lista_informes[i])
+                  }
+
+                  console.log("preguntas_respuestas_informes")
+                  console.log(preguntas_respuestas_informes_aux)
+
+                  this.preguntas_respuestas_informe = preguntas_respuestas_informes_aux
+
+                }
+              }
+            });
+          }
+
+          //console.log(preguntas_informe)
+
+
+
+
         }
       }); // fin request para obtener la practica  
     }
@@ -140,8 +250,11 @@ export class DetallePracticaComponent implements OnInit {
         if (!dataFrag.body || !dataFrag.body.supervisor) return;
         this.fragmentos_sup = dataFrag.body.supervisor
         console.log("fragmentos_sup!!", this.fragmentos_sup)
+        console.log("this.respuestas_supervisor: ", this.respuestas_supervisor)
         this.respuestas_sup_parsed = this.respuestas_supervisor.map((resp: any) => {
           if (!(resp.id in this.fragmentos_sup)) {
+            return [true, resp.pregunta_supervisor.enunciado, resp.respuesta]
+          } else if (this.fragmentos_sup[resp.id].length == 0) {
             return [true, resp.pregunta_supervisor.enunciado, resp.respuesta]
           } else {
             let palabras = resp.respuesta.split(" ");
@@ -158,7 +271,7 @@ export class DetallePracticaComponent implements OnInit {
         });
         this.data_supervisor_rdy = true;
         console.log(dataFrag.body);
-        }
+      }
     });
   }
 
@@ -206,11 +319,249 @@ export class DetallePracticaComponent implements OnInit {
         this._snackBar.open("Error al solicitar resumen, por favor vuelva más tarde", "Cerrar", {
           panelClass: ['red-snackbar'],
           duration: 3000
-       });
+        });
       }
     });
   }
 
+  
+
+
+  /*
+  downloadAsPDF(){
+    console.log("generando pdf")
+    let pdf = new jsPDF('l', 'pt', 'a3');
+
+    const pdfTable = this.pdfTable2.nativeElement;
+
+    pdf.html(this.pdfTable2.nativeElement, {
+      callback: (doc) => {
+        doc.save("resumen.pdf");
+      }
+    });
+    //console.log(pdfTable.innerHTML)
+    //var html = htmlToPdfmake(pdfTable.innerHTML);
+
+    //const documentDefinition = { content: html };
+    
+    //let PDF_doc: any = { documentDefinition };
+    
+  }
+  */
+
+  
+  
+  generar_pdf_resumen(){
+
+    let cantidad_paginas = 1
+
+    console.log("generando pdf")
+    let pdf = new jsPDF();
+
+    //console.log(this.id_estudiante)
+    pdf.setFontSize(20);
+    //console.log(this.practica)
+
+    pdf.text("Resumen " + this.practica.modalidad.config_practica.nombre, 15, 20);
+    pdf.setFontSize(15);
+    pdf.text(String(this.practica.estudiante.usuario.nombre), 15, 35);
+    pdf.text("Resultado de práctica: " + this.practica.estado, 15, 45);
+    pdf.text("Correo: " + this.practica.estudiante.usuario.correo, 15, 55);
+    pdf.text("Empresa: " + this.practica.empresa.nombre_empresa,15, 65);
+    pdf.text("Supervisor: " + this.practica.supervisor.nombre, 15, 75);
+    pdf.text("Correo supervisor: " + this.practica.supervisor.correo, 15, 85);
+    
+    //borrar desde caracter T en adelante de la fecha
+    let fecha_inicio = this.practica.fecha_inicio.split("T")[0];
+    let fecha_termino = this.practica.fecha_termino.split("T")[0];
+  
+    pdf.text("Fecha de inicio: " + fecha_inicio, 15, 95);
+    pdf.text("Fecha de término: " + fecha_termino, 15, 105);
+    //pdf.text("hola", 200, 20);
+
+    pdf.text("Informes del alumno: ", 15, 120);
+
+    pdf.setFontSize(13);
+
+    //console.log(this.practica.informes[0])
+    
+
+    //let preguntas_informe[] = []
+
+    //console.log(Object.values(this.practica.informes[0].key).length)
+
+    //let keys = Object.keys(this.practica.informes[0].key)
+
+    let linea_actual = 0
+
+    let continuar_desde = 130
+
+    //let respuesta: any = {}
+
+    //let pregunta = ""
+
+    //console.log(keys)
+
+    console.log(this.preguntas_respuestas_informe)
+
+    for (let i = 0; i < this.preguntas_respuestas_informe.length; i++) {
+      var palabras_informe = this.preguntas_respuestas_informe[i].split(" ")
+      //console.log(palabras_informe)
+      var lista_aux = []
+
+      var aux_string = "- "
+      for (let x = 0; x < palabras_informe.length; x++) {
+
+        //console.log(aux_string)
+        if (x%10 == 0 && x != 0){
+          aux_string += (palabras_informe[x] + " ")
+          lista_aux.push(aux_string)
+          aux_string = ""
+        }
+        else if(x == palabras_informe.length - 1){
+          aux_string += (palabras_informe[x] + " ")
+          lista_aux.push(aux_string)
+        }
+
+        else{
+          aux_string += (palabras_informe[x] + " ")
+        }
+      }
+
+      for (let j = 0; j < lista_aux.length; j++) {
+        if (cantidad_paginas ==1 && 130 + i*5 + linea_actual*10 > 260){
+          pdf.addPage()
+          continuar_desde = 20
+          linea_actual = 0
+          cantidad_paginas += 1
+        }
+        else if (cantidad_paginas > 1 && i*5 + linea_actual*10 > 260){
+          pdf.addPage()
+          continuar_desde = 20
+          linea_actual = 0
+        }
+        pdf.text(lista_aux[j], 15, continuar_desde + i*5 + linea_actual*10);
+        linea_actual += 1
+      }
+    }
+
+    pdf.save("resumen.pdf");
+    /*
+
+
+    for (let i = 0; i < keys.length; i++) {
+
+    //for (let i = 0; i < keys.length; i++) {
+
+      //console.log("pregunta con id: ", keys[i])
+      this.service_informe.get_pregunta_informe(Number(keys[i])).subscribe({
+        next: (data: any) => {
+          respuesta = { ...respuesta, ...data }
+      },
+      error: (error: any) => {
+          this._snackBar.open("Error al buscar configuracion de practica", "Cerrar", {
+          duration: 3000,
+          panelClass: ['red-snackbar']
+          });
+          console.log("Error al buscar configuracion de practica", error);
+      },
+      complete: () => {
+          console.log("enunciado: ", respuesta.body.enunciado)
+          pregunta = respuesta.body.enunciado
+      
+        var palabras_pregunta = pregunta.split(" ")
+        //var lista_aux_pregunta = []
+
+        console.log(palabras_pregunta)
+
+        
+
+        var aux_string = "- "
+        for(let p = 0; p<palabras_pregunta.length; p++){  
+          if (p%10 == 0 && p != 0){
+            aux_string += (palabras_pregunta[p] + " ")
+            lista_aux_pregunta.push(aux_string)
+            aux_string = ""
+            }
+          else if(p == palabras_pregunta.length - 1){
+            aux_string += (palabras_pregunta[p] + " ")
+            lista_aux_pregunta.push(aux_string)
+          }
+          else{
+            aux_string += (palabras_pregunta[p] + " ")
+          }
+        }
+
+        for (let j = 0; j < lista_aux_pregunta.length; j++) {
+          if (130 + i*5 + linea_actual*10 > 260){
+            pdf.addPage()
+            continuar_desde = 20
+            linea_actual = 0
+          }
+          pdf.text(lista_aux_pregunta[j], 15, continuar_desde + i*5 + linea_actual*10);
+          linea_actual += 1
+        }
+
+        
+
+        // IMPRIMIER INFORME
+
+        var informe = String(this.practica.informes[0].key[keys[i]])
+        var palabras_informe = informe.split(" ")
+        //var lista_cantidad_palabras = []
+        //var cantidad_caracteres = 0
+        //var cantidad_palabras = 0
+        console.log(palabras_informe)
+
+        var lista_aux = []
+
+        var aux_string = "- "
+        for (let x = 0; x < palabras_informe.length; x++) {
+
+          //console.log(aux_string)
+          if (x%10 == 0 && x != 0){
+            aux_string += (palabras_informe[x] + " ")
+            lista_aux.push(aux_string)
+            aux_string = ""
+          }
+          else if(x == palabras_informe.length - 1){
+            aux_string += (palabras_informe[x] + " ")
+            lista_aux.push(aux_string)
+          }
+
+          else{
+            aux_string += (palabras_informe[x] + " ")
+          }
+        }
+
+        //console.log(lista_aux)
+
+
+        for (let j = 0; j < lista_aux.length; j++) {
+          if (130 + i*5 + linea_actual*10 > 260){
+            pdf.addPage()
+            continuar_desde = 20
+            linea_actual = 0
+          }
+          pdf.text(lista_aux[j], 15, continuar_desde + i*5 + linea_actual*10);
+          linea_actual += 1
+        }
+
+        if (i == keys.length - 1){
+          pdf.save("resumen.pdf");
+        }
+
+      }
+
+      });
+
+    }
+    //pdf.save("resumen.pdf");
+    */
+  }
+  
+  ngOnInit() {
+  }
 
   check_resumen() {
     if (!this.practica.resumen) {
@@ -230,7 +581,7 @@ export class DetallePracticaComponent implements OnInit {
       this.hay_resumen = false;
     }
   }
-  
+
   rerender(): void {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
       // Destroy the table first
@@ -249,22 +600,17 @@ export class DetallePracticaComponent implements OnInit {
     this.dtTrigger.unsubscribe();
   }
 
-  ngOnInit() {
-    
-  }
-
-
   isDataEmpty(data: any): boolean {
     return Object.keys(data).length === 0 && data.constructor === Object;
   }
 
   aprobar(id_usuario: number, id_estudiante: number, id_modalidad: number, aprobacion: 0 | 1) {
     let respuesta: any = {}
-    let mensaje : string = "";
-    if (aprobacion == 1){
+    let mensaje: string = "";
+    if (aprobacion == 1) {
       mensaje = "Felicidades, has aprobado esta práctica";
     }
-    else{
+    else {
       mensaje = "Deafortunadamente, has reprobado esta práctica";
     }
     this.service2.aprobar_practica(id_estudiante, id_modalidad, aprobacion).subscribe({
@@ -284,15 +630,16 @@ export class DetallePracticaComponent implements OnInit {
           });
         }
         respuesta = {};
-        this.service_noti.postnotificacion(id_usuario, mensaje, this.correo_estudiante, this.config_estudiante).subscribe({
-          next:(data:any) => {
-            respuesta = {...respuesta, ...data};
+        let enlace: string = environment.url_front + "/alumno/" + id_usuario;
+        this.service_noti.postnotificacion(id_usuario, mensaje, this.correo_estudiante, this.config_estudiante, enlace).subscribe({
+          next: (data: any) => {
+            respuesta = { ...respuesta, ...data };
           },
-          error:(error:any) => {
+          error: (error: any) => {
             console.log(error);
             return;
           },
-          complete:() => {
+          complete: () => {
             console.log("Notificación enviada con éxito");
             window.location.reload()
           }

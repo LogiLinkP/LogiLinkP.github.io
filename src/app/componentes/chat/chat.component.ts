@@ -6,12 +6,13 @@ import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
 import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
 import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  //changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class ChatComponent implements OnInit {
@@ -25,6 +26,9 @@ export class ChatComponent implements OnInit {
   id_encargado: number = -1;
   id_usuario: number = -1;
   userid_otro_participante: number = -1;
+
+  nombre_estudiante: string = "";
+  nombre_encargado: string = "";
 
   tipo: String = "";
 
@@ -49,6 +53,7 @@ export class ChatComponent implements OnInit {
               private service_noti: NotificacionesService, private service_obtener : DataUsuarioService) {
 
     let auth_user = JSON.parse(localStorage.getItem("auth-user") || "{}");
+
 
     this.router.params.subscribe(params => {this.Id = +params['id1'];});
     this.router.params.subscribe(params => {this.Id2 = +params['id2'];});
@@ -87,19 +92,37 @@ export class ChatComponent implements OnInit {
       this.id_estudiante=this.Id2;
     }
 
-    /*
-    this.service_obtener.obtener_encargado(this.id_encargado){
+    this.service_obtener.obtener_estudiante(this.id_estudiante).subscribe({
+      next:(data:any) => {
+        this.respuesta = {...this.respuesta, ...data};
+      },
+      error:(error:any) => {
+        console.log(error);
+        return;
+      },
+      complete:() => {
+        console.log(this.respuesta.body);
+        this.nombre_estudiante = this.respuesta.body.usuario.nombre;
+        this.correo_estudiante = this.respuesta.body.usuario.correo;
+        this.estado_config_estudiante = this.respuesta.body.usuario.config;
+      }
+    })
 
-    }
-    this.service_obtener.obtener_estudiante(this.id_estudiante){
-
-    }
-    */
-
-    //console.log("Id estudiante: ", this.id_estudiante);
-    //console.log("Id encargado: ", this.id_encargado); 
-    //console.log("Id usuario: ", this.id_usuario);
-    //console.log("userid otro participante: ", this.userid_otro_participante);
+    this.service_obtener.obtener_encargado(this.id_encargado).subscribe({
+      next:(data:any) => {
+        this.respuesta = {... this.respuesta, ...data};
+      },
+      error:(error:any) => {
+        console.log(error);
+        return;
+      },
+      complete:() => {
+        console.log(this.respuesta.body);
+        this.nombre_encargado = this.respuesta.body.usuario.nombre
+        this.correo_encargado = this.respuesta.body.usuario.correo;
+        this.estado_config_encargado = this.respuesta.body.usuario.config;
+      }
+    })
 
     // buscar si chat existe en BD
     this.chatService.getchat(this.id_estudiante,this.id_encargado).subscribe({
@@ -177,25 +200,37 @@ export class ChatComponent implements OnInit {
       },
       error: (error: any) => console.log("Error en enviar mensaje:",error),  
       complete: () =>{
+        console.log(this.tipo);
         let noti: string = "";
         if(mensaje.emisor == "encargado"){
-          noti = "El encargado "+ this.id_encargado +" te ha enviado un mensaje"
-          let enlace:string = "http://localhost:4200/alumno/" + this.id_estudiante + "chat/sala" + this.id_estudiante + this.id_encargado + "/" + this.id_estudiante + "/" + this.id_encargado + "estudiante";
-          this.service_noti.postnotificacion(this.id_estudiante, noti, this.correo_estudiante, this.estado_config_estudiante, enlace);
-        }
-        else{
-          noti = "El encargado "+ this.id_estudiante +" te ha enviado un mensaje"
-          let enlace:string = "http://localhost:4200/practicas/chat/sala" + this.id_encargado + this.id_estudiante + "/" + this.id_encargado + "/" + this.id_estudiante + "/encargado";
-          this.service_noti.postnotificacion(this.id_estudiante, noti, this.correo_encargado, this. estado_config_encargado, enlace).subscribe({
+          noti = "El encargado "+ this.nombre_encargado +" te ha enviado un mensaje"
+          let enlace:string = environment.url_front + "/" + this.id_estudiante + this.id_encargado + "/" + this.id_estudiante + "/" + this.id_encargado + "/estudiante";
+          this.service_noti.postnotificacion(this.id_estudiante, noti, this.correo_estudiante, this.estado_config_estudiante, enlace).subscribe({
             next:(data:any) => {
               this.respuesta = {...this.respuesta, ...data};
             },
             error:(error:any) => {
-              //console.log(error);
+              console.log(error);
               return;
             },
             complete:() => {
-              //console.log("Notificación enviada conéxito");
+
+            }
+          });
+        }
+        else if (mensaje.emisor == "estudiante"){
+          noti = "El alumno "+ this.nombre_estudiante +" te ha enviado un mensaje"
+          let enlace:string = environment.url_front + "/" + this.id_encargado + this.id_estudiante + "/" + this.id_encargado + "/" + this.id_estudiante + "/encargado";
+          this.service_noti.postnotificacion(this.id_encargado, noti, this.correo_encargado, this. estado_config_encargado, enlace).subscribe({
+            next:(data:any) => {
+              this.respuesta = {...this.respuesta, ...data};
+            },
+            error:(error:any) => {
+              console.log(error);
+              return;
+            },
+            complete:() => {
+              //console.log("Notificación enviada con éxito");
             }
           });
         }

@@ -8,7 +8,7 @@
         </button>
     </form>
 
-    <!-- Topbar Search -->
+    <!-- Topbar Search 
     <form
         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
         <div class="input-group">
@@ -20,7 +20,7 @@
                 </button>
             </div>
         </div>
-    </form>
+    </form>-->
 
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
@@ -66,7 +66,8 @@
                 <mat-radio-group aria-label="Seleccione su configuración de notificaciones">
                     <h6 class = "dropdown-item"> Seleccione su configuración de notificaciones</h6>
                     <div *ngFor = "let estado of estados_configuracion">
-                        <mat-radio-button (click)="cambiar_configuracion_notificacion(id_usuario, estado) ">{{estado}}</mat-radio-button>
+                        <mat-radio-button [checked]="estado.seleccionado" (click)="cambiar_configuracion_notificacion(id_usuario, estado.nombre)">
+                            {{estado.nombre}}</mat-radio-button>
                     </div>
                 </mat-radio-group>
                 <h6 class ="dropdown-item">Notificaciones Recibidas</h6>
@@ -107,7 +108,7 @@
                     <h6 class="dropdown-header">Encargados disponibles</h6>
                     <p style="margin-left: 5%; margin-top: 4%;"></p>
                     <div *ngFor = "let persona of personas">
-                        <div class="dropdown-item d-flex align-items-center" (click)="redirect_to_chat(persona.id, persona.usuario.id, 'estudiante')">
+                        <div class="dropdown-item d-flex align-items-center" (click)="redirect_to_chat(persona.usuario.id, 'estudiante')">
                             <div class="dropdown-list-image mr-3">
                                 <img class="rounded-circle" src="../../../assets/img/undraw_profile_1.svg"
                                     alt="...">
@@ -121,7 +122,7 @@
                 <ng-template #elseblock>
                     <h6 class="dropdown-header">Alumnos disponibles</h6>
                     <div *ngFor = "let persona of personas">
-                        <div class="dropdown-item d-flex align-items-center" (click)="redirect_to_chat(persona.id, persona.usuario.id, 'encargado')" >
+                        <div class="dropdown-item d-flex align-items-center" (click)="redirect_to_chat(persona.usuario.id, 'encargado')" >
                             <div class="dropdown-list-image mr-3">
                                 <img class="rounded-circle" src="../../../assets/img/undraw_profile_1.svg"
                                     alt="...">

@@ -1,5 +1,6 @@
 <div id="wrapper" class="wrapper">
-    <app-barra-lateral-encargado></app-barra-lateral-encargado>
+    <app-barra-lateral-encargado *ngIf="tipo=='encargado'"></app-barra-lateral-encargado>
+    <app-barra-lateral-alumno *ngIf="tipo=='estudiante'"></app-barra-lateral-alumno>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">

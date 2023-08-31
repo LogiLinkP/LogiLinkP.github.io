@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
@@ -9,6 +9,8 @@ import { NgFor } from '@angular/common';
 import { CommonModule } from '@angular/common'
 import { DocumentosService } from '../../servicios/encargado/documentos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
+import { environment } from 'src/environments/environment';
 
 export interface DialogData {
   formatos: Formato[];
@@ -30,7 +32,13 @@ export class BotonSolicitarArchivoComponent {
     { formato: 'Excel', extensiones: ['xlsx', "xls"] },
   ];
 
-  constructor(public dialog: MatDialog, private doc_service: DocumentosService, private _snackBar: MatSnackBar) { }
+  @Input() id_alumno: number = -1;
+  @Input() correo_alumno: string = "";
+  @Input() configuración_alumno: string = "";
+  @Input() id_practica: number = -1;
+
+  constructor(public dialog: MatDialog, private doc_service: DocumentosService, private _snackBar: MatSnackBar,
+    private service_noti: NotificacionesService) { }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
     const dialogRef = this.dialog.open(Dialog, {
@@ -49,7 +57,7 @@ export class BotonSolicitarArchivoComponent {
       }
       let [, nombre, descripcion, formato] = result;
       let datos = {
-        id_practica: 1,
+        id_practica: this.id_practica,
         nombre_solicitud: nombre,
         descripcion: descripcion || "",
         tipo_archivo: formato.join(","),
@@ -58,18 +66,33 @@ export class BotonSolicitarArchivoComponent {
       this.doc_service.solicitar_documento_extra(datos).subscribe({
         next: (data: any) => {
         },
-        complete: () => {
-          this._snackBar.open("Documento Solicitado", "Cerrar", {
-            panelClass: ['green-snackbar'],
-            duration: 3000
-          });
-        },
         error: (error: any) => {
           this._snackBar.open("Error al solicitar documento", "Cerrar", {
             panelClass: ['red-snackbar'],
             duration: 3000
           });
-        }
+        },
+        complete: () => {
+          let respuesta: any = {};
+          let enlace: string = environment.url_front + "/" + this.id_alumno;
+          this.service_noti.postnotificacion(this.id_alumno, "Se le solicita un documento extra para su práctica", this.correo_alumno, this.configuración_alumno, enlace).subscribe({
+            next: (data: any) => {
+              respuesta = { ...respuesta, ...data };
+            },
+            error: (error: any) => {
+              console.log(error);
+              return;
+            },
+            complete: () => {
+              console.log("Notificación enviada con éxito");
+            }
+          })
+
+          this._snackBar.open("Documento Solicitado", "Cerrar", {
+            panelClass: ['green-snackbar'],
+            duration: 3000
+          });
+        },
       });
     });
   }
