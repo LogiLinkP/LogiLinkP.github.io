@@ -37,4 +37,13 @@ export class SupervisorService {
     return this._http.request(req);
   }
 
+  setFragmentos(id_practica: number, data:any): Observable<any> {
+    const req = new HttpRequest('PUT', `${environment.url_back}/similitud/frases_representativas_practica/${id_practica}`, data);    
+    return this._http.request(req);
+  }
+
+  setRepeticiones(id_practica: number): Observable<any> {
+    const req = new HttpRequest('POST', `${environment.url_back}/similitud/textos_repetidos`, {id_practica});
+    return this._http.request(req);
+  }
 }

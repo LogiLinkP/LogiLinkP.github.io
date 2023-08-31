@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ArchivosService } from '../../servicios/archivos/archivos.service';
 import { ActivatedRoute, Router} from '@angular/router';
 import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
+import { environment } from 'src/environments/environment';
 
 
 export interface DialogData {
@@ -74,7 +75,7 @@ export class SubirArchivoExtraComponent {
           },
           complete: () => {
             let respuesta:any =[];
-            let enlace = "http://localhost:4200/practicas/" + this.id_estudiante_usuario;
+            let enlace = environment.url_front + "/practicas/" + this.id_estudiante_usuario;
             
             this.service_noti.postnotificacion(this.id_encargado_usuario, "El alumno ha subido el archivo extra solicitado", this.correo_encargado, this.estado_config, enlace).subscribe({
               next:(data:any) => {

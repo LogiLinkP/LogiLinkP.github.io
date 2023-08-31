@@ -8,7 +8,7 @@
         </button>
     </form>
 
-    <!-- Topbar Search -->
+    <!-- Topbar Search 
     <form
         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
         <div class="input-group">
@@ -20,7 +20,7 @@
                 </button>
             </div>
         </div>
-    </form>
+    </form>-->
 
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
@@ -66,7 +66,8 @@
                 <mat-radio-group aria-label="Seleccione su configuración de notificaciones">
                     <h6 class = "dropdown-item"> Seleccione su configuración de notificaciones</h6>
                     <div *ngFor = "let estado of estados_configuracion">
-                        <mat-radio-button (click)="cambiar_configuracion_notificacion(id_usuario, estado) ">{{estado}}</mat-radio-button>
+                        <mat-radio-button [checked]="estado.seleccionado" (click)="cambiar_configuracion_notificacion(id_usuario, estado.nombre)">
+                            {{estado.nombre}}</mat-radio-button>
                     </div>
                 </mat-radio-group>
                 <h6 class ="dropdown-item">Notificaciones Recibidas</h6>

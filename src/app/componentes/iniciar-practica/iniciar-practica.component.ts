@@ -7,6 +7,7 @@ import { ActivatedRoute, Data, Router } from '@angular/router';
 import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
 import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
 import { DatePipe } from '@angular/common';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-iniciar-practica',
@@ -140,7 +141,7 @@ export class IniciarPracticaComponent implements OnInit{
                           },
                           complete: () => {
                         let texto: string = "El estudiante "+ this.id_estudiante + " ha comenzado una nueva práctica";
-                        let enlace = "http://localhost:4200/practicas/" + this.id_estudiante;
+                        let enlace = environment.url_front  + "/practicas/" + this.id_estudiante;
                         this.service_noti.postnotificacion(this.id_usuario, texto, this.correo_encargado, this.estado_config, enlace).subscribe({
 
                           next:(data:any) => {

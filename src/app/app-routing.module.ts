@@ -16,7 +16,9 @@ import { CuestionarioComponent } from './vistas/cuestionario/cuestionario.compon
 import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
 import { ConfiguracionPracticaComponent } from './vistas/configuracion-practica/configuracion-practica.component';
 import { EncuestaFinPracticaComponent } from './vistas/encuesta-fin-practica/encuesta-fin-practica.component';
-
+//import { ConsistenciaComponent } from './vistas/consistencia/consistencia.component';
+import { ExplicacionConsistenciaComponent } from './vistas/explicacion-consistencia/explicacion-consistencia.component';
+import { VistaSupervisorComponent } from './vistas/vista-supervisor/vista-supervisor/vista-supervisor.component';
 import { PnfComponent } from './componentes/pnf/pnf.component';
 import { RevisionComponent } from './componentes/revision/revision.component';
 import { FinalizacionComponent } from './componentes/finalizacion/finalizacion.component';
@@ -49,6 +51,7 @@ const routes: Routes = [
       }
     ]
   },
+  { path: 'home_supervisor', component: VistaSupervisorComponent},
   { path: environment.ruta_supervisor + '/evaluacion', component: EvaluacionComponent },
   { path: environment.ruta_registro, component: RegistroComponent, data: { title: 'Registro' } },
   { path: environment.ruta_login, component: LoginComponent, data: { title: 'Login' } },
@@ -68,7 +71,7 @@ const routes: Routes = [
   { path: 'chat/:room/:id1/:id2/:tipo', component: ChatComponent },
   { path: 'informe/:id_practica/:id_informe', component: InformeComponent },
   { path: 'encuestaFinal/:id_config_practica', component: EncuestaFinPracticaComponent },
-  //{ path: 'estadisticas_encuesta', component: EstadisticasEncuestaFinalComponent },
+  { path: 'consistencia', component: ExplicacionConsistenciaComponent },
   { path: '**', component: PnfComponent },
 ];
 

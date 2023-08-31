@@ -66,6 +66,8 @@ import { FragmentosComponent } from './componentes/fragmentos/fragmentos.compone
 import { InformeComponent } from './vistas/informe/informe.component';
 import { NotisHistorialComponent } from './vistas/notis-historial/notis-historial.component';
 import { ImportModalComponent } from './componentes/import-modal/import-modal.component';
+import { ExplicacionConsistenciaComponent } from './vistas/explicacion-consistencia/explicacion-consistencia.component';
+import { VistaSupervisorComponent } from './vistas/vista-supervisor/vista-supervisor/vista-supervisor.component';
 
 @NgModule({
   declarations: [
@@ -99,6 +101,8 @@ import { ImportModalComponent } from './componentes/import-modal/import-modal.co
     InformeComponent,
     NotisHistorialComponent,
     ImportModalComponent,
+    ExplicacionConsistenciaComponent,
+    VistaSupervisorComponent,
   ],
   imports: [
     BrowserModule,
