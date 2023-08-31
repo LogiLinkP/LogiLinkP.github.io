@@ -13,13 +13,13 @@ export class SupervisorService {
   constructor(private _http: HttpClient) { 
   }
 
-  sendAnswer(id_pregunta_supervisor: number, id_practica: number, respuesta: any): Observable<any> {
+  sendAnswer(ids_preguntas_supervisor: any, id_practica: number, respuestas: any): Observable<any> {
     const data = {
-      id_pregunta_supervisor,
+      ids_preguntas_supervisor,
       id_practica,
-      respuesta
+      respuestas
     };
-    const req = new HttpRequest('POST', `${environment.url_back}/respuesta_supervisor/crear`, data);
+    const req = new HttpRequest('POST', `${environment.url_back}/respuesta_supervisor/responder_encuesta`, data);
     return this._http.request(req);
   }
 

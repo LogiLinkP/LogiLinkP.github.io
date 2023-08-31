@@ -1,10 +1,13 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
-import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
 import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
-import { CookieService } from 'ngx-cookie-service';
 import { DatePipe } from '@angular/common';
+
+import * as dayjs from 'dayjs'
+dayjs().format()
+const customParseFormat = require('dayjs/plugin/customParseFormat');
+dayjs.extend(customParseFormat);
 
 @Component({
   selector: 'app-barra-superior',
@@ -31,7 +34,7 @@ export class BarraSuperiorComponent implements OnInit{
   constructor(private Service: DataUsuarioService,
               private service_noti: NotificacionesService,
               private cdr: ChangeDetectorRef,
-              private datetime: DatePipe){
+              private datetime: DatePipe, private router: Router){
     // get user id from the local storage, in the key auth-user, userdata.id
     let auth_user = JSON.parse(localStorage.getItem("auth-user") || "{}");
     //console.log("Auth User:", auth_user);
@@ -49,7 +52,7 @@ export class BarraSuperiorComponent implements OnInit{
       let fecha = this.datetime.transform((new Date), 'MM/dd/yyyy h:mm:ss')
       let mensaje = res.message;
 
-      this.notificaciones.push({fecha: fecha, texto: mensaje});
+      this.notificaciones.push({fecha: fecha, texto: mensaje, link: res.link});
       this.cdr.detectChanges();
     })
   }
@@ -122,6 +125,7 @@ export class BarraSuperiorComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    console.log(this.id_usuario);
     this.Service.obtener_notificaciones(this.id_usuario, this.estado_config).subscribe({
       next: (data:any) => {
         this.respuesta = { ...this.respuesta, ...data}
@@ -131,6 +135,11 @@ export class BarraSuperiorComponent implements OnInit{
       },
       complete: () => {
         this.notificaciones = this.respuesta.body;
+        this.notificaciones = this.notificaciones.map((notificacion:any ) => {
+          notificacion.fecha = dayjs(notificacion.fecha, "YYYY-MM-DDTHH:mm:ssZ").format("DD/MM/YYYY HH:mm");
+          return notificacion;
+        });
+
         this.respuesta = [];
       }
     })
@@ -202,14 +211,16 @@ export class BarraSuperiorComponent implements OnInit{
     this.notificaciones = [];
   }
 
-  redirect_to_chat(id_otro_participante:number, userid_otro_participante:number, tipo:string){
+  redirect_to_chat(userid_otro_participante:number, tipo:string){
     
     if(tipo=="encargado"){
       // reditect to url
-      window.location.href = "/chat/sala"+id_otro_participante+this.id_persona+"/"+this.id_persona+"/"+id_otro_participante+"/encargado?userid_otro_participante="+userid_otro_participante
+      //window.location.href = "/chat/sala"+userid_otro_participante+this.id_usuario+"/"+this.id_usuario+"/"+userid_otro_participante+"/encargado"
+      this.router.navigate(['/chat/sala'+userid_otro_participante+this.id_usuario+"/"+this.id_usuario+"/"+userid_otro_participante+"/encargado"]);
     }
     else if(tipo=="estudiante"){
-      window.location.href = "/chat/sala"+this.id_persona+id_otro_participante+"/"+this.id_persona+"/"+id_otro_participante+"/estudiante?userid_otro_participante="+userid_otro_participante
+      //window.location.href = "/chat/sala"+this.id_usuario+userid_otro_participante+"/"+this.id_usuario+"/"+userid_otro_participante+"/estudiante";
+      this.router.navigate(['/chat/sala'+this.id_usuario+userid_otro_participante+"/"+this.id_usuario+"/"+userid_otro_participante+"/estudiante"]);
     }
   }
 

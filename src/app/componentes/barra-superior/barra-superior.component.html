@@ -78,13 +78,16 @@
                             </div>
                         </div>
                         <div>
-                            <div class="small text-gray-500">{{noti?.fecha}}</div>
-                            <span class="font-weight-bold">{{noti?.texto}}</span>
+                            <a href = {{noti?.link}}>
+                                <div class="small text-gray-500">{{noti?.fecha}}</div>
+                                <span class="font-weight-bold">{{noti?.texto}}</span>
+                            </a>
                         </div>
                     </a>
                 </div>
                       
                 <a class="dropdown-item text-center small text-gray-500" (click) = eliminar_notificaciones(id_usuario)>Eliminar Notificaciones</a>
+                <a class="dropdown-item text-center small text-gray-500" routerLink="/historial"> Más Notificaciones </a>
             </div>
         </li>
 
@@ -104,7 +107,7 @@
                     <h6 class="dropdown-header">Encargados disponibles</h6>
                     <p style="margin-left: 5%; margin-top: 4%;"></p>
                     <div *ngFor = "let persona of personas">
-                        <div class="dropdown-item d-flex align-items-center" (click)="redirect_to_chat(persona.id, persona.usuario.id, 'estudiante')">
+                        <div class="dropdown-item d-flex align-items-center" (click)="redirect_to_chat(persona.usuario.id, 'estudiante')">
                             <div class="dropdown-list-image mr-3">
                                 <img class="rounded-circle" src="../../../assets/img/undraw_profile_1.svg"
                                     alt="...">
@@ -118,7 +121,7 @@
                 <ng-template #elseblock>
                     <h6 class="dropdown-header">Alumnos disponibles</h6>
                     <div *ngFor = "let persona of personas">
-                        <div class="dropdown-item d-flex align-items-center" (click)="redirect_to_chat(persona.id, persona.usuario.id, 'encargado')" >
+                        <div class="dropdown-item d-flex align-items-center" (click)="redirect_to_chat(persona.usuario.id, 'encargado')" >
                             <div class="dropdown-list-image mr-3">
                                 <img class="rounded-circle" src="../../../assets/img/undraw_profile_1.svg"
                                     alt="...">

@@ -194,7 +194,7 @@
                                                                                             </tr>
                                                                                         </thead>
                                                                                         <tbody>
-                                                                                            <tr *ngFor="let solicitud of practica[1].modalidad.config_practica.solicitud_documentos;">
+                                                                                            <tr *ngFor="let solicitud of solicitudes_practicas[i];">
                                                                                                 <td>{{solicitud?.nombre_solicitud}}</td>
                                                                                                 <td>{{solicitud?.tipo_archivo}}</td>
                                                                                                 <td>Normal</td>                                                                                                
@@ -216,6 +216,7 @@
                                                                                                                         [descripcion]="doc_extra.descripcion" [nombre_solicitud]="doc_extra.nombre_solicitud" 
                                                                                                                         [tipo_archivo]="doc_extra.tipo_archivo" [id_encargado_usuario]=" practica[1].encargado.id_usuario"
                                                                                                                         [correo_encargado]="practica[1].encargado.usuario.correo" [estado_config]="estado_config"
+                                                                                                                        [id_estudiante_usuario]="usuario.id"
                                                                                                                         >
                                                                                                     </app-subir-archivo-extra>
                                                                                                     <ng-template #elseBlock> <button  class="btn btn-success btn-sm btn-block"
@@ -257,7 +258,8 @@
                                                                                       </tr>
                                                                                       <tr>
                                                                                         <td></td>
-                                                                                        <td style="text-align:right"><button class="btn btn-primary btn-lg btn-block">Enviar</button></td>
+                                                                                        <td style="text-align:right"><button class="btn btn-primary btn-lg btn-block" 
+                                                                                            (click)="ingresarInforme(practica[1])">Enviar</button></td>
                                                                                       </tr>
                                                                                     </table>
                                                                                   </div>

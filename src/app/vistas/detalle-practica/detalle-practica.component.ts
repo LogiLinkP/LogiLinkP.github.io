@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { error } from 'jquery';
 import { DetallePracticaService } from 'src/app/servicios/encargado/detalle-practica.service';
 import { SetDetallesAlumnoService } from '../../servicios/encargado/decision.service';
 import { ActivatedRoute } from '@angular/router';
@@ -8,6 +7,9 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
+import { FragmentosService } from '../../servicios/fragmentos/fragmentos.service';
+import { ResumenService } from 'src/app/servicios/resumen/resumen.service';
+import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
 
 @Component({
   selector: 'app-detalle-practica',
@@ -22,24 +24,29 @@ export class DetallePracticaComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject();
 
   practica: any = {};
-  documentos: any = [];
+  solicitudes_documentos: any = [];
   documento_extras: any = [];
   informes: any = [];
   evaluaciones: any = [];
-  respuestas_supervisor: any = [];
+  respuestas_supervisor: any = {};
+  data_supervisor_rdy: boolean = false;
   doc_str = "documento";
   doc_extra_str = "documento_extra";
+  fragmentos_sup: any = [];
+  respuestas_sup_parsed: any = [];
+  hay_resumen: boolean = false;
+  horas_totales: number = 0;
 
   botones_habilitados: boolean = false;
 
   id_estudiante: number = -1
   correo_estudiante: string = "";
+  config_estudiante: string = "";
 
-  constructor(private service: DetallePracticaService, private service2: SetDetallesAlumnoService,
+  constructor(private fragmentosService: FragmentosService, private service: DetallePracticaService, private service2: SetDetallesAlumnoService,
     private _snackBar: MatSnackBar, private route: ActivatedRoute,
-    private service_obtener: DataUsuarioService) {
-
-    this.route.params.subscribe(params => { this.id_estudiante = +params['id']; });
+    private service_obtener: DataUsuarioService, private service_resumen: ResumenService,
+    private service_noti: NotificacionesService) {
 
     this.dtOptions = {
       language: {
@@ -71,6 +78,7 @@ export class DetallePracticaComponent implements OnInit {
         },
         complete: () => {
           this.practica = respuesta.body;
+          this.check_resumen();
 
           if (this.practica.estado == environment.estado_practica.evaluada ||
             this.practica.estado == environment.estado_practica.aprobada ||
@@ -78,7 +86,25 @@ export class DetallePracticaComponent implements OnInit {
             this.botones_habilitados = true;
           }
 
-          this.documentos = this.practica.documentos;
+
+          //make request to get solicitudes documentos in /todos_docs_practica
+          this.service.obtener_solicitudes_documentos(this.practica.id, this.practica.modalidad.config_practica.id).subscribe({
+            next: (data: any) => {
+              respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+              this.solicitudes_documentos = [];
+              this._snackBar.open("Error al solicitar solicitudes de documentos", "Cerrar", {
+                duration: 10000,
+                panelClass: ['red-snackbar']
+              });
+            },
+            complete: () => {
+              this.solicitudes_documentos = respuesta.body;
+            }
+          });
+
+
           this.documento_extras = this.practica.documento_extras;
           this.informes = this.practica.informes;
           // considerar como evaluaciones todas las respuestas que tengan un tipo_respuesta que sea un número
@@ -90,12 +116,138 @@ export class DetallePracticaComponent implements OnInit {
           this.respuestas_supervisor = this.practica.respuesta_supervisors.filter((respuesta_supervisor: any) => {
             return isNaN(respuesta_supervisor.respuesta);
           });
+          this.get_fragmentos_sup(id_practica);
+          this.id_estudiante = this.practica.estudiante.usuario.id;
+          this.correo_estudiante = this.practica.estudiante.usuario.correo;
+          this.config_estudiante = this.practica.estudiante.usuario.config;
+
           //console.log("respuestas_supervisor: ", this.respuestas_supervisor);
+          for(let i=0; i<this.informes.length; i++){
+            this.horas_totales += this.informes[i].horas_trabajadas;
+          }
+
+          for(let i=0; i<this.respuestas_supervisor.length; i++){
+            if(this.respuestas_supervisor[i].pregunta_supervisor.tipo_respuesta != "abierta"){
+              let opciones = this.respuestas_supervisor[i].pregunta_supervisor.opciones.split(";;");
+              let respuestas = this.respuestas_supervisor[i].respuesta.split(",");
+              let respuestas_traducidas = "";
+              for(let j=0; j<opciones.length; j++){
+                if(respuestas[j] == "1"){
+                  respuestas_traducidas += opciones[j] + ", ";
+                }          
+              }              
+              respuestas_traducidas = respuestas_traducidas.slice(0, -2);
+              console.log(respuestas_traducidas);
+              this.respuestas_supervisor[i].respuesta = respuestas_traducidas;
+            }
+          }
         }
       }); // fin request para obtener la practica  
     }
   }
 
+  get_fragmentos_sup(id_practica: number) {
+    let dataFrag: any = {};
+    this.fragmentosService.update_fragmentos_practica(id_practica).subscribe({
+      next: (data: any) => {
+        dataFrag = { ...dataFrag, ...data };
+      },
+      error: (err: any) => { },
+      complete: () => {
+        if (!dataFrag.body || !dataFrag.body.supervisor) return;
+        this.fragmentos_sup = dataFrag.body.supervisor
+        console.log("fragmentos_sup!!", this.fragmentos_sup)
+        this.respuestas_sup_parsed = this.respuestas_supervisor.map((resp: any) => {
+          if (!(resp.id in this.fragmentos_sup)) {
+            return [true, resp.pregunta_supervisor.enunciado, resp.respuesta]
+          } else {
+            let palabras = resp.respuesta.split(" ");
+            return [
+              false,
+              resp.pregunta_supervisor.enunciado,
+              [
+                palabras.slice(0, this.fragmentos_sup[resp.id][0].fragmento[0]).join(" "),
+                palabras.slice(this.fragmentos_sup[resp.id][0].fragmento[0], this.fragmentos_sup[resp.id][0].fragmento[1] + 1).join(" "),
+                palabras.slice(this.fragmentos_sup[resp.id][0].fragmento[1] + 1, palabras.length).join(" ")
+              ]
+            ]
+          }
+        });
+        this.data_supervisor_rdy = true;
+        console.log(dataFrag.body);
+        }
+    });
+  }
+
+  generar_resumen() {
+    let bot_inf = document.getElementById("boton_informe") as HTMLElement;
+    let bot_sup = document.getElementById("boton_supervisor") as HTMLElement;
+    bot_inf.innerHTML = `
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    `
+    bot_sup.innerHTML = `
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    `
+
+    let data: any = {};
+    if (this.practica.resumen && Object.keys(this.practica.resumen).length > 0) {
+      this.hay_resumen = true;
+      return;
+    }
+    this.service_resumen.get_informe_preguntas(this.practica.id).subscribe({
+      next: (_data: any) => {
+        data = { ...data, ..._data };
+      },
+      complete: () => {
+        console.log(data.body)
+        if (!data.body) {
+          this._snackBar.open("Error al solicitar resumen, por favor vuelva más tarde", "Cerrar", {
+            panelClass: ['red-snackbar'],
+            duration: 3000
+          });
+          return;
+        }
+        if (!data.body.informe)
+          data.body.informe = "No hay información disponible."
+        if (!data.body.supervisor)
+          data.body.supervisor = "No hay información disponible."
+        this.practica.resumen = data.body;
+        this.hay_resumen = true;
+      },
+      error: (error: any) => {
+        console.error(error);
+        this._snackBar.open("Error al solicitar resumen, por favor vuelva más tarde", "Cerrar", {
+          panelClass: ['red-snackbar'],
+          duration: 3000
+       });
+      }
+    });
+  }
+
+
+  check_resumen() {
+    if (!this.practica.resumen) {
+      this.hay_resumen = false;
+      return
+    }
+    if (Object.keys(this.practica.resumen).length == 2) {
+      this.hay_resumen = true;
+    } else if (Object.keys(this.practica.resumen).length == 1) {
+      if (!this.practica.resumen.informe) {
+        this.practica.resumen.informe = "No hay información disponible."
+      } else {
+        this.practica.resumen.supervisor = "No hay información disponible."
+      }
+      this.hay_resumen = true;
+    } else {
+      this.hay_resumen = false;
+    }
+  }
+  
   rerender(): void {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
       // Destroy the table first
@@ -115,19 +267,7 @@ export class DetallePracticaComponent implements OnInit {
   }
 
   ngOnInit() {
-    let respuesta: any = [];
-    this.service_obtener.obtener_estudiante(this.id_estudiante).subscribe({
-      next: (data: any) => {
-        respuesta = { ...respuesta, ...data };
-      },
-      error: (error: any) => {
-        //console.log(error);
-        return;
-      },
-      complete: () => {
-        this.correo_estudiante = respuesta.body.correo;
-      }
-    })
+    
   }
 
 
@@ -137,6 +277,13 @@ export class DetallePracticaComponent implements OnInit {
 
   aprobar(id_usuario: number, id_estudiante: number, id_modalidad: number, aprobacion: 0 | 1) {
     let respuesta: any = {}
+    let mensaje : string = "";
+    if (aprobacion == 1){
+      mensaje = "Felicidades, has aprobado esta práctica";
+    }
+    else{
+      mensaje = "Deafortunadamente, has reprobado esta práctica";
+    }
     this.service2.aprobar_practica(id_estudiante, id_modalidad, aprobacion).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
@@ -153,10 +300,23 @@ export class DetallePracticaComponent implements OnInit {
             panelClass: ['red-snackbar']
           });
         }
-        window.location.reload()
+        respuesta = {};
+        let enlace: string = "localhost:4200/alumno/" + id_usuario;
+        this.service_noti.postnotificacion(id_usuario, mensaje, this.correo_estudiante, this.config_estudiante, enlace).subscribe({
+          next:(data:any) => {
+            respuesta = {...respuesta, ...data};
+          },
+          error:(error:any) => {
+            console.log(error);
+            return;
+          },
+          complete:() => {
+            console.log("Notificación enviada con éxito");
+            window.location.reload()
+          }
+        })
       }
     });
-
   }
 
   descargar_documento(documento_id: string, solicitud_tipo: string) {
