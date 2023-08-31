@@ -19,6 +19,7 @@ export class DetalleAlumnoComponent implements OnInit{
   estudiante: any = {} 
   config_practicas: any = [];
   practicas: any = [];
+  solicitudes_practicas: any = [];
 
   estado_config:string = "";
 
@@ -131,6 +132,17 @@ export class DetalleAlumnoComponent implements OnInit{
                 //element.documento.solicitud_documento.tipo_archivo = element.documento.solicitud_documento.tipo_archivo.split(",");
                 this.practicas_correspondiente_nombre[index].push(element);                    
               }
+              // make a request to get all solicitudes_documentos for the current practica, using /todos_docs_practica
+              this.service_datos.obtener_solicitudes_documentos_practica(element.modalidad.config_practica.id, element.id).subscribe({
+                next: (data: any) => {
+                  respuesta = { ...respuesta, ...data }
+                },
+                error: (error: any) => console.log(error),
+                complete: () => {
+                  this.solicitudes_practicas.push(respuesta.body);
+                  console.log("Solicitudes de documentos de la practica:",this.solicitudes_practicas)
+                }
+              });
             });               
             console.log("Practicas correspondientes a nombre:",this.practicas_correspondiente_nombre)
           }
@@ -250,7 +262,8 @@ export class DetalleAlumnoComponent implements OnInit{
       error: (error: any) => console.log("Error en finalizar practica:",error),
       complete: () => {
         let respuesta: any = [];
-        this.service_noti.postnotificacion(id_encargado, "El alumno " + this.estudiante.nombre + " ha finalizado su práctica y desea su realización", correo_encargado, this.estado_config).subscribe({
+        let enlace: string = "http://localhost:4200/alumno/" + this.usuario.id;
+        this.service_noti.postnotificacion(id_encargado, "El alumno " + this.estudiante.nombre + " ha finalizado su práctica y desea su realización", correo_encargado, this.estado_config, enlace).subscribe({
           next:(data:any) => {
             respuesta = {...respuesta, ...data};
           },
