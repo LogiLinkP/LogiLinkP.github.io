@@ -16,6 +16,11 @@ export class DetallePracticaService {
     return this._http.request(req);
   }
 
+  obtener_practica_filtrado(carrera:string) {
+    const req = new HttpRequest('GET', `${environment.url_back}/practica/filtrar`);
+    return this._http.request(req);
+  }
+
   obtener_documentos(id_practica: number) {
     const req = new HttpRequest('GET', `${environment.url_back}/documento/get?id_practica=${id_practica}`);
     return this._http.request(req);
