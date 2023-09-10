@@ -53,7 +53,7 @@ export class TablaComponent {
     };
 
     let respuesta: any = {};
-    this.service.full_estudiante_practicas().subscribe({
+    this.service.full_estudiante_practicas("informática").subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
