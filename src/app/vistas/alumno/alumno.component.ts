@@ -32,6 +32,10 @@ export class DetalleAlumnoComponent implements OnInit{
   doc_str = "documento";
   doc_extra_str = "documento_extra";
 
+  evaluaciones: any = [];
+  aptitudes:any = [];
+  notas_promedio:any = [];
+
   constructor(private service_datos: ObtenerDatosService , private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, 
               private service_gestion: GestionarService, private service_supervisor: SupervisorService, private router: Router,
               private service_noti: NotificacionesService, private service_obtener: DataUsuarioService) {
@@ -146,7 +150,22 @@ export class DetalleAlumnoComponent implements OnInit{
                   console.log("Solicitudes de documentos de la practica:",this.solicitudes_practicas)
                 }
               });
-            });               
+            });  
+            
+            this.evaluaciones = this.practicas.respuesta_supervisors.filter((respuesta_supervisor: any) => {
+              return !isNaN(respuesta_supervisor.respuesta);
+            });
+  
+            let nota_promedio = 0;
+            let prom = 0;
+            for (var item of this.evaluaciones){
+              if (item.pregunta_supervisor.tipo_respuesta == "evaluacion"){
+                nota_promedio += Number(item.respuesta);
+                prom += 1;
+              }
+            }
+            //this.aptitudes.push(item.tipo_respuesta)
+            this.notas_promedio.push(nota_promedio/prom)
             console.log("Practicas correspondientes a nombre:",this.practicas_correspondiente_nombre)
           }
         });
