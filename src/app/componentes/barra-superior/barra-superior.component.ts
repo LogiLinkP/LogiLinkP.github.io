@@ -73,12 +73,14 @@ export class BarraSuperiorComponent implements OnInit{
       }
     }
     this.service_noti.callback.subscribe(res => {
-      let fecha = this.datetime.transform((new Date), 'MM/dd/yyyy h:mm:ss')
+      let fechaF = res.fecha
+
+      console.log(fechaF);
       let mensaje = res.message;
       console.log("EL ESTADO ACTUAL ES", this.estado_config);
       if(this.estado_config == "Notificaciones y Correo" || this.estado_config == "Sólo Notificaciones"){
         console.log("Notificacion recibida2, el mensaje es", mensaje);
-        this.notificaciones.push({fecha: fecha, texto: mensaje, link: res.link});
+        this.notificaciones.push({fecha: fechaF, texto: mensaje, link: res.link});
       }
       this.cdr.detectChanges();
     })
@@ -239,7 +241,6 @@ export class BarraSuperiorComponent implements OnInit{
         this.respuesta = [];
       }
     })
-    this.notificaciones = [];
   }
 
   redirect_to_chat(userid_otro_participante:number, tipo:string){
