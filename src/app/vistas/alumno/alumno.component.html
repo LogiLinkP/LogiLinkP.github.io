@@ -1,5 +1,5 @@
 <div id="wrapper">
-    
+
     <app-barra-lateral-alumno></app-barra-lateral-alumno>
 
     <div id="content-wrapper" class="d-flex flex-column">
@@ -13,35 +13,38 @@
 
                 <!-- Page Heading -->
                 <div class="row">
-                        <div class="col-xl-10">
-                            <div class="h3 mb-2 font-weight-bold text-gray-800">Prácticas de {{ usuario.nombre }} <br></div>
-                            <p class="mb-4">Aquí puedes ver tus prácticas cursadas, en curso o no iniciadas aún.</p>
-                        </div>
+                    <div class="col-xl-10">
+                        <div class="h3 mb-2 font-weight-bold text-gray-800">Prácticas de {{ usuario.nombre }} <br></div>
+                        <p class="mb-4">Aquí puedes ver tus prácticas cursadas, en curso o no iniciadas aún.</p>
+                    </div>
                 </div>
-                
+
                 <!-- For each nombre in nombres_distintos_config_practica, a collapse Card is made-->
 
                 <div class="row" *ngFor="let practica of practicas_correspondiente_nombre; let i = index">
                     <div class="col-xl-12">
-                        <div class="card shadow mb-4" >
+                        <div class="card shadow mb-4">
                             <!-- Card Header - Accordion -->
-                                                      
+
                             <!-- Decidir qué mostrar según si alumno tiene práctica registrada de ese tipo o no -->
-                            <div [ngSwitch]="practica.length" >
-                                
+                            <div [ngSwitch]="practica.length">
+
                                 <!-- Carta que se muestra en caso de que alumno efectivamente tenga una practica registrada -->
                                 <div *ngSwitchCase="2">
-                                    <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample" v-on:click="getPractica(nombre)">
+                                    <a href="#collapseCardExample" class="d-block card-header py-3"
+                                        data-toggle="collapse" role="button" aria-expanded="true"
+                                        aria-controls="collapseCardExample" v-on:click="getPractica(nombre)">
                                         <h2 class="m-0 font-weight-bold text-primary">{{ practica[0] }} </h2>
-                                        <div class="m-0 text-gray-800">Estado: {{ practica[1]?.estado }}</div>                                        
-                                    </a>  
-                                    <div  class="collapse show" id="collapseCardExample">
+                                        <div class="m-0 text-gray-800">Estado: {{ practica[1]?.estado }}</div>
+                                    </a>
+                                    <div class="collapse show" id="collapseCardExample">
                                         <div class="card-body">
-                                            <div class = "row" *ngIf="practica[1].estado=='En curso'">
+                                            <div class="row" *ngIf="practica[1].estado=='En curso'">
                                                 <div class="col-xl-9"></div>
                                                 <div class="col-xl-2">
-                                                    <button type="button" class="btn btn-primary btn-lg btn-block" (click)="finalizar_practica(practica[1])">
-                                                        Finalizar Práctica</button>                                                                
+                                                    <button type="button" class="btn btn-primary btn-lg btn-block"
+                                                        (click)="finalizar_practica(practica[1])">
+                                                        Finalizar Práctica</button>
                                                 </div>
                                             </div>
 
@@ -57,7 +60,8 @@
                                                                 <div class="card shadow mb-4">
                                                                     <!-- Card Header - Accordion -->
                                                                     <a class="card-header py-3">
-                                                                        <h4 class="m-0 font-weight-bold text-primary">Práctica</h4>
+                                                                        <h4 class="m-0 font-weight-bold text-primary">
+                                                                            Práctica</h4>
                                                                     </a>
                                                                     <!-- Card Content - Collapse -->
                                                                     <div class="collapse show" id="collapseCardExample">
@@ -69,22 +73,29 @@
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>Modalidad:</td>
-                                                                                    <td>{{ practica[1]?.modalidad.cantidad_tiempo}} 
-                                                                                        {{ practica[1]?.modalidad.tipo_modalidad}}</td>
+                                                                                    <td>{{
+                                                                                        practica[1]?.modalidad.cantidad_tiempo}}
+                                                                                        {{
+                                                                                        practica[1]?.modalidad.tipo_modalidad}}
+                                                                                    </td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>Fecha Inicio:</td>
-                                                                                    <td>{{ practica[1]?.fecha_inicio | date: 'dd/MM/yyyy' }}</td>
+                                                                                    <td>{{ practica[1]?.fecha_inicio |
+                                                                                        date: 'dd/MM/yyyy' }}</td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>Fecha Término:</td>
-                                                                                    <td>{{ practica[1]?.fecha_termino | date: 'dd/MM/yyyy' }}</td>
+                                                                                    <td>{{ practica[1]?.fecha_termino |
+                                                                                        date: 'dd/MM/yyyy' }}</td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>Frecuencia de Informes:</td>
-                                                                                    <td>{{ practica[1]?.config_practica?.frecuencia_informes }}</td>
+                                                                                    <td>{{
+                                                                                        practica[1]?.config_practica?.frecuencia_informes
+                                                                                        }}</td>
                                                                                 </tr>
-                                                                                
+
                                                                             </table>
                                                                         </div>
                                                                     </div>
@@ -96,7 +107,8 @@
                                                                 <div class="card shadow mb-4">
                                                                     <!-- Card Header - Accordion -->
                                                                     <a class="card-header py-3">
-                                                                        <h4 class="m-0 font-weight-bold text-primary">Empresa</h4>
+                                                                        <h4 class="m-0 font-weight-bold text-primary">
+                                                                            Empresa</h4>
                                                                     </a>
                                                                     <!-- Card Content - Collapse -->
                                                                     <div class="collapse show" id="collapseCardExample">
@@ -104,32 +116,42 @@
                                                                             <table style="width:80%">
                                                                                 <tr>
                                                                                     <td>Nombre Empresa:</td>
-                                                                                    <td>{{ practica[1]?.empresa.nombre_empresa }}</td>
+                                                                                    <td>{{
+                                                                                        practica[1]?.empresa.nombre_empresa
+                                                                                        }}</td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>Nombre Supervisor:</td>
-                                                                                    <td>{{ practica[1]?.supervisor.nombre }}</td>
+                                                                                    <td>{{
+                                                                                        practica[1]?.supervisor.nombre
+                                                                                        }}</td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>Correo Supervisor:</td>
-                                                                                    <td>{{ practica[1]?.supervisor.correo }}</td>
+                                                                                    <td>{{
+                                                                                        practica[1]?.supervisor.correo
+                                                                                        }}</td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>Rut Empresa:</td>
-                                                                                    <td>{{ practica[1]?.empresa.rut_empresa }}</td>
+                                                                                    <td>{{
+                                                                                        practica[1]?.empresa.rut_empresa
+                                                                                        }}</td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>Empresa Verificada?:</td>
-                                                                                    <td>{{ practica[1]?.empresa_verificada }}</td>
-                                                                                </tr>                                                                                    
+                                                                                    <td>{{
+                                                                                        practica[1]?.empresa_verificada
+                                                                                        }}</td>
+                                                                                </tr>
                                                                             </table>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div><!-- Fin Tarjeta Información general -->
                                                         </div><!-- Fin de la fila -->
-                                                        
-                                                        
+
+
                                                         <div class="row" style="max-width: 100%;">
 
                                                             <!-- Tarjeta Ver Informes -->
@@ -137,30 +159,44 @@
                                                                 <div class="card shadow mb-4">
                                                                     <!-- Card Header - Accordion -->
                                                                     <a class="card-header py-3">
-                                                                        <h4 class="m-0 font-weight-bold text-primary">Informes Realizados</h4>
+                                                                        <h4 class="m-0 font-weight-bold text-primary">
+                                                                            Informes Realizados</h4>
                                                                     </a>
                                                                     <!-- Card Content - Collapse -->
                                                                     <div class="collapse show" id="collapseCardExample">
                                                                         <div class="card-body">
-                                                                            <div class="overflow-auto" >
+                                                                            <div class="overflow-auto">
                                                                                 <div class="table-responsive ">
-                                                                                    <table class="table table-bordered hoverTable" id="dataTable"
-                                                                                        width="100%" cellspacing="0">
+                                                                                    <table
+                                                                                        class="table table-bordered hoverTable"
+                                                                                        id="dataTable" width="100%"
+                                                                                        cellspacing="0">
                                                                                         <thead>
                                                                                             <tr>
                                                                                                 <th>Tipo</th>
-                                                                                                <th>Horas Trabajadas</th>
+                                                                                                <th>Horas Trabajadas
+                                                                                                </th>
                                                                                                 <th>Fecha Subido</th>
                                                                                                 <th></th>
                                                                                             </tr>
                                                                                         </thead>
                                                                                         <tbody>
-                                                                                            <tr *ngFor="let informe of practica[1].informes;">
-                                                                                                <td>{{ informe?.config_informe?.tipo_informe }}</td>
-                                                                                                <td>{{ informe?.horas_trabajadas }}</td>
-                                                                                                <td>{{ informe?.fecha | date: 'dd/MM/yyyy' }}</td>
-                                                                                                <td><button class="btn btn-primary btn-sm btn-block" (click)="mostrar_informe(practica[1].informes,informe.id)">Ver
-                                                                                                    Informe</button></td>
+                                                                                            <tr
+                                                                                                *ngFor="let informe of practica[1].informes;">
+                                                                                                <td>{{
+                                                                                                    informe?.config_informe?.tipo_informe
+                                                                                                    }}</td>
+                                                                                                <td>{{
+                                                                                                    informe?.horas_trabajadas
+                                                                                                    }}</td>
+                                                                                                <td>{{ informe?.fecha |
+                                                                                                    date: 'dd/MM/yyyy'
+                                                                                                    }}</td>
+                                                                                                <td><button
+                                                                                                        class="btn btn-primary btn-sm btn-block"
+                                                                                                        (click)="mostrar_informe(practica[1].informes,informe.id)">Ver
+                                                                                                        Informe</button>
+                                                                                                </td>
                                                                                             </tr>
                                                                                         </tbody>
                                                                                     </table>
@@ -169,22 +205,25 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div><!-- Fin Tarjeta Informes -->  
+                                                            </div><!-- Fin Tarjeta Informes -->
 
                                                             <!-- Tarjeta Archivos -->
                                                             <div class="col-xl-6">
                                                                 <div class="card shadow mb-4">
                                                                     <!-- Card Header - Accordion -->
                                                                     <a class="card-header py-3">
-                                                                        <h4 class="m-0 font-weight-bold text-primary">Documentos Requeridos</h4>
+                                                                        <h4 class="m-0 font-weight-bold text-primary">
+                                                                            Documentos Requeridos</h4>
                                                                     </a>
                                                                     <!-- Card Content - Collapse -->
                                                                     <div class="collapse show" id="collapseCardExample">
                                                                         <div class="card-body">
-                                                                            <div class="overflow-auto" >
+                                                                            <div class="overflow-auto">
                                                                                 <div class="table-responsive">
-                                                                                    <table class="table table-bordered hoverTable" id="dataTable"
-                                                                                        width="100%" cellspacing="0">
+                                                                                    <table
+                                                                                        class="table table-bordered hoverTable"
+                                                                                        id="dataTable" width="100%"
+                                                                                        cellspacing="0">
                                                                                         <thead>
                                                                                             <tr>
                                                                                                 <th>Documento</th>
@@ -194,33 +233,53 @@
                                                                                             </tr>
                                                                                         </thead>
                                                                                         <tbody>
-                                                                                            <tr *ngFor="let solicitud of solicitudes_practicas[i];">
-                                                                                                <td>{{solicitud?.nombre_solicitud}}</td>
-                                                                                                <td>{{solicitud?.tipo_archivo}}</td>
-                                                                                                <td>Normal</td>                                                                                                
-                                                                                                <td [ngSwitch]="solicitud.documentos.length" >                                                                                                    
-                                                                                                    <app-subir-archivo *ngSwitchCase="0" [id_solicitud] = solicitud.id 
-                                                                                                                        [id_practica] = practica[1].id [descripcion]="solicitud.descripcion"
-                                                                                                                        [nombre_solicitud]="solicitud.nombre_solicitud" [tipo_archivo]="solicitud.tipo_archivo">
+                                                                                            <tr
+                                                                                                *ngFor="let solicitud of solicitudes_practicas[i];">
+                                                                                                <td>{{solicitud?.nombre_solicitud}}
+                                                                                                </td>
+                                                                                                <td>{{solicitud?.tipo_archivo}}
+                                                                                                </td>
+                                                                                                <td>Normal</td>
+                                                                                                <td
+                                                                                                    [ngSwitch]="solicitud.documentos.length">
+                                                                                                    <app-subir-archivo
+                                                                                                        *ngSwitchCase="0"
+                                                                                                        [id_solicitud]=solicitud.id
+                                                                                                        [id_practica]=practica[1].id
+                                                                                                        [descripcion]="solicitud.descripcion"
+                                                                                                        [nombre_solicitud]="solicitud.nombre_solicitud"
+                                                                                                        [tipo_archivo]="solicitud.tipo_archivo">
                                                                                                     </app-subir-archivo>
-                                                                                                    <button *ngSwitchDefault class="btn btn-success btn-sm btn-block"
-                                                                                                    (click)="descargar_documento(solicitud.documentos[0].id, doc_str)">Descargar</button>                                                                                                    
+                                                                                                    <button
+                                                                                                        *ngSwitchDefault
+                                                                                                        class="btn btn-success btn-sm btn-block"
+                                                                                                        (click)="descargar_documento(solicitud.documentos[0].id, doc_str)">Descargar</button>
                                                                                                 </td>
                                                                                             </tr>
-                                                                                            <tr *ngFor="let doc_extra of practica[1].documento_extras;">
-                                                                                                <td>{{doc_extra?.nombre_solicitud}}</td>
-                                                                                                <td>{{doc_extra?.tipo_archivo}}</td>
+                                                                                            <tr
+                                                                                                *ngFor="let doc_extra of practica[1].documento_extras;">
+                                                                                                <td>{{doc_extra?.nombre_solicitud}}
+                                                                                                </td>
+                                                                                                <td>{{doc_extra?.tipo_archivo}}
+                                                                                                </td>
                                                                                                 <td>Extra</td>
                                                                                                 <td>
-                                                                                                    <app-subir-archivo-extra *ngIf="!doc_extra.key || doc_extra.key.length==0; else elseBlock" [id_documento_extra] = doc_extra.id 
-                                                                                                                        [descripcion]="doc_extra.descripcion" [nombre_solicitud]="doc_extra.nombre_solicitud" 
-                                                                                                                        [tipo_archivo]="doc_extra.tipo_archivo" [id_encargado_usuario]=" practica[1].encargado.id_usuario"
-                                                                                                                        [correo_encargado]="practica[1].encargado.usuario.correo" [estado_config]="estado_config"
-                                                                                                                        [id_estudiante_usuario]="usuario.id"
-                                                                                                                        >
+                                                                                                    <app-subir-archivo-extra
+                                                                                                        *ngIf="!doc_extra.key || doc_extra.key.length==0; else elseBlock"
+                                                                                                        [id_documento_extra]=doc_extra.id
+                                                                                                        [descripcion]="doc_extra.descripcion"
+                                                                                                        [nombre_solicitud]="doc_extra.nombre_solicitud"
+                                                                                                        [tipo_archivo]="doc_extra.tipo_archivo"
+                                                                                                        [id_encargado_usuario]=" practica[1].encargado.id_usuario"
+                                                                                                        [correo_encargado]="practica[1].encargado.usuario.correo"
+                                                                                                        [estado_config]="estado_config"
+                                                                                                        [id_estudiante_usuario]="usuario.id">
                                                                                                     </app-subir-archivo-extra>
-                                                                                                    <ng-template #elseBlock> <button  class="btn btn-success btn-sm btn-block"
-                                                                                                    (click)="descargar_documento(doc_extra.id, doc_extra_str)">Descargar</button></ng-template>
+                                                                                                    <ng-template
+                                                                                                        #elseBlock>
+                                                                                                        <button
+                                                                                                            class="btn btn-success btn-sm btn-block"
+                                                                                                            (click)="descargar_documento(doc_extra.id, doc_extra_str)">Descargar</button></ng-template>
                                                                                                 </td>
                                                                                             </tr>
                                                                                         </tbody>
@@ -233,44 +292,67 @@
                                                             </div><!-- Fin Tarjeta Archivos -->
                                                         </div><!-- Fin Fila -->
 
-                                                        <div class="row" style="max-width: 100%;" *ngIf="practica[1].estado == 'En curso'">                                                           
+                                                        <div class="row" style="max-width: 100%;"
+                                                            *ngIf="practica[1].estado == 'En curso'">
 
                                                             <!-- Tarjeta Escribir informe -->
                                                             <div class="col-xl-6">
                                                                 <div class="card shadow mb-4">
                                                                     <!-- Card Header - Accordion -->
                                                                     <a class="card-header py-3">
-                                                                        <h4 class="m-0 font-weight-bold text-primary">Escribir Informe de Avances</h4>
+                                                                        <h4 class="m-0 font-weight-bold text-primary">
+                                                                            Escribir Informe de Avances</h4>
                                                                     </a>
                                                                     <!-- Card Content - Collapse -->
                                                                     <div class="collapse show" id="collapseCardExample">
                                                                         <div class="card-body">
-                                                                            <!-- Ex componente de subir informe-->                                                                       
-                                                                            <div style="height: 200px;"> 
-                                                                                <div class = "row" style="max-width: 100%;">
-                                                                                  <div class = "col-md-12" >
-                                                                                    <table style="width:100%; margin-top: 5px">        
-                                                                                      <tr>
-                                                                                        <td style="width:70%"><mat-label>Actividades Realizadas</mat-label></td><td><mat-label>Horas Dedicadas</mat-label></td></tr>
-                                                                                      <tr>
-                                                                                        <td><textarea matInput style="width:90%; height: 120px"  placeholder="Escriba aquí" id="informe"></textarea></td>
-                                                                                        <td><input type="number" maxlength="2" min=1 max="24" id="horas"></td>
-                                                                                      </tr>
-                                                                                      <tr>
-                                                                                        <td></td>
-                                                                                        <td style="text-align:right"><button class="btn btn-primary btn-lg btn-block" 
-                                                                                            (click)="ingresarInforme(practica[1])">Enviar</button></td>
-                                                                                      </tr>
-                                                                                    </table>
-                                                                                  </div>
+                                                                            <!-- Ex componente de subir informe-->
+                                                                            <div style="height: 200px;">
+                                                                                <div class="row"
+                                                                                    style="max-width: 100%;">
+                                                                                    <div class="col-md-12">
+                                                                                        <table
+                                                                                            style="width:100%; margin-top: 5px">
+                                                                                            <tr>
+                                                                                                <td style="width:70%">
+                                                                                                    <mat-label>Actividades
+                                                                                                        Realizadas</mat-label>
+                                                                                                </td>
+                                                                                                <td><mat-label>Horas
+                                                                                                        Dedicadas</mat-label>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td><textarea matInput
+                                                                                                        style="width:90%; height: 120px"
+                                                                                                        placeholder="Escriba aquí"
+                                                                                                        id="informe"></textarea>
+                                                                                                </td>
+                                                                                                <td><input type="number"
+                                                                                                        maxlength="2"
+                                                                                                        min=1 max="24"
+                                                                                                        id="horas"></td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td></td>
+                                                                                                <td
+                                                                                                    style="text-align:right">
+                                                                                                    <button
+                                                                                                        class="btn btn-primary btn-lg btn-block"
+                                                                                                        (click)="ingresarInforme(practica[1])">Enviar</button>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </table>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div> <!--Fin ex componente subir informe-->                                                                            
+                                                                            </div>
+                                                                            <!--Fin ex componente subir informe-->
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div><!-- Fin Tarjeta Escribir Informe -->                                                  
-                                                        </div><!-- Fin Fila -->                                                                              
-                                                        
+                                                            </div><!-- Fin Tarjeta Escribir Informe -->
+                                                        </div><!-- Fin Fila -->
+
                                                     </div><!-- Fin de tarjeta de estructura interna -->
 
                                                 </div>
@@ -279,33 +361,38 @@
                                     </div>
                                 </div>
                                 <!-- Carta que se muestra en caso de que alumno no tenga una practica registrada -->
-                                <div *ngSwitchCase="1">
-                                    <a [href]="'#card'+ i" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" [attr.aria-controls]="'card'+ i" v-on:click="getPractica(nombre)">
+                                <div *ngSwitchCase="1" id="tabla_empresa">
+                                    <a [href]="'#card'+ i" class="d-block card-header py-3" data-toggle="collapse"
+                                        role="button" aria-expanded="true" [attr.aria-controls]="'card'+ i"
+                                        v-on:click="getPractica(nombre)">
                                         <h2 class="m-0 font-weight-bold text-primary">{{ practica[0] }}</h2>
                                         <div class="m-0 text-gray-800">Estado: No iniciada</div>
-                                    </a>  
+                                    </a>
                                     <div class="collapse show" id="{{ 'card' + i }}">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-xl-5" *ngIf="!flags_inscripcion_list[i]"></div>                 
+                                                <div class="col-xl-5" *ngIf="!flags_inscripcion_list[i]"></div>
                                                 <div class="col-xl-2">
-                                                    <button *ngIf="!flags_inscripcion_list[i]" type="button" class="btn btn-primary btn-lg btn-block" (click)="abrir_inscripcion(i)">
-                                                        Inscribir Práctica</button>                                                
-                                                    <app-iniciar-practica *ngIf="flags_inscripcion_list[i]" [id_estudiante] = estudiante.id [nombre_practica] = practica[0]
-                                                                                                            [estado_config] ="estado_config">
+                                                    <button *ngIf="!flags_inscripcion_list[i]" type="button"
+                                                        class="btn btn-primary btn-lg btn-block"
+                                                        (click)="abrir_inscripcion(i)">
+                                                        Inscribir Práctica</button>
+                                                    <app-iniciar-practica *ngIf="flags_inscripcion_list[i]"
+                                                        [id_estudiante]=estudiante.id [nombre_practica]=practica[0]
+                                                        [estado_config]="estado_config">
                                                     </app-iniciar-practica>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>                        
+                            </div>
                         </div>
                     </div>
                 </div> <!-- End of row -->
             </div>
-            
-            
+
+
         </div>
     </div>
 </div>

@@ -1,55 +1,66 @@
 <div style="width: 500px; place-self: end-start;">
     <h2>Inscribe tu Práctica</h2>
     <div>
-        <table class = "example-full-width" cellspacing="0">
+        <table class="example-full-width" cellspacing="0">
             <tr>
                 <td>
                     Nombre Empresa:
-                    <input matInput placeholder="Nombre Empresa" type="text" class="form-control" id="nombre_empresa{{nombre_practica}}">
+                    <input matInput placeholder="Nombre Empresa" type="text" class="form-control"
+                        id="nombre_empresa{{nombre_practica}}">
                 </td>
                 <td>
-                     Rut Empresa:
-                    <input matInput placeholder="Rut Empresa" type="text" class="form-control" id="rut_empresa{{nombre_practica}}">
+                    Rut Empresa:
+                    <div>
+                        <select name="rut_empresa" id="rut_empresa">
+                            <option *ngFor="let empresa of empresas">
+                                {{empresa.rut_empresa}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- <input matInput placeholder="Rut Empresa" type="text" class="form-control" id="rut_empresa{{nombre_practica}}"> -->
                 </td>
-            </tr>   
+            </tr>
         </table>
 
         <br>
 
-        <table class = "example-full-width" cellspacing="0">
+        <table class="example-full-width" cellspacing="0">
             <tr>
                 <td>
                     Nombre Supervisor:
-                    <input matInput placeholder="Nombre Supervisor" type="text" class="form-control" id="nombre_supervisor{{nombre_practica}}">
+                    <input matInput placeholder="Nombre Supervisor" type="text" class="form-control"
+                        id="nombre_supervisor{{nombre_practica}}">
                 </td>
                 <td>
                     Correo Supervisor:
-                    <input matInput placeholder="Correo Supervisor" type="text" class="form-control" id="correo_supervisor{{nombre_practica}}">
+                    <input matInput placeholder="Correo Supervisor" type="text" class="form-control"
+                        id="correo_supervisor{{nombre_practica}}">
                 </td>
-            </tr>   
+            </tr>
         </table>
-        
-        <br>
-        
-        Fecha Inicio:
-        <mat-form-field>
-            <input matInput [matDatepicker]="picker" placeholder="Elige una fecha" id="fecha_inicio{{nombre_practica}}">          
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>          
-            <mat-datepicker #picker ></mat-datepicker>          
-        </mat-form-field>
-        
 
         <br>
-        
+
+        Fecha Inicio:
+        <mat-form-field>
+            <input matInput [matDatepicker]="picker" placeholder="Elige una fecha" id="fecha_inicio{{nombre_practica}}">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+
+        <br>
+
         <table style="width: 100%">
             <tr>
                 <td>
                     Seleccione modalidad de tiempo:
                 </td>
                 <td>
-                    
-                    <select name="modalidad" class="form-select" id="modalidad{{nombre_practica}}" 
-                    (change)="actualizar_cantidades($event)" >
+
+                    <select name="modalidad" class="form-select" id="modalidad{{nombre_practica}}"
+                        (change)="actualizar_cantidades($event)">
                         <option value="" disabled selected hidden>Seleccione modalidad</option>
                     </select>
                 </td>
@@ -60,7 +71,7 @@
                     Seleccione cantidad de tiempo:
                 </td>
                 <td>
-                    <select name = "cantidad" class="form-select" id="cantidad{{nombre_practica}}" >
+                    <select name="cantidad" class="form-select" id="cantidad{{nombre_practica}}">
                         <option value="" disabled selected hidden>Seleccione cantidad</option>
                     </select>
                 </td>
@@ -68,9 +79,9 @@
         </table>
 
         <br>
-        
+
         <table>
-            <td><button class="btn btn-primary btn-lg btn-block" (click)="enviar()" >Enviar</button></td>
+            <td><button class="btn btn-primary btn-lg btn-block" (click)="enviar()">Enviar</button></td>
         </table>
 
     </div>
