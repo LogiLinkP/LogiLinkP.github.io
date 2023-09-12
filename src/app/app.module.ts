@@ -69,6 +69,7 @@ import { ImportModalComponent } from './componentes/import-modal/import-modal.co
 import { MigrarModalComponent } from './componentes/migrar-modal/migrar-modal.component';
 import { ExplicacionConsistenciaComponent } from './vistas/explicacion-consistencia/explicacion-consistencia.component';
 import { VistaSupervisorComponent } from './vistas/vista-supervisor/vista-supervisor/vista-supervisor.component';
+import { RamosAlumnosComponent } from './vistas/ramos-alumnos/ramos-alumnos.component';
 
 @NgModule({
   declarations: [
@@ -105,6 +106,7 @@ import { VistaSupervisorComponent } from './vistas/vista-supervisor/vista-superv
     MigrarModalComponent,
     ExplicacionConsistenciaComponent,
     VistaSupervisorComponent,
+    RamosAlumnosComponent,
   ],
   imports: [
     BrowserModule,

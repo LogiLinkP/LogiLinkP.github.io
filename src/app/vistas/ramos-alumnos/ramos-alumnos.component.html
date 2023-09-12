@@ -1,0 +1,50 @@
+<div id="wrapper">
+    
+    <app-barra-lateral-alumno></app-barra-lateral-alumno>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <div id="content" class="main-content">
+
+            <app-barra-superior></app-barra-superior>
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    
+                        <div class="col-xl-12">
+                            <div class="h3 mb-2 font-weight-bold text-gray-800"> Estadistica Ramos <br></div>
+                            <p class="mb-4">Aquí puedes ver los 10 ramos más útiles para desempeñarse de mejor manera en la práctica segun los demas alumnos de tu carrera</p>
+                        </div>
+                    
+                    <div class="col-lg-8 mb-4">
+
+                        <div class="card shadow mb-4">
+                            <div class="card-body">
+                                <div *ngFor="let pos of arreglo_ramos; let k = index">
+                                    <div *ngIf="!isNumber(pos)">
+                                    
+                                        <h4 class="small font-weight-bold">{{arreglo_ramos[k]}} <span
+                                        class="float-right">{{toInt(arreglo_ramos[k+1])}}%</span></h4>
+                                        <div class="progress mb-4">
+                                            <div class="progress-bar" role="progressbar" [style]="'width: '+arreglo_ramos[k+1]+'%'"
+                                                aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            
+        </div>
+    </div>
+</div>
+
+<app-logout-modal></app-logout-modal>
