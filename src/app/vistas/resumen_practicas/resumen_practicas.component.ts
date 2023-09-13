@@ -23,6 +23,10 @@ export class TablaComponent {
 
   practicas: any = [];
 
+  carreras: string[] = ["Ingeniería Civil en Informática", "Ingeniería Civil en Minas, Ingeniería Civil Eléctrica"]
+
+  carrera_encargado: string = "Ingeniería Civil en Informática";
+
   texto_consistencia_informe: string = "Indica qué tan relacionados están los informes del\n" +
     "estudiante con lo que escribió su supervisor.\n" +
     "Para más información, haga click en el botón.";
@@ -53,7 +57,7 @@ export class TablaComponent {
     };
 
     let respuesta: any = {};
-    this.service.full_estudiante_practicas("informática").subscribe({
+    this.service.full_estudiante_practicas(this.carrera_encargado).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
@@ -71,6 +75,14 @@ export class TablaComponent {
           alumno.nota_evaluacion = alumno.nota_evaluacion ? alumno.nota_evaluacion : "—";
           alumno.interpretacion_nota = alumno.interpretacion_nota ? alumno.interpretacion_nota : "—";
           alumno.interpretacion_informe = alumno.interpretacion_informe ? alumno.interpretacion_informe : "—";
+          
+          /*alumno ={... alumno, carrera: this.carreras[Math.floor(Math.random() * this.carreras.length)]}
+          console.log(alumno);
+          if (alumno.carrera != "Ingeniería Civil en Informática"){
+            let index: number = this.practicas.indexOf(alumno);
+            this.practicas.splice(index, 1);
+          }
+          */
           return alumno;
         });
         //console.log("practicas: ", this.practicas);
