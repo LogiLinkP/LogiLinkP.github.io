@@ -11,8 +11,8 @@ export class GetDetallesAlumnoService {
 
   constructor(private _http: HttpClient) { }
   
-  full_estudiante_practicas(carrera:string) {
-    const req = new HttpRequest('GET', `${environment.url_back}/practica/estudiantes_practicas`, {carrera});
+  full_estudiante_practicas() {
+    const req = new HttpRequest('GET', `${environment.url_back}/practica/estudiantes_practicas`);
     return this._http.request(req);
   }
 

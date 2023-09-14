@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Router } from "@angular/router";
+import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
 
 
 @Component({
@@ -23,9 +24,9 @@ export class TablaComponent {
 
   practicas: any = [];
 
-  carreras: string[] = ["Ingeniería Civil en Informática", "Ingeniería Civil en Minas, Ingeniería Civil Eléctrica"]
+  carreras: any = [];
 
-  carrera_encargado: string = "Ingeniería Civil en Informática";
+  carrera_encargado: number = 1;
 
   texto_consistencia_informe: string = "Indica qué tan relacionados están los informes del\n" +
     "estudiante con lo que escribió su supervisor.\n" +
@@ -44,7 +45,8 @@ export class TablaComponent {
   texto_indice_repeticion: string = "Es un valor que indica qué tanto contenido de los informes es texto repetido\n" +
     "Para más información, haga click en el botón.";
 
-  constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar, private router: Router) {
+  constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar,
+              private router: Router, private alumno_service: ObtenerDatosService) {
     //console.log("ESTE ES EL COMPONENTE ENCARGADO");
 
     this.dtOptions = {
@@ -57,7 +59,7 @@ export class TablaComponent {
     };
 
     let respuesta: any = {};
-    this.service.full_estudiante_practicas(this.carrera_encargado).subscribe({
+    this.service.full_estudiante_practicas().subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
@@ -69,7 +71,17 @@ export class TablaComponent {
         });
       },
       complete: () => {
-        this.practicas = respuesta.body.map((alumno: any) => {
+        let temppracticas:any = [];
+
+        for (let alumno of respuesta.body){
+          console.log(alumno);
+          if (alumno.estudiante.id_carrera == this.carrera_encargado)
+          temppracticas.push(alumno);
+        }
+        console.log(temppracticas);
+
+        this.practicas = temppracticas.map((alumno: any) => {
+
           alumno.consistencia_nota = alumno.consistencia_nota ? `${Math.round(100 * alumno.consistencia_nota)}%` : "—";
           alumno.consistencia_informe = alumno.consistencia_informe ? `${Math.round(100 * alumno.consistencia_informe)}%` : "—";
           alumno.nota_evaluacion = alumno.nota_evaluacion ? alumno.nota_evaluacion : "—";
