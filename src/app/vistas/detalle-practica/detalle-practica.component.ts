@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input , ElementRef, Injectable } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, ElementRef, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DetallePracticaService } from 'src/app/servicios/encargado/detalle-practica.service';
 import { SetDetallesAlumnoService } from '../../servicios/encargado/decision.service';
@@ -167,7 +167,7 @@ export class DetallePracticaComponent implements OnInit {
           }
 
           console.log(this.practica.informes[0].key)
-          
+
           //respuestas preguntas
           let lista_informes = Object.values(this.practica.informes[0].key)
           console.log(lista_informes)
@@ -193,22 +193,22 @@ export class DetallePracticaComponent implements OnInit {
               complete: () => {
                 preguntas_informe.push(respuesta.body)
 
-                if (i == keys.length - 1){
+                if (i == keys.length - 1) {
 
                   console.log(preguntas_informe)
                   //console.log(preguntas_informe.length)
 
                   //orednar preguntas informe
                   let preguntas_informe_ordenadas: any = []
-                  
-                  for(let id of keys){
-                    for (let pregunta of preguntas_informe){
-                      if (pregunta.id == id){
+
+                  for (let id of keys) {
+                    for (let pregunta of preguntas_informe) {
+                      if (pregunta.id == id) {
                         preguntas_informe_ordenadas.push(pregunta.enunciado)
                       }
-                    } 
+                    }
                   }
-                  
+
                   console.log("preguntas informe ordenadas")
                   console.log(preguntas_informe_ordenadas)
 
@@ -324,7 +324,7 @@ export class DetallePracticaComponent implements OnInit {
     });
   }
 
-  
+
 
 
   /*
@@ -349,9 +349,9 @@ export class DetallePracticaComponent implements OnInit {
   }
   */
 
-  
-  
-  generar_pdf_resumen(){
+
+
+  generar_pdf_resumen() {
 
     let cantidad_paginas = 1
 
@@ -367,14 +367,14 @@ export class DetallePracticaComponent implements OnInit {
     pdf.text(String(this.practica.estudiante.usuario.nombre), 15, 35);
     pdf.text("Resultado de práctica: " + this.practica.estado, 15, 45);
     pdf.text("Correo: " + this.practica.estudiante.usuario.correo, 15, 55);
-    pdf.text("Empresa: " + this.practica.empresa.nombre_empresa,15, 65);
+    pdf.text("Empresa: " + this.practica.empresa.nombre_empresa, 15, 65);
     pdf.text("Supervisor: " + this.practica.supervisor.nombre, 15, 75);
     pdf.text("Correo supervisor: " + this.practica.supervisor.correo, 15, 85);
-    
+
     //borrar desde caracter T en adelante de la fecha
     let fecha_inicio = this.practica.fecha_inicio.split("T")[0];
     let fecha_termino = this.practica.fecha_termino.split("T")[0];
-  
+
     pdf.text("Fecha de inicio: " + fecha_inicio, 15, 95);
     pdf.text("Fecha de término: " + fecha_termino, 15, 105);
     //pdf.text("hola", 200, 20);
@@ -384,7 +384,7 @@ export class DetallePracticaComponent implements OnInit {
     pdf.setFontSize(13);
 
     //console.log(this.practica.informes[0])
-    
+
 
     //let preguntas_informe[] = []
 
@@ -413,34 +413,34 @@ export class DetallePracticaComponent implements OnInit {
       for (let x = 0; x < palabras_informe.length; x++) {
 
         //console.log(aux_string)
-        if (x%10 == 0 && x != 0){
+        if (x % 10 == 0 && x != 0) {
           aux_string += (palabras_informe[x] + " ")
           lista_aux.push(aux_string)
           aux_string = ""
         }
-        else if(x == palabras_informe.length - 1){
+        else if (x == palabras_informe.length - 1) {
           aux_string += (palabras_informe[x] + " ")
           lista_aux.push(aux_string)
         }
 
-        else{
+        else {
           aux_string += (palabras_informe[x] + " ")
         }
       }
 
       for (let j = 0; j < lista_aux.length; j++) {
-        if (cantidad_paginas ==1 && 130 + i*5 + linea_actual*10 > 260){
+        if (cantidad_paginas == 1 && 130 + i * 5 + linea_actual * 10 > 260) {
           pdf.addPage()
           continuar_desde = 20
           linea_actual = 0
           cantidad_paginas += 1
         }
-        else if (cantidad_paginas > 1 && i*5 + linea_actual*10 > 260){
+        else if (cantidad_paginas > 1 && i * 5 + linea_actual * 10 > 260) {
           pdf.addPage()
           continuar_desde = 20
           linea_actual = 0
         }
-        pdf.text(lista_aux[j], 15, continuar_desde + i*5 + linea_actual*10);
+        pdf.text(lista_aux[j], 15, continuar_desde + i * 5 + linea_actual * 10);
         linea_actual += 1
       }
     }
@@ -559,7 +559,7 @@ export class DetallePracticaComponent implements OnInit {
     //pdf.save("resumen.pdf");
     */
   }
-  
+
   ngOnInit() {
   }
 
@@ -643,7 +643,12 @@ export class DetallePracticaComponent implements OnInit {
             console.log("Notificación enviada con éxito");
             window.location.reload()
           }
-        })
+        });
+        // setTimeout(() => {
+        //   //window.location.reload();
+        //   window.location.reload();
+        // }
+        //   , 2000);
       }
     });
   }
