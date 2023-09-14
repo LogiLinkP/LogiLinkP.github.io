@@ -378,7 +378,7 @@
                                                         (click)="abrir_inscripcion(i)">
                                                         Inscribir Práctica</button>
                                                     <app-iniciar-practica *ngIf="flags_inscripcion_list[i]"
-                                                        [id_estudiante]=estudiante.id [nombre_practica]=practica[0]
+                                                        [id_estudiante]="estudiante.id" [nombre_practica]="practica[0]"
                                                         [estado_config]="estado_config">
                                                     </app-iniciar-practica>
                                                 </div>

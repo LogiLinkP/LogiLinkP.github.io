@@ -9,9 +9,6 @@ import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.
 import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
 import { EmpresaService } from '../../servicios/empresa/empresa.service';
-import * as $ from 'jquery';
-import 'select2';
-// declare var $: any
 
 @Component({
   selector: 'app-iniciar-practica',
@@ -34,6 +31,7 @@ export class IniciarPracticaComponent implements OnInit {
 
   respuesta: any = [];
   empresas: any = [];
+  id_datalist: string;
 
   constructor(private service: GestionarService, private service2: ObtenerDatosService,
     private _snackBar: MatSnackBar, private route: ActivatedRoute, private router: Router,
@@ -209,11 +207,7 @@ export class IniciarPracticaComponent implements OnInit {
   }
 
   ngOnInit() {
-
-
-    $(`#rut_empresa`).select2({
-      dropdownParent: $("#tabla_empresa")
-    });
+    this.id_datalist = 'rut_empresa_' + this.nombre_practica.replaceAll(" ", "_");
     let respuesta: any = {};
 
     this.service2.obtener_config_practica(this.nombre_practica).subscribe({

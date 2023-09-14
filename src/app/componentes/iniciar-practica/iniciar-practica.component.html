@@ -10,12 +10,20 @@
                 </td>
                 <td>
                     Rut Empresa:
-                    <div>
-                        <select name="rut_empresa" id="rut_empresa">
+                    <div [id]="'tarjeta_'+nombre_practica.replaceAll(' ', '_')">
+                        <datalist [id]="id_datalist">
+                            <option *ngFor="let empresa of empresas" value="{{empresa.rut_empresa}}">
+                                {{empresa.rut_empresa}} - {{empresa.nombre_empresa}}
+                            </option>
+                        </datalist>
+                        <input matInput placeholder="Rut Empresa" type="text" class="form-control" autoComplete="on"
+                            [attr.list]="id_datalist" />
+                        <!-- <select [name]="'rut_empresa_'+nombre_practica.replaceAll(' ', '_')"
+                            [id]="'rut_empresa_'+nombre_practica.replaceAll(' ', '_')">
                             <option *ngFor="let empresa of empresas">
                                 {{empresa.rut_empresa}}
                             </option>
-                        </select>
+                        </select> -->
                     </div>
 
                     <!-- <input matInput placeholder="Rut Empresa" type="text" class="form-control" id="rut_empresa{{nombre_practica}}"> -->
