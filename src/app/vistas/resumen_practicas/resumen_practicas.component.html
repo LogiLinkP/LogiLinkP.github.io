@@ -22,51 +22,84 @@
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
                     <div class="card-body">
-                        
+
                         <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                            <table class="table table-striped table-bordered table-hover" id="dataTable" width="100%"
+                                cellspacing="0">
                                 <thead>
                                     <tr>
                                         <th style="vertical-align: bottom;">Nombre Estudiante</th>
                                         <th style="vertical-align: bottom;">Rut</th>
                                         <th style="vertical-align: bottom;">Tipo Práctica</th>
                                         <th style="vertical-align: bottom;">Estado</th>
+                                        <th style="vertical-align: bottom;">Índice Repetición
+                                            <a class="pointer" title="{{texto_indice_repeticion}}" data-toggle="tooltip"
+                                                data-placement="bottom" (click)="redirecting()"><i
+                                                    class="fas fa-info-circle"></i></a>
+                                        </th>
                                         <th style="vertical-align: bottom;">Consistencia Informes
-                                            <a class="btn btn-info btn-circle btn-sm" title="{{texto_consistencia_informe}}" 
-                                            data-toggle="tooltip" data-placement="bottom"><i class="fas fa-info-circle" ></i></a></th>
+                                            <a class="pointer" title="{{texto_consistencia_informe}}"
+                                                data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
+                                                    class="fas fa-info-circle"></i></a>
+                                        </th>
                                         <th style="vertical-align: bottom;">Consistencia Evaluación
-                                            <a href="#" class="btn btn-info btn-circle btn-sm" title="{{texto_consistencia_evaluacion}}" 
-                                            data-toggle="tooltip" data-placement="bottom"><i class="fas fa-info-circle"></i></a></th>
+                                            <a class="pointer" title="{{texto_consistencia_evaluacion}}"
+                                                data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
+                                                    class="fas fa-info-circle"></i></a>
+                                        </th>
                                         <th style="vertical-align: bottom;">Interpretación Informes
-                                            <a href="#" class="btn btn-info btn-circle btn-sm" title="{{texto_interpretacion_informes}}" 
-                                            data-toggle="tooltip" data-placement="bottom"><i class="fas fa-info-circle"></i></a></th>                                        
+                                            <a class="pointer" title="{{texto_interpretacion_informes}}"
+                                                data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
+                                                    class="fas fa-info-circle"></i></a>
+                                        </th>
                                         <th style="vertical-align: bottom;">Interpretación Nota
-                                            <a href="#" class="btn btn-info btn-circle btn-sm" title="{{texto_interpretacion_nota}}" 
-                                            data-toggle="tooltip" data-placement="bottom"><i class="fas fa-info-circle"></i></a></th>                                        
+                                            <a class="pointer" title="{{texto_interpretacion_nota}}"
+                                                data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
+                                                    class="fas fa-info-circle"></i></a>
+                                        </th>
                                         <th style="vertical-align: bottom;">Promedio Evaluación</th>
                                         <th style="vertical-align: bottom;">Aprobación</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let practica of practicas;">
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}" style="vertical-align: middle;">{{practica.estudiante.usuario.nombre}}</td>
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}" style="vertical-align: middle;">{{practica.estudiante.rut}}</td>
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}" style="vertical-align: middle;">{{practica.modalidad.config_practica.nombre}}</td>
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}" style="vertical-align: middle;">{{practica.estado}}</td>
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}" style="vertical-align: middle;">{{practica.consistencia_informe}}</td>
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}" style="vertical-align: middle;">{{practica.consistencia_nota}}</td>                                        
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}" style="vertical-align: middle;">{{practica.interpretacion_nota}}</td>
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}" style="vertical-align: middle;">{{practica.interpretacion_informe}}</td>
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}" style="vertical-align: middle;">{{practica.nota_evaluacion}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
+                                            style="vertical-align: middle;">{{practica.estudiante.usuario.nombre}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
+                                            style="vertical-align: middle;">{{practica.estudiante.rut}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
+                                            style="vertical-align: middle;">
+                                            {{practica.modalidad.config_practica.nombre}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
+                                            style="vertical-align: middle;">{{practica.estado}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
+                                            style="vertical-align: middle;">{{practica.indice_repeticion?
+                                            practica.indice_repeticion : "—"}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
+                                            style="vertical-align: middle;">{{practica.consistencia_informe}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
+                                            style="vertical-align: middle;">{{practica.consistencia_nota}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
+                                            style="vertical-align: middle;">{{practica.interpretacion_nota}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
+                                            style="vertical-align: middle;">{{practica.interpretacion_informe}}</td>
+                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
+                                            style="vertical-align: middle;">{{practica.nota_evaluacion}}</td>
                                         <td [ngSwitch]="practica.estado" style="vertical-align: middle;">
-                                            <app-revision *ngSwitchCase="'Evaluada'" [id_estudiante]="practica.id_estudiante"
-                                                [id_modalidad]="practica.modalidad.id" [id_usuario_estudiante]="practica.estudiante.id_usuario">
+                                            <app-revision *ngSwitchCase="'Evaluada'"
+                                                [id_estudiante]="practica.id_estudiante"
+                                                [id_modalidad]="practica.modalidad.id"
+                                                [id_usuario_estudiante]="practica.estudiante.id_usuario">
                                             </app-revision>
-                                            <app-revision *ngSwitchCase="'Aprobada'" [id_estudiante]="practica.id_estudiante"
-                                                [id_modalidad]="practica.modalidad.id" [id_usuario_estudiante]="practica.estudiante.id_usuario">
+                                            <app-revision *ngSwitchCase="'Aprobada'"
+                                                [id_estudiante]="practica.id_estudiante"
+                                                [id_modalidad]="practica.modalidad.id"
+                                                [id_usuario_estudiante]="practica.estudiante.id_usuario">
                                             </app-revision>
-                                            <app-revision *ngSwitchCase="'Reprobada'" [id_estudiante]="practica.id_estudiante"
-                                                [id_modalidad]="practica.modalidad.id" [id_usuario_estudiante]="practica.estudiante.id_usuario">
+                                            <app-revision *ngSwitchCase="'Reprobada'"
+                                                [id_estudiante]="practica.id_estudiante"
+                                                [id_modalidad]="practica.modalidad.id"
+                                                [id_usuario_estudiante]="practica.estudiante.id_usuario">
                                             </app-revision>
                                             <div *ngSwitchDefault>Esperando evaluacion del supervisor</div>
                                         </td>
@@ -76,14 +109,14 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             <!-- /.container-fluid -->
 
         </div>
         <!-- End of Main Content -->
 
-        
+
 
     </div>
     <!-- End of Content Wrapper -->
@@ -115,4 +148,3 @@
 
 <!-- Page level custom scripts -->
 <script src="js/demo/datatables-demo.js"></script>
-

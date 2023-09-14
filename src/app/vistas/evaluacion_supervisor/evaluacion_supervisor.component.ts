@@ -249,10 +249,37 @@ export class EvaluacionComponent {
           panelClass: ['green-snackbar']
         });
         // after 2 seconds, redirect to home
-        setTimeout(() => {
-          this.router.navigate(['/']);
-          return;
-        }, 2000); 
+        this.service_supervisor.setFragmentos(this.practica.id, { }).subscribe({
+          next: (data: any) => {
+          },
+          error: (error: any) => {
+            console.log(error);
+            this._snackbar.open("Error al enviar la respuesta", "Cerrar", {
+              duration: 2000,
+              panelClass: ['red-snackbar']
+            });
+          },
+          complete: () => {
+            this.service_supervisor.setRepeticiones(this.practica.id).subscribe({
+              next: (data: any) => {
+              },
+              error: (error: any) => {
+                console.log(error);
+                this._snackbar.open("Error al enviar la respuesta", "Cerrar", {
+                  duration: 2000,
+                  panelClass: ['red-snackbar']
+                });
+              },
+              complete: () => {
+                setTimeout(() => {
+                  this.router.navigate(['/']);
+                  return;
+                }, 2000); 
+              }
+            });
+          }
+        });
+        
       }
     });    
   }

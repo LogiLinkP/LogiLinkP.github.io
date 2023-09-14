@@ -41,3 +41,6 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+certs/cert1.pem
+certs/privkey1.pem

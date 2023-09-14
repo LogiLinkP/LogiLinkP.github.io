@@ -23,11 +23,10 @@ export class ConfigService {
         return this._http.request(req);
     }
 
-    actualizarConfigPractica(nombre: string, frecuencia_informes: string, informe_final: string) {
+    actualizarConfigPractica(id: number, activada: boolean) {
         const config = {
-            nombre: nombre,
-            frecuencia_informes: frecuencia_informes,
-            informe_final: informe_final
+            id: id,
+            activada: activada
         }
 
         const req = new HttpRequest('PUT', `${environment.url_back}/config_practica/actualizar`, config, {
@@ -352,5 +351,25 @@ export class ConfigService {
         return this._http.request(req);
     }
 
+    getPracticasConConfig(id_config_practica: number) {
+        const req = new HttpRequest('GET', `${environment.url_back}/practica/configs?id=${id_config_practica}`, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
+    actualizarEstudiantes(id_estudiante: number, id_config: number) {
+        const payload = {
+            id: id_estudiante,
+            id_config_practica: id_config
+        }
+
+        const req = new HttpRequest('PUT', `${environment.url_back}/estudiante/actualizarConfig`, payload, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
 
 }

@@ -22,19 +22,25 @@
                 <app-barra-superior></app-barra-superior>
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <div class="container-fluid" id="pdfTable2" #pdfTable2>
 
                     <!-- Page Heading -->
                     <div class="row">
-                        <div class="col-lg-10">
+                        <div class="col-lg-9">
                             <h1 class="h3 mb-2 text-gray-800">{{ practica?.estudiante?.usuario.nombre }} <br> {{
                                 practica?.modalidad?.config_practica?.nombre }}</h1>
                         </div>
-                        <div class="col-lg-1">
-                            <button type="button" class="btn btn-primary btn-lg btn-block"
+                        <div class="col-lg-1 d-flex justify-content-end align-items-center">
+                            <button type="button" class="btn btn-primary btn-md btn-block "
                                 onclick="window.history.back();">Volver</button>
                         </div>
+
+                        <div class="col-lg-2 d-flex justify-content-end align-items-center">
+                            <button type="button" class="btn btn-primary btn-md btn-block "
+                                (click)="generar_pdf_resumen();">Descargar Resumen PDF</button>
+                        </div>
                     </div>
+                    <br>
                     <!-- Fila de "Tarjetas" -->
                     <div class="row">
                         <!-- Tarjeta de Estado -->
@@ -183,15 +189,18 @@
                                         </div>
                                         <br>
                                         <div class="row">
-                                            <div class="col-lg-1"></div>
-                                            <div class="col-lg-5">
-                                                <app-boton-solicitar-archivo [id_alumno]="id_estudiante" [correo_alumno]="correo_estudiante"
-                                                                            [configuración_alumno]="config_estudiante"></app-boton-solicitar-archivo>
+                                            <div class="col-lg-3"></div>
+                                            <div class="col-lg-6">
+                                                <app-boton-solicitar-archivo [id_alumno]="id_estudiante"
+                                                    [correo_alumno]="correo_estudiante"
+                                                    [configuración_alumno]="config_estudiante"
+                                                    [id_practica]="practica.id"></app-boton-solicitar-archivo>
                                             </div>
-                                            <div class="col-lg-5">
+                                            <div class="col-lg-3"></div>
+                                            <!-- <div class="col-lg-5">
                                                 <button type="button" class="btn btn-primary btn-lg btn-block">Resumir
                                                     Informe Estudiante</button>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -275,7 +284,7 @@
                                                             <td>{{solicitud.tipo_archivo}}</td>
                                                             <td>Normal</td>
                                                             <td><button class="btn btn-primary btn-sm btn-block"
-                                                                    *ngIf="solicitud.documentos.length != 0; else no_doc" 
+                                                                    *ngIf="solicitud.documentos.length != 0; else no_doc"
                                                                     (click)="descargar_documento(solicitud.documentos[0].id, doc_str)">Descargar</button>
                                                                 <ng-template #no_doc>
                                                                     <b>No subido aún</b>
@@ -286,8 +295,13 @@
                                                             <td>{{doc_extra.nombre_solicitud}}</td>
                                                             <td>{{doc_extra.tipo_archivo}}</td>
                                                             <td>Extra</td>
-                                                            <td><button class="btn btn-primary btn-sm btn-block"
+                                                            <td><button
+                                                                    *ngIf="doc_extra.key!=null && doc_extra.key!=''; else no_doc_extra"
+                                                                    class="btn btn-primary btn-sm btn-block"
                                                                     (click)="descargar_documento(doc_extra.id, doc_extra_str)">Descargar</button>
+                                                                <ng-template #no_doc_extra>
+                                                                    <b>No subido aún</b>
+                                                                </ng-template>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -362,13 +376,15 @@
                                                     <tbody>
                                                         <tr *ngFor="let resp of respuestas_sup_parsed;">
                                                             <td style="vertical-align: middle;">{{resp[1]}}</td>
-                                                            <td *ngIf="resp[0];else textoSolo" style="vertical-align: middle;">
+                                                            <td *ngIf="resp[0];else textoSolo"
+                                                                style="vertical-align: middle;">
                                                                 {{resp[2]}}
                                                             </td>
                                                             <ng-template #textoSolo style="vertical-align: middle;">
                                                                 <td style="vertical-align: middle;">
                                                                     {{resp[2][0]}}
-                                                                    <span class="bg-gradient-success" style="vertical-align: middle;">
+                                                                    <span class="bg-gradient-success"
+                                                                        style="vertical-align: middle;">
                                                                         {{resp[2][1]}}
                                                                     </span>
                                                                     {{resp[2][2]}}
@@ -531,7 +547,6 @@
                         </div><!-- Fin Tarjeta Consistencia -->
                     </div><!-- Fin Fila -->
                 </div>
-
             </div>
             <!-- End of Main Content -->
 

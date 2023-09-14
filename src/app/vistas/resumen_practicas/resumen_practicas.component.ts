@@ -4,6 +4,7 @@ import { GetDetallesAlumnoService } from '../../servicios/encargado/resumen_prac
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Router } from "@angular/router";
 
 
 @Component({
@@ -12,9 +13,9 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./resumen_practicas.component.scss'],
   encapsulation: ViewEncapsulation.None // para poder customizar el mat-tooltip
 })
-export class TablaComponent{
+export class TablaComponent {
   rutas = environment;
-  
+
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
@@ -22,25 +23,26 @@ export class TablaComponent{
 
   practicas: any = [];
 
-  texto_consistencia_informe: string = "Indica qué tan relacionados están los informes del\n"+
-                                       "estudiante con lo que escribió su supervisor.\n"+
-                                       "Para más información, haga click en el botón.";
+  texto_consistencia_informe: string = "Indica qué tan relacionados están los informes del\n" +
+    "estudiante con lo que escribió su supervisor.\n" +
+    "Para más información, haga click en el botón.";
 
-  texto_consistencia_evaluacion: string = "Indica qué tan relacionada está la evaluación escrita del\n"+
-                                          "supervisor, con las notas que este mismo le haya puesto.\n"+
-                                          "Para más información, haga click en el botón.";
+  texto_consistencia_evaluacion: string = "Indica qué tan relacionada está la evaluación escrita del\n" +
+    "supervisor, con las notas que este mismo le haya puesto.\n" +
+    "Para más información, haga click en el botón.";
 
-  texto_interpretacion_nota: string = "Texto que ayuda a entender qué significa el puntaje\n"+
-                                      "de consistencia evaluación obtenido.\n"+
-                                      "Para más información, haga click en el botón.";
-                                  
-  texto_interpretacion_informes: string = "Texto que ayuda a entender qué significa el puntaje\n"+
-                                          "de consistencia informes obtenido.\n"+
-                                          "Para más información, haga click en el botón.";
+  texto_interpretacion_nota: string = "Texto que ayuda a entender qué significa el puntaje\n" +
+    "de consistencia evaluación obtenido.\n";
 
-  constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar) {
+  texto_interpretacion_informes: string = "Texto que ayuda a entender qué significa el puntaje\n" +
+    "de consistencia informes obtenido.\n";
+
+  texto_indice_repeticion: string = "Es un valor que indica qué tanto contenido de los informes es texto repetido\n" +
+    "Para más información, haga click en el botón.";
+
+  constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar, private router: Router) {
     //console.log("ESTE ES EL COMPONENTE ENCARGADO");
-    
+
     this.dtOptions = {
       language: {
         url: 'assets/localisation/es-es.json'
@@ -81,6 +83,10 @@ export class TablaComponent{
 
   ngAfterViewInit(): void {
     this.dtTrigger.next(0);
+  }
+
+  redirecting() {
+    this.router.navigate(["/consistencia"])
   }
 
   ngOnDestroy(): void {

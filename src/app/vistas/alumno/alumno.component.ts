@@ -102,8 +102,11 @@ export class DetalleAlumnoComponent implements OnInit{
 
         // Guardar nombres de las configuraciones de practica en un arreglo
         this.config_practicas.forEach((element: any) => {
-          this.nombres_config_practica.push(element.nombre);
-          this.practicas_correspondiente_nombre.push([element.nombre]);
+          // verificar que el nombre no este en el arreglo
+          if(!this.nombres_config_practica.includes(element.nombre)){
+            this.nombres_config_practica.push(element.nombre);
+            this.practicas_correspondiente_nombre.push([element.nombre]);
+          }
         });
         console.log("Nombres de configuraciones de practica:",this.nombres_config_practica)
 
@@ -262,7 +265,7 @@ export class DetalleAlumnoComponent implements OnInit{
       error: (error: any) => console.log("Error en finalizar practica:",error),
       complete: () => {
         let respuesta: any = [];
-        let enlace: string = "http://localhost:4200/alumno/" + this.usuario.id;
+        let enlace: string = environment.url_front + "/alumno/" + this.usuario.id;
         this.service_noti.postnotificacion(id_encargado, "El alumno " + this.estudiante.nombre + " ha finalizado su práctica y desea su realización", correo_encargado, this.estado_config, enlace).subscribe({
           next:(data:any) => {
             respuesta = {...respuesta, ...data};
@@ -281,7 +284,8 @@ export class DetalleAlumnoComponent implements OnInit{
         })
         // after 3 seconds reload the page
         setTimeout(() => {
-          window.location.reload();
+          //window.location.reload();
+          window.location.href = environment.url_front + "/encuestaFinal/" + practica.id;
         }
         , 3000);
 
