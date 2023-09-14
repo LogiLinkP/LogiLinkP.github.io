@@ -26,7 +26,10 @@ export class TablaComponent {
 
   carreras: any = [];
 
-  carrera_encargado: number = 1;
+  carrera_encargado: number = -1;
+
+  usuario:any = []
+  encargado: any = []
 
   texto_consistencia_informe: string = "Indica qué tan relacionados están los informes del\n" +
     "estudiante con lo que escribió su supervisor.\n" +
@@ -48,6 +51,12 @@ export class TablaComponent {
   constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar,
               private router: Router, private alumno_service: ObtenerDatosService) {
     //console.log("ESTE ES EL COMPONENTE ENCARGADO");
+
+    this.usuario = JSON.parse(localStorage.getItem('auth-user') || '{}').userdata;
+    this.encargado = this.usuario.encargado;
+
+    this.carrera_encargado = this.encargado.id_carrera;
+    console.log(this.carrera_encargado)
 
     this.dtOptions = {
       language: {
@@ -74,7 +83,7 @@ export class TablaComponent {
         let temppracticas:any = [];
 
         for (let alumno of respuesta.body){
-          console.log(alumno);
+          console.log(alumno.estudiante.id_carrera);
           if (alumno.estudiante.id_carrera == this.carrera_encargado)
           temppracticas.push(alumno);
         }
