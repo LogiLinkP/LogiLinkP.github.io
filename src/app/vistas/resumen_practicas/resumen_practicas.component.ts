@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Router } from "@angular/router";
 import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
+import { NULL } from 'sass';
 
 
 @Component({
@@ -68,7 +69,7 @@ export class TablaComponent {
     };
 
     let respuesta: any = {};
-    this.service.full_estudiante_practicas().subscribe({
+    this.service.full_estudiante_practicas(this.carrera_encargado).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
@@ -83,9 +84,10 @@ export class TablaComponent {
         let temppracticas:any = [];
 
         for (let alumno of respuesta.body){
-          console.log(alumno.estudiante.id_carrera);
-          if (alumno.estudiante.id_carrera == this.carrera_encargado)
+          console.log(alumno)
+          if (alumno.modalidad.config_practica.id_carrera == this.carrera_encargado && alumno.modalidad.config_practica.id_carrera != NULL){
           temppracticas.push(alumno);
+          }
         }
         console.log(temppracticas);
 
