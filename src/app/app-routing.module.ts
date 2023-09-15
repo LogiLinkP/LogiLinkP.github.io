@@ -29,6 +29,7 @@ import { LogoutComponent } from './componentes/logout/logout.component';
 import { ChatComponent } from './componentes/chat/chat.component';
 import { InformeComponent } from "./vistas/informe/informe.component";
 import { NotisHistorialComponent } from './vistas/notis-historial/notis-historial.component';
+import { RamosAlumnosComponent } from './vistas/ramos-alumnos/ramos-alumnos.component';
 
 import { environment } from 'src/environments/environment';
 
@@ -72,6 +73,7 @@ const routes: Routes = [
   { path: 'informe/:id_practica/:id_informe', component: InformeComponent },
   { path: 'encuestaFinal/:id_config_practica', component: EncuestaFinPracticaComponent },
   { path: 'consistencia', component: ExplicacionConsistenciaComponent },
+  { path: 'estadisticaRamos', component: RamosAlumnosComponent},
   { path: '**', component: PnfComponent },
 ];
 

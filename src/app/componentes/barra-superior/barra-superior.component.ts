@@ -73,12 +73,14 @@ export class BarraSuperiorComponent implements OnInit{
       }
     }
     this.service_noti.callback.subscribe(res => {
-      let fecha = this.datetime.transform((new Date), 'MM/dd/yyyy h:mm:ss')
+      let fechaF = res.fecha
+
+      console.log(fechaF);
       let mensaje = res.message;
       console.log("EL ESTADO ACTUAL ES", this.estado_config);
       if(this.estado_config == "Notificaciones y Correo" || this.estado_config == "Sólo Notificaciones"){
         console.log("Notificacion recibida2, el mensaje es", mensaje);
-        this.notificaciones.push({fecha: fecha, texto: mensaje, link: res.link});
+        this.notificaciones.push({fecha: fechaF, texto: mensaje, link: res.link});
       }
       this.cdr.detectChanges();
     })
@@ -155,6 +157,9 @@ export class BarraSuperiorComponent implements OnInit{
 
   ngOnInit(): void {
     console.log(this.id_usuario);
+    //console.log(this.estado_config);
+
+    /*
     if(this.estado_config == "Correos y Notificaciones" || this.estado_config == "Sólo Notificaciones"){
       this.Service.obtener_notificaciones(this.id_usuario, this.estado_config).subscribe({
         next: (data:any) => {
@@ -173,6 +178,7 @@ export class BarraSuperiorComponent implements OnInit{
         }
       })
     }
+    */
 
     this.Service.obtener_usuario(this.id_usuario).subscribe({
       next: (data: any) => {
@@ -183,6 +189,28 @@ export class BarraSuperiorComponent implements OnInit{
         return;
       },
       complete: () => {
+        this.estado_config = this.respuesta.body.config
+        console.log(this.estado_config)
+
+        if(this.estado_config == "Notificaciones y Correo" || this.estado_config == "Sólo Notificaciones"){
+          this.Service.obtener_notificaciones(this.id_usuario, this.estado_config).subscribe({
+            next: (data:any) => {
+              this.respuesta = { ...this.respuesta, ...data}
+            },
+            error: (error: any) => {
+              console.log(error);
+            },
+            complete: () => {
+              this.notificaciones = this.respuesta.body;
+              this.notificaciones = this.notificaciones.map((notificacion:any ) => {
+                notificacion.fecha = dayjs(notificacion.fecha, "YYYY-MM-DDTHH:mm:ssZ").format("DD/MM/YYYY HH:mm");
+                return notificacion;
+              });
+              this.respuesta = [];
+            }
+          })
+        }
+
         if(this.respuesta.body.es_estudiante == true){
           this.es_alumno = 1;
           this.Service.obtener_estudiante(this.id_usuario).subscribe({
@@ -221,6 +249,27 @@ export class BarraSuperiorComponent implements OnInit{
         this.respuesta = [];
       }
     });  
+
+    /*
+    if(this.estado_config == "Correos y Notificaciones" || this.estado_config == "Sólo Notificaciones"){
+      this.Service.obtener_notificaciones(this.id_usuario, this.estado_config).subscribe({
+        next: (data:any) => {
+          this.respuesta = { ...this.respuesta, ...data}
+        },
+        error: (error: any) => {
+          console.log(error);
+        },
+        complete: () => {
+          this.notificaciones = this.respuesta.body;
+          this.notificaciones = this.notificaciones.map((notificacion:any ) => {
+            notificacion.fecha = dayjs(notificacion.fecha, "YYYY-MM-DDTHH:mm:ssZ").format("DD/MM/YYYY HH:mm");
+            return notificacion;
+          });
+          this.respuesta = [];
+        }
+      })
+    }
+    */
     console.log(this.personas);
   }
 
@@ -239,7 +288,6 @@ export class BarraSuperiorComponent implements OnInit{
         this.respuesta = [];
       }
     })
-    this.notificaciones = [];
   }
 
   redirect_to_chat(userid_otro_participante:number, tipo:string){

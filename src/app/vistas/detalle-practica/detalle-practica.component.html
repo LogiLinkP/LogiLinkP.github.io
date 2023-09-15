@@ -27,17 +27,17 @@
                     <!-- Page Heading -->
                     <div class="row">
                         <div class="col-lg-9">
-                            <h1 class="h3 mb-2 text-gray-800" >{{ practica?.estudiante?.usuario.nombre }} <br> {{
+                            <h1 class="h3 mb-2 text-gray-800">{{ practica?.estudiante?.usuario.nombre }} <br> {{
                                 practica?.modalidad?.config_practica?.nombre }}</h1>
                         </div>
                         <div class="col-lg-1 d-flex justify-content-end align-items-center">
-                            <button type="button" class="btn btn-primary btn-md btn-block " 
+                            <button type="button" class="btn btn-primary btn-md btn-block "
                                 onclick="window.history.back();">Volver</button>
                         </div>
 
                         <div class="col-lg-2 d-flex justify-content-end align-items-center">
-                            <button type="button" class="btn btn-primary btn-md btn-block " 
-                            (click)="generar_pdf_resumen();">Descargar Resumen PDF</button>
+                            <button type="button" class="btn btn-primary btn-md btn-block "
+                                (click)="generar_pdf_resumen();">Descargar Resumen PDF</button>
                         </div>
                     </div>
                     <br>
@@ -189,17 +189,18 @@
                                         </div>
                                         <br>
                                         <div class="row">
-                                            <div class="col-lg-1"></div>
-                                            <div class="col-lg-5">
+                                            <div class="col-lg-3"></div>
+                                            <div class="col-lg-6">
                                                 <app-boton-solicitar-archivo [id_alumno]="id_estudiante"
                                                     [correo_alumno]="correo_estudiante"
                                                     [configuración_alumno]="config_estudiante"
                                                     [id_practica]="practica.id"></app-boton-solicitar-archivo>
                                             </div>
-                                            <div class="col-lg-5">
+                                            <div class="col-lg-3"></div>
+                                            <!-- <div class="col-lg-5">
                                                 <button type="button" class="btn btn-primary btn-lg btn-block">Resumir
                                                     Informe Estudiante</button>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -294,7 +295,9 @@
                                                             <td>{{doc_extra.nombre_solicitud}}</td>
                                                             <td>{{doc_extra.tipo_archivo}}</td>
                                                             <td>Extra</td>
-                                                            <td><button *ngIf="doc_extra.key!=null && doc_extra.key!=''; else no_doc_extra" class="btn btn-primary btn-sm btn-block"
+                                                            <td><button
+                                                                    *ngIf="doc_extra.key!=null && doc_extra.key!=''; else no_doc_extra"
+                                                                    class="btn btn-primary btn-sm btn-block"
                                                                     (click)="descargar_documento(doc_extra.id, doc_extra_str)">Descargar</button>
                                                                 <ng-template #no_doc_extra>
                                                                     <b>No subido aún</b>
