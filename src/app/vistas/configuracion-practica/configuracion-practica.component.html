@@ -261,42 +261,41 @@
             <div *ngIf="tipo_pregunta=='alternativas'">
 
 
-              <!-- FORMULARIO OPCIONES -->
-              <br>
-              <!-- <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddOpcion()"> -->
-
-              <mat-table [dataSource]="dataSourcePacksOpcionesPregunta">
-                <ng-container formArrayName="arregloOpcionesPreguntas">
-
-                  <!-- Cant Column -->
-                  <ng-container matColumnDef="opcion_pregunta">
-                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                    <mat-cell *matCellDef="let element;" [formGroup]="element">
-                      <mat-form-field>
-                        <input matInput placeholder="Escribir opción" formControlName="opcion_pregunta" required>
-                      </mat-form-field>
-                    </mat-cell>
-                  </ng-container>
-
-                  <!-- Delete Column -->
-                  <ng-container matColumnDef="eliminar">
-                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                    <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
-
-                      <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
-                        type="button" (click)="deleteOpcionPregunta(i)">
-                        <mat-icon matSuffix>Eliminar opción</mat-icon>
-                      </button>
-
-                    </mat-cell>
-                  </ng-container>
-
-                  <!-- header titles -->
-
-                  <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
-                  <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
-                </ng-container>
-              </mat-table>
+                          <!-- FORMULARIO OPCIONES -->
+                          <br>
+                          <!-- <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddOpcion()"> -->
+                            
+                              <mat-table [dataSource]="dataSourcePacksOpcionesPregunta">
+                                <ng-container formArrayName="arregloOpcionesPreguntas">
+                            
+                                  <!-- Cant Column -->
+                                  <ng-container matColumnDef="opcion_pregunta">
+                                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                    <mat-cell *matCellDef="let element;" [formGroup]="element">
+                                      <mat-form-field>
+                                        <input matInput placeholder="Escribir opción" formControlName="opcion_pregunta" required>
+                                      </mat-form-field>
+                                    </mat-cell>
+                                  </ng-container>
+                            
+                                  <!-- Delete Column -->
+                                  <ng-container matColumnDef="eliminar">
+                                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                    <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
+                            
+                                      <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}" type="button" (click)="deleteOpcionPregunta(i)">
+                                        <mat-icon matSuffix>Eliminar opción</mat-icon>
+                                      </button>
+                            
+                                    </mat-cell>
+                                  </ng-container>
+                            
+                                  <!-- header titles -->
+                            
+                                  <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
+                                  <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
+                                </ng-container>
+                              </mat-table>
 
               <div class="button">
                 <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" type="button"
@@ -430,42 +429,41 @@
             <div *ngIf="tipo_pregunta=='alternativas'">
 
 
-              <!-- FORMULARIO OPCIONES -->
-              <br>
-              <!-- <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddOpcion()"> -->
-
-              <mat-table [dataSource]="dataSourcePacksOpcionesPregunta">
-                <ng-container formArrayName="arregloOpcionesPreguntas">
-
-                  <!-- Cant Column -->
-                  <ng-container matColumnDef="opcion_pregunta">
-                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                    <mat-cell *matCellDef="let element;" [formGroup]="element">
-                      <mat-form-field>
-                        <input matInput placeholder="Escribir opción" formControlName="opcion_pregunta" required>
-                      </mat-form-field>
-                    </mat-cell>
-                  </ng-container>
-
-                  <!-- Delete Column -->
-                  <ng-container matColumnDef="eliminar">
-                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                    <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
-
-                      <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
-                        type="button" (click)="deleteOpcionPregunta(i)">
-                        <mat-icon matSuffix>Eliminar opción</mat-icon>
-                      </button>
-
-                    </mat-cell>
-                  </ng-container>
-
-                  <!-- header titles -->
-
-                  <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
-                  <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
-                </ng-container>
-              </mat-table>
+                        <!-- FORMULARIO OPCIONES -->
+                        <br>
+                        <!-- <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddOpcion()"> -->
+                          
+                            <mat-table [dataSource]="dataSourcePacksOpcionesPregunta">
+                              <ng-container formArrayName="arregloOpcionesPreguntas">
+                          
+                                <!-- Cant Column -->
+                                <ng-container matColumnDef="opcion_pregunta">
+                                  <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                  <mat-cell *matCellDef="let element;" [formGroup]="element">
+                                    <mat-form-field>
+                                      <input matInput placeholder="Escribir opción" formControlName="opcion_pregunta" required>
+                                    </mat-form-field>
+                                  </mat-cell>
+                                </ng-container>
+                          
+                                <!-- Delete Column -->
+                                <ng-container matColumnDef="eliminar">
+                                  <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                  <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
+                          
+                                    <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}" type="button" (click)="deleteOpcionPregunta(i)">
+                                      <mat-icon matSuffix>Eliminar opción</mat-icon>
+                                    </button>
+                          
+                                  </mat-cell>
+                                </ng-container>
+                          
+                                <!-- header titles -->
+                          
+                                <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
+                                <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
+                              </ng-container>
+                            </mat-table>
 
               <div class="button">
                 <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" type="button"
@@ -552,16 +550,15 @@
       <div *ngIf="estado == 'encuesta_final'" class="container-fluid">
         <br>
 
-        <p>Preguntas Encuesta Practicantes Post-Practica</p>
-
-
-
-
-        <div *ngFor="let pregunta_final of lista_preguntas_encuesta; let i = index">
-          <br>
-          Pregunta Ingresada:
-          <br>
-          {{pregunta_final}}
+              <p>Preguntas Encuesta Practicantes Post-Practica</p>
+              
+              <p>Recuerde que al estudiante ya se le consulta sobre los ramos mas utiles en su carrera y se le pide que califique la empresa donde realizó su práctica</p>
+              
+              <div *ngFor="let pregunta_final of lista_preguntas_encuesta; let i = index">
+                <br>
+                Pregunta Ingresada:
+                <br>
+                {{pregunta_final}}
 
           <div *ngIf="lista_opciones_preguntas_encuesta[i] != ''">
             Opciones:
@@ -589,15 +586,12 @@
 
           <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddPreguntaEncuesta()">
 
-            <input type="text" [(ngModel)]="pregunta" class="form-control col-lg-3 col-6"
-              placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
-            <select name="tipo" id="tipo" (change)="tipoPregunta($event)" class="form-select form-select-sm mb-4 col-4"
-              aria-label="Default select example">
-              <option value="0">Seleccione el tipo de respuesta</option>
-              <option value="1">Abierta</option>
-              <option value="2">Casillas</option>
-              <option value="3">Alternativa</option>
-            </select>
+                  <input type="text" [(ngModel)]="pregunta" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
+                    <select name="tipo" id="tipo" (change) = "tipoPregunta($event)" class="form-select form-select-sm mb-4 col-4"  aria-label="Default select example">
+                        <option value="0">Seleccione el tipo de respuesta</option>
+                        <option value="2">Casillas</option>
+                        <option value="3">Alternativa</option>
+                    </select>
 
             <div *ngIf="tipo_pregunta==''"> </div>
             <div *ngIf="tipo_pregunta=='abierta'">
@@ -659,42 +653,41 @@
             <div *ngIf="tipo_pregunta=='alternativas'">
 
 
-              <!-- FORMULARIO OPCIONES -->
-              <br>
-              <!-- <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddOpcion()"> -->
-
-              <mat-table [dataSource]="dataSourcePacksOpcionesPregunta">
-                <ng-container formArrayName="arregloOpcionesPreguntas">
-
-                  <!-- Cant Column -->
-                  <ng-container matColumnDef="opcion_pregunta">
-                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                    <mat-cell *matCellDef="let element;" [formGroup]="element">
-                      <mat-form-field>
-                        <input matInput placeholder="Escribir opción" formControlName="opcion_pregunta" required>
-                      </mat-form-field>
-                    </mat-cell>
-                  </ng-container>
-
-                  <!-- Delete Column -->
-                  <ng-container matColumnDef="eliminar">
-                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                    <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
-
-                      <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
-                        type="button" (click)="deleteOpcionPregunta(i)">
-                        <mat-icon matSuffix>Eliminar opción</mat-icon>
-                      </button>
-
-                    </mat-cell>
-                  </ng-container>
-
-                  <!-- header titles -->
-
-                  <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
-                  <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
-                </ng-container>
-              </mat-table>
+                        <!-- FORMULARIO OPCIONES -->
+                        <br>
+                        <!-- <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddOpcion()"> -->
+                          
+                            <mat-table [dataSource]="dataSourcePacksOpcionesPregunta">
+                              <ng-container formArrayName="arregloOpcionesPreguntas">
+                          
+                                <!-- Cant Column -->
+                                <ng-container matColumnDef="opcion_pregunta">
+                                  <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                  <mat-cell *matCellDef="let element;" [formGroup]="element">
+                                    <mat-form-field>
+                                      <input matInput placeholder="Escribir opción" formControlName="opcion_pregunta" required>
+                                    </mat-form-field>
+                                  </mat-cell>
+                                </ng-container>
+                          
+                                <!-- Delete Column -->
+                                <ng-container matColumnDef="eliminar">
+                                  <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                  <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
+                          
+                                    <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}" type="button" (click)="deleteOpcionPregunta(i)">
+                                      <mat-icon matSuffix>Eliminar opción</mat-icon>
+                                    </button>
+                          
+                                  </mat-cell>
+                                </ng-container>
+                          
+                                <!-- header titles -->
+                          
+                                <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
+                                <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
+                              </ng-container>
+                            </mat-table>
 
               <div class="button">
                 <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" type="button"
@@ -722,7 +715,9 @@
         <button class="linea btn btn-warning" type="submit" (click)="volver()">Volver</button>
       </div>
 
-      <!----------------------------------------------------- CONFIGURACION RAMOS ENCUESTA ------------------------------------------------------------------>
+            <!----------------------------------------------------- CONFIGURACION RAMOS ENCUESTA ------------------------------------------------------------------>
+
+            <!--
 
       <div *ngIf="estado == 'agregar_ramos'" class="container-fluid">
         <br>
@@ -757,13 +752,61 @@
             <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save"
               type="submit">Agregar Ramo</button>
 
-          </form>
-          <br>
-          <button class="btn btn-success" type="submit">Siguiente</button>
-        </form>
-        <br>
-        <button class="linea btn btn-warning" type="submit" (click)="volver()">Volver</button>
-      </div>
+                </form>
+                <br>
+                <button mat-raised-button [ngStyle]="{'background-color': 'green', 'color': 'white'}" class="btn-save" type="submit">Siguiente</button>
+              </form>
+              <br>
+              <button mat-raised-button [ngStyle]="{'background-color': 'yellow', 'color': 'black'}" class="linea" type="submit" (click)="volver()">Volver</button>
+            </div>
+
+            -->
+
+            <!-------------------------------------------------- CONFIGURACION APTITUDES A EVALUAR -------------------------------------------------------------->
+
+            <div *ngIf="estado == 'aptitudes'" class="container-fluid">
+
+              <br>
+
+              <p>Ingrese las aptitudes que el supervisor evaluara del practicnate</p>
+
+
+              <div *ngFor="let aptitud of lista_aptitudes; let i = index">
+                <br>
+                Aptitud Ingresada:
+                <br>
+                {{aptitud}}
+
+                <br>
+                    <form *ngIf="flag" (ngSubmit)="eliminarAptitud(i)">
+                      <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}">
+                        Eliminar Aptitud
+                      </button>
+                    </form>
+              </div>
+
+              <br>
+
+              <form *ngIf="flag" (ngSubmit)="avanzarDesdeAptitud()">
+
+                <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddAptitud()">
+
+
+                  Ingresar Aptitud
+                  <input type="text" [(ngModel)]="aptitud" class="form-control col-lg-3 col-6" placeholder="Ingresar Aptitud" formControlName="aptitudFORM">
+
+                  <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Agregar Aptitud</button>
+
+                </form>
+                <br>
+                <button mat-raised-button [ngStyle]="{'background-color': 'green', 'color': 'white'}" class="btn-save" type="submit">Siguiente</button>
+              </form>
+              <br>
+              <button mat-raised-button [ngStyle]="{'background-color': 'yellow', 'color': 'black'}" class="linea" type="submit" (click)="volver()">Volver</button>
+
+            </div>
+
+
 
       <!-------------------------------------------------- CONFIGURACION  PREGUNTAS SUPERVISOR -------------------------------------------------------------->
 
@@ -806,16 +849,13 @@
 
           <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddPreguntaSupervisor()">
 
-            <input type="text" [(ngModel)]="pregunta" class="form-control col-lg-3 col-6"
-              placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
-            <select name="tipo" id="tipo" (change)="tipoPregunta($event)" class="form-select form-select-sm mb-4 col-4"
-              aria-label="Default select example">
-              <option value="0">Seleccione el tipo de respuesta</option>
-              <option value="1">Abierta</option>
-              <option value="2">Casillas</option>
-              <option value="3">Alternativa</option>
-              <option value="4">Evaluación</option>
-            </select>
+                  <input type="text" [(ngModel)]="pregunta" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
+                    <select name="tipo" id="tipo" (change) = "tipoPregunta($event)" class="form-select form-select-sm mb-4 col-4"  aria-label="Default select example">
+                        <option value="0">Seleccione el tipo de respuesta</option>
+                        <option value="1">Abierta</option>
+                        <option value="2">Casillas</option>
+                        <option value="3">Alternativa</option>
+                    </select>
 
             <div *ngIf="tipo_pregunta==''"> </div>
             <div *ngIf="tipo_pregunta=='abierta'">
@@ -877,42 +917,41 @@
             <div *ngIf="tipo_pregunta=='alternativas'">
 
 
-              <!-- FORMULARIO OPCIONES -->
-              <br>
-              <!-- <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddOpcion()"> -->
-
-              <mat-table [dataSource]="dataSourcePacksOpcionesPregunta">
-                <ng-container formArrayName="arregloOpcionesPreguntas">
-
-                  <!-- Cant Column -->
-                  <ng-container matColumnDef="opcion_pregunta">
-                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                    <mat-cell *matCellDef="let element;" [formGroup]="element">
-                      <mat-form-field>
-                        <input matInput placeholder="Escribir opción" formControlName="opcion_pregunta" required>
-                      </mat-form-field>
-                    </mat-cell>
-                  </ng-container>
-
-                  <!-- Delete Column -->
-                  <ng-container matColumnDef="eliminar">
-                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                    <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
-
-                      <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
-                        type="button" (click)="deleteOpcionPregunta(i)">
-                        <mat-icon matSuffix>Eliminar opción</mat-icon>
-                      </button>
-
-                    </mat-cell>
-                  </ng-container>
-
-                  <!-- header titles -->
-
-                  <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
-                  <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
-                </ng-container>
-              </mat-table>
+                        <!-- FORMULARIO OPCIONES -->
+                        <br>
+                        <!-- <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddOpcion()"> -->
+                          
+                            <mat-table [dataSource]="dataSourcePacksOpcionesPregunta">
+                              <ng-container formArrayName="arregloOpcionesPreguntas">
+                          
+                                <!-- Cant Column -->
+                                <ng-container matColumnDef="opcion_pregunta">
+                                  <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                  <mat-cell *matCellDef="let element;" [formGroup]="element">
+                                    <mat-form-field>
+                                      <input matInput placeholder="Escribir opción" formControlName="opcion_pregunta" required>
+                                    </mat-form-field>
+                                  </mat-cell>
+                                </ng-container>
+                          
+                                <!-- Delete Column -->
+                                <ng-container matColumnDef="eliminar">
+                                  <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                  <mat-cell *matCellDef="let element; index as i" [formGroup]="element">
+                          
+                                    <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}" type="button" (click)="deleteOpcionPregunta(i)">
+                                      <mat-icon matSuffix>Eliminar opción</mat-icon>
+                                    </button>
+                          
+                                  </mat-cell>
+                                </ng-container>
+                          
+                                <!-- header titles -->
+                          
+                                <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
+                                <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
+                              </ng-container>
+                            </mat-table>
 
               <div class="button">
                 <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" type="button"
