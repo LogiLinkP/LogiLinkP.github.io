@@ -256,18 +256,16 @@
                                                                                             </tr>
                                                                                         </thead>
                                                                                         <tbody>
-                                                                                            <!--<tr *ngFor="let aptitud of aptitudes[i];">
-                                                                                                <td>{{aptitud?.nombre}}</td>
-                                                                                                <td>{{aptitud?.valor}}</td>
-                                                                                                <td>Normal</td>                                                                                                
+                                                                                            <tr>
+                                                                                                <div *ngFor="let aptitud of aptitudes_practica[i]; let j = index">
+                                                                                                    <th>{{aptitud}}</th>
+                                                                                                    <th>{{notas_aptitudes[i][j]}}</th>
+                                                                                                </div>
                                                                                             </tr>
-                                                                                            -->
-                                                                                            <!--
-                                                                                                <tr *ngFor="let prom of notas_promedio[i]">
-                                                                                                    <td> Promedio </td>
-                                                                                                    <td> {{prom}} </td>
-                                                                                                </tr>
-                                                                                            -->
+                                                                                            <tr>
+                                                                                                <th>Promedio</th>
+                                                                                                <th>{{notas_promedio[i]}}</th> 
+                                                                                            </tr>
                                                                                         </tbody>
                                                                                     </table>
                                                                                 </div>
