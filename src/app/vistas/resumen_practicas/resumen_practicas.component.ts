@@ -24,6 +24,7 @@ export class TablaComponent {
   dtTrigger: Subject<any> = new Subject();
 
   practicas: any = [];
+  temp_notas:any = []
   notas_promedio: any = [];
 
   texto_consistencia_informe: string = "Indica qué tan relacionados están los informes del\n" +
@@ -80,8 +81,9 @@ export class TablaComponent {
           alumno.interpretacion_informe = alumno.interpretacion_informe ? alumno.interpretacion_informe : "—";
           return alumno;
         });
-
+        
         for (var item of this.practicas){
+          let iditem = item.id
           this.practi_service.obtener_practica(item.id).subscribe({
             next: (data: any) => {
               respuesta = { ...respuesta, ...data }
@@ -94,64 +96,43 @@ export class TablaComponent {
             },
             complete: () => {
               let evaluaciones = respuesta.body.respuesta_supervisors
-              console.log(evaluaciones);
-
+              
               if(evaluaciones.length == 0){
-                console.log("Entra al if")
-                this.notas_promedio.push("0")
+                this.temp_notas.push([iditem, 0])
               }
               else{
-                console.log("Entra al else")
+                let find = -1
                 for (var val of evaluaciones){
                   let nota_promedio = 0;
                   let prom = 0;
                   let temp: any = [];
 
                   if (val.pregunta_supervisor.enunciado == "Seleccione las características que mejor describen al practicante"){
-                    if(val.pregunta_supervisor.opciones.indexOf(";;") != -1){
-                      temp = val.respuesta.split(",");
-                      for(var n in temp){
-                        nota_promedio += Number(n);
-                        prom += 1;
-                      } 
-                      nota_promedio = nota_promedio/prom
-                      this.notas_promedio.push(nota_promedio.toString())   
-    
-                    }  
-                    else{
-                      this.notas_promedio.push("0")
-                    }
+                    find = 1
+                    temp = val.respuesta.split(",");
+                    for(var n in temp){
+                      nota_promedio += Number(n);
+                      prom += 1;
+                    } 
+                    nota_promedio = nota_promedio/prom
+                    this.temp_notas.push([iditem, nota_promedio])  
+                    continue
                   }
-                }  
+                }
+                if (find == -1){
+                  this.temp_notas.push([iditem, 0])
+                } 
+              }
+              this.temp_notas.sort(function(a:any, b:any){
+                return a[0] - b[0];
+              })
+              this.notas_promedio = [];
+              for (let item2 of this.temp_notas){
+                this.notas_promedio.push(item2[1])
               }
             }
           });
-        }
-
-        /*
-        for (var item of this.practicas){
-          let temp: any = [];
-          let nota_promedio = 0;
-          let prom = 0;
-          for(var item2 of item){
-            if ((item2.pregunta_supervisor.tipo_respuesta == "casillas") && (item2.pregunta_supervisor.opciones != NULL)){
-              if(item2.pregunta_supervisor.opciones.indexOf(";;") != -1){
-                this.aptitudes_practica.push(item2.pregunta_supervisor.opciones.split(";;"))
-                temp = item2.respuesta.split(",");
-                for(var n in temp){
-                  nota_promedio += Number(n);
-                  prom += 1;
-                }       
-              }                              
-            }
-          }
-
-          this.notas_aptitudes.push(temp);
-          this.notas_promedio.push(nota_promedio/prom)
-          
-        }
-        */
-        
+        }     
         this.rerender();
       }
     });
