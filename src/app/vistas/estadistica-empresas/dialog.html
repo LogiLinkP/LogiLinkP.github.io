@@ -1,0 +1,10 @@
+<h1 style="text-align: center;" mat-dialog-title>Comentarios {{data.nombre_empresa}}</h1>
+<div mat-dialog-content>
+    <div *ngFor="let comentario of data.lista_comentarios">
+        <div *ngIf="!comentario">No hay comentarios para mostrar</div>
+        <div *ngIf="comentario">- {{comentario}}</div>
+        <!-- <div *ngIf="comentario.isNumber()" >{{comentario}}</div> -->
+        <br>
+    </div>
+
+</div>
