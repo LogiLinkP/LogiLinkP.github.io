@@ -22,6 +22,8 @@ export class TablaComponent {
   dtTrigger: Subject<any> = new Subject();
 
   practicas: any = [];
+  notas_aptitudes: any = [];
+  notas_promedio: any = [];
 
   texto_consistencia_informe: string = "Indica qué tan relacionados están los informes del\n" +
     "estudiante con lo que escribió su supervisor.\n" +
@@ -73,6 +75,31 @@ export class TablaComponent {
           alumno.interpretacion_informe = alumno.interpretacion_informe ? alumno.interpretacion_informe : "—";
           return alumno;
         });
+        console.log(this.practicas);
+
+        /*
+        for (var item of this.practicas){
+          let temp: any = [];
+          let nota_promedio = 0;
+          let prom = 0;
+          for(var item2 of item){
+            if ((item2.pregunta_supervisor.tipo_respuesta == "casillas") && (item2.pregunta_supervisor.opciones != NULL)){
+              if(item2.pregunta_supervisor.opciones.indexOf(";;") != -1){
+                this.aptitudes_practica.push(item2.pregunta_supervisor.opciones.split(";;"))
+                temp = item2.respuesta.split(",");
+                for(var n in temp){
+                  nota_promedio += Number(n);
+                  prom += 1;
+                }       
+              }                              
+            }
+          }
+
+          this.notas_aptitudes.push(temp);
+          this.notas_promedio.push(nota_promedio/prom)
+          
+        }
+        */
         //console.log("practicas: ", this.practicas);
         this.rerender();
       }
