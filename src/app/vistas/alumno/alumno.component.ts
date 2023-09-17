@@ -8,6 +8,7 @@ import { SupervisorService } from 'src/app/servicios/supervisor/supervisor.servi
 import { Router } from "@angular/router"
 import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
 import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
+import { NULL } from 'sass';
 
 @Component({
   selector: 'alumno',
@@ -31,6 +32,11 @@ export class DetalleAlumnoComponent implements OnInit{
   link_inscripcion = ""
   doc_str = "documento";
   doc_extra_str = "documento_extra";
+
+  evaluaciones: any = [];
+  aptitudes_practica:any = [];
+  notas_aptitudes:any = [];
+  notas_promedio:any = [];
 
   constructor(private service_datos: ObtenerDatosService , private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, 
               private service_gestion: GestionarService, private service_supervisor: SupervisorService, private router: Router,
@@ -146,7 +152,38 @@ export class DetalleAlumnoComponent implements OnInit{
                   console.log("Solicitudes de documentos de la practica:",this.solicitudes_practicas)
                 }
               });
-            });               
+            });  
+
+            for (var item of this.practicas){
+              this.evaluaciones.push(item.respuesta_supervisors)
+            }
+            /*
+            this.evaluaciones = this.practicas.filter((respuesta_supervisors: any) => {
+              return !isNaN(respuesta_supervisors.respuesta);
+            });
+            */
+
+            for (var item of this.evaluaciones){
+              let temp: any = [];
+              let nota_promedio = 0;
+              let prom = 0;
+              for(var item2 of item){
+                if ((item2.pregunta_supervisor.tipo_respuesta == "casillas") && (item2.pregunta_supervisor.opciones != NULL)){
+                  if(item2.pregunta_supervisor.opciones.indexOf(";;") != -1){
+                    this.aptitudes_practica.push(item2.pregunta_supervisor.opciones.split(";;"))
+                    temp = item2.respuesta.split(",");
+                    for(var n in temp){
+                      nota_promedio += Number(n);
+                      prom += 1;
+                    }       
+                  }                              
+                }
+              }
+
+              this.notas_aptitudes.push(temp);
+              this.notas_promedio.push(nota_promedio/prom)
+            }
+            
             console.log("Practicas correspondientes a nombre:",this.practicas_correspondiente_nombre)
           }
         });

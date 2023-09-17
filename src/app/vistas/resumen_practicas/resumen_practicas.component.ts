@@ -5,6 +5,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Router } from "@angular/router";
+import { DetallePracticaService } from 'src/app/servicios/encargado/detalle-practica.service';
+import { NULL } from 'sass';
 
 
 @Component({
@@ -22,7 +24,6 @@ export class TablaComponent {
   dtTrigger: Subject<any> = new Subject();
 
   practicas: any = [];
-  notas_aptitudes: any = [];
   notas_promedio: any = [];
 
   texto_consistencia_informe: string = "Indica qué tan relacionados están los informes del\n" +
@@ -42,7 +43,11 @@ export class TablaComponent {
   texto_indice_repeticion: string = "Es un valor que indica qué tanto contenido de los informes es texto repetido\n" +
     "Para más información, haga click en el botón.";
 
-  constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar, private router: Router) {
+  texto_promedio_evaluacion: string = "Es un valor que indica en promedio las aptitudes del estudiante evaluadas por el supervisor";
+
+  
+  constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar,
+              private router: Router, private practi_service: DetallePracticaService) {
     //console.log("ESTE ES EL COMPONENTE ENCARGADO");
 
     this.dtOptions = {
@@ -75,7 +80,53 @@ export class TablaComponent {
           alumno.interpretacion_informe = alumno.interpretacion_informe ? alumno.interpretacion_informe : "—";
           return alumno;
         });
-        console.log(this.practicas);
+
+        for (var item of this.practicas){
+          this.practi_service.obtener_practica(item.id).subscribe({
+            next: (data: any) => {
+              respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+              this._snackBar.open("Error al solicitar datos de práctica", "Cerrar", {
+                duration: 10000,
+                panelClass: ['red-snackbar']
+              });
+            },
+            complete: () => {
+              let evaluaciones = respuesta.body.respuesta_supervisors
+              console.log(evaluaciones);
+
+              if(evaluaciones.length == 0){
+                console.log("Entra al if")
+                this.notas_promedio.push("0")
+              }
+              else{
+                console.log("Entra al else")
+                for (var val of evaluaciones){
+                  let nota_promedio = 0;
+                  let prom = 0;
+                  let temp: any = [];
+
+                  if (val.pregunta_supervisor.enunciado == "Seleccione las características que mejor describen al practicante"){
+                    if(val.pregunta_supervisor.opciones.indexOf(";;") != -1){
+                      temp = val.respuesta.split(",");
+                      for(var n in temp){
+                        nota_promedio += Number(n);
+                        prom += 1;
+                      } 
+                      nota_promedio = nota_promedio/prom
+                      this.notas_promedio.push(nota_promedio.toString())   
+    
+                    }  
+                    else{
+                      this.notas_promedio.push("0")
+                    }
+                  }
+                }  
+              }
+            }
+          });
+        }
 
         /*
         for (var item of this.practicas){
@@ -100,7 +151,7 @@ export class TablaComponent {
           
         }
         */
-        //console.log("practicas: ", this.practicas);
+        
         this.rerender();
       }
     });

@@ -57,12 +57,16 @@
                                                 data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
                                                     class="fas fa-info-circle"></i></a>
                                         </th>
-                                        <th style="vertical-align: bottom;">Promedio Evaluación</th>
+                                        <th style="vertical-align: bottom;">Promedio Evaluación
+                                            <a class ="pointer" title="{{texto_promedio_evaluacion}}"
+                                                data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
+                                                    class="fas fa-info-circle"></i></a>
+                                        </th>
                                         <th style="vertical-align: bottom;">Aprobación</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let practica of practicas;">
+                                    <tr *ngFor="let practica of practicas; let indice=index">
                                         <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
                                             style="vertical-align: middle;">{{practica.estudiante.usuario.nombre}}</td>
                                         <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
@@ -83,8 +87,9 @@
                                             style="vertical-align: middle;">{{practica.interpretacion_nota}}</td>
                                         <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
                                             style="vertical-align: middle;">{{practica.interpretacion_informe}}</td>
+                                        
                                         <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
-                                            style="vertical-align: middle;">{{practica.nota_evaluacion}}</td>
+                                            style="vertical-align: middle;">{{notas_promedio[indice]}}</td>
                                         <td [ngSwitch]="practica.estado" style="vertical-align: middle;">
                                             <app-revision *ngSwitchCase="'Evaluada'"
                                                 [id_estudiante]="practica.id_estudiante"

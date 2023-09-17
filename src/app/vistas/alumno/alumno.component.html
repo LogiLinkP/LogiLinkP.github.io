@@ -232,6 +232,49 @@
                                                                 </div>
                                                             </div><!-- Fin Tarjeta Archivos -->
                                                         </div><!-- Fin Fila -->
+                                                        
+                                                        <!--Tarjeta Aptitudes -->
+                                                        <div class = "row" style= "max-width: 100%">
+                                                            <!-- Tarjeta Archivos -->
+                                                            <div class="col-xl-6">
+                                                                <div class="card shadow mb-4">
+                                                                    <!-- Card Header - Accordion -->
+                                                                    <a class="card-header py-3">
+                                                                        <h4 class="m-0 font-weight-bold text-primary">Evaluación Supervisor</h4>
+                                                                    </a>
+                                                                    <!-- Card Content - Collapse -->
+                                                                    <div class="collapse show" id="collapseCardExample">
+                                                                        <div class="card-body">
+                                                                            <div class="overflow-auto" >
+                                                                                <div class="table-responsive">
+                                                                                    <table class="table table-bordered hoverTable" id="dataTable"
+                                                                                        width="100%" cellspacing="0">
+                                                                                        <thead>
+                                                                                            <tr>
+                                                                                                <th>Aptitud</th>
+                                                                                                <th>Evaluación</th>
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <div *ngFor="let aptitud of aptitudes_practica[i]; let j = index">
+                                                                                                    <th>{{aptitud}}</th>
+                                                                                                    <th>{{notas_aptitudes[i][j]}}</th>
+                                                                                                </div>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <th>Promedio</th>
+                                                                                                <th>{{notas_promedio[i]}}</th> 
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
                                                         <div class="row" style="max-width: 100%;" *ngIf="practica[1].estado == 'En curso'">                                                           
 
