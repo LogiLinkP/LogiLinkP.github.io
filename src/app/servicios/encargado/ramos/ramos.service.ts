@@ -9,8 +9,8 @@ import { environment } from 'src/environments/environment';
 export class RamosService {
     constructor(private _http: HttpClient) { }
 
-    getRamos() {
-        const req = new HttpRequest('GET', `${environment.url_back}/ramo`, {
+    getRamos(id: number) {
+        const req = new HttpRequest('GET', `${environment.url_back}/carrera?id=${id}`, {
             responseType: 'json'
         });
 

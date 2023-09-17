@@ -1,9 +1,9 @@
 import { DOCUMENT } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, ParamMap, Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router, Event } from '@angular/router';
 import { ChangeDetectorRef, Component, Inject} from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table'
+import { RamosService } from 'src/app/servicios/encargado/ramos/ramos.service';
 
 @Component({
   selector: 'app-ramos-encargado',
@@ -18,15 +18,42 @@ export class RamosEncargadoComponent {
         private route: ActivatedRoute,
         private snackBar: MatSnackBar,
         private cd: ChangeDetectorRef,
+        private service: RamosService,
         @Inject(DOCUMENT) private document: Document
     ) { 
-        this.generarForm();
+        this.requestInicial();
     }
 
     ramoFORM = new FormControl('');
     ramo: string = "";
     lista_ramos: string[] = [];
     fg!: FormGroup;
+
+    requestInicial() {
+        let respuesta: any = {};
+        console.log("aqui esta el id disen", window.localStorage);
+
+        this.service.getRamos(1).subscribe({
+            next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+                this.snackBar.open("Error al buscar ramos", "Cerrar", {
+                duration: 3000,
+                panelClass: ['red-snackbar']
+                });
+                console.log("Error al buscar ramos", error);
+            },
+            complete: () => {
+                console.log("respuesta", respuesta);
+                let ramos = respuesta.body.ramos.split(",");
+                for (let i = 0; i < ramos.length; i++) {
+                    this.lista_ramos.push(ramos[i]);
+                }
+                this.generarForm();
+            }
+        });
+    }
 
     generarForm() {
         this.fg = this.fb.group({
@@ -45,6 +72,11 @@ export class RamosEncargadoComponent {
     eliminarRamo(index: number) {
         console.log("eliminando ramo", index);
         this.lista_ramos.splice(index, 1);
+    }
+
+    mandarDatos() {
+        console.log("mandando datos");
+        console.log(this.lista_ramos);
     }
 
     scrollToTop(): void {
