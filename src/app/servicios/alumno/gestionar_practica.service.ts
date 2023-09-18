@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 })
 export class GestionarService {
 
-  constructor(private http: HttpClient ) { }
+  constructor(private http: HttpClient) { }
 
   registrar_empresa(nombre_empresa: string, rut_empresa: string) {
     console.log("Registrando empresa con nombre: ", nombre_empresa, " y rut: ", rut_empresa)
@@ -38,7 +38,7 @@ export class GestionarService {
   }
 
   registrar_practica(id_estudiante: number, id_modalidad: number, fecha_inicio: string,
-                      id_empresa:number, id_supervisor:number, id_encargado:number) {
+    id_empresa: number, id_supervisor: number, id_encargado: number, id_config_practica: number) {
     const nueva_practica = {
       estado: environment.estado_practica.en_curso,
       id_estudiante: id_estudiante,
@@ -47,13 +47,14 @@ export class GestionarService {
       horas: 0,
       id_empresa: id_empresa,
       id_supervisor: id_supervisor,
-      id_encargado: id_encargado
+      id_encargado: id_encargado,
+      id_config_practica
     }
     const req = new HttpRequest('POST', `${environment.url_back}/practica/crear`, nueva_practica, {
       responseType: 'text'
-    });         
+    });
     return this.http.request(req);
-  }   
+  }
 
   finalizar_practica(id_estudiante: number, id_practica: number, estado: string, correo: string, nom_estudiante: string) {
     console.log("Finalizando practica con id: ", id_practica, " y estado: ", estado, " para estudiante con id: ", id_estudiante)
