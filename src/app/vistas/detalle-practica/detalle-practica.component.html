@@ -347,6 +347,34 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="card-body">
+                                        <div class="overflow-auto" >
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered hoverTable" id="dataTable"
+                                                    width="100%" cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Aptitud</th>
+                                                            <th>Evaluación</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <div *ngFor="let aptitud of aptitudes_practica[0]; let j = index">
+                                                                <th>{{aptitud}}</th>
+                                                                <th>{{notas_aptitudes[0][j]}}</th>
+                                                            </div>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Promedio</th>
+                                                            <th>{{promedio}}</th> 
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div><!-- Fin Tarjeta Evaluación -->
