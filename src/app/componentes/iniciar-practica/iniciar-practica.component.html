@@ -10,30 +10,31 @@
                 </td>
                 <td>
                     Rut Empresa:
-                    <div [id]="'tarjeta_'+nombre_practica.replaceAll(' ', '_')">
-                        <datalist [id]="id_datalist">
-                            <option *ngFor="let empresa of empresas" value="{{empresa.rut_empresa}}">
-                                {{empresa.rut_empresa}} - {{empresa.nombre_empresa}}
-                            </option>
-                        </datalist>
-                        <input matInput placeholder="Rut Empresa" type="text" class="form-control" autoComplete="on"
-                            [attr.list]="id_datalist" />
-                        <!-- <select [name]="'rut_empresa_'+nombre_practica.replaceAll(' ', '_')"
-                            [id]="'rut_empresa_'+nombre_practica.replaceAll(' ', '_')">
-                            <option *ngFor="let empresa of empresas">
-                                {{empresa.rut_empresa}}
-                            </option>
-                        </select> -->
+                    <div class="row">
+                        <div class="col-lg" [id]="'tarjeta_'+nombre_practica.replaceAll(' ', '_')">
+
+                            <datalist [id]="id_datalist">
+                                <option *ngFor="let empresa of empresas" value="{{empresa.rut_empresa}}">
+                                    {{empresa.rut_empresa}} - {{empresa.nombre_empresa}}
+                                </option>
+                            </datalist>
+                            <input [id]="id_datalist+'_input'" matInput placeholder="Rut Empresa" type="text"
+                                class="form-control" autoComplete="on" [attr.list]="id_datalist" required />
+                        </div>
+                        <div class="col-sm align-items-center" style="display: flex;">
+                            <button class="btn btn-primary btn-circle" title="Agregar nueva empresa"
+                                (click)="agregar_empresa()">
+                                <i class="fa-solid fa-circle-plus fa-lg"></i>
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- <input matInput placeholder="Rut Empresa" type="text" class="form-control" id="rut_empresa{{nombre_practica}}"> -->
                 </td>
             </tr>
-        </table>
-
-        <br>
-
-        <table class="example-full-width" cellspacing="0">
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
             <tr>
                 <td>
                     Nombre Supervisor:

@@ -1,15 +1,27 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 import { GestionarService } from '../../servicios/alumno/gestionar_practica.service';
 import { ObtenerDatosService } from '../../servicios/alumno/obtener_datos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Data, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
 import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
 import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
 import { EmpresaService } from '../../servicios/empresa/empresa.service';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { CommonModule } from '@angular/common';
+import { NgFor } from '@angular/common';
 
+export interface DialogData {
+  nombre_solicitud: string;
+  descripcion: string;
+  tipo_archivo: string[];
+}
 @Component({
   selector: 'app-iniciar-practica',
   templateUrl: './iniciar-practica.component.html',
@@ -36,7 +48,7 @@ export class IniciarPracticaComponent implements OnInit {
   constructor(private service: GestionarService, private service2: ObtenerDatosService,
     private _snackBar: MatSnackBar, private route: ActivatedRoute, private router: Router,
     private service_noti: NotificacionesService, private service_obtener: DataUsuarioService,
-    private datetime: DatePipe, private empresaService: EmpresaService) {
+    private datetime: DatePipe, private empresaService: EmpresaService, public dialog: MatDialog,) {
     let data: any = {};
     empresaService.get_empresas().subscribe({
       next: (_data: any) => {
@@ -62,6 +74,19 @@ export class IniciarPracticaComponent implements OnInit {
   }
 
   enviar() {
+
+    //validar que el rut ingresado sea del datalist
+    let rut_empresa_elegida = (document.getElementById(this.id_datalist + "_input") as HTMLInputElement).value;
+    let opciones_ruts_empresas = (document.getElementById(this.id_datalist) as HTMLDataListElement).options;
+    let empresa_valida = Object.values(opciones_ruts_empresas).map((element: any) => element.value).includes(rut_empresa_elegida)
+    if (!empresa_valida) {
+      this._snackBar.open("Debe seleccionar una empresa válida", "Cerrar", {
+        panelClass: ['red-snackbar'],
+        duration: 3000
+      });
+      return;
+    }
+
     // obtener los datos de los inputs
     let modalidad = (document.getElementById("modalidad" + this.nombre_practica) as HTMLInputElement).value
     let cantidad = (document.getElementById("cantidad" + this.nombre_practica) as HTMLInputElement).value
@@ -90,61 +115,50 @@ export class IniciarPracticaComponent implements OnInit {
       next: (data: any) => {
         aux = { ...aux, ...data }
       },
-      error: (error: any) => console.log(error),
+      error: (error: any) => { },
       complete: () => {
-        console.log("config_practica encontrada")
         this.id_config_practica = aux.body.id
-        console.log("ID DE CONFIG PRACTICA", this.id_config_practica)
 
         this.service.buscar_modalidad(this.id_config_practica, modalidad, parseInt(cantidad)).subscribe({
           next: (data: any) => {
             aux = { ...aux, ...data }
           },
-          error: (error: any) => console.log(error),
+          error: (error: any) => { },
           complete: () => {
-            console.log("modalidad encontrada")
             let id_modalidad = aux.body.id
-            console.log("ID DE MODALIDAD", id_modalidad)
 
             // INICIO DE CREACION DE EMPRESA, SUPERVISOR Y PRACTICA
             this.service.registrar_empresa(nombre_empresa, rut_empresa).subscribe({
               next: (data: any) => {
                 aux = { ...aux, ...data }
               },
-              error: (error: any) => console.log("Error:", error),
+              error: (error: any) => { },
               complete: () => {
-                console.log("empresa registrada")
                 // parse de body as json
                 let id_empresa = aux.body.id
-                console.log("ID DE EMPRESA", id_empresa)
 
                 this.service.registrar_supervisor(nombre_supervisor, correo_supervisor).subscribe({
                   next: (data: any) => {
                     aux = { ...aux, ...data }
                   },
-                  error: (error: any) => console.log(error),
+                  error: (error: any) => { },
                   complete: () => {
-                    console.log("supervisor registrado")
                     let id_supervisor = aux.body.id
-                    console.log("ID DE SUPERVISOR", id_supervisor)
 
                     this.service.buscar_encargados().subscribe({
                       next: (data: any) => {
                         aux = { ...aux, ...data }
                       },
-                      error: (error: any) => console.log(error),
+                      error: (error: any) => { },
                       complete: () => {
-                        console.log("encargados encontrados")
                         //seleccionar el primer encargado
                         let id_encargado = aux.body[0].id
-                        console.log("ID DE ENCARGADO", id_encargado)
 
                         this.service_obtener.obtener_encargado(aux.body[0].id_usuario).subscribe({
                           next: (data: any) => {
                             this.respuesta = { ...this.respuesta, ...data };
                           },
                           error: (error: any) => {
-                            console.log(error);
                             return;
                           },
                           complete: () => {
@@ -159,7 +173,6 @@ export class IniciarPracticaComponent implements OnInit {
                             },
                             error: (error: any) => {
                               // use snackbar to show error
-                              console.log(error)
                               this._snackBar.open("Error al iniciar practica", "Cerrar", {
                                 panelClass: ['red-snackbar'],
                                 duration: 3000
@@ -174,11 +187,9 @@ export class IniciarPracticaComponent implements OnInit {
                                   this.respuesta = { ...this.respuesta, ...data };
                                 },
                                 error: (error: any) => {
-                                  console.log(error);
                                   return;
                                 },
                                 complete: () => {
-                                  console.log("Notificación enviada con éxito");
                                 }
                               });
                               let inscripcion_string = "";
@@ -206,6 +217,25 @@ export class IniciarPracticaComponent implements OnInit {
 
   }
 
+  agregar_empresa() {
+    let nombre_solicitud = "";
+    let descripcion = "";
+    let tipo_archivo = "";
+    const dialogRef = this.dialog.open(Dialog, {
+      width: '300px',
+      enterAnimationDuration: "100ms",
+      exitAnimationDuration: "100ms",
+      data: { nombre_solicitud, descripcion, tipo_archivo }
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (!result || !result[0]) {
+        return;
+      }
+      let [, file] = result;
+    });
+  }
+
   ngOnInit() {
     this.id_datalist = 'rut_empresa_' + this.nombre_practica.replaceAll(" ", "_");
     let respuesta: any = {};
@@ -214,7 +244,7 @@ export class IniciarPracticaComponent implements OnInit {
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
-      error: (error: any) => console.log(error),
+      error: (error: any) => { },
       complete: () => {
         this.config_practica = respuesta.body
 
@@ -228,7 +258,6 @@ export class IniciarPracticaComponent implements OnInit {
           }
         });
 
-        console.log("modalidades definidas para la practica", this.nombre_practica, this.modalidades)
 
         // hacer que el dropdown de modalidad se actualice al obtener la respuesta dela query
         var dropdown = document.getElementById("modalidad" + this.nombre_practica)
@@ -282,4 +311,25 @@ export class IniciarPracticaComponent implements OnInit {
     }
   }
 
+}
+
+@Component({
+  selector: 'app-dialog',
+  templateUrl: 'dialog.html',
+  standalone: true,
+  imports: [MatDialogModule, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatSelectModule, CommonModule,
+    NgFor],
+})
+export class Dialog {
+  selectedFile: File | null = null;
+
+  constructor(public dialogRef: MatDialogRef<Dialog>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0] ?? null;
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 }
