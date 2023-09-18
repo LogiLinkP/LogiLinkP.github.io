@@ -25,15 +25,20 @@ export class RamosEncargadoComponent {
     }
 
     ramoFORM = new FormControl('');
-    ramo: string = "";
+    ramo: string;
     lista_ramos: string[] = [];
     fg!: FormGroup;
 
     requestInicial() {
         let respuesta: any = {};
-        console.log("aqui esta el id disen", window.localStorage);
+        let id_carrera;
 
-        this.service.getRamos(1).subscribe({
+        const user = window.localStorage.getItem('auth-user');
+        if (user) {
+          id_carrera = JSON.parse(user).userdata.encargado.id_carrera;
+        }
+
+        this.service.getRamos(id_carrera).subscribe({
             next: (data: any) => {
                 respuesta = { ...respuesta, ...data }
             },
@@ -45,7 +50,7 @@ export class RamosEncargadoComponent {
                 console.log("Error al buscar ramos", error);
             },
             complete: () => {
-                console.log("respuesta", respuesta);
+                //console.log("respuesta", respuesta);
                 let ramos = respuesta.body.ramos.split(",");
                 for (let i = 0; i < ramos.length; i++) {
                     this.lista_ramos.push(ramos[i]);
@@ -57,14 +62,14 @@ export class RamosEncargadoComponent {
 
     generarForm() {
         this.fg = this.fb.group({
-            ramoFORM: this.ramo
+            ramoFORM: [this.ramo, Validators.required]
         });
     }
 
     onSubmitAddRamo() {
         this.ramo = this.fg.value.ramoFORM;
         this.lista_ramos.push(this.ramo);
-        console.log(this.lista_ramos);
+        //console.log(this.lista_ramos);
   
         this.ramo = "";
     }
