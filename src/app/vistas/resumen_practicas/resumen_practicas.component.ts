@@ -110,7 +110,7 @@ export class TablaComponent {
                   if (val.pregunta_supervisor.enunciado == "Seleccione las características que mejor describen al practicante"){
                     find = 1
                     temp = val.respuesta.split(",");
-                    for(var n in temp){
+                    for(var n of temp){
                       nota_promedio += Number(n);
                       prom += 1;
                     } 
