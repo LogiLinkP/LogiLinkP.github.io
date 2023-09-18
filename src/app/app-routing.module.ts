@@ -72,7 +72,7 @@ const routes: Routes = [
   { path: "historial", component: NotisHistorialComponent},
   { path: 'chat/:room/:id1/:id2/:tipo', component: ChatComponent },
   { path: 'informe/:id_practica/:id_informe', component: InformeComponent },
-  { path: 'encuestaFinal/:id_config_practica', component: EncuestaFinPracticaComponent },
+  { path: 'encuestaFinal/:id_practica', component: EncuestaFinPracticaComponent },
   { path: 'consistencia', component: ExplicacionConsistenciaComponent },
   { path: 'estadisticaRamos', component: RamosAlumnosComponent},
   { path: 'estadisticaEmpresas', component: EstadisticaEmpresasComponent},
