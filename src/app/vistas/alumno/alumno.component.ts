@@ -172,7 +172,7 @@ export class DetalleAlumnoComponent implements OnInit{
                   if(item2.pregunta_supervisor.opciones.indexOf(";;") != -1){
                     this.aptitudes_practica.push(item2.pregunta_supervisor.opciones.split(";;"))
                     temp = item2.respuesta.split(",");
-                    for(var n in temp){
+                    for(var n of temp){
                       nota_promedio += Number(n);
                       prom += 1;
                     }       
