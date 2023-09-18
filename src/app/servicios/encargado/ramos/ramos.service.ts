@@ -17,36 +17,13 @@ export class RamosService {
         return this._http.request(req);
     }
 
-    getModalidades(id_config_practica: number) {
-        const req = new HttpRequest('GET', `${environment.url_back}/modalidad/id_config_practica?id=${id_config_practica}`, {
-            responseType: 'json'
-        });
-
-        return this._http.request(req);
-    }
-    
-    crearModalidad(id_config_practica: number, modalidad: string, cantidad_tiempo: number) {
-        const config = {
-            id_config_practica: id_config_practica,
-            tipo_modalidad: modalidad,
-            cantidad_tiempo: cantidad_tiempo
+    actualizarRamos(id: number, ramos: string) {
+        const payload = {
+            id: id,
+            ramos: ramos
         }
 
-        const req = new HttpRequest('POST', `${environment.url_back}/modalidad/crear`, config, {
-            responseType: 'json'
-        });
-
-        return this._http.request(req);
-    }
-
-    actualizarModalidad(id_config_practica: number, modalidad: string, cantidad_tiempo: number) {
-        const config = {
-            id_config_practica: id_config_practica,
-            tipo_modalidad: modalidad,
-            cantidad_tiempo: cantidad_tiempo
-        }
-
-        const req = new HttpRequest('PUT', `${environment.url_back}/modalidad/actualizar`, config, {
+        const req = new HttpRequest('PUT', `${environment.url_back}/carrera/actualizar`, payload, {
             responseType: 'json'
         });
 

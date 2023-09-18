@@ -29,16 +29,14 @@ export class RamosEncargadoComponent {
     lista_ramos: string[] = [];
     fg!: FormGroup;
 
+    user: any = window.localStorage.getItem('auth-user');
+    id_carrera: number = JSON.parse(this.user).userdata.encargado.id_carrera;
+
     requestInicial() {
         let respuesta: any = {};
         let id_carrera;
 
-        const user = window.localStorage.getItem('auth-user');
-        if (user) {
-          id_carrera = JSON.parse(user).userdata.encargado.id_carrera;
-        }
-
-        this.service.getRamos(id_carrera).subscribe({
+        this.service.getRamos(this.id_carrera).subscribe({
             next: (data: any) => {
                 respuesta = { ...respuesta, ...data }
             },
@@ -69,7 +67,7 @@ export class RamosEncargadoComponent {
     onSubmitAddRamo() {
         this.ramo = this.fg.value.ramoFORM;
         this.lista_ramos.push(this.ramo);
-        //console.log(this.lista_ramos);
+        console.log(this.lista_ramos);
   
         this.ramo = "";
     }
@@ -80,8 +78,39 @@ export class RamosEncargadoComponent {
     }
 
     mandarDatos() {
+        let respuesta: any = {};
+
         console.log("mandando datos");
         console.log(this.lista_ramos);
+        let ramos: string = "";
+
+        for (let i = 0; i < this.lista_ramos.length; i++) {
+            if (i == this.lista_ramos.length) {
+                ramos = ramos + this.lista_ramos[i];
+            } else {
+                ramos = ramos + this.lista_ramos[i] + ",";
+            }
+        }
+
+        this.service.actualizarRamos(this.id_carrera, ramos).subscribe({
+            next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+                this.snackBar.open("Error al guardar modalidad", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['red-snackbar']
+                });
+                console.log("Error al guardar modalidad", error);
+            },
+            complete: () => {
+                this.snackBar.open("Modalidad guardada exitosamente", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['green-snackbar']
+                });
+                console.log("Modalidad guardada exitosamente");
+            }
+        });
     }
 
     scrollToTop(): void {
