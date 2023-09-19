@@ -256,12 +256,12 @@
                                                                                             </tr>
                                                                                         </thead>
                                                                                         <tbody>
-                                                                                            <tr>
-                                                                                                <div *ngFor="let aptitud of aptitudes_practica[i]; let j = index">
+
+                                                                                                <tr *ngFor="let aptitud of aptitudes_practica[i]; let j = index">
                                                                                                     <th>{{aptitud}}</th>
                                                                                                     <th>{{notas_aptitudes[i][j]}}</th>
-                                                                                                </div>
-                                                                                            </tr>
+                                                                                                </tr>
+
                                                                                             <tr>
                                                                                                 <th>Promedio</th>
                                                                                                 <th>{{notas_promedio[i]}}</th> 
