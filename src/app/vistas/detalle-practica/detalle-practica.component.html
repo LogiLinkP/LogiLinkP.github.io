@@ -360,11 +360,9 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <div *ngFor="let aptitud of aptitudes_practica[0]; let j = index">
-                                                                <th>{{aptitud}}</th>
-                                                                <th>{{notas_aptitudes[0][j]}}</th>
-                                                            </div>
+                                                        <tr *ngFor="let aptitud of aptitudes_practica[0]; let j = index">
+                                                            <th>{{aptitud}}</th>
+                                                            <th>{{notas_aptitudes[0][j]}}</th>
                                                         </tr>
                                                         <tr>
                                                             <th>Promedio</th>
