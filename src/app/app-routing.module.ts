@@ -31,6 +31,7 @@ import { InformeComponent } from "./vistas/informe/informe.component";
 import { NotisHistorialComponent } from './vistas/notis-historial/notis-historial.component';
 import { RamosAlumnosComponent } from './vistas/ramos-alumnos/ramos-alumnos.component';
 import { RamosEncargadoComponent } from './vistas/ramos-encargado/ramos-encargado.component';
+import { EstadisticaEmpresasComponent } from './vistas/estadistica-empresas/estadistica-empresas.component';
 
 import { environment } from 'src/environments/environment';
 
@@ -76,6 +77,7 @@ const routes: Routes = [
   { path: 'consistencia', component: ExplicacionConsistenciaComponent },
   { path: 'estadisticaRamos', component: RamosAlumnosComponent},
   { path: 'ramos', component: RamosEncargadoComponent},
+  { path: 'estadisticaEmpresas', component: EstadisticaEmpresasComponent},
   { path: '**', component: PnfComponent },
 ];
 
