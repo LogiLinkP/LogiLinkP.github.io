@@ -22,9 +22,9 @@ import { PreguntasEncuestaFinalService } from 'src/app/servicios/alumno/pregunta
 })
 export class EncuestaFinPracticaComponent {
 
-  constructor(private _fb: FormBuilder, private cd: ChangeDetectorRef, @Inject(DOCUMENT) private document: Document, private router: Router, private service_obtener: ObtenerDatosService,
-                private serviceBarra: BarraLateralService, private _snackBar: MatSnackBar, private route: ActivatedRoute, private serviceCarrera: CarreraService,
-                private serviceComplete: ConfigService, private servicePreguntas: PreguntasEncuestaFinalService, private _snackbar: MatSnackBar, private ramosService: RespuestaRamosService) {}
+  constructor( @Inject(DOCUMENT) private document: Document, private router: Router, private service_obtener: ObtenerDatosService,
+                private route: ActivatedRoute, private serviceCarrera: CarreraService,
+                private servicePreguntas: PreguntasEncuestaFinalService, private _snackbar: MatSnackBar, private ramosService: RespuestaRamosService) {}
 
   //id_config_practica = 2; // hardcodeado
 
