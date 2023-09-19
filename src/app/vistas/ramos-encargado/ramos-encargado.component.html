@@ -16,7 +16,7 @@
                 <app-barra-superior></app-barra-superior>
 
                 <div class="row">
-                    <h2>Ramos para la carrera de [nombre carrera]</h2>
+                    <h2>Ramos para la carrera de {{nombre_carrera}}</h2>
                 
                     <div *ngFor="let ramo of lista_ramos; let i = index" class="col-xl-2 col-6">
                         <p>Ramo Ingresado: {{ramo}}</p>

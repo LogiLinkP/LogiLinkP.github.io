@@ -1,6 +1,5 @@
 import { DOCUMENT } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, ParamMap, Router, Event } from '@angular/router';
 import { ChangeDetectorRef, Component, Inject} from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { RamosService } from 'src/app/servicios/encargado/ramos/ramos.service';
@@ -14,10 +13,7 @@ export class RamosEncargadoComponent {
 
     constructor(
         private fb: FormBuilder,
-        private router: Router,
-        private route: ActivatedRoute,
         private snackBar: MatSnackBar,
-        private cd: ChangeDetectorRef,
         private service: RamosService,
         @Inject(DOCUMENT) private document: Document
     ) { 
@@ -31,10 +27,10 @@ export class RamosEncargadoComponent {
 
     user: any = window.localStorage.getItem('auth-user');
     id_carrera: number = JSON.parse(this.user).userdata.encargado.id_carrera;
+    nombre_carrera: string;
 
     requestInicial() {
         let respuesta: any = {};
-        let id_carrera;
 
         this.service.getRamos(this.id_carrera).subscribe({
             next: (data: any) => {
@@ -48,7 +44,7 @@ export class RamosEncargadoComponent {
                 console.log("Error al buscar ramos", error);
             },
             complete: () => {
-                //console.log("respuesta", respuesta);
+                this.nombre_carrera = respuesta.body.nombre;
                 let ramos = respuesta.body.ramos.split(",");
                 for (let i = 0; i < ramos.length; i++) {
                     this.lista_ramos.push(ramos[i]);
@@ -67,13 +63,13 @@ export class RamosEncargadoComponent {
     onSubmitAddRamo() {
         this.ramo = this.fg.value.ramoFORM;
         this.lista_ramos.push(this.ramo);
-        console.log(this.lista_ramos);
+        //console.log(this.lista_ramos);
   
         this.ramo = "";
     }
 
     eliminarRamo(index: number) {
-        console.log("eliminando ramo", index);
+        //console.log("eliminando ramo", index);
         this.lista_ramos.splice(index, 1);
     }
 
@@ -97,18 +93,18 @@ export class RamosEncargadoComponent {
                 respuesta = { ...respuesta, ...data }
             },
             error: (error: any) => {
-                this.snackBar.open("Error al guardar modalidad", "Cerrar", {
+                this.snackBar.open("Error al guardar cambios", "Cerrar", {
                     duration: 3500,
                     panelClass: ['red-snackbar']
                 });
-                console.log("Error al guardar modalidad", error);
+                console.log("Error al guardar ramos", error);
             },
             complete: () => {
-                this.snackBar.open("Modalidad guardada exitosamente", "Cerrar", {
+                this.snackBar.open("Los cambios han sido guardados exitosamente", "Cerrar", {
                     duration: 3500,
                     panelClass: ['green-snackbar']
                 });
-                console.log("Modalidad guardada exitosamente");
+                console.log("Ramos guardados exitosamente");
             }
         });
     }
