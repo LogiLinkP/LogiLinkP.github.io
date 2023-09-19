@@ -71,6 +71,7 @@ import { ExplicacionConsistenciaComponent } from './vistas/explicacion-consisten
 import { VistaSupervisorComponent } from './vistas/vista-supervisor/vista-supervisor/vista-supervisor.component';
 import { RamosAlumnosComponent } from './vistas/ramos-alumnos/ramos-alumnos.component';
 import { EstadisticaEmpresasComponent } from './vistas/estadistica-empresas/estadistica-empresas.component';
+import { AdminComponent } from './vistas/admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -109,6 +110,7 @@ import { EstadisticaEmpresasComponent } from './vistas/estadistica-empresas/esta
     VistaSupervisorComponent,
     RamosAlumnosComponent,
     EstadisticaEmpresasComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,
