@@ -139,9 +139,10 @@
                                                                                         }}</td>
                                                                                 </tr>
                                                                                 <tr>
-                                                                                    <td>Empresa Verificada?:</td>
+                                                                                    <td>Empresa Verificada:</td>
                                                                                     <td>{{
-                                                                                        practica[1]?.empresa_verificada
+                                                                                        practica[1]?.empresa.empresa_verificada?
+                                                                                        'Si':'No'
                                                                                         }}</td>
                                                                                 </tr>
                                                                             </table>

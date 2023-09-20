@@ -13,4 +13,18 @@ export class EmpresaService {
     const req = new HttpRequest('GET', `${environment.url_back}/empresa/todos`);
     return this._http.request(req);
   }
+
+  agregar_empresa_auto(rut_empresa: string) {
+    const req = new HttpRequest('POST', `${environment.url_back}/empresa/agregar_empresa_auto?rut=${rut_empresa}`, {}, {
+      responseType: "json"
+    });
+    return this._http.request(req);
+  }
+
+  agregar_empresa_manual(nombre_empresa: string, rut_empresa: string) {
+    const req = new HttpRequest('POST', `${environment.url_back}/empresa/agregar_empresa_manual?rut=${rut_empresa}&nombre=${nombre_empresa}`, {}, {
+      responseType: "json"
+    });
+    return this._http.request(req);
+  }
 }
