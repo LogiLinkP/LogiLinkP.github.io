@@ -72,6 +72,7 @@ import { VistaSupervisorComponent } from './vistas/vista-supervisor/vista-superv
 import { RamosAlumnosComponent } from './vistas/ramos-alumnos/ramos-alumnos.component';
 import { EstadisticaEmpresasComponent } from './vistas/estadistica-empresas/estadistica-empresas.component';
 import { IngresoInformeComponent } from './vistas/ingreso-informe/ingreso-informe.component';
+import { EstudianteVerInformeComponent } from './vistas/estudiante-ver-informe/estudiante-ver-informe.component';
 
 @NgModule({
   declarations: [
@@ -111,6 +112,7 @@ import { IngresoInformeComponent } from './vistas/ingreso-informe/ingreso-inform
     RamosAlumnosComponent,
     EstadisticaEmpresasComponent,
     IngresoInformeComponent,
+    EstudianteVerInformeComponent,
   ],
   imports: [
     BrowserModule,

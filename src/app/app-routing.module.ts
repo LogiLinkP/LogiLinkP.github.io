@@ -32,6 +32,7 @@ import { NotisHistorialComponent } from './vistas/notis-historial/notis-historia
 import { RamosAlumnosComponent } from './vistas/ramos-alumnos/ramos-alumnos.component';
 import { EstadisticaEmpresasComponent } from './vistas/estadistica-empresas/estadistica-empresas.component';
 import { IngresoInformeComponent } from './vistas/ingreso-informe/ingreso-informe.component';
+import { EstudianteVerInformeComponent } from './vistas/estudiante-ver-informe/estudiante-ver-informe.component';
 
 import { environment } from 'src/environments/environment';
 
@@ -78,6 +79,7 @@ const routes: Routes = [
   { path: 'estadisticaRamos', component: RamosAlumnosComponent},
   { path: 'estadisticaEmpresas', component: EstadisticaEmpresasComponent},
   { path: 'ingreso-informe', component: IngresoInformeComponent},
+  { path: 'estudiante-ver-informe/:id_practica/:id_informe', component: EstudianteVerInformeComponent},
   { path: '**', component: PnfComponent },
 ];
 
@@ -109,5 +111,6 @@ export const routingComponents = [
   ChatComponent,
   ConfiguracionPracticaComponent,
   IngresoInformeComponent,
+  EstudianteVerInformeComponent,
   EncuestaFinPracticaComponent
 ]
