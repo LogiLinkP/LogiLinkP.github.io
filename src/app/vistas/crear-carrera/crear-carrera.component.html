@@ -14,13 +14,27 @@
 
             <!-- Begin Page Content -->
 
-            <button id="myBtn" class="btn-primary btn-user btn-block" (click)="carreras()">
-                Agregar Carreras
-            </button>
-
-            <button id="myBtn" class="btn-primary btn-user btn-block" (click)="encargado()">
-                Agregar Encargados
-            </button>
+            <form class="encargado" [formGroup]="carreraForm">
+                <input type="text" class="form-control form-control-user" id="exampleFirstName"
+                    placeholder="Nombre" formControlName="nombre" name="nombre">
+                <button id="myBtn" type="submit" class="btn btn-primary btn-user btn-block"
+                    (click)="crear()">
+                    Añadir Carrera
+                </button>
+                <script>
+                    var input = document.getElementById("exampleRepeatPassword");
+                    input.addEventListener("keypress", function (event) {
+                        if (event.keyCode === 13) {
+                            event.preventDefault();
+                            document.getElementById("myBtn").click();
+                        }
+                    });
+                </script>
+                <button id="volvBtn" type="submit" class="btn btn-primary btn-user btn-block"
+                    (click)="volver()">
+                    Volver
+                </button>
+            </form>
         
         </div>
         <!-- End of Main Content -->
@@ -57,3 +71,4 @@
 
 <!-- Page level custom scripts -->
 <script src="js/demo/datatables-demo.js"></script>
+
