@@ -74,6 +74,8 @@ import { EstadisticaEmpresasComponent } from './vistas/estadistica-empresas/esta
 import { AdminComponent } from './vistas/admin/admin.component';
 import { CrearCarreraComponent } from './vistas/crear-carrera/crear-carrera.component';
 import { CrearEncargadoComponent } from './vistas/crear-encargado/crear-encargado.component';
+import { AsignacionComponent } from './vistas/asignacion/asignacion.component';
+import { BarraLateralAdminComponent } from './componentes/barra-lateral-admin/barra-lateral-admin.component';
 
 @NgModule({
   declarations: [
@@ -115,6 +117,8 @@ import { CrearEncargadoComponent } from './vistas/crear-encargado/crear-encargad
     AdminComponent,
     CrearCarreraComponent,
     CrearEncargadoComponent,
+    AsignacionComponent,
+    BarraLateralAdminComponent,
   ],
   imports: [
     BrowserModule,

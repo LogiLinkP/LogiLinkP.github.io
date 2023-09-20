@@ -16,4 +16,8 @@ export class AdminComponent {
   carrera(){
     this.router.navigate(['/crear-carrera']);
   }
+
+  asignacion(){
+    this.router.navigate(['/asignacion']);
+  }
 }

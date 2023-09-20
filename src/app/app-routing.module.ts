@@ -34,8 +34,10 @@ import { EstadisticaEmpresasComponent } from './vistas/estadistica-empresas/esta
 import { AdminComponent } from './vistas/admin/admin.component';
 import { CrearCarreraComponent } from './vistas/crear-carrera/crear-carrera.component';
 import { CrearEncargadoComponent } from './vistas/crear-encargado/crear-encargado.component';
+import { AsignacionComponent } from './vistas/asignacion/asignacion.component';
 
 import { environment } from 'src/environments/environment';
+
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -71,6 +73,7 @@ const routes: Routes = [
     children: [
       { path: 'crear-carrera', component: CrearCarreraComponent },
       { path: 'crear-encargado', component: CrearEncargadoComponent },
+      { path: 'asignacion', component: AsignacionComponent}
     ] },
   // { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
   { path: 'configurar/:nombre', component: ConfiguracionPracticaComponent },
@@ -117,5 +120,6 @@ export const routingComponents = [
   AdminComponent,
   CrearCarreraComponent,
   CrearEncargadoComponent,
+  AsignacionComponent,
   EncuestaFinPracticaComponent
 ]
