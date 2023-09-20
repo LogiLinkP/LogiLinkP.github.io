@@ -114,5 +114,8 @@ export const routingComponents = [
   CuestionarioComponent,
   ChatComponent,
   ConfiguracionPracticaComponent,
+  AdminComponent,
+  CrearCarreraComponent,
+  CrearEncargadoComponent,
   EncuestaFinPracticaComponent
 ]
