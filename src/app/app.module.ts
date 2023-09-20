@@ -40,7 +40,6 @@ import { InformacionesComponent } from './vistas/informaciones/informaciones.com
 import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.component';
 
 import { TestBarraComponent } from './componentes/test-barra/test-barra.component';
-import { LogoutComponent } from './componentes/logout/logout.component';
 import { FooterComponent } from './componentes/footer/footer.component';
 import { BarraSuperiorComponent } from './componentes/barra-superior/barra-superior.component';
 import { LogoutModalComponent } from './componentes/logout-modal/logout-modal.component';
@@ -70,6 +69,7 @@ import { MigrarModalComponent } from './componentes/migrar-modal/migrar-modal.co
 import { ExplicacionConsistenciaComponent } from './vistas/explicacion-consistencia/explicacion-consistencia.component';
 import { VistaSupervisorComponent } from './vistas/vista-supervisor/vista-supervisor/vista-supervisor.component';
 import { RamosAlumnosComponent } from './vistas/ramos-alumnos/ramos-alumnos.component';
+import { EstadisticaEmpresasComponent } from './vistas/estadistica-empresas/estadistica-empresas.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +77,6 @@ import { RamosAlumnosComponent } from './vistas/ramos-alumnos/ramos-alumnos.comp
     routingComponents,
     EvaluacionComponent,
     DatosPracticaComponent,
-    LogoutComponent,
     DetallePracticaComponent,
     FooterComponent,
     BarraSuperiorComponent,
@@ -107,6 +106,7 @@ import { RamosAlumnosComponent } from './vistas/ramos-alumnos/ramos-alumnos.comp
     ExplicacionConsistenciaComponent,
     VistaSupervisorComponent,
     RamosAlumnosComponent,
+    EstadisticaEmpresasComponent,
   ],
   imports: [
     BrowserModule,

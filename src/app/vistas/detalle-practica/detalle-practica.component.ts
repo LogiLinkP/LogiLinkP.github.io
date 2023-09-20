@@ -73,6 +73,9 @@ export class DetallePracticaComponent implements OnInit {
   notas_aptitudes: any = [];
   promedio: number = -1;
 
+  nota_promedio: number = -1;
+  prom: number = -1;
+
   constructor(private fragmentosService: FragmentosService, private service: DetallePracticaService, private service2: SetDetallesAlumnoService,
     private _snackBar: MatSnackBar, private route: ActivatedRoute,
     private service_obtener: DataUsuarioService, private service_resumen: ResumenService, private service_informe: InformeService,
@@ -108,7 +111,6 @@ export class DetallePracticaComponent implements OnInit {
         },
         complete: () => {
           this.practica = respuesta.body;
-
           this.check_resumen();
 
           if (this.practica.estado == environment.estado_practica.evaluada ||
@@ -142,8 +144,7 @@ export class DetallePracticaComponent implements OnInit {
             return !isNaN(respuesta_supervisor.respuesta);
           });
 
-          this.preguntas = this.practica.respuesta_supervisors
-          
+          this.preguntas = this.practica.respuesta_supervisors          
           
           for (var item of this.preguntas){
             let temp: any = [];
@@ -165,8 +166,6 @@ export class DetallePracticaComponent implements OnInit {
               }                             
             }
           }
-            
-
 
           // considerar como respuestas todas las que sean strings
           this.respuestas_supervisor = this.practica.respuesta_supervisors.filter((respuesta_supervisor: any) => {
@@ -643,7 +642,7 @@ export class DetallePracticaComponent implements OnInit {
       mensaje = "Felicidades, has aprobado esta práctica";
     }
     else {
-      mensaje = "Deafortunadamente, has reprobado esta práctica";
+      mensaje = "Desafortunadamente, has reprobado esta práctica";
     }
     this.service2.aprobar_practica(id_estudiante, id_modalidad, aprobacion).subscribe({
       next: (data: any) => {
