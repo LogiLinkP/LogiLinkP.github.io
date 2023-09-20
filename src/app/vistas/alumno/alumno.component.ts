@@ -39,8 +39,8 @@ export class DetalleAlumnoComponent implements OnInit{
     this.estudiante = this.usuario.estudiante;
     this.estado_config = this.usuario.body;
 
-    console.log("usuario:",this.usuario);
-    console.log("estudiante:",this.estudiante);
+    //console.log("usuario:",this.usuario);
+    //console.log("estudiante:",this.estudiante);
   }
 
   ngOnInit() {
@@ -48,7 +48,7 @@ export class DetalleAlumnoComponent implements OnInit{
 
     let snackBarRef: MatSnackBarRef<any> | undefined = undefined;
 
-    console.log("PARAMETRO URL",param_upload_success);
+    //console.log("PARAMETRO URL",param_upload_success);
     if (param_upload_success == "success") {
       snackBarRef = this._snackBar.open("Archivo subido correctamente", "Cerrar", {
         panelClass: ['green-snackbar'],
@@ -98,7 +98,7 @@ export class DetalleAlumnoComponent implements OnInit{
       error: (error: any) => console.log(error),
       complete: () => {
         this.config_practicas = respuesta.body;
-        console.log("Configuraciones de practica:",this.config_practicas)
+        //console.log("Configuraciones de practica:",this.config_practicas)
 
         // Guardar nombres de las configuraciones de practica en un arreglo
         this.config_practicas.forEach((element: any) => {
@@ -108,7 +108,7 @@ export class DetalleAlumnoComponent implements OnInit{
             this.practicas_correspondiente_nombre.push([element.nombre]);
           }
         });
-        console.log("Nombres de configuraciones de practica:",this.nombres_config_practica)
+        //console.log("Nombres de configuraciones de practica:",this.nombres_config_practica)
 
         // Request para obtener todas las practicas de acuerdo al id del estudiante
         this.service_datos.obtener_practica(this.estudiante.id).subscribe({
@@ -118,7 +118,7 @@ export class DetalleAlumnoComponent implements OnInit{
           error: (error: any) => console.log(error),
           complete: () => {
             this.practicas = respuesta.body;
-            console.log("Practicas:",this.practicas)
+            //console.log("Practicas:",this.practicas)
 
             // Guardar nombres y practicas en un arreglo
             this.practicas.forEach((element: any) => {
@@ -129,7 +129,7 @@ export class DetalleAlumnoComponent implements OnInit{
                 let index = this.nombres_config_practica.indexOf(element.modalidad.config_practica.nombre);
                 element.documentos.map((doc:any) => {
                   doc.solicitud_documento.tipo_archivo = doc.solicitud_documento.tipo_archivo.split(",");
-                  console.log("doc:",doc)
+                  //console.log("doc:",doc)
                   return doc;
                 });
                 //element.documento.solicitud_documento.tipo_archivo = element.documento.solicitud_documento.tipo_archivo.split(",");
@@ -143,11 +143,11 @@ export class DetalleAlumnoComponent implements OnInit{
                 error: (error: any) => console.log(error),
                 complete: () => {
                   this.solicitudes_practicas.push(respuesta.body);
-                  console.log("Solicitudes de documentos de la practica:",this.solicitudes_practicas)
+                  //console.log("Solicitudes de documentos de la practica:",this.solicitudes_practicas)
                 }
               });
             });               
-            console.log("Practicas correspondientes a nombre:",this.practicas_correspondiente_nombre)
+            //console.log("Practicas correspondientes a nombre:",this.practicas_correspondiente_nombre)
           }
         });
       }
@@ -177,13 +177,13 @@ export class DetalleAlumnoComponent implements OnInit{
       return;
     }
 
-    console.log("id_practica:", practica.id);
-    console.log("casilla horas:", horas_trabajadas);
+    //console.log("id_practica:", practica.id);
+    //console.log("casilla horas:", horas_trabajadas);
     
     this.service_datos.ingresar_informe(practica.id, key, id_config_informe, horas_trabajadas, id_encargado).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
-        console.log("Respuesta ingresar informe:",data);
+        //console.log("Respuesta ingresar informe:",data);
       },
       error: (error: any) => console.log("Error en ingresar informe:",error),
       complete: () => {
@@ -212,7 +212,7 @@ export class DetalleAlumnoComponent implements OnInit{
 
   
   descargar_documento(documento_id: string, solicitud_tipo: string) {
-    console.log("decargar documento")
+    //console.log("decargar documento")
     // abrir nueva pestaña con url de descarga, que es url_backend (sacada desde el env) + /documentos/ + documento_key
     if(solicitud_tipo == "documento"){
       window.open(environment.url_back+"/documento/download?id=" + documento_id, "_blank");
@@ -251,16 +251,16 @@ export class DetalleAlumnoComponent implements OnInit{
     //console.log("Así se ve la configuración de estados");
     //console.log(respuesta.body.config);
     correo_encargado = practica.encargado.usuario.correo;
-    console.log("correo_encargado:",correo_encargado);
+    //console.log("correo_encargado:",correo_encargado);
 
     let correo_supervisor: string = practica.supervisor.correo;
 
-    console.log("practica",practica)
+    //console.log("practica",practica)
     let nom_estudiante: string = this.usuario.nombre;
 
     this.service_gestion.finalizar_practica(practica.id_estudiante, practica.id, environment.estado_practica.finalizada, correo_supervisor, nom_estudiante).subscribe({
       next: (data: any) => {
-        console.log("Respuesta finalizar practica:",data);
+        //console.log("Respuesta finalizar practica:",data);
       },
       error: (error: any) => console.log("Error en finalizar practica:",error),
       complete: () => {
@@ -271,11 +271,11 @@ export class DetalleAlumnoComponent implements OnInit{
             respuesta = {...respuesta, ...data};
           },
           error:(error:any) => {
-            console.log(error);
+            //console.log(error);
             return;
           },
           complete:() => {
-            console.log("Notificación enviada con éxito");
+            //console.log("Notificación enviada con éxito");
           }
         });
         this._snackBar.open("Práctica Finalizada","Cerrar",{

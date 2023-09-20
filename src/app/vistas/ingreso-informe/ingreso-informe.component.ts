@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, Inject} from '@angular/core';
 import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
+import { InformeService } from 'src/app/servicios/informe/informe.service';
 
 @Component({
   selector: 'app-ingreso-informe',
@@ -10,9 +11,8 @@ import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.serv
   styleUrls: ['./ingreso-informe.component.scss']
 })
 export class IngresoInformeComponent {
-  constructor(@Inject(DOCUMENT) private document: Document, private router: Router, 
-  private service_obtener: ObtenerDatosService, private route: ActivatedRoute, 
-  private _snackbar: MatSnackBar) {}
+  constructor(@Inject(DOCUMENT) private document: Document, private service_obtener: ObtenerDatosService, private router: Router, 
+              private route: ActivatedRoute, private _snackbar: MatSnackBar, private service_informe: InformeService) {}
 
   activated_route: ActivatedRoute = this.route;
   id_informe: number = 0;
@@ -176,9 +176,31 @@ export class IngresoInformeComponent {
       respuestas_aux = { ...respuestas_aux, [String(this.preguntas[i].id)]: respuesta_aux };
     }
     console.log("RESPUESTAS A ENVIAR EN QUERY", respuestas_aux);
+    let respuesta2: any = {};
+
+    this.service_informe.update_key_informe(this.id_informe, JSON.stringify(respuestas_aux)).subscribe({
+      next: (data: any) => {
+        respuesta2 = { ...respuesta2, ...data }
+      },
+      error: (error: any) => {
+        console.log(error);
+        this._snackbar.open("Error al enviar las respuestas", "Cerrar", {
+          duration: 2000,
+          panelClass: ['red-snackbar']
+        });
+      },
+      complete: () => {
+        console.log("RESPUESTA OBTENIDA", respuesta2);
+        this._snackbar.open("Respuestas enviadas correctamente", "Cerrar", {
+          duration: 2000,
+          panelClass: ['green-snackbar']
+        });
+      }
+    });
+
     // after 2 seconds, redirect to home
     setTimeout(() => {
-      //this.router.navigate(['/alumno/1']);  DESCOMENTAR ESTO DESPUES
+      this.router.navigate(['/alumno/1']);  
     }
       , 3000); 
 
@@ -188,6 +210,4 @@ export class IngresoInformeComponent {
     this.document.body.scrollTop = 0;
     this.document.documentElement.scrollTop = 0;
   }
-  
-
 }
