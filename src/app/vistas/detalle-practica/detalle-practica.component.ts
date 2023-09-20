@@ -611,7 +611,7 @@ export class DetallePracticaComponent implements OnInit {
       mensaje = "Felicidades, has aprobado esta práctica";
     }
     else {
-      mensaje = "Deafortunadamente, has reprobado esta práctica";
+      mensaje = "Desafortunadamente, has reprobado esta práctica";
     }
     this.service2.aprobar_practica(id_estudiante, id_modalidad, aprobacion).subscribe({
       next: (data: any) => {

@@ -9,7 +9,13 @@ export class EmpresaService {
 
   constructor(private _http: HttpClient) { }
 
+
   get_empresas() {
+    const req = new HttpRequest('GET', `${environment.url_back}/empresa/todos`);
+    return this._http.request(req);
+  }
+
+  obtener_empresas() {
     const req = new HttpRequest('GET', `${environment.url_back}/empresa/todos`);
     return this._http.request(req);
   }
@@ -27,4 +33,11 @@ export class EmpresaService {
     });
     return this._http.request(req);
   }
+
+  //terminar
+  obtener_practicas_por_empresa(id: number) {
+    const req = new HttpRequest('GET', `${environment.url_back}/practica/empresa?id=${id}`);
+    return this._http.request(req);
+  }
+
 }
