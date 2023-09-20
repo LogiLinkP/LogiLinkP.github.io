@@ -201,7 +201,10 @@
                                                                                                 <td [ngSwitch]="solicitud.documentos.length" >                                                                                                    
                                                                                                     <app-subir-archivo *ngSwitchCase="0" [id_solicitud] = solicitud.id 
                                                                                                                         [id_practica] = practica[1].id [descripcion]="solicitud.descripcion"
-                                                                                                                        [nombre_solicitud]="solicitud.nombre_solicitud" [tipo_archivo]="solicitud.tipo_archivo">
+                                                                                                                        [nombre_solicitud]="solicitud.nombre_solicitud" [tipo_archivo]="solicitud.tipo_archivo"
+                                                                                                                        [id_encargado_usuario]=" practica[1].encargado.id_usuario"
+                                                                                                                        [correo_encargado]="practica[1].encargado.usuario.correo" [estado_config]="estado_config"
+                                                                                                                        [id_estudiante_usuario]="usuario.id">
                                                                                                     </app-subir-archivo>
                                                                                                     <button *ngSwitchDefault class="btn btn-success btn-sm btn-block"
                                                                                                     (click)="descargar_documento(solicitud.documentos[0].id, doc_str)">Descargar</button>                                                                                                    
