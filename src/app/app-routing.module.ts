@@ -32,6 +32,8 @@ import { NotisHistorialComponent } from './vistas/notis-historial/notis-historia
 import { RamosAlumnosComponent } from './vistas/ramos-alumnos/ramos-alumnos.component';
 import { EstadisticaEmpresasComponent } from './vistas/estadistica-empresas/estadistica-empresas.component';
 import { AdminComponent } from './vistas/admin/admin.component';
+import { CrearCarreraComponent } from './vistas/crear-carrera/crear-carrera.component';
+import { CrearEncargadoComponent } from './vistas/crear-encargado/crear-encargado.component';
 
 import { environment } from 'src/environments/environment';
 
@@ -65,7 +67,11 @@ const routes: Routes = [
   { path: 'resetPass', component: ForgotPasswordComponent },
   { path: 'estadisticas', component: EstadisticasComponent },
   { path: 'informaciones', component: InformacionesComponent },
-  { path: 'admin', component: AdminComponent },
+  { path: 'admin', component: AdminComponent,
+    children: [
+      { path: 'crear-carrera', component: CrearCarreraComponent },
+      { path: 'crear-encargado', component: CrearEncargadoComponent },
+    ] },
   // { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
   { path: 'configurar/:nombre', component: ConfiguracionPracticaComponent },
   { path: 'configurar/:nombre/copia', component: ConfiguracionPracticaComponent },
