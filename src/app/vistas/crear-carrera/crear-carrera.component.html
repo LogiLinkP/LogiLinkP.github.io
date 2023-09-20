@@ -14,12 +14,13 @@
 
             <!-- Begin Page Content -->
 
-            <form class="encargado" [formGroup]="carreraForm">
+            <form class="encargado" [formGroup]="encargadoForm">
                 <input type="text" class="form-control form-control-user" id="exampleFirstName"
                     placeholder="Nombre" formControlName="nombre" name="nombre">
+
                 <button id="myBtn" type="submit" class="btn btn-primary btn-user btn-block"
                     (click)="crear()">
-                    Añadir Carrera
+                    Crear Carrera
                 </button>
                 <script>
                     var input = document.getElementById("exampleRepeatPassword");
@@ -71,4 +72,3 @@
 
 <!-- Page level custom scripts -->
 <script src="js/demo/datatables-demo.js"></script>
-

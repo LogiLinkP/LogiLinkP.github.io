@@ -28,7 +28,7 @@ export class CrearEncargadoComponent implements OnInit{
     const data = this.encargadoForm.value;
     this.email = data.email;
     let _data: any = {}
-    this.admin.crearCarrera(this.email).subscribe({
+    this.admin.crearEncargado(this.email).subscribe({
       next: data => {
         _data = { ..._data, ...data }
     },

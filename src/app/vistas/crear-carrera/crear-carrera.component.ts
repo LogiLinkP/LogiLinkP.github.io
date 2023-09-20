@@ -5,12 +5,11 @@ import { AdminService } from 'src/app/servicios/admin/admin.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-crear-carrera',
-  templateUrl: './crear-carrera.component.html',
-  styleUrls: ['./crear-carrera.component.scss']
+  selector: 'app-crear-encargado',
+  templateUrl: './crear-encargado.component.html',
+  styleUrls: ['./crear-encargado.component.scss']
 })
-export class CrearCarreraComponent implements OnInit {
-
+export class CrearCarreraComponent implements OnInit{
   carreraForm: FormGroup;
   nombre: string;
 
@@ -36,7 +35,7 @@ export class CrearCarreraComponent implements OnInit {
       complete: () => {
         if (_data.status == 200) {
           window.location.reload();
-          this._snackBar.open("Carrera creado correctamente", "Cerrar", {
+          this._snackBar.open("Carrera creada exitosamente", "Cerrar", {
             panelClass: ['green-snackbar'],
             duration: 2000
           });
