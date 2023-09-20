@@ -191,7 +191,7 @@ export class IngresoInformeComponent {
       },
       complete: () => {
         console.log("RESPUESTA OBTENIDA", respuesta2);
-        this._snackbar.open("Respuestas enviadas correctamente", "Cerrar", {
+        this._snackbar.open("Respuestas enviadas correctamente. Redirigiendo...", "Cerrar", {
           duration: 2000,
           panelClass: ['green-snackbar']
         });
@@ -210,4 +210,6 @@ export class IngresoInformeComponent {
     this.document.body.scrollTop = 0;
     this.document.documentElement.scrollTop = 0;
   }
+
+  
 }

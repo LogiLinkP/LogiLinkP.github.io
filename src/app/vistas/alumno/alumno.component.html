@@ -161,9 +161,8 @@
                                                                                                 <td>{{ informe?.fecha | date: 'dd/MM/yyyy' }}</td>
                                                                                                 <!--<td><button class="btn btn-primary btn-sm btn-block" (click)="mostrar_informe(practica[1].informes,informe.id)">Ver
                                                                                                     Informe</button></td>-->
-                                                                                                <td><button *ngIf="!informe.key || informe.key.length==0; else elseBlock" 
-                                                                                                    class="btn btn-primary btn-sm btn-block" (click)="redirigir_a_ingreso_informe(informe.id)">Ver
-                                                                                                    Informe</button>
+                                                                                                <td><button *ngIf="!informe.key || isEmptyObject(informe.key); else elseBlock" 
+                                                                                                    class="btn btn-primary btn-sm btn-block" (click)="redirigir_a_ingreso_informe(informe.id)">Responder</button>
                                                                                                     <ng-template #elseBlock> 
                                                                                                         <a class="nostyle"
                                                                                                             href="/estudiante-ver-informe/{{practica[1].id}}/{{informe.id}}">

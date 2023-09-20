@@ -313,6 +313,10 @@ export class DetalleAlumnoComponent implements OnInit{
     // redirigir a la página de ingreso de informe
     this.router.navigate(['/ingreso-informe'], { queryParams: { id_informe: id_informe } });
   }
+
+  isEmptyObject(obj: any): boolean {
+    return obj && Object.keys(obj).length === 0;
+  }
 }
 
 
