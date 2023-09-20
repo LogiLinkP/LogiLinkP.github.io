@@ -134,16 +134,24 @@
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>Rut Empresa:</td>
-                                                                                    <td>{{
+                                                                                    <td>
+                                                                                        {{
                                                                                         practica[1]?.empresa.rut_empresa
                                                                                         }}</td>
                                                                                 </tr>
                                                                                 <tr>
-                                                                                    <td>Empresa Verificada:</td>
-                                                                                    <td>{{
+                                                                                    <td
+                                                                                        [class]="!practica[1]?.empresa.empresa_verificada? 'bg-warning' : ''">
+                                                                                        Empresa Verificada:</td>
+                                                                                    <td
+                                                                                        [class]="!practica[1]?.empresa.empresa_verificada? 'bg-warning' : ''">
+                                                                                        <i *ngIf="!practica[1]?.empresa.empresa_verificada"
+                                                                                            class="fa-solid fa-triangle-exclamation"></i>
+                                                                                        {{
                                                                                         practica[1]?.empresa.empresa_verificada?
                                                                                         'Si':'No'
-                                                                                        }}</td>
+                                                                                        }}
+                                                                                    </td>
                                                                                 </tr>
                                                                             </table>
                                                                         </div>
