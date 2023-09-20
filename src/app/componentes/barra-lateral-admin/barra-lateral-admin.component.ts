@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './barra-lateral-alumno.component.html',
   styleUrls: ['./barra-lateral-alumno.component.scss']
 })
-export class BarraLateralAlumnoComponent {
+export class BarraLateralAdminComponent {
   idUsuario: string = "";
 
   constructor() { 

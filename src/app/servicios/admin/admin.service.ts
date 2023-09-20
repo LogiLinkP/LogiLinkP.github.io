@@ -12,7 +12,7 @@ export class AdminService {
   constructor(private http: HttpClient) { }
 
   crearCarrera(nombre: string){
-    const req = new HttpRequest('POST',`${this.url}/carrera/crear`,{nombre});
+    const req = new HttpRequest('POST',`${this.url}/usuario/crear-carrera`,{nombre});
     return this.http.request(req);
   }
 
