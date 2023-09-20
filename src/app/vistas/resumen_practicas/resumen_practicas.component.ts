@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Router } from "@angular/router";
 import { DetallePracticaService } from 'src/app/servicios/encargado/detalle-practica.service';
+import { NULL } from 'sass';
 
 
 @Component({
@@ -23,6 +24,8 @@ export class TablaComponent {
   dtTrigger: Subject<any> = new Subject();
 
   practicas: any = [];
+  temp_notas:any = []
+  notas_promedio: any = [];
 
   texto_consistencia_informe: string = "Indica qué tan relacionados están los informes del\n" +
     "estudiante con lo que escribió su supervisor.\n" +
@@ -43,7 +46,6 @@ export class TablaComponent {
 
   texto_promedio_evaluacion: string = "Es un valor que indica en promedio las aptitudes del estudiante evaluadas por el supervisor";
 
-  promedio_notas: any = [];
   
   constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar,
               private router: Router, private practi_service: DetallePracticaService) {
@@ -79,7 +81,9 @@ export class TablaComponent {
           alumno.interpretacion_informe = alumno.interpretacion_informe ? alumno.interpretacion_informe : "—";
           return alumno;
         });
-        for (let item of this.practicas){
+        
+        for (var item of this.practicas){
+          let iditem = item.id
           this.practi_service.obtener_practica(item.id).subscribe({
             next: (data: any) => {
               respuesta = { ...respuesta, ...data }
@@ -91,25 +95,44 @@ export class TablaComponent {
               });
             },
             complete: () => {
-              let evaluaciones = respuesta.body.respuesta_supervisors.filter((respuesta_supervisor: any) => {
-                return !isNaN(respuesta_supervisor.respuesta);
-              });
-    
-              let nota_promedio = 0;
-              let prom = 0;
-              for (var val of evaluaciones){
-                if (val.pregunta_supervisor.tipo_respuesta == "evaluacion"){
-                  nota_promedio += Number(val.respuesta);
-                  prom += 1;
-                }
+              let evaluaciones = respuesta.body.respuesta_supervisors
+              
+              if(evaluaciones.length == 0){
+                this.temp_notas.push([iditem, 0])
               }
-              console.log(nota_promedio)
-              nota_promedio = nota_promedio/prom
-              this.promedio_notas.push(nota_promedio)
+              else{
+                let find = -1
+                for (var val of evaluaciones){
+                  let nota_promedio = 0;
+                  let prom = 0;
+                  let temp: any = [];
+
+                  if (val.pregunta_supervisor.enunciado == "Seleccione las características que mejor describen al practicante"){
+                    find = 1
+                    temp = val.respuesta.split(",");
+                    for(var n of temp){
+                      nota_promedio += Number(n);
+                      prom += 1;
+                    } 
+                    nota_promedio = nota_promedio/prom
+                    this.temp_notas.push([iditem, nota_promedio])  
+                    continue
+                  }
+                }
+                if (find == -1){
+                  this.temp_notas.push([iditem, 0])
+                } 
+              }
+              this.temp_notas.sort(function(a:any, b:any){
+                return a[0] - b[0];
+              })
+              this.notas_promedio = [];
+              for (let item2 of this.temp_notas){
+                this.notas_promedio.push(item2[1])
+              }
             }
           });
-        }
-        console.log(this.promedio_notas);
+        }     
         this.rerender();
       }
     });
