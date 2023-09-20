@@ -21,11 +21,9 @@ import { ExplicacionConsistenciaComponent } from './vistas/explicacion-consisten
 import { VistaSupervisorComponent } from './vistas/vista-supervisor/vista-supervisor/vista-supervisor.component';
 import { PnfComponent } from './componentes/pnf/pnf.component';
 import { RevisionComponent } from './componentes/revision/revision.component';
-import { FinalizacionComponent } from './componentes/finalizacion/finalizacion.component';
 import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_supervisor.component';
 import { IniciarPracticaComponent } from './componentes/iniciar-practica/iniciar-practica.component';
 import { FileComponent } from './componentes/file/file.component';
-import { LogoutComponent } from './componentes/logout/logout.component';
 import { ChatComponent } from './componentes/chat/chat.component';
 import { InformeComponent } from "./vistas/informe/informe.component";
 import { NotisHistorialComponent } from './vistas/notis-historial/notis-historial.component';
@@ -47,7 +45,6 @@ const routes: Routes = [
         children: [
           { path: 'cuestionario/:n', component: CuestionarioComponent },
           { path: 'empresas', component: EmpresasComponent },
-          { path: 'finalizacion/:n', component: FinalizacionComponent },
           { path: 'iniciarpractica/:n', component: IniciarPracticaComponent },
         ]
       }
@@ -58,7 +55,6 @@ const routes: Routes = [
   { path: environment.ruta_registro, component: RegistroComponent, data: { title: 'Registro' } },
   { path: environment.ruta_login, component: LoginComponent, data: { title: 'Login' } },
   { path: 'home', component: HomeComponent, data: { title: 'Home' } },
-  { path: 'logout', component: LogoutComponent },
   { path: 'tests', component: TestsComponent },
   { path: 'blank', component: BlankComponent },
   { path: 'resetPass', component: ForgotPasswordComponent },
@@ -90,12 +86,10 @@ export const routingComponents = [
   DetalleAlumnoComponent,
   DetallePracticaComponent,
   RevisionComponent,
-  FinalizacionComponent,
   EvaluacionComponent,
   IniciarPracticaComponent,
   FileComponent,
   LoginComponent,
-  LogoutComponent,
   RegistroComponent,
   BlankComponent,
   ForgotPasswordComponent,

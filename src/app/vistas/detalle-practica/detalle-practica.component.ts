@@ -67,6 +67,10 @@ export class DetallePracticaComponent implements OnInit {
   correo_estudiante: string = "";
   config_estudiante: string = "";
 
+
+  nota_promedio: number = -1;
+  prom: number = -1;
+
   constructor(private fragmentosService: FragmentosService, private service: DetallePracticaService, private service2: SetDetallesAlumnoService,
     private _snackBar: MatSnackBar, private route: ActivatedRoute,
     private service_obtener: DataUsuarioService, private service_resumen: ResumenService, private service_informe: InformeService,
@@ -102,6 +106,7 @@ export class DetallePracticaComponent implements OnInit {
         },
         complete: () => {
           this.practica = respuesta.body;
+          console.log(this.practica);
           this.check_resumen();
 
           if (this.practica.estado == environment.estado_practica.evaluada ||
@@ -135,6 +140,16 @@ export class DetallePracticaComponent implements OnInit {
           this.evaluaciones = this.practica.respuesta_supervisors.filter((respuesta_supervisor: any) => {
             return !isNaN(respuesta_supervisor.respuesta);
           });
+
+          this.nota_promedio = 0;
+          this.prom = 0;
+          for (var item of this.evaluaciones){
+            if (item.pregunta_supervisor.tipo_respuesta == "evaluacion"){
+              this.nota_promedio += Number(item.respuesta);
+              this.prom += 1;
+            }
+          }
+          this.nota_promedio = this.nota_promedio/this.prom
           //console.log("evaluaciones: ", this.evaluaciones);
           // considerar como respuestas todas las que sean strings
           this.respuestas_supervisor = this.practica.respuesta_supervisors.filter((respuesta_supervisor: any) => {
@@ -611,7 +626,7 @@ export class DetallePracticaComponent implements OnInit {
       mensaje = "Felicidades, has aprobado esta práctica";
     }
     else {
-      mensaje = "Deafortunadamente, has reprobado esta práctica";
+      mensaje = "Desafortunadamente, has reprobado esta práctica";
     }
     this.service2.aprobar_practica(id_estudiante, id_modalidad, aprobacion).subscribe({
       next: (data: any) => {
