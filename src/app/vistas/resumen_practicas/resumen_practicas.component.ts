@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Router } from "@angular/router";
+import { DetallePracticaService } from 'src/app/servicios/encargado/detalle-practica.service';
 
 
 @Component({
@@ -40,7 +41,12 @@ export class TablaComponent {
   texto_indice_repeticion: string = "Es un valor que indica qué tanto contenido de los informes es texto repetido\n" +
     "Para más información, haga click en el botón.";
 
-  constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar, private router: Router) {
+  texto_promedio_evaluacion: string = "Es un valor que indica en promedio las aptitudes del estudiante evaluadas por el supervisor";
+
+  promedio_notas: any = [];
+  
+  constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar,
+              private router: Router, private practi_service: DetallePracticaService) {
     //console.log("ESTE ES EL COMPONENTE ENCARGADO");
 
     this.dtOptions = {
@@ -73,7 +79,37 @@ export class TablaComponent {
           alumno.interpretacion_informe = alumno.interpretacion_informe ? alumno.interpretacion_informe : "—";
           return alumno;
         });
-        //console.log("practicas: ", this.practicas);
+        for (let item of this.practicas){
+          this.practi_service.obtener_practica(item.id).subscribe({
+            next: (data: any) => {
+              respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+              this._snackBar.open("Error al solicitar datos de práctica", "Cerrar", {
+                duration: 10000,
+                panelClass: ['red-snackbar']
+              });
+            },
+            complete: () => {
+              let evaluaciones = respuesta.body.respuesta_supervisors.filter((respuesta_supervisor: any) => {
+                return !isNaN(respuesta_supervisor.respuesta);
+              });
+    
+              let nota_promedio = 0;
+              let prom = 0;
+              for (var val of evaluaciones){
+                if (val.pregunta_supervisor.tipo_respuesta == "evaluacion"){
+                  nota_promedio += Number(val.respuesta);
+                  prom += 1;
+                }
+              }
+              console.log(nota_promedio)
+              nota_promedio = nota_promedio/prom
+              this.promedio_notas.push(nota_promedio)
+            }
+          });
+        }
+        console.log(this.promedio_notas);
         this.rerender();
       }
     });
