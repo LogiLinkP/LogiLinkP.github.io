@@ -24,7 +24,7 @@ export class IngresoInformeComponent {
 
   preguntas: any[] = [];
   tipo_respuestas: any[] = [];
-  respuestas: any[] = []; 
+  respuestas: any[] = [];
 
 
   isAnimating = false;
@@ -34,7 +34,7 @@ export class IngresoInformeComponent {
     }
 
     this.contador_preguntas -= 1;
-    console.log("CONTADOR PREGUNTAS", this.contador_preguntas);
+    //console.log("CONTADOR PREGUNTAS", this.contador_preguntas);
     
     let id = `#cont_respuesta${this.pregunta_actual}`;
     let id_izq = `#cont_respuesta${this.pregunta_actual - 1}`;
@@ -57,7 +57,7 @@ export class IngresoInformeComponent {
     }
     
     this.contador_preguntas += 1;
-    console.log("CONTADOR PREGUNTAS", this.contador_preguntas);
+    //console.log("CONTADOR PREGUNTAS", this.contador_preguntas);
 
     let id = `#cont_respuesta${this.pregunta_actual}`;
     let id_der = `#cont_respuesta${this.pregunta_actual + 1}`;
@@ -73,11 +73,6 @@ export class IngresoInformeComponent {
       this.pregunta_actual += 1;
     });
   }
-
-  lenght_preguntas() {
-    return this.preguntas.length;
-  }
-
 
   ngOnInit(): void {
     this.id_informe = parseInt(this.activated_route.snapshot.queryParamMap.get('id_informe') || "{}");
@@ -99,36 +94,38 @@ export class IngresoInformeComponent {
         this.preguntas = respuesta.body.config_informe.pregunta_informes;
 
         for (let i = 0; i < this.preguntas.length; i++) {
-          this.tipo_respuestas.push(this.preguntas[i].tipo);
+          this.tipo_respuestas.push(this.preguntas[i].tipo_respuesta);
           this.respuestas.push("");
         }
       }
     });
   }
 
+
+
   updateRespuestasAbierta(index: number, value: string) {
-    console.log("UPDATEANDO RESPUESTAS abierta", value)
+    //console.log("UPDATEANDO RESPUESTAS abierta", value)
     this.respuestas[index] = value;
-    console.log(this.respuestas);
+    //console.log(this.respuestas);
   }
 
   updateRespuestasCasillas(i: number, j: number, value: string) {
-    console.log("UPDATEANDO RESPUESTAS casillas", value)
+    //console.log("UPDATEANDO RESPUESTAS casillas", value)
     this.respuestas[i][j] = value;
-    console.log(this.respuestas);
+    //console.log(this.respuestas);
   }
 
   updateRespuestasAlternativas(i: number, value: string) {
-    console.log("UPDATEANDO RESPUESTAS alternativas", value);
+    //console.log("UPDATEANDO RESPUESTAS alternativas", value);
     this.respuestas[i] = value;
-    console.log(this.respuestas);
+    //console.log(this.respuestas);
   }
 
   enviarRespuestas() {
     console.log("Enviando evaluación...")
     console.log(this.respuestas);
 
-    let respuestas_aux = [];
+    let respuestas_aux = {};
 
     for (let i = 0; i < this.respuestas.length; i++) {
       if (this.respuestas[i] == "" || this.respuestas[i] == -1 || this.respuestas[i].length == 0) {
@@ -140,7 +137,7 @@ export class IngresoInformeComponent {
       }
     }
 
-    // for que envia respuestas
+    // for que convierte las respuestas al formato acordado, y los guarda en el campo key de informe
 
     for (let i = 0; i < this.respuestas.length; i++) {
       let respuesta_aux = "";
@@ -158,8 +155,7 @@ export class IngresoInformeComponent {
           }
         }
       }
-      //si es de alternativas o abierta
-      else {
+      else if (this.tipo_respuestas[i] == "alternativas") {
         let index = this.preguntas[i].opciones.split(";;").indexOf(this.respuestas[i]);
         for (let j = 0; j < this.preguntas[i].opciones.split(";;").length; j++) {
           if (j == index) {
@@ -172,38 +168,17 @@ export class IngresoInformeComponent {
             respuesta_aux += ",";
           }
         }
-      
-        respuestas_aux.push(respuesta_aux);
-        console.log("RESPUESTA AUX", respuesta_aux);
-  
-        console.log("ID PREGUNTA", this.preguntas[i].id);
-        //console.log("RESPUESTA", respuesta_aux);
-  
-        /*
-        this.servicePreguntas.agregar_respuesta(this.preguntas[i].id, respuesta_aux).subscribe({
-          next: (data: any) => {
-          },
-          error: (error: any) => {
-            console.log(error);
-            this._snackbar.open("Error al enviar la respuesta", "Cerrar", {
-              duration: 2000,
-              panelClass: ['red-snackbar']
-            });
-          },
-          complete: () => {
-            this._snackbar.open("Encuesta enviada. Redirigiendo a página principal...", "Cerrar", {
-              duration: 3000,
-              panelClass: ['green-snackbar']
-            });
-          }
-        });*/
       }
+      else{
+        respuesta_aux = this.respuestas[i];
+      }
+      
+      respuestas_aux = { ...respuestas_aux, [String(this.preguntas[i].id)]: respuesta_aux };
     }
-
-    //console.log("RESPUESTAS A ENVIAR EN QUERY", respuestas_aux);
+    console.log("RESPUESTAS A ENVIAR EN QUERY", respuestas_aux);
     // after 2 seconds, redirect to home
     setTimeout(() => {
-      this.router.navigate(['/']);
+      //this.router.navigate(['/alumno/1']);  DESCOMENTAR ESTO DESPUES
     }
       , 3000); 
 
