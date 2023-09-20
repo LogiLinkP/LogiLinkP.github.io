@@ -308,6 +308,11 @@ export class DetalleAlumnoComponent implements OnInit{
       this.flags_inscripcion_list[index] = true;
     }        
   }
+
+  redirigir_a_ingreso_informe(id_informe: any) {
+    // redirigir a la página de ingreso de informe
+    this.router.navigate(['/ingreso-informe'], { queryParams: { id_informe: id_informe } });
+  }
 }
 
 

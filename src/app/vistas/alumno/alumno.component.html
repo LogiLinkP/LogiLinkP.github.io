@@ -159,7 +159,9 @@
                                                                                                 <td>{{ informe?.config_informe?.tipo_informe }}</td>
                                                                                                 <td>{{ informe?.horas_trabajadas }}</td>
                                                                                                 <td>{{ informe?.fecha | date: 'dd/MM/yyyy' }}</td>
-                                                                                                <td><button class="btn btn-primary btn-sm btn-block" (click)="mostrar_informe(practica[1].informes,informe.id)">Ver
+                                                                                                <!--<td><button class="btn btn-primary btn-sm btn-block" (click)="mostrar_informe(practica[1].informes,informe.id)">Ver
+                                                                                                    Informe</button></td>-->
+                                                                                                <td><button class="btn btn-primary btn-sm btn-block" (click)="redirigir_a_ingreso_informe(informe.id)">Ver
                                                                                                     Informe</button></td>
                                                                                             </tr>
                                                                                         </tbody>
