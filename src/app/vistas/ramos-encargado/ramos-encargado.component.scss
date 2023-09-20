@@ -1,9 +1,19 @@
 button {
-    margin-top: 10px;
     width: 150px;
     height: fit-content;
 }
 
 #save {
-    margin-top: 10%;
+    margin-top: 30px;
+}
+
+.addRamo {
+    font-size: 30px;
+    vertical-align: middle;
+    margin-left: 3px;
+}
+
+.addRamo:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
 }

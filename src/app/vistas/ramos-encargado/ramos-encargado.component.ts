@@ -18,6 +18,7 @@ export class RamosEncargadoComponent {
         @Inject(DOCUMENT) private document: Document
     ) { 
         this.requestInicial();
+        this.generarForm();
     }
 
     ramoFORM = new FormControl('');
@@ -49,7 +50,7 @@ export class RamosEncargadoComponent {
                 for (let i = 0; i < ramos.length; i++) {
                     this.lista_ramos.push(ramos[i]);
                 }
-                this.generarForm();
+                //this.generarForm();
             }
         });
     }
@@ -81,7 +82,7 @@ export class RamosEncargadoComponent {
         let ramos: string = "";
 
         for (let i = 0; i < this.lista_ramos.length; i++) {
-            if (i == this.lista_ramos.length) {
+            if (i == this.lista_ramos.length - 1) {
                 ramos = ramos + this.lista_ramos[i];
             } else {
                 ramos = ramos + this.lista_ramos[i] + ",";

@@ -15,22 +15,30 @@
                 <!-- Topbar -->
                 <app-barra-superior></app-barra-superior>
 
-                <div class="row">
-                    <h2>Ramos para la carrera de {{nombre_carrera}}</h2>
+                <div class="container-fluid">
+                    <h1 class="h3 mb-4 text-gray-800">Ramos para la carrera de {{nombre_carrera}}</h1>
+
+                    <div>
+                    
+                        <div *ngFor="let ramo of lista_ramos; let i = index">
+                            <div class="row" style="margin-bottom: 10px;">
+                                <div class="col-7">
+                                    <p>Ramo Ingresado: {{ramo}}</p>
+                                </div>
+                                <div class="col-5">
+                                    <button class="btn btn-danger" (click)="eliminarRamo(i)">Eliminar Ramo</button>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddRamo()">
+                            <input type="text" [(ngModel)]="ramo" class="form-control" placeholder="Ingresar Ramo" formControlName="ramoFORM" style="display: inline-block; width: auto;">
                 
-                    <div *ngFor="let ramo of lista_ramos; let i = index" class="col-xl-2 col-6">
-                        <p>Ramo Ingresado: {{ramo}}</p>
-                        <button class="btn btn-danger" (click)="eliminarRamo(i)">Eliminar Ramo</button>
+                            <i class="fas fa-plus addRamo" (click)="onSubmitAddRamo()" style="display: inline-block;"></i>
+                
+                        </form>
+                        <button id="save" class="btn btn-success" (click)="mandarDatos()">Guardar</button>
                     </div>
-                
-                    <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddRamo()">
-                        <input type="text" [(ngModel)]="ramo" class="form-control" placeholder="Ingresar Ramo" formControlName="ramoFORM">
-            
-                        <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save"
-                            type="submit">Agregar Ramo</button>
-            
-                    </form>
-                    <button id="save" class="btn btn-success" (click)="mandarDatos()">Guardar</button>
                 </div>
 
             </div>
