@@ -107,7 +107,7 @@ import { EstadisticaEmpresasComponent } from './vistas/estadistica-empresas/esta
     VistaSupervisorComponent,
     RamosAlumnosComponent,
     EstadisticaEmpresasComponent,
-  ],
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,

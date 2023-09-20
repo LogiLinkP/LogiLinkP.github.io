@@ -31,6 +31,7 @@ import { RamosAlumnosComponent } from './vistas/ramos-alumnos/ramos-alumnos.comp
 import { EstadisticaEmpresasComponent } from './vistas/estadistica-empresas/estadistica-empresas.component';
 
 import { environment } from 'src/environments/environment';
+import { PerfilComponent } from './vistas/perfil/perfil.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -46,6 +47,7 @@ const routes: Routes = [
           { path: 'cuestionario/:n', component: CuestionarioComponent },
           { path: 'empresas', component: EmpresasComponent },
           { path: 'iniciarpractica/:n', component: IniciarPracticaComponent },
+          { path: 'perfil', component: PerfilComponent}
         ]
       }
     ]
@@ -72,6 +74,7 @@ const routes: Routes = [
   { path: 'consistencia', component: ExplicacionConsistenciaComponent },
   { path: 'estadisticaRamos', component: RamosAlumnosComponent},
   { path: 'estadisticaEmpresas', component: EstadisticaEmpresasComponent},
+  { path: 'perfil', component: PerfilComponent},
   { path: '**', component: PnfComponent },
 ];
 
@@ -100,5 +103,6 @@ export const routingComponents = [
   CuestionarioComponent,
   ChatComponent,
   ConfiguracionPracticaComponent,
-  EncuestaFinPracticaComponent
+  EncuestaFinPracticaComponent,
+  PerfilComponent
 ]
