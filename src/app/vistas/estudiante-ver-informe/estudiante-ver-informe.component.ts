@@ -37,6 +37,30 @@ export class EstudianteVerInformeComponent {
         this.fecha_informe = dayjs(informe.fecha, "YYYY-MM-DDTHH:mm:ssZ").format("DD/MM/YYYY");
         let respuestas = informe.key;
         let preguntas: any[] = informe.config_informe.pregunta_informes;
+
+
+        for (let i = 0; i < preguntas.length; i++) {
+
+          if (preguntas[i].tipo_respuesta != "abierta" && respuestas[preguntas[i].id] != null) {
+            let opciones = preguntas[i].opciones.split(";;");
+            let respuesta = respuestas[preguntas[i].id].split(",");
+            if (respuesta.length != opciones.length) {
+              console.log("Error en la respuesta, el largo no coincide con el de las opciones de la pregunta");
+              return;
+            }
+            let respuestas_traducidas = "";
+            for (let j = 0; j < opciones.length; j++) {
+              if (respuesta[j] == "1") {
+                respuestas_traducidas += opciones[j] + ", ";
+              }
+            }
+            respuestas_traducidas = respuestas_traducidas.slice(0, -2);
+            console.log(respuestas_traducidas);
+            respuestas[preguntas[i].id] = respuestas_traducidas;
+          }
+        }
+
+
         this.pares_pregunta_respuesta = preguntas.map((pregunta: any) => {
           return [
             pregunta.enunciado,
