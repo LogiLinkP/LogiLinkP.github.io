@@ -76,6 +76,7 @@ import { CrearCarreraComponent } from './vistas/crear-carrera/crear-carrera.comp
 import { CrearEncargadoComponent } from './vistas/crear-encargado/crear-encargado.component';
 import { AsignacionComponent } from './vistas/asignacion/asignacion.component';
 import { BarraLateralAdminComponent } from './componentes/barra-lateral-admin/barra-lateral-admin.component';
+import { RegistroEncargadoComponent } from './vistas/registro-encargado/registro-encargado.component';
 
 @NgModule({
   declarations: [
@@ -119,6 +120,7 @@ import { BarraLateralAdminComponent } from './componentes/barra-lateral-admin/ba
     CrearEncargadoComponent,
     AsignacionComponent,
     BarraLateralAdminComponent,
+    RegistroEncargadoComponent,
   ],
   imports: [
     BrowserModule,

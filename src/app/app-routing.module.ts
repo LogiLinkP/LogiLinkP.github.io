@@ -35,6 +35,7 @@ import { AdminComponent } from './vistas/admin/admin.component';
 import { CrearCarreraComponent } from './vistas/crear-carrera/crear-carrera.component';
 import { CrearEncargadoComponent } from './vistas/crear-encargado/crear-encargado.component';
 import { AsignacionComponent } from './vistas/asignacion/asignacion.component';
+import { RegistroEncargadoComponent } from './vistas/registro-encargado/registro-encargado.component';
 
 import { environment } from 'src/environments/environment';
 
@@ -75,6 +76,7 @@ const routes: Routes = [
       { path: 'crear-encargado', component: CrearEncargadoComponent },
       { path: 'asignacion', component: AsignacionComponent}
     ] },
+  { path: 'encargado/:token', component: RegistroEncargadoComponent },
   // { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
   { path: 'configurar/:nombre', component: ConfiguracionPracticaComponent },
   { path: 'configurar/:nombre/copia', component: ConfiguracionPracticaComponent },
@@ -121,5 +123,6 @@ export const routingComponents = [
   CrearCarreraComponent,
   CrearEncargadoComponent,
   AsignacionComponent,
+  RegistroEncargadoComponent,
   EncuestaFinPracticaComponent
 ]

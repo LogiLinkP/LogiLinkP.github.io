@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Praxus - Login</title>
+
+</head>
+
+<body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Registro de Praxus</h1>
+                        </div>
+                        <form class="user" [formGroup]="registroForm">
+                            <div class="form-group row">
+
+                                <!-- NOMBRE -->
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input type="text" class="form-control form-control-user" id="exampleFirstName"
+                                        placeholder="Nombre" formControlName="nombre" name="nombre">
+                                    <div *ngIf="registroForm.controls['nombre'].invalid && (registroForm.controls['nombre'].dirty || registroForm.controls['nombre'].touched)"
+                                        class="alert alert-danger">
+                                        <div *ngIf="registroForm.controls['nombre'].errors?.['required']">
+                                            Se requiere nombre
+                                        </div>
+                                        <div *ngIf="registroForm.controls['nombre'].errors?.['minlength']">
+                                            Mínimo 3 caracteres.
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- NOMBRE -->
+
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-user" id="exampleLastName"
+                                        placeholder="Apellidos">
+                                </div>
+                            </div>
+
+                            <!-- EMAIL -->
+                            <div class="form-group">
+                                <input type="email" class="form-control form-control-user" id="exampleInputEmail"
+                                    placeholder="Correo Electrónico" formControlName="email" name="email">
+                                <div *ngIf="registroForm.controls['email'].invalid && (registroForm.controls['email'].dirty || registroForm.controls['email'].touched)"
+                                    class="alert alert-danger">
+                                    <p *ngIf="registroForm.controls['email'].errors?.['required']">
+                                        Se requiere correo
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- EMAIL -->
+
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input type="password" class="form-control form-control-user"
+                                        id="exampleInputPassword" placeholder="Contraseña" formControlName="password"
+                                        name="password">
+                                    <div *ngIf="registroForm.controls['password'].invalid && (registroForm.controls['password'].dirty || registroForm.controls['password'].touched)"
+                                        class="alert alert-danger">
+                                        <p *ngIf="registroForm.controls['password'].errors?.['required']">
+                                            Se requiere contraseña
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="password" class="form-control form-control-user"
+                                        id="exampleRepeatPassword" placeholder="Repetir Contraseña"
+                                        formControlName="confirmPassword" name="password">
+                                </div>
+                            </div>
+
+                            <button id="myBtn" type="submit" class="btn btn-primary btn-user btn-block"
+                                (click)="register()"
+                                [disabled]="registroForm.pristine || registroForm.invalid || checkEs">
+                                Registrar Cuenta
+                            </button>
+                            <script>
+                                var input = document.getElementById("exampleRepeatPassword");
+                                input.addEventListener("keypress", function (event) {
+                                    if (event.keyCode === 13) {
+                                        event.preventDefault();
+                                        document.getElementById("myBtn").click();
+                                    }
+                                });
+                            </script>
+                            <hr>
+                            <!-- <a href="" class="btn btn-google btn-user btn-block">
+                                <i class="fab fa-google fa-fw"></i> Register with Google
+                            </a>
+                            <a href="" class="btn btn-facebook btn-user btn-block">
+                                <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
+                            </a> -->
+                        </form>
+                        <hr>
+                        <!--
+                        <div class="text-center">
+                            <a class="small" routerLink="/resetPass">Forgot Password?</a>
+                        </div>-->
+                        <div class="text-center">
+                            <a class="small" routerLink="/login">¿Ya tienes una cuenta? ¡Inicia sesión!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   
+
+</div>
+
+
+</body>
+
+</html>

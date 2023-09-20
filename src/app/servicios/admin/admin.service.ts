@@ -12,12 +12,17 @@ export class AdminService {
   constructor(private http: HttpClient) { }
 
   crearCarrera(nombre: string){
-    const req = new HttpRequest('POST',`${this.url}/usuario/crear-carrera`,{nombre});
+    const req = new HttpRequest('POST',`${this.url}/carrera/crear-carrera`,{nombre});
     return this.http.request(req);
   }
 
   crearEncargado(email: string){
-    const req = new HttpRequest('POST',`${this.url}/usuario/crear-encargado`,{email});
+    const req = new HttpRequest('POST',`${this.url}/encargado/crear-encargado`,{email});
+    return this.http.request(req);
+  }
+
+  asignarEncargado(nombre: string, carrera: string){
+    const req = new HttpRequest('POST',`${this.url}/admin/asignar-encargado`,{nombre, carrera});
     return this.http.request(req);
   }
 }
