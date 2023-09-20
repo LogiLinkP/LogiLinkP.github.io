@@ -119,13 +119,36 @@
                             </div>
                         </div>
 
+                    </div>
 
+                    <div class="row">
+                        <div class="col-12 col-lg-4" style="margin-bottom: 20px;">
+                            <button type="button" class="btn btn-success btn-lg btn-block"
+                                    [disabled]="!botones_habilitados"
+                                    (click)="aprobar(practica?.estudiante?.id_usuario, practica?.estudiante?.id, practica?.modalidad?.id, 1)">
+                                    Aprobar
+                            </button>
+                        </div>
+                        <div class="col-12 col-lg-4" style="margin-bottom: 20px;">
+                            <button type="button" class="btn btn-danger btn-lg btn-block"
+                                    [disabled]="!botones_habilitados"
+                                    (click)="aprobar(practica?.estudiante?.id_usuario, practica?.estudiante?.id, practica?.modalidad?.id, 0)">
+                                    Reprobar
+                            </button>
+                        </div>
+                        <div class="col-12 col-lg-4" style="margin-bottom: 20px;">
+                            <app-boton-solicitar-archivo [id_alumno]="id_estudiante"
+                                                    [correo_alumno]="correo_estudiante"
+                                                    [configuración_alumno]="config_estudiante"
+                                                    [id_practica]="practica.id">
+                            </app-boton-solicitar-archivo>
+                        </div>
                     </div>
 
                     <!-- Fila de Información general y Archivos -->
                     <div class="row">
                         <!-- Tarjeta Información general -->
-                        <div class="col-lg-6">
+                        <div class="col-lg-12">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Accordion -->
                                 <a href="#collapseCardGeneral" class="d-block card-header py-3" data-toggle="collapse"
@@ -133,79 +156,41 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Información General</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
-                                <div class="collapse" id="collapseCardGeneral">
+                                <div class="collapse show" id="collapseCardGeneral">
                                     <div class="card-body">
-                                        <table style="width:80%">
-                                            <tr>
-                                                <td>Correo Estudiante:</td>
-                                                <td>{{ practica?.estudiante?.usuario.correo }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Correo Supervisor:</td>
-                                                <td>{{ practica?.supervisor?.correo }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Horas Trabajadas:</td>
-                                                <td>{{ horas_totales }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Fecha Inicio:</td>
-                                                <td>{{ practica?.fecha_inicio | date: 'dd/MM/yyyy' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Fecha Termino:</td>
-                                                <td>{{ practica?.fecha_termino | date: 'dd/MM/yyyy' }}</td>
-                                            </tr>
-                                        </table>
-
+                                        <div class="row">
+                                            <div class="col-6">
+                                                Correo Estudiante:
+                                            </div>
+                                            <div class="col-6">
+                                                {{ practica?.estudiante?.usuario.correo }}
+                                            </div>
+                                            <div class="col-6">
+                                                Correo Supervisor:
+                                            </div>
+                                            <div class="col-6">
+                                                {{ practica?.supervisor?.correo }}
+                                            </div>
+                                            <div class="col-6">
+                                                Horas Trabajadas:
+                                            </div>
+                                            <div class="col-6">
+                                                {{ horas_totales }}
+                                            </div>
+                                            <div class="col-6">
+                                                Fecha Inicio:
+                                            </div>
+                                            <div class="col-6">
+                                                {{ practica?.fecha_inicio | date: 'dd/MM/yyyy' }}
+                                            </div>
+                                            <div class="col-6">
+                                                Fecha Termino:
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div><!-- Fin Tarjeta Información general -->
-
-                        <!-- Tarjeta con 4 botones: aprobar, reprobar, generar pdf y resumir informe alumno-->
-                        <div class="col-lg-6">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Accordion -->
-                                <a href="#collapseCardAcciones" class="d-block card-header py-3" data-toggle="collapse"
-                                    role="button" aria-expanded="true" aria-controls="collapseCardAcciones">
-                                    <h6 class="m-0 font-weight-bold text-primary">Acciones</h6>
-                                </a>
-                                <!-- Card Content - Collapse -->
-                                <div class="collapse" id="collapseCardAcciones">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-lg-1"></div>
-                                            <div class="col-lg-5">
-                                                <button type="button" class="btn btn-success btn-lg btn-block"
-                                                    [disabled]="!botones_habilitados"
-                                                    (click)="aprobar(practica?.estudiante?.id_usuario, practica?.estudiante?.id, practica?.modalidad?.id, 1)">Aprobar</button>
-                                            </div>
-                                            <div class="col-lg-5">
-                                                <button type="button" class="btn btn-danger btn-lg btn-block"
-                                                    [disabled]="!botones_habilitados"
-                                                    (click)="aprobar(practica?.estudiante?.id_usuario, practica?.estudiante?.id, practica?.modalidad?.id, 0)">Reprobar</button>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-lg-3"></div>
-                                            <div class="col-lg-6">
-                                                <app-boton-solicitar-archivo [id_alumno]="id_estudiante"
-                                                    [correo_alumno]="correo_estudiante"
-                                                    [configuración_alumno]="config_estudiante"
-                                                    [id_practica]="practica.id"></app-boton-solicitar-archivo>
-                                            </div>
-                                            <div class="col-lg-3"></div>
-                                            <!-- <div class="col-lg-5">
-                                                <button type="button" class="btn btn-primary btn-lg btn-block">Resumir
-                                                    Informe Estudiante</button>
-                                            </div> -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div><!-- Fin Fila -->
 
                     <div class="row">
@@ -218,7 +203,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Informes Realizados</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
-                                <div class="collapse" id="collapseCardInformes">
+                                <div class="collapse show" id="collapseCardInformes">
                                     <div class="card-body">
                                         <div class="overflow-auto">
                                             <div class="table-responsive ">
@@ -264,7 +249,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Solicitudes de Archivos</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
-                                <div class="collapse" id="collapseCardArchivos">
+                                <div class="collapse show" id="collapseCardArchivos">
                                     <div class="card-body">
                                         <div class="overflow-auto">
                                             <div class="table-responsive">
@@ -325,7 +310,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Evaluación del Supervisor</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
-                                <div class="collapse" id="collapseCardEvaluacion">
+                                <div class="collapse show" id="collapseCardEvaluacion">
                                     <div class="card-body">
                                         <div class="overflow-auto">
                                             <div class="table-responsive ">
@@ -341,6 +326,10 @@
                                                         <tr *ngFor="let eval of evaluaciones;">
                                                             <td>{{eval.pregunta_supervisor?.enunciado}}</td>
                                                             <td>{{eval.respuesta}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Promedio</td>
+                                                            <td>{{nota_promedio}}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -361,7 +350,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Reseñas del Supervisor</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
-                                <div class="collapse" id="collapseCardSupervisor">
+                                <div class="collapse show" id="collapseCardSupervisor">
                                     <div class="card-body" *ngIf="data_supervisor_rdy;else supervisor_data">
                                         <div class="overflow-auto">
                                             <div class="table-responsive ">
@@ -408,6 +397,68 @@
                         </div><!-- Fin Tarjeta Otras respuestas supervisor -->
                     </div><!-- Fin Fila -->
 
+                    <div class ="row">
+                        <!--Tarjeta Aptitudes -->
+                        <div class="col-lg-6">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Accordion -->
+                                <a href="#collapseCardAptitudes" class="d-block card-header py-3"
+                                    data-toggle="collapse" role="button" aria-expanded="true"
+                                    aria-controls="collapseCardSupervisor">
+                                    <h6 class="m-0 font-weight-bold text-primary">Aptitudes del Estudiante</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse" id="collapseCardAptitudes">
+                                    <div class="card-body" *ngIf="data_supervisor_rdy;else supervisor_data">
+                                        <div class="overflow-auto">
+                                            <div class="table-responsive ">
+                                                <table class="table table-bordered hoverTable" id="dataTable"
+                                                    width="100%" cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Aptitud</th>
+                                                            <th>Evaluación</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let resp of respuestas_sup_parsed;">
+                                                            <td style="vertical-align: middle;">{{resp[1]}}</td>
+                                                            <td *ngIf="resp[0];else textoSolo"
+                                                                style="vertical-align: middle;">
+                                                                {{resp[2]}}
+                                                            </td>
+                                                            <ng-template #textoSolo style="vertical-align: middle;">
+                                                                <td style="vertical-align: middle;">
+                                                                    {{resp[2][0]}}
+                                                                    <span class="bg-gradient-success"
+                                                                        style="vertical-align: middle;">
+                                                                        {{resp[2][1]}}
+                                                                    </span>
+                                                                    {{resp[2][2]}}
+                                                                </td>
+                                                            </ng-template>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>Promedio</td>
+                                                            <td>Hola</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <ng-template #supervisor_data>
+                                        <div class="spinner-border" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div><!-- Fin Tarjeta Otras respuestas supervisor -->
+                    </div>
+
                     <div class="row">
                         <!-- Tarjeta Consistencia -->
                         <div class="col-lg-12">
@@ -419,7 +470,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Consistencia de Informes</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
-                                <div class="collapse" id="collapseCardConsistencias">
+                                <div class="collapse show" id="collapseCardConsistencias">
                                     <div class="card-body">
                                         <div class="overflow-auto_consistencia">
                                             <!-- tarjetas internas consistencia_informe y consistencia_nota-->

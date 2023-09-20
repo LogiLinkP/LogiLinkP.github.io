@@ -40,7 +40,6 @@ import { InformacionesComponent } from './vistas/informaciones/informaciones.com
 import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.component';
 
 import { TestBarraComponent } from './componentes/test-barra/test-barra.component';
-import { LogoutComponent } from './componentes/logout/logout.component';
 import { FooterComponent } from './componentes/footer/footer.component';
 import { BarraSuperiorComponent } from './componentes/barra-superior/barra-superior.component';
 import { LogoutModalComponent } from './componentes/logout-modal/logout-modal.component';
@@ -80,7 +79,6 @@ import { EstudianteVerInformeComponent } from './vistas/estudiante-ver-informe/e
     routingComponents,
     EvaluacionComponent,
     DatosPracticaComponent,
-    LogoutComponent,
     DetallePracticaComponent,
     FooterComponent,
     BarraSuperiorComponent,
