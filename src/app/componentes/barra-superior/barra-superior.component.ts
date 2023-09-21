@@ -52,7 +52,7 @@ export class BarraSuperiorComponent implements OnInit{
             this.respuesta = { ...this.respuesta, ...data }
           },
           error: (error: any) => {
-            console.log(error);
+            //console.log(error);
             return;
           },
           complete: () => {
@@ -65,8 +65,8 @@ export class BarraSuperiorComponent implements OnInit{
               }
             }           
         
-            console.log("ESTADO ACTUAL",this.estado_config)
-            console.log("estados::::",this.estados_configuracion,)
+            //console.log("ESTADO ACTUAL",this.estado_config)
+            //console.log("estados::::",this.estados_configuracion,)
             cdr.detectChanges();
           }
         });
@@ -75,11 +75,11 @@ export class BarraSuperiorComponent implements OnInit{
     this.service_noti.callback.subscribe(res => {
       let fechaF = res.fecha
 
-      console.log(fechaF);
+      //console.log(fechaF);
       let mensaje = res.message;
-      console.log("EL ESTADO ACTUAL ES", this.estado_config);
+      //console.log("EL ESTADO ACTUAL ES", this.estado_config);
       if(this.estado_config == "Notificaciones y Correo" || this.estado_config == "Sólo Notificaciones"){
-        console.log("Notificacion recibida2, el mensaje es", mensaje);
+        //console.log("Notificacion recibida2, el mensaje es", mensaje);
         this.notificaciones.push({fecha: fechaF, texto: mensaje, link: res.link});
       }
       this.cdr.detectChanges();
@@ -97,7 +97,7 @@ export class BarraSuperiorComponent implements OnInit{
         return;
       },
       complete:() => {
-        console.log("Estado cambiado con éxito");
+        //console.log("Estado cambiado con éxito");
         this.respuesta = [];
         this.estado_config = estado;
       }
@@ -126,7 +126,7 @@ export class BarraSuperiorComponent implements OnInit{
             }
           }
           this.respuesta = [];
-          console.log("ENCARGADOS:",this.personas);
+          //console.log("ENCARGADOS:",this.personas);
         }
       })
     }
@@ -156,7 +156,10 @@ export class BarraSuperiorComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    console.log(this.id_usuario);
+    //console.log(this.id_usuario);
+    //console.log(this.estado_config);
+
+    /*
     if(this.estado_config == "Correos y Notificaciones" || this.estado_config == "Sólo Notificaciones"){
       this.Service.obtener_notificaciones(this.id_usuario, this.estado_config).subscribe({
         next: (data:any) => {
@@ -175,6 +178,7 @@ export class BarraSuperiorComponent implements OnInit{
         }
       })
     }
+    */
 
     this.Service.obtener_usuario(this.id_usuario).subscribe({
       next: (data: any) => {
@@ -185,6 +189,28 @@ export class BarraSuperiorComponent implements OnInit{
         return;
       },
       complete: () => {
+        this.estado_config = this.respuesta.body.config
+        //console.log(this.estado_config)
+
+        if(this.estado_config == "Notificaciones y Correo" || this.estado_config == "Sólo Notificaciones"){
+          this.Service.obtener_notificaciones(this.id_usuario, this.estado_config).subscribe({
+            next: (data:any) => {
+              this.respuesta = { ...this.respuesta, ...data}
+            },
+            error: (error: any) => {
+              console.log(error);
+            },
+            complete: () => {
+              this.notificaciones = this.respuesta.body;
+              this.notificaciones = this.notificaciones.map((notificacion:any ) => {
+                notificacion.fecha = dayjs(notificacion.fecha, "YYYY-MM-DDTHH:mm:ssZ").format("DD/MM/YYYY HH:mm");
+                return notificacion;
+              });
+              this.respuesta = [];
+            }
+          })
+        }
+
         if(this.respuesta.body.es_estudiante == true){
           this.es_alumno = 1;
           this.Service.obtener_estudiante(this.id_usuario).subscribe({
@@ -223,7 +249,28 @@ export class BarraSuperiorComponent implements OnInit{
         this.respuesta = [];
       }
     });  
-    console.log(this.personas);
+
+    /*
+    if(this.estado_config == "Correos y Notificaciones" || this.estado_config == "Sólo Notificaciones"){
+      this.Service.obtener_notificaciones(this.id_usuario, this.estado_config).subscribe({
+        next: (data:any) => {
+          this.respuesta = { ...this.respuesta, ...data}
+        },
+        error: (error: any) => {
+          console.log(error);
+        },
+        complete: () => {
+          this.notificaciones = this.respuesta.body;
+          this.notificaciones = this.notificaciones.map((notificacion:any ) => {
+            notificacion.fecha = dayjs(notificacion.fecha, "YYYY-MM-DDTHH:mm:ssZ").format("DD/MM/YYYY HH:mm");
+            return notificacion;
+          });
+          this.respuesta = [];
+        }
+      })
+    }
+    */
+    //console.log(this.personas);
   }
 
   eliminar_notificaciones(id:number){
@@ -237,7 +284,7 @@ export class BarraSuperiorComponent implements OnInit{
       },
       complete:() => {
         this.notificaciones = [];
-        console.log("Notificaciones cambiadas");
+        //console.log("Notificaciones cambiadas");
         this.respuesta = [];
       }
     })

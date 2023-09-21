@@ -90,6 +90,10 @@ export class ConfiguracionPracticaComponent {
     preguntaFORM = new FormControl('')
     ramoFORM = new FormControl('')
 
+    aptitudFORM = new FormControl('')
+
+    aptitud: string;
+
     nombre_solicitud_documentos: string;
     descripcion_solicitud_documentos: string;
     tipo_solicitud_documentos: string;
@@ -105,6 +109,7 @@ export class ConfiguracionPracticaComponent {
     habilitarMeses: boolean = false;
 
     lista_ramos: string[] = [];
+    lista_aptitudes: string[] = [];
 
     lista_preguntas_avance: string[] = [];
     tipos_preguntas_avance: string[] = [];
@@ -121,6 +126,7 @@ export class ConfiguracionPracticaComponent {
     lista_preguntas_supervisor: string[] = [];
     tipos_preguntas_supervisor: string[] = [];
     lista_opciones_preguntas_supervisor: string[] = [];
+    lista_fija_preguntas_supervisor: boolean[] = [];
 
     lista_nombre_solicitud_documentos: string[] = [];
     lista_descripcion_solicitud_documentos: string[] = [];
@@ -211,6 +217,7 @@ export class ConfiguracionPracticaComponent {
                 preguntaFORM: this.pregunta,
     
                 ramoFORM: this.ramo,
+                aptitudFORM: this.aptitud,
                 
                 arregloOpcionesPreguntas: this._fb.array([]),
                 arregloHoras: this._fb.array([]),
@@ -371,6 +378,7 @@ export class ConfiguracionPracticaComponent {
                                                         preguntaFORM: this.pregunta,
                                             
                                                         ramoFORM: this.ramo,
+                                                        aptitudFORM: this.aptitud,
                                                         
                                                         arregloOpcionesPreguntas: this._fb.array([]),
                                                         arregloHoras: this._fb.array([]),
@@ -652,6 +660,14 @@ export class ConfiguracionPracticaComponent {
       this.ramo = "";
     }
 
+    onSubmitAddAptitud(){
+        this.aptitud = this.fg.value.aptitudFORM;
+        this.lista_aptitudes.push(this.aptitud);
+        console.log(this.lista_aptitudes);
+    
+        this.aptitud = "";
+    }
+
     onSubmitAddPreguntaSupervisor() {
       //this.lista_opciones_preguntas = [];
       this.pregunta = this.fg.value.preguntaFORM;
@@ -690,6 +706,9 @@ export class ConfiguracionPracticaComponent {
 
       this.lista_opciones_preguntas_supervisor.push(opciones_de_una_pregunta);
       console.log(this.lista_opciones_preguntas_supervisor);
+
+      this.lista_fija_preguntas_supervisor.push(false);
+      console.log(this.lista_fija_preguntas_supervisor);
 
       //limpieza opciones anteriores
 
@@ -757,11 +776,19 @@ export class ConfiguracionPracticaComponent {
     }
 
     avanzarDesdePreguntasEncuesta(){
-      this.estado = "agregar_ramos";
+      //this.estado = "agregar_ramos";
+      this.estado = "aptitudes";
       this.printForm();
     }
 
+    /*
     avanzarDesdeRamos(){
+      this.estado = "preguntas_supervisor";
+      this.printForm();
+    }
+    */
+
+    avanzarDesdeAptitud(){
       this.estado = "preguntas_supervisor";
       this.printForm();
     }
@@ -806,12 +833,18 @@ export class ConfiguracionPracticaComponent {
         this.estado = "solicitud_documentos";
       }
       //volver desde agregar ramos
+      /*
       else if (this.estado == "agregar_ramos") {
         this.estado = "encuesta_final";
       }
+      */
+     else if (this.estado == "aptitudes") {
+        this.estado = "encuesta_final";
+     }
       //volver desde preguntas supervisor
       else if (this.estado == "preguntas_supervisor") {
-        this.estado = "agregar_ramos";
+        //this.estado = "agregar_ramos";
+        this.estado = "aptitudes";
       }
       //volver desde fin configuracion
       else if (this.estado == "fin_configuracion") {
@@ -878,6 +911,12 @@ export class ConfiguracionPracticaComponent {
       console.log("eliminando ramo", index);
       this.lista_ramos.splice(index, 1);
       this.migracion_legal = false;
+    }
+
+    eliminarAptitud(index: number){
+        console.log("eliminando aptitud", index);
+        this.lista_aptitudes.splice(index, 1);
+        this.migracion_legal = false;
     }
   
     mandarDatos() { //se estan apilando los snackbars positivos (dejar los negativos)
@@ -962,7 +1001,7 @@ export class ConfiguracionPracticaComponent {
                     this.crearPreguntaEncuestaFinal(respuesta.body.id, this.lista_preguntas_encuesta[i], this.tipos_preguntas_encuesta[i], this.lista_opciones_preguntas_encuesta[i]);
                 }
                 for (let i = 0; i < this.lista_preguntas_supervisor.length; i++) {
-                    this.crearPreguntaSupervisor(respuesta.body.id, this.lista_preguntas_supervisor[i], this.tipos_preguntas_supervisor[i], this.lista_opciones_preguntas_supervisor[i]);
+                    this.crearPreguntaSupervisor(respuesta.body.id, this.lista_preguntas_supervisor[i], this.tipos_preguntas_supervisor[i], this.lista_opciones_preguntas_supervisor[i], this.lista_fija_preguntas_supervisor[i]);
                 }
                 for (let i = 0; i < this.lista_nombre_solicitud_documentos.length; i++) {
                     this.crearSolicitudDocumento(respuesta.body.id, this.lista_nombre_solicitud_documentos[i], this.lista_descripcion_solicitud_documentos[i], this.lista_tipo_solicitud_documentos[i]);
@@ -1012,6 +1051,9 @@ export class ConfiguracionPracticaComponent {
     }
 
     crearConfigPractica(nombre: string, frecuencia: string, final: string) {
+
+        //agregando pregunta de ramos
+        /*
         var opciones_ramos = ""
         for (let i = 0; i < this.lista_ramos.length; i++) {
             opciones_ramos = opciones_ramos + this.lista_ramos[i]
@@ -1019,10 +1061,23 @@ export class ConfiguracionPracticaComponent {
         }
         opciones_ramos = opciones_ramos.slice(0, -2);
 
-        //agregando pregunta de ramos
         this.lista_preguntas_encuesta.push("Selecciona los ramos que fueron mas utiles durante tu practica");
         this.tipos_preguntas_encuesta.push("casillas");
         this.lista_opciones_preguntas_encuesta.push(opciones_ramos);
+        */
+
+        //agregando pregunta aptitudes/evaluacion a preguntas supervisor
+        var opciones_aptitudes = ""
+        for (let i = 0; i < this.lista_aptitudes.length; i++) {
+            opciones_aptitudes = opciones_aptitudes + this.lista_aptitudes[i]
+            opciones_aptitudes = opciones_aptitudes + ";;"
+        }
+        opciones_aptitudes = opciones_aptitudes.slice(0, -2);
+
+        this.lista_preguntas_supervisor.push("Evalue entre 1 y 5 las siguientes aptitudes del practicante");
+        this.tipos_preguntas_supervisor.push("evaluacion");
+        this.lista_opciones_preguntas_supervisor.push(opciones_aptitudes);
+        this.lista_fija_preguntas_supervisor.push(true);
 
         let respuesta: any = {};
 
@@ -1054,7 +1109,7 @@ export class ConfiguracionPracticaComponent {
                     this.crearPreguntaEncuestaFinal(respuesta.body.id, this.lista_preguntas_encuesta[i], this.tipos_preguntas_encuesta[i], this.lista_opciones_preguntas_encuesta[i]);
                 }
                 for (let i = 0; i < this.lista_preguntas_supervisor.length; i++) {
-                    this.crearPreguntaSupervisor(respuesta.body.id, this.lista_preguntas_supervisor[i], this.tipos_preguntas_supervisor[i], this.lista_opciones_preguntas_supervisor[i]);
+                    this.crearPreguntaSupervisor(respuesta.body.id, this.lista_preguntas_supervisor[i], this.tipos_preguntas_supervisor[i], this.lista_opciones_preguntas_supervisor[i], this.lista_fija_preguntas_supervisor[i]);
                 }
                 for (let i = 0; i < this.lista_nombre_solicitud_documentos.length; i++) {
                     this.crearSolicitudDocumento(respuesta.body.id, this.lista_nombre_solicitud_documentos[i], this.lista_descripcion_solicitud_documentos[i], this.lista_tipo_solicitud_documentos[i]);
@@ -1187,10 +1242,10 @@ export class ConfiguracionPracticaComponent {
         });
     }
 
-    crearPreguntaSupervisor(id_config_practica: number, pregunta: string, tipo_pregunta: string, opciones: string) {
+    crearPreguntaSupervisor(id_config_practica: number, pregunta: string, tipo_pregunta: string, opciones: string, fija:boolean) {
         let respuesta: any = {};
 
-        this.serviceComplete.crearPreguntaSupervisor(id_config_practica, pregunta, tipo_pregunta, opciones).subscribe({
+        this.serviceComplete.crearPreguntaSupervisor(id_config_practica, pregunta, tipo_pregunta, opciones, fija).subscribe({
             next: (data: any) => {
                 respuesta = { ...respuesta, ...data }
             },

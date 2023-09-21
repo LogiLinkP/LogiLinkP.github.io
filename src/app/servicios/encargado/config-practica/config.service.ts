@@ -198,12 +198,13 @@ export class ConfigService {
         return this._http.request(req);
     }
     
-    crearPreguntaSupervisor(id_config_practica: number, enunciado: string, tipo_respuesta: string, opciones: string) {
+    crearPreguntaSupervisor(id_config_practica: number, enunciado: string, tipo_respuesta: string, opciones: string, fija: boolean) {
         const pregunta = {
             id_config_practica: id_config_practica,
             enunciado: enunciado,
             tipo_respuesta: tipo_respuesta,
-            opciones: opciones
+            opciones: opciones,
+            fija: fija
         }
 
         const req = new HttpRequest('POST', `${environment.url_back}/pregunta_supervisor/crear`, pregunta, {
