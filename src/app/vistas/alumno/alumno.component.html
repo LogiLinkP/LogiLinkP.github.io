@@ -177,9 +177,9 @@
                                                                     </a>
                                                                     <!-- Card Content - Collapse -->
                                                                     <div>
-                                                                        <div class="card-body">
+                                                                        <div class="card-body overflow-auto">
                                                                             <div>
-                                                                                <div class="table-responsive ">
+                                                                                <div class="table-responsive">
                                                                                     <table
                                                                                         class="table table-bordered hoverTable"
                                                                                         id="dataTable" width="100%"
@@ -232,7 +232,7 @@
                                                                     </a>
                                                                     <!-- Card Content - Collapse -->
                                                                     <div>
-                                                                        <div class="card-body">
+                                                                        <div class="card-body overflow-auto">
                                                                             <div>
                                                                                 <div class="table-responsive">
                                                                                     <table
@@ -344,8 +344,8 @@
 
                                                                                             <tr>
                                                                                                 <th>Promedio</th>
-                                                                                                <th>{{notas_promedio[i].toString().indexOf('.')==-1?notas_promedio[i].toString():notas_promedio[i].toString().slice(0,
-                                                                                                    notas_promedio[i].toString().indexOf('.')+3).replace(".",
+                                                                                                <th>{{notas_promedio[i]?.toString().indexOf('.')==-1?notas_promedio[i]?.toString():notas_promedio[i]?.toString().slice(0,
+                                                                                                    notas_promedio[i]?.toString().indexOf('.')+3).replace(".",
                                                                                                     ",")}}
                                                                                                 </th>
                                                                                             </tr>
