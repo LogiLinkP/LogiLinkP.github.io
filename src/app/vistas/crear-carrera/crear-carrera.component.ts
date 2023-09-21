@@ -5,9 +5,9 @@ import { AdminService } from 'src/app/servicios/admin/admin.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-crear-encargado',
-  templateUrl: './crear-encargado.component.html',
-  styleUrls: ['./crear-encargado.component.scss']
+  selector: 'app-crear-carrera',
+  templateUrl: './crear-carrera.component.html',
+  styleUrls: ['./crear-carrera.component.scss']
 })
 export class CrearCarreraComponent implements OnInit{
   carreraForm: FormGroup;
@@ -21,7 +21,7 @@ export class CrearCarreraComponent implements OnInit{
 
   constructor(public admin: AdminService, private fb: FormBuilder, private _snackBar: MatSnackBar, private router: Router) { this.createForm(); }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
   crear(){

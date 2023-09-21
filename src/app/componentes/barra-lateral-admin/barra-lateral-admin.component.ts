@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-barra-lateral-alumno',
-  templateUrl: './barra-lateral-alumno.component.html',
-  styleUrls: ['./barra-lateral-alumno.component.scss']
+  selector: 'app-barra-lateral-admin',
+  templateUrl: './barra-lateral-admin.component.html',
+  styleUrls: ['./barra-lateral-admin.component.scss']
 })
 export class BarraLateralAdminComponent {
   idUsuario: string = "";

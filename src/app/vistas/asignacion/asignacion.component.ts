@@ -18,6 +18,12 @@ export class AsignacionComponent {
   pares: any = [];
   flag: boolean = false;
 
+  createForm(){
+    this.asignacionForm = this.fb.group({
+      encargado: ['', [Validators.required]],
+      carrera: ['', [Validators.required]]
+    });
+  }
 
   constructor(private admin: AdminService, private _snackBar: MatSnackBar, private fb: FormBuilder) { 
     let _data: any = {};
@@ -56,12 +62,7 @@ export class AsignacionComponent {
     this.createForm();
   }
 
-  createForm(){
-    this.asignacionForm = this.fb.group({
-      encargado: ['', [Validators.required]],
-      carrera: ['', [Validators.required]]
-    });
-  }
+  
 
   asignar(){
 

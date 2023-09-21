@@ -18,9 +18,9 @@
                 <div class="form-group">
                     <input type="email" class="form-control form-control-user" id="exampleInputEmail"
                         placeholder="Correo Electrónico" formControlName="email" name="email">
-                    <div *ngIf="registroForm.controls['email'].invalid && (registroForm.controls['email'].dirty || registroForm.controls['email'].touched)"
+                    <div *ngIf="encargadoForm.controls['email'].invalid && (encargadoForm.controls['email'].dirty || encargadoForm.controls['email'].touched)"
                         class="alert alert-danger">
-                        <p *ngIf="registroForm.controls['email'].errors?.['required']">
+                        <p *ngIf="encargadoForm.controls['email'].errors?.['required']">
                             Se requiere correo
                         </p>
                     </div>

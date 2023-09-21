@@ -7,17 +7,18 @@ import { Router } from '@angular/router';
 })
 export class AdminComponent {
 
-  constructor(public router: Router) { }
+  constructor(private router: Router) { }
 
   encargado(){
-    this.router.navigate(['/crear-encargado']);
+    this.router.navigate(['/admin/crear-encargado']);
   }
 
   carrera(){
-    this.router.navigate(['/crear-carrera']);
+    console.log(1);
+    this.router.navigate(['/admin/crear-carrera']);
   }
 
   asignacion(){
-    this.router.navigate(['/asignacion']);
+    this.router.navigate(['/admin/asignacion']);
   }
 }

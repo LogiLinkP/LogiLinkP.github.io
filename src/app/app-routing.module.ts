@@ -70,12 +70,15 @@ const routes: Routes = [
   { path: 'resetPass', component: ForgotPasswordComponent },
   { path: 'estadisticas', component: EstadisticasComponent },
   { path: 'informaciones', component: InformacionesComponent },
-  { path: 'admin', component: AdminComponent,
+  { 
+    path: 'admin', 
+    component: AdminComponent,
     children: [
       { path: 'crear-carrera', component: CrearCarreraComponent },
       { path: 'crear-encargado', component: CrearEncargadoComponent },
-      { path: 'asignacion', component: AsignacionComponent}
-    ] },
+      { path: 'asignacion', component: AsignacionComponent},
+    ] 
+  },
   { path: 'encargado/:token', component: RegistroEncargadoComponent },
   // { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
   { path: 'configurar/:nombre', component: ConfiguracionPracticaComponent },
