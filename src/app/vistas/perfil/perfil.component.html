@@ -18,23 +18,34 @@
             <div class ="card-body">
                 <div class = "row" style="max-width: 100%;">
                     <div class="col-xl-6">
-                        <div class="card shadow mb-4">
-                            <p>Nombre: {{Nombre}}</p>
-                            <p>Rut: {{Rut}}</p>
-                            <p>Correo: {{Correo}}</p>
-                        </div>
-                        <div class ="card shadow mb-4">
-                            <p>Perfil de Linkedin: {{Link}}</p>
-                            <button class="btn btn-primary" stlye="width: 80%" (click)="editar()">Editar</button>
-                            <p></p>
-                            <div *ngIf = "edicion == 1">
-                                <textarea type="text" class="form-control" [(ngModel)]="NLink" [ngModelOptions]="{standalone:true}">{{Link}}</textarea>
-
-                                <button (click)="confirmar_cambio()" class="btn btn-primary" stlye="width: 80%">
-                                    Confirmar
-                                </button>
+                        <div *ngIf="esalumno == 1; else elseBlock">
+                            <div class="card shadow mb-4">
+                                <p>Nombre: {{Nombre}}</p>
+                                <p>Rut: {{Rut}}</p>
+                                <p>Correo: {{Correo}}</p>
                             </div>
-                        </div>   
+                            <div class ="card shadow mb-4">
+                                <div>
+                                    Perfil de Linkedin:
+                                    <div (click)="redirecTo()">{{Link}}</div>
+                                </div>
+                                <button class="btn btn-primary" stlye="width: 80%" (click)="editar()">Editar</button>
+                                <p></p>
+                                <div *ngIf = "edicion == 1">
+                                    <textarea type="text" class="form-control" [(ngModel)]="NLink" [ngModelOptions]="{standalone:true}">{{Link}}</textarea>
+
+                                    <button (click)="confirmar_cambio()" class="btn btn-primary" stlye="width: 80%">
+                                        Confirmar
+                                    </button>
+                                </div>
+                            </div> 
+                        </div> 
+                        <ng-template #elseBlock>
+                            <div class="card shadow mb-4">
+                                <p>Nombre: {{Nombre}}</p>
+                                <p>Correo: {{Correo}}</p>
+                            </div>
+                        </ng-template> 
                     </div>
                 </div>
             </div>

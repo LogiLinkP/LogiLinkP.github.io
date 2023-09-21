@@ -76,4 +76,12 @@ export class PerfilComponent {
       }
     })
   }
+  redirecTo(){
+    try{
+      window.location.href = this.Link;
+    } catch{
+      console.log("No existe Link");
+    }
+    
+  }
 }
