@@ -22,15 +22,17 @@ import { PreguntasEncuestaFinalService } from 'src/app/servicios/alumno/pregunta
 })
 export class EncuestaFinPracticaComponent {
 
-  constructor(private _fb: FormBuilder, private cd: ChangeDetectorRef, @Inject(DOCUMENT) private document: Document, private router: Router, private service_obtener: ObtenerDatosService,
-                private serviceBarra: BarraLateralService, private _snackBar: MatSnackBar, private route: ActivatedRoute, private serviceCarrera: CarreraService,
-                private serviceComplete: ConfigService, private servicePreguntas: PreguntasEncuestaFinalService, private _snackbar: MatSnackBar, private ramosService: RespuestaRamosService) {}
+  constructor( @Inject(DOCUMENT) private document: Document, private router: Router, private service_obtener: ObtenerDatosService,
+                private route: ActivatedRoute, private serviceCarrera: CarreraService,
+                private servicePreguntas: PreguntasEncuestaFinalService, private _snackbar: MatSnackBar, private ramosService: RespuestaRamosService) {}
 
   //id_config_practica = 2; // hardcodeado
 
   activated_route: ActivatedRoute = this.route;
   
-  id_config_practica = Number(this.activated_route.snapshot.paramMap.get('id_config_practica'));
+  id_practica = Number(this.activated_route.snapshot.paramMap.get('id_practica'));
+
+  id_config_practica = 0
   
   sesion: any = JSON.parse(localStorage.getItem("auth-user") || "{}")
   //id_usuario = this.sesion.userdata.id;
@@ -62,7 +64,7 @@ export class EncuestaFinPracticaComponent {
     }
 
     this.contador_preguntas -= 1;
-    console.log("CONTADOR PREGUNTAS", this.contador_preguntas);
+    //console.log("CONTADOR PREGUNTAS", this.contador_preguntas);
     
     let id = `#cont_respuesta${this.pregunta_actual}`;
     let id_izq = `#cont_respuesta${this.pregunta_actual - 1}`;
@@ -85,7 +87,7 @@ export class EncuestaFinPracticaComponent {
     }
     
     this.contador_preguntas += 1;
-    console.log("CONTADOR PREGUNTAS", this.contador_preguntas);
+    //console.log("CONTADOR PREGUNTAS", this.contador_preguntas);
 
     let id = `#cont_respuesta${this.pregunta_actual}`;
     let id_der = `#cont_respuesta${this.pregunta_actual + 1}`;
@@ -109,121 +111,156 @@ export class EncuestaFinPracticaComponent {
 
   ngOnInit(): void {
 
-    console.log("ID CONFIG PRACTICA", this.id_config_practica);
+    console.log("ID PRACTICA", this.id_practica);
     //console.log("PARAMETRO", this.parametro);
 
     let respuesta: any = {};
 
-    this.servicePreguntas.obtener_preguntas(this.id_config_practica).subscribe({
+    this.service_obtener.obtener_practica_id(this.id_practica).subscribe({
       next: data => {
         //console.log(data);
         respuesta = { ...respuesta, ...data }
-      
       },
       error: error => {
         console.log(error);
+        console.log("efectivamente falla aca");
       },
       complete: () => {
-        console.log('complete');
+        console.log('datos practica');
+        console.log(respuesta.body);
+        this.id_config_practica = respuesta.body.id_config_practica;
 
-        this.preguntas = respuesta.body;
-        //console.log(this.preguntas);
-
-        //console.log(this.preguntas[2].opciones.split(';;'));
-
-        if (this.preguntas.length > 0) {
-          for (let pregunta of this.preguntas) {
-            if (pregunta.tipo_respuesta == "casillas") {
-              let array_aux = [];
-              for (let i = 0; i < pregunta.opciones.split(";;").length; i++) {
-                array_aux.push(false);
-              }
-              this.respuestas.push(array_aux);
-            }
-            else {
-              this.respuestas.push("");
-            }
-            this.tipo_respuestas.push(pregunta.tipo_respuesta);
-          }
-          console.log("RESPUESTAS", this.respuestas);
-        }
-
-        //CREAR PREGUNTA DE RAMOS SEGUN CARRERA
-        //console.log("ID CONFIG PRACTICA", this.id_config_practica);
-
-        //console.log("userData", this.sesion.userdata);
-
-        this.service_obtener.obtener_estudiante(this.sesion.userdata.id).subscribe({
+        this.servicePreguntas.obtener_preguntas(this.id_config_practica).subscribe({
           next: data => {
             //console.log(data);
             respuesta = { ...respuesta, ...data }
+          
           },
           error: error => {
             console.log(error);
           },
           complete: () => {
-            console.log("id_carrera",respuesta.body.id_carrera);
-            this.id_carrera_estudiante = respuesta.body.id_carrera;
-            
-            this.serviceCarrera.obtener_carrera(respuesta.body.id_carrera).subscribe({
+            console.log('complete');
+
+            this.preguntas = respuesta.body;
+            //console.log(this.preguntas);
+
+            //console.log(this.preguntas[2].opciones.split(';;'));
+
+            if (this.preguntas.length > 0) {
+              for (let pregunta of this.preguntas) {
+                if (pregunta.tipo_respuesta == "casillas") {
+                  let array_aux = [];
+                  for (let i = 0; i < pregunta.opciones.split(";;").length; i++) {
+                    array_aux.push(false);
+                  }
+                  this.respuestas.push(array_aux);
+                }
+                else {
+                  this.respuestas.push("");
+                }
+                this.tipo_respuestas.push(pregunta.tipo_respuesta);
+              }
+              console.log("RESPUESTAS", this.respuestas);
+            }
+
+            //CREAR PREGUNTA DE RAMOS SEGUN CARRERA
+            //console.log("ID CONFIG PRACTICA", this.id_config_practica);
+
+            //console.log("userData", this.sesion.userdata);
+
+            this.service_obtener.obtener_estudiante(this.sesion.userdata.id).subscribe({
               next: data => {
                 //console.log(data);
                 respuesta = { ...respuesta, ...data }
-              }
-              ,
+              },
               error: error => {
                 console.log(error);
-              }
-              ,
+              },
               complete: () => {
-                //console.log('complete');
-                //console.log(respuesta.body);
-                console.log(respuesta.body.ramos);
-                this.array_ramos = respuesta.body.ramos.split(",");
-                console.log(this.array_ramos);
-
-                console.log("PREGUNTAS", this.preguntas);
-                console.log("RESPUESTAS", this.respuestas);
-                console.log("TIPO RESPUESTAS", this.tipo_respuestas);
-
-                //crear objeto con las preguntas de ramos
-                //crear objeto con las preguntas sobre la empresa
-
-                let string_ramos = "";
-
-                for (let i = 0; i < this.array_ramos.length; i++) {
-                  if (i == this.array_ramos.length - 1) {
-                    string_ramos += this.array_ramos[i];
+                console.log("id_carrera",respuesta.body.id_carrera);
+                this.id_carrera_estudiante = respuesta.body.id_carrera;
+                
+                this.serviceCarrera.obtener_carrera(respuesta.body.id_carrera).subscribe({
+                  next: data => {
+                    //console.log(data);
+                    respuesta = { ...respuesta, ...data }
                   }
-                  else {
-                    string_ramos += this.array_ramos[i] + ";;";
+                  ,
+                  error: error => {
+                    console.log(error);
                   }
-                }
+                  ,
+                  complete: () => {
 
-                //console.log("STRING RAMOS", string_ramos);
+                    //AGREGANDO PREGUNTA DE RAMOS
+
+                    //console.log('complete');
+                    //console.log(respuesta.body);
+                    //console.log(respuesta.body.ramos);
+                    this.array_ramos = respuesta.body.ramos.split(",");
+                    //console.log(this.array_ramos);
+
+                    console.log("PREGUNTAS", this.preguntas);
+                    console.log("RESPUESTAS", this.respuestas);
+                    console.log("TIPO RESPUESTAS", this.tipo_respuestas);
+
+                    //crear objeto con las preguntas de ramos
+                    //crear objeto con las preguntas sobre la empresa
+
+                    let string_ramos = "";
+
+                    for (let i = 0; i < this.array_ramos.length; i++) {
+                      if (i == this.array_ramos.length - 1) {
+                        string_ramos += this.array_ramos[i];
+                      }
+                      else {
+                        string_ramos += this.array_ramos[i] + ";;";
+                      }
+                    }
+
+                    //console.log("STRING RAMOS", string_ramos);
 
 
-                let pregunta_ramos = {
-                  "enunciado": "¿Qué ramos de la carrera te han resulatado útiles durante tu práctica?",
-                  "tipo_respuesta": "casillas",
-                  "opciones": string_ramos
-                }
+                    let pregunta_ramos = {
+                      "enunciado": "¿Qué ramos de la carrera te han resulatado útiles durante tu práctica?",
+                      "tipo_respuesta": "casillas",
+                      "opciones": string_ramos
+                    }
 
-                //agregar pregunta de ramos al arreglo de preguntas
-                this.preguntas.push(pregunta_ramos);
+                    //agregar pregunta de ramos al arreglo de preguntas
+                    this.preguntas.push(pregunta_ramos);
 
-                console.log("PREGUNTAS CON RAMO", this.preguntas);
-                this.tipo_respuestas.push("casillas");
-                this.respuestas.push([]);
+                    console.log("PREGUNTAS CON RAMO", this.preguntas);
+                    this.tipo_respuestas.push("casillas");
+                    this.respuestas.push([]);
 
-                //console.log(this.array_ramos);
+                    //console.log(this.array_ramos);
+
+                    //AGREGANDO PREGUNTAS DE EMPRESA
+
+                    let evaluacion_empresa = {
+                      "enunciado": "Evalúa la empresa donde realizaste tu practica entre 1 y 5 considerando que tanto la recomendarías para que un estudiante realizara su práctica allí",
+                      "tipo_respuesta": "alternativas",
+                      "opciones": "1;;2;;3;;4;;5"
+                    }
+
+                    let comentario_empresa = {
+                      "enunciado": "¿Qué te pareció la empresa donde realizaste tu práctica?",
+                      "tipo_respuesta": "abierta",
+                    }
+
+                    this.preguntas.push(evaluacion_empresa);
+                    this.preguntas.push(comentario_empresa);
+
+                  }
+                });
               }
             });
           }
         });
       }
     });
-
   }
 
   updateRespuestasAbierta(index: number, value: string) {
@@ -296,6 +333,48 @@ export class EncuestaFinPracticaComponent {
           }
         });
 
+      }
+
+      //pregunta calificacion empresa
+      if (this.preguntas[i].enunciado == "Evalúa la empresa donde realizaste tu practica entre 1 y 5 considerando que tanto la recomendarías para que un estudiante realizara su práctica allí"){
+        this.servicePreguntas.agregar_calificacion_empresa(this.id_practica, Number(this.respuestas[i])).subscribe({
+          next: (data: any) => {
+          },
+          error: (error: any) => {
+            console.log(error);
+            this._snackbar.open("Error al enviar la respuesta", "Cerrar", {
+              duration: 2000,
+              panelClass: ['red-snackbar']
+            });
+          },
+          complete: () => {
+            this._snackbar.open("Encuesta enviada. Redirigiendo a página principal...", "Cerrar", {
+              duration: 3000,
+              panelClass: ['green-snackbar']
+            });
+          }
+        });
+      }
+
+      //pregunta comentario empresa
+      if (this.preguntas[i].enunciado == "¿Qué te pareció la empresa donde realizaste tu práctica?"){
+        this.servicePreguntas.agregar_comentario_empresa(this.id_practica, this.respuestas[i]).subscribe({
+          next: (data: any) => {
+          },
+          error: (error: any) => {
+            console.log(error);
+            this._snackbar.open("Error al enviar la respuesta", "Cerrar", {
+              duration: 2000,
+              panelClass: ['red-snackbar']
+            });
+          },
+          complete: () => {
+            this._snackbar.open("Encuesta enviada. Redirigiendo a página principal...", "Cerrar", {
+              duration: 3000,
+              panelClass: ['green-snackbar']
+            });
+          }
+        });
       }
 
       //pregunta estandar

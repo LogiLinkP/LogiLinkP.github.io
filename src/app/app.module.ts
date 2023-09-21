@@ -40,7 +40,6 @@ import { InformacionesComponent } from './vistas/informaciones/informaciones.com
 import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.component';
 
 import { TestBarraComponent } from './componentes/test-barra/test-barra.component';
-import { LogoutComponent } from './componentes/logout/logout.component';
 import { FooterComponent } from './componentes/footer/footer.component';
 import { BarraSuperiorComponent } from './componentes/barra-superior/barra-superior.component';
 import { LogoutModalComponent } from './componentes/logout-modal/logout-modal.component';
@@ -70,6 +69,7 @@ import { MigrarModalComponent } from './componentes/migrar-modal/migrar-modal.co
 import { ExplicacionConsistenciaComponent } from './vistas/explicacion-consistencia/explicacion-consistencia.component';
 import { VistaSupervisorComponent } from './vistas/vista-supervisor/vista-supervisor/vista-supervisor.component';
 import { RamosAlumnosComponent } from './vistas/ramos-alumnos/ramos-alumnos.component';
+import { RamosEncargadoComponent } from './vistas/ramos-encargado/ramos-encargado.component';
 import { EstadisticaEmpresasComponent } from './vistas/estadistica-empresas/estadistica-empresas.component';
 import { AdminComponent } from './vistas/admin/admin.component';
 import { CrearCarreraComponent } from './vistas/crear-carrera/crear-carrera.component';
@@ -77,6 +77,8 @@ import { CrearEncargadoComponent } from './vistas/crear-encargado/crear-encargad
 import { AsignacionComponent } from './vistas/asignacion/asignacion.component';
 import { BarraLateralAdminComponent } from './componentes/barra-lateral-admin/barra-lateral-admin.component';
 import { RegistroEncargadoComponent } from './vistas/registro-encargado/registro-encargado.component';
+import { IngresoInformeComponent } from './vistas/ingreso-informe/ingreso-informe.component';
+import { EstudianteVerInformeComponent } from './vistas/estudiante-ver-informe/estudiante-ver-informe.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +86,6 @@ import { RegistroEncargadoComponent } from './vistas/registro-encargado/registro
     routingComponents,
     EvaluacionComponent,
     DatosPracticaComponent,
-    LogoutComponent,
     DetallePracticaComponent,
     FooterComponent,
     BarraSuperiorComponent,
@@ -114,6 +115,7 @@ import { RegistroEncargadoComponent } from './vistas/registro-encargado/registro
     ExplicacionConsistenciaComponent,
     VistaSupervisorComponent,
     RamosAlumnosComponent,
+    RamosEncargadoComponent,
     EstadisticaEmpresasComponent,
     AdminComponent,
     CrearCarreraComponent,
@@ -121,6 +123,8 @@ import { RegistroEncargadoComponent } from './vistas/registro-encargado/registro
     AsignacionComponent,
     BarraLateralAdminComponent,
     RegistroEncargadoComponent,
+    IngresoInformeComponent,
+    EstudianteVerInformeComponent,
   ],
   imports: [
     BrowserModule,
