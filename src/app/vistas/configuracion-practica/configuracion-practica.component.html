@@ -20,14 +20,14 @@
             <div class="container-fluid">
 
       <!------------------------------------------------------ CONFIGURACION GENERAL PRACTICA ----------------------------------------------------------->
-      <div class="card shadow py-2" *ngIf="estado == 'configuracion_general'">
-        <div class="card-body">
-            <div class="h4 mb-3 font-weight-bold text-gray-800 text-left"> 
+      <div class="card shadow" *ngIf="estado == 'configuracion_general'">
+        <div class="card-body text-center">
+            <div class="h4 mb-3 font-weight-bold text-gray-800 text-center">
                 Configuración de práctica
             </div>
             <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitPractica()">
 
-                <input type="text" class="form-control col-6" formControlName="nombrePractica">
+                <input type="text" class="form-control text-center input-center" formControlName="nombrePractica">
                 <input type="checkbox" formControlName="horas" (change)="habilitarHorasFunc($event)"> Horas
                 <input type="checkbox" formControlName="meses" (change)="habilitarMesesFunc($event)"> Meses
       
@@ -160,8 +160,8 @@
 
 
       <!------------------------------------------------ CONFIGURACION PREGUNTAS AVANCE --------------------------------------------------------------->
-      <div class="card shadow py-2" *ngIf="estado == 'informe_avance'">
-        <div class="card-body">
+      <div class="card shadow" *ngIf="estado == 'informe_avance'">
+        <div class="card-body text-center">
             <div class="h4 mb-3 font-weight-bold text-gray-800 text-center"> 
                 Preguntas informe de avance
             </div>
@@ -331,7 +331,7 @@
       </div><!-- Fin tarjeta inicial-->
 
       <!-------------------------------------------------- CONFIGURACION PREGUNTAS INFORME FINAL -------------------------------------------------------------->
-      <div class="card shadow py-2" *ngIf="estado == 'informe_final'">
+      <div class="card shadow" *ngIf="estado == 'informe_final'">
         <div class="card-body">
             <div class="h4 mb-3 font-weight-bold text-gray-800 text-center"> 
                 Preguntas informe final
@@ -506,7 +506,7 @@
         </div>
     </div><!-- Fin tarjeta inicial-->
       <!-------------------------------------------------- CONFIGURACION DOCUMENTOS -------------------------------------------------------------->
-      <div class="card shadow py-2" *ngIf="estado == 'solicitud_documentos'">
+      <div class="card shadow" *ngIf="estado == 'solicitud_documentos'">
         <div class="card-body">
             <div class="h4 mb-3 font-weight-bold text-gray-800 text-center"> 
                 Solicitud Documentos
@@ -569,7 +569,7 @@
       </div><!-- Fin tarjeta inicial-->
 
       <!-------------------------------------------------- CONFIGURACION  PREGUNTAS ENCUESTA -------------------------------------------------------------->
-      <div class="card shadow py-2" *ngIf="estado == 'encuesta_final'">
+      <div class="card shadow" *ngIf="estado == 'encuesta_final'">
         <div class="card-body">
             <div class="h4 mb-3 font-weight-bold text-gray-800 text-center"> 
                 Preguntas Encuesta Practicantes Post-Practica
@@ -747,7 +747,7 @@
       </div><!-- Fin tarjeta inicial-->
 
             <!-------------------------------------------------- CONFIGURACION APTITUDES A EVALUAR -------------------------------------------------------------->
-            <div class="card shadow py-2" *ngIf="estado == 'aptitudes'">
+            <div class="card shadow" *ngIf="estado == 'aptitudes'">
                 <div class="card-body">
                     <div class="h4 mb-3 font-weight-bold text-gray-800 text-center"> 
                         Ingrese las aptitudes que el supervisor evaluará del practicante
@@ -795,7 +795,7 @@
             </div><!-- Fin tarjeta inicial-->
 
       <!-------------------------------------------------- CONFIGURACION  PREGUNTAS SUPERVISOR -------------------------------------------------------------->
-      <div class="card shadow py-2" *ngIf="estado == 'preguntas_supervisor'">
+      <div class="card shadow" *ngIf="estado == 'preguntas_supervisor'">
         <div class="card-body">
             <div class="h4 mb-3 font-weight-bold text-gray-800 text-center"> 
                 Preguntas para que supervisor evalue al practicante
@@ -975,7 +975,7 @@
       </div><!-- Fin tarjeta inicial-->
 
       <!-------------------------------------------------- CONFIGURACION  FINAL -------------------------------------------------------------->
-      <div class="card shadow py-2" *ngIf="estado == 'fin_configuracion'">
+      <div class="card shadow" *ngIf="estado == 'fin_configuracion'">
         <div class="card-body">
             <div class="h4 mb-3 font-weight-bold text-gray-800 text-center"> 
                 Fin configuración práctica
