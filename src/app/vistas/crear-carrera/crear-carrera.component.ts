@@ -19,7 +19,7 @@ export class CrearCarreraComponent implements OnInit{
     });
   }
 
-  constructor(public admin: AdminService, private fb: FormBuilder, private _snackBar: MatSnackBar, private router: Router) { }
+  constructor(public admin: AdminService, private fb: FormBuilder, private _snackBar: MatSnackBar, private router: Router) { this.createForm(); }
 
   ngOnInit() {
   }
@@ -27,15 +27,15 @@ export class CrearCarreraComponent implements OnInit{
   crear(){
     const data = this.carreraForm.value;
     this.nombre = data.nombre;
+    let lista = this.listar(this.nombre);
     let _data: any = {}
-    this.admin.crearCarrera(this.nombre).subscribe({
+    this.admin.crearCarrera(lista).subscribe({
       next: data => {
         _data = { ..._data, ...data }
-    },
+      },
       complete: () => {
         if (_data.status == 200) {
-          window.location.reload();
-          this._snackBar.open("Carrera creada exitosamente", "Cerrar", {
+          this._snackBar.open("Carrera(s) creada(s) exitosamente", "Cerrar", {
             panelClass: ['green-snackbar'],
             duration: 2000
           });
@@ -52,11 +52,9 @@ export class CrearCarreraComponent implements OnInit{
           duration: 2000
         });
       }
-    
     });
-
-
-    this._snackBar.open("Carrera creada exitosamente", "Cerrar", {
+    window.location.reload();
+    this._snackBar.open("Carrera(s) creada exitosamente", "Cerrar", {
       panelClass: ['green-snackbar'],
       duration: 2000
     });
@@ -64,5 +62,13 @@ export class CrearCarreraComponent implements OnInit{
 
   volver(){
     this.router.navigate(['/admin']);
+  }
+
+  listar(nombre: string){
+    let lista = nombre.split('\n');
+    for(let i = 0; i < lista.length; i++){
+      lista[i]=lista[i].trim();
+    }
+    return lista;
   }
 }

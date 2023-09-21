@@ -19,7 +19,7 @@ export class CrearEncargadoComponent implements OnInit{
     });
   }
 
-  constructor(public admin: AdminService, private fb: FormBuilder, private _snackBar: MatSnackBar, private router: Router) { }
+  constructor(public admin: AdminService, private fb: FormBuilder, private _snackBar: MatSnackBar, private router: Router) { this.createForm(); }
 
   ngOnInit() {
   }
@@ -34,7 +34,6 @@ export class CrearEncargadoComponent implements OnInit{
     },
       complete: () => {
         if (_data.status == 200) {
-          window.location.reload();
           this._snackBar.open("Se le ha enviado un link al encargado para que pueda registrarse", "Cerrar", {
             panelClass: ['green-snackbar'],
             duration: 2000
@@ -54,8 +53,7 @@ export class CrearEncargadoComponent implements OnInit{
       }
     
     });
-
-
+    window.location.reload();
     this._snackBar.open("Se le ha enviado un link al encargado para que pueda registrarse", "Cerrar", {
       panelClass: ['green-snackbar'],
       duration: 2000

@@ -11,8 +11,8 @@ export class AdminService {
 
   constructor(private http: HttpClient) { }
 
-  crearCarrera(nombre: string){
-    const req = new HttpRequest('POST',`${this.url}/carrera/crear-carrera`,{nombre});
+  crearCarrera(lista: any){
+    const req = new HttpRequest('POST',`${this.url}/carrera/crear-carrera`,{lista});
     return this.http.request(req);
   }
 
@@ -21,8 +21,18 @@ export class AdminService {
     return this.http.request(req);
   }
 
-  asignarEncargado(nombre: string, carrera: string){
-    const req = new HttpRequest('POST',`${this.url}/admin/asignar-encargado`,{nombre, carrera});
+  getCarrera(){
+    const req = new HttpRequest('GET',`${this.url}/carrera/todos`);
+    return this.http.request(req);
+  }
+
+  getEncargado(){
+    const req = new HttpRequest('GET',`${this.url}/encargado/todos`);
+    return this.http.request(req);
+  }
+
+  asignarEncargado(pares: any){
+    const req = new HttpRequest('POST',`${this.url}/admin/asignar-encargado`,{pares});
     return this.http.request(req);
   }
 }
