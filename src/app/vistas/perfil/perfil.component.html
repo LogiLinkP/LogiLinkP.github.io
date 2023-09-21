@@ -28,10 +28,11 @@
                             <button class="btn btn-primary" stlye="width: 80%" (click)="editar()">Editar</button>
                             <p></p>
                             <div *ngIf = "edicion == 1">
-                                <mat-form-field class="example-full-width" style="width: 80%">
-                                    <input matInput value={{Link}}>
-                                </mat-form-field>
-                                <button class="btn btn-primary" stlye="width: 80%" (click)="confirmar_cambio()">Confirmar</button>
+                                <textarea type="text" class="form-control" [(ngModel)]="NLink" [ngModelOptions]="{standalone:true}">{{Link}}</textarea>
+
+                                <button (click)="confirmar_cambio()" class="btn btn-primary" stlye="width: 80%">
+                                    Confirmar
+                                </button>
                             </div>
                         </div>   
                     </div>
