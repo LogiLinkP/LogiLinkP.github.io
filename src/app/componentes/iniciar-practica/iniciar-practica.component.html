@@ -15,12 +15,15 @@
                             </datalist>
                             <input [id]="id_datalist+'_input'" matInput placeholder="Rut Empresa" type="text"
                                 class="form-control" autoComplete="on" [attr.list]="id_datalist" required />
+                            <mat-hint *ngIf="empresa_agregada" class="text-success">¡Empresa agregada!</mat-hint>
                         </div>
                         <div class="col-2 align-items-center" style="display: flex;">
-                            <button class="btn btn-primary btn-circle" title="Agregar nueva empresa"
-                                (click)="agregar_empresa()">
-                                <i class="fa-solid fa-circle-plus fa-lg"></i>
-                            </button>
+                            <div class="position-absolute top-0">
+                                <button class="btn btn-primary btn-circle" title="Agregar nueva empresa"
+                                    (click)="agregar_empresa()">
+                                    <i class="fa-solid fa-circle-plus fa-lg"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
 

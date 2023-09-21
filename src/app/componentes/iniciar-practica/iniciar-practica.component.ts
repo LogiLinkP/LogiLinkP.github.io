@@ -47,6 +47,7 @@ export class IniciarPracticaComponent implements OnInit {
   respuesta: any = [];
   empresas: any = [];
   id_datalist: string;
+  empresa_agregada: boolean = false;
 
   constructor(private service: GestionarService, private service2: ObtenerDatosService,
     private _snackBar: MatSnackBar, private route: ActivatedRoute, private router: Router,
@@ -240,6 +241,7 @@ export class IniciarPracticaComponent implements OnInit {
         });
         this.modificar_lista_empresas(result[1]);
         this.add_default_empresa(result[1]);
+        this.empresa_agregada = true;
         break;
       default:
         break;
