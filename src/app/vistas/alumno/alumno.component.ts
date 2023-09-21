@@ -168,15 +168,17 @@ export class DetalleAlumnoComponent implements OnInit{
               let nota_promedio = 0;
               let prom = 0;
               for(var item2 of item){
-                if ((item2.pregunta_supervisor.tipo_respuesta == "casillas") && (item2.pregunta_supervisor.opciones != NULL)){
-                  if(item2.pregunta_supervisor.opciones.indexOf(";;") != -1){
-                    this.aptitudes_practica.push(item2.pregunta_supervisor.opciones.split(";;"))
-                    temp = item2.respuesta.split(",");
-                    for(var n of temp){
-                      nota_promedio += Number(n);
-                      prom += 1;
-                    }       
-                  }                              
+                if(item2.pregunta_supervisor != null){
+                  if ((item2.pregunta_supervisor.tipo_respuesta == "casillas" && item2.pregunta_supervisor.opciones != null)){
+                    if(item2.pregunta_supervisor.opciones.indexOf(";;") != -1){
+                      this.aptitudes_practica.push(item2.pregunta_supervisor.opciones.split(";;"))
+                      temp = item2.respuesta.split(",");
+                      for(var n of temp){
+                        nota_promedio += Number(n);
+                        prom += 1;
+                      }       
+                    }                              
+                  }
                 }
               }
 
