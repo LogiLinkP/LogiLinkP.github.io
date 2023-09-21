@@ -78,12 +78,9 @@ const routes: Routes = [
   { path: 'estadisticaRamos', component: RamosAlumnosComponent},
   { path: 'ramos', component: RamosEncargadoComponent},
   { path: 'estadisticaEmpresas', component: EstadisticaEmpresasComponent},
-<<<<<<< HEAD
   { path: 'perfil', component: PerfilComponent},
-=======
   { path: 'ingreso-informe', component: IngresoInformeComponent},
   { path: 'estudiante-ver-informe/:id_practica/:id_informe', component: EstudianteVerInformeComponent},
->>>>>>> dev
   { path: '**', component: PnfComponent },
 ];
 
@@ -112,12 +109,9 @@ export const routingComponents = [
   CuestionarioComponent,
   ChatComponent,
   ConfiguracionPracticaComponent,
-<<<<<<< HEAD
   EncuestaFinPracticaComponent,
-  PerfilComponent
-=======
+  PerfilComponent,
   IngresoInformeComponent,
   EstudianteVerInformeComponent,
   EncuestaFinPracticaComponent
->>>>>>> dev
 ]
