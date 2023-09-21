@@ -26,6 +26,7 @@ export class TablaComponent {
   practicas: any = [];
   temp_notas:any = []
   notas_promedio: any = [];
+  hay_respuesta:number =-1;
 
   texto_consistencia_informe: string = "Indica qué tan relacionados están los informes del\n" +
     "estudiante con lo que escribió su supervisor.\n" +
@@ -109,6 +110,7 @@ export class TablaComponent {
 
                   if (val.pregunta_supervisor.enunciado == "Seleccione las características que mejor describen al practicante"){
                     find = 1
+                    this.hay_respuesta =1;
                     temp = val.respuesta.split(",");
                     for(var n of temp){
                       nota_promedio += Number(n);
@@ -128,7 +130,11 @@ export class TablaComponent {
               })
               this.notas_promedio = [];
               for (let item2 of this.temp_notas){
-                this.notas_promedio.push(item2[1])
+                if (item2[1] == 0){
+                  this.notas_promedio.push("-")
+                } else{
+                  this.notas_promedio.push(item2[1])
+                }
               }
             }
           });

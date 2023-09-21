@@ -76,6 +76,7 @@ export class DetallePracticaComponent implements OnInit {
 
   nota_promedio: number = -1;
   prom: number = -1;
+  hay_respuesta:number = -1;
 
   constructor(private fragmentosService: FragmentosService, private service: DetallePracticaService, private service2: SetDetallesAlumnoService,
     private _snackBar: MatSnackBar, private route: ActivatedRoute,
@@ -150,23 +151,27 @@ export class DetallePracticaComponent implements OnInit {
           
           
           for (var item of this.preguntas){
+            console.log(item)
             let temp: any = [];
             let nota_promedio = 0;
             let prom = 0;
-            if ((item.pregunta_supervisor.enunciado == "Seleccione las características que mejor describen al practicante") && (item.pregunta_supervisor.opciones != null)){
-              if(item.pregunta_supervisor.opciones.indexOf(";;") != -1){
-                this.aptitudes_practica.push(item.pregunta_supervisor.opciones.split(";;"))
-                temp = item.respuesta.split(",");
-                
-                for(var n of temp){
-                  nota_promedio += Number(n);
-                  prom += 1;
-                }
+            if(item.pregunta_supervisor != null){
+              if ((item.pregunta_supervisor.enunciado == "Seleccione las características que mejor describen al practicante") && (item.pregunta_supervisor.opciones != null)){
+                if(item.pregunta_supervisor.opciones.indexOf(";;") != -1){
+                  this.hay_respuesta = 1;
+                  this.aptitudes_practica.push(item.pregunta_supervisor.opciones.split(";;"))
+                  temp = item.respuesta.split(",");
+                  
+                  for(var n of temp){
+                    nota_promedio += Number(n);
+                    prom += 1;
+                  }
 
-                this.notas_aptitudes.push(temp);
-                this.promedio = (nota_promedio/prom)
-                break;
-              }                             
+                  this.notas_aptitudes.push(temp);
+                  this.promedio = (nota_promedio/prom)
+                  break;
+                }                             
+              }
             }
           }
             
