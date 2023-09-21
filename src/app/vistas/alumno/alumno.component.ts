@@ -20,7 +20,7 @@ export class DetalleAlumnoComponent implements OnInit{
   estudiante: any = {} 
   config_practicas: any = [];
   practicas: any = [];
-  solicitudes_practicas: any = [];
+  solicitudes_practicas: any = {};
 
   estado_config:string = "";
 
@@ -122,36 +122,38 @@ export class DetalleAlumnoComponent implements OnInit{
             respuesta = { ...respuesta, ...data }
           },
           error: (error: any) => console.log(error),
-          complete: () => {
+          complete: async () => {
             this.practicas = respuesta.body;
             //console.log("Practicas:",this.practicas)
 
             // Guardar nombres y practicas en un arreglo
-            this.practicas.forEach((element: any) => {
+            this.practicas.forEach(async (element: any) => {
               this.flags_inscripcion_list.push(false);
+              //console.log("practica:",element.modalidad.config_practica.nombre)
               // Para cada practica que el alumno tiene, encontrar el nombre de la configuracion de practica en el arreglo
               // de nombres y agregar la practica en el arreglo que se encarga de mantener la correspondencia entre nombre y practica
               if(element.modalidad.config_practica.nombre == this.nombres_config_practica.find((elemento: any) => elemento == element.modalidad.config_practica.nombre)){
                 let index = this.nombres_config_practica.indexOf(element.modalidad.config_practica.nombre);
                 element.documentos.map((doc:any) => {
-                  doc.solicitud_documento.tipo_archivo = doc.solicitud_documento.tipo_archivo.split(",");
-                  //console.log("doc:",doc)
+                  // Cambiar además las strings de tipo_archivo a un arreglo de strings
+                  doc.solicitud_documento.tipo_archivo = doc.solicitud_documento.tipo_archivo.split(",");                  
                   return doc;
                 });
-                //element.documento.solicitud_documento.tipo_archivo = element.documento.solicitud_documento.tipo_archivo.split(",");
-                this.practicas_correspondiente_nombre[index].push(element);                    
+                this.practicas_correspondiente_nombre[index].push(element);              
               }
-              // make a request to get all solicitudes_documentos for the current practica, using /todos_docs_practica
-              this.service_datos.obtener_solicitudes_documentos_practica(element.modalidad.config_practica.id, element.id).subscribe({
+              // request para obtener todas las solicitudes_documentos de la practica actual
+
+              await new Promise( (resolve) => {this.service_datos.obtener_solicitudes_documentos_practica(element.modalidad.config_practica.id, element.id).subscribe({
                 next: (data: any) => {
                   respuesta = { ...respuesta, ...data }
                 },
                 error: (error: any) => console.log(error),
                 complete: () => {
-                  this.solicitudes_practicas.push(respuesta.body);
-                  //console.log("Solicitudes de documentos de la practica:",this.solicitudes_practicas)
+                  this.solicitudes_practicas[element.id] = respuesta.body;
+                  //console.log("Solicitudes:", this.solicitudes_practicas)
+                  resolve(true);
                 }
-              });
+              });})
             });  
 
             for (var item of this.practicas){
