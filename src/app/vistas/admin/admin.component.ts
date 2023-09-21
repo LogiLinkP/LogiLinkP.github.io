@@ -14,7 +14,6 @@ export class AdminComponent {
   }
 
   carrera(){
-    console.log(1);
     this.router.navigate(['/admin/crear-carrera']);
   }
 

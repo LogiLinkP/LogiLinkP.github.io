@@ -61,6 +61,7 @@ export class CrearEncargadoComponent implements OnInit{
   }
 
   volver(){
-    this.router.navigate(['/admin']);
+    this.router.navigate(['/admin/pagina-principal']);
   }
+
 }

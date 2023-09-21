@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AdminService } from 'src/app/servicios/admin/admin.service';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-asignacion',
@@ -25,7 +26,7 @@ export class AsignacionComponent {
     });
   }
 
-  constructor(private admin: AdminService, private _snackBar: MatSnackBar, private fb: FormBuilder) { 
+  constructor(private admin: AdminService, private _snackBar: MatSnackBar, private fb: FormBuilder, private router: Router) { 
     let _data: any = {};
     this.admin.getCarrera().subscribe({
       next: data => {
@@ -100,6 +101,10 @@ export class AsignacionComponent {
       }
     });
     window.location.reload();
+  }
+
+  volver(){
+    this.router.navigate(['/admin/pagina-principal']);
   }
 
   mostrar(arg: any){

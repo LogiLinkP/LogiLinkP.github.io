@@ -71,8 +71,8 @@ const routes: Routes = [
   { path: 'informaciones', component: InformacionesComponent },
   { 
     path: 'admin', 
-    component: AdminComponent,
     children: [
+      { path: 'pagina-principal', component: AdminComponent},
       { path: 'crear-carrera', component: CrearCarreraComponent },
       { path: 'crear-encargado', component: CrearEncargadoComponent },
       { path: 'asignacion', component: AsignacionComponent},
