@@ -327,6 +327,10 @@
                                                             <td>{{eval.pregunta_supervisor?.enunciado}}</td>
                                                             <td>{{eval.respuesta}}</td>
                                                         </tr>
+                                                        <tr>
+                                                            <td>Promedio</td>
+                                                            <td>{{nota_promedio}}</td>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -392,6 +396,68 @@
                             </div>
                         </div><!-- Fin Tarjeta Otras respuestas supervisor -->
                     </div><!-- Fin Fila -->
+
+                    <div class ="row">
+                        <!--Tarjeta Aptitudes -->
+                        <div class="col-lg-6">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Accordion -->
+                                <a href="#collapseCardAptitudes" class="d-block card-header py-3"
+                                    data-toggle="collapse" role="button" aria-expanded="true"
+                                    aria-controls="collapseCardSupervisor">
+                                    <h6 class="m-0 font-weight-bold text-primary">Aptitudes del Estudiante</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse" id="collapseCardAptitudes">
+                                    <div class="card-body" *ngIf="data_supervisor_rdy;else supervisor_data">
+                                        <div class="overflow-auto">
+                                            <div class="table-responsive ">
+                                                <table class="table table-bordered hoverTable" id="dataTable"
+                                                    width="100%" cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Aptitud</th>
+                                                            <th>Evaluación</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let resp of respuestas_sup_parsed;">
+                                                            <td style="vertical-align: middle;">{{resp[1]}}</td>
+                                                            <td *ngIf="resp[0];else textoSolo"
+                                                                style="vertical-align: middle;">
+                                                                {{resp[2]}}
+                                                            </td>
+                                                            <ng-template #textoSolo style="vertical-align: middle;">
+                                                                <td style="vertical-align: middle;">
+                                                                    {{resp[2][0]}}
+                                                                    <span class="bg-gradient-success"
+                                                                        style="vertical-align: middle;">
+                                                                        {{resp[2][1]}}
+                                                                    </span>
+                                                                    {{resp[2][2]}}
+                                                                </td>
+                                                            </ng-template>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>Promedio</td>
+                                                            <td>Hola</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <ng-template #supervisor_data>
+                                        <div class="spinner-border" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div><!-- Fin Tarjeta Otras respuestas supervisor -->
+                    </div>
 
                     <div class="row">
                         <!-- Tarjeta Consistencia -->

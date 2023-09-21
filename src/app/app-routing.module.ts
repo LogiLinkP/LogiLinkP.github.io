@@ -28,7 +28,10 @@ import { ChatComponent } from './componentes/chat/chat.component';
 import { InformeComponent } from "./vistas/informe/informe.component";
 import { NotisHistorialComponent } from './vistas/notis-historial/notis-historial.component';
 import { RamosAlumnosComponent } from './vistas/ramos-alumnos/ramos-alumnos.component';
+import { RamosEncargadoComponent } from './vistas/ramos-encargado/ramos-encargado.component';
 import { EstadisticaEmpresasComponent } from './vistas/estadistica-empresas/estadistica-empresas.component';
+import { IngresoInformeComponent } from './vistas/ingreso-informe/ingreso-informe.component';
+import { EstudianteVerInformeComponent } from './vistas/estudiante-ver-informe/estudiante-ver-informe.component';
 
 import { environment } from 'src/environments/environment';
 import { PerfilComponent } from './vistas/perfil/perfil.component';
@@ -73,8 +76,14 @@ const routes: Routes = [
   { path: 'encuestaFinal/:id_practica', component: EncuestaFinPracticaComponent },
   { path: 'consistencia', component: ExplicacionConsistenciaComponent },
   { path: 'estadisticaRamos', component: RamosAlumnosComponent},
+  { path: 'ramos', component: RamosEncargadoComponent},
   { path: 'estadisticaEmpresas', component: EstadisticaEmpresasComponent},
+<<<<<<< HEAD
   { path: 'perfil', component: PerfilComponent},
+=======
+  { path: 'ingreso-informe', component: IngresoInformeComponent},
+  { path: 'estudiante-ver-informe/:id_practica/:id_informe', component: EstudianteVerInformeComponent},
+>>>>>>> dev
   { path: '**', component: PnfComponent },
 ];
 
@@ -103,6 +112,12 @@ export const routingComponents = [
   CuestionarioComponent,
   ChatComponent,
   ConfiguracionPracticaComponent,
+<<<<<<< HEAD
   EncuestaFinPracticaComponent,
   PerfilComponent
+=======
+  IngresoInformeComponent,
+  EstudianteVerInformeComponent,
+  EncuestaFinPracticaComponent
+>>>>>>> dev
 ]
