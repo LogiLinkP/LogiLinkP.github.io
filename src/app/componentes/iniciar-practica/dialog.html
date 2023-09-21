@@ -41,7 +41,7 @@
                             Rut Empresa:
                             <input id="rut_empresa_manual"
                                 (input)="completar_rut($event); habilitar_envio_manual($event)" type="text"
-                                placeholder="xx.xxx.xxx-x" required>
+                                placeholder="xx.xxx.xxx-x" [value]="default_rut" required>
                         </label>
                     </form>
                     <div mat-dialog-actions class="d-flex justify-content-center">

@@ -367,6 +367,7 @@ export class Dialog {
   modo_auto: boolean = true;
   enviar_habilitado_auto: boolean = false;
   enviar_habilitado_manual: boolean = false;
+  default_rut: string = "";
 
   constructor(public dialogRef: MatDialogRef<Dialog>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private empresaService: EmpresaService,
     private _snackBar: MatSnackBar) { }
@@ -403,6 +404,7 @@ export class Dialog {
             this.dialogRef.close(["Empresa agregada", data.body]);
             return;
           } else if (data.body.message == "Empresa no encontrada") {
+            this.default_rut = rut_empresa.value;
             this.modo_auto = false;
             return;
           } else {
