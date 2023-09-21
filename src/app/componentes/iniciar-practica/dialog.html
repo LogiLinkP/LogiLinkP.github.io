@@ -1,0 +1,61 @@
+<div class="row m-0 p-0" style="max-width: 100%">
+    <div class="col-xl-12 p-0">
+        <div class="card">
+            <a class="card-header">
+                <h3 class="m-0 font-weight-bold text-primary" style="text-align: center;">Agregar Empresa</h3>
+            </a>
+            <div *ngIf="modo_auto;else modo_manual" class="card-body text-gray-800" style="text-align: center;">
+                <form style="width: 100%;">
+                    <label>
+                        Rut Empresa:
+                        <input id="rut_empresa_auto" (input)="completar_rut($event); habilitar_envio_auto($event);"
+                            type="text" placeholder="xx.xxx.xxx-x" required>
+                    </label>
+                </form>
+                <div mat-dialog-actions class="d-flex justify-content-center">
+                    <div class="p-2"><button class="btn btn-danger btn-md btn-block" (click)="onNoClick()">
+                            Cancelar
+                        </button></div>
+                    <div class="p-2"><button class="btn btn-success btn-md btn-block" (click)="agregar_empresa_auto()"
+                            cdkFocusInitial [disabled]="!enviar_habilitado_auto">
+                            Agregar
+                        </button></div>
+                </div>
+            </div>
+
+            <ng-template #modo_manual>
+                <div class="card-body text-gray-800" style="text-align: center;">
+                    <mat-card class="bg-warning">
+                        <mat-card-content>
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            No se pudo validar la empresa, por favor ingrese los datos manualmente.
+                        </mat-card-content>
+                    </mat-card>
+                    <form style="width: 100%;">
+                        <label>
+                            Nombre Empresa:
+                            <input id="nombre_empresa_manual" (input)="habilitar_envio_manual($event)" type="text"
+                                placeholder="Nombre Empresa" required>
+                        </label>
+                        <label>
+                            Rut Empresa:
+                            <input id="rut_empresa_manual"
+                                (input)="completar_rut($event); habilitar_envio_manual($event)" type="text"
+                                placeholder="xx.xxx.xxx-x" [value]="default_rut" required>
+                        </label>
+                    </form>
+                    <div mat-dialog-actions class="d-flex justify-content-center">
+                        <div class="p-2"><button class="btn btn-danger btn-md btn-block" (click)="onNoClick()">
+                                Cancelar
+                            </button></div>
+                        <div class="p-2"><button class="btn btn-success btn-md btn-block"
+                                [disabled]="!enviar_habilitado_manual" (click)="agregar_empresa_manual()"
+                                cdkFocusInitial>
+                                Agregar
+                            </button></div>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+    </div><!-- fin columna -->
+</div><!-- fin row -->
