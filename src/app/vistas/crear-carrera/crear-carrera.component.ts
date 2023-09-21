@@ -61,7 +61,7 @@ export class CrearCarreraComponent implements OnInit{
   }
 
   volver(){
-    this.router.navigate(['/admin/pagina-principal']);
+    this.router.navigate(['/admin']);
   }
 
   listar(nombre: string){

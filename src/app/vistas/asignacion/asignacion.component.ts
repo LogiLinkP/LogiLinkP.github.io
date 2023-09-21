@@ -104,7 +104,7 @@ export class AsignacionComponent {
   }
 
   volver(){
-    this.router.navigate(['/admin/pagina-principal']);
+    this.router.navigate(['/admin']);
   }
 
   mostrar(arg: any){
