@@ -53,7 +53,7 @@ export class LoginComponent {
           } else if (this.dataUsuario.es_supervisor) {
             this.router.navigate(["/home_supervisor"])
           } else if (this.dataUsuario.es_admin) {
-            this.router.navigate(["/admin/pagina-principal"])
+            this.router.navigate(["/admin"])
           } else {
             console.log("Usuario no tiene tipo definido")
           }
