@@ -89,7 +89,7 @@
                                             style="vertical-align: middle;">{{practica.interpretacion_informe}}</td>
                                         
                                         <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
-                                            style="vertical-align: middle;">{{promedio_notas[indice]}}</td>
+                                            style="vertical-align: middle;">{{notas_promedio[indice]}}</td>
                                         <td [ngSwitch]="practica.estado" style="vertical-align: middle;">
                                             <app-revision *ngSwitchCase="'Evaluada'"
                                                 [id_estudiante]="practica.id_estudiante"
