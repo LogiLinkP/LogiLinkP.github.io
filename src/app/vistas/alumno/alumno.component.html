@@ -249,7 +249,7 @@
                                                                                         </thead>
                                                                                         <tbody>
                                                                                             <tr
-                                                                                                *ngFor="let solicitud of solicitudes_practicas[i];">
+                                                                                                *ngFor="let solicitud of solicitudes_practicas[practica[1].id];">
                                                                                                 <td>{{solicitud?.nombre_solicitud}}
                                                                                                 </td>
                                                                                                 <td>{{solicitud?.tipo_archivo}}
@@ -309,7 +309,7 @@
 
 
                                                         <!--Tarjeta Aptitudes -->
-                                                        <div class="row" style="max-width: 100%" *ngIf="hay_respuesta == 1">
+                                                        <div class="row" style="max-width: 100%" *ngIf="hay_respuesta[i] == 1">
                                                             <!-- Tarjeta Archivos -->
                                                             <div class="col-xl-6">
                                                                 <div class="card shadow mb-4">

@@ -6,7 +6,6 @@ import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Router } from "@angular/router";
 import { DetallePracticaService } from 'src/app/servicios/encargado/detalle-practica.service';
-import { NULL } from 'sass';
 
 
 @Component({
@@ -26,7 +25,6 @@ export class TablaComponent {
   practicas: any = [];
   temp_notas:any = []
   notas_promedio: any = [];
-  hay_respuesta:number =-1;
 
   texto_consistencia_informe: string = "Indica qué tan relacionados están los informes del\n" +
     "estudiante con lo que escribió su supervisor.\n" +
@@ -107,18 +105,19 @@ export class TablaComponent {
                   let nota_promedio = 0;
                   let prom = 0;
                   let temp: any = [];
-
-                  if (val.pregunta_supervisor.enunciado == "Seleccione las características que mejor describen al practicante"){
-                    find = 1
-                    this.hay_respuesta =1;
-                    temp = val.respuesta.split(",");
-                    for(var n of temp){
-                      nota_promedio += Number(n);
-                      prom += 1;
-                    } 
-                    nota_promedio = nota_promedio/prom
-                    this.temp_notas.push([iditem, nota_promedio])  
-                    continue
+                  
+                  if(val.pregunta_supervisor != null){
+                    if (val.pregunta_supervisor.enunciado == "Evalue entre 1 y 5 las siguientes aptitudes del practicante"){
+                      find = 1
+                      temp = val.respuesta.split(",");
+                      for(var n of temp){
+                        nota_promedio += Number(n);
+                        prom += 1;
+                      } 
+                      nota_promedio = nota_promedio/prom
+                      this.temp_notas.push([iditem, nota_promedio])  
+                      break
+                    }
                   }
                 }
                 if (find == -1){

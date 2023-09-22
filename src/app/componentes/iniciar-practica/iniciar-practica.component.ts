@@ -90,7 +90,6 @@ export class IniciarPracticaComponent implements OnInit {
       });
       return;
     }
-
     // obtener los datos de los inputs
     let modalidad = (document.getElementById("modalidad" + this.nombre_practica) as HTMLInputElement).value
     let cantidad = (document.getElementById("cantidad" + this.nombre_practica) as HTMLInputElement).value
@@ -139,7 +138,6 @@ export class IniciarPracticaComponent implements OnInit {
               complete: () => {
                 // parse de body as json
                 let id_empresa = aux.body.id
-
                 this.service.registrar_supervisor(nombre_supervisor, correo_supervisor).subscribe({
                   next: (data: any) => {
                     aux = { ...aux, ...data }
@@ -156,7 +154,6 @@ export class IniciarPracticaComponent implements OnInit {
                       complete: () => {
                         //seleccionar el primer encargado
                         let id_encargado = aux.body[0].id
-
                         this.service_obtener.obtener_encargado(aux.body[0].id_usuario).subscribe({
                           next: (data: any) => {
                             this.respuesta = { ...this.respuesta, ...data };
@@ -170,7 +167,7 @@ export class IniciarPracticaComponent implements OnInit {
                         })
 
                         this.service.registrar_practica(this.id_estudiante, id_modalidad, fecha_inicio,
-                          id_empresa, id_supervisor, id_encargado).subscribe({
+                          id_empresa, id_supervisor, id_encargado, +this.id_config_practica).subscribe({
                             next: (data: any) => {
                               aux = { ...aux, ...data }
                             },
@@ -217,7 +214,6 @@ export class IniciarPracticaComponent implements OnInit {
       }
     });
     // Crear empresa, supervisor y practica
-
   }
 
   manage_dialog_return(result: Array<any>) {
@@ -300,7 +296,6 @@ export class IniciarPracticaComponent implements OnInit {
             modalidades_nombres.push(element.tipo_modalidad)
           }
         });
-
 
         // hacer que el dropdown de modalidad se actualice al obtener la respuesta dela query
         var dropdown = document.getElementById("modalidad" + this.nombre_practica)
