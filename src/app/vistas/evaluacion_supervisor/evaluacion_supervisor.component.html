@@ -81,23 +81,28 @@
                                                 </div>
                                             </div>
                                             <!--MODIFICAR EVALUACION-->
-                                            <div class="form-check" *ngSwitchCase="'evaluacion'" >
-
-                                                <table>
-
-                                                </table>
-
-                                                <div *ngFor="let aptitud of aptitudes_evaluacion; let j = index" class="row">
-                                                    {{aptitud}}: &nbsp;
-                                                    
-                                                    <select name="tipo" id="tipo" class="form-select form-select-sm mb-4 col-4" aria-label="Default select example" [(ngModel)]="respuestas[i][j]" (ngModelChange)="updateRespuestasEvaluacion(i,j, $event)">
-                                                        <option value="-1">Seleccione nota evaluación</option>
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
-                                                    </select>
+                                            <div class="form-check" *ngSwitchCase="'evaluacion'">
+                                                <div class="row">
+                                                    <div class="col-xl-2"></div>
+                                                    <div class="col-xl-8">
+                                                        <table>
+                                                            <tr>
+                                                                <div *ngFor="let aptitud of aptitudes_evaluacion; let j = index" class="row">
+                                                                    <td style="width:40%">{{aptitud}}:</td> 
+                                                                    <td style="width:60%">                                           
+                                                                        <select name="tipo" id="tipo" class="form-select form-select-sm mb-4" aria-label="Default select example" [(ngModel)]="respuestas[i][j]" (ngModelChange)="updateRespuestasEvaluacion(i,j, $event)">
+                                                                            <option value="-1">Seleccione nota evaluación</option>
+                                                                            <option value="1">1</option>
+                                                                            <option value="2">2</option>
+                                                                            <option value="3">3</option>
+                                                                            <option value="4">4</option>
+                                                                            <option value="5">5</option>
+                                                                        </select>
+                                                                    </td>          
+                                                                </div>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div><!-- Fin ngSwitch --> 
