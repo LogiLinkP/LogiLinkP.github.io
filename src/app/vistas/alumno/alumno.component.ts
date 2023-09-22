@@ -8,7 +8,6 @@ import { SupervisorService } from 'src/app/servicios/supervisor/supervisor.servi
 import { Router } from "@angular/router"
 import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
 import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
-import { NULL } from 'sass';
 
 @Component({
   selector: 'alumno',
@@ -20,7 +19,7 @@ export class DetalleAlumnoComponent implements OnInit{
   estudiante: any = {} 
   config_practicas: any = [];
   practicas: any = [];
-  solicitudes_practicas: any = [];
+  solicitudes_practicas: any = {};
 
   estado_config:string = "";
 
@@ -37,6 +36,7 @@ export class DetalleAlumnoComponent implements OnInit{
   aptitudes_practica:any = [];
   notas_aptitudes:any = [];
   notas_promedio:any = [];
+  hay_respuesta:any = [];
 
   constructor(private service_datos: ObtenerDatosService , private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, 
               private service_gestion: GestionarService, private service_supervisor: SupervisorService, private router: Router,
@@ -122,36 +122,38 @@ export class DetalleAlumnoComponent implements OnInit{
             respuesta = { ...respuesta, ...data }
           },
           error: (error: any) => console.log(error),
-          complete: () => {
+          complete: async () => {
             this.practicas = respuesta.body;
             //console.log("Practicas:",this.practicas)
 
             // Guardar nombres y practicas en un arreglo
-            this.practicas.forEach((element: any) => {
+            this.practicas.forEach(async (element: any) => {
               this.flags_inscripcion_list.push(false);
+              //console.log("practica:",element.modalidad.config_practica.nombre)
               // Para cada practica que el alumno tiene, encontrar el nombre de la configuracion de practica en el arreglo
               // de nombres y agregar la practica en el arreglo que se encarga de mantener la correspondencia entre nombre y practica
               if(element.modalidad.config_practica.nombre == this.nombres_config_practica.find((elemento: any) => elemento == element.modalidad.config_practica.nombre)){
                 let index = this.nombres_config_practica.indexOf(element.modalidad.config_practica.nombre);
                 element.documentos.map((doc:any) => {
-                  doc.solicitud_documento.tipo_archivo = doc.solicitud_documento.tipo_archivo.split(",");
-                  //console.log("doc:",doc)
+                  // Cambiar además las strings de tipo_archivo a un arreglo de strings
+                  doc.solicitud_documento.tipo_archivo = doc.solicitud_documento.tipo_archivo.split(",");                  
                   return doc;
                 });
-                //element.documento.solicitud_documento.tipo_archivo = element.documento.solicitud_documento.tipo_archivo.split(",");
-                this.practicas_correspondiente_nombre[index].push(element);                    
+                this.practicas_correspondiente_nombre[index].push(element);              
               }
-              // make a request to get all solicitudes_documentos for the current practica, using /todos_docs_practica
-              this.service_datos.obtener_solicitudes_documentos_practica(element.modalidad.config_practica.id, element.id).subscribe({
+              // request para obtener todas las solicitudes_documentos de la practica actual
+
+              await new Promise( (resolve) => {this.service_datos.obtener_solicitudes_documentos_practica(element.modalidad.config_practica.id, element.id).subscribe({
                 next: (data: any) => {
                   respuesta = { ...respuesta, ...data }
                 },
                 error: (error: any) => console.log(error),
                 complete: () => {
-                  this.solicitudes_practicas.push(respuesta.body);
-                  //console.log("Solicitudes de documentos de la practica:",this.solicitudes_practicas)
+                  this.solicitudes_practicas[element.id] = respuesta.body;
+                  //console.log("Solicitudes:", this.solicitudes_practicas)
+                  resolve(true);
                 }
-              });
+              });})
             });  
 
             for (var item of this.practicas){
@@ -164,26 +166,32 @@ export class DetalleAlumnoComponent implements OnInit{
             */
 
             for (var item of this.evaluaciones){
-              let temp: any = [];
-              let nota_promedio = 0;
-              let prom = 0;
+              this.hay_respuesta.push(0)
               for(var item2 of item){
-                if(item2.pregunta_supervisor != null){
-                  if ((item2.pregunta_supervisor.tipo_respuesta == "casillas" && item2.pregunta_supervisor.opciones != null)){
+                let temp: any = [];
+                let nota_promedio = 0;
+                let prom = 0;
+                if(item2.pregunta_supervisor != null){ 
+                  if(item2.pregunta_supervisor.enunciado == "Evalue entre 1 y 5 las siguientes aptitudes del practicante"){
+                    this.hay_respuesta.pop();
+                    this.hay_respuesta.push(1);
                     if(item2.pregunta_supervisor.opciones.indexOf(";;") != -1){
                       this.aptitudes_practica.push(item2.pregunta_supervisor.opciones.split(";;"))
                       temp = item2.respuesta.split(",");
                       for(var n of temp){
                         nota_promedio += Number(n);
                         prom += 1;
-                      }       
+                      }
+                      
+                      this.notas_aptitudes.push(temp);
+                      this.notas_promedio.push(nota_promedio/prom)
+                      break
                     }                              
                   }
                 }
               }
 
-              this.notas_aptitudes.push(temp);
-              this.notas_promedio.push(nota_promedio/prom)
+              
             }
             
             //console.log("Practicas correspondientes a nombre:",this.practicas_correspondiente_nombre)

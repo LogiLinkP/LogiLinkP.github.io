@@ -168,19 +168,19 @@ export class EvaluacionComponent {
   updateRespuestasAbierta(index: number, value: string) {
     //console.log("UPDATEANDO RESPUESTAS abierta", value)
     this.respuestas[index] = value;
-    //console.log(this.respuestas);
+    console.log(this.respuestas);
   }
 
   updateRespuestasCasillas(i: number, j: number, value: string) {
     //console.log("UPDATEANDO RESPUESTAS casillas", value)
     this.respuestas[i][j] = value;
-    //console.log(this.respuestas);
+    console.log(this.respuestas);
   }
 
   updateRespuestasAlternativas(i: number, value: string) {
     //console.log("UPDATEANDO RESPUESTAS alternativas", value);
     this.respuestas[i] = value;
-    //console.log(this.respuestas);
+    console.log(this.respuestas);
   }
 
   updateRespuestasEvaluacion(index_pregunta: number, index_aptitud: number ,value: number) {
