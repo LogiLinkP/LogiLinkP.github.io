@@ -53,7 +53,6 @@ export class CrearEncargadoComponent implements OnInit{
       }
     
     });
-    window.location.reload();
     this._snackBar.open("Se le ha enviado un link al encargado para que pueda registrarse", "Cerrar", {
       panelClass: ['green-snackbar'],
       duration: 2000

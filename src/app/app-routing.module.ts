@@ -78,7 +78,7 @@ const routes: Routes = [
       { path: 'asignacion', component: AsignacionComponent},
     ] 
   },
-  { path: 'encargado/:token', component: RegistroEncargadoComponent },
+  { path: 'encargado/registro/:token', component: RegistroEncargadoComponent },
   // { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
   { path: 'configurar/:nombre', component: ConfiguracionPracticaComponent },
   { path: 'configurar/:nombre/copia', component: ConfiguracionPracticaComponent },

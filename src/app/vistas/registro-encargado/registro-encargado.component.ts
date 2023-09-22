@@ -19,8 +19,7 @@ export class RegistroEncargadoComponent implements OnInit{
   confirmPassword: string = "";
   es_supervisor: boolean = false;
   es_estudiante: boolean = false;
-  es_encargado: boolean = true;
-  RUT: string = "";
+  es_encargado: boolean = false;
   extras = {};
   checkEs = true;
 
@@ -33,8 +32,7 @@ export class RegistroEncargadoComponent implements OnInit{
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(3)]],
-      confirmPassword: ['', Validators.required],
-      //crear validador custom para RUT real
+      confirmPassword: ['', Validators.required]
     });
   }
 
@@ -42,31 +40,14 @@ export class RegistroEncargadoComponent implements OnInit{
   }
 
   register() {
-    if (!this.es_encargado && !this.es_estudiante && !this.es_supervisor) {
-      this._snackBar.open("Debe seleccionar un tipo de usuario", "Cerrar", {
-        panelClass: ['red-snackbar'],
-        duration: 2000
-      });
-      return;
-    }
     const data = this.registroForm.value;
-    this.RUT = data.RUT
     this.nombre = this.nombre + " " + this.apellido;
-    if (this.es_estudiante) {
-      this.extras = { RUT: this.RUT };
-    }
-    if (this.es_supervisor) {
-      this.extras = {};
-    }
-    if (this.es_encargado) {
-      this.extras = {};
-    }
     let _data: any = {}
     this.usuario.register(
       data.email, data.password,
       data.confirmPassword, data.nombre,
-      false, this.es_supervisor,
-      this.es_estudiante, this.es_encargado,
+      true, this.es_supervisor,
+      this.es_estudiante, false,
       this.extras
     ).subscribe({
       next: data => {
