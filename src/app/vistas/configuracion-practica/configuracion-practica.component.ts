@@ -341,7 +341,7 @@ export class ConfiguracionPracticaComponent {
                                             console.log("Error al buscar pregunta supervisor", error);
                                         },
                                         complete: () => {
-                                            //console.log("pregunta supervisor:", respuesta.body);
+                                            console.log("pregunta supervisor:", respuesta.body);
                                             for (let i = 0; i < respuesta.body.length; i++) {
                                                 this.lista_preguntas_supervisor.push(respuesta.body[i].enunciado);
                                                 this.tipos_preguntas_supervisor.push(respuesta.body[i].tipo_respuesta);
