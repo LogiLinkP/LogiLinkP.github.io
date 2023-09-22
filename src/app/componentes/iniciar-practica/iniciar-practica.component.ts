@@ -96,7 +96,6 @@ export class IniciarPracticaComponent implements OnInit {
 
     let nombre_supervisor = (document.getElementById("nombre_supervisor" + this.nombre_practica) as HTMLInputElement).value
     let correo_supervisor = (document.getElementById("correo_supervisor" + this.nombre_practica) as HTMLInputElement).value
-    let rut_empresa = (document.getElementById("rut_empresa" + this.nombre_practica) as HTMLInputElement).value
     let rut_empresa = (document.getElementById(this.id_datalist + '_input') as HTMLInputElement).value
     let fecha_inicio = (document.getElementById("fecha_inicio" + this.nombre_practica) as HTMLInputElement).value
 
@@ -105,7 +104,7 @@ export class IniciarPracticaComponent implements OnInit {
     fecha_inicio = fecha_inicio_array[2] + "-" + fecha_inicio_array[1] + "-" + fecha_inicio_array[0]
 
     let aux: any = {}
-    
+
     if (modalidad == "" || cantidad == "" || nombre_supervisor == "" || correo_supervisor == "" || rut_empresa == "" || fecha_inicio == "") {
       this._snackBar.open("Debe llenar todos los campos", "Cerrar", {
         panelClass: ['red-snackbar'],
