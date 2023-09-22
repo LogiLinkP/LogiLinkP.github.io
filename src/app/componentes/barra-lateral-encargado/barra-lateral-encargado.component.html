@@ -1,6 +1,6 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-    <a class="navbar-brand" href="">
+    <a class="navbar-brand" [routerLink]="['/practicas']">
         <img id="logo" src="./assets/img/logo.svg" width="70%" height="70%" alt="Praxus">
     </a>
 
@@ -11,7 +11,7 @@
     <li class="nav-item">
         <a class="nav-link" href="/practicas">
             <i class="fas fa-fw fa-table"></i>
-            <span>Prácticas</span></a>
+            <span>Resumen</span></a>
     </li>
 
     <!-- Divider -->
@@ -19,7 +19,7 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-        Interface
+        Configuracion
     </div>
 
     <!-- Nav Item - Config Practicas Collapse Menu -->
@@ -45,6 +45,12 @@
                 </a>
             </div>
         </div>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/ramos']">
+            <i class="fas fa-fw fa-regular fa-pen-to-square"></i>
+            <span>Editar ramos</span></a>
     </li>
 
     <!-- Nav Item - Utilities Collapse Menu 
@@ -93,6 +99,10 @@
         </div>
     </li>-->
 
+    <div class="sidebar-heading">
+        Otros
+    </div>
+
     <li class="nav-item">
         <a class="nav-link" [routerLink]="['/estadisticas']">
             <i class="fas fa-fw fa-chart-area"></i>
@@ -103,10 +113,10 @@
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 
-    <!-- Sidebar Toggler (Sidebar) 
-    <div class="text-center d-none d-md-inline">
+    <!-- Sidebar Toggler (Sidebar)  -->
+    <!-- <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
-    </div>-->
+    </div> -->
     
 </ul>
 

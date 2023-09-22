@@ -25,6 +25,7 @@ import e from 'express';
 //import { jsPDF } from "jspdf"; 
 
 import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
+import { NULL } from 'sass';
 
 @Component({
   selector: 'app-detalle-practica',
@@ -67,6 +68,16 @@ export class DetallePracticaComponent implements OnInit {
   correo_estudiante: string = "";
   config_estudiante: string = "";
 
+  preguntas: any= [];
+  aptitudes_practica: any = [];
+  notas_aptitudes: any = [];
+  promedio: number = -1;
+
+
+  nota_promedio: number = -1;
+  prom: number = -1;
+  hay_respuesta:number = -1;
+
   constructor(private fragmentosService: FragmentosService, private service: DetallePracticaService, private service2: SetDetallesAlumnoService,
     private _snackBar: MatSnackBar, private route: ActivatedRoute,
     private service_obtener: DataUsuarioService, private service_resumen: ResumenService, private service_informe: InformeService,
@@ -102,6 +113,7 @@ export class DetallePracticaComponent implements OnInit {
         },
         complete: () => {
           this.practica = respuesta.body;
+          console.log(this.practica);
           this.check_resumen();
 
           if (this.practica.estado == environment.estado_practica.evaluada ||
@@ -128,14 +140,42 @@ export class DetallePracticaComponent implements OnInit {
             }
           });
 
-
           this.documento_extras = this.practica.documento_extras;
           this.informes = this.practica.informes;
           // considerar como evaluaciones todas las respuestas que tengan un tipo_respuesta que sea un número
           this.evaluaciones = this.practica.respuesta_supervisors.filter((respuesta_supervisor: any) => {
             return !isNaN(respuesta_supervisor.respuesta);
           });
-          //console.log("evaluaciones: ", this.evaluaciones);
+
+          this.preguntas = this.practica.respuesta_supervisors
+          
+          
+          for (var item of this.preguntas){
+            let temp: any = [];
+            let nota_promedio = 0;
+            let prom = 0;
+            if(item.pregunta_supervisor != null){
+              if(item.pregunta_supervisor.enunciado == "Evalue entre 1 y 5 las siguientes aptitudes del practicante"){
+                if(item.pregunta_supervisor.opciones.indexOf(";;") != -1){
+                  this.hay_respuesta = 1;
+                  this.aptitudes_practica.push(item.pregunta_supervisor.opciones.split(";;"))
+                  temp = item.respuesta.split(",");
+                  
+                  for(var n of temp){
+                    nota_promedio += Number(n);
+                    prom += 1;
+                  }
+
+                  this.notas_aptitudes.push(temp);
+                  this.promedio = (nota_promedio/prom)
+                  break;
+                }                             
+              }
+            }
+          }
+            
+
+
           // considerar como respuestas todas las que sean strings
           this.respuestas_supervisor = this.practica.respuesta_supervisors.filter((respuesta_supervisor: any) => {
             return isNaN(respuesta_supervisor.respuesta);
@@ -611,7 +651,7 @@ export class DetallePracticaComponent implements OnInit {
       mensaje = "Felicidades, has aprobado esta práctica";
     }
     else {
-      mensaje = "Deafortunadamente, has reprobado esta práctica";
+      mensaje = "Desafortunadamente, has reprobado esta práctica";
     }
     this.service2.aprobar_practica(id_estudiante, id_modalidad, aprobacion).subscribe({
       next: (data: any) => {

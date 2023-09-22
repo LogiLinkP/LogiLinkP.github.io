@@ -1,0 +1,43 @@
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-barra-lateral-alumno></app-barra-lateral-alumno>
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content" class="main-content">
+            <!-- Topbar -->
+            <app-barra-superior></app-barra-superior>
+
+            <!-- Begin Page Content -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-11">
+                        <div class="h3 mb-1 mt-4 text-gray-800">
+                            Informe: {{fecha_informe}}
+                        </div>
+                    </div>
+                    <div class="col-xl-1">
+                        <!--boton para volver a pagina anterior-->
+                        <a class="btn btn-primary btn-md mt-4" href="javascript:history.back()">
+                            <span class="text">Volver</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="mt-3 card mb-4 mt-4" *ngFor="let item of pares_pregunta_respuesta">
+                            <div class="card-header">
+                                {{item[0]}}
+                            </div>
+                            <div class="card-body">
+                                <p>
+                                    {{item[1]}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
