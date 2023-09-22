@@ -17,6 +17,7 @@ export class IngresoInformeComponent {
   activated_route: ActivatedRoute = this.route;
   id_informe: number = 0;
   sesion: any = JSON.parse(localStorage.getItem("auth-user") || "{}")
+  modificando: boolean = false;
 
   pregunta_actual = 0;
 
@@ -76,6 +77,8 @@ export class IngresoInformeComponent {
 
   ngOnInit(): void {
     this.id_informe = parseInt(this.activated_route.snapshot.queryParamMap.get('id_informe') || "{}");
+    this.modificando = this.activated_route.snapshot.queryParamMap.get('modificando') == "true" ? true : false;
+
     let respuesta: any = {};
 
     this.service_obtener.obtener_informe_preguntas(this.id_informe).subscribe({
@@ -92,12 +95,58 @@ export class IngresoInformeComponent {
       complete: () => {
         //console.log("RESPUESTA OBTENIDA", respuesta);
         this.preguntas = respuesta.body.config_informe.pregunta_informes;
-
-        for (let i = 0; i < this.preguntas.length; i++) {
-          this.tipo_respuestas.push(this.preguntas[i].tipo_respuesta);
-          this.respuestas.push("");
+        let respuestas_aux = respuesta.body.key;
+        console.log("PREGUNTAS", respuesta.body)
+        
+        if(this.modificando){
+          if (this.preguntas.length > 0) {
+            for (let pregunta of this.preguntas) {              
+              if(pregunta.tipo_respuesta == "casillas"){
+                let array_aux = [];
+                // convertir la string a una lista de true y false
+                for(let i = 0; i < pregunta.opciones.split(";;").length; i++){
+                  if(respuestas_aux[pregunta.id].split(",")[i] == "1"){
+                    array_aux.push(true);
+                  }
+                  else{
+                    array_aux.push(false);
+                  }
+                }
+                this.respuestas.push(array_aux);
+              }
+              else if(pregunta.tipo_respuesta == "alternativas"){
+                for(let i = 0; i < pregunta.opciones.split(";;").length; i++){
+                  if(respuestas_aux[pregunta.id].split(",")[i] == "1"){
+                    this.respuestas.push(pregunta.opciones.split(";;")[i]);
+                  }
+                }
+              }
+              else if(pregunta.tipo_respuesta == "abierta"){
+                this.respuestas.push(respuesta.body.key[pregunta.id]);
+              }
+              this.tipo_respuestas.push(pregunta.tipo_respuesta);
+            }
+          }
+          console.log("RESPUESTAS", this.respuestas);
         }
-      }
+        else{
+          if (this.preguntas.length > 0) {
+            for (let pregunta of this.preguntas) {
+              if (pregunta.tipo_respuesta == "casillas") {
+                let array_aux = [];
+                for (let i = 0; i < pregunta.opciones.split(";;").length; i++) {
+                  array_aux.push(false);
+                }
+                this.respuestas.push(array_aux);
+              }
+              else {
+                this.respuestas.push("");
+              }
+              this.tipo_respuestas.push(pregunta.tipo_respuesta);
+            }
+          }
+        } 
+    }
     });
   }
 
@@ -110,9 +159,9 @@ export class IngresoInformeComponent {
   }
 
   updateRespuestasCasillas(i: number, j: number, value: string) {
-    //console.log("UPDATEANDO RESPUESTAS casillas", value)
+    console.log("UPDATEANDO RESPUESTAS casillas", value)
     this.respuestas[i][j] = value;
-    //console.log(this.respuestas);
+    console.log(this.respuestas);
   }
 
   updateRespuestasAlternativas(i: number, value: string) {
