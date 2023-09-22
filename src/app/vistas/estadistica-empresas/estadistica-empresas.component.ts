@@ -21,12 +21,9 @@ export interface DialogData {
   //formatos: Formato[];
   nombre_empresa: string;
   lista_comentarios: any[];
+  palabras_clave: string[];
 }
-/*
-interface Formato {
-  formato: string, extensiones: string[];
-}
-*/
+
 
 @Component({
   selector: 'app-estadistica-empresas',
@@ -48,7 +45,13 @@ export class EstadisticaEmpresasComponent {
 
   comentarios_empresa: any[] = [];
 
+  palabras_clave_una_empresa: string[] = [];
+
+  palabras_clave_empresa: string[] = [];
+
   nombre_empresa_comentario = "";
+
+
 
   texto_explicaion= " Esto indica el porcentaje de alumnos\n que realizaron su práctica en esta empresa\n y luego, llegaron a trabajar en una gran empresa"
 
@@ -84,6 +87,9 @@ export class EstadisticaEmpresasComponent {
         }
 
         for (let i = 0; i < this.empresas.length; i++){
+          console.log("empresa: ", this.empresas[i].nombre_empresa);
+          console.log("palabras clave: ", this.empresas[i].palabras_clave);
+          this.palabras_clave_empresa.push(this.empresas[i].palabras_clave);
           this.empresaService.obtener_practicas_por_empresa(this.empresas[i].id).subscribe({
             next: data => {
               //console.log(data);
@@ -99,14 +105,12 @@ export class EstadisticaEmpresasComponent {
               //console.log(respuesta.body);
               practica_aux = respuesta.body;
               let comentarios_aux = [];
-              comentarios_aux.push(this.empresas[i].id);
+              //comentarios_aux.push(this.empresas[i].id);
               for (let j = 0; j < practica_aux.length; j++){
                 comentarios_aux.push(practica_aux[j].comentario_empresa);
-
-                
               }
               comentarios_desordenados[i] = comentarios_aux;
-              let eliminar = comentarios_desordenados[i].shift();
+              //let eliminar = comentarios_desordenados[i].shift();
               //omentarios_desordenados.push(comentarios_aux);
             }
           })
@@ -120,15 +124,15 @@ export class EstadisticaEmpresasComponent {
         }
         */
 
-        console.log("comentarios desordenados shift:");
-        console.log(comentarios_desordenados);
+        //console.log("comentarios desordenados shift:");
+        //console.log(comentarios_desordenados);
 
 
         this.comentarios = comentarios_desordenados;
         
 
-        console.log("empresas:");
-        console.log(this.empresas);
+        //console.log("empresas:");
+        //console.log(this.empresas);
 
         console.log("comentarios:");
         console.log(this.comentarios);
@@ -190,8 +194,15 @@ export class EstadisticaEmpresasComponent {
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, id_empresa: number): void {
     for (let i = 0; i < this.empresas.length; i++){
       if (this.empresas[i].id == id_empresa){
+
         this.comentarios_empresa = this.comentarios[i];
         this.nombre_empresa_comentario = this.empresas[i].nombre_empresa;
+        if (this.palabras_clave_empresa[i]){
+          this.palabras_clave_una_empresa = this.palabras_clave_empresa[i].split(',');
+        }
+        else{
+          this.palabras_clave_una_empresa = [];
+        }
         //this.comentarios_empresa.splice(0, 1);
         //this.comentarios_empresa.shift();
         break;
@@ -203,28 +214,10 @@ export class EstadisticaEmpresasComponent {
       width: '800px',
       enterAnimationDuration,
       exitAnimationDuration,
-      data: {nombre_empresa: this.nombre_empresa_comentario, lista_comentarios: this.comentarios_empresa}
+      data: {nombre_empresa: this.nombre_empresa_comentario, lista_comentarios: this.comentarios_empresa, palabras_clave: this.palabras_clave_una_empresa}
     });
 
   }
-
-  /*
-  formatos: Formato[] = [
-    { formato: 'PDF', extensiones: ['pdf'] },
-    { formato: "Imagen", extensiones: ["jpg", "jpeg", "png"] },
-    { formato: 'Word', extensiones: ['docx', "doc"] },
-    { formato: 'Excel', extensiones: ['xlsx', "xls"] },
-  ];
-
-  alog(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    const dialogRef = this.dialog.open(Dialog, {
-      width: '300px',
-      enterAnimationDuration,
-      exitAnimationDuration,
-      data: { formatos: this.formatos }
-    });
-  }
-  */
 }
 
 @Component({
@@ -240,6 +233,7 @@ export class Dialog {
   //formato: string[];
   lista_comentarios: any[] = [];
   nombre_empresa: string;
+  palabras_clave: string[];
   
 
   constructor(public dialogRef: MatDialogRef<Dialog>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
