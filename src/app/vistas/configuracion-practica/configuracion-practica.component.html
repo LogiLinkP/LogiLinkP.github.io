@@ -22,7 +22,7 @@
       <!------------------------------------------------------ CONFIGURACION GENERAL PRACTICA ----------------------------------------------------------->
       <div class="card shadow" *ngIf="estado == 'configuracion_general'">
         <div class="card-body text-center">
-            <div class="h4 mb-3 font-weight-bold text-gray-800 text-center">
+            <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
                 Configuración de práctica
             </div>
             <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitPractica()">
@@ -162,19 +162,26 @@
       <!------------------------------------------------ CONFIGURACION PREGUNTAS AVANCE --------------------------------------------------------------->
       <div class="card shadow" *ngIf="estado == 'informe_avance'">
         <div class="card-body text-center">
-            <div class="h4 mb-3 font-weight-bold text-gray-800 text-center"> 
+            <div class="h3 mb-3 font-weight-bold text-gray-800 text-center"> 
                 Preguntas informe de avance
             </div>
-            <div *ngFor="let pregunta_avance of lista_preguntas_avance; let i = index">
-                <br>
-                Pregunta Ingresada:
-                <br>
-                {{pregunta_avance}}
+            <div *ngFor="let pregunta_avance of lista_preguntas_avance; let i = index" class="pregunta">
+                <div *ngIf="tipos_preguntas_avance[i] == 'abierta'" class="h5 mb-3 font-weight-bold text-gray-800 text-center">
+                    {{pregunta_avance}}
+                    <br>
+                    <br>
+                    <textarea cols="30" rows="10" class="form-control input-center text-area"></textarea>
+                </div>
+                <div *ngIf="tipos_preguntas_avance[i] == 'casillas' || tipos_preguntas_avance[i] == 'alternativas'" class="h5 mb-3 font-weight-bold text-gray-800 text-center">
+                    {{pregunta_avance}}
+                </div>
       
                 <div *ngIf="lista_opciones_preguntas_avance[i] != ''">
-                  Opciones:
-                  {{lista_opciones_preguntas_avance[i]}}
-                  <br>
+                    <div *ngFor="let opcion of splitOpciones(lista_opciones_preguntas_avance[i])">
+                        <i *ngIf="tipos_preguntas_avance[i] == 'alternativas'" class="far fa-circle"></i>
+                        <i *ngIf="tipos_preguntas_avance[i] == 'casillas'" class="far fa-square"></i>
+                        {{opcion}}
+                    </div>
                   <form *ngIf="flag" (ngSubmit)="eliminarPreguntaAvance(i)">
                     <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}">
                       Eliminar Pregunta
@@ -198,10 +205,8 @@
       
                 <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddPreguntaAvance()">
       
-                  <input type="text" [(ngModel)]="pregunta" class="form-control col-lg-3 col-6"
-                    placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
-                  <select name="tipo" id="tipo" (change)="tipoPregunta($event)" class="form-select form-select-sm mb-4 col-4"
-                    aria-label="Default select example">
+                  <input type="text" [(ngModel)]="pregunta" class="form-control input-center" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
+                  <select name="tipo" id="tipo" (change)="tipoPregunta($event)" class="form-select form-select-sm mb-4 input-center">
                     <option value="0">Seleccione el tipo de respuesta</option>
                     <option value="1">Abierta</option>
                     <option value="2">Casillas</option>
@@ -333,19 +338,26 @@
       <!-------------------------------------------------- CONFIGURACION PREGUNTAS INFORME FINAL -------------------------------------------------------------->
       <div class="card shadow" *ngIf="estado == 'informe_final'">
         <div class="card-body">
-            <div class="h4 mb-3 font-weight-bold text-gray-800 text-center"> 
+            <div class="h3 mb-3 font-weight-bold text-gray-800"> <!-- text-center -->
                 Preguntas informe final
             </div>
-            <div *ngFor="let pregunta_final of lista_preguntas_final; let i = index">
-                <br>
-                Pregunta Ingresada:
-                <br>
-                {{pregunta_final}}
-      
+            <div *ngFor="let pregunta_final of lista_preguntas_final; let i = index" class="pregunta">
+                <div *ngIf="tipos_preguntas_final[i] == 'abierta'" class="h5 mb-3 font-weight-bold text-gray-800"> <!-- text-center -->
+                    {{pregunta_final}}
+                    <br>
+                    <br>
+                    <textarea cols="30" rows="10" class="form-control text-area" style="width: auto;"></textarea>
+                </div>
+                <div *ngIf="tipos_preguntas_final[i] == 'casillas' || tipos_preguntas_final[i] == 'alternativas'" class="h5 mb-3 font-weight-bold text-gray-800"> <!-- text-center -->
+                    {{pregunta_final}}
+                </div>
+
                 <div *ngIf="lista_opciones_preguntas_final[i] != ''">
-                  Opciones:
-                  {{lista_opciones_preguntas_final[i]}}
-                  <br>
+                  <div *ngFor="let opcion of splitOpciones(lista_opciones_preguntas_final[i])">
+                    <i *ngIf="tipos_preguntas_final[i] == 'alternativas'" class="far fa-circle"></i>
+                    <i *ngIf="tipos_preguntas_final[i] == 'casillas'" class="far fa-square"></i>
+                    {{opcion}}
+                  </div>
                   <form *ngIf="flag" (ngSubmit)="eliminarPreguntaFinal(i)">
                     <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}">
                       Eliminar Pregunta
@@ -508,7 +520,7 @@
       <!-------------------------------------------------- CONFIGURACION DOCUMENTOS -------------------------------------------------------------->
       <div class="card shadow" *ngIf="estado == 'solicitud_documentos'">
         <div class="card-body">
-            <div class="h4 mb-3 font-weight-bold text-gray-800 text-center"> 
+            <div class="h3 mb-3 font-weight-bold text-gray-800 text-center"> 
                 Solicitud Documentos
             </div>
             <div *ngFor="let nombre_doc of lista_nombre_solicitud_documentos; let i = index">
@@ -570,47 +582,52 @@
 
       <!-------------------------------------------------- CONFIGURACION  PREGUNTAS ENCUESTA -------------------------------------------------------------->
       <div class="card shadow" *ngIf="estado == 'encuesta_final'">
-        <div class="card-body">
-            <div class="h4 mb-3 font-weight-bold text-gray-800 text-center"> 
+        <div class="card-body text-center">
+            <div class="h3 mb-3 font-weight-bold text-gray-800 text-center"> 
                 Preguntas Encuesta Practicantes Post-Practica
             </div>
-            <div class="h5 mb-3 text-gray-800 text-center mx-auto w-50"> 
+            <div class="h5 mb-3 text-gray-800 mx-auto w-50 text-center">
                 Recuerde que al estudiante ya se le consulta sobre los ramos mas utiles en su carrera y se le pide que califique la empresa donde realizó su práctica.
             </div>
-            <div *ngFor="let pregunta_final of lista_preguntas_encuesta; let i = index">
-                <br>
-                Pregunta Ingresada:
-                <br>
-                {{pregunta_final}}
+            <div *ngFor="let pregunta_encuesta of lista_preguntas_encuesta; let i = index" class="pregunta">
+                <div *ngIf="tipos_preguntas_encuesta[i] == 'abierta'" class="h5 mb-3 font-weight-bold text-gray-800 text-center">
+                    {{pregunta_encuesta}}
+                    <br>
+                    <br>
+                    <textarea cols="30" rows="10" class="form-control input-center text-area"></textarea>
+                </div>
+                <div *ngIf="tipos_preguntas_encuesta[i] == 'casillas' || tipos_preguntas_encuesta[i] == 'alternativas'" class="h5 mb-3 font-weight-bold text-gray-800 text-center">
+                    {{pregunta_encuesta}}
+                </div>
 
-          <div *ngIf="lista_opciones_preguntas_encuesta[i] != ''">
-            Opciones:
-            {{lista_opciones_preguntas_encuesta[i]}}
-            <br>
-            <form *ngIf="flag" (ngSubmit)="eliminarPreguntaEncuesta(i)">
-              <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}">
-                Eliminar Pregunta
-              </button>
-            </form>
-          </div>
+                <div *ngIf="lista_opciones_preguntas_encuesta[i] != ''">
+                    <div *ngFor="let opcion of splitOpciones(lista_opciones_preguntas_encuesta[i])">
+                        <i *ngIf="tipos_preguntas_encuesta[i] == 'alternativas'" class="far fa-circle"></i>
+                        <i *ngIf="tipos_preguntas_encuesta[i] == 'casillas'" class="far fa-square"></i>
+                        {{opcion}}
+                    </div>
+                    <form *ngIf="flag" (ngSubmit)="eliminarPreguntaEncuesta(i)">
+                    <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}">
+                        Eliminar Pregunta
+                    </button>
+                    </form>
+                </div>
 
-          <div *ngIf="lista_opciones_preguntas_encuesta[i] == ''">
-            <form *ngIf="flag" (ngSubmit)="eliminarPreguntaEncuesta(i)">
-              <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}">
-                Eliminar Pregunta
-              </button>
-            </form>
-          </div>
-        </div>
-
-        <br>
+                <div *ngIf="lista_opciones_preguntas_encuesta[i] == ''">
+                    <form *ngIf="flag" (ngSubmit)="eliminarPreguntaEncuesta(i)">
+                    <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}">
+                        Eliminar Pregunta
+                    </button>
+                    </form>
+                </div>
+            </div>
 
         <form *ngIf="flag">
 
           <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddPreguntaEncuesta()">
 
-                  <input type="text" [(ngModel)]="pregunta" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
-                    <select name="tipo" id="tipo" (change) = "tipoPregunta($event)" class="form-select form-select-sm mb-4 col-4"  aria-label="Default select example">
+                  <input type="text" [(ngModel)]="pregunta" class="form-control input-center" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
+                    <select name="tipo" id="tipo" (change) = "tipoPregunta($event)" class="form-select form-select-sm mb-4 input-center"  aria-label="Default select example">
                         <option value="0">Seleccione el tipo de respuesta</option>
                         <option value="2">Casillas</option>
                         <option value="3">Alternativa</option>
@@ -749,7 +766,7 @@
             <!-------------------------------------------------- CONFIGURACION APTITUDES A EVALUAR -------------------------------------------------------------->
             <div class="card shadow" *ngIf="estado == 'aptitudes'">
                 <div class="card-body">
-                    <div class="h4 mb-3 font-weight-bold text-gray-800 text-center"> 
+                    <div class="h3 mb-3 font-weight-bold text-gray-800 text-center"> 
                         Ingrese las aptitudes que el supervisor evaluará del practicante
                     </div>
                     <div *ngFor="let aptitud of lista_aptitudes; let i = index">
@@ -796,25 +813,32 @@
 
       <!-------------------------------------------------- CONFIGURACION  PREGUNTAS SUPERVISOR -------------------------------------------------------------->
       <div class="card shadow" *ngIf="estado == 'preguntas_supervisor'">
-        <div class="card-body">
-            <div class="h4 mb-3 font-weight-bold text-gray-800 text-center"> 
+        <div class="card-body text-center">
+            <div class="h3 mb-3 font-weight-bold text-gray-800 text-center"> 
                 Preguntas para que supervisor evalue al practicante
             </div>
-            <div *ngFor="let pregunta_supervisor of lista_preguntas_supervisor; let i = index">
-                <br>
-                Pregunta Ingresada:
-                <br>
-                {{pregunta_supervisor}}
+            <div *ngFor="let pregunta_supervisor of lista_preguntas_supervisor; let i = index" class="pregunta">
+                <div *ngIf="tipos_preguntas_supervisor[i] == 'abierta'" class="h5 mb-3 font-weight-bold text-gray-800 text-center">
+                    {{pregunta_supervisor}}
+                    <br>
+                    <br>
+                    <textarea cols="30" rows="10" class="form-control input-center text-area"></textarea>
+                </div>
+                <div *ngIf="tipos_preguntas_supervisor[i] == 'casillas' || tipos_preguntas_supervisor[i] == 'alternativas'" class="h5 mb-3 font-weight-bold text-gray-800 text-center">
+                    {{pregunta_supervisor}}
+                </div>
       
                 <div *ngIf="lista_opciones_preguntas_supervisor[i] != ''">
-                  Opciones:
-                  {{lista_opciones_preguntas_supervisor[i]}}
-                  <br>
-                  <form *ngIf="flag" (ngSubmit)="eliminarPreguntaSupervisor(i)">
-                    <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}">
-                      Eliminar Pregunta
-                    </button>
-                  </form>
+                    <div *ngFor="let opcion of splitOpciones(lista_opciones_preguntas_supervisor[i])">
+                        <i *ngIf="tipos_preguntas_supervisor[i] == 'alternativas'" class="far fa-circle"></i>
+                        <i *ngIf="tipos_preguntas_supervisor[i] == 'casillas'" class="far fa-square"></i>
+                        {{opcion}}
+                    </div>
+                    <form *ngIf="flag" (ngSubmit)="eliminarPreguntaSupervisor(i)">
+                        <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}">
+                        Eliminar Pregunta
+                        </button>
+                    </form>
                 </div>
       
                 <div *ngIf="lista_opciones_preguntas_supervisor[i] == ''">
@@ -832,8 +856,8 @@
       
                 <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddPreguntaSupervisor()">
       
-                        <input type="text" [(ngModel)]="pregunta" class="form-control col-lg-3 col-6" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
-                          <select name="tipo" id="tipo" (change) = "tipoPregunta($event)" class="form-select form-select-sm mb-4 col-4"  aria-label="Default select example">
+                        <input type="text" [(ngModel)]="pregunta" class="form-control input-center" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
+                          <select name="tipo" id="tipo" (change) = "tipoPregunta($event)" class="form-select form-select-sm input-center">
                               <option value="0">Seleccione el tipo de respuesta</option>
                               <option value="1">Abierta</option>
                               <option value="2">Casillas</option>

@@ -132,6 +132,13 @@ export class ConfiguracionPracticaComponent {
     lista_descripcion_solicitud_documentos: string[] = [];
     lista_tipo_solicitud_documentos: string[] = [];
 
+    splitOpciones(opciones: string) { //hay weas que aparecen con opciones cuando no deberian
+        if (opciones == "" || opciones == null) {
+            return [];
+        }
+        return opciones.split(";;");
+    }
+
     scrollToTop(): void {
         this.document.body.scrollTop = 0;
         this.document.documentElement.scrollTop = 0;
@@ -238,7 +245,7 @@ export class ConfiguracionPracticaComponent {
             this.informeFinal = this.config.informe_final;
 
             //* set modalidad
-            console.log("modalidad get id:", id_config_practica);
+            //console.log("modalidad get id:", id_config_practica);
             
             this.serviceComplete.getModalidades(id_config_practica).subscribe({ 
                 next: (data: any) => {
@@ -252,7 +259,7 @@ export class ConfiguracionPracticaComponent {
                     console.log("Error al buscar modalidades de configuracion de practica", error);
                 },
                 complete: () => {
-                    console.log("request modalidades existentes:", respuesta.body);
+                    //console.log("request modalidades existentes:", respuesta.body);
 
                     //* set modalidades
                     for (let i = 0; i < respuesta.body.length; i++) {
@@ -278,7 +285,7 @@ export class ConfiguracionPracticaComponent {
                             console.log("Error al buscar informes de configuracion de practica", error);
                         },
                         complete: () => {
-                            //console.log("request config informe:", respuesta.body);
+                            console.log("request config informe:", respuesta.body);
 
                             //* guardar id's para poder actualizar mas tarde
                             for (let i = 0; i < respuesta.body.length; i++) {
@@ -390,6 +397,8 @@ export class ConfiguracionPracticaComponent {
                                                         tipo_solicitud_documentos: new FormControl(this.tipo_solicitud_documentos),
                                                     });
                                                     this.flag = true;
+                                                    console.log("preguntas final", this.lista_preguntas_final);
+                                                    console.log("preguntas avance", this.lista_preguntas_avance);
 
                                                 }
                                             });
@@ -501,7 +510,7 @@ export class ConfiguracionPracticaComponent {
         //console.log("informe avance");
       }
       //console.log("estado:", this.estado);
-      console.log("fg values:", this.fg.value);
+      //console.log("fg values:", this.fg.value);
     }
 
     onSubmitAddPreguntaAvance() {
@@ -800,8 +809,8 @@ export class ConfiguracionPracticaComponent {
 
     volver(){
 
-      console.log("volver");
-      console.log(this.estado);
+      //console.log("volver");
+      //console.log(this.estado);
       //volver desde preguntas avance
       if (this.estado == "informe_avance") {
         this.estado = "configuracion_general";
