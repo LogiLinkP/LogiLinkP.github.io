@@ -20,4 +20,8 @@ export class AdminComponent {
   asignacion(){
     this.router.navigate(['/admin/asignacion']);
   }
+
+  eliminar(){
+    this.router.navigate(['/admin/eliminar-encargado']);
+  }
 }

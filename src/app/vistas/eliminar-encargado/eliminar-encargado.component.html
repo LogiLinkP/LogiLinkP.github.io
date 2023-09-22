@@ -14,21 +14,23 @@
 
             <!-- Begin Page Content -->
 
-            <button id="myBtn" class="btn-primary btn-user btn-block" (click)="carrera()">
-                Agregar Carrera
+            <form class="eliminar" [formGroup]="eliminarForm">
+                <select name="id" id="id" formControlName="id">
+                    <option value="">Seleccione un encargado</option>
+                    <option *ngFor="let persona of encargados" value="{{persona.id}}">{{persona.nombre}}</option>
+                </select>
+                <button id="myBtn" type="submit" class="btn btn-primary btn-user btn-block"
+                    (click)="eliminar()">
+                    Eliminar encargado
+                </button>
+
+            </form>
+            <button id="volvBtn" type="submit" class="btn btn-primary btn-user btn-block"
+                (click)="volver()">
+                Volver
             </button>
 
-            <button id="myBtn" class="btn-primary btn-user btn-block" (click)="encargado()">
-                Agregar Encargados
-            </button>
             
-            <button id="myBtn" class="btn-primary btn-user btn-block" (click)="asignacion()">
-                Asignar Encargados
-            </button>
-
-            <button id="myBtn" class="btn-primary btn-user btn-block" (click)="eliminar()">
-                Eliminar Encargados
-            </button>
         </div>
         <!-- End of Main Content -->
 

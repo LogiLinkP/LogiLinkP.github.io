@@ -15,13 +15,13 @@
             <!-- Begin Page Content -->
             
             <form class="asignacion" [formGroup]="asignacionForm">
-                <select name="carrera" id="carrera" (change)="mostrar($event)">
+                <select name="carrera" id="carrera" formControlName="carrera" (change)="mostrar($event)">
                     <option value="">Seleccione una carrera</option>
-                    <option *ngFor="let carrera of carreras" value="carrera.id">{{carrera.nombre}}</option>
+                    <option *ngFor="let carrera of carreras" value="{{carrera.id}}">{{carrera.nombre}}</option>
                 </select>
-                <select *ngIf="flag" name="encargado" id="encargado">
+                <select *ngIf="flag" name="encargado" formControlName="encargado" id="encargado">
                     <option value="">Seleccione un encargado</option>
-                    <option *ngFor="let persona of encargados" value="persona.id">{{persona.nombre}}</option>
+                    <option *ngFor="let persona of encargados" value="{{persona.id}}">{{persona.nombre}}</option>
                 </select>
                 <button id="myBtn" type="submit" class="btn btn-primary btn-user btn-block"
                     (click)="asignar()">
