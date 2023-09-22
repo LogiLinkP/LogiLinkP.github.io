@@ -151,12 +151,11 @@ export class DetallePracticaComponent implements OnInit {
           
           
           for (var item of this.preguntas){
-            console.log(item)
             let temp: any = [];
             let nota_promedio = 0;
             let prom = 0;
             if(item.pregunta_supervisor != null){
-              if ((item.pregunta_supervisor.enunciado == "Seleccione las características que mejor describen al practicante") && (item.pregunta_supervisor.opciones != null)){
+              if(item.pregunta_supervisor.enunciado == "Evalue entre 1 y 5 las siguientes aptitudes del practicante"){
                 if(item.pregunta_supervisor.opciones.indexOf(";;") != -1){
                   this.hay_respuesta = 1;
                   this.aptitudes_practica.push(item.pregunta_supervisor.opciones.split(";;"))

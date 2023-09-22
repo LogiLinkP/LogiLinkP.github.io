@@ -36,7 +36,7 @@ export class DetalleAlumnoComponent implements OnInit{
   aptitudes_practica:any = [];
   notas_aptitudes:any = [];
   notas_promedio:any = [];
-  hay_respuesta:number = 0;
+  hay_respuesta:any = [];
 
   constructor(private service_datos: ObtenerDatosService , private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, 
               private service_gestion: GestionarService, private service_supervisor: SupervisorService, private router: Router,
@@ -164,27 +164,32 @@ export class DetalleAlumnoComponent implements OnInit{
             */
 
             for (var item of this.evaluaciones){
-              let temp: any = [];
-              let nota_promedio = 0;
-              let prom = 0;
+              this.hay_respuesta.push(0)
               for(var item2 of item){
+                let temp: any = [];
+                let nota_promedio = 0;
+                let prom = 0;
                 if(item2.pregunta_supervisor != null){ 
-                  if ((item2.pregunta_supervisor.tipo_respuesta == "casillas") && (item2.pregunta_supervisor.opciones != null)){
-                    this.hay_respuesta = 1;
+                  if(item2.pregunta_supervisor.enunciado == "Evalue entre 1 y 5 las siguientes aptitudes del practicante"){
+                    this.hay_respuesta.pop();
+                    this.hay_respuesta.push(1);
                     if(item2.pregunta_supervisor.opciones.indexOf(";;") != -1){
                       this.aptitudes_practica.push(item2.pregunta_supervisor.opciones.split(";;"))
                       temp = item2.respuesta.split(",");
                       for(var n of temp){
                         nota_promedio += Number(n);
                         prom += 1;
-                      }       
+                      }
+                      
+                      this.notas_aptitudes.push(temp);
+                      this.notas_promedio.push(nota_promedio/prom)
+                      break
                     }                              
                   }
                 }
               }
 
-              this.notas_aptitudes.push(temp);
-              this.notas_promedio.push(nota_promedio/prom)
+              
             }
             
             //console.log("Practicas correspondientes a nombre:",this.practicas_correspondiente_nombre)
