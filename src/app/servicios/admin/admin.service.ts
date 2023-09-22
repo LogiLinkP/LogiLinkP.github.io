@@ -35,4 +35,9 @@ export class AdminService {
     const req = new HttpRequest('POST',`${this.url}/admin/asignar-encargado`,{pares});
     return this.http.request(req);
   }
+
+  eliminarEncargado(id: any){
+    const req = new HttpRequest('POST',`${this.url}/admin/eliminar-encargado`,{id});
+    return this.http.request(req);
+  }
 }

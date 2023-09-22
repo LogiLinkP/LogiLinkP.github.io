@@ -37,6 +37,7 @@ import { AsignacionComponent } from './vistas/asignacion/asignacion.component';
 import { RegistroEncargadoComponent } from './vistas/registro-encargado/registro-encargado.component';
 import { IngresoInformeComponent } from './vistas/ingreso-informe/ingreso-informe.component';
 import { EstudianteVerInformeComponent } from './vistas/estudiante-ver-informe/estudiante-ver-informe.component';
+import { EliminarEncargadoComponent } from './vistas/eliminar-encargado/eliminar-encargado.component';
 
 import { environment } from 'src/environments/environment';
 
@@ -76,6 +77,7 @@ const routes: Routes = [
       { path: 'crear-carrera', component: CrearCarreraComponent },
       { path: 'crear-encargado', component: CrearEncargadoComponent },
       { path: 'asignacion', component: AsignacionComponent},
+      { path: 'eliminar-encargado', component: EliminarEncargadoComponent },
     ] 
   },
   { path: 'encargado/registro/:token', component: RegistroEncargadoComponent },
@@ -127,6 +129,7 @@ export const routingComponents = [
   CrearEncargadoComponent,
   AsignacionComponent,
   RegistroEncargadoComponent,
+  EliminarEncargadoComponent,
   IngresoInformeComponent,
   EstudianteVerInformeComponent,
   EncuestaFinPracticaComponent

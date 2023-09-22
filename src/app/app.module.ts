@@ -79,6 +79,7 @@ import { BarraLateralAdminComponent } from './componentes/barra-lateral-admin/ba
 import { RegistroEncargadoComponent } from './vistas/registro-encargado/registro-encargado.component';
 import { IngresoInformeComponent } from './vistas/ingreso-informe/ingreso-informe.component';
 import { EstudianteVerInformeComponent } from './vistas/estudiante-ver-informe/estudiante-ver-informe.component';
+import { EliminarEncargadoComponent } from './vistas/eliminar-encargado/eliminar-encargado.component';
 
 @NgModule({
   declarations: [
@@ -125,6 +126,7 @@ import { EstudianteVerInformeComponent } from './vistas/estudiante-ver-informe/e
     RegistroEncargadoComponent,
     IngresoInformeComponent,
     EstudianteVerInformeComponent,
+    EliminarEncargadoComponent,
   ],
   imports: [
     BrowserModule,
