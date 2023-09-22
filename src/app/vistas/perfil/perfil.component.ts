@@ -23,7 +23,6 @@ export class PerfilComponent {
 
   constructor(private service: DataUsuarioService){
     this.usuario = JSON.parse(localStorage.getItem('auth-user') || '{}').userdata;
-    console.log(this.usuario)
     if (this.usuario.es_estudiante == 1) {
       this.esalumno = 1;
       this.ID = this.usuario.estudiante.id;
@@ -38,14 +37,24 @@ export class PerfilComponent {
     
     if(this.esalumno == 1){
       this.Rut = this.usuario.estudiante.rut;
-      if(this.usuario.estudiante.perfil_linkedin == null){
-        this.Link = ""
-      } else {
-        this.Link = this.usuario.estudiante.perfil_linkedin;
-      }
-    }
-    else if(this.esalumno != 0){
-      console.log(this.usuario.encargado)
+      let respuesta:any = []
+      this.service.obtener_estudiante(this.usuario.estudiante.id_usuario).subscribe({
+        next:(data:any) => {
+          respuesta = {...respuesta, ...data};
+        },
+        error:(error:any) => {
+          console.log(error);
+          return;
+        },
+        complete:() => {
+          if(respuesta.body.perfil_linkedin == null){
+            this.Link = "" 
+          }
+          else{
+            this.Link = respuesta.body.perfil_linkedin
+          }
+        }
+      })
     }
   }
 
@@ -59,7 +68,6 @@ export class PerfilComponent {
 
 
   confirmar_cambio(){
-    console.log(this.NLink)
     this.Link = this.NLink
     this.NLink = "";
     
