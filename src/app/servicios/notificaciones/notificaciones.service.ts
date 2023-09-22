@@ -50,7 +50,7 @@ export class NotificacionesService extends Socket {
 
 
   notificaciones_vistas(id_usuario: number) {
-    const req = new HttpRequest('PUT', `${environment.url_back}/notificacion/visto`, { id_usuario });
+    const req = new HttpRequest('PUT', `${environment.url_back}/notificacion/visto`, { id_usuario }, {responseType:"text"});
     return this._http.request(req);
   }
 

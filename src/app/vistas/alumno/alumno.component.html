@@ -164,9 +164,9 @@
                                                                     </a>
                                                                     <!-- Card Content - Collapse -->
                                                                     <div>
-                                                                        <div class="card-body">
+                                                                        <div class="card-body overflow-auto">
                                                                             <div>
-                                                                                <div class="table-responsive ">
+                                                                                <div class="table-responsive">
                                                                                     <table
                                                                                         class="table table-bordered hoverTable"
                                                                                         id="dataTable" width="100%"
@@ -181,21 +181,22 @@
                                                                                             </tr>
                                                                                         </thead>
                                                                                         <tbody>
-                                                                                            <tr
-                                                                                                *ngFor="let informe of practica[1].informes;">
-                                                                                                <td>{{
-                                                                                                    informe?.config_informe?.tipo_informe
-                                                                                                    }}</td>
-                                                                                                <td>{{
-                                                                                                    informe?.horas_trabajadas
-                                                                                                    }}</td>
-                                                                                                <td>{{ informe?.fecha |
-                                                                                                    date: 'dd/MM/yyyy'
-                                                                                                    }}</td>
-                                                                                                <td><button
-                                                                                                        class="btn btn-primary btn-sm btn-block"
-                                                                                                        (click)="mostrar_informe(practica[1].informes,informe.id)">Ver
-                                                                                                        Informe</button>
+                                                                                            <tr *ngFor="let informe of practica[1].informes;">
+                                                                                                <td>{{ informe?.config_informe?.tipo_informe }}</td>
+                                                                                                <td>{{ informe?.horas_trabajadas }}</td>
+                                                                                                <td>{{ informe?.fecha | date: 'dd/MM/yyyy' }}</td>
+                                                                                                <!--<td><button class="btn btn-primary btn-sm btn-block" (click)="mostrar_informe(practica[1].informes,informe.id)">Ver
+                                                                                                    Informe</button></td>-->
+                                                                                                <td><button *ngIf="!informe.key || isEmptyObject(informe.key); else elseBlock" 
+                                                                                                    class="btn btn-primary btn-sm btn-block" (click)="redirigir_a_ingreso_informe(informe.id)">Responder</button>
+                                                                                                    <ng-template #elseBlock> 
+                                                                                                        <a class="nostyle"
+                                                                                                            href="/estudiante-ver-informe/{{practica[1].id}}/{{informe.id}}">
+                                                                                                            <button class="btn btn-primary btn-sm btn-block">
+                                                                                                                Ver Informe
+                                                                                                            </button>
+                                                                                                        </a>
+                                                                                                    </ng-template>
                                                                                                 </td>
                                                                                             </tr>
                                                                                         </tbody>
@@ -217,7 +218,7 @@
                                                                     </a>
                                                                     <!-- Card Content - Collapse -->
                                                                     <div>
-                                                                        <div class="card-body">
+                                                                        <div class="card-body overflow-auto">
                                                                             <div>
                                                                                 <div class="table-responsive">
                                                                                     <table
@@ -328,8 +329,8 @@
 
                                                                                             <tr>
                                                                                                 <th>Promedio</th>
-                                                                                                <th>{{notas_promedio[i].toString().indexOf('.')==-1?notas_promedio[i].toString():notas_promedio[i].toString().slice(0,
-                                                                                                    notas_promedio[i].toString().indexOf('.')+3).replace(".",
+                                                                                                <th>{{notas_promedio[i]?.toString().indexOf('.')==-1?notas_promedio[i]?.toString():notas_promedio[i]?.toString().slice(0,
+                                                                                                    notas_promedio[i]?.toString().indexOf('.')+3).replace(".",
                                                                                                     ",")}}
                                                                                                 </th>
                                                                                             </tr>

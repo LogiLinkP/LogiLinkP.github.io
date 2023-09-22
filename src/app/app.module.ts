@@ -69,7 +69,10 @@ import { MigrarModalComponent } from './componentes/migrar-modal/migrar-modal.co
 import { ExplicacionConsistenciaComponent } from './vistas/explicacion-consistencia/explicacion-consistencia.component';
 import { VistaSupervisorComponent } from './vistas/vista-supervisor/vista-supervisor/vista-supervisor.component';
 import { RamosAlumnosComponent } from './vistas/ramos-alumnos/ramos-alumnos.component';
+import { RamosEncargadoComponent } from './vistas/ramos-encargado/ramos-encargado.component';
 import { EstadisticaEmpresasComponent } from './vistas/estadistica-empresas/estadistica-empresas.component';
+import { IngresoInformeComponent } from './vistas/ingreso-informe/ingreso-informe.component';
+import { EstudianteVerInformeComponent } from './vistas/estudiante-ver-informe/estudiante-ver-informe.component';
 
 @NgModule({
   declarations: [
@@ -106,7 +109,10 @@ import { EstadisticaEmpresasComponent } from './vistas/estadistica-empresas/esta
     ExplicacionConsistenciaComponent,
     VistaSupervisorComponent,
     RamosAlumnosComponent,
+    RamosEncargadoComponent,
     EstadisticaEmpresasComponent,
+    IngresoInformeComponent,
+    EstudianteVerInformeComponent,
   ],
   imports: [
     BrowserModule,
