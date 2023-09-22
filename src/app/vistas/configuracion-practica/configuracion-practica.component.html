@@ -519,12 +519,11 @@
     </div><!-- Fin tarjeta inicial-->
       <!-------------------------------------------------- CONFIGURACION DOCUMENTOS -------------------------------------------------------------->
       <div class="card shadow" *ngIf="estado == 'solicitud_documentos'">
-        <div class="card-body">
+        <div class="card-body text-center">
             <div class="h3 mb-3 font-weight-bold text-gray-800 text-center"> 
                 Solicitud Documentos
             </div>
-            <div *ngFor="let nombre_doc of lista_nombre_solicitud_documentos; let i = index">
-                <br>
+            <div *ngFor="let nombre_doc of lista_nombre_solicitud_documentos; let i = index" class="pregunta">
                 Solicitud Documento Ingresada:
                 <br>
                 Nombre: {{nombre_doc}}
@@ -545,25 +544,14 @@
               <form *ngIf="flag" (ngSubmit)="avanzarDesdeSolicitudDocumentos()">
       
                 <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddSolicitudDoc()">
+                  <input type="text" class="form-control input-center" placeholder="Nombre solicitud" formControlName="nombre_solicitud_documentos">
+                  <textarea rows="3" class="form-control input-center text-area" placeholder="Descripción solicitud" formControlName="descripcion_solicitud_documentos"></textarea>
+                  <input type="text" class="form-control input-center" placeholder="Tipo documento" formControlName="tipo_solicitud_documentos"> 
+                  <!-- deberia ser un dropdown? -->
       
-                  <br>
-                  Nombre solicitud del documento:
-                  <input type="text" class="form-control col-lg-3 col-6" placeholder="Nombre solicitud"
-                    formControlName="nombre_solicitud_documentos">
-                  <br>
-      
-                  Descripción solicitud del documento:
-                  <input type="text" class="form-control col-lg-3 col-6" placeholder="Descripción solicitud"
-                    formControlName="descripcion_solicitud_documentos">
-                  <br>
-                  Tipo de documento esperado:
-                  <input type="text" class="form-control col-lg-3 col-6" placeholder="Tipo documento"
-                    formControlName="tipo_solicitud_documentos">
-                  <br>
-      
-      
-                  <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save"
-                    type="submit">Agregar solicitud de documento </button>
+                  <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">
+                    Agregar solicitud de documento
+                  </button>
                 </form>
               </form>
             <div class="row mt-5 mb-3 align-items-end">
@@ -627,7 +615,7 @@
           <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddPreguntaEncuesta()">
 
                   <input type="text" [(ngModel)]="pregunta" class="form-control input-center" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
-                    <select name="tipo" id="tipo" (change) = "tipoPregunta($event)" class="form-select form-select-sm mb-4 input-center"  aria-label="Default select example">
+                    <select name="tipo" id="tipo" (change) = "tipoPregunta($event)" class="form-select form-select-sm mb-4 input-center">
                         <option value="0">Seleccione el tipo de respuesta</option>
                         <option value="2">Casillas</option>
                         <option value="3">Alternativa</option>
@@ -763,53 +751,48 @@
         </div>
       </div><!-- Fin tarjeta inicial-->
 
-            <!-------------------------------------------------- CONFIGURACION APTITUDES A EVALUAR -------------------------------------------------------------->
-            <div class="card shadow" *ngIf="estado == 'aptitudes'">
-                <div class="card-body">
-                    <div class="h3 mb-3 font-weight-bold text-gray-800 text-center"> 
-                        Ingrese las aptitudes que el supervisor evaluará del practicante
-                    </div>
-                    <div *ngFor="let aptitud of lista_aptitudes; let i = index">
-                        <br>
-                        Aptitud Ingresada:
-                        <br>
-                        {{aptitud}}
-        
-                        <br>
-                            <form *ngIf="flag" (ngSubmit)="eliminarAptitud(i)">
-                              <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}">
-                                Eliminar Aptitud
-                              </button>
-                            </form>
-                      </div>
-        
-                      <br>
-        
-                      <form *ngIf="flag">
-        
-                        <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddAptitud()">
-        
-        
-                          Ingresar Aptitud
-                          <input type="text" [(ngModel)]="aptitud" class="form-control col-lg-3 col-6" placeholder="Ingresar Aptitud" formControlName="aptitudFORM">
-        
-                          <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Agregar Aptitud</button>
-        
-                        </form>
-                      </form>
-                    <div class="row mt-5 mb-3 align-items-end">
-                        <div class="col-1"></div>
-                        <button class="btn btn-primary btn-user btn-block btn-md col-4" (click)="volver()">
-                            Volver
-                        </button>
-                        <div class="col-1"></div>
-                        <button class="btn btn-primary btn-user btn-block btn-md col-5" (click)="avanzarDesdeAptitud()">
-                            Siguiente
-                        </button>
-                        <div class="col-1"></div>
-                    </div>
+        <!-------------------------------------------------- CONFIGURACION APTITUDES A EVALUAR -------------------------------------------------------------->
+        <div class="card shadow" *ngIf="estado == 'aptitudes'">
+            <div class="card-body text-center">
+                <div class="h3 mb-3 font-weight-bold text-gray-800 text-center"> 
+                    Ingrese las aptitudes que el supervisor evaluará del practicante
                 </div>
-            </div><!-- Fin tarjeta inicial-->
+                <div *ngFor="let aptitud of lista_aptitudes; let i = index" class="pregunta">
+                    Aptitud Ingresada:
+                    <br>
+                    {{aptitud}}
+    
+                    <br>
+                        <form *ngIf="flag" (ngSubmit)="eliminarAptitud(i)">
+                            <button mat-raised-button [ngStyle]="{'background-color': 'red', 'color': 'white'}">
+                            Eliminar Aptitud
+                            </button>
+                        </form>
+                    </div>
+    
+                    <br>
+    
+                    <form *ngIf="flag">
+    
+                    <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddAptitud()">
+                        <input type="text" [(ngModel)]="aptitud" class="form-control input-center" placeholder="Ingresar Aptitud" formControlName="aptitudFORM">
+                        <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}" class="btn-save" type="submit">Agregar Aptitud</button>
+    
+                    </form>
+                    </form>
+                <div class="row mt-5 mb-3 align-items-end">
+                    <div class="col-1"></div>
+                    <button class="btn btn-primary btn-user btn-block btn-md col-4" (click)="volver()">
+                        Volver
+                    </button>
+                    <div class="col-1"></div>
+                    <button class="btn btn-primary btn-user btn-block btn-md col-5" (click)="avanzarDesdeAptitud()">
+                        Siguiente
+                    </button>
+                    <div class="col-1"></div>
+                </div>
+            </div>
+        </div><!-- Fin tarjeta inicial-->
 
       <!-------------------------------------------------- CONFIGURACION  PREGUNTAS SUPERVISOR -------------------------------------------------------------->
       <div class="card shadow" *ngIf="estado == 'preguntas_supervisor'">
