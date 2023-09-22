@@ -168,9 +168,14 @@ export class DetalleAlumnoComponent implements OnInit{
               let nota_promedio = 0;
               let prom = 0;
               for(var item2 of item){
+<<<<<<< HEAD
                 if(item2.pregunta_supervisor != null){ 
                   if ((item2.pregunta_supervisor.tipo_respuesta == "casillas") && (item2.pregunta_supervisor.opciones != null)){
                     this.hay_respuesta = 1;
+=======
+                if(item2.pregunta_supervisor != null){
+                  if ((item2.pregunta_supervisor.tipo_respuesta == "casillas" && item2.pregunta_supervisor.opciones != null)){
+>>>>>>> 54096a60f73ecd9e56db6458c5a69c306ebf6b74
                     if(item2.pregunta_supervisor.opciones.indexOf(";;") != -1){
                       this.aptitudes_practica.push(item2.pregunta_supervisor.opciones.split(";;"))
                       temp = item2.respuesta.split(",");
