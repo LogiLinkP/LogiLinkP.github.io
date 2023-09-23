@@ -336,15 +336,14 @@
                 </form>
               </form>
               <div class="row mt-5 mb-3 align-items-end">
-                <div class="col-1"></div>
-                <button class="btn btn-primary btn-user btn-block btn-md col-4" (click)="volver()">
+                <div class="col-4"></div>
+                <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="volver()" style="margin-right: 20px;">
                     Volver
                 </button>
-                <div class="col-1"></div>
-                <button class="btn btn-primary btn-user btn-block btn-md col-5" (click)="avanzarDesdePreguntasAvance()">
+                <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="avanzarDesdePreguntasAvance()">
                     Siguiente
                 </button>
-                <div class="col-1"></div>
+                <div class="col-4"></div>
               </div>
         </div>
       </div><!-- Fin tarjeta inicial-->
@@ -376,8 +375,6 @@
                                         <td>
                                             <i *ngIf="tipos_preguntas_final[i] == 'alternativas'" class="far fa-circle mr-1"></i>
                                             <i *ngIf="tipos_preguntas_final[i] == 'casillas'" class="far fa-square mr-1"></i>
-                                            <!-- <input *ngIf="tipos_preguntas_final[i] == 'alternativas'" class="form-check-input" type="radio" disabled> -->
-                                            <!-- <input *ngIf="tipos_preguntas_final[i] == 'casillas'" class="form-check-input" type="checkbox" disabled> -->
                                         </td>
                                         <td>
                                             <label class="form-check-label">{{opcion}}</label>
@@ -412,10 +409,8 @@
       
                 <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddPreguntaFinal()">
       
-                  <input type="text" [(ngModel)]="pregunta" class="form-control col-lg-3 col-6"
-                    placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
-                  <select name="tipo" id="tipo" (change)="tipoPregunta($event)" class="form-select form-select-sm mb-4 col-4"
-                    aria-label="Default select example">
+                  <input type="text" [(ngModel)]="pregunta" class="form-control input-center" placeholder="Ingresar Pregunta" formControlName="preguntaFORM">
+                  <select name="tipo" id="tipo" (change)="tipoPregunta($event)" class="form-select form-select-sm mb-4 input-center">
                     <option value="0">Seleccione el tipo de respuesta</option>
                     <option value="1">Abierta</option>
                     <option value="2">Casillas</option>
@@ -535,15 +530,14 @@
                 </form>
               </form>
             <div class="row mt-5 mb-3 align-items-end">
-                <div class="col-1"></div>
-                <button class="btn btn-primary btn-user btn-block btn-md col-4" (click)="volver()">
+                <div class="col-4"></div>
+                <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="volver()" style="margin-right: 20px;">
                     Volver
                 </button>
-                <div class="col-1"></div>
-                <button class="btn btn-primary btn-user btn-block btn-md col-5" (click)="avanzarDesdePreguntasFinal()">
+                <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="avanzarDesdePreguntasFinal()">
                     Siguiente
                 </button>
-                <div class="col-1"></div>
+                <div class="col-4"></div>
             </div>
         </div>
     </div><!-- Fin tarjeta inicial-->
@@ -585,15 +579,14 @@
                 </form>
               </form>
             <div class="row mt-5 mb-3 align-items-end">
-                <div class="col-1"></div>
-                <button class="btn btn-primary btn-user btn-block btn-md col-4" (click)="volver()">
+                <div class="col-4"></div>
+                <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="volver()" style="margin-right: 20px;">
                     Volver
                 </button>
-                <div class="col-1"></div>
-                <button class="btn btn-primary btn-user btn-block btn-md col-5" (click)="avanzarDesdeSolicitudDocumentos()">
+                <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="avanzarDesdeSolicitudDocumentos()">
                     Siguiente
                 </button>
-                <div class="col-1"></div>
+                <div class="col-4"></div>
             </div>
         </div>
       </div><!-- Fin tarjeta inicial-->
@@ -782,15 +775,14 @@
           </form>
         </form>
             <div class="row mt-5 mb-3 align-items-end">
-                <div class="col-1"></div>
-                <button class="btn btn-primary btn-user btn-block btn-md col-4" (click)="volver()">
+                <div class="col-4"></div>
+                <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="volver()" style="margin-right: 20px;">
                     Volver
                 </button>
-                <div class="col-1"></div>
-                <button class="btn btn-primary btn-user btn-block btn-md col-5" (click)="avanzarDesdePreguntasEncuesta()">
+                <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="avanzarDesdePreguntasEncuesta()">
                     Siguiente
                 </button>
-                <div class="col-1"></div>
+                <div class="col-4"></div>
             </div>
         </div>
       </div><!-- Fin tarjeta inicial-->
@@ -825,15 +817,14 @@
                     </form>
                     </form>
                 <div class="row mt-5 mb-3 align-items-end">
-                    <div class="col-1"></div>
-                    <button class="btn btn-primary btn-user btn-block btn-md col-4" (click)="volver()">
+                    <div class="col-4"></div>
+                    <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="volver()" style="margin-right: 20px;">
                         Volver
                     </button>
-                    <div class="col-1"></div>
-                    <button class="btn btn-primary btn-user btn-block btn-md col-5" (click)="avanzarDesdeAptitud()">
+                    <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="avanzarDesdeAptitud()">
                         Siguiente
                     </button>
-                    <div class="col-1"></div>
+                    <div class="col-4"></div>
                 </div>
             </div>
         </div><!-- Fin tarjeta inicial-->
@@ -1028,15 +1019,14 @@
                 </form>
               </form>
             <div class="row mt-5 mb-3 align-items-end">
-                <div class="col-1"></div>
-                <button class="btn btn-primary btn-user btn-block btn-md col-4" (click)="volver()">
+                <div class="col-4"></div>
+                <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="volver()" style="margin-right: 20px;">
                     Volver
                 </button>
-                <div class="col-1"></div>
-                <button class="btn btn-primary btn-user btn-block btn-md col-5" (click)="avanzarDesdePreguntasSupervisor()">
+                <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="avanzarDesdePreguntasSupervisor()">
                     Siguiente
                 </button>
-                <div class="col-1"></div>
+                <div class="col-4"></div>
             </div>
         </div>
       </div><!-- Fin tarjeta inicial-->
@@ -1049,18 +1039,17 @@
             </div>
             <!-- PEGAR AQUI -->
             <div class="row mt-5 mb-3 align-items-end">
-                <div class="col-1"></div>
-                <button class="btn btn-primary btn-user btn-block btn-md col-4" (click)="volver()">
+                <div class="col-4"></div>
+                <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="volver()" style="margin-right: 20px;">
                     Volver
                 </button>
-                <div class="col-1"></div>
-                <button (click)="mandarDatos()" class="btn btn-primary btn-user btn-block btn-md col-5" *ngIf="currentRoute == '/configurar/blanco'">
+                <button (click)="mandarDatos()" class="btn btn-primary btn-user btn-block btn-md col-2" *ngIf="currentRoute == '/configurar/blanco'">
                   Terminar
                 </button>
-                <button data-toggle="modal" data-target="#migrarModal" class="btn btn-primary btn-user btn-block btn-md col-5" *ngIf="currentRoute != '/configurar/blanco'">
+                <button data-toggle="modal" data-target="#migrarModal" class="btn btn-primary btn-user btn-block btn-md col-2" *ngIf="currentRoute != '/configurar/blanco'">
                   Terminar
                 </button>
-                <div class="col-1"></div>
+                <div class="col-4"></div>
             </div>
         </div>
       </div><!-- Fin tarjeta inicial-->
