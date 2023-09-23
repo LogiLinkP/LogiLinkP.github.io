@@ -21,10 +21,31 @@ export class RegistroComponent implements OnInit {
   es_estudiante: boolean = false;
   es_encargado: boolean = false;
   RUT: string = "";
+  id_carrera: number = -1;
   extras = {};
   checkEs = true;
 
-  constructor(public usuario: UsuarioService, private fb: FormBuilder, private _snackBar: MatSnackBar, private router: Router) {
+  carreras_id:any = []
+  carreras: any = [];
+
+  constructor(public usuario: UsuarioService, private fb: FormBuilder,
+              private _snackBar: MatSnackBar, private router: Router) {
+    let respuesta:any = []
+      this.usuario.get_carreras().subscribe({
+        next:(data:any) => {
+          respuesta = {...respuesta, data}
+        },
+        error:(error:any) => {
+          console.log(error);
+            return;
+          },
+        complete:() => {
+          for(var val of respuesta.data.body){
+            this.carreras.push(val.nombre);
+            this.carreras_id.push(val.id)
+          }
+        }
+      });
     this.createForm();
   }
 
@@ -36,12 +57,14 @@ export class RegistroComponent implements OnInit {
       confirmPassword: ['', Validators.required],
       es_supervisor: [false],
       es_estudiante: [false],
-      RUT: ['']
+      RUT: [''],
+      id_carrera:[0],
       //crear validador custom para RUT real
     });
   }
 
   ngOnInit(): void {
+    
   }
 
   register() {
@@ -56,7 +79,7 @@ export class RegistroComponent implements OnInit {
     this.RUT = data.RUT
     this.nombre = this.nombre + " " + this.apellido;
     if (this.es_estudiante) {
-      this.extras = { RUT: this.RUT };
+      this.extras = { RUT: this.RUT, id_carrera: this.id_carrera };
     }
     if (this.es_supervisor) {
       this.extras = {};
@@ -120,5 +143,9 @@ export class RegistroComponent implements OnInit {
       this.es_supervisor = false;
       this.es_encargado = false;
     }
+  }
+
+  checkout2(arg:any){
+    this.id_carrera = Number(arg.target.value)
   }
 }
