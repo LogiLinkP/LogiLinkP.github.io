@@ -173,13 +173,13 @@
                                                                     <!-- Card Header - Accordion -->
                                                                     <a class="card-header py-3">
                                                                         <h4 class="m-0 font-weight-bold text-primary">
-                                                                            Informes Realizados</h4>
+                                                                            Informes</h4>
                                                                     </a>
                                                                     <!-- Card Content - Collapse -->
                                                                     <div>
                                                                         <div class="card-body overflow-auto">
                                                                             <div>
-                                                                                <div class="table-responsive">
+                                                                                <div class="table-responsive" *ngIf="practica[1].modalidad?.config_practica?.frecuencia_informes!='diario'; else informesDiarios">
                                                                                     <table
                                                                                         class="table table-bordered hoverTable"
                                                                                         id="dataTable" width="100%"
@@ -187,17 +187,16 @@
                                                                                         <thead>
                                                                                             <tr>
                                                                                                 <th>Tipo</th>
-                                                                                                <th>Horas Trabajadas
-                                                                                                </th>
-                                                                                                <th>Fecha Subido</th>
+                                                                                                <!--<th>Horas Trabajadas
+                                                                                                </th>-->
+                                                                                                <th>Fecha</th>
                                                                                                 <th></th>
                                                                                             </tr>
                                                                                         </thead>
                                                                                         <tbody>
-
                                                                                             <tr *ngFor="let informe of practica[1].informes;">
                                                                                                 <td>{{ informe?.config_informe?.tipo_informe }}</td>
-                                                                                                <td>{{ informe?.horas_trabajadas }}</td>
+                                                                                                <!--<td>{{ informe?.horas_trabajadas }}</td>-->
                                                                                                 <td>{{ informe?.fecha | date: 'dd/MM/yyyy' }}</td>
                                                                                                 <!--<td><button class="btn btn-primary btn-sm btn-block" (click)="mostrar_informe(practica[1].informes,informe.id)">Ver
                                                                                                     Informe</button></td>-->
@@ -216,6 +215,23 @@
                                                                                         </tbody>
                                                                                     </table>
                                                                                 </div>
+                                                                                
+                                                                                <ng-template #informesDiarios>
+                                                                                    <p class="text-gray-800">En verde se muestran los informes que ya has respondido, en amarillo los que aún no has respondido.</p>
+
+                                                                                    <table style="width:100%">
+                                                                                        <tr>
+                                                                                            <td style="width:32%"></td>
+                                                                                            <td style="width:36%">
+                                                                                                <mat-calendar class="calendario{{i}}" [selected]="selectedDate"  [minDate]="minDate"
+                                                                                                            (selectedChange)="onFechaClick($event, practica[1].id)" [dateClass]="dateClass(i, practica[1].id)">
+                                                                                                </mat-calendar>
+                                                                                            </td>
+                                                                                            <td style="width:32%"></td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </ng-template>
+                                                                                        
                                                                             </div>
                                                                         </div>
                                                                     </div>

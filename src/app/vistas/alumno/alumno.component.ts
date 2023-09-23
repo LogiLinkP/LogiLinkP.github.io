@@ -8,6 +8,8 @@ import { SupervisorService } from 'src/app/servicios/supervisor/supervisor.servi
 import { Router } from "@angular/router"
 import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
 import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
+import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
+import { async } from 'rxjs';
 
 @Component({
   selector: 'alumno',
@@ -37,6 +39,8 @@ export class DetalleAlumnoComponent implements OnInit{
   notas_aptitudes:any = [];
   notas_promedio:any = [];
   hay_respuesta:any = [];
+
+  fechasSeleccionadas: Date[][] = [];
 
   constructor(private service_datos: ObtenerDatosService , private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, 
               private service_gestion: GestionarService, private service_supervisor: SupervisorService, private router: Router,
@@ -95,7 +99,6 @@ export class DetalleAlumnoComponent implements OnInit{
 
     let respuesta: any = {};
 
-
     // Request para obtener todas las config practicas
     this.service_datos.obtener_todos_config_practica().subscribe({
       next: (data: any) => {
@@ -112,6 +115,7 @@ export class DetalleAlumnoComponent implements OnInit{
           if(!this.nombres_config_practica.includes(element.nombre)){
             this.nombres_config_practica.push(element.nombre);
             this.practicas_correspondiente_nombre.push([element.nombre]);
+            this.fechasSeleccionadas.push([]);
           }
         });
         //console.log("Nombres de configuraciones de practica:",this.nombres_config_practica)
@@ -125,9 +129,13 @@ export class DetalleAlumnoComponent implements OnInit{
           complete: async () => {
             this.practicas = respuesta.body;
             //console.log("Practicas:",this.practicas)
+            let index = 0;
 
             // Guardar nombres y practicas en un arreglo
             this.practicas.forEach(async (element: any) => {
+              
+
+              index += 1; 
               this.flags_inscripcion_list.push(false);
               //console.log("practica:",element.modalidad.config_practica.nombre)
               // Para cada practica que el alumno tiene, encontrar el nombre de la configuracion de practica en el arreglo
@@ -139,7 +147,19 @@ export class DetalleAlumnoComponent implements OnInit{
                   doc.solicitud_documento.tipo_archivo = doc.solicitud_documento.tipo_archivo.split(",");                  
                   return doc;
                 });
-                this.practicas_correspondiente_nombre[index].push(element);              
+                this.practicas_correspondiente_nombre[index].push(element);  
+
+                if(element.informes.length > 0 && element.modalidad.config_practica.frecuencia_informes == "diario"){
+                  for(var informe of element.informes){
+                    //console.log("informe:",informe.fecha)
+                    if(informe.fecha != null){
+                      informe.fecha = informe.fecha.split("T")[0];
+                      informe.fecha += "T12:00:00.000Z";
+                      this.fechasSeleccionadas[index].push(informe.fecha);
+                      //console.log("informe despues de modificar:",informe.fecha)
+                    }
+                  }
+                }            
               }
               // request para obtener todas las solicitudes_documentos de la practica actual
 
@@ -363,6 +383,80 @@ export class DetalleAlumnoComponent implements OnInit{
 
   isEmptyObject(obj: any): boolean {
     return obj && Object.keys(obj).length === 0;
+  }
+
+  minDate: Date | null = null;
+  selectedDate: any = null;
+
+  onFechaClick($event: any, id_practica: any) {
+    //this.minDate = new Date('2015-06-24T18:30:00.000Z'); // any date, only to force rendering
+    //setTimeout(() => {
+    //  this.minDate = null; // Set null to remove the date restriction
+    //}, 0); // Wait to change-detection function has terminated to execute a new change to force rendering the rows and cells   
+    const year = $event.getFullYear(); 
+    const month = $event.getMonth() + 1; 
+    const day = $event.getDate(); 
+    const fechaParseada = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T12:00:00.000Z`;
+    this.selectedDate = fechaParseada; 
+
+    // search for the id_practica in the array of practicas
+    let practica = this.practicas.find((practica: any) => practica.id == id_practica);
+    if(practica){
+      let informe = practica.informes.find((informe: any) => informe.fecha == fechaParseada);
+      if(informe){
+        //console.log("informe encontrado:",informe)
+        if(informe.key != null){
+          // redirect to the page to show the informe /estudiante-ver-informe/{{practica[1].id}}/{{informe.id}}          
+          this.router.navigate(['/estudiante-ver-informe/', practica.id, informe.id]);
+        }
+        else{
+          // redirect to the page to enter the informe /estudiante-ingresar-informe/{{practica[1].id}}/{{informe.id}}
+          this.redirigir_a_ingreso_informe(informe.id);
+        }
+      }
+      else{
+        //console.log("informe no encontrado:")
+      }
+    }
+    else{
+      console.log("practica no encontrada")
+    }
+    ////console.log("fecha parseada:",fechaParseada); 
+    //this.fechasSeleccionadas[index] = [...this.fechasSeleccionadas[index], new Date(fechaParseada)]
+  }
+
+  dateClass(index: number, id_practica: any) {
+    //console.log("index:",index)
+    return (date: Date): MatCalendarCellCssClasses => {
+      const highlightDate = this.fechasSeleccionadas[index]
+        .map((strDate) => new Date(strDate))
+        .some(
+          (d) =>
+            d.getDate() === date.getDate() &&
+            d.getMonth() === date.getMonth() &&
+            d.getFullYear() === date.getFullYear()
+        );
+      if (highlightDate) {
+        // check search for the informe with the date and check if it has a key, if it does, return bg-success else return bg-danger
+        let practica = this.practicas.find((practica: any) => practica.id == id_practica);
+        if(practica){
+          const year = date.getFullYear(); 
+          const month = date.getMonth() + 1; 
+          const day = date.getDate(); 
+          const fechaParseada = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T12:00:00.000Z`;
+          let informe = practica.informes.find((informe: any) => informe.fecha == fechaParseada);
+          if(informe){
+            if(informe.key != null){
+              return 'bg-success';
+            }
+            else{
+              return 'bg-warning';
+            }
+          }
+        }
+      }
+      return '';
+    };
   }
 }
 

@@ -96,7 +96,7 @@ export class IngresoInformeComponent {
         //console.log("RESPUESTA OBTENIDA", respuesta);
         this.preguntas = respuesta.body.config_informe.pregunta_informes;
         let respuestas_aux = respuesta.body.key;
-        console.log("PREGUNTAS", respuesta.body)
+        //console.log("PREGUNTAS", respuesta.body)
         
         if(this.modificando){
           if (this.preguntas.length > 0) {
@@ -127,7 +127,7 @@ export class IngresoInformeComponent {
               this.tipo_respuestas.push(pregunta.tipo_respuesta);
             }
           }
-          console.log("RESPUESTAS", this.respuestas);
+          //console.log("RESPUESTAS", this.respuestas);
         }
         else{
           if (this.preguntas.length > 0) {
@@ -159,9 +159,9 @@ export class IngresoInformeComponent {
   }
 
   updateRespuestasCasillas(i: number, j: number, value: string) {
-    console.log("UPDATEANDO RESPUESTAS casillas", value)
+    //console.log("UPDATEANDO RESPUESTAS casillas", value)
     this.respuestas[i][j] = value;
-    console.log(this.respuestas);
+    //console.log(this.respuestas);
   }
 
   updateRespuestasAlternativas(i: number, value: string) {
@@ -224,7 +224,7 @@ export class IngresoInformeComponent {
       
       respuestas_aux = { ...respuestas_aux, [String(this.preguntas[i].id)]: respuesta_aux };
     }
-    console.log("RESPUESTAS A ENVIAR EN QUERY", respuestas_aux);
+    //console.log("RESPUESTAS A ENVIAR EN QUERY", respuestas_aux);
     let respuesta2: any = {};
 
     this.service_informe.update_key_informe(this.id_informe, JSON.stringify(respuestas_aux)).subscribe({
@@ -239,7 +239,7 @@ export class IngresoInformeComponent {
         });
       },
       complete: () => {
-        console.log("RESPUESTA OBTENIDA", respuesta2);
+        //console.log("RESPUESTA OBTENIDA", respuesta2);
         this._snackbar.open("Respuestas enviadas correctamente. Redirigiendo...", "Cerrar", {
           duration: 2000,
           panelClass: ['green-snackbar']
