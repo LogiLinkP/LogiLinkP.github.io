@@ -25,6 +25,8 @@ export class TablaComponent {
   dtTrigger: Subject<any> = new Subject();
 
   practicas: any = [];
+  temp_notas:any = []
+  notas_promedio: any = [];
 
   carreras: any = [];
 
@@ -52,7 +54,6 @@ export class TablaComponent {
 
   texto_promedio_evaluacion: string = "Es un valor que indica en promedio las aptitudes del estudiante evaluadas por el supervisor";
 
-  promedio_notas: any = [];
   
   constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar,
               private router: Router, private practi_service: DetallePracticaService) {
@@ -111,10 +112,8 @@ export class TablaComponent {
           */
           return alumno;
         });
-
-        console.log(this.practicas)
-
-        for (let item of this.practicas){
+        for (var item of this.practicas){
+          let iditem = item.id
           this.practi_service.obtener_practica(item.id).subscribe({
             next: (data: any) => {
               respuesta = { ...respuesta, ...data }
@@ -126,25 +125,50 @@ export class TablaComponent {
               });
             },
             complete: () => {
-              let evaluaciones = respuesta.body.respuesta_supervisors.filter((respuesta_supervisor: any) => {
-                return !isNaN(respuesta_supervisor.respuesta);
-              });
-    
-              let nota_promedio = 0;
-              let prom = 0;
-              for (var val of evaluaciones){
-                if (val.pregunta_supervisor.tipo_respuesta == "evaluacion"){
-                  nota_promedio += Number(val.respuesta);
-                  prom += 1;
+              let evaluaciones = respuesta.body.respuesta_supervisors
+              
+              if(evaluaciones.length == 0){
+                this.temp_notas.push([iditem, 0])
+              }
+              else{
+                let find = -1
+                for (var val of evaluaciones){
+                  let nota_promedio = 0;
+                  let prom = 0;
+                  let temp: any = [];
+                  
+                  if(val.pregunta_supervisor != null){
+                    if (val.pregunta_supervisor.enunciado == "Evalue entre 1 y 5 las siguientes aptitudes del practicante"){
+                      find = 1
+                      temp = val.respuesta.split(",");
+                      for(var n of temp){
+                        nota_promedio += Number(n);
+                        prom += 1;
+                      } 
+                      nota_promedio = nota_promedio/prom
+                      this.temp_notas.push([iditem, nota_promedio])  
+                      break
+                    }
+                  }
+                }
+                if (find == -1){
+                  this.temp_notas.push([iditem, 0])
+                } 
+              }
+              this.temp_notas.sort(function(a:any, b:any){
+                return a[0] - b[0];
+              })
+              this.notas_promedio = [];
+              for (let item2 of this.temp_notas){
+                if (item2[1] == 0){
+                  this.notas_promedio.push("-")
+                } else{
+                  this.notas_promedio.push(item2[1])
                 }
               }
-              console.log(nota_promedio)
-              nota_promedio = nota_promedio/prom
-              this.promedio_notas.push(nota_promedio)
             }
           });
-        }
-        console.log(this.promedio_notas);
+        }     
         this.rerender();
       }
     });

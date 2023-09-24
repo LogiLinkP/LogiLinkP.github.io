@@ -23,6 +23,11 @@ export class UsuarioService {
     return this.http.request(req);
   }
 
+  get_carreras(){
+    const req = new HttpRequest('GET', `${environment.url_back}/carrera/todos`);
+    return this.http.request(req);
+  }
+
   logout(): Observable<any>{
     const req = new HttpRequest('POST',`${this.url}/usuario/logout`, { });
     return this.http.request(req);
