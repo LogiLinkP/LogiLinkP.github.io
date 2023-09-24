@@ -15,4 +15,18 @@ export class InformeService {
     });
     return this.http.request(req);
   }
+
+  get_pregunta_informe(id_pregunta: number) {
+    const req = new HttpRequest('GET', `${environment.url_back}/pregunta_informe?id=${id_pregunta}`, {
+      responseType: 'json'
+    });
+    return this.http.request(req);
+  }
+
+  update_key_informe(id: number, key: string) {
+    const req = new HttpRequest('PUT', `${environment.url_back}/${environment.ruta_informe}/actualizar`, { id, key }, {
+      responseType: 'text'
+    });
+    return this.http.request(req);
+  }
 }

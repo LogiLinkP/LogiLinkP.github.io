@@ -1,138 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Praxus - Login</title>
+
+</head>
+
 <body class="bg-gradient-primary">
 
     <div class="container">
 
-        <div class="card o-hidden border-0 shadow-lg my-5">
-            <div class="card-body p-0">
-                <!-- Nested Row within Card Body -->
-                <div class="row">
-                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
-                    <div class="col-lg-7">
-                        <div class="p-5">
-                            <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
-                            </div>
-                            <form class="user" [formGroup]="registroForm">
-                                <div class="form-group row">
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
 
-                                    <!-- NOMBRE -->
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                            placeholder="Nombre" formControlName="nombre" name="nombre">
-                                        <div *ngIf="registroForm.controls['nombre'].invalid && (registroForm.controls['nombre'].dirty || registroForm.controls['nombre'].touched)"
-                                            class="alert alert-danger">
-                                            <div *ngIf="registroForm.controls['nombre'].errors?.['required']">
-                                                Name is required.
-                                            </div>
-                                            <div *ngIf="registroForm.controls['nombre'].errors?.['minlength']">
-                                                Minimo 3 caracteres.
-                                            </div>
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Registro de Praxus</h1>
+                        </div>
+                        <form class="user" [formGroup]="registroForm">
+                            <div class="form-group row">
+
+                                <!-- NOMBRE -->
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input type="text" class="form-control form-control-user" id="exampleFirstName"
+                                        placeholder="Nombre" formControlName="nombre" name="nombre">
+                                    <div *ngIf="registroForm.controls['nombre'].invalid && (registroForm.controls['nombre'].dirty || registroForm.controls['nombre'].touched)"
+                                        class="alert alert-danger">
+                                        <div *ngIf="registroForm.controls['nombre'].errors?.['required']">
+                                            Se requiere nombre
+                                        </div>
+                                        <div *ngIf="registroForm.controls['nombre'].errors?.['minlength']">
+                                            Mínimo 3 caracteres.
                                         </div>
                                     </div>
-                                    <!-- NOMBRE -->
-
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                            placeholder="Apellido">
-                                    </div>
                                 </div>
+                                <!-- APELLIDO -->
 
-                                <!-- EMAIL -->
-                                <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Email Address" formControlName="email" name="email">
-                                    <div *ngIf="registroForm.controls['email'].invalid && (registroForm.controls['email'].dirty || registroForm.controls['email'].touched)"
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-user" id="exampleLastName"
+                                        placeholder="Apellidos" formControlName="apellido">
+                                </div>
+                            </div>
+
+                            <!-- EMAIL -->
+                            <div class="form-group">
+                                <input type="email" class="form-control form-control-user" id="exampleInputEmail"
+                                    placeholder="Correo Electrónico" formControlName="email" name="email">
+                                <div *ngIf="registroForm.controls['email'].invalid && (registroForm.controls['email'].dirty || registroForm.controls['email'].touched)"
+                                    class="alert alert-danger">
+                                    <p *ngIf="registroForm.controls['email'].errors?.['required']">
+                                        Se requiere correo
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- EMAIL -->
+
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input type="password" class="form-control form-control-user"
+                                        id="exampleInputPassword" placeholder="Contraseña" formControlName="password"
+                                        name="password">
+                                    <div *ngIf="registroForm.controls['password'].invalid && (registroForm.controls['password'].dirty || registroForm.controls['password'].touched)"
                                         class="alert alert-danger">
-                                        <p *ngIf="registroForm.controls['email'].errors?.['required']">
-                                            email is required.
+                                        <p *ngIf="registroForm.controls['password'].errors?.['required']">
+                                            Se requiere contraseña
                                         </p>
                                     </div>
                                 </div>
-                                <!-- EMAIL -->
-
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleInputPassword" placeholder="Password" formControlName="password"
-                                            name="password">
-                                        <div *ngIf="registroForm.controls['password'].invalid && (registroForm.controls['password'].dirty || registroForm.controls['password'].touched)"
-                                            class="alert alert-danger">
-                                            <p *ngIf="registroForm.controls['password'].errors?.['required']">
-                                                password is required.
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleRepeatPassword" placeholder="Repeat Password"
-                                            formControlName="confirmPassword" name="password">
-                                    </div>
+                                <div class="col-sm-6">
+                                    <input type="password" class="form-control form-control-user"
+                                        id="exampleRepeatPassword" placeholder="Repetir Contraseña"
+                                        formControlName="confirmPassword" name="password">
                                 </div>
+                            </div>
 
-                                <hr>
-                                <select name="tipo" id="tipo" (change)="checkout($event)">
-                                    <option value="0">Seleccione una opcion</option>
-                                    <option value="1">Estudiante</option>
-                                    <option value="2">Supervisor</option>
-                                    <option value="3">Encargado</option>
-                                </select>
-
-                                <div *ngIf="!es_estudiante&&!es_supervisor"> </div>
-                                <div *ngIf="es_estudiante">
-                                    <input formControlName="RUT" type="text" name="RUT" placeholder="12345678-9"
-                                        required="required" />
-                                </div>
-                                <div *ngIf="es_supervisor">
-                                </div>
-                                <div *ngIf="es_encargado">
-                                </div>
-                                <hr>
-
-                                <button id="myBtn" type="submit" class="btn btn-primary btn-user btn-block"
-                                    (click)="register()"
-                                    [disabled]="registroForm.pristine || registroForm.invalid || checkEs">
-                                    Register Account
-                                </button>
-                                <script>
-                                    var input = document.getElementById("exampleRepeatPassword");
-                                    input.addEventListener("keypress", function (event) {
-                                        if (event.keyCode === 13) {
-                                            event.preventDefault();
-                                            document.getElementById("myBtn").click();
-                                        }
-                                    });
-                                </script>
-                                <hr>
-                                <!-- <a href="" class="btn btn-google btn-user btn-block">
-                                    <i class="fab fa-google fa-fw"></i> Register with Google
-                                </a>
-                                <a href="" class="btn btn-facebook btn-user btn-block">
-                                    <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
-                                </a> -->
-                            </form>
                             <hr>
-                            <div class="text-center">
-                                <a class="small" routerLink="/resetPass">Forgot Password?</a>
+                            <select class="form-select" name="tipo" id="tipo" (change)="checkout($event)">
+                                <option value="0">Seleccione tipo de usuario</option>
+                                <option value="1">Estudiante</option>
+                                <option value="2">Supervisor</option>
+                                <option value="3">Encargado</option>
+                            </select>
+
+                            <div *ngIf="!es_estudiante&&!es_supervisor"> </div>
+                            <div *ngIf="es_estudiante">
+                                <div>
+                                        Rut:<input formControlName="RUT" type="text" name="RUT" placeholder="12345678-9"
+                                        required="required" style="margin-top: 20px; margin-left: 20px;"/>
+                                </div>
+                                <div>
+                                    Carrera:
+                                    <select class="form-select" name="id_carrera" id="id_carrera" (change)="checkout2($event)">
+                                        <option *ngFor="let carrera of carreras; let indice = index" value={{carreras_id[indice]}}>{{carrera}}</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="text-center">
-                                <a class="small" routerLink="/login">Already have an account? Login!</a>
+                            <div *ngIf="es_supervisor">
                             </div>
+                            <div *ngIf="es_encargado">
+                            </div>
+                            <hr>
+
+                            <button id="myBtn" type="submit" class="btn btn-primary btn-user btn-block"
+                                (click)="register()"
+                                [disabled]="registroForm.pristine || registroForm.invalid || checkEs">
+                                Registrar Cuenta
+                            </button>
+                            <script>
+                                var input = document.getElementById("exampleRepeatPassword");
+                                input.addEventListener("keypress", function (event) {
+                                    if (event.keyCode === 13) {
+                                        event.preventDefault();
+                                        document.getElementById("myBtn").click();
+                                    }
+                                });
+                            </script>
+                            <hr>
+                            <!-- <a href="" class="btn btn-google btn-user btn-block">
+                                <i class="fab fa-google fa-fw"></i> Register with Google
+                            </a>
+                            <a href="" class="btn btn-facebook btn-user btn-block">
+                                <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
+                            </a> -->
+                        </form>
+                        <hr>
+                        <!--
+                        <div class="text-center">
+                            <a class="small" routerLink="/resetPass">Forgot Password?</a>
+                        </div>-->
+                        <div class="text-center">
+                            <a class="small" routerLink="/login">¿Ya tienes una cuenta? ¡Inicia sesión!</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+   
 
-    </div>
+</div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
 
 </body>
+
+</html>

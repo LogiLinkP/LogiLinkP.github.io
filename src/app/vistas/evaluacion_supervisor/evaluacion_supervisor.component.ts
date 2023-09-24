@@ -21,6 +21,8 @@ export class EvaluacionComponent {
   // Aqui se guardan temporalmente las respuestas mientras se llena el formulario. Estas se procesan antes de enviarlas al backend.
   respuestas: any[] = []; 
 
+  aptitudes_evaluacion = [];
+
 
   constructor(private service_supervisor: SupervisorService, private _snackbar: MatSnackBar, private router: Router, private activated_route: ActivatedRoute) {}
    
@@ -119,8 +121,15 @@ export class EvaluacionComponent {
                   }
                   this.respuestas.push(array_aux);
                 }
+                //CAMBIOS PREGUNTA EVALUACION
                 else if (pregunta.tipo_respuesta == "evaluacion") {
-                  this.respuestas.push(-1);
+                  let array_aux_evaluacion = [];
+                  let array_aux_aptitudes = pregunta.opciones.split(";;");
+                  this.aptitudes_evaluacion = array_aux_aptitudes;
+                  for (let i = 0; i < pregunta.opciones.split(";;").length; i++) {
+                    array_aux_evaluacion.push(-1);
+                  }
+                  this.respuestas.push(array_aux_evaluacion);
                 }
                 else {
                   this.respuestas.push("");
@@ -159,25 +168,31 @@ export class EvaluacionComponent {
   updateRespuestasAbierta(index: number, value: string) {
     //console.log("UPDATEANDO RESPUESTAS abierta", value)
     this.respuestas[index] = value;
-    //console.log(this.respuestas);
+    console.log(this.respuestas);
   }
 
   updateRespuestasCasillas(i: number, j: number, value: string) {
     //console.log("UPDATEANDO RESPUESTAS casillas", value)
     this.respuestas[i][j] = value;
-    //console.log(this.respuestas);
+    console.log(this.respuestas);
   }
 
   updateRespuestasAlternativas(i: number, value: string) {
     //console.log("UPDATEANDO RESPUESTAS alternativas", value);
     this.respuestas[i] = value;
-    //console.log(this.respuestas);
+    console.log(this.respuestas);
   }
 
-  updateRespuestasEvaluacion(index: number, value: number) {
+  updateRespuestasEvaluacion(index_pregunta: number, index_aptitud: number ,value: number) {
     //console.log("UPDATEANDO RESPUESTAS evaluacion", value);
-    this.respuestas[index] = value;
-    //console.log(this.respuestas);
+    //this.respuestas[index_pregunta][index_aptitud] = value;
+    console.log(this.respuestas);
+
+    //console.log("RESPUESTAS", this.respuestas);
+
+
+    console.log("respuesta actual evaluacion");
+    console.log(this.respuestas)
   }
 
   enviarEvaluacion() {
@@ -213,7 +228,11 @@ export class EvaluacionComponent {
         }
       }
       else if (this.tipo_respuestas[i] == "evaluacion" || this.tipo_respuestas[i] == "abierta") {
-        respuesta_aux = this.respuestas[i];
+        for (let j = 0; j < this.respuestas[i].length; j++) {
+          respuesta_aux += String(this.respuestas[i][j]);
+          respuesta_aux += ",";
+        }
+        respuesta_aux = respuesta_aux.slice(0, -1);
       }
       else {
         let index = this.preguntas[i].opciones.split(";;").indexOf(this.respuestas[i]);
@@ -249,10 +268,37 @@ export class EvaluacionComponent {
           panelClass: ['green-snackbar']
         });
         // after 2 seconds, redirect to home
-        setTimeout(() => {
-          this.router.navigate(['/']);
-          return;
-        }, 2000); 
+        this.service_supervisor.setFragmentos(this.practica.id, { }).subscribe({
+          next: (data: any) => {
+          },
+          error: (error: any) => {
+            console.log(error);
+            this._snackbar.open("Error al enviar la respuesta", "Cerrar", {
+              duration: 2000,
+              panelClass: ['red-snackbar']
+            });
+          },
+          complete: () => {
+            this.service_supervisor.setRepeticiones(this.practica.id).subscribe({
+              next: (data: any) => {
+              },
+              error: (error: any) => {
+                console.log(error);
+                this._snackbar.open("Error al enviar la respuesta", "Cerrar", {
+                  duration: 2000,
+                  panelClass: ['red-snackbar']
+                });
+              },
+              complete: () => {
+                setTimeout(() => {
+                  this.router.navigate(['/']);
+                  return;
+                }, 2000); 
+              }
+            });
+          }
+        });
+        
       }
     });    
   }

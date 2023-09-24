@@ -40,7 +40,6 @@ import { InformacionesComponent } from './vistas/informaciones/informaciones.com
 import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.component';
 
 import { TestBarraComponent } from './componentes/test-barra/test-barra.component';
-import { LogoutComponent } from './componentes/logout/logout.component';
 import { FooterComponent } from './componentes/footer/footer.component';
 import { BarraSuperiorComponent } from './componentes/barra-superior/barra-superior.component';
 import { LogoutModalComponent } from './componentes/logout-modal/logout-modal.component';
@@ -66,6 +65,14 @@ import { FragmentosComponent } from './componentes/fragmentos/fragmentos.compone
 import { InformeComponent } from './vistas/informe/informe.component';
 import { NotisHistorialComponent } from './vistas/notis-historial/notis-historial.component';
 import { ImportModalComponent } from './componentes/import-modal/import-modal.component';
+import { MigrarModalComponent } from './componentes/migrar-modal/migrar-modal.component';
+import { ExplicacionConsistenciaComponent } from './vistas/explicacion-consistencia/explicacion-consistencia.component';
+import { VistaSupervisorComponent } from './vistas/vista-supervisor/vista-supervisor/vista-supervisor.component';
+import { RamosAlumnosComponent } from './vistas/ramos-alumnos/ramos-alumnos.component';
+import { RamosEncargadoComponent } from './vistas/ramos-encargado/ramos-encargado.component';
+import { EstadisticaEmpresasComponent } from './vistas/estadistica-empresas/estadistica-empresas.component';
+import { IngresoInformeComponent } from './vistas/ingreso-informe/ingreso-informe.component';
+import { EstudianteVerInformeComponent } from './vistas/estudiante-ver-informe/estudiante-ver-informe.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +80,6 @@ import { ImportModalComponent } from './componentes/import-modal/import-modal.co
     routingComponents,
     EvaluacionComponent,
     DatosPracticaComponent,
-    LogoutComponent,
     DetallePracticaComponent,
     FooterComponent,
     BarraSuperiorComponent,
@@ -98,7 +104,15 @@ import { ImportModalComponent } from './componentes/import-modal/import-modal.co
     FragmentosComponent,
     InformeComponent,
     NotisHistorialComponent,
-    ImportModalComponent
+    ImportModalComponent,
+    MigrarModalComponent,
+    ExplicacionConsistenciaComponent,
+    VistaSupervisorComponent,
+    RamosAlumnosComponent,
+    RamosEncargadoComponent,
+    EstadisticaEmpresasComponent,
+    IngresoInformeComponent,
+    EstudianteVerInformeComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,27 @@
+<h1 style="text-align: center;" mat-dialog-title>Comentarios {{data.nombre_empresa}}</h1>
+<div mat-dialog-content>
+
+    <div *ngIf="data.palabras_clave[0] != null">
+        <b>Palabras clave: </b>
+        <i *ngFor="let palabra of data.palabras_clave; let i = index">
+            {{palabra}}<i *ngIf="data.palabras_clave[i+1] != null">,</i>
+        </i>
+        <br>
+        <br>
+    </div>
+
+    <div *ngIf="data.lista_comentarios[0] == null">
+        No hay comentarios para mostrar
+        <br>
+        <br>
+    </div>
+
+    <div *ngIf="data.lista_comentarios[0] != null">
+        <div *ngFor="let comentario of data.lista_comentarios">
+            <div *ngIf="comentario">- {{comentario}}</div>
+            <!-- <div *ngIf="comentario.isNumber()" >{{comentario}}</div> -->
+            <br>
+        </div>
+    </div>
+
+</div>

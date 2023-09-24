@@ -30,7 +30,7 @@ export class NotificacionesService extends Socket {
         },
       }
     });
-    console.log("sala notificaciones" + JSON.parse(localStorage.getItem("auth-user") || "{}").userdata.id);
+    //console.log("sala notificaciones" + JSON.parse(localStorage.getItem("auth-user") || "{}").userdata.id);
     this.listen();
   }
 
@@ -42,7 +42,7 @@ export class NotificacionesService extends Socket {
   }
 
   postnotificacion(id_usuario: number, mensaje: any, correo: string, estado: string, enlace: string = "") {
-    let fecha = this.datetime.transform(new Date);
+    let fecha = this.datetime.transform((new Date), 'MM/dd/yyyy h:mm:ss')
 
     const req = new HttpRequest('POST', `${environment.url_back}/notificacion/crear`, { id_usuario, fecha, mensaje, correo, estado, enlace }, { responseType: 'text' });
     return this._http.request(req);
@@ -50,7 +50,7 @@ export class NotificacionesService extends Socket {
 
 
   notificaciones_vistas(id_usuario: number) {
-    const req = new HttpRequest('PUT', `${environment.url_back}/notificacion/visto`, { id_usuario });
+    const req = new HttpRequest('PUT', `${environment.url_back}/notificacion/visto`, { id_usuario }, {responseType:"text"});
     return this._http.request(req);
   }
 

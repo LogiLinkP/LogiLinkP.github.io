@@ -22,6 +22,11 @@ export class ObtenerDatosService {
     return this._http.request(req);
   }
 
+  obtener_practica_id(id_practica: number){
+    const req = new HttpRequest('GET', `${environment.url_back}/practica?id=${id_practica}`);
+    return this._http.request(req);
+  }
+
   obtener_practica_encargado(id_encargado: number){
     const req = new HttpRequest('GET', `${environment.url_back}/practica/get_asEncargado?id_encargado=${id_encargado}`);
     return this._http.request(req);
@@ -49,6 +54,11 @@ export class ObtenerDatosService {
 
   obtener_solicitudes_documentos_practica(id_config_practica: number, id_practica: number){
     const req = new HttpRequest('GET', `${environment.url_back}/solicitud_documento/todos_docs_practica?id=${id_config_practica}&id_practica=${id_practica}`);
+    return this._http.request(req);
+  }
+
+  obtener_informe_preguntas(id_informe: number){
+    const req = new HttpRequest('GET', `${environment.url_back}/informe/preguntas?id=${id_informe}`);
     return this._http.request(req);
   }
 }

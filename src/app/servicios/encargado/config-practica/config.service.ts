@@ -23,11 +23,10 @@ export class ConfigService {
         return this._http.request(req);
     }
 
-    actualizarConfigPractica(nombre: string, frecuencia_informes: string, informe_final: string) {
+    actualizarConfigPractica(id: number, activada: boolean) {
         const config = {
-            nombre: nombre,
-            frecuencia_informes: frecuencia_informes,
-            informe_final: informe_final
+            id: id,
+            activada: activada
         }
 
         const req = new HttpRequest('PUT', `${environment.url_back}/config_practica/actualizar`, config, {
@@ -199,12 +198,13 @@ export class ConfigService {
         return this._http.request(req);
     }
     
-    crearPreguntaSupervisor(id_config_practica: number, enunciado: string, tipo_respuesta: string, opciones: string) {
+    crearPreguntaSupervisor(id_config_practica: number, enunciado: string, tipo_respuesta: string, opciones: string, fija: boolean) {
         const pregunta = {
             id_config_practica: id_config_practica,
             enunciado: enunciado,
             tipo_respuesta: tipo_respuesta,
-            opciones: opciones
+            opciones: opciones,
+            fija: fija
         }
 
         const req = new HttpRequest('POST', `${environment.url_back}/pregunta_supervisor/crear`, pregunta, {
@@ -352,5 +352,25 @@ export class ConfigService {
         return this._http.request(req);
     }
 
+    getPracticasConConfig(id_config_practica: number) {
+        const req = new HttpRequest('GET', `${environment.url_back}/practica/configs?id=${id_config_practica}`, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
+    actualizarEstudiantes(id_estudiante: number, id_config: number) {
+        const payload = {
+            id: id_estudiante,
+            id_config_practica: id_config
+        }
+
+        const req = new HttpRequest('PUT', `${environment.url_back}/estudiante/actualizarConfig`, payload, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
 
 }

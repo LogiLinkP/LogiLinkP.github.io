@@ -6,5 +6,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./barra-lateral-alumno.component.scss']
 })
 export class BarraLateralAlumnoComponent {
+  idUsuario: string = "";
 
+  constructor() { 
+    // obtener id usuario desde local storage en la variable auth-user.userdata.id, verficando que no esté vacío
+    if (localStorage.getItem('auth-user') !== null) {
+      const authUser = localStorage.getItem('auth-user');
+    
+      if (authUser !== null) {
+        this.idUsuario = JSON.parse(authUser).userdata.id;
+      }
+    }
+  }
 }

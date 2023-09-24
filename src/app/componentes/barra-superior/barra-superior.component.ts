@@ -29,7 +29,10 @@ export class BarraSuperiorComponent implements OnInit{
 
   notificaciones: any = [];
 
-  estados_configuracion = ["Notificaciones y Correo","Sólo Notificaciones", "Sólo Correo", "Ninguno"];
+  estados_configuracion = [{nombre:"Notificaciones y Correo", seleccionado: false},
+                           {nombre: "Sólo Notificaciones", seleccionado: false},
+                           {nombre: "Sólo Correo", seleccionado: false},
+                           {nombre: "Ninguno", seleccionado: false}];
 
   constructor(private Service: DataUsuarioService,
               private service_noti: NotificacionesService,
@@ -40,21 +43,48 @@ export class BarraSuperiorComponent implements OnInit{
     //console.log("Auth User:", auth_user);
     if (auth_user.userdata != undefined){
       let userdata = auth_user.userdata;
-      console.log("Userdata:", userdata);
+      //console.log("Userdata:", userdata);
       if (userdata.id != undefined){
         this.id_usuario = userdata.id;
-        this.nombre_usuario = userdata.nombre;
-        this.estado_config = userdata.config;
+
+        this.Service.obtener_usuario(this.id_usuario).subscribe({
+          next: (data: any) => {
+            this.respuesta = { ...this.respuesta, ...data }
+          },
+          error: (error: any) => {
+            //console.log(error);
+            return;
+          },
+          complete: () => {
+            //console.log("RESPUESTA:",this.respuesta);
+            this.nombre_usuario = this.respuesta.body.nombre;
+            this.estado_config = this.respuesta.body.config;
+            for (let i = 0; i < this.estados_configuracion.length; i++){
+              if (this.estados_configuracion[i].nombre == this.estado_config){
+                this.estados_configuracion[i].seleccionado = true;
+              }
+            }           
+        
+            //console.log("ESTADO ACTUAL",this.estado_config)
+            //console.log("estados::::",this.estados_configuracion,)
+            cdr.detectChanges();
+          }
+        });
       }
     }
-   
     this.service_noti.callback.subscribe(res => {
-      let fecha = this.datetime.transform((new Date), 'MM/dd/yyyy h:mm:ss')
-      let mensaje = res.message;
+      let fechaF = res.fecha
 
-      this.notificaciones.push({fecha: fecha, texto: mensaje, link: res.link});
+      //console.log(fechaF);
+      let mensaje = res.message;
+      //console.log("EL ESTADO ACTUAL ES", this.estado_config);
+      if(this.estado_config == "Notificaciones y Correo" || this.estado_config == "Sólo Notificaciones"){
+        //console.log("Notificacion recibida2, el mensaje es", mensaje);
+        this.notificaciones.push({fecha: fechaF, texto: mensaje, link: res.link});
+      }
       this.cdr.detectChanges();
     })
+    
   }
 
   cambiar_configuracion_notificacion(Id:number, estado:string){
@@ -67,8 +97,9 @@ export class BarraSuperiorComponent implements OnInit{
         return;
       },
       complete:() => {
-        console.log("Estado cambiado con éxito");
+        //console.log("Estado cambiado con éxito");
         this.respuesta = [];
+        this.estado_config = estado;
       }
     })
   }
@@ -95,7 +126,7 @@ export class BarraSuperiorComponent implements OnInit{
             }
           }
           this.respuesta = [];
-          console.log("ENCARGADOS:",this.personas);
+          //console.log("ENCARGADOS:",this.personas);
         }
       })
     }
@@ -125,24 +156,29 @@ export class BarraSuperiorComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    console.log(this.id_usuario);
-    this.Service.obtener_notificaciones(this.id_usuario, this.estado_config).subscribe({
-      next: (data:any) => {
-        this.respuesta = { ...this.respuesta, ...data}
-      },
-      error: (error: any) => {
-        console.log(error);
-      },
-      complete: () => {
-        this.notificaciones = this.respuesta.body;
-        this.notificaciones = this.notificaciones.map((notificacion:any ) => {
-          notificacion.fecha = dayjs(notificacion.fecha, "YYYY-MM-DDTHH:mm:ssZ").format("DD/MM/YYYY HH:mm");
-          return notificacion;
-        });
+    //console.log(this.id_usuario);
+    //console.log(this.estado_config);
 
-        this.respuesta = [];
-      }
-    })
+    /*
+    if(this.estado_config == "Correos y Notificaciones" || this.estado_config == "Sólo Notificaciones"){
+      this.Service.obtener_notificaciones(this.id_usuario, this.estado_config).subscribe({
+        next: (data:any) => {
+          this.respuesta = { ...this.respuesta, ...data}
+        },
+        error: (error: any) => {
+          console.log(error);
+        },
+        complete: () => {
+          this.notificaciones = this.respuesta.body;
+          this.notificaciones = this.notificaciones.map((notificacion:any ) => {
+            notificacion.fecha = dayjs(notificacion.fecha, "YYYY-MM-DDTHH:mm:ssZ").format("DD/MM/YYYY HH:mm");
+            return notificacion;
+          });
+          this.respuesta = [];
+        }
+      })
+    }
+    */
 
     this.Service.obtener_usuario(this.id_usuario).subscribe({
       next: (data: any) => {
@@ -153,6 +189,28 @@ export class BarraSuperiorComponent implements OnInit{
         return;
       },
       complete: () => {
+        this.estado_config = this.respuesta.body.config
+        //console.log(this.estado_config)
+
+        if(this.estado_config == "Notificaciones y Correo" || this.estado_config == "Sólo Notificaciones"){
+          this.Service.obtener_notificaciones(this.id_usuario, this.estado_config).subscribe({
+            next: (data:any) => {
+              this.respuesta = { ...this.respuesta, ...data}
+            },
+            error: (error: any) => {
+              console.log(error);
+            },
+            complete: () => {
+              this.notificaciones = this.respuesta.body;
+              this.notificaciones = this.notificaciones.map((notificacion:any ) => {
+                notificacion.fecha = dayjs(notificacion.fecha, "YYYY-MM-DDTHH:mm:ssZ").format("DD/MM/YYYY HH:mm");
+                return notificacion;
+              });
+              this.respuesta = [];
+            }
+          })
+        }
+
         if(this.respuesta.body.es_estudiante == true){
           this.es_alumno = 1;
           this.Service.obtener_estudiante(this.id_usuario).subscribe({
@@ -191,6 +249,28 @@ export class BarraSuperiorComponent implements OnInit{
         this.respuesta = [];
       }
     });  
+
+    /*
+    if(this.estado_config == "Correos y Notificaciones" || this.estado_config == "Sólo Notificaciones"){
+      this.Service.obtener_notificaciones(this.id_usuario, this.estado_config).subscribe({
+        next: (data:any) => {
+          this.respuesta = { ...this.respuesta, ...data}
+        },
+        error: (error: any) => {
+          console.log(error);
+        },
+        complete: () => {
+          this.notificaciones = this.respuesta.body;
+          this.notificaciones = this.notificaciones.map((notificacion:any ) => {
+            notificacion.fecha = dayjs(notificacion.fecha, "YYYY-MM-DDTHH:mm:ssZ").format("DD/MM/YYYY HH:mm");
+            return notificacion;
+          });
+          this.respuesta = [];
+        }
+      })
+    }
+    */
+    //console.log(this.personas);
   }
 
   eliminar_notificaciones(id:number){
@@ -204,11 +284,10 @@ export class BarraSuperiorComponent implements OnInit{
       },
       complete:() => {
         this.notificaciones = [];
-        console.log("Notificaciones cambiadas");
+        //console.log("Notificaciones cambiadas");
         this.respuesta = [];
       }
     })
-    this.notificaciones = [];
   }
 
   redirect_to_chat(userid_otro_participante:number, tipo:string){
