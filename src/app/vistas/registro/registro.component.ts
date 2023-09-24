@@ -52,6 +52,7 @@ export class RegistroComponent implements OnInit {
   createForm() {
     this.registroForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
+      apellido: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(3)]],
       confirmPassword: ['', Validators.required],
@@ -77,7 +78,7 @@ export class RegistroComponent implements OnInit {
     }
     const data = this.registroForm.value;
     this.RUT = data.RUT
-    this.nombre = this.nombre + " " + this.apellido;
+    this.nombre = data.nombre + " " + data.apellido;
     if (this.es_estudiante) {
       this.extras = { RUT: this.RUT, id_carrera: this.id_carrera };
     }
@@ -90,7 +91,7 @@ export class RegistroComponent implements OnInit {
     let _data: any = {}
     this.usuario.register(
       data.email, data.password,
-      data.confirmPassword, data.nombre,
+      data.confirmPassword, this.nombre,
       false, this.es_supervisor,
       this.es_estudiante, false,
       this.extras
