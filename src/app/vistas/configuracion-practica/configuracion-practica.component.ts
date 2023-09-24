@@ -279,7 +279,7 @@ export class ConfiguracionPracticaComponent {
                             console.log("Error al buscar informes de configuracion de practica", error);
                         },
                         complete: () => {
-                            console.log("request config informe:", respuesta.body);
+                            //console.log("request config informe:", respuesta.body);
 
                             //* guardar id's para poder actualizar mas tarde
                             for (let i = 0; i < respuesta.body.length; i++) {
@@ -337,7 +337,7 @@ export class ConfiguracionPracticaComponent {
                                             console.log("Error al buscar pregunta supervisor", error);
                                         },
                                         complete: () => {
-                                            console.log("pregunta supervisor:", respuesta.body);
+                                            //console.log("pregunta supervisor:", respuesta.body);
                                             for (let i = 0; i < respuesta.body.length; i++) {
                                                 this.lista_preguntas_supervisor.push(respuesta.body[i].enunciado);
                                                 this.tipos_preguntas_supervisor.push(respuesta.body[i].tipo_respuesta);
@@ -378,9 +378,8 @@ export class ConfiguracionPracticaComponent {
                                                         },
                                                         complete: () => {
                                                             console.log("request aptitudes:", respuesta.body);
-                                                            for (let i = 0; i < respuesta.body.length; i++) {
-                                                                this.lista_aptitudes.push(respuesta.body[i].nombre_aptitud);
-                                                            }
+                                                            this.lista_aptitudes = respuesta.body.opciones.split(";;");
+                                                            console.log("lista aptitudes:", this.lista_aptitudes)
 
                                                             //* set formulario
                                                             this.fg = this._fb.group({

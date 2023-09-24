@@ -37,7 +37,7 @@ export class ConfigService {
     }
 
     getAptitudes(id_config_practica: number) {
-        const req = new HttpRequest('GET', `${environment.url_back}/pregunta_supervisor/id_config_practica?id=${id_config_practica}`, {
+        const req = new HttpRequest('GET', `${environment.url_back}/pregunta_supervisor/aptitudes?id=${id_config_practica}`, {
             responseType: 'json'
         });
 
