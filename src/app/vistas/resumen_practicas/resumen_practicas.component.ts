@@ -62,7 +62,6 @@ export class TablaComponent {
     this.encargado = this.usuario.encargado;
 
     this.carrera_encargado = this.encargado.id_carrera;
-    console.log(this.carrera_encargado)
 
     this.dtOptions = {
       language: {
@@ -89,8 +88,7 @@ export class TablaComponent {
         let temppracticas:any = [];
 
         for (let alumno of respuesta.body){
-          console.log(alumno)
-          if (alumno.modalidad.config_practica.id_carrera == this.carrera_encargado && alumno.modalidad.config_practica.id_carrera != NULL){
+          if (alumno.modalidad.config_practica.id_carrera == this.carrera_encargado && alumno.modalidad.config_practica.id_carrera != null){
           temppracticas.push(alumno);
           }
         }
@@ -113,6 +111,9 @@ export class TablaComponent {
           */
           return alumno;
         });
+
+        console.log(this.practicas)
+
         for (let item of this.practicas){
           this.practi_service.obtener_practica(item.id).subscribe({
             next: (data: any) => {
