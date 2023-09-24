@@ -379,7 +379,6 @@ export class ConfiguracionPracticaComponent {
                                                         complete: () => {
                                                             console.log("request aptitudes:", respuesta.body);
                                                             this.lista_aptitudes = respuesta.body.opciones.split(";;");
-                                                            console.log("lista aptitudes:", this.lista_aptitudes)
 
                                                             //* set formulario
                                                             this.fg = this._fb.group({
