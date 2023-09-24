@@ -8,7 +8,7 @@ import { MatTableDataSource } from '@angular/material/table'
 import { BarraLateralService } from 'src/app/servicios/encargado/barra-lateral/barra-lateral.service';
 import { ConfigService } from 'src/app/servicios/encargado/config-practica/config.service';
 import { environment } from 'src/environments/environment';
-import { Express } from 'express'; //! NO BORRAR! SE MUERE TODO. PORQUE? NI IDEA, SALU2
+import { Express, response } from 'express'; //! NO BORRAR! SE MUERE TODO. PORQUE? NI IDEA, SALU2
 
 @Component({
   selector: 'app-configuracion-practica',
@@ -294,16 +294,18 @@ export class ConfiguracionPracticaComponent {
                             
                             //* set preguntas informe
                             if (respuesta.body?.length) { // el encargado seteó preguntas de informe
-                                for (let i = 0; i < respuesta.body[0].pregunta_informes.length; i++) { //falta un for para body[i]?
-                                    if (respuesta.body[0].tipo_informe == "informe final") {
-                                        this.lista_preguntas_final.push(respuesta.body[0].pregunta_informes[i].enunciado);
-                                        this.tipos_preguntas_final.push(respuesta.body[0].pregunta_informes[i].tipo_respuesta);
-                                        this.lista_opciones_preguntas_final.push(respuesta.body[0].pregunta_informes[i].opciones);
-                                    }
-                                    if (respuesta.body[0].tipo_informe == "informe avance") {
-                                        this.lista_preguntas_avance.push(respuesta.body[0].pregunta_informes[i].enunciado);
-                                        this.tipos_preguntas_avance.push(respuesta.body[0].pregunta_informes[i].tipo_respuesta);
-                                        this.lista_opciones_preguntas_avance.push(respuesta.body[0].pregunta_informes[i].opciones);
+                                for (let j = 0; j < respuesta.body.length; j++) {
+                                    for (let i = 0; i < respuesta.body[j].pregunta_informes.length; i++) {
+                                        if (respuesta.body[j].tipo_informe == "informe final") {
+                                            this.lista_preguntas_final.push(respuesta.body[j].pregunta_informes[i].enunciado);
+                                            this.tipos_preguntas_final.push(respuesta.body[j].pregunta_informes[i].tipo_respuesta);
+                                            this.lista_opciones_preguntas_final.push(respuesta.body[j].pregunta_informes[i].opciones);
+                                        }
+                                        if (respuesta.body[j].tipo_informe == "informe avance") {
+                                            this.lista_preguntas_avance.push(respuesta.body[j].pregunta_informes[i].enunciado);
+                                            this.tipos_preguntas_avance.push(respuesta.body[j].pregunta_informes[i].tipo_respuesta);
+                                            this.lista_opciones_preguntas_avance.push(respuesta.body[j].pregunta_informes[i].opciones);
+                                        }
                                     }
                                 }
                             }
@@ -951,6 +953,7 @@ export class ConfiguracionPracticaComponent {
     actualizarConfigPractica(nombre: string, frecuencia: string, final: string) {
         let respuesta: any = {};
 
+        //desactivar practica actual
         this.serviceComplete.actualizarConfigPractica(this.config.id, false).subscribe({
             next: (data: any) => {
                 respuesta = { ...respuesta, ...data }
@@ -1053,8 +1056,9 @@ export class ConfiguracionPracticaComponent {
                         }
                     }
                 });
-
-                this.router.navigate(["/configurar/"+nombre])
+                setTimeout(() => {
+                    window.location.reload();
+                  }, 2000);
             }
         });
     }
@@ -1195,15 +1199,16 @@ export class ConfiguracionPracticaComponent {
                 console.log("Error al guardar configuracion de informe", error);
             },
             complete: () => {
+                console.log("BUSACR EL ID: ", respuesta);
                 if (tipoInforme == "informe final") {
                     for (let i = 0; i < this.lista_preguntas_final.length; i++) {
                         //console.log("lista pregunta final: ", this.lista_preguntas_final[i], "tipos preguntas final: ", this.tipos_preguntas_final[i], "lista opciones preguntas final: ", this.lista_opciones_preguntas_final[i]);
-                        this.crearPreguntaInforme(id_config_practica, this.lista_preguntas_final[i], this.tipos_preguntas_final[i], this.lista_opciones_preguntas_final[i]);
+                        this.crearPreguntaInforme(respuesta.body.id, this.lista_preguntas_final[i], this.tipos_preguntas_final[i], this.lista_opciones_preguntas_final[i]);
                     }
                 }
                 if (tipoInforme == "informe avance") {
                     for (let i = 0; i < this.lista_preguntas_avance.length; i++) {
-                        this.crearPreguntaInforme(id_config_practica, this.lista_preguntas_avance[i], this.tipos_preguntas_avance[i], this.lista_opciones_preguntas_avance[i]);
+                        this.crearPreguntaInforme(respuesta.body.id, this.lista_preguntas_avance[i], this.tipos_preguntas_avance[i], this.lista_opciones_preguntas_avance[i]);
                     }
                 }
             }
