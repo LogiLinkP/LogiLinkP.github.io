@@ -134,15 +134,28 @@
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>Rut Empresa:</td>
-                                                                                    <td>{{
+
+                                                                                    <td>
+                                                                                        {{
+
                                                                                         practica[1]?.empresa.rut_empresa
                                                                                         }}</td>
                                                                                 </tr>
                                                                                 <tr>
-                                                                                    <td>Empresa Verificada:</td>
-                                                                                    <td>{{
-                                                                                        practica[1]?.empresa_verificada
-                                                                                        }}</td>
+
+                                                                                    <td
+                                                                                        [class]="!practica[1]?.empresa.empresa_verificada? 'bg-warning' : ''">
+                                                                                        Empresa Verificada:</td>
+                                                                                    <td
+                                                                                        [class]="!practica[1]?.empresa.empresa_verificada? 'bg-warning' : ''">
+                                                                                        <i *ngIf="!practica[1]?.empresa.empresa_verificada"
+                                                                                            class="fa-solid fa-triangle-exclamation"></i>
+                                                                                        {{
+                                                                                        practica[1]?.empresa.empresa_verificada?
+                                                                                        'Si':'No'
+                                                                                        }}
+                                                                                    </td>
+
                                                                                 </tr>
                                                                             </table>
                                                                         </div>
@@ -164,9 +177,9 @@
                                                                     </a>
                                                                     <!-- Card Content - Collapse -->
                                                                     <div>
-                                                                        <div class="card-body">
+                                                                        <div class="card-body overflow-auto">
                                                                             <div>
-                                                                                <div class="table-responsive ">
+                                                                                <div class="table-responsive">
                                                                                     <table
                                                                                         class="table table-bordered hoverTable"
                                                                                         id="dataTable" width="100%"
@@ -181,6 +194,7 @@
                                                                                             </tr>
                                                                                         </thead>
                                                                                         <tbody>
+
                                                                                             <tr *ngFor="let informe of practica[1].informes;">
                                                                                                 <td>{{ informe?.config_informe?.tipo_informe }}</td>
                                                                                                 <td>{{ informe?.horas_trabajadas }}</td>
@@ -218,7 +232,7 @@
                                                                     </a>
                                                                     <!-- Card Content - Collapse -->
                                                                     <div>
-                                                                        <div class="card-body">
+                                                                        <div class="card-body overflow-auto">
                                                                             <div>
                                                                                 <div class="table-responsive">
                                                                                     <table
@@ -235,7 +249,7 @@
                                                                                         </thead>
                                                                                         <tbody>
                                                                                             <tr
-                                                                                                *ngFor="let solicitud of solicitudes_practicas[i];">
+                                                                                                *ngFor="let solicitud of solicitudes_practicas[practica[1].id];">
                                                                                                 <td>{{solicitud?.nombre_solicitud}}
                                                                                                 </td>
                                                                                                 <td>{{solicitud?.tipo_archivo}}
@@ -293,8 +307,9 @@
                                                             </div><!-- Fin Tarjeta Archivos -->
                                                         </div><!-- Fin Fila -->
 
+
                                                         <!--Tarjeta Aptitudes -->
-                                                        <div class="row" style="max-width: 100%">
+                                                        <div class="row" style="max-width: 100%" *ngIf="hay_respuesta[i] == 1">
                                                             <!-- Tarjeta Archivos -->
                                                             <div class="col-xl-6">
                                                                 <div class="card shadow mb-4">
@@ -329,8 +344,8 @@
 
                                                                                             <tr>
                                                                                                 <th>Promedio</th>
-                                                                                                <th>{{notas_promedio[i].toString().indexOf('.')==-1?notas_promedio[i].toString():notas_promedio[i].toString().slice(0,
-                                                                                                    notas_promedio[i].toString().indexOf('.')+3).replace(".",
+                                                                                                <th>{{notas_promedio[i]?.toString().indexOf('.')==-1?notas_promedio[i]?.toString():notas_promedio[i]?.toString().slice(0,
+                                                                                                    notas_promedio[i]?.toString().indexOf('.')+3).replace(".",
                                                                                                     ",")}}
                                                                                                 </th>
                                                                                             </tr>
@@ -340,9 +355,11 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
+
                                                                 </div>
                                                             </div>
                                                         </div>
+
 
                                                         <div class="row" style="max-width: 100%;"
                                                             *ngIf="practica[1].estado == 'En curso'">
@@ -413,7 +430,9 @@
                                     </div>
                                 </div>
                                 <!-- Carta que se muestra en caso de que alumno no tenga una practica registrada -->
-                                <div *ngSwitchCase="1">
+
+                                <div *ngSwitchCase="1" id="tabla_empresa">
+
                                     <a [href]="'#card'+ i" class="d-block card-header py-3" data-toggle="collapse"
                                         role="button" aria-expanded="true" [attr.aria-controls]="'card'+ i"
                                         v-on:click="getPractica(nombre)">
@@ -430,7 +449,8 @@
                                                         (click)="abrir_inscripcion(i)">
                                                         Inscribir Práctica</button>
                                                     <app-iniciar-practica *ngIf="flags_inscripcion_list[i]"
-                                                        [id_estudiante]=estudiante.id [nombre_practica]=practica[0]
+                                                        [id_estudiante]="estudiante.id" [nombre_practica]="practica[0]"
+
                                                         [estado_config]="estado_config">
                                                     </app-iniciar-practica>
                                                 </div>
