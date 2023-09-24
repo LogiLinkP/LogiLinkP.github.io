@@ -33,7 +33,7 @@ export class EstudianteVerInformeComponent {
           this.showSnackbar();
           return;
         }
-        console.log(informe.fecha.replace("T", " ").replace("Z", ""))
+        //console.log(informe.fecha.replace("T", " ").replace("Z", ""))
         this.fecha_informe = dayjs(informe.fecha, "YYYY-MM-DDTHH:mm:ssZ").format("DD/MM/YYYY");
         let respuestas = informe.key;
         let preguntas: any[] = informe.config_informe.pregunta_informes;
@@ -55,7 +55,7 @@ export class EstudianteVerInformeComponent {
               }
             }
             respuestas_traducidas = respuestas_traducidas.slice(0, -2);
-            console.log(respuestas_traducidas);
+            //console.log(respuestas_traducidas);
             respuestas[preguntas[i].id] = respuestas_traducidas;
           }
         }

@@ -32,12 +32,12 @@
                                 <!-- Carta que se muestra en caso de que alumno efectivamente tenga una practica registrada -->
                                 <div *ngSwitchCase="2">
                                     <a [href]="'#card'+ i" [attr.aria-controls]="'card'+ i"
-                                        class="d-block card-header py-3" data-toggle="collapse" role="button"
+                                        class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button"
                                         aria-expanded="true" v-on:click="getPractica(nombre)">
                                         <h2 class="m-0 font-weight-bold text-primary">{{ practica[0] }} </h2>
                                         <div class="m-0 text-gray-800">Estado: {{ practica[1]?.estado }}</div>
                                     </a>
-                                    <div class="collapse show" id="{{ 'card' + i }}">
+                                    <div class="collapse" id="{{ 'card' + i }}">
                                         <div class="card-body">
                                             <div class="row" *ngIf="practica[1].estado=='En curso'">
                                                 <div class="col-xl-9"></div>
@@ -173,13 +173,13 @@
                                                                     <!-- Card Header - Accordion -->
                                                                     <a class="card-header py-3">
                                                                         <h4 class="m-0 font-weight-bold text-primary">
-                                                                            Informes Realizados</h4>
+                                                                            Informes</h4>
                                                                     </a>
                                                                     <!-- Card Content - Collapse -->
                                                                     <div>
                                                                         <div class="card-body overflow-auto">
                                                                             <div>
-                                                                                <div class="table-responsive">
+                                                                                <div class="table-responsive" *ngIf="practica[1].modalidad?.config_practica?.frecuencia_informes!='diario'; else informesDiarios">
                                                                                     <table
                                                                                         class="table table-bordered hoverTable"
                                                                                         id="dataTable" width="100%"
@@ -187,17 +187,16 @@
                                                                                         <thead>
                                                                                             <tr>
                                                                                                 <th>Tipo</th>
-                                                                                                <th>Horas Trabajadas
-                                                                                                </th>
-                                                                                                <th>Fecha Subido</th>
+                                                                                                <!--<th>Horas Trabajadas
+                                                                                                </th>-->
+                                                                                                <th>Fecha</th>
                                                                                                 <th></th>
                                                                                             </tr>
                                                                                         </thead>
                                                                                         <tbody>
-
                                                                                             <tr *ngFor="let informe of practica[1].informes;">
                                                                                                 <td>{{ informe?.config_informe?.tipo_informe }}</td>
-                                                                                                <td>{{ informe?.horas_trabajadas }}</td>
+                                                                                                <!--<td>{{ informe?.horas_trabajadas }}</td>-->
                                                                                                 <td>{{ informe?.fecha | date: 'dd/MM/yyyy' }}</td>
                                                                                                 <!--<td><button class="btn btn-primary btn-sm btn-block" (click)="mostrar_informe(practica[1].informes,informe.id)">Ver
                                                                                                     Informe</button></td>-->
@@ -216,6 +215,23 @@
                                                                                         </tbody>
                                                                                     </table>
                                                                                 </div>
+                                                                                
+                                                                                <ng-template #informesDiarios>
+                                                                                    <p class="text-gray-800">En verde se muestran los informes que ya has respondido, en amarillo los que aún no has respondido.</p>
+
+                                                                                    <table style="width:100%">
+                                                                                        <tr>
+                                                                                            <td style="width:32%"></td>
+                                                                                            <td style="width:36%">
+                                                                                                <mat-calendar class="calendario{{i}}" [selected]="selectedDate"  [minDate]="minDate"
+                                                                                                            (selectedChange)="onFechaClick($event, practica[1].id)" [dateClass]="dateClass(i, practica[1].id)">
+                                                                                                </mat-calendar>
+                                                                                            </td>
+                                                                                            <td style="width:32%"></td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </ng-template>
+                                                                                        
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -314,7 +330,7 @@
                                                                             Evaluación Supervisor</h4>
                                                                     </a>
                                                                     <!-- Card Content - Collapse -->
-                                                                    <div class="collapse show" id="collapseCardExample">
+                                                                    <div class="collapse" id="collapseCardExample">
                                                                         <div class="card-body">
                                                                             <div class="overflow-auto">
                                                                                 <div class="table-responsive">
@@ -368,7 +384,7 @@
                                                                             Escribir Informe de Avances</h4>
                                                                     </a>
                                                                     <!-- Card Content - Collapse -->
-                                                                    <div class="collapse show" id="collapseCardExample">
+                                                                    <div class="collapse" id="collapseCardExample">
                                                                         <div class="card-body">
                                                                             <!-- Ex componente de subir informe-->
                                                                             <div style="height: 200px;">
@@ -434,7 +450,7 @@
                                         <h2 class="m-0 font-weight-bold text-primary">{{ practica[0] }}</h2>
                                         <div class="m-0 text-gray-800">Estado: No iniciada</div>
                                     </a>
-                                    <div class="collapse show" id="{{ 'card' + i }}">
+                                    <div class="collapse" id="{{ 'card' + i }}">
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-xl-5" *ngIf="!flags_inscripcion_list[i]"></div>
