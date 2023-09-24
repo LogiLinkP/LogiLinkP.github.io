@@ -88,7 +88,6 @@ export class ConfiguracionPracticaComponent {
     frecuenciaInformes: string;
     informeFinal: string;
     preguntaFORM = new FormControl('')
-    ramoFORM = new FormControl('')
 
     aptitudFORM = new FormControl('')
 
@@ -98,8 +97,6 @@ export class ConfiguracionPracticaComponent {
     descripcion_solicitud_documentos: string;
     tipo_solicitud_documentos: string;
 
-    ramo: string;
-
     pregunta: string;
     tipo_pregunta: string;
 
@@ -108,7 +105,6 @@ export class ConfiguracionPracticaComponent {
     habilitarHoras: boolean = false;    
     habilitarMeses: boolean = false;
 
-    lista_ramos: string[] = [];
     lista_aptitudes: string[] = [];
 
     lista_preguntas_avance: string[] = [];
@@ -222,8 +218,6 @@ export class ConfiguracionPracticaComponent {
                 //pregunta: this.preguntaFORM,
         
                 preguntaFORM: this.pregunta,
-    
-                ramoFORM: this.ramo,
                 aptitudFORM: this.aptitud,
                 
                 arregloOpcionesPreguntas: this._fb.array([]),
@@ -370,38 +364,54 @@ export class ConfiguracionPracticaComponent {
                                                         this.lista_tipo_solicitud_documentos.push(respuesta.body[i].tipo_archivo);
                                                     }
 
-                                                    this.fg = this._fb.group({
-                                                        opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
-                                                        opcion_horasFORM: this.opcion_horas,
-                                                        opcion_mesesFORM: this.opcion_meses,
-                                                
-                                                        nombrePractica: new FormControl(this.nombrePractica, Validators.required),
-                                                        cant_horas: this.cant_horas,
-                                                        cant_meses: this.cant_meses,
-                                                        horas: new FormControl(this.horas),
-                                                        meses: new FormControl(this.meses),
-                                                        frecuenciaInformes: new FormControl(this.frecuenciaInformes, Validators.required),
-                                                        informeFinal: new FormControl(this.informeFinal, Validators.required),
-                                                        //pregunta: this.preguntaFORM,
-                                                
-                                                        preguntaFORM: this.pregunta,
-                                            
-                                                        ramoFORM: this.ramo,
-                                                        aptitudFORM: this.aptitud,
-                                                        
-                                                        arregloOpcionesPreguntas: this._fb.array([]),
-                                                        arregloHoras: this._fb.array([]),
-                                                        arregloMeses: this._fb.array([]),
-                                            
-                                                        //documentos
-                                                        nombre_solicitud_documentos: new FormControl(this.nombre_solicitud_documentos),
-                                                        descripcion_solicitud_documentos: new FormControl(this.descripcion_solicitud_documentos),
-                                                        tipo_solicitud_documentos: new FormControl(this.tipo_solicitud_documentos),
-                                                    });
-                                                    this.flag = true;
-                                                    console.log("preguntas final", this.lista_preguntas_final);
-                                                    console.log("preguntas avance", this.lista_preguntas_avance);
+                                                    //* set aptitudes
+                                                    this.serviceComplete.getAptitudes(id_config_practica).subscribe({
+                                                        next: (data: any) => {
+                                                            respuesta = { ...respuesta, ...data }
+                                                        },
+                                                        error: (error: any) => {
+                                                            this._snackBar.open("Error al buscar aptitudes", "Cerrar", {
+                                                            duration: 3000,
+                                                            panelClass: ['red-snackbar']
+                                                            });
+                                                            console.log("Error al buscar aptitudes", error);
+                                                        },
+                                                        complete: () => {
+                                                            console.log("request aptitudes:", respuesta.body);
+                                                            for (let i = 0; i < respuesta.body.length; i++) {
+                                                                this.lista_aptitudes.push(respuesta.body[i].nombre_aptitud);
+                                                            }
 
+                                                            //* set formulario
+                                                            this.fg = this._fb.group({
+                                                                opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
+                                                                opcion_horasFORM: this.opcion_horas,
+                                                                opcion_mesesFORM: this.opcion_meses,
+                                                        
+                                                                nombrePractica: new FormControl(this.nombrePractica, Validators.required),
+                                                                cant_horas: this.cant_horas,
+                                                                cant_meses: this.cant_meses,
+                                                                horas: new FormControl(this.horas),
+                                                                meses: new FormControl(this.meses),
+                                                                frecuenciaInformes: new FormControl(this.frecuenciaInformes, Validators.required),
+                                                                informeFinal: new FormControl(this.informeFinal, Validators.required),
+                                                                //pregunta: this.preguntaFORM,
+                                                        
+                                                                preguntaFORM: this.pregunta,
+                                                                aptitudFORM: this.aptitud,
+                                                                
+                                                                arregloOpcionesPreguntas: this._fb.array([]),
+                                                                arregloHoras: this._fb.array([]),
+                                                                arregloMeses: this._fb.array([]),
+                                                    
+                                                                //documentos
+                                                                nombre_solicitud_documentos: new FormControl(this.nombre_solicitud_documentos),
+                                                                descripcion_solicitud_documentos: new FormControl(this.descripcion_solicitud_documentos),
+                                                                tipo_solicitud_documentos: new FormControl(this.tipo_solicitud_documentos),
+                                                            });
+                                                            this.flag = true;
+                                                        }
+                                                    });
                                                 }
                                             });
                                         }
@@ -663,14 +673,6 @@ export class ConfiguracionPracticaComponent {
       this.pregunta = "";
     }
 
-    onSubmitAddRamo(){
-      this.ramo = this.fg.value.ramoFORM;
-      this.lista_ramos.push(this.ramo);
-      console.log(this.lista_ramos);
-
-      this.ramo = "";
-    }
-
     onSubmitAddAptitud(){
         this.aptitud = this.fg.value.aptitudFORM;
         this.lista_aptitudes.push(this.aptitud);
@@ -792,13 +794,6 @@ export class ConfiguracionPracticaComponent {
       this.printForm();
     }
 
-    /*
-    avanzarDesdeRamos(){
-      this.estado = "preguntas_supervisor";
-      this.printForm();
-    }
-    */
-
     avanzarDesdeAptitud(){
       this.estado = "preguntas_supervisor";
       this.printForm();
@@ -915,12 +910,6 @@ export class ConfiguracionPracticaComponent {
       this.lista_nombre_solicitud_documentos.splice(index, 1);
       this.lista_descripcion_solicitud_documentos.splice(index, 1);
       this.lista_tipo_solicitud_documentos.splice(index, 1);
-      this.migracion_legal = false;
-    }
-
-    eliminarRamo(index: number){
-      console.log("eliminando ramo", index);
-      this.lista_ramos.splice(index, 1);
       this.migracion_legal = false;
     }
 
@@ -1065,20 +1054,6 @@ export class ConfiguracionPracticaComponent {
 
     crearConfigPractica(nombre: string, frecuencia: string, final: string) {
 
-        //agregando pregunta de ramos
-        /*
-        var opciones_ramos = ""
-        for (let i = 0; i < this.lista_ramos.length; i++) {
-            opciones_ramos = opciones_ramos + this.lista_ramos[i]
-            opciones_ramos = opciones_ramos + ";;"
-        }
-        opciones_ramos = opciones_ramos.slice(0, -2);
-
-        this.lista_preguntas_encuesta.push("Selecciona los ramos que fueron mas utiles durante tu practica");
-        this.tipos_preguntas_encuesta.push("casillas");
-        this.lista_opciones_preguntas_encuesta.push(opciones_ramos);
-        */
-
         //agregando pregunta aptitudes/evaluacion a preguntas supervisor
         var opciones_aptitudes = ""
         for (let i = 0; i < this.lista_aptitudes.length; i++) {
@@ -1087,7 +1062,7 @@ export class ConfiguracionPracticaComponent {
         }
         opciones_aptitudes = opciones_aptitudes.slice(0, -2);
 
-        this.lista_preguntas_supervisor.push("Evalue entre 1 y 5 las siguientes aptitudes del practicante");
+        this.lista_preguntas_supervisor.push("Evalué entre 1 y 5 las siguientes aptitudes del practicante");
         this.tipos_preguntas_supervisor.push("evaluacion");
         this.lista_opciones_preguntas_supervisor.push(opciones_aptitudes);
         this.lista_fija_preguntas_supervisor.push(true);
