@@ -80,6 +80,7 @@ import { RegistroEncargadoComponent } from './vistas/registro-encargado/registro
 import { IngresoInformeComponent } from './vistas/ingreso-informe/ingreso-informe.component';
 import { EstudianteVerInformeComponent } from './vistas/estudiante-ver-informe/estudiante-ver-informe.component';
 import { EliminarEncargadoComponent } from './vistas/eliminar-encargado/eliminar-encargado.component';
+import { EditarEncargadoModalComponent } from './componentes/editar-encargado-modal/editar-encargado-modal.component';
 
 @NgModule({
   declarations: [
@@ -127,6 +128,7 @@ import { EliminarEncargadoComponent } from './vistas/eliminar-encargado/eliminar
     IngresoInformeComponent,
     EstudianteVerInformeComponent,
     EliminarEncargadoComponent,
+    EditarEncargadoModalComponent,
   ],
   imports: [
     BrowserModule,

@@ -55,19 +55,19 @@ export class EliminarEncargadoComponent {
         _data = { ..._data, ...data }
       },
       error: error => {
-        this._snackBar.open("Error al asignar encargado", "Cerrar", {
+        this._snackBar.open("Error al eliminar encargado", "Cerrar", {
           panelClass: ['red-snackbar'],
           duration: 2000
         });
       },
       complete: () => {
         if (_data.status == 200) {
-          this._snackBar.open("Encargado asignado exitosamente", "Cerrar", {
+          this._snackBar.open("Encargado eliminado exitosamente", "Cerrar", {
             panelClass: ['green-snackbar'],
             duration: 2000
           });
         } else {
-          this._snackBar.open("Error al asignar encargado", "Cerrar", {
+          this._snackBar.open("Error al eliminar encargado", "Cerrar", {
             panelClass: ['red-snackbar'],
             duration: 2000
           });

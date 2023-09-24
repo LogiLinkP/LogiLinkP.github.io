@@ -79,7 +79,7 @@ export class AsignacionComponent {
     let json = {id_encargado: data.encargado, id_carrera: this.carrera};
     this.pares.push(json);
     console.log(this.pares);
-    this.admin.asignarEncargado(this.pares).subscribe({
+    this.admin.asignarEncargado(this.encargado, this.carrera).subscribe({
       next: data => {
         _data = { ..._data, ...data }
       },

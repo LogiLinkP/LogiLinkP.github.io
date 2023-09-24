@@ -31,8 +31,8 @@ export class AdminService {
     return this.http.request(req);
   }
 
-  asignarEncargado(pares: any){
-    const req = new HttpRequest('POST',`${this.url}/admin/asignar-encargado`,{pares});
+  asignarEncargado(id_encargado: any, id_carrera: any){
+    const req = new HttpRequest('POST',`${this.url}/admin/asignar-encargado`,{id_encargado, id_carrera});
     return this.http.request(req);
   }
 
