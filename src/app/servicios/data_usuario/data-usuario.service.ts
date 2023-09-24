@@ -40,4 +40,9 @@ export class DataUsuarioService {
     const req = new HttpRequest('GET', `${environment.url_back}/notificacion/todas_hasta_vistas?id_usuario=${id}`, {id});
     return this._http.request(req);
   }
+
+  cambiar_correo_linkedin(id:number, link:string){
+    const req = new HttpRequest('PUT', `${environment.url_back}/estudiante/linkedin`, {id, link}, {responseType: "text" });
+    return this._http.request(req);
+  }
 }
