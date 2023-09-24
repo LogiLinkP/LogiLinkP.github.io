@@ -30,6 +30,7 @@ export class RegistroEncargadoComponent implements OnInit{
   createForm() {
     this.registroForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
+      apellido: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(3)]],
       confirmPassword: ['', Validators.required]
@@ -41,11 +42,11 @@ export class RegistroEncargadoComponent implements OnInit{
 
   register() {
     const data = this.registroForm.value;
-    this.nombre = this.nombre + " " + this.apellido;
+    this.nombre = data.nombre + " " + data.apellido;
     let _data: any = {}
     this.usuario.register(
       data.email, data.password,
-      data.confirmPassword, data.nombre,
+      data.confirmPassword, this.nombre,
       true, this.es_supervisor,
       this.es_estudiante, false,
       this.extras
