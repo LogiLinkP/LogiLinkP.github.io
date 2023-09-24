@@ -5,6 +5,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Router } from "@angular/router";
+import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
+import { NULL } from 'sass';
 import { DetallePracticaService } from 'src/app/servicios/encargado/detalle-practica.service';
 
 
@@ -25,6 +27,13 @@ export class TablaComponent {
   practicas: any = [];
   temp_notas:any = []
   notas_promedio: any = [];
+
+  carreras: any = [];
+
+  carrera_encargado: number = -1;
+
+  usuario:any = []
+  encargado: any = []
 
   texto_consistencia_informe: string = "Indica qué tan relacionados están los informes del\n" +
     "estudiante con lo que escribió su supervisor.\n" +
@@ -50,6 +59,11 @@ export class TablaComponent {
               private router: Router, private practi_service: DetallePracticaService) {
     //console.log("ESTE ES EL COMPONENTE ENCARGADO");
 
+    this.usuario = JSON.parse(localStorage.getItem('auth-user') || '{}').userdata;
+    this.encargado = this.usuario.encargado;
+
+    this.carrera_encargado = this.encargado.id_carrera;
+
     this.dtOptions = {
       language: {
         url: 'assets/localisation/es-es.json'
@@ -60,7 +74,7 @@ export class TablaComponent {
     };
 
     let respuesta: any = {};
-    this.service.full_estudiante_practicas().subscribe({
+    this.service.full_estudiante_practicas(this.carrera_encargado).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
@@ -72,15 +86,32 @@ export class TablaComponent {
         });
       },
       complete: () => {
-        this.practicas = respuesta.body.map((alumno: any) => {
+        let temppracticas:any = [];
+
+        for (let alumno of respuesta.body){
+          if (alumno.modalidad.config_practica.id_carrera == this.carrera_encargado && alumno.modalidad.config_practica.id_carrera != null){
+          temppracticas.push(alumno);
+          }
+        }
+        console.log(temppracticas);
+
+        this.practicas = temppracticas.map((alumno: any) => {
+
           alumno.consistencia_nota = alumno.consistencia_nota ? `${Math.round(100 * alumno.consistencia_nota)}%` : "—";
           alumno.consistencia_informe = alumno.consistencia_informe ? `${Math.round(100 * alumno.consistencia_informe)}%` : "—";
           alumno.nota_evaluacion = alumno.nota_evaluacion ? alumno.nota_evaluacion : "—";
           alumno.interpretacion_nota = alumno.interpretacion_nota ? alumno.interpretacion_nota : "—";
           alumno.interpretacion_informe = alumno.interpretacion_informe ? alumno.interpretacion_informe : "—";
+          
+          /*alumno ={... alumno, carrera: this.carreras[Math.floor(Math.random() * this.carreras.length)]}
+          console.log(alumno);
+          if (alumno.carrera != "Ingeniería Civil en Informática"){
+            let index: number = this.practicas.indexOf(alumno);
+            this.practicas.splice(index, 1);
+          }
+          */
           return alumno;
         });
-        
         for (var item of this.practicas){
           let iditem = item.id
           this.practi_service.obtener_practica(item.id).subscribe({
