@@ -81,6 +81,9 @@ import { IngresoInformeComponent } from './vistas/ingreso-informe/ingreso-inform
 import { EstudianteVerInformeComponent } from './vistas/estudiante-ver-informe/estudiante-ver-informe.component';
 import { EliminarEncargadoComponent } from './vistas/eliminar-encargado/eliminar-encargado.component';
 import { EditarEncargadoModalComponent } from './componentes/editar-encargado-modal/editar-encargado-modal.component';
+import { CrearEncargadoModalComponent } from './componentes/crear-encargado-modal/crear-encargado-modal.component';
+import { CrearCarreraModalComponent } from './componentes/crear-carrera-modal/crear-carrera-modal.component';
+import { EditarCarreraModalComponent } from './componentes/editar-carrera-modal/editar-carrera-modal.component';
 
 @NgModule({
   declarations: [
@@ -129,6 +132,9 @@ import { EditarEncargadoModalComponent } from './componentes/editar-encargado-mo
     EstudianteVerInformeComponent,
     EliminarEncargadoComponent,
     EditarEncargadoModalComponent,
+    CrearEncargadoModalComponent,
+    CrearCarreraModalComponent,
+    EditarCarreraModalComponent,
   ],
   imports: [
     BrowserModule,

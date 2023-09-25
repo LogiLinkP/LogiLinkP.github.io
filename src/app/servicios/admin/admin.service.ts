@@ -40,4 +40,19 @@ export class AdminService {
     const req = new HttpRequest('POST',`${this.url}/admin/eliminar-encargado`,{id});
     return this.http.request(req);
   }
+
+  getEncargadoCarrera(id: any){
+    const req = new HttpRequest('GET',`${this.url}/admin/todos-encargados-carreras?id=${id}`);
+    return this.http.request(req);
+  }
+
+  editarCarrera(id_carrera: any, nombre: any, correos_admitidos: any){
+    const req = new HttpRequest('POST',`${this.url}/admin/editar-carrera`,{id_carrera, nombre, correos_admitidos});
+    return this.http.request(req);
+  }
+
+  eliminarCarrera(id: any){
+    const req = new HttpRequest('POST',`${this.url}/admin/eliminar-carrera`,{id});
+    return this.http.request(req);
+  }
 }
