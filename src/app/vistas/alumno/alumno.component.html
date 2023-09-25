@@ -179,7 +179,8 @@
                                                                     <div>
                                                                         <div class="card-body overflow-auto">
                                                                             <div>
-                                                                                <div class="table-responsive" *ngIf="practica[1].modalidad?.config_practica?.frecuencia_informes!='diario'; else informesDiarios">
+                                                                                <div class="table-responsive"
+                                                                                    *ngIf="practica[1].modalidad?.config_practica?.frecuencia_informes!='diario'; else informesDiarios">
                                                                                     <table
                                                                                         class="table table-bordered hoverTable"
                                                                                         id="dataTable" width="100%"
@@ -194,19 +195,29 @@
                                                                                             </tr>
                                                                                         </thead>
                                                                                         <tbody>
-                                                                                            <tr *ngFor="let informe of practica[1].informes;">
-                                                                                                <td>{{ informe?.config_informe?.tipo_informe }}</td>
+                                                                                            <tr
+                                                                                                *ngFor="let informe of practica[1].informes;">
+                                                                                                <td>{{
+                                                                                                    informe?.config_informe?.tipo_informe
+                                                                                                    }}</td>
                                                                                                 <!--<td>{{ informe?.horas_trabajadas }}</td>-->
-                                                                                                <td>{{ informe?.fecha | date: 'dd/MM/yyyy' }}</td>
+                                                                                                <td>{{ informe?.fecha |
+                                                                                                    date: 'dd/MM/yyyy'
+                                                                                                    }}</td>
                                                                                                 <!--<td><button class="btn btn-primary btn-sm btn-block" (click)="mostrar_informe(practica[1].informes,informe.id)">Ver
                                                                                                     Informe</button></td>-->
-                                                                                                <td><button *ngIf="!informe.key || isEmptyObject(informe.key); else elseBlock" 
-                                                                                                    class="btn btn-primary btn-sm btn-block" (click)="redirigir_a_ingreso_informe(informe.id)">Responder</button>
-                                                                                                    <ng-template #elseBlock> 
+                                                                                                <td><button
+                                                                                                        *ngIf="!informe.key || isEmptyObject(informe.key); else elseBlock"
+                                                                                                        class="btn btn-primary btn-sm btn-block"
+                                                                                                        (click)="redirigir_a_ingreso_informe(informe.id)">Responder</button>
+                                                                                                    <ng-template
+                                                                                                        #elseBlock>
                                                                                                         <a class="nostyle"
                                                                                                             href="/estudiante-ver-informe/{{practica[1].id}}/{{informe.id}}">
-                                                                                                            <button class="btn btn-primary btn-sm btn-block">
-                                                                                                                Ver Informe
+                                                                                                            <button
+                                                                                                                class="btn btn-primary btn-sm btn-block">
+                                                                                                                Ver
+                                                                                                                Informe
                                                                                                             </button>
                                                                                                         </a>
                                                                                                     </ng-template>
@@ -215,23 +226,30 @@
                                                                                         </tbody>
                                                                                     </table>
                                                                                 </div>
-                                                                                
+
                                                                                 <ng-template #informesDiarios>
-                                                                                    <p class="text-gray-800">En verde se muestran los informes que ya has respondido, en amarillo los que aún no has respondido.</p>
+                                                                                    <p class="text-gray-800">En verde se
+                                                                                        muestran los informes que ya has
+                                                                                        respondido, en amarillo los que
+                                                                                        aún no has respondido.</p>
 
                                                                                     <table style="width:100%">
                                                                                         <tr>
                                                                                             <td style="width:32%"></td>
                                                                                             <td style="width:36%">
-                                                                                                <mat-calendar class="calendario{{i}}" [selected]="selectedDate"  [minDate]="minDate"
-                                                                                                            (selectedChange)="onFechaClick($event, practica[1].id)" [dateClass]="dateClass(i, practica[1].id)">
+                                                                                                <mat-calendar
+                                                                                                    class="calendario{{i}}"
+                                                                                                    [selected]="selectedDate"
+                                                                                                    [minDate]="minDate"
+                                                                                                    (selectedChange)="onFechaClick($event, practica[1].id)"
+                                                                                                    [dateClass]="dateClass(i, practica[1].id)">
                                                                                                 </mat-calendar>
                                                                                             </td>
                                                                                             <td style="width:32%"></td>
                                                                                         </tr>
                                                                                     </table>
                                                                                 </ng-template>
-                                                                                        
+
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -325,7 +343,8 @@
 
 
                                                         <!--Tarjeta Aptitudes -->
-                                                        <div class="row" style="max-width: 100%" *ngIf="hay_respuesta[i] == 1">
+                                                        <div class="row" style="max-width: 100%"
+                                                            *ngIf="hay_respuesta[i] == 1">
                                                             <!-- Tarjeta Archivos -->
                                                             <div class="col-xl-6">
                                                                 <div class="card shadow mb-4">
@@ -375,69 +394,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
-
-                                                        <div class="row" style="max-width: 100%;"
-                                                            *ngIf="practica[1].estado == 'En curso'">
-
-                                                            <!-- Tarjeta Escribir informe -->
-                                                            <div class="col-xl-6">
-                                                                <div class="card shadow mb-4">
-                                                                    <!-- Card Header - Accordion -->
-                                                                    <a class="card-header py-3">
-                                                                        <h4 class="m-0 font-weight-bold text-primary">
-                                                                            Escribir Informe de Avances</h4>
-                                                                    </a>
-                                                                    <!-- Card Content - Collapse -->
-                                                                    <div class="collapse" id="collapseCardExample">
-                                                                        <div class="card-body">
-                                                                            <!-- Ex componente de subir informe-->
-                                                                            <div style="height: 200px;">
-                                                                                <div class="row"
-                                                                                    style="max-width: 100%;">
-                                                                                    <div class="col-md-12">
-                                                                                        <table
-                                                                                            style="width:100%; margin-top: 5px">
-                                                                                            <tr>
-                                                                                                <td style="width:70%">
-                                                                                                    <mat-label>Actividades
-                                                                                                        Realizadas</mat-label>
-                                                                                                </td>
-                                                                                                <td><mat-label>Horas
-                                                                                                        Dedicadas</mat-label>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td><textarea matInput
-                                                                                                        style="width:90%; height: 120px"
-                                                                                                        placeholder="Escriba aquí"
-                                                                                                        id="informe"></textarea>
-                                                                                                </td>
-                                                                                                <td><input type="number"
-                                                                                                        maxlength="2"
-                                                                                                        min=1 max="24"
-                                                                                                        id="horas"></td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td></td>
-                                                                                                <td
-                                                                                                    style="text-align:right">
-                                                                                                    <button
-                                                                                                        class="btn btn-primary btn-lg btn-block"
-                                                                                                        (click)="ingresarInforme(practica[1])">Enviar</button>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                        </table>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <!--Fin ex componente subir informe-->
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div><!-- Fin Tarjeta Escribir Informe -->
-                                                        </div><!-- Fin Fila -->
-
                                                     </div><!-- Fin de tarjeta de estructura interna -->
 
                                                 </div>
@@ -466,7 +422,6 @@
                                                         Inscribir Práctica</button>
                                                     <app-iniciar-practica *ngIf="flags_inscripcion_list[i]"
                                                         [id_estudiante]="estudiante.id" [nombre_practica]="practica[0]"
-
                                                         [estado_config]="estado_config">
                                                     </app-iniciar-practica>
                                                 </div>
