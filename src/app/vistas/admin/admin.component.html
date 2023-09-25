@@ -44,7 +44,7 @@
                                         <td>{{encargado.carrera?.nombre}}</td>
                                         <td>{{encargado.usuario?.correo}}</td>
                                         <td>
-                                            <button class="btn btn-primary" (click)="editar(encargado.id,encargado.carrera?.nombre)" data-target="#editar-encargado-modal" data-toggle="modal">Editar</button>
+                                            <button class="btn btn-primary" (click)="editar(encargado.id,encargado.carrera?.nombre,encargado.carrera?.id)" data-target="#editar-encargado-modal" data-toggle="modal">Editar</button>
                                             <button class="btn btn-danger ml-2" (click)="eliminar(encargado.id,encargado.carrera?.id)">Eliminar</button>
                                         </td>
                                     </tr>
@@ -125,7 +125,7 @@
 
 <app-crear-carrera-modal></app-crear-carrera-modal>
 <app-crear-encargado-modal></app-crear-encargado-modal>
-<app-editar-encargado-modal [id_encargado]="id_encargado" [carrera_actual]="carrera_actual" [lista_carreras]="carreras"></app-editar-encargado-modal>
+<app-editar-encargado-modal [id_encargado]="id_encargado" [carrera_actual]="carrera_actual" [lista_carreras]="carreras" [id_carrera_actual]="id_carrera_actual"></app-editar-encargado-modal>
 <app-editar-carrera-modal [id_carrera]="id_carrera" [nombre_carrera]="nombre_carrera" [correos_admitidos]="correos_admitidos"></app-editar-carrera-modal>
 
 <!-- Logout Modal-->
