@@ -30,12 +30,20 @@ import { NotisHistorialComponent } from './vistas/notis-historial/notis-historia
 import { RamosAlumnosComponent } from './vistas/ramos-alumnos/ramos-alumnos.component';
 import { RamosEncargadoComponent } from './vistas/ramos-encargado/ramos-encargado.component';
 import { EstadisticaEmpresasComponent } from './vistas/estadistica-empresas/estadistica-empresas.component';
+import { AdminComponent } from './vistas/admin/admin.component';
+import { CrearCarreraComponent } from './vistas/crear-carrera/crear-carrera.component';
+import { CrearEncargadoComponent } from './vistas/crear-encargado/crear-encargado.component';
+import { AsignacionComponent } from './vistas/asignacion/asignacion.component';
+import { RegistroEncargadoComponent } from './vistas/registro-encargado/registro-encargado.component';
 import { IngresoInformeComponent } from './vistas/ingreso-informe/ingreso-informe.component';
 import { EstudianteVerInformeComponent } from './vistas/estudiante-ver-informe/estudiante-ver-informe.component';
 import { InfoYEvaluacionEstudianteComponent } from "./vistas/wizards/info-y-evaluacion-estudiante/info-y-evaluacion-estudiante.component";
 import { DetalleEstudianteComponent } from "./vistas/wizards/detalle-estudiante/detalle-estudiante.component";
+import { EliminarEncargadoComponent } from './vistas/eliminar-encargado/eliminar-encargado.component';
 
 import { environment } from 'src/environments/environment';
+import { PerfilComponent } from './vistas/perfil/perfil.component';
+
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -51,6 +59,7 @@ const routes: Routes = [
           { path: 'cuestionario/:n', component: CuestionarioComponent },
           { path: 'empresas', component: EmpresasComponent },
           { path: 'iniciarpractica/:n', component: IniciarPracticaComponent },
+          { path: 'perfil', component: PerfilComponent}
         ]
       }
     ]
@@ -65,6 +74,17 @@ const routes: Routes = [
   { path: 'resetPass', component: ForgotPasswordComponent },
   { path: 'estadisticas', component: EstadisticasComponent },
   { path: 'informaciones', component: InformacionesComponent },
+  { 
+    path: 'admin', 
+    children: [
+      { path: '', component: AdminComponent},
+      { path: 'crear-carrera', component: CrearCarreraComponent },
+      { path: 'crear-encargado', component: CrearEncargadoComponent },
+      { path: 'asignacion', component: AsignacionComponent},
+      { path: 'eliminar-encargado', component: EliminarEncargadoComponent },
+    ] 
+  },
+  { path: 'encargado/registro/:token', component: RegistroEncargadoComponent },
   // { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
   { path: 'configurar/:nombre', component: ConfiguracionPracticaComponent },
   { path: 'configurar/:nombre/copia', component: ConfiguracionPracticaComponent },
@@ -82,6 +102,7 @@ const routes: Routes = [
   { path: 'estudiante-ver-informe/:id_practica/:id_informe', component: EstudianteVerInformeComponent },
   { path: 'guias/info_y_eval_estudiante', component: InfoYEvaluacionEstudianteComponent },
   { path: 'guias/detalle-estudiante', component: DetalleEstudianteComponent },
+  { path: 'perfil', component: PerfilComponent},
   { path: '**', component: PnfComponent },
 ];
 
@@ -110,9 +131,17 @@ export const routingComponents = [
   CuestionarioComponent,
   ChatComponent,
   ConfiguracionPracticaComponent,
+  AdminComponent,
+  CrearCarreraComponent,
+  CrearEncargadoComponent,
+  AsignacionComponent,
+  RegistroEncargadoComponent,
+  EliminarEncargadoComponent,
+  EncuestaFinPracticaComponent,
+  PerfilComponent,
   IngresoInformeComponent,
   EstudianteVerInformeComponent,
-  EncuestaFinPracticaComponent,
   InfoYEvaluacionEstudianteComponent,
   DetalleEstudianteComponent,
+  EncuestaFinPracticaComponent
 ]

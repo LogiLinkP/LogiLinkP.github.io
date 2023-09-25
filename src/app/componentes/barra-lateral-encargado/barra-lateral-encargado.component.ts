@@ -46,6 +46,10 @@ export class BarraLateralEncargadoComponent {
     });
   }
 
+  reload() { //! sirve como parche, se deberia recargar el componente config practica, no toda la pagina
+    window.location.reload();
+  }
+
   set_practicas_creadas() {
     this.practicas_creadas.push({name: this.name, id: this.practicas_creadas.length});
   }
