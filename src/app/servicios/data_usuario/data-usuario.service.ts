@@ -45,4 +45,8 @@ export class DataUsuarioService {
     const req = new HttpRequest('PUT', `${environment.url_back}/estudiante/linkedin`, {id, link}, {responseType: "text" });
     return this._http.request(req);
   }
+  cambiar_carrera(id:number, id_carrera:number){
+    const req = new HttpRequest('PUT', `${environment.url_back}/estudiante/carrera`, {id, id_carrera}, {responseType: "text" });
+    return this._http.request(req);
+  }
 }
