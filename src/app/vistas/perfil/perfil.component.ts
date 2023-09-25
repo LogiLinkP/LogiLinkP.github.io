@@ -25,8 +25,6 @@ export class PerfilComponent {
   edicion2:number = 0;
 
   carreras:any = [];
-  carreras_id:any = [];
-
 
   constructor(private service: DataUsuarioService, private user_service:UsuarioService){
     this.usuario = JSON.parse(localStorage.getItem('auth-user') || '{}').userdata;
@@ -72,13 +70,8 @@ export class PerfilComponent {
               complete:() => {
                 for(var val of this.respuesta.body){
                   this.carreras.push(val.nombre);
-                  this.carreras_id.push(val.id)
-                  if(this.id_carrera == val.id){
-                    this.Carrera = val.nombre
-                  }
                 }
-                console.log(this.carreras)
-                console.log(this.carreras_id)
+                this.Carrera = this.carreras[this.id_carrera]
               }
             })
           }
@@ -119,7 +112,8 @@ export class PerfilComponent {
   }
   
   confirmar_cambio_carrera(){
-    this.Carrera = this.carreras[this.id_carrera-1]
+
+    this.Carrera = this.carreras[this.id_carrera]
     this.service.cambiar_carrera(this.ID, this.id_carrera).subscribe({
       next:(data:any) => {
 
@@ -129,7 +123,6 @@ export class PerfilComponent {
         return;
       },
       complete:() => {
-        console.log("HOLA")
         this.edicion2 = 0;
       }
     })

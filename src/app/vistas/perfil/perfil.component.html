@@ -65,7 +65,7 @@
                                             <p></p>
                                             <div *ngIf="edicion2 == 1">
                                                 <select class="form-select" (change)="checkout($event)">
-                                                    <option *ngFor="let carrera of carreras; let indice = index" value={{carreras_id[indice]}}>{{carrera}}</option>
+                                                    <option *ngFor="let carrera of carreras; let indice = index" value={{indice}}>{{carrera}}</option>
                                                 </select>
                                                 <button (click)="confirmar_cambio_carrera()" class="btn btn-primary" stlye="width: 60%">
                                                     Confirmar
