@@ -1,4 +1,23 @@
-.linea
-{
-    display: inline-block;
+.input-center {
+    width: auto;
+    margin: 0 auto;
+    margin-bottom: 5px;
+}
+
+.pregunta {
+    background-color: #f5f5f5;
+    padding: 10px;
+    border: 1px solid #e3e3e3;
+    margin: 10px;
+    margin-bottom: 10px;
+}
+
+.text-area {
+    height: 10%;
+    resize: none;
+    background-color: white;
+}
+
+td {
+    text-align: center;
 }
