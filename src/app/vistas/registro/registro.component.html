@@ -43,11 +43,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- NOMBRE -->
+                                <!-- APELLIDO -->
 
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                        placeholder="Apellidos">
+                                        placeholder="Apellidos" formControlName="apellido">
                                 </div>
                             </div>
 
@@ -85,7 +85,7 @@
 
                             <hr>
                             <select class="form-select" name="tipo" id="tipo" (change)="checkout($event)">
-                                <option value="0">Seleccione una opcion</option>
+                                <option value="0">Seleccione tipo de usuario</option>
                                 <option value="1">Estudiante</option>
                                 <option value="2">Supervisor</option>
                                 <option value="3">Encargado</option>
@@ -93,8 +93,16 @@
 
                             <div *ngIf="!es_estudiante&&!es_supervisor"> </div>
                             <div *ngIf="es_estudiante">
-                                Rut<input formControlName="RUT" type="text" name="RUT" placeholder="12345678-9"
-                                    required="required" style="margin-top: 20px; margin-left: 20px;"/>
+                                <div>
+                                        Rut:<input formControlName="RUT" type="text" name="RUT" placeholder="12345678-9"
+                                        required="required" style="margin-top: 20px; margin-left: 20px;"/>
+                                </div>
+                                <div>
+                                    Carrera:
+                                    <select class="form-select" name="id_carrera" id="id_carrera" (change)="checkout2($event)">
+                                        <option *ngFor="let carrera of carreras; let indice = index" value={{carreras_id[indice]}}>{{carrera}}</option>
+                                    </select>
+                                </div>
                             </div>
                             <div *ngIf="es_supervisor">
                             </div>

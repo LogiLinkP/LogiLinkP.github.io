@@ -44,7 +44,8 @@ export class GestionarService {
   }
 
   registrar_practica(id_estudiante: number, id_modalidad: number, fecha_inicio: string,
-    id_empresa: number, id_supervisor: number, id_encargado: number) {
+    id_empresa: number, id_supervisor: number, id_encargado: number, id_config_practica: number) {
+
     const nueva_practica = {
       estado: environment.estado_practica.en_curso,
       id_estudiante: id_estudiante,
@@ -53,7 +54,8 @@ export class GestionarService {
       horas: 0,
       id_empresa: id_empresa,
       id_supervisor: id_supervisor,
-      id_encargado: id_encargado
+      id_encargado: id_encargado,
+      id_config_practica
     }
     const req = new HttpRequest('POST', `${environment.url_back}/practica/crear`, nueva_practica, {
       responseType: 'text'
@@ -70,8 +72,9 @@ export class GestionarService {
     return this.http.request(req);
   }
 
-  buscar_config_practica(nombre: string) {
-    const req = new HttpRequest('GET', `${environment.url_back}/config_practica/buscar?nombre=${nombre}`, {
+  buscar_config_practica(nombre: string, activada: boolean = true) {
+    console.log("Buscando configuracion de practica con nombre: ", nombre)
+    const req = new HttpRequest('GET', `${environment.url_back}/config_practica/buscar?nombre=${nombre}&activada=${activada}`, {
       responseType: 'json'
     });
     return this.http.request(req);
