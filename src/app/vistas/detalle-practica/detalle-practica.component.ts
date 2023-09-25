@@ -68,15 +68,13 @@ export class DetallePracticaComponent implements OnInit {
   correo_estudiante: string = "";
   config_estudiante: string = "";
 
-  preguntas: any= [];
+  preguntas: any = [];
   aptitudes_practica: any = [];
   notas_aptitudes: any = [];
-  promedio: number = -1;
+  promedio: string = "";
 
-
-  nota_promedio: number = -1;
   prom: number = -1;
-  hay_respuesta:number = -1;
+  hay_respuesta: number = -1;
 
   constructor(private fragmentosService: FragmentosService, private service: DetallePracticaService, private service2: SetDetallesAlumnoService,
     private _snackBar: MatSnackBar, private route: ActivatedRoute,
@@ -143,37 +141,37 @@ export class DetallePracticaComponent implements OnInit {
           this.documento_extras = this.practica.documento_extras;
           this.informes = this.practica.informes;
           // considerar como evaluaciones todas las respuestas que tengan un tipo_respuesta que sea un número
-          this.evaluaciones = this.practica.respuesta_supervisors.filter((respuesta_supervisor: any) => {
-            return !isNaN(respuesta_supervisor.respuesta);
-          });
+          // this.evaluaciones = this.practica.respuesta_supervisors.filter((respuesta_supervisor: any) => {
+          //   return !isNaN(respuesta_supervisor.respuesta);
+          // });
 
           this.preguntas = this.practica.respuesta_supervisors
-          
-          
-          for (var item of this.preguntas){
+
+
+          for (var item of this.preguntas) {
             let temp: any = [];
             let nota_promedio = 0;
             let prom = 0;
-            if(item.pregunta_supervisor != null){
-              if(item.pregunta_supervisor.enunciado == "Evalue entre 1 y 5 las siguientes aptitudes del practicante"){
-                if(item.pregunta_supervisor.opciones.indexOf(";;") != -1){
+            if (item.pregunta_supervisor != null) {
+              if (item.pregunta_supervisor.tipo_respuesta == "evaluacion") {
+                if (item.pregunta_supervisor.opciones.indexOf(";;") != -1) {
                   this.hay_respuesta = 1;
                   this.aptitudes_practica.push(item.pregunta_supervisor.opciones.split(";;"))
                   temp = item.respuesta.split(",");
-                  
-                  for(var n of temp){
+
+                  for (var n of temp) {
                     nota_promedio += Number(n);
                     prom += 1;
                   }
 
                   this.notas_aptitudes.push(temp);
-                  this.promedio = (nota_promedio/prom)
+                  this.promedio = (nota_promedio / prom).toFixed(2)
                   break;
-                }                             
+                }
               }
             }
           }
-            
+
 
 
           // considerar como respuestas todas las que sean strings
@@ -289,9 +287,10 @@ export class DetallePracticaComponent implements OnInit {
       complete: () => {
         if (!dataFrag.body || !dataFrag.body.supervisor) return;
         this.fragmentos_sup = dataFrag.body.supervisor
-        console.log("fragmentos_sup!!", this.fragmentos_sup)
-        console.log("this.respuestas_supervisor: ", this.respuestas_supervisor)
-        this.respuestas_sup_parsed = this.respuestas_supervisor.map((resp: any) => {
+
+        this.respuestas_sup_parsed = this.respuestas_supervisor.filter((elem: any) => {
+          return elem.pregunta_supervisor.tipo_respuesta != "evaluacion"
+        }).map((resp: any) => {
           if (!(resp.id in this.fragmentos_sup)) {
             return [true, resp.pregunta_supervisor.enunciado, resp.respuesta]
           } else if (this.fragmentos_sup[resp.id].length == 0) {
@@ -310,7 +309,6 @@ export class DetallePracticaComponent implements OnInit {
           }
         });
         this.data_supervisor_rdy = true;
-        console.log(dataFrag.body);
       }
     });
   }

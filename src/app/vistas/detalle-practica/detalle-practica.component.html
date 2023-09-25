@@ -124,23 +124,21 @@
                     <div class="row">
                         <div class="col-12 col-lg-4" style="margin-bottom: 20px;">
                             <button type="button" class="btn btn-success btn-lg btn-block"
-                                    [disabled]="!botones_habilitados"
-                                    (click)="aprobar(practica?.estudiante?.id_usuario, practica?.estudiante?.id, practica?.modalidad?.id, 1)">
-                                    Aprobar
+                                [disabled]="!botones_habilitados"
+                                (click)="aprobar(practica?.estudiante?.id_usuario, practica?.estudiante?.id, practica?.modalidad?.id, 1)">
+                                Aprobar
                             </button>
                         </div>
                         <div class="col-12 col-lg-4" style="margin-bottom: 20px;">
                             <button type="button" class="btn btn-danger btn-lg btn-block"
-                                    [disabled]="!botones_habilitados"
-                                    (click)="aprobar(practica?.estudiante?.id_usuario, practica?.estudiante?.id, practica?.modalidad?.id, 0)">
-                                    Reprobar
+                                [disabled]="!botones_habilitados"
+                                (click)="aprobar(practica?.estudiante?.id_usuario, practica?.estudiante?.id, practica?.modalidad?.id, 0)">
+                                Reprobar
                             </button>
                         </div>
                         <div class="col-12 col-lg-4" style="margin-bottom: 20px;">
-                            <app-boton-solicitar-archivo [id_alumno]="id_estudiante"
-                                                    [correo_alumno]="correo_estudiante"
-                                                    [configuración_alumno]="config_estudiante"
-                                                    [id_practica]="practica.id">
+                            <app-boton-solicitar-archivo [id_alumno]="id_estudiante" [correo_alumno]="correo_estudiante"
+                                [configuración_alumno]="config_estudiante" [id_practica]="practica.id">
                             </app-boton-solicitar-archivo>
                         </div>
                     </div>
@@ -311,30 +309,9 @@
                                 </a>
                                 <!-- Card Content - Collapse -->
                                 <div class="collapse show" id="collapseCardEvaluacion">
-                                    <div class="card-body">
-                                        <div class="overflow-auto">
-                                            <div class="table-responsive ">
-                                                <table class="table table-bordered hoverTable" id="dataTable"
-                                                    width="100%" cellspacing="0">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Tipo</th>
-                                                            <th>Evaluacion</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr *ngFor="let eval of evaluaciones;">
-                                                            <td>{{eval.pregunta_supervisor?.enunciado}}</td>
-                                                            <td>{{eval.respuesta}}</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <!-- Evaluación de Aptitudes -->
-                                    <div class="card-body" *ngIf ="hay_respuesta == 1">
-                                        <div class="overflow-auto" >
+                                    <div class="card-body" *ngIf="hay_respuesta == 1">
+                                        <div class="overflow-auto">
                                             <div class="table-responsive">
                                                 <table class="table table-bordered hoverTable" id="dataTable"
                                                     width="100%" cellspacing="0">
@@ -345,13 +322,14 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr *ngFor="let aptitud of aptitudes_practica[0]; let j = index">
+                                                        <tr
+                                                            *ngFor="let aptitud of aptitudes_practica[0]; let j = index">
                                                             <th>{{aptitud}}</th>
                                                             <th>{{notas_aptitudes[0][j]}}</th>
                                                         </tr>
                                                         <tr>
                                                             <th>Promedio</th>
-                                                            <th>{{promedio}}</th> 
+                                                            <th>{{promedio}}</th>
                                                         </tr>
                                                     </tbody>
                                                 </table>
