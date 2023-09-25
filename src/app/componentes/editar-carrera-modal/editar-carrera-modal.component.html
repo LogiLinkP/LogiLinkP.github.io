@@ -8,8 +8,13 @@ aria-hidden="true">
             <div class="modal-body">
                 Ingrese una o varias carreras a agregar, para hacerlo utilice una linea por carrera.
                 <form class="asignacion" [formGroup]="editarForm">
-                    Nombre carrera: <input type="text" name="nombre" formControlName="nombre" [value]="nombre_carrera">
-                    Dominio Admitido<input type="text" name="nombre" formControlName="correo_admitido" ng-pattern="/([\w]*\.)?[\w]+\.(cl|com)/" [value]="correos_admitidos">
+                    <div>
+                        Nombre carrera: <input type="text" name="nombre" formControlName="nombre" [value]="nombre_carrera">
+                    </div>
+                    <br>
+                    <div>
+                        Dominio Admitido: <input type="text" name="correo_admitido" formControlName="correo_admitido" ng-pattern="/([\w]*\.)?[\w]+\.(cl|com)/" [value]="correos_admitidos">
+                    </div>
                 </form>
                 
 

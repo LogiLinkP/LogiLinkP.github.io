@@ -35,6 +35,7 @@ export class EditarCarreraModalComponent implements OnInit {
   editar(){
     let data = this.editarForm.value;
     this.nombre = data.nombre;
+    console.log(this.nombre)
     this.correos = data.correo_admitido;
     let _data: any = {};
     this.admin.editarCarrera(this.id_carrera,this.nombre,this.correos).subscribe({
