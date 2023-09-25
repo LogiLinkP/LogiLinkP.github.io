@@ -10,8 +10,9 @@ import { CommonModule } from '@angular/common'
 import { DocumentosService } from '../../servicios/encargado/documentos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ArchivosService } from '../../servicios/archivos/archivos.service';
-import { ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
 
 export interface DialogData {
   nombre_solicitud: string;
@@ -33,8 +34,13 @@ export class SubirArchivoComponent {
   @Input() tipo_archivo: string[] = [];
   @Input() id_usuario: number = 0;
 
-  constructor(public dialog: MatDialog, private _snackBar: MatSnackBar, private archivo_service: ArchivosService, private router: Router, 
-              private activated_route: ActivatedRoute) {}
+  @Input() id_estudiante_usuario: number = -1
+  @Input() id_encargado_usuario: number = -1;
+  @Input() correo_encargado: string = "";
+  @Input() estado_config: string = "";
+
+  constructor(public dialog: MatDialog, private _snackBar: MatSnackBar, private archivo_service: ArchivosService, private router: Router,
+    private activated_route: ActivatedRoute, private service_noti: NotificacionesService) { }
 
   subir_archivos() {
     let id_solicitud = this.id_solicitud;
@@ -66,7 +72,7 @@ export class SubirArchivoComponent {
         }
 
         let _data: any = {};
-        
+
         this.archivo_service.subirDocumento(file, id_solicitud, id_practica).subscribe({
           next: data => {
             _data = { ..._data, ...data }
@@ -75,6 +81,21 @@ export class SubirArchivoComponent {
             let upload_string = "";
             if (_data.status == 200) {
               upload_string = "?upload_success=success";
+              let respuesta: any = [];
+              let enlace = environment.url_front + "/practicas/" + this.id_estudiante_usuario;
+
+              this.service_noti.postnotificacion(this.id_encargado_usuario, "El alumno ha subido el archivo extra solicitado", this.correo_encargado, this.estado_config, enlace).subscribe({
+                next: (data: any) => {
+                  respuesta = { ...respuesta, ...data };
+                },
+                error: (error: any) => {
+                  console.log(error);
+                  return;
+                },
+                complete: () => {
+                  console.log("Notificacion enviada con exito");
+                }
+              });
             } else if (_data.status == 415) {
               upload_string = "?upload_success=format";
             } else {

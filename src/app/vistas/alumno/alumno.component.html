@@ -179,7 +179,8 @@
                                                                     <div>
                                                                         <div class="card-body overflow-auto">
                                                                             <div>
-                                                                                <div class="table-responsive" *ngIf="practica[1].modalidad?.config_practica?.frecuencia_informes!='diario'; else informesDiarios">
+                                                                                <div class="table-responsive"
+                                                                                    *ngIf="practica[1].modalidad?.config_practica?.frecuencia_informes!='diario'; else informesDiarios">
                                                                                     <table
                                                                                         class="table table-bordered hoverTable"
                                                                                         id="dataTable" width="100%"
@@ -194,19 +195,29 @@
                                                                                             </tr>
                                                                                         </thead>
                                                                                         <tbody>
-                                                                                            <tr *ngFor="let informe of practica[1].informes;">
-                                                                                                <td>{{ informe?.config_informe?.tipo_informe }}</td>
+                                                                                            <tr
+                                                                                                *ngFor="let informe of practica[1].informes;">
+                                                                                                <td>{{
+                                                                                                    informe?.config_informe?.tipo_informe
+                                                                                                    }}</td>
                                                                                                 <!--<td>{{ informe?.horas_trabajadas }}</td>-->
-                                                                                                <td>{{ informe?.fecha | date: 'dd/MM/yyyy' }}</td>
+                                                                                                <td>{{ informe?.fecha |
+                                                                                                    date: 'dd/MM/yyyy'
+                                                                                                    }}</td>
                                                                                                 <!--<td><button class="btn btn-primary btn-sm btn-block" (click)="mostrar_informe(practica[1].informes,informe.id)">Ver
                                                                                                     Informe</button></td>-->
-                                                                                                <td><button *ngIf="!informe.key || isEmptyObject(informe.key); else elseBlock" 
-                                                                                                    class="btn btn-primary btn-sm btn-block" (click)="redirigir_a_ingreso_informe(informe.id)">Responder</button>
-                                                                                                    <ng-template #elseBlock> 
+                                                                                                <td><button
+                                                                                                        *ngIf="!informe.key || isEmptyObject(informe.key); else elseBlock"
+                                                                                                        class="btn btn-primary btn-sm btn-block"
+                                                                                                        (click)="redirigir_a_ingreso_informe(informe.id)">Responder</button>
+                                                                                                    <ng-template
+                                                                                                        #elseBlock>
                                                                                                         <a class="nostyle"
                                                                                                             href="/estudiante-ver-informe/{{practica[1].id}}/{{informe.id}}">
-                                                                                                            <button class="btn btn-primary btn-sm btn-block">
-                                                                                                                Ver Informe
+                                                                                                            <button
+                                                                                                                class="btn btn-primary btn-sm btn-block">
+                                                                                                                Ver
+                                                                                                                Informe
                                                                                                             </button>
                                                                                                         </a>
                                                                                                     </ng-template>
@@ -215,23 +226,30 @@
                                                                                         </tbody>
                                                                                     </table>
                                                                                 </div>
-                                                                                
+
                                                                                 <ng-template #informesDiarios>
-                                                                                    <p class="text-gray-800">En verde se muestran los informes que ya has respondido, en amarillo los que aún no has respondido.</p>
+                                                                                    <p class="text-gray-800">En verde se
+                                                                                        muestran los informes que ya has
+                                                                                        respondido, en amarillo los que
+                                                                                        aún no has respondido.</p>
 
                                                                                     <table style="width:100%">
                                                                                         <tr>
                                                                                             <td style="width:32%"></td>
                                                                                             <td style="width:36%">
-                                                                                                <mat-calendar class="calendario{{i}}" [selected]="selectedDate"  [minDate]="minDate"
-                                                                                                            (selectedChange)="onFechaClick($event, practica[1].id)" [dateClass]="dateClass(i, practica[1].id)">
+                                                                                                <mat-calendar
+                                                                                                    class="calendario{{i}}"
+                                                                                                    [selected]="selectedDate"
+                                                                                                    [minDate]="minDate"
+                                                                                                    (selectedChange)="onFechaClick($event, practica[1].id)"
+                                                                                                    [dateClass]="dateClass(i, practica[1].id)">
                                                                                                 </mat-calendar>
                                                                                             </td>
                                                                                             <td style="width:32%"></td>
                                                                                         </tr>
                                                                                     </table>
                                                                                 </ng-template>
-                                                                                        
+
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -279,7 +297,12 @@
                                                                                                         [id_practica]=practica[1].id
                                                                                                         [descripcion]="solicitud.descripcion"
                                                                                                         [nombre_solicitud]="solicitud.nombre_solicitud"
-                                                                                                        [tipo_archivo]="solicitud.tipo_archivo">
+                                                                                                        [tipo_archivo]="solicitud.tipo_archivo"
+                                                                                                        [id_encargado_usuario]=" practica[1].encargado.id_usuario"
+                                                                                                        [correo_encargado]="practica[1].encargado.usuario.correo"
+                                                                                                        [estado_config]="estado_config"
+                                                                                                        [id_estudiante_usuario]="usuario.id">
+
                                                                                                     </app-subir-archivo>
                                                                                                     <button
                                                                                                         *ngSwitchDefault
@@ -325,7 +348,8 @@
 
 
                                                         <!--Tarjeta Aptitudes -->
-                                                        <div class="row" style="max-width: 100%" *ngIf="hay_respuesta[i] == 1">
+                                                        <div class="row" style="max-width: 100%"
+                                                            *ngIf="hay_respuesta[i] == 1">
                                                             <!-- Tarjeta Archivos -->
                                                             <div class="col-xl-6">
                                                                 <div class="card shadow mb-4">
@@ -466,7 +490,6 @@
                                                         Inscribir Práctica</button>
                                                     <app-iniciar-practica *ngIf="flags_inscripcion_list[i]"
                                                         [id_estudiante]="estudiante.id" [nombre_practica]="practica[0]"
-
                                                         [estado_config]="estado_config">
                                                     </app-iniciar-practica>
                                                 </div>
