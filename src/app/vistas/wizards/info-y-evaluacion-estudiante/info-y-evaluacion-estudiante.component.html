@@ -33,8 +33,8 @@
                                         <th style="vertical-align: bottom;">Tipo Práctica</th>
                                         <th style="vertical-align: bottom;">Estado</th>
                                         <th style="vertical-align: bottom;">Índice Repetición
-                                            <a class="pointer" title="{{texto_indice_repeticion}}" data-toggle="tooltip"
-                                                data-placement="bottom" (click)="redirecting()"><i
+                                            <a id="infobox" class="pointer" title="{{texto_indice_repeticion}}"
+                                                data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
                                                     class="fas fa-info-circle"></i></a>
                                         </th>
                                         <th style="vertical-align: bottom;">Consistencia Informes
@@ -91,7 +91,7 @@
                                             Los informes del estudiante son consistentes con los del supervisor
                                         </td>
                                         <td class="table-item" routerLink="/" style="vertical-align: middle;">
-                                            -
+                                            El puntaje de la evaluación es similar la detectada en el informe
                                         </td>
                                         <td class="table-item" routerLink="/" style="vertical-align: middle;">
                                             1,25
@@ -100,7 +100,7 @@
                                             Reprobado
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <tr id="fila">
                                         <td class="table-item" routerLink="/" style="vertical-align: middle;">
                                             毛澤東
                                         </td>
@@ -111,7 +111,7 @@
                                             Revolución industrial 1
                                         </td>
                                         <td class="table-item" routerLink="/" style="vertical-align: middle;">
-                                            Finalizada
+                                            Evaluada
                                         </td>
                                         <td class="table-item" routerLink="/" style="vertical-align: middle;">
                                             64%
@@ -120,19 +120,22 @@
                                             45%
                                         </td>
                                         <td class="table-item" routerLink="/" style="vertical-align: middle;">
-                                            -
+                                            55%
                                         </td>
                                         <td class="table-item" routerLink="/" style="vertical-align: middle;">
                                             Los informes del estudiante son consistentes con los del supervisor
                                         </td>
                                         <td class="table-item" routerLink="/" style="vertical-align: middle;">
-                                            -
+                                            El puntaje de la evaluación está alejada de la detectada por la plataforma
                                         </td>
                                         <td class="table-item" routerLink="/" style="vertical-align: middle;">
-                                            -
+                                            3,7
                                         </td>
-                                        <td style="vertical-align: middle;">
-                                            Esperando evaluacion del supervisor
+                                        <td id="col_evaluar" style="vertical-align: middle;">
+                                            <div class="container">
+                                                <button class="btn btn-success btn-md btn-block">Aprobar</button>
+                                                <button class="btn btn-danger btn-md btn-block">Reprobar</button>
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr>

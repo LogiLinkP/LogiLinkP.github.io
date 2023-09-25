@@ -33,6 +33,7 @@ import { EstadisticaEmpresasComponent } from './vistas/estadistica-empresas/esta
 import { IngresoInformeComponent } from './vistas/ingreso-informe/ingreso-informe.component';
 import { EstudianteVerInformeComponent } from './vistas/estudiante-ver-informe/estudiante-ver-informe.component';
 import { InfoYEvaluacionEstudianteComponent } from "./vistas/wizards/info-y-evaluacion-estudiante/info-y-evaluacion-estudiante.component";
+import { DetalleEstudianteComponent } from "./vistas/wizards/detalle-estudiante/detalle-estudiante.component";
 
 import { environment } from 'src/environments/environment';
 
@@ -80,6 +81,7 @@ const routes: Routes = [
   { path: 'ingreso-informe', component: IngresoInformeComponent },
   { path: 'estudiante-ver-informe/:id_practica/:id_informe', component: EstudianteVerInformeComponent },
   { path: 'guias/info_y_eval_estudiante', component: InfoYEvaluacionEstudianteComponent },
+  { path: 'guias/detalle-estudiante', component: DetalleEstudianteComponent },
   { path: '**', component: PnfComponent },
 ];
 
@@ -111,5 +113,6 @@ export const routingComponents = [
   IngresoInformeComponent,
   EstudianteVerInformeComponent,
   EncuestaFinPracticaComponent,
-  InfoYEvaluacionEstudianteComponent
+  InfoYEvaluacionEstudianteComponent,
+  DetalleEstudianteComponent,
 ]

@@ -45,17 +45,17 @@ export class InfoYEvaluacionEstudianteComponent {
     const botones = [
       {
         classes: 'shepherd-button-secondary',
-        text: 'Exit',
+        text: 'Salir',
         action: tour.cancel
       },
       {
         classes: 'shepherd-button-primary',
-        text: 'Back',
+        text: 'Atrás',
         action: tour.back
       },
       {
         classes: 'shepherd-button-primary',
-        text: 'Next',
+        text: 'Siguiente',
         action: tour.next
       }
     ];
@@ -73,22 +73,24 @@ export class InfoYEvaluacionEstudianteComponent {
             }, 500);
           });
         },
-        buttons: botones,
+        buttons: [
+          {
+            classes: 'shepherd-button-secondary',
+            text: 'Salir',
+            action: tour.cancel
+          },
+          {
+            classes: 'shepherd-button-primary',
+            text: 'Siguiente',
+            action: tour.next
+          }
+        ],
         cancelIcon: {
           enabled: true
         },
         highlightClass: 'highlight',
-        scrollTo: false,
         title: titulo,
-        text: ['Bienvenido al sistema de Evaluación de Praxus.<br>Con esta guía usted aprenderá la información que praxus ofrece para evaluar de mejor manera a los estudiantes'],
-        when: {
-          show: () => {
-            console.log('show step');
-          },
-          hide: () => {
-            console.log('hide step');
-          }
-        }
+        text: ['Bienvenido al sistema de Evaluación de Praxus.<br>Con esta guía usted aprenderá la información que praxus ofrece para evaluar de mejor manera a los estudiantes.'],
       },
       {
         id: '1',
@@ -98,9 +100,8 @@ export class InfoYEvaluacionEstudianteComponent {
         },
         buttons: botones,
         highlightClass: 'highlight',
-        scrollTo: false,
         title: titulo,
-        text: ['En esta tabla se muestra la información principal sobre la practicas practicas de los estudiantes'],
+        text: ['En esta tabla se muestra la información principal sobre la practicas practicas de los estudiantes.'],
       },
       {
         id: '2',
@@ -110,9 +111,56 @@ export class InfoYEvaluacionEstudianteComponent {
         },
         buttons: botones,
         highlightClass: 'highlight',
-        scrollTo: false,
         title: titulo,
-        text: ['Datos importantes, como el nombre, rut, práctica datos recolectados por nuestro sistema'],
+        text: ['Datos importantes, como el nombre, rut, práctica datos recolectados por nuestro sistema.'],
+      },
+      {
+        attachTo: {
+          element: '#infobox',
+          on: 'bottom'
+        },
+        buttons: botones,
+        highlightClass: 'highlight',
+        title: titulo,
+        text: ['Al posar el mouse sobre el botón de información, se desplegará una ventana con información sobre el dato de la columna.<br>Al hacer clic podrá ver información extendida sobre aquel dato.'],
+      },
+      {
+        attachTo: {
+          element: '#col_evaluar',
+          on: 'bottom'
+        },
+        buttons: botones,
+        highlightClass: 'highlight',
+        title: titulo,
+        text: ['Una vez la práctica haya sido usted podrá revisar los antecedentes y decidir si aprueba o reprueba esta práctica.'],
+      },
+      {
+        attachTo: {
+          element: '#fila',
+          on: 'bottom'
+        },
+        buttons: [
+          {
+            classes: 'shepherd-button-secondary',
+            text: 'Salir',
+            action: tour.cancel
+          },
+          {
+            classes: 'shepherd-button-primary',
+            text: 'Atrás',
+            action: tour.back
+          },
+          {
+            classes: 'shepherd-button-primary',
+            text: 'Siguiente vista',
+            action: () => {
+              window.location.href = "/guias/detalle-estudiante";
+            }
+          }
+        ],
+        highlightClass: 'highlight',
+        title: titulo,
+        text: ['Al hacer clic en una fila usted podrá ver los detalles del estudiante.'],
       }
     ]);
 
