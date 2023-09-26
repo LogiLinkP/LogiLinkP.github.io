@@ -37,7 +37,7 @@
                 <!-- <a class="collapse-item" [routerLink]="['/configurar', 'configBase']">Planilla base</a> -->
                 <a class="collapse-item disabled" *ngIf="!ramos_creados">
                     <i class="fas fa-regular fa-plus fa-sm fa-fw mr-2 text-gray-400"></i>
-                    <span matTooltip="Se deben crear ramos antes de configurar prácticas!">Plantilla en blanco</span>
+                    <span matTooltip="Deben existir ramos antes de crear practicas nuevas!">Plantilla en blanco</span>
                 </a>
                 <a class="collapse-item" [routerLink]="['/configurar', 'blanco']" *ngIf="ramos_creados">
                     <i class="fas fa-regular fa-plus fa-sm fa-fw mr-2 text-gray-400"></i>
