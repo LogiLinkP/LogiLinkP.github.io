@@ -90,7 +90,7 @@ export class InfoYEvaluacionEstudianteComponent {
         },
         highlightClass: 'highlight',
         title: titulo,
-        text: ['Bienvenido al sistema de Evaluación de Praxus.<br>Con esta guía usted aprenderá la información que praxus ofrece para evaluar de mejor manera a los estudiantes.'],
+        text: ['Bienvenido al sistema de Evaluación de Praxus.<br>Con esta guía usted aprenderá la información que Praxus ofrece para evaluar de mejor manera a los estudiantes.'],
       },
       {
         id: '1',
@@ -101,7 +101,7 @@ export class InfoYEvaluacionEstudianteComponent {
         buttons: botones,
         highlightClass: 'highlight',
         title: titulo,
-        text: ['En esta tabla se muestra la información principal sobre la practicas practicas de los estudiantes.'],
+        text: ['En esta tabla se muestra la información principal sobre la prácticas de los estudiantes.'],
       },
       {
         id: '2',
@@ -112,7 +112,7 @@ export class InfoYEvaluacionEstudianteComponent {
         buttons: botones,
         highlightClass: 'highlight',
         title: titulo,
-        text: ['Datos importantes, como el nombre, rut, práctica datos recolectados por nuestro sistema.'],
+        text: ['Datos importantes, como el nombre, rut y otros datos recolectados por nuestro sistema.'],
       },
       {
         attachTo: {
@@ -132,7 +132,7 @@ export class InfoYEvaluacionEstudianteComponent {
         buttons: botones,
         highlightClass: 'highlight',
         title: titulo,
-        text: ['Una vez la práctica haya sido usted podrá revisar los antecedentes y decidir si aprueba o reprueba esta práctica.'],
+        text: ['Una vez la práctica haya sido evaluada, usted podrá revisar los antecedentes y decidir si aprueba o reprueba esta práctica.'],
       },
       {
         attachTo: {

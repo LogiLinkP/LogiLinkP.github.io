@@ -200,7 +200,7 @@ export class DetalleEstudianteComponent {
         },
         highlightClass: 'highlight',
         title: titulo,
-        text: ['Gracias por preferir praxus. No dude en volver a consultar la guía en caso de dudas.']
+        text: ['Gracias por preferir Praxus. No dude en volver a consultar la guía en caso de dudas.']
       }
     ]);
     tour.start();
