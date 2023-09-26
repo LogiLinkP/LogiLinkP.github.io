@@ -71,15 +71,6 @@ export class DetalleEstudianteComponent {
         text: ['En esta sección usted podrá ver la información detallada de la práctica del estudiante.'],
       },
       {
-        buttons: botones,
-        cancelIcon: {
-          enabled: true
-        },
-        highlightClass: 'highlight',
-        title: titulo,
-        text: ['En esta sección usted podrá ver la información detallada de la práctica del estudiante.'],
-      },
-      {
         attachTo: {
           element: "#datos_generales",
           on: 'bottom'
@@ -90,7 +81,7 @@ export class DetalleEstudianteComponent {
         },
         highlightClass: 'highlight',
         title: titulo,
-        text: ['Datos sobre la empresa y la práctica.']
+        text: ['Tales como: Datos sobre la empresa y la práctica.']
       },
       {
         attachTo: {
