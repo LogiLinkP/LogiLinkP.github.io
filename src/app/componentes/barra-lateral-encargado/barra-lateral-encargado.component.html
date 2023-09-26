@@ -30,10 +30,13 @@
             <span>Configurar Prácticas</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div *ngIf="configs_nombres.length > 0" class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Practicas Activas:</h6>
-                <a *ngFor="let practica of configs_nombres" class="collapse-item"
-                    [routerLink]="['/configurar', practica]">{{practica}}</a>
+            <div class="bg-white py-2 collapse-inner rounded">
+                <div *ngIf="configs_nombres.length > 0">
+                    <h6 class="collapse-header">Practicas Activas:</h6>
+                    <a *ngFor="let practica of configs_nombres" class="collapse-item"
+                        [routerLink]="['/configurar', practica]">{{practica}}
+                    </a>
+                </div>
                 <h6 class="collapse-header">Crear Nueva:</h6>
                 <!-- <a class="collapse-item" [routerLink]="['/configurar', 'configBase']">Planilla base</a> -->
                 <a class="collapse-item disabled" *ngIf="!ramos_creados">
@@ -44,10 +47,12 @@
                     <i class="fas fa-regular fa-plus fa-sm fa-fw mr-2 text-gray-400"></i>
                     Plantilla en blanco
                 </a>
-                <a class="collapse-item" href="#" data-toggle="modal" data-target="#importModal">
-                    <i class="fas fa-regular fa-clipboard fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Importar existente
-                </a>
+                <div *ngIf="configs_nombres.length > 0">
+                    <a class="collapse-item" href="#" data-toggle="modal" data-target="#importModal">
+                        <i class="fas fa-regular fa-clipboard fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Importar existente
+                    </a>
+                </div>
             </div>
         </div>
     </li>
