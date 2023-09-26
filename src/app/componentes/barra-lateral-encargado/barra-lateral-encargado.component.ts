@@ -13,6 +13,7 @@ export class BarraLateralEncargadoComponent {
   name: string;
   practicas_creadas: any = [];
   configs_nombres: any = [];
+  ramos_creados: boolean = false;
 
   constructor(private service: BarraLateralService, private _snackBar: MatSnackBar) {
     
@@ -46,9 +47,7 @@ export class BarraLateralEncargadoComponent {
     });
   }
 
-  reload() { //! sirve como parche, se deberia recargar el componente config practica, no toda la pagina
-    window.location.reload();
-  }
+
 
   set_practicas_creadas() {
     this.practicas_creadas.push({name: this.name, id: this.practicas_creadas.length});
