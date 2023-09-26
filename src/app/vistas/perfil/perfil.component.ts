@@ -133,6 +133,7 @@ export class PerfilComponent {
       },
       complete: () => {
         this.edicion2 = 0;
+        window.location.reload();
       }
     })
 
