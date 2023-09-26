@@ -35,7 +35,11 @@
                 <a *ngFor="let practica of configs_nombres" class="collapse-item" [routerLink]="['/configurar', practica]">{{practica}}</a>
                 <h6 class="collapse-header">Crear Nueva:</h6>
                 <!-- <a class="collapse-item" [routerLink]="['/configurar', 'configBase']">Planilla base</a> -->
-                <a class="collapse-item" [routerLink]="['/configurar', 'blanco']">
+                <a class="collapse-item disabled" *ngIf="!ramos_creados">
+                    <i class="fas fa-regular fa-plus fa-sm fa-fw mr-2 text-gray-400"></i>
+                    <span matTooltip="Deben existir ramos antes de crear practicas nuevas!">Plantilla en blanco</span>
+                </a>
+                <a class="collapse-item" [routerLink]="['/configurar', 'blanco']" *ngIf="ramos_creados">
                     <i class="fas fa-regular fa-plus fa-sm fa-fw mr-2 text-gray-400"></i>
                     Plantilla en blanco
                 </a>
