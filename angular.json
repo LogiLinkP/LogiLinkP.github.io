@@ -37,7 +37,6 @@
 							"core-js/modules/es.string.match.js",
 							"core-js/modules/es.string.replace.js",
 							"core-js/modules/es.string.trim.js"
-
 						],
 						"outputPath": "dist/praxus-app",
 						"index": "src/index.html",
@@ -51,6 +50,7 @@
 							"src/assets"
 						],
 						"styles": [
+							"node_modules/shepherd.js/dist/css/shepherd.css",
 							"node_modules/bootstrap/dist/css/bootstrap.min.css",
 							"@angular/material/prebuilt-themes/deeppurple-amber.css",
 							"src/styles.scss",
@@ -131,6 +131,7 @@
 							"src/assets"
 						],
 						"styles": [
+							"node_modules/shepherd.js/dist/css/shepherd.css",
 							"@angular/material/prebuilt-themes/deeppurple-amber.css",
 							"src/styles.scss"
 						],
