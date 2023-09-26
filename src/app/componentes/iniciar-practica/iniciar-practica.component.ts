@@ -153,8 +153,8 @@ export class IniciarPracticaComponent implements OnInit {
                       error: (error: any) => { },
                       complete: () => {
                         //seleccionar el primer encargado
-                        let id_encargado = aux.body[0].id
-                        this.service_obtener.obtener_encargado(aux.body[0].id_usuario).subscribe({
+                        let id_encargado = aux.body.data[0].id
+                        this.service_obtener.obtener_encargado(aux.body.data[0].id_usuario).subscribe({
                           next: (data: any) => {
                             this.respuesta = { ...this.respuesta, ...data };
                           },
