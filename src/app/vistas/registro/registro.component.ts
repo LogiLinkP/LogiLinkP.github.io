@@ -18,15 +18,15 @@ export class RegistroComponent implements OnInit {
   password: string = "";
   confirmPassword: string = "";
   es_supervisor: boolean = false;
-  es_estudiante: boolean = false;
+  es_estudiante: boolean = true;
   es_encargado: boolean = false;
   RUT: string = "";
-  id_carrera: number = -1;
+  id_carrera: number;
   extras = {};
   checkEs = true;
 
-  carreras_id:any = []
   carreras: any = [];
+  dominios: any = [];
 
   constructor(public usuario: UsuarioService, private fb: FormBuilder,
               private _snackBar: MatSnackBar, private router: Router) {
@@ -41,12 +41,25 @@ export class RegistroComponent implements OnInit {
           },
         complete:() => {
           for(var val of respuesta.data.body){
-            this.carreras.push(val.nombre);
-            this.carreras_id.push(val.id)
+            this.carreras.push(val);
+            this.comprobar_dominio(val);
           }
         }
       });
     this.createForm();
+    for(let carrera of this.carreras){
+      console.log(carrera.id)
+    }
+  }
+
+  // funcion de comprobacion de correo
+
+  comprobar_dominio(val: any){
+    let dominio = val.correos_admitidos;
+    if(this.dominios.indexOf(dominio) == -1 && dominio != null && dominio != ""){
+      this.dominios.push(dominio);
+    }
+    return;
   }
 
   createForm() {
@@ -54,13 +67,11 @@ export class RegistroComponent implements OnInit {
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       apellido: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', Validators.required],
+      dom: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(3)]],
       confirmPassword: ['', Validators.required],
-      es_supervisor: [false],
-      es_estudiante: [false],
-      RUT: [''],
-      id_carrera:[0],
-      //crear validador custom para RUT real
+      RUT: ['',Validators.required],
+      id_carrera:['',Validators.required]
     });
   }
 
@@ -69,16 +80,12 @@ export class RegistroComponent implements OnInit {
   }
 
   register() {
-    if (!this.es_encargado && !this.es_estudiante && !this.es_supervisor) {
-      this._snackBar.open("Debe seleccionar un tipo de usuario", "Cerrar", {
-        panelClass: ['red-snackbar'],
-        duration: 2000
-      });
-      return;
-    }
     const data = this.registroForm.value;
     this.RUT = data.RUT
+    //this.email = data.email
+    this.email= data.email+"@"+data.dom;
     this.nombre = data.nombre + " " + data.apellido;
+    this.id_carrera = data.id_carrera;
     if (this.es_estudiante) {
       this.extras = { RUT: this.RUT, id_carrera: this.id_carrera };
     }
@@ -90,10 +97,10 @@ export class RegistroComponent implements OnInit {
     }
     let _data: any = {}
     this.usuario.register(
-      data.email, data.password,
+      this.email, data.password,
       data.confirmPassword, this.nombre,
-      false, this.es_supervisor,
-      this.es_estudiante, false,
+      false, false,
+      true, false,
       this.extras
     ).subscribe({
       next: data => {
@@ -120,33 +127,5 @@ export class RegistroComponent implements OnInit {
         });
       }
     });
-  }
-
-  checkout(arg: any) {
-    if (arg.target.value == "1") {
-      this.checkEs = false;
-      this.es_estudiante = true;
-      this.es_supervisor = false;
-      this.es_encargado = false;
-    } else if (arg.target.value = "2") {
-      this.checkEs = false;
-      this.es_supervisor = true;
-      this.es_estudiante = false;
-      this.es_encargado = false;
-    } else if (arg.target.value == "3") {
-      this.checkEs = false;
-      this.es_estudiante = false;
-      this.es_supervisor = false;
-      this.es_encargado = true;
-    } else {
-      this.checkEs = true;
-      this.es_estudiante = false;
-      this.es_supervisor = false;
-      this.es_encargado = false;
-    }
-  }
-
-  checkout2(arg:any){
-    this.id_carrera = Number(arg.target.value)
   }
 }

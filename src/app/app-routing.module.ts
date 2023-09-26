@@ -76,10 +76,6 @@ const routes: Routes = [
     path: 'admin', 
     children: [
       { path: '', component: AdminComponent},
-      { path: 'crear-carrera', component: CrearCarreraComponent },
-      { path: 'crear-encargado', component: CrearEncargadoComponent },
-      { path: 'asignacion', component: AsignacionComponent},
-      { path: 'eliminar-encargado', component: EliminarEncargadoComponent },
     ] 
   },
   { path: 'encargado/registro/:token', component: RegistroEncargadoComponent },
