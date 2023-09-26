@@ -71,7 +71,7 @@
                                                 <select class="form-select" (input)="checkout($event)">
                                                     <option value="-1" disabled selected>Elija una carrera</option>
                                                     <option *ngFor="let carrera of carreras; let indice = index"
-                                                        value={{indice}}>{{carrera}}</option>
+                                                        value={{carrera.id}}>{{carrera.nombre}}</option>
                                                 </select>
                                                 <button (click)="confirmar_cambio_carrera()" class="btn btn-primary"
                                                     stlye="width: 60%">

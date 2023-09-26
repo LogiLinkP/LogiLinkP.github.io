@@ -69,9 +69,14 @@ export class PerfilComponent {
               },
               complete: () => {
                 for (var val of this.respuesta.body) {
-                  this.carreras.push(val.nombre);
+                  this.carreras.push(val);
                 }
-                this.Carrera = this.carreras[this.id_carrera]
+                for (let carrera of this.carreras) {
+                  if (carrera.id == this.id_carrera) {
+                    this.Carrera = carrera.nombre
+                    break;
+                  }
+                }
               }
             })
           }
@@ -112,7 +117,12 @@ export class PerfilComponent {
   }
 
   confirmar_cambio_carrera() {
-    this.Carrera = this.carreras[this.id_carrera]
+    for (let carrera of this.carreras) {
+      if (carrera.id == this.id_carrera) {
+        this.Carrera = carrera.nombre
+        break;
+      }
+    }
     this.service.cambiar_carrera(this.ID, this.id_carrera).subscribe({
       next: (data: any) => {
 
@@ -139,5 +149,6 @@ export class PerfilComponent {
 
   checkout(arg: any) {
     this.id_carrera = Number(arg.target.value)
+
   }
 }
