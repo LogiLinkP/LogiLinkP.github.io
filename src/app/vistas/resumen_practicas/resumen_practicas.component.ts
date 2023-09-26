@@ -93,7 +93,7 @@ export class TablaComponent {
           temppracticas.push(alumno);
           }
         }
-        console.log(temppracticas);
+        //console.log(temppracticas);
 
         this.practicas = temppracticas.map((alumno: any) => {
 
