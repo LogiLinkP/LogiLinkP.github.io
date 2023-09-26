@@ -32,14 +32,11 @@ import { SupervisorService } from './servicios/supervisor/supervisor.service';
 import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_supervisor.component';
 import { DetallePracticaComponent } from './vistas/detalle-practica/detalle-practica.component';
 import { LoginComponent } from './vistas/login/login.component';
-import { TestsComponent } from './vistas/tests/tests.component';
 import { BlankComponent } from './vistas/blank/blank.component';
 import { RegistroComponent } from './vistas/registro/registro.component';
 import { ForgotPasswordComponent } from './vistas/forgot-password/forgot-password.component';
-import { InformacionesComponent } from './vistas/informaciones/informaciones.component';
 import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.component';
 
-import { TestBarraComponent } from './componentes/test-barra/test-barra.component';
 import { FooterComponent } from './componentes/footer/footer.component';
 import { BarraSuperiorComponent } from './componentes/barra-superior/barra-superior.component';
 import { LogoutModalComponent } from './componentes/logout-modal/logout-modal.component';
@@ -96,15 +93,12 @@ import { EditarCarreraModalComponent } from './componentes/editar-carrera-modal/
     BarraSuperiorComponent,
     LogoutModalComponent,
     LoginComponent,
-    TestsComponent,
     BarraLateralAlumnoComponent,
     BlankComponent,
     RegistroComponent,
     ForgotPasswordComponent,
     BarraLateralEncargadoComponent,
     EstadisticasComponent,
-    InformacionesComponent,
-    TestBarraComponent,
     BotonSolicitarArchivoComponent,
     UpInformeComponent,
     TablaComponent,

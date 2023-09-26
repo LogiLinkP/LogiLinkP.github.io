@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { HomeComponent } from './vistas/home/home.component';
 import { DetalleAlumnoComponent } from './vistas/alumno/alumno.component';
 import { LoginComponent } from './vistas/login/login.component';
 import { RegistroComponent } from './vistas/registro/registro.component';
@@ -9,8 +8,6 @@ import { BlankComponent } from './vistas/blank/blank.component';
 import { ForgotPasswordComponent } from './vistas/forgot-password/forgot-password.component';
 import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.component';
 import { DetallePracticaComponent } from './vistas/detalle-practica/detalle-practica.component';
-import { InformacionesComponent } from './vistas/informaciones/informaciones.component';
-import { TestsComponent } from './vistas/tests/tests.component';
 import { EmpresasComponent } from './vistas/empresas/empresas.component';
 import { CuestionarioComponent } from './vistas/cuestionario/cuestionario.component';
 import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
@@ -66,12 +63,9 @@ const routes: Routes = [
   { path: environment.ruta_supervisor + '/evaluacion', component: EvaluacionComponent },
   { path: environment.ruta_registro, component: RegistroComponent, data: { title: 'Registro' } },
   { path: environment.ruta_login, component: LoginComponent, data: { title: 'Login' } },
-  { path: 'home', component: HomeComponent, data: { title: 'Home' } },
-  { path: 'tests', component: TestsComponent },
   { path: 'blank', component: BlankComponent },
   { path: 'resetPass', component: ForgotPasswordComponent },
   { path: 'estadisticas', component: EstadisticasComponent },
-  { path: 'informaciones', component: InformacionesComponent },
   { 
     path: 'admin', 
     children: [
@@ -108,7 +102,6 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 export const routingComponents = [
-  HomeComponent,
   PnfComponent,
   DetalleAlumnoComponent,
   DetallePracticaComponent,
@@ -121,8 +114,6 @@ export const routingComponents = [
   BlankComponent,
   ForgotPasswordComponent,
   EstadisticasComponent,
-  InformacionesComponent,
-  TestsComponent,
   EmpresasComponent,
   CuestionarioComponent,
   ChatComponent,
