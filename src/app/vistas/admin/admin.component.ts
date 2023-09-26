@@ -23,16 +23,16 @@ export class AdminComponent {
   nombre_carrera: any;
   correos_admitidos: any;
   id_carrera_actual: any;
-  
 
-  createForm(){
+
+  createForm() {
     this.asignacionForm = this.fb.group({
       encargado: ['', [Validators.required]],
       carrera: ['', [Validators.required]]
     });
   }
 
-  constructor(private admin: AdminService, private _snackBar: MatSnackBar, private fb: FormBuilder, private router: Router) { 
+  constructor(private admin: AdminService, private _snackBar: MatSnackBar, private fb: FormBuilder, private router: Router) {
     let _data: any = {};
     this.admin.getCarrera().subscribe({
       next: data => {
@@ -46,9 +46,9 @@ export class AdminComponent {
       },
       complete: () => {
         for (let i = 0; i < _data.body.length; i++) {
-          this.carreras.push({nombre: _data.body[i].nombre, id: _data.body[i].id, correo: _data.body[i].correos_admitidos});
+          this.carreras.push({ nombre: _data.body[i].nombre, id: _data.body[i].id, correo: _data.body[i].correos_admitidos });
         }
-        console.log(this.carreras)  
+        console.log(this.carreras)
       }
     });
     this.admin.getEncargado().subscribe({
@@ -70,19 +70,19 @@ export class AdminComponent {
     this.createForm();
   }
 
-  editar(id: any, carrera_actual: any, id_carrera_actual: any){
+  editar(id: any, carrera_actual: any, id_carrera_actual: any) {
     this.id_encargado = id;
     this.carrera_actual = carrera_actual;
     this.id_carrera_actual = id_carrera_actual;
   }
 
-  editar_carrera(id: any, nombre: any, correos_admitidos: any){
+  editar_carrera(id: any, nombre: any, correos_admitidos: any) {
     this.id_carrera = id;
     this.nombre_carrera = nombre;
     this.correos_admitidos = correos_admitidos;
   }
 
-  eliminar(id: any, id_carrera: any){
+  eliminar(id: any, id_carrera: any) {
     let _data: any = {};
     this.admin.getEncargadoCarrera(id_carrera).subscribe({
       next: data => {
@@ -96,9 +96,9 @@ export class AdminComponent {
       },
       complete: () => {
         console.log(_data.body)
-        if(_data.body.encargados.length == 1){
+        if (_data.body && _data.body.encargados.length == 1) {
           let decision = confirm("Si elimina a este encargado no habrá encargados en esta carrera, favor, asignar un encargado a esa carrera")
-          if(decision){
+          if (decision) {
             this.admin.eliminarEncargado(id).subscribe({
               next: data => {
                 _data = { ..._data, ...data }
@@ -125,10 +125,10 @@ export class AdminComponent {
                   });
                 }
               }
-            });  
+            });
           }
         }
-        else{
+        else {
           this.admin.eliminarEncargado(id).subscribe({
             next: data => {
               _data = { ..._data, ...data }
@@ -159,10 +159,10 @@ export class AdminComponent {
         }
       }
     });
-    
+
   }
 
-  eliminar_carrera(id: any){
+  eliminar_carrera(id: any) {
     let _data: any = {};
     this.admin.eliminarCarrera(id).subscribe({
       next: data => {
@@ -197,15 +197,15 @@ export class AdminComponent {
   //encargado(){
   //  this.router.navigate(['/admin/crear-encargado']);
   //}
-//
+  //
   //carrera(){
   //  this.router.navigate(['/admin/crear-carrera']);
   //}
-//
+  //
   //asignacion(){
   //  this.router.navigate(['/admin/asignacion']);
   //}
-//
+  //
   //eliminar(){
   //  this.router.navigate(['/admin/eliminar-encargado']);
   //}
