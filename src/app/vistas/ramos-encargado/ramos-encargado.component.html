@@ -32,12 +32,23 @@
                         </div>
                     
                         <form class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddRamo()">
-                            <input type="text" [(ngModel)]="ramo" class="form-control" placeholder="Ingresar Ramo" formControlName="ramoFORM" style="display: inline-block; width: auto;">
-                
-                            <i class="fas fa-plus addRamo" (click)="onSubmitAddRamo()" style="display: inline-block;"></i>
+                            <input type="text" class="form-control" placeholder="Ingresar Ramo" formControlName="ramoFORM" style="display: inline-block; width: auto;">
+                            <button class="btn btn-primary btn-add" [disabled]="fg.pristine || fg.invalid" type="submit">
+                                <i class="fas fa-plus addRamo" (click)="onSubmitAddRamo()"></i>
+                            </button>
+                            <div class="alert-danger" *ngIf="fg.controls['ramoFORM'].invalid && (fg.controls['ramoFORM'].dirty || fg.controls['ramoFORM'].touched)" style="width: auto;">
+                                <span *ngIf="fg.controls['ramoFORM'].errors?.['required']">
+                                    Campo requerido
+                                </span>
+                                <span *ngIf="fg.controls['ramoFORM'].errors?.['minlength']">
+                                    Nombre es muy corto
+                                </span>
+                            </div>
                 
                         </form>
-                        <button id="save" class="btn btn-success" (click)="mandarDatos()">Guardar</button>
+                        <button id="save" class="btn btn-success" (click)="mandarDatos()">
+                            Guardar
+                        </button>
                     </div>
                 </div>
 
