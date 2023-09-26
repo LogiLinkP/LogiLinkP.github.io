@@ -1,5 +1,5 @@
 <div class="modal fade" id="editar-carrera-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-aria-hidden="true">
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,21 +9,24 @@ aria-hidden="true">
                 Ingrese una o varias carreras a agregar, para hacerlo utilice una linea por carrera.
                 <form class="asignacion" [formGroup]="editarForm">
                     <div>
-                        Nombre carrera: <input type="text" name="nombre" formControlName="nombre" [value]="nombre_carrera">
+                        Nombre carrera: <input type="text" name="nombre" id="nombre" formControlName="nombre"
+                            [value]="nombre_carrera">
                     </div>
                     <br>
                     <div>
-                        Dominio Admitido: <input type="text" name="correo_admitido" formControlName="correo_admitido" ng-pattern="/([\w]*\.)?[\w]+\.(cl|com)/" [value]="correos_admitidos">
+                        Dominio Admitido: <input type="text" name="correo_admitido" id="correo_admitido"
+                            formControlName="correo_admitido" ng-pattern="/([\w]*\.)?[\w]+\.(cl|com)/"
+                            [value]="correos_admitidos">
                     </div>
                 </form>
-                
+
 
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
                 <button id="myBtn" type="submit" class="btn btn-primary" data-dismiss="modal" (click)="editar()">
                     Guardar
-                </button>   
+                </button>
             </div>
         </div>
     </div>

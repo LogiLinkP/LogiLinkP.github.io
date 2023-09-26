@@ -18,7 +18,7 @@ export class EditarCarreraModalComponent implements OnInit {
   nombre: string;
   correos: string;
 
-  createForm(){
+  createForm() {
     this.editarForm = this.fb.group({
       nombre: ['', [Validators.required]],
       correo_admitido: ['', [Validators.required]]
@@ -26,19 +26,22 @@ export class EditarCarreraModalComponent implements OnInit {
   }
 
 
-  constructor(private admin: AdminService, private fb: FormBuilder,private _snackBar: MatSnackBar) { 
-    this.createForm();
+  constructor(private admin: AdminService, private fb: FormBuilder, private _snackBar: MatSnackBar) {
+
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.createForm();
+    // (document.getElementById("nombre") as HTMLInputElement).value = this.nombre_carrera;
+    // (document.getElementById("correo_admitido") as HTMLInputElement).value = this.correos_admitidos;
+  }
 
-  editar(){
-    let data = this.editarForm.value;
-    this.nombre = data.nombre;
-    console.log(this.nombre)
-    this.correos = data.correo_admitido;
+  editar() {
+    // let data = this.editarForm.value;
+    this.nombre = (document.getElementById("nombre") as HTMLInputElement).value//data.nombre;
+    this.correos = (document.getElementById("correo_admitido") as HTMLInputElement).value; //data.correo_admitido;
     let _data: any = {};
-    this.admin.editarCarrera(this.id_carrera,this.nombre,this.correos).subscribe({
+    this.admin.editarCarrera(this.id_carrera, this.nombre, this.correos).subscribe({
       next: data => {
         _data = { ..._data, ...data }
       },
