@@ -21,6 +21,8 @@ export class EvaluacionComponent {
   // Aqui se guardan temporalmente las respuestas mientras se llena el formulario. Estas se procesan antes de enviarlas al backend.
   respuestas: any[] = []; 
 
+  aptitudes_evaluacion = [];
+
 
   constructor(private service_supervisor: SupervisorService, private _snackbar: MatSnackBar, private router: Router, private activated_route: ActivatedRoute) {}
    
@@ -89,7 +91,7 @@ export class EvaluacionComponent {
       },
       complete: () => {
         this.practica = practica.body;
-        console.log("PRACTICA OBTENIDA", practica);
+        //console.log("PRACTICA OBTENIDA", practica);
         if(this.practica.hasOwnProperty('estado') && this.practica.estado == "Evaluada" || 
         this.practica.estado == "Aprobada" || this.practica.estado == "Reprobada") {
           this._snackbar.open("Error: la práctica ya ha sido evaluada.", "Cerrar", {
@@ -109,7 +111,7 @@ export class EvaluacionComponent {
           this.id_config_practica = this.practica.modalidad.id_config_practica
           if (this.practica.modalidad.config_practica.hasOwnProperty('pregunta_supervisors')) {
             this.preguntas = this.practica.modalidad.config_practica.pregunta_supervisors;            
-            console.log("PREGUNTAS", this.preguntas);
+            //console.log("PREGUNTAS", this.preguntas);
             if (this.preguntas.length > 0) {
               for (let pregunta of this.preguntas) {
                 if (pregunta.tipo_respuesta == "casillas") {
@@ -119,15 +121,22 @@ export class EvaluacionComponent {
                   }
                   this.respuestas.push(array_aux);
                 }
+                //CAMBIOS PREGUNTA EVALUACION
                 else if (pregunta.tipo_respuesta == "evaluacion") {
-                  this.respuestas.push(-1);
+                  let array_aux_evaluacion = [];
+                  let array_aux_aptitudes = pregunta.opciones.split(";;");
+                  this.aptitudes_evaluacion = array_aux_aptitudes;
+                  for (let i = 0; i < pregunta.opciones.split(";;").length; i++) {
+                    array_aux_evaluacion.push(-1);
+                  }
+                  this.respuestas.push(array_aux_evaluacion);
                 }
                 else {
                   this.respuestas.push("");
                 }
                 this.tipo_respuestas.push(pregunta.tipo_respuesta);
               }
-              console.log("RESPUESTAS", this.respuestas);
+              //console.log("RESPUESTAS", this.respuestas);
             }
             else {
               this._snackbar.open("Error: la práctica no tiene preguntas asociadas.", "Cerrar", {
@@ -174,10 +183,16 @@ export class EvaluacionComponent {
     //console.log(this.respuestas);
   }
 
-  updateRespuestasEvaluacion(index: number, value: number) {
+  updateRespuestasEvaluacion(index_pregunta: number, index_aptitud: number ,value: number) {
     //console.log("UPDATEANDO RESPUESTAS evaluacion", value);
-    this.respuestas[index] = value;
+    //this.respuestas[index_pregunta][index_aptitud] = value;
     //console.log(this.respuestas);
+
+    //console.log("RESPUESTAS", this.respuestas);
+
+
+    //console.log("respuesta actual evaluacion");
+    //console.log(this.respuestas)
   }
 
   enviarEvaluacion() {
@@ -212,10 +227,14 @@ export class EvaluacionComponent {
           }
         }
       }
-      else if (this.tipo_respuestas[i] == "evaluacion" || this.tipo_respuestas[i] == "abierta") {
-        respuesta_aux = this.respuestas[i];
+      else if (this.tipo_respuestas[i] == "evaluacion") {
+        for (let j = 0; j < this.respuestas[i].length; j++) {
+          respuesta_aux += String(this.respuestas[i][j]);
+          respuesta_aux += ",";
+        }
+        respuesta_aux = respuesta_aux.slice(0, -1);
       }
-      else {
+      else if (this.tipo_respuestas[i] == "alternativas") {
         let index = this.preguntas[i].opciones.split(";;").indexOf(this.respuestas[i]);
         for (let j = 0; j < this.preguntas[i].opciones.split(";;").length; j++) {
           if (j == index) {
@@ -228,6 +247,9 @@ export class EvaluacionComponent {
             respuesta_aux += ",";
           }
         }
+      }
+      else{
+        respuesta_aux = this.respuestas[i];
       }
       respuestas_aux.push(respuesta_aux);
       ids_preguntas.push(this.preguntas[i].id);     

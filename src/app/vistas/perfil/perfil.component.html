@@ -1,0 +1,98 @@
+<div id="wrapper">
+    <div *ngIf="esalumno == 1; else elseblock">
+        <app-barra-lateral-alumno></app-barra-lateral-alumno>
+    </div>
+    <ng-template #elseblock>
+        <app-barra-lateral-encargado></app-barra-lateral-encargado>
+    </ng-template>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <div id="content" class="main-content">
+            <app-barra-superior></app-barra-superior>
+
+            <div class="container-fluid">
+
+
+                <div id="container-fluid overflow-auto" style="max-height: 80vh;">
+                    <!--<button (click)="volver_atras()" class="btn btn-primary d-flex align-items-right">Volver</button>-->
+                    <div class="h3 mt-2 ml-2">Datos Personales</div>
+                </div>
+
+                <div class="card-body">
+
+                    <div id="container-fluid overflow-auto">
+                        <div class="row no-gutters align-items-center" style="max-width: 100%;">
+                            <div class="col-lg-6">
+
+                                <div *ngIf="esalumno == 1; else elseBlock">
+                                    <div class="card shadow mb-4">
+                                        <div class="card-body">
+                                            <p>Nombre: {{Nombre}}</p>
+                                            <p>Rut: {{Rut}}</p>
+                                            <p>Correo: {{Correo}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="card shadow mb-4">
+                                        <div class="card-body">
+                                            <div>
+                                                Perfil de Linkedin:
+                                                <div>
+                                                    <a href="{{Link}}" target="_blank"
+                                                        rel="noopener noreferrer">{{Link}}</a>
+                                                </div>
+                                                <br>
+                                            </div>
+                                            <button class="btn btn-primary" stlye="width: 80%"
+                                                (click)="editar1()">Editar</button>
+                                            <p></p>
+                                            <div *ngIf="edicion1 == 1">
+                                                <textarea type="text" class="form-control" [(ngModel)]="NLink"
+                                                    [ngModelOptions]="{standalone:true}">{{Link}}</textarea>
+
+                                                <button (click)="confirmar_cambio_link()" class="btn btn-primary"
+                                                    stlye="width: 60%">
+                                                    Confirmar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card shadow mb-4">
+                                        <div class="card-body">
+                                            <div>
+                                                Carrera: {{Carrera}}
+                                            </div>
+                                            <br>
+                                            <button class="btn btn-primary" stlye="width: 80%"
+                                                (click)="editar2()">Editar</button>
+                                            <p></p>
+                                            <div *ngIf="edicion2 == 1">
+                                                <select class="form-select" (input)="checkout($event)">
+                                                    <option value="-1" disabled selected>Elija una carrera</option>
+                                                    <option *ngFor="let carrera of carreras; let indice = index"
+                                                        value={{carrera.id}}>{{carrera.nombre}}</option>
+                                                </select>
+                                                <button (click)="confirmar_cambio_carrera()" class="btn btn-primary"
+                                                    stlye="width: 60%">
+                                                    Confirmar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <ng-template #elseBlock>
+                                    <div class="card shadow mb-4">
+                                        <p>Nombre: {{Nombre}}</p>
+                                        <p>Correo: {{Correo}}</p>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

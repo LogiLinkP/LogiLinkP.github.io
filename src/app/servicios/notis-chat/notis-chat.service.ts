@@ -33,7 +33,7 @@ export class NotisChatService extends Socket{
     
     if (cookie.check('room')){
       this.listen();
-      console.log("Conexion establecida en ROOM:", cookie.get('room'));
+      //console.log("Conexion establecida en ROOM:", cookie.get('room'));
     }
     else{
       console.log("Conexion no establecida con socketIO al no encontrarse room");
@@ -45,7 +45,7 @@ export class NotisChatService extends Socket{
   }
 
   emitEvent = (payload = {}) => {
-    console.log('emitiendo Evento', payload);
+    //console.log('emitiendo Evento', payload);
     this.ioSocket.emit('evento', payload)
   }
 
@@ -76,10 +76,7 @@ export class NotisChatService extends Socket{
   }
 
   getusuario(id_usuario:number){
-    console.log("id_usuario EN REQUEST", id_usuario);
     const req = new HttpRequest('GET', `${environment.url_back}/usuario/?id=${id_usuario}`);
     return this._http.request(req);
   }
-
-
 }

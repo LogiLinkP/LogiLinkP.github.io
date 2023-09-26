@@ -32,15 +32,11 @@ import { SupervisorService } from './servicios/supervisor/supervisor.service';
 import { EvaluacionComponent } from './vistas/evaluacion_supervisor/evaluacion_supervisor.component';
 import { DetallePracticaComponent } from './vistas/detalle-practica/detalle-practica.component';
 import { LoginComponent } from './vistas/login/login.component';
-import { TestsComponent } from './vistas/tests/tests.component';
 import { BlankComponent } from './vistas/blank/blank.component';
 import { RegistroComponent } from './vistas/registro/registro.component';
 import { ForgotPasswordComponent } from './vistas/forgot-password/forgot-password.component';
-import { InformacionesComponent } from './vistas/informaciones/informaciones.component';
 import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.component';
 
-import { TestBarraComponent } from './componentes/test-barra/test-barra.component';
-import { LogoutComponent } from './componentes/logout/logout.component';
 import { FooterComponent } from './componentes/footer/footer.component';
 import { BarraSuperiorComponent } from './componentes/barra-superior/barra-superior.component';
 import { LogoutModalComponent } from './componentes/logout-modal/logout-modal.component';
@@ -69,6 +65,25 @@ import { ImportModalComponent } from './componentes/import-modal/import-modal.co
 import { MigrarModalComponent } from './componentes/migrar-modal/migrar-modal.component';
 import { ExplicacionConsistenciaComponent } from './vistas/explicacion-consistencia/explicacion-consistencia.component';
 import { VistaSupervisorComponent } from './vistas/vista-supervisor/vista-supervisor/vista-supervisor.component';
+import { RamosAlumnosComponent } from './vistas/ramos-alumnos/ramos-alumnos.component';
+import { RamosEncargadoComponent } from './vistas/ramos-encargado/ramos-encargado.component';
+import { EstadisticaEmpresasComponent } from './vistas/estadistica-empresas/estadistica-empresas.component';
+import { AdminComponent } from './vistas/admin/admin.component';
+import { CrearCarreraComponent } from './vistas/crear-carrera/crear-carrera.component';
+import { CrearEncargadoComponent } from './vistas/crear-encargado/crear-encargado.component';
+import { AsignacionComponent } from './vistas/asignacion/asignacion.component';
+import { BarraLateralAdminComponent } from './componentes/barra-lateral-admin/barra-lateral-admin.component';
+import { RegistroEncargadoComponent } from './vistas/registro-encargado/registro-encargado.component';
+import { IngresoInformeComponent } from './vistas/ingreso-informe/ingreso-informe.component';
+import { EstudianteVerInformeComponent } from './vistas/estudiante-ver-informe/estudiante-ver-informe.component';
+import { InfoYEvaluacionEstudianteComponent } from './vistas/wizards/info-y-evaluacion-estudiante/info-y-evaluacion-estudiante.component';
+import { DetalleEstudianteComponent } from './vistas/wizards/detalle-estudiante/detalle-estudiante.component';
+import { EliminarEncargadoComponent } from './vistas/eliminar-encargado/eliminar-encargado.component';
+import { EditarEncargadoModalComponent } from './componentes/editar-encargado-modal/editar-encargado-modal.component';
+import { CrearEncargadoModalComponent } from './componentes/crear-encargado-modal/crear-encargado-modal.component';
+import { CrearCarreraModalComponent } from './componentes/crear-carrera-modal/crear-carrera-modal.component';
+import { EditarCarreraModalComponent } from './componentes/editar-carrera-modal/editar-carrera-modal.component';
+import { RegistroSupervisorComponent } from './vistas/registro-supervisor/registro-supervisor.component';
 
 @NgModule({
   declarations: [
@@ -76,21 +91,17 @@ import { VistaSupervisorComponent } from './vistas/vista-supervisor/vista-superv
     routingComponents,
     EvaluacionComponent,
     DatosPracticaComponent,
-    LogoutComponent,
     DetallePracticaComponent,
     FooterComponent,
     BarraSuperiorComponent,
     LogoutModalComponent,
     LoginComponent,
-    TestsComponent,
     BarraLateralAlumnoComponent,
     BlankComponent,
     RegistroComponent,
     ForgotPasswordComponent,
     BarraLateralEncargadoComponent,
     EstadisticasComponent,
-    InformacionesComponent,
-    TestBarraComponent,
     BotonSolicitarArchivoComponent,
     UpInformeComponent,
     TablaComponent,
@@ -105,6 +116,25 @@ import { VistaSupervisorComponent } from './vistas/vista-supervisor/vista-superv
     MigrarModalComponent,
     ExplicacionConsistenciaComponent,
     VistaSupervisorComponent,
+    RamosAlumnosComponent,
+    RamosEncargadoComponent,
+    EstadisticaEmpresasComponent,
+    AdminComponent,
+    CrearCarreraComponent,
+    CrearEncargadoComponent,
+    AsignacionComponent,
+    BarraLateralAdminComponent,
+    RegistroEncargadoComponent,
+    IngresoInformeComponent,
+    EstudianteVerInformeComponent,
+    InfoYEvaluacionEstudianteComponent,
+    DetalleEstudianteComponent,
+    EliminarEncargadoComponent,
+    EditarEncargadoModalComponent,
+    CrearEncargadoModalComponent,
+    CrearCarreraModalComponent,
+    EditarCarreraModalComponent,
+    RegistroSupervisorComponent,
   ],
   imports: [
     BrowserModule,

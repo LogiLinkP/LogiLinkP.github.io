@@ -36,6 +36,14 @@ export class ConfigService {
         return this._http.request(req);
     }
 
+    getAptitudes(id_config_practica: number) {
+        const req = new HttpRequest('GET', `${environment.url_back}/pregunta_supervisor/aptitudes?id=${id_config_practica}`, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
     getModalidades(id_config_practica: number) {
         const req = new HttpRequest('GET', `${environment.url_back}/modalidad/id_config_practica?id=${id_config_practica}`, {
             responseType: 'json'
@@ -198,12 +206,13 @@ export class ConfigService {
         return this._http.request(req);
     }
     
-    crearPreguntaSupervisor(id_config_practica: number, enunciado: string, tipo_respuesta: string, opciones: string) {
+    crearPreguntaSupervisor(id_config_practica: number, enunciado: string, tipo_respuesta: string, opciones: string, fija: boolean) {
         const pregunta = {
             id_config_practica: id_config_practica,
             enunciado: enunciado,
             tipo_respuesta: tipo_respuesta,
-            opciones: opciones
+            opciones: opciones,
+            fija: fija
         }
 
         const req = new HttpRequest('POST', `${environment.url_back}/pregunta_supervisor/crear`, pregunta, {

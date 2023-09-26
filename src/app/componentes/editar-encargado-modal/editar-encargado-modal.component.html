@@ -1,0 +1,27 @@
+<div class="modal fade" id="editar-encargado-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Crear configuracion de practica en base a otra</h5>
+            </div>
+            <div class="modal-body">
+                Seleccione carrera a modificar
+                <form class="asignacion" [formGroup]="asignacionForm">
+                    <select name="carrera" id="carrera" formControlName="carrera" [value]="comparador()">
+                        <option *ngFor="let carrera of lista_carreras" value="{{carrera.id}}">{{carrera.nombre}}
+                        </option>
+                    </select>
+                </form>
+
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button id="myBtn" type="submit" class="btn btn-primary" (click)="asignar()">
+                    Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

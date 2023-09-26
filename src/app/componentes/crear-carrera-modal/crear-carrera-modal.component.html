@@ -1,0 +1,26 @@
+<div class="modal fade" id="crear-carrera-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="exampleModalLabel">Asignar</h2>
+            </div>
+            <div class="modal-body">
+                Ingrese una o varias carreras a agregar, para hacerlo utilice una linea por carrera.
+                <form class="asignacion" [formGroup]="carreraForm">
+                    <textarea class="form-control form-control-user" id="exampleFirstName"
+                        placeholder="Ingrese una o varias carreras aqui..." formControlName="nombre" name="nombre">
+                    </textarea>
+                </form>
+                
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button id="myBtn" type="submit" class="btn btn-primary" data-dismiss="modal" (click)="crear()">
+                    Crear
+                </button>   
+            </div>
+        </div>
+    </div>
+</div>

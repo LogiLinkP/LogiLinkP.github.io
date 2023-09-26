@@ -8,6 +8,8 @@ import { SupervisorService } from 'src/app/servicios/supervisor/supervisor.servi
 import { Router } from "@angular/router"
 import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
 import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
+import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
+import { async } from 'rxjs';
 
 @Component({
   selector: 'alumno',
@@ -19,7 +21,7 @@ export class DetalleAlumnoComponent implements OnInit{
   estudiante: any = {} 
   config_practicas: any = [];
   practicas: any = [];
-  solicitudes_practicas: any = [];
+  solicitudes_practicas: any = {};
 
   estado_config:string = "";
 
@@ -32,6 +34,14 @@ export class DetalleAlumnoComponent implements OnInit{
   doc_str = "documento";
   doc_extra_str = "documento_extra";
 
+  evaluaciones: any = [];
+  aptitudes_practica:any = [];
+  notas_aptitudes:any = [];
+  notas_promedio:any = [];
+  hay_respuesta:any = [];
+
+  fechasSeleccionadas: Date[][] = [];
+
   constructor(private service_datos: ObtenerDatosService , private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, 
               private service_gestion: GestionarService, private service_supervisor: SupervisorService, private router: Router,
               private service_noti: NotificacionesService, private service_obtener: DataUsuarioService) {
@@ -39,8 +49,8 @@ export class DetalleAlumnoComponent implements OnInit{
     this.estudiante = this.usuario.estudiante;
     this.estado_config = this.usuario.body;
 
-    console.log("usuario:",this.usuario);
-    console.log("estudiante:",this.estudiante);
+    //console.log("usuario:",this.usuario);
+    //console.log("estudiante:",this.estudiante);
   }
 
   ngOnInit() {
@@ -48,7 +58,7 @@ export class DetalleAlumnoComponent implements OnInit{
 
     let snackBarRef: MatSnackBarRef<any> | undefined = undefined;
 
-    console.log("PARAMETRO URL",param_upload_success);
+    //console.log("PARAMETRO URL",param_upload_success);
     if (param_upload_success == "success") {
       snackBarRef = this._snackBar.open("Archivo subido correctamente", "Cerrar", {
         panelClass: ['green-snackbar'],
@@ -89,7 +99,6 @@ export class DetalleAlumnoComponent implements OnInit{
 
     let respuesta: any = {};
 
-
     // Request para obtener todas las config practicas
     this.service_datos.obtener_todos_config_practica().subscribe({
       next: (data: any) => {
@@ -98,7 +107,7 @@ export class DetalleAlumnoComponent implements OnInit{
       error: (error: any) => console.log(error),
       complete: () => {
         this.config_practicas = respuesta.body;
-        console.log("Configuraciones de practica:",this.config_practicas)
+        //console.log("Configuraciones de practica:",this.config_practicas)
 
         // Guardar nombres de las configuraciones de practica en un arreglo
         this.config_practicas.forEach((element: any) => {
@@ -106,9 +115,10 @@ export class DetalleAlumnoComponent implements OnInit{
           if(!this.nombres_config_practica.includes(element.nombre)){
             this.nombres_config_practica.push(element.nombre);
             this.practicas_correspondiente_nombre.push([element.nombre]);
+            this.fechasSeleccionadas.push([]);
           }
         });
-        console.log("Nombres de configuraciones de practica:",this.nombres_config_practica)
+        //console.log("Nombres de configuraciones de practica:",this.nombres_config_practica)
 
         // Request para obtener todas las practicas de acuerdo al id del estudiante
         this.service_datos.obtener_practica(this.estudiante.id).subscribe({
@@ -116,38 +126,95 @@ export class DetalleAlumnoComponent implements OnInit{
             respuesta = { ...respuesta, ...data }
           },
           error: (error: any) => console.log(error),
-          complete: () => {
+          complete: async () => {
             this.practicas = respuesta.body;
-            console.log("Practicas:",this.practicas)
+            //console.log("Practicas:",this.practicas)
+            let index = 0;
 
             // Guardar nombres y practicas en un arreglo
-            this.practicas.forEach((element: any) => {
+            this.practicas.forEach(async (element: any) => {
+              
+
+              index += 1; 
               this.flags_inscripcion_list.push(false);
+              //console.log("practica:",element.modalidad.config_practica.nombre)
               // Para cada practica que el alumno tiene, encontrar el nombre de la configuracion de practica en el arreglo
               // de nombres y agregar la practica en el arreglo que se encarga de mantener la correspondencia entre nombre y practica
               if(element.modalidad.config_practica.nombre == this.nombres_config_practica.find((elemento: any) => elemento == element.modalidad.config_practica.nombre)){
                 let index = this.nombres_config_practica.indexOf(element.modalidad.config_practica.nombre);
                 element.documentos.map((doc:any) => {
-                  doc.solicitud_documento.tipo_archivo = doc.solicitud_documento.tipo_archivo.split(",");
-                  console.log("doc:",doc)
+                  // Cambiar además las strings de tipo_archivo a un arreglo de strings
+                  doc.solicitud_documento.tipo_archivo = doc.solicitud_documento.tipo_archivo.split(",");                  
                   return doc;
                 });
-                //element.documento.solicitud_documento.tipo_archivo = element.documento.solicitud_documento.tipo_archivo.split(",");
-                this.practicas_correspondiente_nombre[index].push(element);                    
+                this.practicas_correspondiente_nombre[index].push(element);  
+
+                if(element.informes.length > 0 && element.modalidad.config_practica.frecuencia_informes == "diario"){
+                  for(var informe of element.informes){
+                    //console.log("informe:",informe.fecha)
+                    if(informe.fecha != null){
+                      informe.fecha = informe.fecha.split("T")[0];
+                      informe.fecha += "T12:00:00.000Z";
+                      this.fechasSeleccionadas[index].push(informe.fecha);
+                      //console.log("informe despues de modificar:",informe.fecha)
+                    }
+                  }
+                }            
               }
-              // make a request to get all solicitudes_documentos for the current practica, using /todos_docs_practica
-              this.service_datos.obtener_solicitudes_documentos_practica(element.modalidad.config_practica.id, element.id).subscribe({
+              // request para obtener todas las solicitudes_documentos de la practica actual
+
+              await new Promise( (resolve) => {this.service_datos.obtener_solicitudes_documentos_practica(element.modalidad.config_practica.id, element.id).subscribe({
                 next: (data: any) => {
                   respuesta = { ...respuesta, ...data }
                 },
                 error: (error: any) => console.log(error),
                 complete: () => {
-                  this.solicitudes_practicas.push(respuesta.body);
-                  console.log("Solicitudes de documentos de la practica:",this.solicitudes_practicas)
+                  this.solicitudes_practicas[element.id] = respuesta.body;
+                  //console.log("Solicitudes:", this.solicitudes_practicas)
+                  resolve(true);
                 }
-              });
-            });               
-            console.log("Practicas correspondientes a nombre:",this.practicas_correspondiente_nombre)
+              });})
+            });  
+
+            for (var item of this.practicas){
+              this.evaluaciones.push(item.respuesta_supervisors)
+            }
+            /*
+            this.evaluaciones = this.practicas.filter((respuesta_supervisors: any) => {
+              return !isNaN(respuesta_supervisors.respuesta);
+            });
+            */
+
+            for (var item of this.evaluaciones){
+              this.hay_respuesta.push(0)
+              for(var item2 of item){
+                let temp: any = [];
+                let nota_promedio = 0;
+                let prom = 0;
+                if(item2.pregunta_supervisor != null){ 
+                  if(item2.pregunta_supervisor.enunciado == "Evalue entre 1 y 5 las siguientes aptitudes del practicante"){
+                    this.hay_respuesta.pop();
+                    this.hay_respuesta.push(1);
+                    if(item2.pregunta_supervisor.opciones.indexOf(";;") != -1){
+                      this.aptitudes_practica.push(item2.pregunta_supervisor.opciones.split(";;"))
+                      temp = item2.respuesta.split(",");
+                      for(var n of temp){
+                        nota_promedio += Number(n);
+                        prom += 1;
+                      }
+                      
+                      this.notas_aptitudes.push(temp);
+                      this.notas_promedio.push(nota_promedio/prom)
+                      break
+                    }                              
+                  }
+                }
+              }
+
+              
+            }
+            
+            //console.log("Practicas correspondientes a nombre:",this.practicas_correspondiente_nombre)
           }
         });
       }
@@ -177,13 +244,13 @@ export class DetalleAlumnoComponent implements OnInit{
       return;
     }
 
-    console.log("id_practica:", practica.id);
-    console.log("casilla horas:", horas_trabajadas);
+    //console.log("id_practica:", practica.id);
+    //console.log("casilla horas:", horas_trabajadas);
     
     this.service_datos.ingresar_informe(practica.id, key, id_config_informe, horas_trabajadas, id_encargado).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
-        console.log("Respuesta ingresar informe:",data);
+        //console.log("Respuesta ingresar informe:",data);
       },
       error: (error: any) => console.log("Error en ingresar informe:",error),
       complete: () => {
@@ -212,7 +279,7 @@ export class DetalleAlumnoComponent implements OnInit{
 
   
   descargar_documento(documento_id: string, solicitud_tipo: string) {
-    console.log("decargar documento")
+    //console.log("decargar documento")
     // abrir nueva pestaña con url de descarga, que es url_backend (sacada desde el env) + /documentos/ + documento_key
     if(solicitud_tipo == "documento"){
       window.open(environment.url_back+"/documento/download?id=" + documento_id, "_blank");
@@ -251,16 +318,16 @@ export class DetalleAlumnoComponent implements OnInit{
     //console.log("Así se ve la configuración de estados");
     //console.log(respuesta.body.config);
     correo_encargado = practica.encargado.usuario.correo;
-    console.log("correo_encargado:",correo_encargado);
+    //console.log("correo_encargado:",correo_encargado);
 
     let correo_supervisor: string = practica.supervisor.correo;
 
-    console.log("practica",practica)
+    //console.log("practica",practica)
     let nom_estudiante: string = this.usuario.nombre;
 
     this.service_gestion.finalizar_practica(practica.id_estudiante, practica.id, environment.estado_practica.finalizada, correo_supervisor, nom_estudiante).subscribe({
       next: (data: any) => {
-        console.log("Respuesta finalizar practica:",data);
+        //console.log("Respuesta finalizar practica:",data);
       },
       error: (error: any) => console.log("Error en finalizar practica:",error),
       complete: () => {
@@ -271,11 +338,11 @@ export class DetalleAlumnoComponent implements OnInit{
             respuesta = {...respuesta, ...data};
           },
           error:(error:any) => {
-            console.log(error);
+            //console.log(error);
             return;
           },
           complete:() => {
-            console.log("Notificación enviada con éxito");
+            //console.log("Notificación enviada con éxito");
           }
         });
         this._snackBar.open("Práctica Finalizada","Cerrar",{
@@ -307,6 +374,89 @@ export class DetalleAlumnoComponent implements OnInit{
     else{
       this.flags_inscripcion_list[index] = true;
     }        
+  }
+
+  redirigir_a_ingreso_informe(id_informe: any) {
+    // redirigir a la página de ingreso de informe
+    this.router.navigate(['/ingreso-informe'], { queryParams: { id_informe: id_informe } });
+  }
+
+  isEmptyObject(obj: any): boolean {
+    return obj && Object.keys(obj).length === 0;
+  }
+
+  minDate: Date | null = null;
+  selectedDate: any = null;
+
+  onFechaClick($event: any, id_practica: any) {
+    //this.minDate = new Date('2015-06-24T18:30:00.000Z'); // any date, only to force rendering
+    //setTimeout(() => {
+    //  this.minDate = null; // Set null to remove the date restriction
+    //}, 0); // Wait to change-detection function has terminated to execute a new change to force rendering the rows and cells   
+    const year = $event.getFullYear(); 
+    const month = $event.getMonth() + 1; 
+    const day = $event.getDate(); 
+    const fechaParseada = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T12:00:00.000Z`;
+    this.selectedDate = fechaParseada; 
+
+    // search for the id_practica in the array of practicas
+    let practica = this.practicas.find((practica: any) => practica.id == id_practica);
+    if(practica){
+      let informe = practica.informes.find((informe: any) => informe.fecha == fechaParseada);
+      if(informe){
+        //console.log("informe encontrado:",informe)
+        if(informe.key != null){
+          // redirect to the page to show the informe /estudiante-ver-informe/{{practica[1].id}}/{{informe.id}}          
+          this.router.navigate(['/estudiante-ver-informe/', practica.id, informe.id]);
+        }
+        else{
+          // redirect to the page to enter the informe /estudiante-ingresar-informe/{{practica[1].id}}/{{informe.id}}
+          this.redirigir_a_ingreso_informe(informe.id);
+        }
+      }
+      else{
+        //console.log("informe no encontrado:")
+      }
+    }
+    else{
+      console.log("practica no encontrada")
+    }
+    ////console.log("fecha parseada:",fechaParseada); 
+    //this.fechasSeleccionadas[index] = [...this.fechasSeleccionadas[index], new Date(fechaParseada)]
+  }
+
+  dateClass(index: number, id_practica: any) {
+    //console.log("index:",index)
+    return (date: Date): MatCalendarCellCssClasses => {
+      const highlightDate = this.fechasSeleccionadas[index]
+        .map((strDate) => new Date(strDate))
+        .some(
+          (d) =>
+            d.getDate() === date.getDate() &&
+            d.getMonth() === date.getMonth() &&
+            d.getFullYear() === date.getFullYear()
+        );
+      if (highlightDate) {
+        // check search for the informe with the date and check if it has a key, if it does, return bg-success else return bg-danger
+        let practica = this.practicas.find((practica: any) => practica.id == id_practica);
+        if(practica){
+          const year = date.getFullYear(); 
+          const month = date.getMonth() + 1; 
+          const day = date.getDate(); 
+          const fechaParseada = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T12:00:00.000Z`;
+          let informe = practica.informes.find((informe: any) => informe.fecha == fechaParseada);
+          if(informe){
+            if(informe.key != null){
+              return 'bg-success';
+            }
+            else{
+              return 'bg-warning';
+            }
+          }
+        }
+      }
+      return '';
+    };
   }
 }
 
