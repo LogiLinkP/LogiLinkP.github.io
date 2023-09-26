@@ -21,11 +21,13 @@ export class ConfiguracionPracticaComponent {
     currentRoute: string;
     importada: boolean = false;
     migracion_legal: boolean = true;
+    user: any = JSON.parse(localStorage.getItem('auth-user') || "{}").userdata;
 
     constructor(private _fb: FormBuilder, private cd: ChangeDetectorRef, @Inject(DOCUMENT) private document: Document,
         private serviceBarra: BarraLateralService, private _snackBar: MatSnackBar, private route: ActivatedRoute,
         private serviceComplete: ConfigService, private router: Router) {
         this.currentRoute = "";
+
         this.router.events.subscribe((event: Event) => {
             if (event instanceof NavigationStart) {
                 // Show loading indicator
@@ -965,7 +967,7 @@ export class ConfiguracionPracticaComponent {
         //}
 
         //crear nuevos (copias)
-        this.serviceComplete.crearConfigPractica(nombre, frecuencia, final).subscribe({
+        this.serviceComplete.crearConfigPractica(nombre, frecuencia, final, +this.user.encargado.id_carrera).subscribe({
             next: (data: any) => {
                 respuesta = { ...respuesta, ...data }
             },
@@ -1058,7 +1060,7 @@ export class ConfiguracionPracticaComponent {
 
         let respuesta: any = {};
 
-        this.serviceComplete.crearConfigPractica(nombre, frecuencia, final).subscribe({
+        this.serviceComplete.crearConfigPractica(nombre, frecuencia, final, +this.user.encargado.id_carrera).subscribe({
             next: (data: any) => {
                 respuesta = { ...respuesta, ...data }
             },

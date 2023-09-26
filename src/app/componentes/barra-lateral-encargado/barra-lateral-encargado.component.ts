@@ -20,7 +20,7 @@ export class BarraLateralEncargadoComponent {
   id_carrera: number = JSON.parse(this.user).userdata.encargado.id_carrera;
 
   constructor(private service: BarraLateralService, private _snackBar: MatSnackBar, private serviceRamos: RamosService) {
-    
+
     let respuesta: any = {};
 
     this.service.obtenerPracticasCreadas().subscribe({
@@ -37,14 +37,16 @@ export class BarraLateralEncargadoComponent {
       complete: () => {
         //console.log("respuesta:", respuesta.body)
         if (respuesta.body.length > 0) {
-            for (let i = 0; i < respuesta.body.length; i++) {
-                //si es que no es la planilla
-                if (respuesta.body[i].nombre != "configBase" && respuesta.body[i].activada == true) {
-                    //this.practicas_creadas.push(respuesta.body[i])
-                    this.configs_nombres.push(respuesta.body[i].nombre)
-                }
+          for (let i = 0; i < respuesta.body.length; i++) {
+            //si es que no es la planilla
+            if (respuesta.body[i].nombre != "configBase" && respuesta.body[i].activada == true) {
+              //this.practicas_creadas.push(respuesta.body[i])
+              if (respuesta.body[i].id_carrera == this.id_carrera) {
+                this.configs_nombres.push(respuesta.body[i].nombre)
+              }
             }
-            //console.log("nombres:",this.configs_nombres)
+          }
+          //console.log("nombres:",this.configs_nombres)
         }
       }
     });
@@ -63,7 +65,7 @@ export class BarraLateralEncargadoComponent {
       complete: () => {
         console.log("respuesta:", respuesta.body)
         if (respuesta.body.ramos != "" && respuesta.body.ramos != null) {
-            this.ramos_creados = true;
+          this.ramos_creados = true;
         }
       }
     });

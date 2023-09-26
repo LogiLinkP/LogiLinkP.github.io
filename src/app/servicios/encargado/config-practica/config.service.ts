@@ -4,16 +4,17 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ConfigService {
     constructor(private _http: HttpClient) { }
 
-    crearConfigPractica(nombre: string, frecuencia_informes: string, informe_final: string) {
+    crearConfigPractica(nombre: string, frecuencia_informes: string, informe_final: string, id_carrera: number) {
         const config = {
             nombre: nombre,
             frecuencia_informes: frecuencia_informes,
-            informe_final: informe_final
+            informe_final: informe_final,
+            id_carrera
         }
 
         const req = new HttpRequest('POST', `${environment.url_back}/config_practica/crear`, config, {
@@ -205,7 +206,7 @@ export class ConfigService {
 
         return this._http.request(req);
     }
-    
+
     crearPreguntaSupervisor(id_config_practica: number, enunciado: string, tipo_respuesta: string, opciones: string, fija: boolean) {
         const pregunta = {
             id_config_practica: id_config_practica,
@@ -267,13 +268,13 @@ export class ConfigService {
         return this._http.request(req);
     }
 
-    crearConfigPracticaCompleto(tipo_entrada:string, nombre: string, modalidad: Array<boolean>, cant_horas: Array<number>, cant_meses: Array<number>,
-                                    frecuencia_informes: string, informe_final: string) {
-        
+    crearConfigPracticaCompleto(tipo_entrada: string, nombre: string, modalidad: Array<boolean>, cant_horas: Array<number>, cant_meses: Array<number>,
+        frecuencia_informes: string, informe_final: string) {
+
         let respuestas = [];
 
         for (let i = 0; i < modalidad.length; i++) {
-            if (modalidad[i] == true) {                
+            if (modalidad[i] == true) {
                 const config = {
                     nombre: nombre,
                     modalidad: modalidad[i],
@@ -305,7 +306,7 @@ export class ConfigService {
     }
 
     delConfigPractica(id: number) {
-        const req = new HttpRequest('DELETE', `${environment.url_back}/config_practica/eliminar?id=${id}`,  {
+        const req = new HttpRequest('DELETE', `${environment.url_back}/config_practica/eliminar?id=${id}`, {
             responseType: 'json'
         });
 
