@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ChangeDetectorRef, Component, Inject} from '@angular/core';
-import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { Component, Inject} from '@angular/core';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RamosService } from 'src/app/servicios/encargado/ramos/ramos.service';
 
 @Component({
@@ -29,6 +29,7 @@ export class RamosEncargadoComponent {
     user: any = window.localStorage.getItem('auth-user');
     id_carrera: number = JSON.parse(this.user).userdata.encargado.id_carrera;
     nombre_carrera: string;
+    ramos_elminados: boolean = false;
 
     requestInicial() {
         let respuesta: any = {};
@@ -48,7 +49,9 @@ export class RamosEncargadoComponent {
                 this.nombre_carrera = respuesta.body.nombre;
                 let ramos = respuesta.body.ramos.split(",");
                 for (let i = 0; i < ramos.length; i++) {
-                    this.lista_ramos.push(ramos[i]);
+                    if (ramos[i] != "") {
+                        this.lista_ramos.push(ramos[i]);
+                    }
                 }
                 //this.generarForm();
             }
@@ -57,7 +60,7 @@ export class RamosEncargadoComponent {
 
     generarForm() {
         this.fg = this.fb.group({
-            ramoFORM: [this.ramo, Validators.required]
+            ramoFORM: ['', [Validators.required, Validators.minLength(3)]]
         });
     }
 
@@ -65,8 +68,8 @@ export class RamosEncargadoComponent {
         this.ramo = this.fg.value.ramoFORM;
         this.lista_ramos.push(this.ramo);
         //console.log(this.lista_ramos);
-  
-        this.ramo = "";
+        
+        this.fg.reset();
     }
 
     eliminarRamo(index: number) {
@@ -78,7 +81,6 @@ export class RamosEncargadoComponent {
         let respuesta: any = {};
 
         console.log("mandando datos");
-        console.log(this.lista_ramos);
         let ramos: string = "";
 
         for (let i = 0; i < this.lista_ramos.length; i++) {
@@ -89,6 +91,7 @@ export class RamosEncargadoComponent {
             }
         }
 
+        console.log("lista original:", this.lista_ramos, "ramos:", ramos);
         this.service.actualizarRamos(this.id_carrera, ramos).subscribe({
             next: (data: any) => {
                 respuesta = { ...respuesta, ...data }
