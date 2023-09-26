@@ -10,7 +10,6 @@ aria-hidden="true">
                 <form class="asignacion" [formGroup]="asignacionForm">
                     <select name="carrera" id="carrera" formControlName="carrera" [value]="comparador()">
                         <option *ngFor="let carrera of lista_carreras" value="{{carrera.id}}">{{carrera.nombre}}</option>
-                        <option value="-1">Ninguno</option>
                     </select>
                 </form>
                 

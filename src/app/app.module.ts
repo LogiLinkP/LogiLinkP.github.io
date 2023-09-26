@@ -83,6 +83,7 @@ import { EditarEncargadoModalComponent } from './componentes/editar-encargado-mo
 import { CrearEncargadoModalComponent } from './componentes/crear-encargado-modal/crear-encargado-modal.component';
 import { CrearCarreraModalComponent } from './componentes/crear-carrera-modal/crear-carrera-modal.component';
 import { EditarCarreraModalComponent } from './componentes/editar-carrera-modal/editar-carrera-modal.component';
+import { RegistroSupervisorComponent } from './vistas/registro-supervisor/registro-supervisor.component';
 
 @NgModule({
   declarations: [
@@ -133,6 +134,7 @@ import { EditarCarreraModalComponent } from './componentes/editar-carrera-modal/
     CrearEncargadoModalComponent,
     CrearCarreraModalComponent,
     EditarCarreraModalComponent,
+    RegistroSupervisorComponent,
   ],
   imports: [
     BrowserModule,

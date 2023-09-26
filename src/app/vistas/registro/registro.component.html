@@ -24,7 +24,7 @@
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="p-5">
                         <div class="text-center">
-                            <h1 class="h4 text-gray-900 mb-4">Registro de Praxus</h1>
+                            <h1 class="h4 text-gray-900 mb-4">Registro de Praxus para Estudiantes</h1>
                         </div>
                         <form class="user" [formGroup]="registroForm">
                             <div class="form-group row">
@@ -48,19 +48,44 @@
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control form-control-user" id="exampleLastName"
                                         placeholder="Apellidos" formControlName="apellido">
+                                    <div *ngIf="registroForm.controls['apellido'].invalid && (registroForm.controls['apellido'].dirty || registroForm.controls['apellido'].touched)"
+                                        class="alert alert-danger">
+                                        <div *ngIf="registroForm.controls['apellido'].errors?.['required']">
+                                            Se requiere apellido
+                                        </div>
+                                        <div *ngIf="registroForm.controls['apellido'].errors?.['minlength']">
+                                            Mínimo 3 caracteres.
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
                             <!-- EMAIL -->
-                            <div class="form-group">
-                                <input type="email" class="form-control form-control-user" id="exampleInputEmail"
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input type="text" class="form-control form-control-user" id="exampleInputEmail"
                                     placeholder="Correo Electrónico" formControlName="email" name="email">
-                                <div *ngIf="registroForm.controls['email'].invalid && (registroForm.controls['email'].dirty || registroForm.controls['email'].touched)"
-                                    class="alert alert-danger">
-                                    <p *ngIf="registroForm.controls['email'].errors?.['required']">
-                                        Se requiere correo
-                                    </p>
+                                    <div *ngIf="registroForm.controls['email'].invalid && (registroForm.controls['email'].dirty || registroForm.controls['email'].touched)"
+                                        class="alert alert-danger">
+                                        <p *ngIf="registroForm.controls['email'].errors?.['required']">
+                                            Se requiere alias
+                                        </p>
+                                    </div>
                                 </div>
+
+                                <div class="col-sm-6">
+                                    <select class="form-select" name="dom" id="dom" formControlName="dom">
+                                        <option value="" disabled selected>Seleccione un dominio</option>
+                                        <option *ngFor="let dominio of dominios" value="{{dominio}}">@{{dominio}}</option>
+                                    </select>
+                                    <div *ngIf="registroForm.controls['dom'].invalid && (registroForm.controls['dom'].dirty || registroForm.controls['dom'].touched)"
+                                        class="alert alert-danger">
+                                        <p *ngIf="registroForm.controls['dom'].errors?.['required']">
+                                            Se requiere dominio
+                                        </p>
+                                    </div>
+                                </div>
+
                             </div>
                             <!-- EMAIL -->
 
@@ -83,36 +108,23 @@
                                 </div>
                             </div>
 
-                            <hr>
-                            <select class="form-select" name="tipo" id="tipo" (change)="checkout($event)">
-                                <option value="0">Seleccione tipo de usuario</option>
-                                <option value="1">Estudiante</option>
-                                <option value="2">Supervisor</option>
-                                <option value="3">Encargado</option>
-                            </select>
-
-                            <div *ngIf="!es_estudiante&&!es_supervisor"> </div>
-                            <div *ngIf="es_estudiante">
-                                <div>
-                                        Rut:<input formControlName="RUT" type="text" name="RUT" placeholder="12345678-9"
-                                        required="required" style="margin-top: 20px; margin-left: 20px;"/>
-                                </div>
-                                <div>
-                                    Carrera:
-                                    <select class="form-select" name="id_carrera" id="id_carrera" (change)="checkout2($event)">
-                                        <option *ngFor="let carrera of carreras; let indice = index" value={{carreras_id[indice]}}>{{carrera}}</option>
-                                    </select>
-                                </div>
+                            <div class="form-group">
+                                Ingrese su rut:
+                                <input class="form-control form-control-user" formControlName="RUT" type="text" name="RUT" placeholder="12345678-9"
+                                    required="required"/>
                             </div>
-                            <div *ngIf="es_supervisor">
-                            </div>
-                            <div *ngIf="es_encargado">
+                            <div class="form-group">
+                                Seleccione su Carrera:
+                                <select class="form-select" name="id_carrera" id="id_carrera" formControlName="id_carrera">
+                                    <option value="" disabled selected>Seleccione un dominio</option>
+                                    <option *ngFor="let carrera of carreras" value="{{carrera.id}}">{{carrera.nombre}}</option>
+                                </select>
                             </div>
                             <hr>
 
                             <button id="myBtn" type="submit" class="btn btn-primary btn-user btn-block"
                                 (click)="register()"
-                                [disabled]="registroForm.pristine || registroForm.invalid || checkEs">
+                                [disabled]="registroForm.pristine || registroForm.invalid">
                                 Registrar Cuenta
                             </button>
                             <script>

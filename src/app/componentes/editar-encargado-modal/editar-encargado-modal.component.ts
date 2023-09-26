@@ -12,6 +12,7 @@ export class EditarEncargadoModalComponent implements OnInit {
   @Input() id_encargado: any;
   @Input() lista_carreras: any;
   @Input() carrera_actual: any;
+  @Input() id_carrera_actual: any;
 
   asignacionForm: FormGroup;
 
@@ -39,31 +40,75 @@ export class EditarEncargadoModalComponent implements OnInit {
   }
 
   asignar(){
-    console.log(this.carrera_actual)
     let _data: any = {};
 
     const data = this.asignacionForm.value;
 
-    this.admin.asignarEncargado(this.id_encargado,data.carrera).subscribe({
+    this.admin.getEncargadoCarrera(this.id_carrera_actual).subscribe({
       next: data => {
         _data = { ..._data, ...data }
       },
       error: error => {
-        this._snackBar.open("Error al asignar encargado", "Cerrar", {
+        this._snackBar.open("Error al obtener encargados de carrera", "Cerrar", {
           panelClass: ['red-snackbar'],
           duration: 2000
         });
       },
       complete: () => {
-        if (_data.status == 200) {
-          window.location.reload();
-        } else {
-          this._snackBar.open("Error al asignar encargado", "Cerrar", {
-            panelClass: ['red-snackbar'],
-            duration: 2000
+        if(_data.body.encargados.length == 1){
+          let decision = confirm("Reasignando este encargado, la carrera se quedara sin encargados para evaluar futuras practicas, ¿Desea continuar?");
+          if(decision){
+            this.admin.asignarEncargado(this.id_encargado,data.carrera).subscribe({
+              next: data => {
+                console.log(1)
+                _data = { ..._data, ...data }
+              },
+              error: error => {
+                this._snackBar.open("Error al asignar encargado", "Cerrar", {
+                  panelClass: ['red-snackbar'],
+                  duration: 2000
+                });
+              },
+              complete: () => {
+                console.log(2)
+                if (_data.status == 200) {
+                  window.location.reload();
+                } else {
+                  this._snackBar.open("Error al asignar encargado", "Cerrar", {
+                    panelClass: ['red-snackbar'],
+                    duration: 2000
+                  });
+                }
+              }
+            });
+          }
+        }
+        else{
+          this.admin.asignarEncargado(this.id_encargado,data.carrera).subscribe({
+            next: data => {
+              _data = { ..._data, ...data }
+            },
+            error: error => {
+              this._snackBar.open("Error al asignar encargado", "Cerrar", {
+                panelClass: ['red-snackbar'],
+                duration: 2000
+              });
+            },
+            complete: () => {
+              if (_data.status == 200) {
+                window.location.reload();
+              } else {
+                this._snackBar.open("Error al asignar encargado", "Cerrar", {
+                  panelClass: ['red-snackbar'],
+                  duration: 2000
+                });
+              }
+            }
           });
         }
       }
     });
+
+    
   }
 }
