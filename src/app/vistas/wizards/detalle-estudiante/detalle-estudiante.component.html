@@ -1,0 +1,517 @@
+<body id="page-top">
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <app-barra-lateral-encargado></app-barra-lateral-encargado>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content" class="main-content">
+
+                <!-- Topbar -->
+                <app-barra-superior></app-barra-superior>
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid" id="pdfTable2" #pdfTable2>
+
+                    <!-- Page Heading -->
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <h1 class="h3 mb-2 text-gray-800"> Eduardo Lazo <br> Práctica Profesional</h1>
+                        </div>
+                        <div class="col-lg-1 d-flex justify-content-end align-items-center">
+                            <button type="button" class="btn btn-primary btn-md btn-block">Volver</button>
+                        </div>
+
+                        <div class="col-lg-2 d-flex justify-content-end align-items-center">
+                            <button type="button" class="btn btn-primary btn-md btn-block">Descargar Resumen
+                                PDF</button>
+                        </div>
+                    </div>
+                    <br>
+                    <!-- Fila de "Tarjetas" -->
+                    <div class="row" id="datos_generales">
+                        <!-- Tarjeta de Estado -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Estado</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"> Evaluada
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <!-- BUSCAR ICONOS APROPIADOS? <i class="fas fa-calendar fa-2x text-gray-300"></i> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta de Empresa -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Empresa</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Microsoft</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <!-- <i class="fas fa-dollar-sign fa-2x text-gray-300"></i> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta de Supervisor -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                Supervisor</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"> Alan Brito</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <!-- <i class="fas fa-comments fa-2x text-gray-300"></i> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta de Progreso -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                Modalidad</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">meses</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <!-- <i class="fas fa-comments fa-2x text-gray-300"></i> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row" id="acciones">
+                        <div class="col-12 col-lg-4" style="margin-bottom: 20px;">
+                            <button type="button" class="btn btn-success btn-lg btn-block">
+                                Aprobar
+                            </button>
+                        </div>
+                        <div class="col-12 col-lg-4" style="margin-bottom: 20px;">
+                            <button type="button" class="btn btn-danger btn-lg btn-block">
+                                Reprobar
+                            </button>
+                        </div>
+                        <div class="col-12 col-lg-4" style="margin-bottom: 20px;">
+                            <button class="btn btn-primary btn-lg btn-block">Solicitar Archivo Extra</button>
+                        </div>
+                    </div>
+
+                    <!-- Fila de Información general y Archivos -->
+                    <div class="row">
+                        <!-- Tarjeta Información general -->
+                        <div class="col-lg-12">
+                            <div class="card shadow mb-4" id="info_general">
+                                <!-- Card Header - Accordion -->
+                                <a href="#collapseCardGeneral" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardGeneral">
+                                    <h6 class="m-0 font-weight-bold text-primary">Información General</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardGeneral">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                Correo Estudiante:
+                                            </div>
+                                            <div class="col-6">
+                                                correo_estudiante@dominio.cl
+                                            </div>
+                                            <div class="col-6">
+                                                Correo Supervisor:
+                                            </div>
+                                            <div class="col-6">
+                                                correo_supervisor@dominio.cl
+                                            </div>
+                                            <div class="col-6">
+                                                Horas Trabajadas:
+                                            </div>
+                                            <div class="col-6">
+                                                180
+                                            </div>
+                                            <div class="col-6">
+                                                Fecha Inicio:
+                                            </div>
+                                            <div class="col-6">
+                                                01/06/2023
+                                            </div>
+                                            <div class="col-6">
+                                                Fecha Termino:
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- Fin Tarjeta Información general -->
+                    </div><!-- Fin Fila -->
+
+                    <div class="row">
+                        <!-- Tarjeta Informes -->
+                        <div class="col-lg-6" id="informes">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Accordion -->
+                                <a href="#collapseCardInformes" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardInformes">
+                                    <h6 class="m-0 font-weight-bold text-primary">Informes Realizados</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardInformes">
+                                    <div class="card-body">
+                                        <div class="overflow-auto">
+                                            <div class="table-responsive ">
+                                                <table class="table table-bordered hoverTable" id="dataTable"
+                                                    width="100%" cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Tipo</th>
+                                                            <th>Horas Trabajadas</th>
+                                                            <th>Fecha Subido</th>
+                                                            <th>Ver Informe</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>informe avance</td>
+                                                            <td>100</td>
+                                                            <td>30/06/2023</td>
+                                                            <td>
+                                                                <a class="nostyle">
+                                                                    <button class="btn btn-primary btn-sm btn-block">
+                                                                        Ver Informe
+                                                                    </button>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>informe final</td>
+                                                            <td>20</td>
+                                                            <td>30/07/2023</td>
+                                                            <td>
+                                                                <a class="nostyle">
+                                                                    <button class="btn btn-primary btn-sm btn-block">
+                                                                        Ver Informe
+                                                                    </button>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- Fin Tarjeta Informes -->
+
+                        <!-- Tarjeta Archivos -->
+                        <div class="col-lg-6">
+                            <div class="card shadow mb-4" id="archivos">
+                                <!-- Card Header - Accordion -->
+                                <a href="#collapseCardArchivos" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardArchivos">
+                                    <h6 class="m-0 font-weight-bold text-primary">Solicitudes de Archivos</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardArchivos">
+                                    <div class="card-body">
+                                        <div class="overflow-auto">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered hoverTable" id="dataTable"
+                                                    width="100%" cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Archivo</th>
+                                                            <th>Formato</th>
+                                                            <th>Tipo Solicitud</th>
+                                                            <th>Descargar</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Boleta honorarios Junio</td>
+                                                            <td>pdf</td>
+                                                            <td>Normal</td>
+                                                            <td><button
+                                                                    class="btn btn-primary btn-sm btn-block">Descargar</button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Seguro firmado por la empresa</td>
+                                                            <td>pdf,png</td>
+                                                            <td>Extra</td>
+                                                            <td>
+                                                                <b>No subido aún</b>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- Fin Tarjeta Archivos -->
+                    </div><!-- Fin Fila -->
+
+                    <div class="row">
+                        <!-- Tarjeta Evaluación -->
+                        <div class="col-lg-6" id="evaluacion">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Accordion -->
+                                <a href="#collapseCardEvaluacion" class="d-block card-header py-3"
+                                    data-toggle="collapse" role="button" aria-expanded="true"
+                                    aria-controls="collapseCardEvaluacion">
+                                    <h6 class="m-0 font-weight-bold text-primary">Evaluación del Supervisor</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardEvaluacion">
+                                    <!-- Evaluación de Aptitudes -->
+                                    <div class="card-body">
+                                        <div class="overflow-auto">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered hoverTable" id="dataTable"
+                                                    width="100%" cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Aptitud</th>
+                                                            <th>Evaluación</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>Esforzado</th>
+                                                            <th>5</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Puntual</th>
+                                                            <th>4</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Responsable</th>
+                                                            <th>4</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Promedio</th>
+                                                            <th>4,33</th>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- Fin Tarjeta Evaluación -->
+
+                        <!-- Tarjeta de otras respuestas del supervisor -->
+                        <div class="col-lg-6">
+                            <div class="card shadow mb-4" id="resena">
+                                <!-- Card Header - Accordion -->
+                                <a href="#collapseCardSupervisor" class="d-block card-header py-3"
+                                    data-toggle="collapse" role="button" aria-expanded="true"
+                                    aria-controls="collapseCardSupervisor">
+                                    <h6 class="m-0 font-weight-bold text-primary">Reseñas del Supervisor</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardSupervisor">
+                                    <div class="card-body">
+                                        <div class="overflow-auto">
+                                            <div class="table-responsive ">
+                                                <table class="table table-bordered hoverTable" id="dataTable"
+                                                    width="100%" cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Enunciado</th>
+                                                            <th>Respuesta</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="vertical-align: middle;">Resuma las actividades
+                                                                del practicante</td>
+                                                            <td style="vertical-align: middle;">
+                                                                Es practicante realizó todo tipo de tareas en terreno y
+                                                                oficina. Se desempeñó de manera excelente en todas las
+                                                                tareas que se le asignaron.
+                                                            </td>
+
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <ng-template #supervisor_data>
+                                        <div class="spinner-border" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div><!-- Fin Tarjeta Otras respuestas supervisor -->
+                    </div><!-- Fin Fila -->
+
+                    <div class="row">
+                        <!-- Tarjeta Consistencia -->
+                        <div class="col-lg-12" id="consistencias">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Accordion -->
+                                <a href="#collapseCardConsistencias" class="d-block card-header py-3"
+                                    data-toggle="collapse" role="button" aria-expanded="true"
+                                    aria-controls="collapseCardConsistencias">
+                                    <h6 class="m-0 font-weight-bold text-primary">Consistencia de Informes</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardConsistencias">
+                                    <div class="card-body">
+                                        <div class="overflow-auto_consistencia">
+                                            <!-- tarjetas internas consistencia_informe y consistencia_nota-->
+                                            <div class="row" style="max-width: 100%;">
+                                                <div class="col-xl-3"></div>
+                                                <div class="col-xl-2 col-md-6 mb-4">
+                                                    <div class="card border-left-success shadow h-100 py-2">
+                                                        <div class="card-body">
+                                                            <div class="row no-gutters align-items-center">
+                                                                <div class="col mr-2">
+                                                                    <div
+                                                                        class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                                        Consistencia Informe</div>
+                                                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                                        23%
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-auto">
+                                                                    <!--  <i class="fas fa-calendar fa-2x text-gray-300"></i> -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-2"></div>
+                                                <div class="col-xl-2 col-md-6 mb-4">
+                                                    <div class="card border-left-success shadow h-100 py-2">
+                                                        <div class="card-body">
+                                                            <div class="row no-gutters align-items-center">
+                                                                <div class="col mr-2">
+                                                                    <div
+                                                                        class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                                        Consistencia Nota</div>
+                                                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                                        54%</div>
+                                                                </div>
+                                                                <div class="col-auto">
+                                                                    <!--  <i class="fas fa-calendar fa-2x text-gray-300"></i> -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- Fin Tarjetas de consistencia -->
+                                            </div><!-- Fin de la fila -->
+
+                                            <!-- make two tables-->
+                                            <div class="row">
+                                                <div class="col-xl-1"></div>
+                                                <div class="col-xl-5">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered hoverTable" id="dataTable"
+                                                            width="100%" cellspacing="0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Textos más relevantes del Alumno</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td id="resumen_informes">
+                                                                        No hay información disponible.
+                                                                    </td>
+                                                                </tr>
+                                                                <!-- <tr *ngFor="let resp of respuestas_supervisor;">
+                                                                    <td>{{resp.pregunta_supervisor?.enunciado}}</td>
+                                                                </tr> -->
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-5">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered hoverTable" id="dataTable"
+                                                            width="100%" cellspacing="0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Textos más relevantes del Supervisor</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td id="resumen_supervisor">
+                                                                        No hay información disponible.
+                                                                    </td>
+                                                                </tr>
+
+                                                                <!-- <tr *ngFor="let resp of respuestas_supervisor;">
+                                                                    <td>{{resp.pregunta_supervisor?.enunciado}}</td>
+                                                                </tr> -->
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div><!-- Fin Tarjeta interna de consistencia-->
+
+                        </div><!-- Fin Tarjeta Consistencia -->
+                    </div><!-- Fin Fila -->
+                </div>
+            </div>
+            <!-- End of Main Content -->
+
+
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <app-logout-modal></app-logout-modal>
+</body>

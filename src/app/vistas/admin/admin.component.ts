@@ -22,6 +22,7 @@ export class AdminComponent {
   id_carrera: any;
   nombre_carrera: any;
   correos_admitidos: any;
+  id_carrera_actual: any;
   
 
   createForm(){
@@ -69,9 +70,10 @@ export class AdminComponent {
     this.createForm();
   }
 
-  editar(id: any, carrera_actual: any){
+  editar(id: any, carrera_actual: any, id_carrera_actual: any){
     this.id_encargado = id;
     this.carrera_actual = carrera_actual;
+    this.id_carrera_actual = id_carrera_actual;
   }
 
   editar_carrera(id: any, nombre: any, correos_admitidos: any){

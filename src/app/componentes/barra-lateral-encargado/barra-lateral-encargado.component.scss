@@ -1,3 +1,9 @@
 #logo {
     margin: 10px 25px;
 }
+
+.disabled {
+    color: gray;
+    cursor: not-allowed;
+    text-decoration: underline;
+}

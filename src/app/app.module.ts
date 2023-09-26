@@ -76,11 +76,14 @@ import { BarraLateralAdminComponent } from './componentes/barra-lateral-admin/ba
 import { RegistroEncargadoComponent } from './vistas/registro-encargado/registro-encargado.component';
 import { IngresoInformeComponent } from './vistas/ingreso-informe/ingreso-informe.component';
 import { EstudianteVerInformeComponent } from './vistas/estudiante-ver-informe/estudiante-ver-informe.component';
+import { InfoYEvaluacionEstudianteComponent } from './vistas/wizards/info-y-evaluacion-estudiante/info-y-evaluacion-estudiante.component';
+import { DetalleEstudianteComponent } from './vistas/wizards/detalle-estudiante/detalle-estudiante.component';
 import { EliminarEncargadoComponent } from './vistas/eliminar-encargado/eliminar-encargado.component';
 import { EditarEncargadoModalComponent } from './componentes/editar-encargado-modal/editar-encargado-modal.component';
 import { CrearEncargadoModalComponent } from './componentes/crear-encargado-modal/crear-encargado-modal.component';
 import { CrearCarreraModalComponent } from './componentes/crear-carrera-modal/crear-carrera-modal.component';
 import { EditarCarreraModalComponent } from './componentes/editar-carrera-modal/editar-carrera-modal.component';
+import { RegistroSupervisorComponent } from './vistas/registro-supervisor/registro-supervisor.component';
 
 @NgModule({
   declarations: [
@@ -124,11 +127,14 @@ import { EditarCarreraModalComponent } from './componentes/editar-carrera-modal/
     RegistroEncargadoComponent,
     IngresoInformeComponent,
     EstudianteVerInformeComponent,
+    InfoYEvaluacionEstudianteComponent,
+    DetalleEstudianteComponent,
     EliminarEncargadoComponent,
     EditarEncargadoModalComponent,
     CrearEncargadoModalComponent,
     CrearCarreraModalComponent,
     EditarCarreraModalComponent,
+    RegistroSupervisorComponent,
   ],
   imports: [
     BrowserModule,

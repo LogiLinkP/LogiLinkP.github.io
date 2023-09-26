@@ -24,18 +24,23 @@
 
     <!-- Nav Item - Config Practicas Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-            aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+            aria-controls="collapseTwo">
             <i class="fas fa-fw fa-cog"></i>
             <span>Configurar Prácticas</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div *ngIf="configs_nombres.length > 0" class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Practicas Activas:</h6>
-                <a *ngFor="let practica of configs_nombres" class="collapse-item" [routerLink]="['/configurar', practica]">{{practica}}</a>
+                <a *ngFor="let practica of configs_nombres" class="collapse-item"
+                    [routerLink]="['/configurar', practica]">{{practica}}</a>
                 <h6 class="collapse-header">Crear Nueva:</h6>
                 <!-- <a class="collapse-item" [routerLink]="['/configurar', 'configBase']">Planilla base</a> -->
-                <a class="collapse-item" [routerLink]="['/configurar', 'blanco']">
+                <a class="collapse-item disabled" *ngIf="!ramos_creados">
+                    <i class="fas fa-regular fa-plus fa-sm fa-fw mr-2 text-gray-400"></i>
+                    <span matTooltip="Deben existir ramos antes de crear practicas nuevas!">Plantilla en blanco</span>
+                </a>
+                <a class="collapse-item" [routerLink]="['/configurar', 'blanco']" *ngIf="ramos_creados">
                     <i class="fas fa-regular fa-plus fa-sm fa-fw mr-2 text-gray-400"></i>
                     Plantilla en blanco
                 </a>
@@ -53,6 +58,20 @@
             <span>Editar ramos</span></a>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#menu_guias" aria-expanded="true"
+            aria-controls="menu_guias">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Guías</span>
+        </a>
+        <div id="menu_guias" class="collapse" aria-labelledby="menu_guias" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" [routerLink]="['/guias/info_y_eval_estudiante']" data-toggle="modal">
+                    Evaluar estudiantes
+                </a>
+            </div>
+        </div>
+    </li>
     <!-- Nav Item - Utilities Collapse Menu 
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
@@ -117,7 +136,7 @@
     <!-- <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
     </div> -->
-    
+
 </ul>
 
 <app-import-modal></app-import-modal>
