@@ -115,16 +115,15 @@ export class BarraSuperiorComponent implements OnInit{
           return;
         },
         complete: () => {
-          if (this.respuesta.body[0].practicas.length == 0){
-            return;
-          }
-          for (let i = 0; i < this.respuesta.body[0].practicas.length; i++){
-            // check if the person is already in the list
-            if (!this.id_personas.includes(this.respuesta.body[0].practicas[i].id_encargado)){
-              this.id_personas.push(this.respuesta.body[0].practicas[i].id_encargado);
-              this.personas.push(this.respuesta.body[0].practicas[i].encargado);
+          //console.log("respuesta", this.respuesta)
+          
+          // Se muestran todos los encargados en la misma carrera que el estudiante
+          if (this.respuesta.body.hasOwnProperty("carrera") == true){
+            if (this.respuesta.body.carrera.hasOwnProperty("encargados") == true){
+              this.personas = this.respuesta.body.carrera.encargados;
             }
           }
+          
           this.respuesta = [];
           //console.log("ENCARGADOS:",this.personas);
         }
@@ -140,16 +139,17 @@ export class BarraSuperiorComponent implements OnInit{
           return;
         },
         complete: () => {
-          if (this.respuesta.body[0].practicas.length == 0){
-            return;
-          }
-          for (let i = 0; i < this.respuesta.body[0].practicas.length; i++){
-            if (!this.id_personas.includes(this.respuesta.body[0].practicas[i].id_estudiante)){
-              this.id_personas.push(this.respuesta.body[0].practicas[i].id_estudiante);
-              this.personas.push(this.respuesta.body[0].practicas[i].estudiante);
+          //console.log("respuesta", this.respuesta)
+          
+          // Se muestran todos los encargados en la misma carrera que el estudiante
+          if (this.respuesta.body.hasOwnProperty("carrera") == true){
+            if (this.respuesta.body.carrera.hasOwnProperty("estudiantes") == true){
+              this.personas = this.respuesta.body.carrera.estudiantes;
             }
           }
+          
           this.respuesta = [];
+          //console.log("ENCARGADOS:",this.personas);
         }
       })
     } 
@@ -293,13 +293,30 @@ export class BarraSuperiorComponent implements OnInit{
   redirect_to_chat(userid_otro_participante:number, tipo:string){
     
     if(tipo=="encargado"){
-      // reditect to url
-      //window.location.href = "/chat/sala"+userid_otro_participante+this.id_usuario+"/"+this.id_usuario+"/"+userid_otro_participante+"/encargado"
-      this.router.navigate(['/chat/sala'+userid_otro_participante+this.id_usuario+"/"+this.id_usuario+"/"+userid_otro_participante+"/encargado"]);
+      if (this.router.url.includes("chat/sala")){
+        this.router.navigate(['/chat/sala'+userid_otro_participante+this.id_usuario+"/"+this.id_usuario+"/"+userid_otro_participante+"/encargado"]);
+        // reload the page after 1 second
+        setTimeout(() => {
+          window.location.reload(); // esto es porque si ya se estaba en un chat, no recargaba los mensajes
+        }
+        , 300);
+      }
+      else{
+        this.router.navigate(['/chat/sala'+userid_otro_participante+this.id_usuario+"/"+this.id_usuario+"/"+userid_otro_participante+"/encargado"]);
+      }
     }
     else if(tipo=="estudiante"){
-      //window.location.href = "/chat/sala"+this.id_usuario+userid_otro_participante+"/"+this.id_usuario+"/"+userid_otro_participante+"/estudiante";
-      this.router.navigate(['/chat/sala'+this.id_usuario+userid_otro_participante+"/"+this.id_usuario+"/"+userid_otro_participante+"/estudiante"]);
+      if (this.router.url.includes("chat/sala")){
+        this.router.navigate(['/chat/sala'+this.id_usuario+userid_otro_participante+"/"+this.id_usuario+"/"+userid_otro_participante+"/estudiante"]);
+        // reload the page after 1 second
+        setTimeout(() => {
+          window.location.reload(); // esto es porque si ya se estaba en un chat, no recargaba los mensajes
+        }
+        , 300);
+      }
+      else{
+        this.router.navigate(['/chat/sala'+this.id_usuario+userid_otro_participante+"/"+this.id_usuario+"/"+userid_otro_participante+"/estudiante"]);
+      }
     }
   }
 

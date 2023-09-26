@@ -59,12 +59,6 @@ export class ChatComponent implements OnInit {
     this.router.params.subscribe(params => {this.Id2 = +params['id2'];});
     this.id_usuario = auth_user.userdata.id;
     this.router.params.subscribe(params => {this.tipo = params['tipo'];});
-
-    let id_aux = this.router.snapshot.queryParamMap.get('userid_otro_participante');
-    if(id_aux!=null){
-      this.userid_otro_participante = +id_aux;
-    }
-
     this.router.params.subscribe(params => {this.room = params['room'];}); 
 
     // check if the room is already set in the cookies, if it is destroy it
@@ -86,10 +80,12 @@ export class ChatComponent implements OnInit {
     if(this.tipo=="estudiante"){
       this.id_estudiante=this.Id;
       this.id_encargado=this.Id2;
+      this.userid_otro_participante = this.Id2;
     }
     else{
       this.id_encargado=this.Id;
       this.id_estudiante=this.Id2;
+      this.userid_otro_participante = this.Id;
     }
 
     this.service_obtener.obtener_estudiante(this.id_estudiante).subscribe({
@@ -101,7 +97,7 @@ export class ChatComponent implements OnInit {
         return;
       },
       complete:() => {
-        console.log(this.respuesta.body);
+        //console.log(this.respuesta.body);
         this.nombre_estudiante = this.respuesta.body.usuario.nombre;
         this.correo_estudiante = this.respuesta.body.usuario.correo;
         this.estado_config_estudiante = this.respuesta.body.usuario.config;
@@ -117,13 +113,12 @@ export class ChatComponent implements OnInit {
         return;
       },
       complete:() => {
-        console.log(this.respuesta.body);
+        //console.log(this.respuesta.body);
         this.nombre_encargado = this.respuesta.body.usuario.nombre
         this.correo_encargado = this.respuesta.body.usuario.correo;
         this.estado_config_encargado = this.respuesta.body.usuario.config;
       }
     })
-
     // buscar si chat existe en BD
     this.chatService.getchat(this.id_estudiante,this.id_encargado).subscribe({
       next: (data: any) => {
@@ -164,9 +159,9 @@ export class ChatComponent implements OnInit {
         }
       }
     });
-    
     // buscar datos del usuario otro participante
     if(this.userid_otro_participante!=-1){
+
       this.chatService.getusuario(this.userid_otro_participante).subscribe({
         next: (data: any) => {
           this.respuesta = { ...this.respuesta, ...data }
@@ -177,7 +172,7 @@ export class ChatComponent implements OnInit {
         },
         complete: () => {
           this.usuario_otro_participante = this.respuesta.body;
-          //console.log("Nombre del otro participante: ",this.usuario_otro_participante.nombre);
+          //console.log("Nombre del otro participante: ",this.usuario_otro_participante);
           this.cdr.detectChanges();
         }
       });
@@ -200,7 +195,7 @@ export class ChatComponent implements OnInit {
       },
       error: (error: any) => console.log("Error en enviar mensaje:",error),  
       complete: () =>{
-        console.log(this.tipo);
+        //console.log(this.tipo);
         let noti: string = "";
         if(mensaje.emisor == "encargado"){
           noti = "El encargado "+ this.nombre_encargado +" te ha enviado un mensaje"
@@ -255,6 +250,13 @@ export class ChatComponent implements OnInit {
 
   volver_atras(){
     window.history.back();
+    // if the previous url contains /chat/sala, reload the page after 300 miliseconds
+    setTimeout(() => {
+      if(window.location.href.includes("/chat/sala")){
+        window.location.reload(); // esto es porque si ya se estaba en un chat, no recargaba los mensajes
+      }
+    }
+    , 300);
   }
   
   ngAfterViewChecked() {
