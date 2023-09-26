@@ -70,8 +70,13 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Empresa</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{
-                                                practica?.empresa?.nombre_empresa }}</div>
+                                            <div
+                                                [class]="!practica?.empresa.empresa_verificada? 'bg-warning h5 mb-0 font-weight-bold text-gray-800' : 'h5 mb-0 font-weight-bold text-gray-800'">
+                                                <i *ngIf="!practica?.empresa.empresa_verificada"
+                                                    title="Empresa no verificada"
+                                                    class="fa-solid fa-triangle-exclamation"></i>{{
+                                                practica?.empresa?.nombre_empresa }}
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <!-- <i class="fas fa-dollar-sign fa-2x text-gray-300"></i> -->
