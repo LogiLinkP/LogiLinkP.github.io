@@ -37,15 +37,21 @@ export class BarraLateralEncargadoComponent {
       complete: () => {
         //console.log("respuesta:", respuesta.body)
         if (respuesta.body.length > 0) {
+          let aux: any = [];
           for (let i = 0; i < respuesta.body.length; i++) {
             //si es que no es la planilla
             if (respuesta.body[i].nombre != "configBase" && respuesta.body[i].activada == true) {
               //this.practicas_creadas.push(respuesta.body[i])
+              console.log("respuesta.body[i].id_carrera", respuesta.body[i].id_carrera)
+              console.log("this.id_carrera", this.id_carrera)
               if (respuesta.body[i].id_carrera == this.id_carrera) {
-                this.configs_nombres.push(respuesta.body[i].nombre)
+                console.log("entro")
+                aux.push(respuesta.body[i].nombre)
               }
             }
           }
+          this.configs_nombres = aux;
+          console.log("this.configs_nombres", this.configs_nombres)
           //console.log("nombres:",this.configs_nombres)
         }
       }

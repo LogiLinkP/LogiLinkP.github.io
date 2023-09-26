@@ -24,7 +24,7 @@
                             class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
                 </div>
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h2 class="h3 mb-0 text-gray-800">Respuestas estudiantes al finalizar la páctica</h2>
+                    <h2 class="h3 mb-0 text-gray-800">Respuestas de estudiantes al finalizar la práctica</h2>
                 </div>
 
                 <!-- SELECT CONFIG PRACTICA -->
@@ -38,10 +38,12 @@
                     -----------------------
                 </div> -->
 
-                <select name="tipo" id="tipo" (change) = "cambiar_config_practica($event)" class="form-select form-select-sm mb-4 col-4"  aria-label="Default select example">
+                <select name="tipo" id="tipo" (change)="cambiar_config_practica($event)"
+                    class="form-select form-select-sm mb-4 col-4" aria-label="Default select example">
 
                     <option value="0">Seleccione práctica a mostrar</option>
-                    <option *ngFor="let config_practica of AUX_config_practicas" [value]="config_practica.id">{{config_practica.nombre}}</option>
+                    <option *ngFor="let config_practica of AUX_config_practicas" [value]="config_practica.id">
+                        {{config_practica.nombre}}</option>
 
 
                     <!-- <option value="0">Seleccione el tipo de respuesta</option>
@@ -54,38 +56,40 @@
 
                 <div class="row">
 
-                        <div *ngIf="largo_arreglo(preguntas_mostrar)==0 && id_config_practica_mostrar != 0">
-                            No hay estadísticas para mostrar
-                        </div>
-                    
-                        <div class="col-lg-6 mb-4" *ngFor="let pregunta of preguntas_mostrar; let i = index">
+                    <div *ngIf="largo_arreglo(preguntas_mostrar)==0 && id_config_practica_mostrar != 0">
+                        No hay estadísticas para mostrar
+                    </div>
 
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">{{pregunta[1]}}</h6>
-                                </div>
+                    <div class="col-lg-6 mb-4" *ngFor="let pregunta of preguntas_mostrar; let i = index">
 
-                                <!-- MOSTRANDO OPCIONES DE LA PREGUNTA -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">{{pregunta[1]}}
+                                </h6>
+                            </div>
 
-                                <div class="card-body">
-                                    <div *ngFor="let pos of pregunta; let k = index">
-                                        <div *ngIf="!isNumber(pos) && k>1">
-                                        
-                                            <h4 class="small font-weight-bold">{{pregunta[k]}} <span
-                                            class="float-right">{{toInt(pregunta[k+1])}}%</span></h4>
-                                            <div class="progress mb-4">
-                                                <div class="progress-bar" role="progressbar" [style]="'width: '+pregunta[k+1]+'%'"
-                                                    aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
-                                                </div> 
+                            <!-- MOSTRANDO OPCIONES DE LA PREGUNTA -->
+
+                            <div class="card-body">
+                                <div *ngFor="let pos of pregunta; let k = index">
+                                    <div *ngIf="!isNumber(pos) && k>1">
+
+                                        <h4 class="small font-weight-bold">{{pregunta[k]}} <span
+                                                class="float-right">{{toInt(pregunta[k+1])}}%</span></h4>
+                                        <div class="progress mb-4">
+                                            <div class="progress-bar" role="progressbar"
+                                                [style]="'width: '+pregunta[k+1]+'%'" aria-valuenow="40"
+                                                aria-valuemin="0" aria-valuemax="100">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    
+                    </div>
+
                 </div>
-                
+
 
                 <!-- Content Row -->
 
