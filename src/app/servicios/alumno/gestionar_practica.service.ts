@@ -72,9 +72,9 @@ export class GestionarService {
     return this.http.request(req);
   }
 
-  buscar_config_practica(nombre: string, activada: boolean = true) {
+  buscar_config_practica(nombre: string, id_carrera: number) {
     console.log("Buscando configuracion de practica con nombre: ", nombre)
-    const req = new HttpRequest('GET', `${environment.url_back}/config_practica/buscar?nombre=${nombre}&activada=${activada}`, {
+    const req = new HttpRequest('GET', `${environment.url_back}/config_practica/nombre?nombre=${nombre}&id_carrera=${id_carrera}`, {
       responseType: 'json'
     });
     return this.http.request(req);

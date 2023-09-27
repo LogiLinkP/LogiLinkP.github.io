@@ -48,6 +48,7 @@ export class IniciarPracticaComponent implements OnInit {
   empresas: any = [];
   id_datalist: string;
   empresa_agregada: boolean = false;
+  auth_user = JSON.parse(localStorage.getItem("auth-user") || "{}");
 
   constructor(private service: GestionarService, private service2: ObtenerDatosService,
     private _snackBar: MatSnackBar, private route: ActivatedRoute, private router: Router,
@@ -110,7 +111,7 @@ export class IniciarPracticaComponent implements OnInit {
       return
     }
 
-    this.service.buscar_config_practica(this.nombre_practica).subscribe({ // Ahora el nombre debería ser único
+    this.service2.obtener_config_practica(this.nombre_practica, this.auth_user.userdata.estudiante.id_carrera).subscribe({
       next: (data: any) => {
         aux = { ...aux, ...data }
       },
@@ -276,7 +277,7 @@ export class IniciarPracticaComponent implements OnInit {
     this.id_datalist = 'rut_empresa_' + this.nombre_practica.replaceAll(" ", "_");
     let respuesta: any = {};
 
-    this.service2.obtener_config_practica(this.nombre_practica).subscribe({
+    this.service2.obtener_config_practica(this.nombre_practica, this.auth_user.userdata.estudiante.id_carrera).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },

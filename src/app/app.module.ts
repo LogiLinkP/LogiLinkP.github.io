@@ -42,8 +42,6 @@ import { BarraSuperiorComponent } from './componentes/barra-superior/barra-super
 import { LogoutModalComponent } from './componentes/logout-modal/logout-modal.component';
 import { BarraLateralAlumnoComponent } from './componentes/barra-lateral-alumno/barra-lateral-alumno.component';
 import { BarraLateralEncargadoComponent } from './componentes/barra-lateral-encargado/barra-lateral-encargado.component';
-import { DatosPracticaComponent } from './componentes/datos-practica/datos-practica.component';
-import { UpInformeComponent } from './componentes/up-informe/up-informe.component';
 import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
 import { ChatComponent } from './componentes/chat/chat.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -91,7 +89,6 @@ import { ConfigPracticaComponent } from './vistas/wizards/config-practica/config
     AppComponent,
     routingComponents,
     EvaluacionComponent,
-    DatosPracticaComponent,
     DetallePracticaComponent,
     FooterComponent,
     BarraSuperiorComponent,
@@ -104,7 +101,6 @@ import { ConfigPracticaComponent } from './vistas/wizards/config-practica/config
     BarraLateralEncargadoComponent,
     EstadisticasComponent,
     BotonSolicitarArchivoComponent,
-    UpInformeComponent,
     TablaComponent,
     ChatComponent,
     SubirArchivoExtraComponent,
