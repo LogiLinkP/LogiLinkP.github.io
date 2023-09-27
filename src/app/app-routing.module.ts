@@ -36,6 +36,7 @@ import { IngresoInformeComponent } from './vistas/ingreso-informe/ingreso-inform
 import { EstudianteVerInformeComponent } from './vistas/estudiante-ver-informe/estudiante-ver-informe.component';
 import { InfoYEvaluacionEstudianteComponent } from "./vistas/wizards/info-y-evaluacion-estudiante/info-y-evaluacion-estudiante.component";
 import { DetalleEstudianteComponent } from "./vistas/wizards/detalle-estudiante/detalle-estudiante.component";
+import { ConfigPracticaComponent } from './vistas/wizards/config-practica/config-practica.component';
 import { EliminarEncargadoComponent } from './vistas/eliminar-encargado/eliminar-encargado.component';
 
 import { environment } from 'src/environments/environment';
@@ -92,6 +93,7 @@ const routes: Routes = [
   { path: 'estudiante-ver-informe/:id_practica/:id_informe', component: EstudianteVerInformeComponent },
   { path: 'guias/info_y_eval_estudiante', component: InfoYEvaluacionEstudianteComponent },
   { path: 'guias/detalle-estudiante', component: DetalleEstudianteComponent },
+  { path: 'guias/config-practica', component: ConfigPracticaComponent },
   { path: 'perfil', component: PerfilComponent},
   { path: '**', component: PnfComponent },
 ];
