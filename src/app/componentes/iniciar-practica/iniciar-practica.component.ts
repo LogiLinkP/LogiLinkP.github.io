@@ -59,10 +59,7 @@ export class IniciarPracticaComponent implements OnInit {
         data = { ...data, ..._data };
       },
       error: (error: any) => {
-        this._snackBar.open("Se ha producido un error, por favor vuelva más tarde", "Cerrar", {
-          panelClass: ['red-snackbar'],
-          duration: 3000
-        });
+        this.empresas = [];
       },
       complete: () => {
         if (data.status != 200) {
