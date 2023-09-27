@@ -14,76 +14,74 @@
                 <!-- Page Heading -->
                 <div class="row">
                     
-                        <div class="col-xl-10">
-                            <div class="h3 mb-2 font-weight-bold text-gray-800"> Empresas <br></div>
-                            <p class="mb-4">Aquí puedes ver las empresas en las que los alumnos han cursado sus prácticas</p>
-                        </div>
-                    
-                    <div class="">
+                    <div class="col-xl-10">
+                        <div class="h3 mb-2 font-weight-bold text-gray-800"> Empresas <br></div>
+                        <p class="mb-4">Aquí puedes ver las empresas en las que los alumnos han cursado sus prácticas</p>
+                    </div>
 
-                        <div class="card shadow mb-4">
-                            <div class="card-body">
-        
-                                <div class="table">
-                                    <table style="width:100%" class="table table-striped table-bordered" id="dataTable" >
-                                        
-                                        <thead>
-                                            <tr>
-                                                <th style="vertical-align: bottom;">Nombre</th>
-                                                <th style="vertical-align: bottom;">RUT</th>
-                                                <th style="vertical-align: bottom;">Calificación</th>
-                                                <th style="vertical-align: bottom;">Porcentaje salto<br> a empresa destacada
-                                                    <a class="pointer" 
-                                                    title={{texto_explicaion}} data-toggle="tooltip"
-                                                    ><i
-                                                        class="fas fa-info-circle"></i></a></th>
-                                                <th style="vertical-align: bottom;">Comentarios</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                    <div class="card shadow mb-4" *ngIf="!empresas_no_encontradas">
+                        <div class="card-body">
+    
+                            <div class="table">
+                                <table style="width:100%" class="table table-striped table-bordered" id="dataTable" >
+                                    
+                                    <thead>
+                                        <tr>
+                                            <th style="vertical-align: bottom;">Nombre</th>
+                                            <th style="vertical-align: bottom;">RUT</th>
+                                            <th style="vertical-align: bottom;">Calificación</th>
+                                            <th style="vertical-align: bottom;">Porcentaje salto<br> a empresa destacada
+                                                <a class="pointer" 
+                                                title={{texto_explicaion}} data-toggle="tooltip"
+                                                ><i
+                                                    class="fas fa-info-circle"></i></a></th>
+                                            <th style="vertical-align: bottom;">Comentarios</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                                            <tr *ngFor="let empresa of empresas;let i=index;">
-                                                <td>{{empresa.nombre_empresa}}</td>
-                                                <td>{{empresa.rut_empresa}}</td>
-                                                <td *ngIf="empresa.calificacion_promedio" >
-                                                    
-                                                    
-                                                    {{empresa.calificacion_promedio}}
-                                                    <span *ngIf="cant_estrellas_completas(empresa.calificacion_promedio)>=1" style="color:orange" class="fa fa-star checked"></span>
-                                                    <span *ngIf="cant_estrellas_completas(empresa.calificacion_promedio)>=2" style="color:orange" class="fa fa-star checked"></span>
-                                                    <span *ngIf="cant_estrellas_completas(empresa.calificacion_promedio)>=3" style="color:orange" class="fa fa-star checked"></span>
-                                                    <span *ngIf="cant_estrellas_completas(empresa.calificacion_promedio)>=4" style="color:orange" class="fa fa-star checked"></span>
-                                                    <span *ngIf="cant_estrellas_completas(empresa.calificacion_promedio)>=5" style="color:orange" class="fa fa-star checked"></span>
-                                                    <span *ngIf="media_estrella(empresa.calificacion_promedio)" style="color:orange" class="fa fa-star-half" aria-hidden="true"></span>
-                                                    ({{cant_not_null(comentarios[i])}})
-                                                    
+                                        <tr *ngFor="let empresa of empresas;let i=index;">
+                                            <td>{{empresa.nombre_empresa}}</td>
+                                            <td>{{empresa.rut_empresa}}</td>
+                                            <td *ngIf="empresa.calificacion_promedio" >
+                                                
+                                                
+                                                {{empresa.calificacion_promedio}}
+                                                <span *ngIf="cant_estrellas_completas(empresa.calificacion_promedio)>=1" style="color:orange" class="fa fa-star checked"></span>
+                                                <span *ngIf="cant_estrellas_completas(empresa.calificacion_promedio)>=2" style="color:orange" class="fa fa-star checked"></span>
+                                                <span *ngIf="cant_estrellas_completas(empresa.calificacion_promedio)>=3" style="color:orange" class="fa fa-star checked"></span>
+                                                <span *ngIf="cant_estrellas_completas(empresa.calificacion_promedio)>=4" style="color:orange" class="fa fa-star checked"></span>
+                                                <span *ngIf="cant_estrellas_completas(empresa.calificacion_promedio)>=5" style="color:orange" class="fa fa-star checked"></span>
+                                                <span *ngIf="media_estrella(empresa.calificacion_promedio)" style="color:orange" class="fa fa-star-half" aria-hidden="true"></span>
+                                                ({{cant_not_null(comentarios[i])}})
+                                                
 
-                                                    
-                                                </td>
-                                                <td *ngIf="!empresa.calificacion_promedio">
-                                                    No hay opiniones de esta empresa
-                                                </td>
-                                                <td>{{empresa.practicantes_destacados*100}}%</td>
-                                                <td>
-                                                    <!-- <button mat-flat-button style="background-color:#7a91d7;">
-                                                        <div style="color: white"> Ver Comentarios FALSO</div>
-                                                      </button> -->
+                                                
+                                            </td>
+                                            <td *ngIf="!empresa.calificacion_promedio">
+                                                No hay opiniones de esta empresa
+                                            </td>
+                                            <td>{{empresa.practicantes_destacados*100}}%</td>
+                                            <td>
+                                                <!-- <button mat-flat-button style="background-color:#7a91d7;">
+                                                    <div style="color: white"> Ver Comentarios FALSO</div>
+                                                    </button> -->
 
-                                                    
-                                                    <button mat-flat-button style="background-color:#7a91d7;" (click)="openDialog('100ms', '100ms', empresa.id)">
-                                                        <div style="color: white"> Ver Comentarios</div>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                                
+                                                <button mat-flat-button style="background-color:#7a91d7;" (click)="openDialog('100ms', '100ms', empresa.id)">
+                                                    <div style="color: white"> Ver Comentarios</div>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-
+                    </div>
+                    <div class="alert-warning" *ngIf="empresas_no_encontradas" style="width: auto;">
+                        <p>No existen empresas registradas.</p>
                     </div>
                 </div>
-                
             </div>
             
             

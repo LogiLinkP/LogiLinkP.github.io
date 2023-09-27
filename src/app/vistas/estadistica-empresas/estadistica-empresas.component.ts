@@ -1,7 +1,6 @@
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { EmpresaService } from '../../servicios/empresa/empresa.service';
-
 import { Component, Inject, Input } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,11 +10,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { NgFor } from '@angular/common';
 import { CommonModule } from '@angular/common'
-import { DocumentosService } from '../../servicios/encargado/documentos.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
-import { environment } from 'src/environments/environment';
-import { isNumber } from '@ng-bootstrap/ng-bootstrap/util/util';
 
 export interface DialogData {
   //formatos: Formato[];
@@ -23,7 +17,6 @@ export interface DialogData {
   lista_comentarios: any[];
   palabras_clave: string[];
 }
-
 
 @Component({
   selector: 'app-estadistica-empresas',
@@ -36,26 +29,15 @@ export class EstadisticaEmpresasComponent {
   constructor(public dialog: MatDialog, private _http: HttpClient, private _router: Router, private empresaService: EmpresaService) { }
 
   closeResult = '';
-
   empresas: any[] = [];
-
   practicas: any[] = [];
-
   comentarios: any[][] = [];
-
   comentarios_empresa: any[] = [];
-
   palabras_clave_una_empresa: string[] = [];
-
   palabras_clave_empresa: string[] = [];
-
   nombre_empresa_comentario = "";
-
-
-
   texto_explicaion= " Esto indica el porcentaje de alumnos\n que realizaron su práctica en esta empresa\n y luego, llegaron a trabajar en una gran empresa"
-
-  
+  empresas_no_encontradas = false;
 
   ngOnInit(): void {
 
@@ -68,16 +50,15 @@ export class EstadisticaEmpresasComponent {
       },
       error: error => {
         console.log(error);
+        if (error.status == 404) {
+            this.empresas_no_encontradas = true;
+        }
       },
       complete: () => {
         //console.log("respuesta empresas:");
         //console.log(respuesta.body);
         this.empresas = respuesta.body;
         //console.log(this.empresas);
-
-        //recorrer empresas y obtener practicas por id de empresa
-
-        //TERMINAR REQUEST PRACTICA POR ID EMPRESA
 
         let comentarios_desordenados: any[][] = [];
 
@@ -115,22 +96,9 @@ export class EstadisticaEmpresasComponent {
             }
           })
         }
-        /*
-        console.log("comentarios desordenados:");
-        console.log(comentarios_desordenados);
-        for (let i = 0; i < comentarios_desordenados.length; i++){
-          console.log(comentarios_desordenados[i]);
-          let eliminar = comentarios_desordenados[i].shift() ;
-        }
-        */
-
-        //console.log("comentarios desordenados shift:");
-        //console.log(comentarios_desordenados);
-
 
         this.comentarios = comentarios_desordenados;
         
-
         //console.log("empresas:");
         //console.log(this.empresas);
 
