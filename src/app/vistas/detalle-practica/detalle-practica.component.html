@@ -189,6 +189,12 @@
                                             <div class="col-6">
                                                 Fecha Termino:
                                             </div>
+                                            <div class="col-6" *ngIf="practica.fecha_termino!=null; else nofecha">
+                                                {{practica?.fecha_termino | date: 'dd/MM/yyyy'}}
+                                            </div>
+                                            <ng-template #nofecha>
+                                                <div class="col-6">Sin terminar</div>
+                                            </ng-template>
                                         </div>
                                     </div>
                                 </div>
