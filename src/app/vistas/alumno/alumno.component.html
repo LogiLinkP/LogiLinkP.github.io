@@ -92,7 +92,7 @@
                                                                                     <td>{{ practica[1]?.fecha_termino |
                                                                                         date: 'dd/MM/yyyy' }}</td>
                                                                                 </tr>
-                                                                                <tr>
+                                                                                <tr *ngIf="practica[1]?.modalidad?.config_practica?.frecuencia_informes !='sinAvance'">
                                                                                     <td>Frecuencia de Informes:</td>
                                                                                     <td>{{
                                                                                         practica[1]?.modalidad?.config_practica?.frecuencia_informes
