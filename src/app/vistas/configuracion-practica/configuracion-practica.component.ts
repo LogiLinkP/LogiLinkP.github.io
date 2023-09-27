@@ -39,13 +39,18 @@ export class ConfiguracionPracticaComponent {
                 // Hide loading indicator
                 this.currentRoute = event.url;
                 let ruta_cortada = event.url.split("/");
-                //console.log("NavigationEnd:", event.url, "split", ruta_cortada);
-                //console.log("current route: ", this.currentRoute);
+                console.log("NavigationEnd:", event.url, "split", ruta_cortada);
+                console.log("current route: ", this.currentRoute);
                 if (ruta_cortada[ruta_cortada.length - 1] == "copia") {
                     this.requestInicial(true);
                     this.importada = true;
                 } else {
                     this.requestInicial();
+                }
+                if (this.estado == "configuracion_general") {
+                    this.scrollToTop();
+                } else {
+                    window.location.reload();
                 }
             }
 
@@ -375,7 +380,7 @@ export class ConfiguracionPracticaComponent {
                                                             console.log("Error al buscar aptitudes", error);
                                                         },
                                                         complete: () => {
-                                                            console.log("request aptitudes:", respuesta.body);
+                                                            //console.log("request aptitudes:", respuesta.body);
                                                             this.lista_aptitudes = respuesta.body.opciones.split(";;");
 
                                                             //* set formulario
