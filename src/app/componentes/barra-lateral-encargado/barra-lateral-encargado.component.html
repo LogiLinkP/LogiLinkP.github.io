@@ -33,7 +33,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <div *ngIf="configs_nombres.length > 0">
                     <h6 class="collapse-header">Practicas Activas:</h6>
-                    <a *ngFor="let practica of configs_nombres" class="collapse-item"
+                    <a *ngFor="let practica of configs_nombres" class="collapse-item" style="white-space:break-spaces; word-wrap: break-word;"
                         [routerLink]="['/configurar', practica]">{{practica}}
                     </a>
                 </div>
