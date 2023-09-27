@@ -582,13 +582,13 @@
                     formControlName="nombre_solicitud_documentos">
                   <textarea rows="3" class="form-control input-center text-area" placeholder="Descripción solicitud"
                     formControlName="descripcion_solicitud_documentos"></textarea>
-                  <datalist id="lista_opciones">
-                    <option value="pdf">
-                    <option value="jpg">
-                    <option value="xlsx">
-                    <option value="docx">
-                  </datalist>
-                  <input type="text" list="lista_opciones" class="form-control input-center" placeholder="Tipo documento" formControlName="tipo_solicitud_documentos">
+                  <label for="dropdown">Tipo de documento:</label>
+                  <select class="form-select input-center" id="dropdown" placeholder="Tipo documento" formControlName="tipo_solicitud_documentos">
+                    <option value="pdf">PDF</option>
+                    <option value="jpg">JPG</option>
+                    <option value="xlsx">Excel</option>
+                    <option value="docx">Word</option>
+                  </select>
                   <!-- <input class="form-control input-center" formControlName="tipo_solicitud_documentos" placeholder="Tipo documento"> -->
 
 

@@ -201,6 +201,7 @@ export class ConfiguracionPracticaComponent {
             this.meses = false;
             this.frecuenciaInformes = "";
             this.informeFinal = "";
+            this.tipo_solicitud_documentos = "pdf";
 
             this.fg = this._fb.group({
                 opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
