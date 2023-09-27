@@ -35,6 +35,8 @@ export class TablaComponent {
   usuario:any = []
   encargado: any = []
 
+  booleanValue: boolean = true; 
+
   texto_consistencia_informe: string = "Indica qué tan relacionados están los informes del\n" +
     "estudiante con lo que escribió su supervisor.\n" +
     "Para más información, haga click en el botón.";
@@ -189,7 +191,134 @@ export class TablaComponent {
     this.dtTrigger.unsubscribe();
   }
 
-  sort(colName) {
-    this.items.sort((a, b) => a[colName] > b[colName] ? 1 : a[colName] < b[colName] ? -1 : 0)
-}
+  sort(n:number) {
+    if (this.booleanValue == false){
+      switch(n){
+        case 1:
+          this.practicas.sort((a:any, b:any) => a.estudiante.usuario.nombre > b.estudiante.usuario.nombre ? 1 :
+                                                a.estudiante.usuario.nombre < b.estudiante.usuario.nombre ? -1 :
+                                                0 
+          )
+          console.log(this.practicas)
+          break;
+        case 2:
+          this.practicas.sort((a:any, b:any) => a.estudiante.rut > b.estudiante.rut ? 1 :
+                                                a.estudiante.rut < b.estudiante.rut ? -1 :
+                                                0 
+          )
+          console.log(this.practicas)
+          break;
+        case 3:
+          this.practicas.sort((a:any, b:any) => a.modalidad.config_practica.nombre > b.modalidad.config_practica.nombre ? 1 :
+                                                a.modalidad.config_practica.nombre < b.modalidad.config_practica.nombre ? -1 :
+                                                0 
+          )
+          break;
+        case 4:
+          this.practicas.sort((a:any, b:any) => a.estado > b.estado ? 1 :
+                                                a.estado < b.estado ? -1 :
+                                                0 
+          )
+          break;
+        case 5:
+          this.practicas.sort((a:any, b:any) => a.indice_repeticion > b.indice_repeticion ? 1 :
+                                                a.indice_repeticion < b.indice_repeticion ? -1 :
+                                                0 
+          )
+          break;
+        case 6:
+          this.practicas.sort((a:any, b:any) => a.consistencia_informe > b.consistencia_informe ? 1 :
+                                                a.consistencia_informe < b.consistencia_informe ? -1 :
+                                                0 
+          )
+          break;
+        case 7:
+          this.practicas.sort((a:any, b:any) => a.consistencia_nota > b.consistencia_nota ? 1 :
+                                                a.consistencia_nota < b.consistencia_nota ? -1 :
+                                                0 
+          )
+          break;
+        case 8:
+          this.practicas.sort((a:any, b:any) => a.interpretacion_nota > b.interpretacion_nota ? 1 :
+                                                a.interpretacion_nota < b.interpretacion_nota ? -1 :
+                                                0 
+          )
+          break;
+        case 9: 
+          this.practicas.sort((a:any, b:any) => a.interpretacion_informe > b.interpretacion_informe ? 1 :
+                                                a.interpretacion_informe < b.interpretacion_informe ? -1 :
+                                                0 
+          )
+          break;
+        case 10:
+          console.log(this.notas_promedio)
+          this.notas_promedio.sort((a:any, b:any) => a > b ? 1 : a < b ? -1 : 0)
+      }
+      this.booleanValue = !this.booleanValue
+    } else{
+      switch(n){
+        case 1:
+          this.practicas.sort((a:any, b:any) => a.estudiante.usuario.nombre < b.estudiante.usuario.nombre ? 1 :
+                                                a.estudiante.usuario.nombre > b.estudiante.usuario.nombre ? -1 :
+                                                0 
+          )
+          console.log(this.practicas)
+          break;
+        case 2:
+          this.practicas.sort((a:any, b:any) => a.estudiante.rut < b.estudiante.rut ? 1 :
+                                                a.estudiante.rut > b.estudiante.rut ? -1 :
+                                                0 
+          )
+          console.log(this.practicas)
+          break;
+        case 3:
+          this.practicas.sort((a:any, b:any) => a.modalidad.config_practica.nombre < b.modalidad.config_practica.nombre ? 1 :
+                                                a.modalidad.config_practica.nombre > b.modalidad.config_practica.nombre ? -1 :
+                                                0 
+          )
+          break;
+        case 4:
+          this.practicas.sort((a:any, b:any) => a.estado < b.estado ? 1 :
+                                                a.estado > b.estado ? -1 :
+                                                0 
+          )
+          break;
+        case 5:
+          this.practicas.sort((a:any, b:any) => a.indice_repeticion < b.indice_repeticion ? 1 :
+                                                a.indice_repeticion > b.indice_repeticion ? -1 :
+                                                0 
+          )
+          break;
+        case 6:
+          this.practicas.sort((a:any, b:any) => a.consistencia_informe < b.consistencia_informe ? 1 :
+                                                a.consistencia_informe > b.consistencia_informe ? -1 :
+                                                0 
+          )
+          break;
+        case 7:
+          this.practicas.sort((a:any, b:any) => a.consistencia_nota < b.consistencia_nota ? 1 :
+                                                a.consistencia_nota > b.consistencia_nota ? -1 :
+                                                0 
+          )
+          break;
+        case 8:
+          this.practicas.sort((a:any, b:any) => a.interpretacion_nota < b.interpretacion_nota ? 1 :
+                                                a.interpretacion_nota > b.interpretacion_nota ? -1 :
+                                                0 
+          )
+          break;
+        case 9: 
+          this.practicas.sort((a:any, b:any) => a.interpretacion_informe < b.interpretacion_informe ? 1 :
+                                                a.interpretacion_informe > b.interpretacion_informe ? -1 :
+                                                0 
+          )
+          break;
+        case 10:
+          console.log(this.notas_promedio)
+          this.notas_promedio.sort((a:any, b:any) => a < b ? 1 : a > b ? -1 : 0)
+      }
+      this.booleanValue = !this.booleanValue
+    }
+
+  }
 }
