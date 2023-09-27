@@ -188,4 +188,8 @@ export class TablaComponent {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
   }
+
+  sort(colName) {
+    this.items.sort((a, b) => a[colName] > b[colName] ? 1 : a[colName] < b[colName] ? -1 : 0)
+}
 }
