@@ -190,7 +190,7 @@ export class TablaComponent {
   }
 
   sort(colName:any) {
-    this.practicas.sort((a:any, b:any) => a.colName > b.colName ? 1 : a.colName < b.colName ? -1 : 0)
+    colName.sort((a:any, b:any) => a > b ? 1 : a < b ? -1 : 0)
   }
   sort2() {
     this.notas_promedio.sort((a:any, b:any) => a > b ? 1 : a < b ? -1 : 0)
