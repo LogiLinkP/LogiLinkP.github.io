@@ -297,7 +297,12 @@
                                                                                                         [id_practica]=practica[1].id
                                                                                                         [descripcion]="solicitud.descripcion"
                                                                                                         [nombre_solicitud]="solicitud.nombre_solicitud"
-                                                                                                        [tipo_archivo]="solicitud.tipo_archivo">
+                                                                                                        [tipo_archivo]="solicitud.tipo_archivo"
+                                                                                                        [id_encargado_usuario]=" practica[1].encargado.id_usuario"
+                                                                                                        [correo_encargado]="practica[1].encargado.usuario.correo"
+                                                                                                        [estado_config]="estado_config"
+                                                                                                        [id_estudiante_usuario]="usuario.id">
+
                                                                                                     </app-subir-archivo>
                                                                                                     <button
                                                                                                         *ngSwitchDefault
