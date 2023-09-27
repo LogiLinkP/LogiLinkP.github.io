@@ -122,7 +122,7 @@ export class DetallePracticaComponent implements OnInit {
 
           this.practica.consistencia_nota = this.practica.consistencia_nota ? `${Math.round(100 * this.practica.consistencia_nota)}%` : "—";
           this.practica.consistencia_informe = this.practica.consistencia_informe ? `${Math.round(100 * this.practica.consistencia_informe)}%` : "—";
-          
+
 
           //make request to get solicitudes documentos in /todos_docs_practica
           this.service.obtener_solicitudes_documentos(this.practica.id, this.practica.modalidad.config_practica.id).subscribe({

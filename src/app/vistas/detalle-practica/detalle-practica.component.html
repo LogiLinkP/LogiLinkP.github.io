@@ -374,24 +374,31 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr *ngFor="let resp of respuestas_sup_parsed;">
-                                                            <td style="vertical-align: middle;">{{resp[1]}}</td>
-                                                            <td *ngIf="resp[0];else textoSolo"
-                                                                style="vertical-align: middle;">
-                                                                {{resp[2]}}
-                                                            </td>
-                                                            <ng-template #textoSolo style="vertical-align: middle;">
-                                                                <td style="vertical-align: middle;">
-                                                                    {{resp[2][0]}}
-                                                                    <span class="bg-gradient-success"
-                                                                        style="vertical-align: middle;">
-                                                                        {{resp[2][1]}}
-                                                                    </span>
-                                                                    {{resp[2][2]}}
-                                                                </td>
-                                                            </ng-template>
-
+                                                        <tr
+                                                            *ngIf="!respuestas_sup_parsed || respuestas_sup_parsed.length<1; else sin_respuestas_abiertas">
+                                                            <td colspan="2" class="text-center">Sin Respuesta</td>
                                                         </tr>
+                                                        <ng-template #sin_respuestas_abiertas>
+                                                            <tr *ngFor="let resp of respuestas_sup_parsed;">
+                                                                <td style="vertical-align: middle;">{{resp[1]}}</td>
+                                                                <td *ngIf="resp[0];else textoSolo"
+                                                                    style="vertical-align: middle;">
+                                                                    {{resp[2]}}
+                                                                </td>
+                                                                <ng-template #textoSolo style="vertical-align: middle;">
+                                                                    <td style="vertical-align: middle;">
+                                                                        {{resp[2][0]}}
+                                                                        <span class="bg-gradient-success"
+                                                                            style="vertical-align: middle;">
+                                                                            {{resp[2][1]}}
+                                                                        </span>
+                                                                        {{resp[2][2]}}
+                                                                    </td>
+                                                                </ng-template>
+
+                                                            </tr>
+                                                        </ng-template>
+
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -474,7 +481,7 @@
                                                             width="100%" cellspacing="0">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Textos más relevantes del Alumno</th>
+                                                                    <th>Resumen de el/los informe/s del Alumno</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -488,7 +495,19 @@
                                                                     </td>
                                                                     <ng-template #resumen1>
                                                                         <td id="resumen_informes">
-                                                                            {{practica.resumen.informe}}
+
+                                                                            <div
+                                                                                *ngIf="!practica.resumen || !practica.resumen.informe || practica.resumen.informe=='' ; else hay_resumen_alumno">
+                                                                                <div>
+                                                                                    No hay resumen disponible
+                                                                                </div>
+                                                                            </div>
+                                                                            <ng-template #hay_resumen_alumno>
+                                                                                <div>
+                                                                                    {{practica.resumen.informe}}
+                                                                                </div>
+                                                                            </ng-template>
+
                                                                         </td>
                                                                     </ng-template>
 
@@ -507,7 +526,7 @@
                                                             width="100%" cellspacing="0">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Textos más relevantes del Supervisor</th>
+                                                                    <th>Resumen del informe del supervisor</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -523,7 +542,17 @@
                                                                     </td>
                                                                     <ng-template #resumen2>
                                                                         <td id="resumen_supervisor">
-                                                                            {{practica.resumen.supervisor}}
+                                                                            <div
+                                                                                *ngIf="!practica.resumen || !practica.resumen.supervisor || practica.resumen.supervisor=='' ; else hay_resumen_supervisor">
+                                                                                <div>
+                                                                                    No hay resumen disponible
+                                                                                </div>
+                                                                            </div>
+                                                                            <ng-template #hay_resumen_supervisor>
+                                                                                <div>
+                                                                                    {{practica.resumen.supervisor}}
+                                                                                </div>
+                                                                            </ng-template>
                                                                         </td>
                                                                     </ng-template>
                                                                 </tr>
