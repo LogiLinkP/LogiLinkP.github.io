@@ -33,7 +33,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <div *ngIf="configs_nombres.length > 0">
                     <h6 class="collapse-header">Practicas Activas:</h6>
-                    <a *ngFor="let practica of configs_nombres" class="collapse-item"
+                    <a *ngFor="let practica of configs_nombres" class="collapse-item" style="white-space:break-spaces; word-wrap: break-word;"
                         [routerLink]="['/configurar', practica]">{{practica}}
                     </a>
                 </div>
@@ -63,66 +63,6 @@
             <span>Editar ramos</span></a>
     </li>
 
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#menu_guias" aria-expanded="true"
-            aria-controls="menu_guias">
-            <i class="fas fa-fw fa-cog"></i>
-            <span>Guías</span>
-        </a>
-        <div id="menu_guias" class="collapse" aria-labelledby="menu_guias" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" [routerLink]="['/guias/info_y_eval_estudiante']" data-toggle="modal">
-                    Evaluar estudiantes
-                </a>
-            </div>
-        </div>
-    </li>
-    <!-- Nav Item - Utilities Collapse Menu 
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-            aria-expanded="true" aria-controls="collapseUtilities">
-            <i class="fas fa-fw fa-wrench"></i>
-            <span>Utilidades</span>
-        </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-            data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Custom Utilities:</h6>
-                <a class="collapse-item" [routerLink]="['']">Aprobar Todas</a>
-                <a class="collapse-item" [routerLink]="['']">Reprobar Todas</a>
-            </div>
-        </div>
-    </li>-->
-
-    <!-- Divider 
-    <hr class="sidebar-divider">-->
-
-    <!-- Heading 
-    <div class="sidebar-heading">
-        Addons
-    </div>-->
-
-    <!-- Nav Item - Pages Collapse Menu 
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-            aria-expanded="true" aria-controls="collapsePages">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Páginas</span>
-        </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Login Screens:</h6>
-                <a class="collapse-item" [routerLink]="['/login']">Login</a>
-                <a class="collapse-item" [routerLink]="['/registro']">Register</a>
-                <a class="collapse-item" [routerLink]="['/resetPass']">Forgot Password</a>
-                <div class="collapse-divider"></div>
-                <h6 class="collapse-header">Other Pages:</h6>
-                <a class="collapse-item" [routerLink]="['/pnf']">404 Page</a>
-                <a class="collapse-item" [routerLink]="['/blank']">Blank Page</a>
-            </div>
-        </div>
-    </li>-->
-
     <div class="sidebar-heading">
         Otros
     </div>
@@ -133,14 +73,27 @@
             <span>Estadísticas</span></a>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#menu_guias" aria-expanded="true"
+            aria-controls="menu_guias">
+            <i class="fas fa-fw fa-bookmark"></i>
+            <span>Guías</span>
+        </a>
+        <div id="menu_guias" class="collapse" aria-labelledby="menu_guias" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" [routerLink]="['/guias/info_y_eval_estudiante']" data-toggle="modal">
+                    Evaluar estudiantes
+                </a>
+                <a class="collapse-item" [routerLink]="['/guias/config-practica']" data-toggle="modal">
+                    Crear configuración de práctica
+                </a>
+            </div>
+        </div>
+    </li>
+
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
-
-    <!-- Sidebar Toggler (Sidebar)  -->
-    <!-- <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-    </div> -->
 
 </ul>
 
