@@ -50,6 +50,7 @@ export class ConfiguracionPracticaComponent {
                 if (this.estado == "configuracion_general") {
                     this.scrollToTop();
                 } else {
+                    this.fg.reset();
                     window.location.reload();
                 }
             }
