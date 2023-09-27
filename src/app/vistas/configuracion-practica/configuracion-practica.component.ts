@@ -161,7 +161,7 @@ export class ConfiguracionPracticaComponent {
             this.generarFormulario(-1);
         } else if (importada) {
             console.log("dentro de importada");
-            this.serviceBarra.obtenerConfigPracticaNombre(this.nombre_config).subscribe({
+            this.serviceBarra.obtenerConfigPracticaNombre(this.nombre_config, this.user.encargado.id_carrera).subscribe({
                 next: (data: any) => {
                     respuesta = { ...respuesta, ...data }
                 },
@@ -178,7 +178,7 @@ export class ConfiguracionPracticaComponent {
                 }
             });
         } else {
-            this.serviceBarra.obtenerConfigPracticaNombre(this.nombre_config).subscribe({
+            this.serviceBarra.obtenerConfigPracticaNombre(this.nombre_config, this.user.encargado.id_carrera).subscribe({
                 next: (data: any) => {
                     respuesta = { ...respuesta, ...data }
                 },
@@ -264,11 +264,15 @@ export class ConfiguracionPracticaComponent {
                     for (let i = 0; i < respuesta.body.length; i++) {
                         if (respuesta.body[i].tipo_modalidad == "horas") {
                             this.horas = true;
+                            //this.cant_horas.push(respuesta.body[i].cantidad_tiempo);
                         }
                         if (respuesta.body[i].tipo_modalidad == "meses") {
                             this.meses = true;
+                            //this.cant_meses.push(respuesta.body[i].cantidad_tiempo);
                         }
                     }
+
+                    //console.log("horas:", this.cant_horas, "meses:", this.cant_meses);
                     //console.log("horas:", this.horas, "meses:", this.meses);
 
                     //* set config informe
