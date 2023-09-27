@@ -22,29 +22,33 @@
 
                     <div class="col-lg-8 mb-4">
 
+                        
                         <div class="card shadow mb-4">
                             <div class="card-body">
-                                <div *ngFor="let pos of arreglo_ramos; let k = index">
-                                    <div *ngIf="!isNumber(pos)">
 
-                                        <h4 class="small font-weight-bold">{{arreglo_ramos[k]}} <span
-                                                class="float-right">{{toInt(arreglo_ramos[k+1])}}%</span></h4>
-                                        <div class="progress mb-4">
-                                            <div class="progress-bar" role="progressbar"
-                                                [style]="'width: '+arreglo_ramos[k+1]+'%'" aria-valuenow="40"
-                                                aria-valuemin="0" aria-valuemax="100">
+                                <div *ngIf="arreglo_ramos.length !=0">
+                                    <div *ngFor="let pos of arreglo_ramos; let k = index">
+                                        <div *ngIf="!isNumber(pos)">
+
+                                            <h4 class="small font-weight-bold">{{arreglo_ramos[k]}} <span
+                                                    class="float-right">{{toInt(arreglo_ramos[k+1])}}%</span></h4>
+                                            <div class="progress mb-4">
+                                                <div class="progress-bar" role="progressbar"
+                                                    [style]="'width: '+arreglo_ramos[k+1]+'%'" aria-valuenow="40"
+                                                    aria-valuemin="0" aria-valuemax="100">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+
+                                
+
+                                <div *ngIf="arreglo_ramos.length ==0"> No hay ramos para mostrar </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-
-
         </div>
     </div>
 </div>
