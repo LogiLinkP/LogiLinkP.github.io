@@ -28,36 +28,36 @@
                                 cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th style="vertical-align: bottom;">Nombre Estudiante</th>
-                                        <th style="vertical-align: bottom;">Rut</th>
-                                        <th style="vertical-align: bottom;">Tipo Práctica</th>
-                                        <th style="vertical-align: bottom;">Estado</th>
-                                        <th style="vertical-align: bottom;">Índice Repetición
+                                        <th style="vertical-align: bottom;" (click)="sort(estudiante.usuario.nombre)">Nombre Estudiante</th>
+                                        <th style="vertical-align: bottom;" (click)="sort(estudiante.rut)">Rut</th>
+                                        <th style="vertical-align: bottom;" (click)="sort(modalidad.config_practica.nombre)">Tipo Práctica</th>
+                                        <th style="vertical-align: bottom;" (click)="sort(estado)">Estado</th>
+                                        <th style="vertical-align: bottom;" (click)="sort(indice_repeticion)">Índice Repetición
                                             <a class="pointer" title="{{texto_indice_repeticion}}" data-toggle="tooltip"
                                                 data-placement="bottom" (click)="redirecting()"><i
                                                     class="fas fa-info-circle"></i></a>
                                         </th>
-                                        <th style="vertical-align: bottom;">Consistencia Informes
+                                        <th style="vertical-align: bottom;" (click)="sort(consistencia_informe)">Consistencia Informes
                                             <a class="pointer" title="{{texto_consistencia_informe}}"
                                                 data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
                                                     class="fas fa-info-circle"></i></a>
                                         </th>
-                                        <th style="vertical-align: bottom;">Consistencia Evaluación
+                                        <th style="vertical-align: bottom;" (click)="sort(consistencia_nota)">Consistencia Evaluación
                                             <a class="pointer" title="{{texto_consistencia_evaluacion}}"
                                                 data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
                                                     class="fas fa-info-circle"></i></a>
                                         </th>
-                                        <th style="vertical-align: bottom;">Interpretación Informes
+                                        <th style="vertical-align: bottom;" (click)="sort(interpretacion_informe)">Interpretación Informes
                                             <a class="pointer" title="{{texto_interpretacion_informes}}"
                                                 data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
                                                     class="fas fa-info-circle"></i></a>
                                         </th>
-                                        <th style="vertical-align: bottom;">Interpretación Nota
+                                        <th style="vertical-align: bottom;" (click)="sort(interpretacion_nota)">Interpretación Nota
                                             <a class="pointer" title="{{texto_interpretacion_nota}}"
                                                 data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
                                                     class="fas fa-info-circle"></i></a>
                                         </th>
-                                        <th style="vertical-align: bottom;">Promedio Evaluación
+                                        <th style="vertical-align: bottom;" (click)="sort2()">Promedio Evaluación
                                             <a class ="pointer" title="{{texto_promedio_evaluacion}}"
                                                 data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
                                                     class="fas fa-info-circle"></i></a>
