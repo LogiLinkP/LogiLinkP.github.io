@@ -107,8 +107,8 @@ export class DetalleAlumnoComponent implements OnInit{
       error: (error: any) => console.log(error),
       complete: () => {
         this.config_practicas = respuesta.body;
-        console.log("Configuraciones de practica:",this.config_practicas)
-        console.log("id_carrera estudiante:",this.estudiante.id_carrera)
+        //console.log("Configuraciones de practica:",this.config_practicas)
+        //console.log("id_carrera estudiante:",this.estudiante.id_carrera)
 
         // Guardar nombres de las configuraciones de practica en un arreglo
         this.config_practicas.forEach((element: any) => {
@@ -121,7 +121,7 @@ export class DetalleAlumnoComponent implements OnInit{
             }
           }
         });
-        console.log("Practicas Correspondientes:",this.practicas_correspondiente_nombre)
+        //console.log("Practicas Correspondientes:",this.practicas_correspondiente_nombre)
         //console.log("Nombres de configuraciones de practica:",this.nombres_config_practica)
 
         // Request para obtener todas las practicas de acuerdo al id del estudiante
