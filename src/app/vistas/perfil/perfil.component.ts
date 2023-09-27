@@ -51,35 +51,30 @@ export class PerfilComponent {
           return;
         },
         complete: () => {
-          if (this.respuesta.body.perfil_linkedin == null) {
-            this.Link = ""
-          }
-          else {
-            this.Link = this.respuesta.body.perfil_linkedin
-            this.id_carrera = this.respuesta.body.id_carrera
-
-            this.respuesta = []
-            this.user_service.get_carreras().subscribe({
-              next: (data: any) => {
-                this.respuesta = { ...this.respuesta, ...data };
-              },
-              error: (error: any) => {
-                console.log(error);
-                return;
-              },
-              complete: () => {
-                for (var val of this.respuesta.body) {
-                  this.carreras.push(val);
-                }
-                for (let carrera of this.carreras) {
-                  if (carrera.id == this.id_carrera) {
-                    this.Carrera = carrera.nombre
-                    break;
-                  }
+          console.log("respuesta", this.respuesta);
+          this.Link = this.Link = this.respuesta.body.perfil_linkedin || "";
+          this.id_carrera = this.respuesta.body.id_carrera;
+          this.respuesta = {}
+          this.user_service.get_carreras().subscribe({
+            next: (data: any) => {
+              this.respuesta = { ...this.respuesta, ...data };
+            },
+            error: (error: any) => {
+              return;
+            },
+            complete: () => {
+              console.log("respuesta", this.respuesta);
+              for (var val of this.respuesta.body) {
+                this.carreras.push(val);
+              }
+              for (let carrera of this.carreras) {
+                if (carrera.id == this.id_carrera) {
+                  this.Carrera = carrera.nombre
+                  break;
                 }
               }
-            })
-          }
+            }
+          });
         }
       })
     }
