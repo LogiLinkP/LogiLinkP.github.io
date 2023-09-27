@@ -238,7 +238,7 @@ export class ConfigService {
         return this._http.request(req);
     }
 
-    crearSolicitudDocumento(id_config_practica: number, tipo: string, nombre: string, descripcion: string) {
+    crearSolicitudDocumento(id_config_practica: number, nombre: string, descripcion: string, tipo: string,) {
         const pregunta = {
             id_config_practica: id_config_practica,
             tipo_archivo: tipo,

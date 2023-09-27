@@ -201,6 +201,7 @@ export class ConfiguracionPracticaComponent {
             this.meses = false;
             this.frecuenciaInformes = "";
             this.informeFinal = "";
+            this.tipo_solicitud_documentos = "pdf";
 
             this.fg = this._fb.group({
                 opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
@@ -863,9 +864,9 @@ export class ConfiguracionPracticaComponent {
         this.lista_nombre_solicitud_documentos.push(this.fg.value.nombre_solicitud_documentos);
         this.lista_descripcion_solicitud_documentos.push(this.fg.value.descripcion_solicitud_documentos);
         this.lista_tipo_solicitud_documentos.push(this.fg.value.tipo_solicitud_documentos);
-        console.log(this.lista_nombre_solicitud_documentos);
-        console.log(this.lista_descripcion_solicitud_documentos);
-        console.log(this.lista_tipo_solicitud_documentos);
+        //console.log(this.lista_nombre_solicitud_documentos);
+        //console.log(this.lista_descripcion_solicitud_documentos);
+        //console.log(this.lista_tipo_solicitud_documentos);
     }
 
     eliminarPreguntaAvance(index: number) {
