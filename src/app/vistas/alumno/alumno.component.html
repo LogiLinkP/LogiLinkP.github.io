@@ -22,6 +22,9 @@
                 <!-- For each nombre in nombres_distintos_config_practica, a collapse Card is made-->
 
                 <div class="row" *ngFor="let practica of practicas_correspondiente_nombre; let i = index">
+
+                    <!-- <div *ngIf="practica[1]"></div> -->
+
                     <div class="col-xl-12">
                         <div class="card shadow mb-4">
                             <!-- Card Header - Accordion -->
@@ -89,10 +92,10 @@
                                                                                     <td>{{ practica[1]?.fecha_termino |
                                                                                         date: 'dd/MM/yyyy' }}</td>
                                                                                 </tr>
-                                                                                <tr>
+                                                                                <tr *ngIf="practica[1]?.modalidad?.config_practica?.frecuencia_informes !='sinAvance'">
                                                                                     <td>Frecuencia de Informes:</td>
                                                                                     <td>{{
-                                                                                        practica[1]?.config_practica?.frecuencia_informes
+                                                                                        practica[1]?.modalidad?.config_practica?.frecuencia_informes
                                                                                         }}</td>
                                                                                 </tr>
 
@@ -297,7 +300,13 @@
                                                                                                         [id_practica]=practica[1].id
                                                                                                         [descripcion]="solicitud.descripcion"
                                                                                                         [nombre_solicitud]="solicitud.nombre_solicitud"
-                                                                                                        [tipo_archivo]="solicitud.tipo_archivo">
+                                                                                                        [tipo_archivo]="solicitud.tipo_archivo"
+                                                                                                        
+                                                                                                        [id_encargado_usuario]=" practica[1].encargado.id_usuario"
+                                                                                                        [correo_encargado]="practica[1].encargado.usuario.correo"
+                                                                                                        [estado_config]="estado_config"
+                                                                                                        [id_estudiante_usuario]="usuario.id">
+>
                                                                                                     </app-subir-archivo>
                                                                                                     <button
                                                                                                         *ngSwitchDefault

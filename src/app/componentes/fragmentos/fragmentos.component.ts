@@ -10,7 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class FragmentosComponent {
   id_practica: number;
-  fragmentos_informes: string[][];
+  fragmentos_informes: string[][] = [];
   fragmentos_supervisor: string[][];
 
   getFragmentosTexto() {
@@ -62,6 +62,9 @@ export class FragmentosComponent {
 
 
       }, error: (error) => {
+        if (error.status == 404) {
+          return;
+        }
         this._snackBar.open("Error al recolectar los fragmentos", "Cerrar", {
           panelClass: ['red-snackbar'],
           duration: 3000

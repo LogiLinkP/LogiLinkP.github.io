@@ -47,6 +47,12 @@ export class ConfiguracionPracticaComponent {
                 } else {
                     this.requestInicial();
                 }
+                if (this.estado == "configuracion_general") {
+                    this.scrollToTop();
+                } else {
+                    this.fg.reset();
+                    window.location.reload();
+                }
             }
 
             if (event instanceof NavigationError) {
@@ -375,7 +381,7 @@ export class ConfiguracionPracticaComponent {
                                                             console.log("Error al buscar aptitudes", error);
                                                         },
                                                         complete: () => {
-                                                            console.log("request aptitudes:", respuesta.body);
+                                                            //console.log("request aptitudes:", respuesta.body);
                                                             this.lista_aptitudes = respuesta.body.opciones.split(";;");
 
                                                             //* set formulario
