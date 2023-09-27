@@ -39,8 +39,8 @@ export class ConfiguracionPracticaComponent {
                 // Hide loading indicator
                 this.currentRoute = event.url;
                 let ruta_cortada = event.url.split("/");
-                console.log("NavigationEnd:", event.url, "split", ruta_cortada);
-                console.log("current route: ", this.currentRoute);
+                //console.log("NavigationEnd:", event.url, "split", ruta_cortada);
+                //console.log("current route: ", this.currentRoute);
                 if (ruta_cortada[ruta_cortada.length - 1] == "copia") {
                     this.requestInicial(true);
                     this.importada = true;
