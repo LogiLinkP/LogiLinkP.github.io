@@ -863,9 +863,9 @@ export class ConfiguracionPracticaComponent {
         this.lista_nombre_solicitud_documentos.push(this.fg.value.nombre_solicitud_documentos);
         this.lista_descripcion_solicitud_documentos.push(this.fg.value.descripcion_solicitud_documentos);
         this.lista_tipo_solicitud_documentos.push(this.fg.value.tipo_solicitud_documentos);
-        console.log(this.lista_nombre_solicitud_documentos);
-        console.log(this.lista_descripcion_solicitud_documentos);
-        console.log(this.lista_tipo_solicitud_documentos);
+        //console.log(this.lista_nombre_solicitud_documentos);
+        //console.log(this.lista_descripcion_solicitud_documentos);
+        //console.log(this.lista_tipo_solicitud_documentos);
     }
 
     eliminarPreguntaAvance(index: number) {
