@@ -32,32 +32,26 @@ export class LoginComponent {
   login() {
     let response: any = {};
     const data = this.loginForm.value;
-    console.log(data.email, data.password);
-    this.usuario.login(data.email, data.password).subscribe( {
+    this.usuario.login(data.email, data.password).subscribe({
       next: data => {
-        response = {...response,...data}
+        response = { ...response, ...data }
       },
       error: err => {
-        console.log(err)
-        console.log("Error de inicio de sesion");
       },
       complete: () => {
-          console.log(response.body.userdata)
-          const {message,userdata,token} = response.body;
-          this.dataUsuario = response.body.userdata
-          this.storage.saveUser(response.body) //¿response.body.userdata?
-          if (this.dataUsuario.es_encargado) {
-            this.router.navigate(["/"+environment.ruta_practicas])
-          } else if (this.dataUsuario.es_estudiante) {
-            this.router.navigate(["/"+environment.ruta_alumno+"/"+this.dataUsuario.id])
-          } else if (this.dataUsuario.es_supervisor) {
-            this.router.navigate(["/home_supervisor"])
-          } else if (this.dataUsuario.es_admin) {
-            this.router.navigate(["/admin"])
-          } else {
-            console.log("Usuario no tiene tipo definido")
-          }
+        const { message, userdata, token } = response.body;
+        this.dataUsuario = response.body.userdata
+        this.storage.saveUser(response.body) //¿response.body.userdata?
+        if (this.dataUsuario.es_encargado) {
+          this.router.navigate(["/" + environment.ruta_practicas])
+        } else if (this.dataUsuario.es_estudiante) {
+          this.router.navigate(["/" + environment.ruta_alumno + "/" + this.dataUsuario.id])
+        } else if (this.dataUsuario.es_supervisor) {
+          this.router.navigate(["/home_supervisor"])
+        } else if (this.dataUsuario.es_admin) {
+          this.router.navigate(["/admin"])
+        }
       }
-  });
+    });
   }
 }
