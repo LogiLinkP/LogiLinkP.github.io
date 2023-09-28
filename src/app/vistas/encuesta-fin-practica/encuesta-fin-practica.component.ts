@@ -187,7 +187,7 @@ export class EncuestaFinPracticaComponent {
 
 
                     let pregunta_ramos = {
-                      "enunciado": "¿Qué ramos de la carrera te han resulatado útiles durante tu práctica?",
+                      "enunciado": "¿Qué ramos de la carrera te han resultado útiles durante tu práctica?",
                       "tipo_respuesta": "casillas",
                       "opciones": string_ramos
                     }
