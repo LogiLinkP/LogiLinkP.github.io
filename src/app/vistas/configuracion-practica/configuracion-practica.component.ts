@@ -45,13 +45,13 @@ export class ConfiguracionPracticaComponent {
                     this.requestInicial(true);
                     this.importada = true;
                 } else {
+                    if (this.estado == "configuracion_general") {
+                        this.fg.reset();
+                        this.scrollToTop();
+                    } else {
+                        window.location.reload();
+                    }
                     this.requestInicial();
-                }
-                if (this.estado == "configuracion_general") {
-                    this.scrollToTop();
-                } else {
-                    this.fg.reset();
-                    window.location.reload();
                 }
             }
 
