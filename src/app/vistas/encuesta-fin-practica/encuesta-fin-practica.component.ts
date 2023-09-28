@@ -256,7 +256,7 @@ export class EncuestaFinPracticaComponent {
       let respuesta_aux = "";
 
       //pregunta de ramos
-      if (this.preguntas[i].enunciado == "¿Qué ramos de la carrera te han resulatado útiles durante tu práctica?") {
+      if (this.preguntas[i].enunciado == "¿Qué ramos de la carrera te han resultado útiles durante tu práctica?") {
         let ramos_aux = "";
         for (let j = 0; j < this.respuestas[i].length; j++) {
           if (this.respuestas[i][j]) {
