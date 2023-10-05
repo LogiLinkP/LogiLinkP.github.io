@@ -79,6 +79,7 @@ import { CrearCarreraModalComponent } from './componentes/crear-carrera-modal/cr
 import { EditarCarreraModalComponent } from './componentes/editar-carrera-modal/editar-carrera-modal.component';
 import { RegistroSupervisorComponent } from './vistas/registro-supervisor/registro-supervisor.component';
 import { ConfigPracticaComponent } from './vistas/wizards/config-practica/config-practica.component';
+import { AptitudesComponent } from './vistas/aptitudes/aptitudes.component';
 
 @NgModule({
   declarations: [
@@ -125,6 +126,7 @@ import { ConfigPracticaComponent } from './vistas/wizards/config-practica/config
     EditarCarreraModalComponent,
     RegistroSupervisorComponent,
     ConfigPracticaComponent,
+    AptitudesComponent,
   ],
   imports: [
     BrowserModule,
