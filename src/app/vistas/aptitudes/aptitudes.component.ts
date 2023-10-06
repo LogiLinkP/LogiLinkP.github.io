@@ -31,8 +31,7 @@ export class AptitudesComponent {
         });
       },
       complete: () => {
-        this.aptitudes = _data.body;
-        console.log(this.aptitudes)
+        this.aptitudes = _data.body.data;
       }
     });
   }
