@@ -42,7 +42,7 @@
                                     </a>
                                     <div class="collapse" id="{{ 'card' + i }}">
                                         <div class="card-body">
-                                            <div class="row" *ngIf="practica[1].estado=='En curso'">
+                                            <div class="row" *ngIf="practica[1].estado=='En curso' && documentos_enviados == 1">
                                                 <div class="col-xl-9"></div>
                                                 <div class="col-xl-2">
                                                     <button type="button" class="btn btn-primary btn-lg btn-block"
@@ -328,8 +328,6 @@
                                                                                                         [descripcion]="doc_extra.descripcion"
                                                                                                         [nombre_solicitud]="doc_extra.nombre_solicitud"
                                                                                                         [tipo_archivo]="doc_extra.tipo_archivo"
-                                                                                                        [id_encargado_usuario]=" practica[1].encargado.id_usuario"
-                                                                                                        [correo_encargado]="practica[1].encargado.usuario.correo"
                                                                                                         [estado_config]="estado_config"
                                                                                                         [id_estudiante_usuario]="usuario.id">
                                                                                                     </app-subir-archivo-extra>

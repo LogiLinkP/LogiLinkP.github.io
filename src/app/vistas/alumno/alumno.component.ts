@@ -42,6 +42,8 @@ export class DetalleAlumnoComponent implements OnInit{
 
   fechasSeleccionadas: Date[][] = [];
 
+  documentos_enviados:number = 1;
+
   constructor(private service_datos: ObtenerDatosService , private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, 
               private service_gestion: GestionarService, private service_supervisor: SupervisorService, private router: Router,
               private service_noti: NotificacionesService, private service_obtener: DataUsuarioService) {
@@ -132,7 +134,7 @@ export class DetalleAlumnoComponent implements OnInit{
           error: (error: any) => console.log(error),
           complete: async () => {
             this.practicas = respuesta.body;
-            //console.log("Practicas:",this.practicas)
+            console.log("Practicas:",this.practicas)
             let index = 0;
 
             // Guardar nombres y practicas en un arreglo
@@ -174,11 +176,30 @@ export class DetalleAlumnoComponent implements OnInit{
                 error: (error: any) => console.log(error),
                 complete: () => {
                   this.solicitudes_practicas[element.id] = respuesta.body;
+
                   //console.log("Solicitudes:", this.solicitudes_practicas)
                   resolve(true);
                 }
               });})
             });  
+
+            for(let practica of this.practicas){
+              if(practica.documentos.length != 0){
+                for(let docu of practica.documentos){
+                  if(docu.key == null){
+                    this.documentos_enviados = 0;
+                  }
+                }
+              }
+              if(practica.documento_extras.length != 0){
+                for(let docuex of practica.documento_extras){
+                  console.log(docuex)
+                  if(docuex.key == null){
+                    this.documentos_enviados = 0;
+                  }
+                }
+              }            
+            }
 
             for (var item of this.practicas){
               this.evaluaciones.push(item.respuesta_supervisors)
