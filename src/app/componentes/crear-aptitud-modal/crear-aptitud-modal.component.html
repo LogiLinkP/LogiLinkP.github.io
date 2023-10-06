@@ -1,0 +1,30 @@
+<div class="modal fade" id="crear-aptitud-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="exampleModalLabel">Asignar</h2>
+            </div>
+            <div class="modal-body">
+                Ingrese una aptitud para evaluar a futuros estudiantes.
+                <form class="crearAptitud" [formGroup]="AptitudForm">
+                    <div>
+                        Nombre: <input type="text" name="nombre" id="nombre" formControlName="nombre">
+                    </div>
+                    <br>
+                    <div>
+                        Rango: <input type="text" name="rango" id="rango" formControlName="rango">
+                    </div>
+                </form>
+                
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button id="myBtn" type="submit" class="btn btn-primary" data-dismiss="modal" (click)="crear()">
+                    Crear
+                </button>   
+            </div>
+        </div>
+    </div>
+</div>
