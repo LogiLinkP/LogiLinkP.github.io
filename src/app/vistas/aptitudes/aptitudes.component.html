@@ -1,7 +1,7 @@
 <div id="wrapper">
 
     <!-- Sidebar -->
-    <app-barra-lateral-admin></app-barra-lateral-admin>
+    <app-barra-lateral-encargado></app-barra-lateral-encargado>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -33,19 +33,17 @@
                                 <thead>
                                     <tr>
                                         <th style="vertical-align: bottom;">Aptitud</th>
-                                        <th style="vertical-align: bottom;">Tipo Practica</th>
                                         <th style="vertical-align: bottom;">Rango</th>
                                         <th style="vertical-align: bottom;">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let encargado of encargados">
-                                        <td>{{}}</td>
-                                        <td>{{}}</td>
-                                        <td>{{}}</td>
+                                    <tr *ngFor="let aptitud of aptitudes">
+                                        <td>{{aptitud.nombre}}</td>
+                                        <td>{{aptitud.rango}}</td>
                                         <td>
-                                            <button class="btn btn-primary" (click)="editar()" data-target="#editar-aptitud-modal" data-toggle="modal">Editar</button>
-                                            <button class="btn btn-danger ml-2" (click)="eliminar()">Eliminar</button>
+                                            <button class="btn btn-primary" (click)="editar(aptitud.id, aptitud.nombre, aptitud.rango, aptitud.id_carrera)" data-target="#editar-aptitud-modal" data-toggle="modal">Editar</button>
+                                            <button class="btn btn-danger ml-2" (click)="eliminar(aptitud.id)">Eliminar</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -69,6 +67,9 @@
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
+
+<app-crear-aptitud-modal></app-crear-aptitud-modal>
+<app-editar-aptitud-modal [id]="id" [nombre]="nombre" [rango]="rango" [id_carrera]="id_carrera"></app-editar-aptitud-modal>
 
 <!-- Logout Modal-->
 
