@@ -36,8 +36,9 @@ export class TablaComponent {
   booleanValue: boolean = true;
   
   editables:any = [];
+  ev_values:any = [];
 
-  ev_value:string = "";
+  ev_value:number = -1;
 
   texto_consistencia_informe: string = "Indica qué tan relacionados están los informes del\n" +
     "estudiante con lo que escribió su supervisor.\n" +
@@ -97,9 +98,14 @@ export class TablaComponent {
         for (let alumno of respuesta.body){
           if (alumno.modalidad.config_practica.id_carrera == this.carrera_encargado && alumno.modalidad.config_practica.id_carrera != null){
           temppracticas.push(alumno);
+          if(alumno.ev_encargado == null){
+            this.ev_values.push("-")
+            }else{
+            this.ev_values.push(alumno.ev_encargado)
+            }
           }
         }
-        //console.log(temppracticas);
+        console.log(this.ev_values);
 
         this.practicas = temppracticas.map((alumno: any) => {
 
@@ -226,39 +232,9 @@ export class TablaComponent {
           )
           break;
         case 5:
-          this.practicas.sort((a:any, b:any) => a.indice_repeticion > b.indice_repeticion ? 1 :
-                                                a.indice_repeticion < b.indice_repeticion ? -1 :
-                                                0 
-          )
-          break;
-        case 6:
-          this.practicas.sort((a:any, b:any) => a.consistencia_informe > b.consistencia_informe ? 1 :
-                                                a.consistencia_informe < b.consistencia_informe ? -1 :
-                                                0 
-          )
-          break;
-        case 7:
-          this.practicas.sort((a:any, b:any) => a.consistencia_nota > b.consistencia_nota ? 1 :
-                                                a.consistencia_nota < b.consistencia_nota ? -1 :
-                                                0 
-          )
-          break;
-        case 8:
-          this.practicas.sort((a:any, b:any) => a.interpretacion_nota > b.interpretacion_nota ? 1 :
-                                                a.interpretacion_nota < b.interpretacion_nota ? -1 :
-                                                0 
-          )
-          break;
-        case 9: 
-          this.practicas.sort((a:any, b:any) => a.interpretacion_informe > b.interpretacion_informe ? 1 :
-                                                a.interpretacion_informe < b.interpretacion_informe ? -1 :
-                                                0 
-          )
-          break;
-        case 10:
           this.notas_promedio.sort((a:any, b:any) => a > b ? 1 : a < b ? -1 : 0);
           break;
-        case 11:
+        case 6:
           this.practicas.sort((a:any, b:any) => a.ev_encargado > b.ev_encargado ? 1 :
                                                 a.ev_encargado < b.ev_encargado ? -1:
                                                 0
@@ -338,22 +314,25 @@ export class TablaComponent {
   }
 
   checkout(arg: any) {
-    this.ev_value = arg.target.value
+    this.ev_value = Number(arg.target.value)
   }
 
-  evaluacion_encargado(id_practica:number){
+  evaluacion_encargado(id_practica:number, index:number){
     let respuesta:any = [];
     this.practi_service.evaluacion_encargado(id_practica, this.ev_value).subscribe({
       next:(data:any) => {
-        respuesta = {...respuesta, ...data}
+        respuesta = {...respuesta, ...data};
       },
       error:(error:any) => {
         console.log(error);
         return;
       },
       complete:() => {
-        this.ev_value = "";
       }
     })
+    this.editables[index] = "0"
+    this.ev_values[index] = this.ev_value;
+    console.log(this.ev_values)
+    this.ev_value = -1
   }
 }
