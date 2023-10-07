@@ -31,5 +31,8 @@ export class DetallePracticaService {
     return this._http.request(req);
   }
 
-
+  evaluacion_encargado(id_practica:number, evaluacion:string){
+    const req = new HttpRequest('PUT', `${environment.url_back}/practica/ev_encargado`, {id_practica, evaluacion}, { responseType: "text" })
+    return this._http.request(req);
+  }
 }

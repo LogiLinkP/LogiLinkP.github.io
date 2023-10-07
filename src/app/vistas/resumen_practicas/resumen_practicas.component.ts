@@ -5,8 +5,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Router } from "@angular/router";
-import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
-import { NULL } from 'sass';
 import { DetallePracticaService } from 'src/app/servicios/encargado/detalle-practica.service';
 
 
@@ -35,7 +33,11 @@ export class TablaComponent {
   usuario:any = []
   encargado: any = []
 
-  booleanValue: boolean = true; 
+  booleanValue: boolean = true;
+  
+  editables:any = [];
+
+  ev_value:string = "";
 
   texto_consistencia_informe: string = "Indica qué tan relacionados están los informes del\n" +
     "estudiante con lo que escribió su supervisor.\n" +
@@ -54,7 +56,9 @@ export class TablaComponent {
   texto_indice_repeticion: string = "Es un valor que indica qué tanto contenido de los informes es texto repetido\n" +
     "Para más información, haga click en el botón.";
 
-  texto_promedio_evaluacion: string = "Es un valor que indica en promedio las aptitudes del estudiante evaluadas por el supervisor";
+  texto_evaluacion_encargado:string = "Valor numérico del 1 al 5 (De peor a mejor), que le da un encargado como evaluacion a una práctica."
+
+  texto_promedio_evaluacion: string = "Valor numérico del 1 al 5 (De peor a mejor), que indica en promedio las aptitudes del estudiante evaluadas por el supervisor";
 
   
   constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar,
@@ -115,6 +119,7 @@ export class TablaComponent {
           return alumno;
         });
         for (var item of this.practicas){
+          this.editables.push("0");
           let iditem = item.id
           this.practi_service.obtener_practica(item.id).subscribe({
             next: (data: any) => {
@@ -251,8 +256,14 @@ export class TablaComponent {
           )
           break;
         case 10:
-          console.log(this.notas_promedio)
-          this.notas_promedio.sort((a:any, b:any) => a > b ? 1 : a < b ? -1 : 0)
+          this.notas_promedio.sort((a:any, b:any) => a > b ? 1 : a < b ? -1 : 0);
+          break;
+        case 11:
+          this.practicas.sort((a:any, b:any) => a.ev_encargado > b.ev_encargado ? 1 :
+                                                a.ev_encargado < b.ev_encargado ? -1:
+                                                0
+          )
+          break;
       }
       this.booleanValue = !this.booleanValue
     } else{
@@ -320,5 +331,29 @@ export class TablaComponent {
       this.booleanValue = !this.booleanValue
     }
 
+  }
+
+  editar(index:number){
+    this.editables[index] = "1"
+  }
+
+  checkout(arg: any) {
+    this.ev_value = arg.target.value
+  }
+
+  evaluacion_encargado(id_practica:number){
+    let respuesta:any = [];
+    this.practi_service.evaluacion_encargado(id_practica, this.ev_value).subscribe({
+      next:(data:any) => {
+        respuesta = {...respuesta, ...data}
+      },
+      error:(error:any) => {
+        console.log(error);
+        return;
+      },
+      complete:() => {
+        this.ev_value = "";
+      }
+    })
   }
 }

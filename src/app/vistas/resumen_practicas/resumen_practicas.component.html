@@ -62,6 +62,11 @@
                                                 data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
                                                     class="fas fa-info-circle"></i></a>
                                         </th>
+                                        <th style="vertical-align:bottom;" (click)="sort(11)">Evaluación Encargado
+                                            <a class="pointer" title="{{texto_evaluacion_encargado}}"
+                                                data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
+                                                    class="fas fa-info-circle"></i></a>
+                                        </th>
                                         <th style="vertical-align: bottom;">Aprobación</th>
                                     </tr>
                                 </thead>
@@ -87,9 +92,27 @@
                                             style="vertical-align: middle;">{{practica.interpretacion_nota}}</td>
                                         <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
                                             style="vertical-align: middle;">{{practica.interpretacion_informe}}</td>
-                                        
                                         <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
                                             style="vertical-align: middle;">{{notas_promedio[indice]}}</td>
+                                        <td class="table-item" style="vertical-align: middle;">
+                                            <div *ngIf="editables[indice]=='0'; else editable">
+                                                <div>
+                                                {{practica.ev_encargado}}
+                                                </div>
+                                                <button (click)="editar(indice)">Evaluar</button>
+                                            </div>
+                                            <ng-template #editable>
+                                                <select class="form-select" (input)="checkout($event)">
+                                                    <option value="-1" disabled selected>Valorice la práctica</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                </select>
+                                                <button (click)="evaluacion_encargado(practica.id)">Confirmar</button>
+                                            </ng-template>
+                                        </td>
                                         <td [ngSwitch]="practica.estado" style="vertical-align: middle;">
                                             <app-revision *ngSwitchCase="'Evaluada'"
                                                 [id_estudiante]="practica.id_estudiante"

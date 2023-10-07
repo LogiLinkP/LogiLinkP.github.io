@@ -145,6 +145,5 @@ export class PerfilComponent {
 
   checkout(arg: any) {
     this.id_carrera = Number(arg.target.value)
-
   }
 }
