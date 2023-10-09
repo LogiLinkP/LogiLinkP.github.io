@@ -382,4 +382,12 @@ export class ConfigService {
         return this._http.request(req);
     }
 
+    getConfigsCarrera(id_carrera: number) {
+        const req = new HttpRequest('GET', `${environment.url_back}/config_practica/carrera?id=${id_carrera}`, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
 }

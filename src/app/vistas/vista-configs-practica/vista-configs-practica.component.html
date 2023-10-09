@@ -9,7 +9,7 @@
             <app-barra-superior></app-barra-superior>
 
             <!-- Begin Page Content -->
-            <div class="container-fluid">
+            <div class="container-fluid" *ngIf="flag">
 
                 <!-- Page Heading -->
                 <div class="row">
@@ -19,29 +19,21 @@
                     </div>
                 </div>
 
-                <!-- For each nombre in nombres_distintos_config_practica, a collapse Card is made-->
-
-                <div class="row" *ngFor="let number of [1,2,3]; let i = index">
-
+                <div class="row" *ngFor="let config of configs; let i = index">
                     <div class="col-xl-12">
                         <div class="card shadow mb-4">
-                            <!-- Card Header - Accordion -->
-
-                            <div>
-                                <a [href]="'#card'+ i" class="d-block card-header py-3" data-toggle="collapse"
-                                    role="button" aria-expanded="true" [attr.aria-controls]="'card'+ i">
-                                    <h2 class="m-0 font-weight-bold text-primary">practica[0]</h2>
-                                    <div class="m-0 text-gray-800">Estado: No iniciada</div>
-                                </a>
-                                <div class="collapse" id="{{ 'card' + i }}">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-xl-5"></div>
-                                            <div class="col-xl-2">
-                                                <button type="button" class="btn btn-primary btn-lg btn-block">
-                                                    Inscribir Práctica
-                                                </button>
-                                            </div>
+                            <a [href]="'#card'+ i" class="d-block card-header py-3 collapsed" data-toggle="collapse"
+                                role="button" aria-expanded="true" [attr.aria-controls]="'card'+ i">
+                                <h2 class="m-0 font-weight-bold text-primary">{{config.nombre}}</h2>
+                                <div class="m-0 text-gray-800">Estado: No iniciada</div>
+                            </a>
+                            <div class="collapse" id="{{ 'card' + i }}">
+                                <div class="card-body">
+                                    <div class="row justify-content-end">
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-primary btn-lg btn-block">
+                                                Editar
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
