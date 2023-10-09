@@ -12,6 +12,9 @@ export class PublicacionesComponent {
   esalumno: number = -1;
   usuario: any = {};
   publicaciones:any = [];
+  fixed_publicaciones:any = [];
+  create_flag:number = 0;
+  edit_flag:number = 0;
 
   constructor(private service_publi:PublicacionesService) {
     this.usuario = JSON.parse(localStorage.getItem('auth-user') || '{}').userdata;
@@ -36,24 +39,20 @@ export class PublicacionesComponent {
           return
         },
         complete:() => {
-          let temp_publicaciones = respuesta;
-          let temp_publicaciones2: any = [];
+          let temp_publicaciones = respuesta.body;
           respuesta = [];
 
-          for(let publi of temp_publicaciones){
-            if(publi.isfijo == 1){
-              temp_publicaciones.push(publi)
-            }
-            else{
-              temp_publicaciones2.push(publi)
+          if(temp_publicaciones.length != 0){
+            for(let publi of temp_publicaciones){
+              if(publi.isfijo == 1){
+                this.fixed_publicaciones.push(publi)
+              }
+              else{
+                this.publicaciones.push(publi)
+              }
             }
           }
-
-          this.publicaciones = temp_publicaciones
-
-          for(let publi of temp_publicaciones2){
-            this.publicaciones.push(publi)
-          }
+          
         }
       })
     }
@@ -67,23 +66,18 @@ export class PublicacionesComponent {
           return;
         },
         complete:() => {
-          let temp_publicaciones = respuesta;
-          let temp_publicaciones2: any = [];
+          let temp_publicaciones = respuesta.body;
           respuesta = [];
 
-          for(let publi of temp_publicaciones){
-            if(publi.isfijo == 1){
-              temp_publicaciones.push(publi)
+          if(temp_publicaciones.length != 0){
+            for(let publi of temp_publicaciones){
+              if(publi.isfijo == 1){
+                this.fixed_publicaciones.push(publi)
+              }
+              else{
+                this.publicaciones.push(publi)
+              }
             }
-            else{
-              temp_publicaciones2.push(publi)
-            }
-          }
-
-          this.publicaciones = temp_publicaciones
-
-          for(let publi of temp_publicaciones2){
-            this.publicaciones.push(publi)
           }
         }
       })
@@ -101,6 +95,7 @@ export class PublicacionesComponent {
       },
       complete:() => {
         console.log("Publicación Creada")
+        this.create_flag = 0;
       }
     })
   }
@@ -115,6 +110,7 @@ export class PublicacionesComponent {
       },
       complete:() => {
         console.log("Publicación Editada")
+        this.edit_flag = 0;
       }
     })
   }
@@ -132,5 +128,13 @@ export class PublicacionesComponent {
         console.log("Publ")
       }
     })
+  }
+
+  inicio_creacion(){
+    this.create_flag = 1;
+  }
+
+  inicio_edicion(){
+    this.edit_flag = 1;
   }
 }
