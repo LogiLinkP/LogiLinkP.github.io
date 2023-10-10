@@ -51,7 +51,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td>Frecuencia de Informes:</td>
-                                                            <td>{{ config.config_informe?.frecuencia_informes }}</td>
+                                                            <td>{{ config.frecuencia_informes }}</td>
                                                         </tr>
                                                         <tr>
                                                             <td>Informe final:</td>
@@ -77,21 +77,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- sub tarjeta  informes -->
-                                        <!-- <div class="card-body col-6">
-                                            <div class="card shadow mb-4">
-                                                <div class="card-header py-3">
-                                                    <h4 class="m-0 font-weight-bold text-primary">
-                                                        Informes
-                                                    </h4>
-                                                </div>
-                                                <div class="card-body">
-                                                    <p *ngFor="let config_informe of config.config_informes; let j = index">
-                                                        {{config_informe.tipo_informe}}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div> -->
                                         <!-- sub tarjeta  informes con for-->
                                         <div class="card-body col-6" *ngFor="let config_informe of config.config_informes; let j = index">
                                             <div class="card shadow mb-4">
