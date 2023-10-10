@@ -17,7 +17,7 @@ export class PublicacionesService {
   }
 
   obtener_encargado(id_encargado:number){
-    const req = new HttpRequest('GET', `${environment.url_back}/publicacion/encargado?id_encargado={{id_encargado}}`, {id_encargado});
+    const req = new HttpRequest('GET', `${environment.url_back}/publicacion/encargado?id_encargado=${id_encargado}`, {id_encargado});
     return this._http.request(req);
   }
 

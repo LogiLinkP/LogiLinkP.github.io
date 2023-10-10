@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
 import { PublicacionesService } from 'src/app/servicios/publicaciones/publicaciones.service';
+import { DatePipe } from '@angular/common';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-publicaciones',
@@ -8,6 +9,7 @@ import { PublicacionesService } from 'src/app/servicios/publicaciones/publicacio
   styleUrls: ['./publicaciones.component.scss']
 })
 export class PublicacionesComponent {
+  publiForm: FormGroup;
 
   esalumno: number = -1;
   usuario: any = {};
@@ -16,15 +18,34 @@ export class PublicacionesComponent {
   create_flag:number = 0;
   edit_flag:number = 0;
 
-  constructor(private service_publi:PublicacionesService) {
+  Titulo:string = "";
+  Enunciado:string = "";
+
+  ID_carrera:number = -1;
+  ID_encargado:number = -1;
+
+  constructor(private service_publi:PublicacionesService, private datetime:DatePipe, private fb: FormBuilder,) {
     this.usuario = JSON.parse(localStorage.getItem('auth-user') || '{}').userdata;
     if (this.usuario.es_estudiante == 1) {
       this.esalumno = 1;
     }
     else {
       this.esalumno = 0;
+      this.ID_carrera = this.usuario.encargado.id_carrera;
+      this.ID_encargado = this.usuario.encargado.id;
+
     }
+    this.createForm();
   }
+
+  createForm() {
+    this.publiForm = this.fb.group({
+      Titulo: ['', [Validators.required, Validators.minLength(3)]],
+      Enunciado: ['', [Validators.required, Validators.minLength(3)]],
+      IsFijo:['', [Validators.required]]
+    });
+  }
+  
 
   ngOnInit(){
     console.log(this.usuario);
@@ -71,7 +92,7 @@ export class PublicacionesComponent {
 
           if(temp_publicaciones.length != 0){
             for(let publi of temp_publicaciones){
-              if(publi.isfijo == 1){
+              if(publi.isfijo){
                 this.fixed_publicaciones.push(publi)
               }
               else{
@@ -84,8 +105,21 @@ export class PublicacionesComponent {
     } 
   }
 
-  crear(titulo:string, enunciado:string, isfijo:boolean){
-    this.service_publi.nueva_publicacion(this.usuario.encargado.id, this.usuario.encargado.id_carrera, titulo, enunciado, isfijo).subscribe({
+  crear(){
+    const data = this.publiForm.value;
+    console.log(data)
+
+    let titulo = data.Titulo
+    let enunciado = data.Enunciado;
+
+    let isfijo:boolean;
+    if (data.IsFijo == "1"){
+      isfijo = true;
+    }else{
+      isfijo = false;
+    }
+    
+    this.service_publi.nueva_publicacion(this.ID_encargado, this.ID_carrera, titulo, enunciado, isfijo).subscribe({
       next:() => {
 
       },
@@ -125,7 +159,7 @@ export class PublicacionesComponent {
         return;
       },
       complete:() => {
-        console.log("Publ")
+        console.log("Publicación eliminada");
       }
     })
   }
