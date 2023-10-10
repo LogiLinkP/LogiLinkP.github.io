@@ -12,7 +12,7 @@ export class PublicacionesService {
   constructor(private _http: HttpClient, private datetime: DatePipe) { }
 
   obtener_todas(id_carrera:number){
-    const req = new HttpRequest('GET', `${environment.url_back}/publicacion/todas'id_carrera={{id_carrera}}`, {id_carrera});
+    const req = new HttpRequest('GET', `${environment.url_back}/publicacion/todas?id_carrera=${id_carrera}`, {id_carrera});
     return this._http.request(req);
   }
 
@@ -34,7 +34,7 @@ export class PublicacionesService {
   }
 
   eliminar_publicacion(id:number){
-    const req = new HttpRequest('DELETE', `${environment.url_back}/publicacion/eliminar`, {id}, {responseType:"text"});
+    const req = new HttpRequest('DELETE', `${environment.url_back}/publicacion/eliminar?id=${id}`, {id}, {responseType:"text"});
     return this._http.request(req);
   }
 }

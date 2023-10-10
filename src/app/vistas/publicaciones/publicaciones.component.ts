@@ -3,6 +3,11 @@ import { PublicacionesService } from 'src/app/servicios/publicaciones/publicacio
 import { DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import * as dayjs from 'dayjs'
+dayjs().format()
+const customParseFormat = require('dayjs/plugin/customParseFormat');
+dayjs.extend(customParseFormat);
+
 @Component({
   selector: 'app-publicaciones',
   templateUrl: './publicaciones.component.html',
@@ -16,7 +21,9 @@ export class PublicacionesComponent {
   publicaciones:any = [];
   fixed_publicaciones:any = [];
   create_flag:number = 0;
-  edit_flag:number = 0;
+  
+  fixed_edit_flags:any = [];
+  edit_flags:any = [];
 
   Titulo:string = "";
   Enunciado:string = "";
@@ -60,20 +67,32 @@ export class PublicacionesComponent {
           return
         },
         complete:() => {
-          let temp_publicaciones = respuesta.body;
+          let aux: Array<any> = respuesta.body.map((notificacion: any) => {
+            notificacion.fecha_og = notificacion.fecha;
+            notificacion.fecha = dayjs(notificacion.fecha, "YYYY-MM-DDTHH:mm:ssZ").format("DD/MM/YYYY HH:mm");
+            return notificacion;
+          });
+          aux.sort(function (a: any, b: any): number {
+            if (a.fecha_og > b.fecha_og) return -1;
+            if (a.fecha_og < b.fecha_og) return 1;
+            return 0;
+          })
+
+          let temp_publicaciones = aux;
           respuesta = [];
 
           if(temp_publicaciones.length != 0){
             for(let publi of temp_publicaciones){
               if(publi.isfijo == 1){
                 this.fixed_publicaciones.push(publi)
+                this.fixed_edit_flags.push(0)
               }
               else{
                 this.publicaciones.push(publi)
+                this.edit_flags.push(0)
               }
             }
           }
-          
         }
       })
     }
@@ -87,16 +106,30 @@ export class PublicacionesComponent {
           return;
         },
         complete:() => {
-          let temp_publicaciones = respuesta.body;
+
+          let aux: Array<any> = respuesta.body.map((notificacion: any) => {
+            notificacion.fecha_og = notificacion.fecha;
+            notificacion.fecha = dayjs(notificacion.fecha, "YYYY-MM-DDTHH:mm:ssZ").format("DD/MM/YYYY HH:mm");
+            return notificacion;
+          });
+          aux.sort(function (a: any, b: any): number {
+            if (a.fecha_og > b.fecha_og) return -1;
+            if (a.fecha_og < b.fecha_og) return 1;
+            return 0;
+          })
+  
+          let temp_publicaciones = aux;
           respuesta = [];
 
           if(temp_publicaciones.length != 0){
             for(let publi of temp_publicaciones){
               if(publi.isfijo){
                 this.fixed_publicaciones.push(publi)
+                this.fixed_edit_flags.push(0)
               }
               else{
                 this.publicaciones.push(publi)
+                this.edit_flags.push(0)
               }
             }
           }
@@ -134,7 +167,20 @@ export class PublicacionesComponent {
     })
   }
 
-  edicion(id:number, titulo:string, enunciado:string){
+  edicion(id:number, fixed: number, index:number){
+    const data = this.publiForm.value;
+    console.log(data)
+
+    let titulo = data.Titulo
+    let enunciado = data.Enunciado;
+
+    let isfijo:boolean;
+    if (data.IsFijo == "1"){
+      isfijo = true;
+    }else{
+      isfijo = false;
+    }
+    
     this.service_publi.editar_publciacion(id,titulo,enunciado).subscribe({
       next:() => {
 
@@ -144,15 +190,22 @@ export class PublicacionesComponent {
       },
       complete:() => {
         console.log("Publicación Editada")
-        this.edit_flag = 0;
+        if(fixed == 1){
+          this.fixed_edit_flags[index] = 0;
+          this.fixed_publicaciones[index].titulo = titulo;
+          this.fixed_publicaciones[index].enunciado = enunciado;
+        } else {
+          this.edit_flags[index] = 0;
+          this.publicaciones[index].titulo = titulo;
+          this.publicaciones[index].enunciado = titulo; 
+        }
       }
     })
   }
 
-  eliminar(id:number){
+  eliminar(id:number, fix:number, index:number){
     this.service_publi.eliminar_publicacion(id).subscribe({
       next:() => {
-
       },
       error:(error:any) => {
         console.log(error);
@@ -160,6 +213,11 @@ export class PublicacionesComponent {
       },
       complete:() => {
         console.log("Publicación eliminada");
+        if(fix == 1){
+          this.fixed_publicaciones.splice(index,1)
+        } else {
+          this.publicaciones.splice(index,1)
+        }
       }
     })
   }
@@ -168,7 +226,11 @@ export class PublicacionesComponent {
     this.create_flag = 1;
   }
 
-  inicio_edicion(){
-    this.edit_flag = 1;
+  inicio_edicion(fix:number, index:number){
+    if(fix == 1){
+      this.fixed_edit_flags[index] = 1
+    } else{
+      this.edit_flags[index] = 1
+    }
   }
 }
