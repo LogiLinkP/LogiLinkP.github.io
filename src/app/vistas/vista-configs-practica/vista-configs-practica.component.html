@@ -69,30 +69,45 @@
                                                         Modalidades
                                                     </h4>
                                                 </div>
-                                                <div class="card-body" *ngFor="let modalidad of config.modalidads; let j = index">
-                                                    {{modalidad.cantidad_tiempo}}
-                                                    {{modalidad.tipo_modalidad}}
+                                                <div class="card-body">
+                                                    <p *ngFor="let modalidad of config.modalidads; let j = index">
+                                                        {{modalidad.cantidad_tiempo}}
+                                                        {{modalidad.tipo_modalidad}}
+                                                    </p>
                                                 </div>
-                                                <!-- <div class="card-body">
-                                                    length: {{config.modalidads[0].length}} <br>
-                                                    {{config.modalidads[0].cantidad_tiempo}}
-                                                    {{config.modalidads[0].tipo_modalidad}}
-                                                </div> -->
                                             </div>
                                         </div>
                                         <!-- sub tarjeta  informes -->
-                                        <!-- <div class="card-body col-6">
+                                        <div class="card-body col-6">
                                             <div class="card shadow mb-4">
                                                 <div class="card-header py-3">
                                                     <h4 class="m-0 font-weight-bold text-primary">
                                                         Informes
                                                     </h4>
                                                 </div>
-                                                <div class="card-body" *ngFor="let config_informe of config.config_informes[i]; let j = index">
-                                                    {{config_informe.tipo_informe}}
+                                                <div class="card-body">
+                                                    <p *ngFor="let config_informe of config.config_informes; let j = index">
+                                                        {{config_informe.tipo_informe}}
+                                                    </p>
                                                 </div>
                                             </div>
-                                        </div> -->
+                                        </div>
+                                        <div class="card-body col-6">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        Solicitudes de documentos
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p *ngFor="let doc of config.solicitud_documentos; let j = index">
+                                                        {{ doc.tipo_archivo }}
+                                                        {{ doc.nombre_archivo }}
+                                                        {{ doc.descripcion }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3">
@@ -116,3 +131,5 @@
 </div>
 
 <app-logout-modal></app-logout-modal>
+
+<!-- investigar trim() -->
