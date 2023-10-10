@@ -31,6 +31,8 @@ export class PublicacionesComponent {
   ID_carrera:number = -1;
   ID_encargado:number = -1;
 
+  last_id:number = -1;
+
   constructor(private service_publi:PublicacionesService, private datetime:DatePipe, private fb: FormBuilder,) {
     this.usuario = JSON.parse(localStorage.getItem('auth-user') || '{}').userdata;
     if (this.usuario.es_estudiante == 1) {
@@ -86,10 +88,16 @@ export class PublicacionesComponent {
               if(publi.isfijo == 1){
                 this.fixed_publicaciones.push(publi)
                 this.fixed_edit_flags.push(0)
+                if (this.last_id <= publi.id){
+                  this.last_id = publi.id
+                }
               }
               else{
                 this.publicaciones.push(publi)
                 this.edit_flags.push(0)
+                if (this.last_id <= publi.id){
+                  this.last_id = publi.id
+                }
               }
             }
           }
@@ -126,10 +134,16 @@ export class PublicacionesComponent {
               if(publi.isfijo){
                 this.fixed_publicaciones.push(publi)
                 this.fixed_edit_flags.push(0)
+                if (this.last_id <= publi.id){
+                  this.last_id = publi.id
+                }
               }
               else{
                 this.publicaciones.push(publi)
                 this.edit_flags.push(0)
+                if (this.last_id <= publi.id){
+                  this.last_id = publi.id
+                }
               }
             }
           }
@@ -140,10 +154,10 @@ export class PublicacionesComponent {
 
   crear(){
     const data = this.publiForm.value;
-    console.log(data)
 
     let titulo = data.Titulo
     let enunciado = data.Enunciado;
+    let fecha = this.datetime.transform((new Date), 'MM/dd/yyyy h:mm:ss')
 
     let isfijo:boolean;
     if (data.IsFijo == "1"){
@@ -152,7 +166,7 @@ export class PublicacionesComponent {
       isfijo = false;
     }
     
-    this.service_publi.nueva_publicacion(this.ID_encargado, this.ID_carrera, titulo, enunciado, isfijo).subscribe({
+    this.service_publi.nueva_publicacion(this.ID_encargado, this.ID_carrera, titulo, enunciado, fecha, isfijo).subscribe({
       next:() => {
 
       },
@@ -163,18 +177,24 @@ export class PublicacionesComponent {
       complete:() => {
         console.log("Publicación Creada")
         this.create_flag = 0;
+        this.last_id+=1;
+        if(isfijo == true){
+          this.fixed_publicaciones.push({id:this.last_id, id_encargado:this.ID_encargado, id_carrera:this.ID_carrera, titulo:titulo, enunciado:enunciado, fecha:fecha, isfijo:isfijo})
+        } else{
+          this.publicaciones.push({id:this.last_id, id_encargado:this.ID_encargado, id_carrera:this.ID_carrera, titulo:titulo, enunciado:enunciado, fecha:fecha, isfijo:isfijo})
+        }
       }
     })
   }
 
   edicion(id:number, fixed: number, index:number){
     const data = this.publiForm.value;
-    console.log(data)
 
     let titulo = data.Titulo
     let enunciado = data.Enunciado;
 
     let isfijo:boolean;
+
     if (data.IsFijo == "1"){
       isfijo = true;
     }else{
@@ -190,14 +210,28 @@ export class PublicacionesComponent {
       },
       complete:() => {
         console.log("Publicación Editada")
-        if(fixed == 1){
+        if(fixed == 1 && isfijo == true){
           this.fixed_edit_flags[index] = 0;
           this.fixed_publicaciones[index].titulo = titulo;
           this.fixed_publicaciones[index].enunciado = enunciado;
-        } else {
+        } else if(fixed == 0 && isfijo == false) {
           this.edit_flags[index] = 0;
           this.publicaciones[index].titulo = titulo;
           this.publicaciones[index].enunciado = titulo; 
+        } else if(fixed == 1 && isfijo == false){
+          this.fixed_edit_flags[index] = 0;
+          this.fixed_publicaciones[index].titulo = titulo;
+          this.fixed_publicaciones[index].enunciado = enunciado;
+
+          this.publicaciones.push(this.fixed_publicaciones[index])
+          this.fixed_publicaciones.splice(index, 1)
+        } else if(fixed == 0 && isfijo == true){
+          this.edit_flags[index] = 0;
+          this.publicaciones[index].titulo = titulo;
+          this.publicaciones[index].enunciado = titulo; 
+
+          this.fixed_publicaciones.push(this.publicaciones[index]);
+          this.publicaciones.splice(index, 1);
         }
       }
     })

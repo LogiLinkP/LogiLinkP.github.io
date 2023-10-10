@@ -1,7 +1,6 @@
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { DatePipe } from '@angular/common';
 
 
 @Injectable({
@@ -9,7 +8,7 @@ import { DatePipe } from '@angular/common';
 })
 export class PublicacionesService {
 
-  constructor(private _http: HttpClient, private datetime: DatePipe) { }
+  constructor(private _http: HttpClient) { }
 
   obtener_todas(id_carrera:number){
     const req = new HttpRequest('GET', `${environment.url_back}/publicacion/todas?id_carrera=${id_carrera}`, {id_carrera});
@@ -21,9 +20,7 @@ export class PublicacionesService {
     return this._http.request(req);
   }
 
-  nueva_publicacion(id_encargado:number, id_carrera:number, titulo:string, enunciado:string, isfijo:boolean){
-    let fecha = this.datetime.transform((new Date), 'MM/dd/yyyy h:mm:ss')
-
+  nueva_publicacion(id_encargado:number, id_carrera:number, titulo:string, enunciado:string, fecha:any, isfijo:boolean){
     const req = new HttpRequest('POST', `${environment.url_back}/publicacion/crear`, {id_encargado, id_carrera, titulo, enunciado, fecha, isfijo}, {responseType:"text"});
     return this._http.request(req);
   }
