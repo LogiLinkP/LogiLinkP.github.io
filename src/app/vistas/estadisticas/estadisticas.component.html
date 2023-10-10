@@ -103,7 +103,99 @@
                 </div>
 
                 <div *ngIf="vista_actual=='remuneracion'">
-                    Estadisticas Remuneración
+
+                    <div class="row">
+                        <div class="col-lg-6 mb-4">
+                            <div class="card shadow mb-4">
+                                <a href="#collapseCardEvaluacion" class="d-block card-header py-3"
+                                    data-toggle="collapse" role="button" aria-expanded="true"
+                                    aria-controls="collapseCardEvaluacion">
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Remuneración promedio por tipo de práctica</h6>
+                                </a>
+
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardEvaluacion">
+                                    <!-- Evaluación de Aptitudes -->
+                                    <!-- <div class="card-body" *ngIf="hay_respuesta == 1"> -->
+                                        <div class="overflow-auto">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered hover" id="dataTable"
+                                                    width="100%" cellspacing="0">
+                                                    <thead style="background-color: aqua;">
+                                                        <tr>
+                                                            <th>Tipo de práctica</th>
+                                                            <th>Remuneración promedio</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr
+                                                            *ngFor="let remuneracion_practica of remuneracion_tipo_practica; let j = index">
+                                                            <th>{{remuneracion_practica.tipo}}</th>
+                                                            <th>{{remuneracion_practica.remuneracion}}</th>
+                                                        </tr>
+                                                        <tr class="table-light">
+                                                            <th>Promedio</th>
+                                                            <th>{{remuneracion_promedio_tipo_practica}}</th>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="col-lg-6 mb-4">
+        
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Remuneración promedio por carrera
+                                    </h6>
+                                </div>
+    
+                                <!-- MOSTRANDO OPCIONES DE LA PREGUNTA -->
+    
+                                <div class="card-body">
+                                    Hola
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-4">
+        
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Remuneración promedio por empresa
+                                    </h6>
+                                </div>
+    
+                                <!-- MOSTRANDO OPCIONES DE LA PREGUNTA -->
+    
+                                <div class="card-body">
+                                    Hola
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-4">
+        
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Remuneración promedio por ramo marcado como útil
+                                    </h6>
+                                </div>
+    
+                                <!-- MOSTRANDO OPCIONES DE LA PREGUNTA -->
+    
+                                <div class="card-body">
+                                    Hola
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
 
                 <div *ngIf="vista_actual=='encuesta'">

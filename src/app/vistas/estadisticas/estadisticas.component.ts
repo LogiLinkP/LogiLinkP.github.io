@@ -50,7 +50,17 @@ export class EstadisticasComponent {
 
   vista_actual = "general";
 
+  //remuneracion
+  remuneracion_tipo_practica: any[] = [];
+  remuneracion_promedio_tipo_practica: number = 0;
+
   ngOnInit(): void {
+
+    //HARDCODEO REMUNERACION TIPO PRACTICA
+    this.remuneracion_tipo_practica.push({tipo: "Hola1", remuneracion: 100});
+    this.remuneracion_tipo_practica.push({tipo: "Hola2", remuneracion: 200});
+    this.remuneracion_tipo_practica.push({tipo: "Hola3", remuneracion: 300});
+    this.remuneracion_promedio_tipo_practica = 200;
 
     let id_usuario = this.sesion.userdata.id;
 
