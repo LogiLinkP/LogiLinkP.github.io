@@ -21,7 +21,7 @@ export class EvaluacionComponent {
   // Aqui se guardan temporalmente las respuestas mientras se llena el formulario. Estas se procesan antes de enviarlas al backend.
   respuestas: any[] = []; 
 
-  aptitudes_evaluacion = [];
+  aptitudes_evaluacion: any = [];
 
 
   constructor(private service_supervisor: SupervisorService, private _snackbar: MatSnackBar, private router: Router, private activated_route: ActivatedRoute) {}
@@ -72,6 +72,7 @@ export class EvaluacionComponent {
     let token = "";
     let iv = "";
     let practica = { body: {} };
+    let response: any = {};
 
     this.activated_route.queryParams.subscribe(params => {
       token = params['token'];
@@ -111,9 +112,10 @@ export class EvaluacionComponent {
           this.id_config_practica = this.practica.modalidad.id_config_practica
           if (this.practica.modalidad.config_practica.hasOwnProperty('pregunta_supervisors')) {
             this.preguntas = this.practica.modalidad.config_practica.pregunta_supervisors;            
-            //console.log("PREGUNTAS", this.preguntas);
             if (this.preguntas.length > 0) {
+              console.log(0)
               for (let pregunta of this.preguntas) {
+                console.log(pregunta.opciones)
                 if (pregunta.tipo_respuesta == "casillas") {
                   let array_aux = [];
                   for (let i = 0; i < pregunta.opciones.split(";;").length; i++) {
@@ -123,20 +125,32 @@ export class EvaluacionComponent {
                 }
                 //CAMBIOS PREGUNTA EVALUACION
                 else if (pregunta.tipo_respuesta == "evaluacion") {
-                  let array_aux_evaluacion = [];
-                  let array_aux_aptitudes = pregunta.opciones.split(";;");
-                  this.aptitudes_evaluacion = array_aux_aptitudes;
-                  for (let i = 0; i < pregunta.opciones.split(";;").length; i++) {
-                    array_aux_evaluacion.push(-1);
-                  }
-                  this.respuestas.push(array_aux_evaluacion);
+                  this.service_supervisor.getAptitudes(this.practica.id).subscribe({
+                    next: data => {
+                      response = { ...response, ...data };
+                    },
+                    error: (error: any) => {
+                      this._snackbar.open("Error al obtener la aptitudes", "Cerrar", {
+                        duration: 2000,
+                        panelClass: ['red-snackbar']
+                      });
+                    },
+                    complete: () => {
+                      this.aptitudes_evaluacion = response.body.data.config_practica.carrera.aptituds;
+                      let array_aux_evaluacion = [];
+                      for (let i = 0; i < this.aptitudes_evaluacion.length; i++) {
+                        array_aux_evaluacion.push(-1);
+                      }
+                      this.respuestas.push(array_aux_evaluacion);
+                    }
+                  });
                 }
                 else {
                   this.respuestas.push("");
                 }
                 this.tipo_respuestas.push(pregunta.tipo_respuesta);
               }
-              //console.log("RESPUESTAS", this.respuestas);
+              
             }
             else {
               this._snackbar.open("Error: la práctica no tiene preguntas asociadas.", "Cerrar", {
@@ -193,6 +207,14 @@ export class EvaluacionComponent {
 
     //console.log("respuesta actual evaluacion");
     //console.log(this.respuestas)
+  }
+
+  range(n: number): any[] {
+    let range = [];
+    for(let i=1; i<=n; i++){
+      range.push(i);
+    }
+    return range;
   }
 
   enviarEvaluacion() {

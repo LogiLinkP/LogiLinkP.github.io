@@ -88,15 +88,12 @@
                                                         <table>
                                                             <tr>
                                                                 <div *ngFor="let aptitud of aptitudes_evaluacion; let j = index" class="row">
-                                                                    <td style="width:40%">{{aptitud}}:</td> 
+                                                                    <td style="width:40%">{{aptitud.nombre}}:</td> 
                                                                     <td style="width:60%">                                           
-                                                                        <select name="tipo" id="tipo" class="form-select form-select-sm mb-4" aria-label="Default select example" [(ngModel)]="respuestas[i][j]" (ngModelChange)="updateRespuestasEvaluacion(i,j, $event)">
+                                                                        <select name="tipo" id="tipo" class="form-select form-select-sm mb-4" aria-label="Default select example" 
+                                                                        [(ngModel)]="respuestas[i][j]" (ngModelChange)="updateRespuestasEvaluacion(i,j, $event)">
                                                                             <option value="-1">Seleccione nota evaluación</option>
-                                                                            <option value="1">1</option>
-                                                                            <option value="2">2</option>
-                                                                            <option value="3">3</option>
-                                                                            <option value="4">4</option>
-                                                                            <option value="5">5</option>
+                                                                            <option *ngFor="let n of range(aptitud.rango)" value="n">{{n}}</option>
                                                                         </select>
                                                                     </td>          
                                                                 </div>
