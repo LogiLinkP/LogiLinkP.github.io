@@ -13,7 +13,7 @@ export class VistaConfigsPracticaComponent {
 	flag: boolean = false;
 	
 	constructor(private service: ConfigService, private snackBar: MatSnackBar) { 
-		console.log("user: ", this.user);
+		//console.log("user: ", this.user);
 
 		let respuesta: any = {};
 		this.service.getConfigsCarrera(this.user.encargado.id_carrera).subscribe({
@@ -28,9 +28,11 @@ export class VistaConfigsPracticaComponent {
 				console.log("Error al buscar config practica", error);
 			},
 			complete: () => {
-				console.log("request:", respuesta.body);
+				//console.log("request grande:", respuesta.body);
 				this.configs = respuesta.body;
 				this.flag = true;
+
+				console.log("configs: ", this.configs);
 			}
 		});
 	}

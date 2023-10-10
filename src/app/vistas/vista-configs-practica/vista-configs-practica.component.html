@@ -25,11 +25,76 @@
                             <a [href]="'#card'+ i" class="d-block card-header py-3 collapsed" data-toggle="collapse"
                                 role="button" aria-expanded="true" [attr.aria-controls]="'card'+ i">
                                 <h2 class="m-0 font-weight-bold text-primary">{{config.nombre}}</h2>
-                                <div class="m-0 text-gray-800">Estado: No iniciada</div>
+                                <!-- <div class="m-0 text-gray-800">Estado: No iniciada</div> -->
                             </a>
                             <div class="collapse" id="{{ 'card' + i }}">
+                                <!-- Tarjeta interna total-->
                                 <div class="card-body">
-                                    <div class="row justify-content-end">
+                                    <div class="row">
+                                        <!-- sub tarjeta -->
+                                        <div class="card-body col-6">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        General
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <table>
+                                                        <tr>
+                                                            <td>Nombre:</td>
+                                                            <td>{{ config.nombre }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td> Estado:</td>
+                                                            <td>{{ config.activada }}</td> <!-- cambiar por activa -->
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Frecuencia de Informes:</td>
+                                                            <td>{{ config.config_informe?.frecuencia_informes }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Informe final:</td>
+                                                            <td>{{ config.informe_final }}</td>
+                                                        </tr> 
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- sub tarjeta  modalidades -->
+                                        <div class="card-body col-6">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        Modalidades
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body" *ngFor="let modalidad of config.modalidads; let j = index">
+                                                    {{modalidad.cantidad_tiempo}}
+                                                    {{modalidad.tipo_modalidad}}
+                                                </div>
+                                                <!-- <div class="card-body">
+                                                    length: {{config.modalidads[0].length}} <br>
+                                                    {{config.modalidads[0].cantidad_tiempo}}
+                                                    {{config.modalidads[0].tipo_modalidad}}
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                        <!-- sub tarjeta  informes -->
+                                        <!-- <div class="card-body col-6">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        Informes
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body" *ngFor="let config_informe of config.config_informes[i]; let j = index">
+                                                    {{config_informe.tipo_informe}}
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                    <div class="row">
                                         <div class="col-md-3">
                                             <button type="button" class="btn btn-primary btn-lg btn-block">
                                                 Editar
@@ -37,13 +102,15 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="card-footer">
+                                    footer
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div> <!-- End of row -->
+
             </div>
-
-
         </div>
     </div>
 </div>
