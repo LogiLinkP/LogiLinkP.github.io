@@ -14,6 +14,7 @@ import { CarreraService } from 'src/app/servicios/carrera/carrera.service';
 import { RespuestaRamosService } from 'src/app/servicios/respuesta-ramos/respuesta-ramos.service';
 
 import { PreguntasEncuestaFinalService } from 'src/app/servicios/alumno/preguntas-encuesta-final.service';
+import e from 'express';
 
 @Component({
   selector: 'app-encuesta-fin-practica',
@@ -48,6 +49,8 @@ export class EncuestaFinPracticaComponent {
   array_ramos: any[] = [];
 
   id_carrera_estudiante = 0;
+
+  error = 0;
 
   //preguntas_encuesta: object[] = [];
 
@@ -211,8 +214,15 @@ export class EncuestaFinPracticaComponent {
                       "tipo_respuesta": "abierta",
                     }
 
+                    let pregunta_sueldo = {
+                      "enunciado": "Indica la remuneración mensual que recibiste durante tu práctica. Recuerda que esta información es anónima y solo se utiliza para fines estadísticos.",
+                      "tipo_respuesta": "abierta",
+                    }
+
+                    this.preguntas.push(pregunta_sueldo);
                     this.preguntas.push(evaluacion_empresa);
                     this.preguntas.push(comentario_empresa);
+                    
 
                   }
                 });
@@ -247,6 +257,16 @@ export class EncuestaFinPracticaComponent {
           panelClass: ['red-snackbar']
         });
         return;
+      }
+      if(this.preguntas[i].enunciado == "Indica la remuneración mensual que recibiste durante tu práctica. Recuerda que esta información es anónima y solo se utiliza para fines estadísticos."){
+        //revision si respuesta ingresada es un numero
+        if(isNaN(Number(this.respuestas[i]))){
+          this._snackbar.open("Error: el sueldo ingresado debe ser un número", "Cerrar", {
+            duration: 2000,
+            panelClass: ['red-snackbar']
+          });
+          return;
+        }
       }
     }
 
@@ -286,7 +306,7 @@ export class EncuestaFinPracticaComponent {
       }
 
       //pregunta calificacion empresa
-      if (this.preguntas[i].enunciado == "Evalúa la empresa donde realizaste tu practica entre 1 y 5 considerando que tanto la recomendarías para que un estudiante realizara su práctica allí") {
+      else if (this.preguntas[i].enunciado == "Evalúa la empresa donde realizaste tu practica entre 1 y 5 considerando que tanto la recomendarías para que un estudiante realizara su práctica allí") {
         this.servicePreguntas.agregar_calificacion_empresa(this.id_practica, Number(this.respuestas[i])).subscribe({
           next: (data: any) => {
           },
@@ -306,7 +326,7 @@ export class EncuestaFinPracticaComponent {
       }
 
       //pregunta comentario empresa
-      if (this.preguntas[i].enunciado == "¿Qué te pareció la empresa donde realizaste tu práctica?") {
+      else if (this.preguntas[i].enunciado == "¿Qué te pareció la empresa donde realizaste tu práctica?") {
         this.servicePreguntas.agregar_comentario_empresa(this.id_practica, this.respuestas[i]).subscribe({
           next: (data: any) => {
           },
@@ -323,6 +343,31 @@ export class EncuestaFinPracticaComponent {
             });
           }
         });
+      }
+
+      //pregunta sueldo
+      else if(this.preguntas[i].enunciado == "Indica la remuneración mensual que recibiste durante tu práctica. Recuerda que esta información es anónima y solo se utiliza para fines estadísticos."){
+        let sueldo = Number(this.respuestas[i]);
+        //console.log(sueldo);
+        //console.log(this.id_practica);
+        //console.log("Actualizando sueldo practica")
+        this.servicePreguntas.agregar_sueldo_practica(this.id_practica, sueldo).subscribe({
+          next: (data: any) => {
+          },
+          error: (error: any) => {
+            this._snackbar.open("Error al enviar la respuesta", "Cerrar", {
+              duration: 2000,
+              panelClass: ['red-snackbar']
+            });
+          },
+          complete: () => {
+            this._snackbar.open("Encuesta enviada. Redirigiendo a página principal...", "Cerrar", {
+              duration: 3000,
+              panelClass: ['green-snackbar']
+            });
+          }
+        });
+
       }
 
       //pregunta estandar
@@ -357,6 +402,7 @@ export class EncuestaFinPracticaComponent {
         }
         respuestas_aux.push(respuesta_aux);
 
+        
         this.servicePreguntas.agregar_respuesta(this.preguntas[i].id, respuesta_aux).subscribe({
           next: (data: any) => {
           },
@@ -373,6 +419,7 @@ export class EncuestaFinPracticaComponent {
             });
           }
         });
+        
       }
     }
 
