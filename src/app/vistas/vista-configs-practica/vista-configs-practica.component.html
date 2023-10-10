@@ -78,7 +78,7 @@
                                             </div>
                                         </div>
                                         <!-- sub tarjeta  informes -->
-                                        <div class="card-body col-6">
+                                        <!-- <div class="card-body col-6">
                                             <div class="card shadow mb-4">
                                                 <div class="card-header py-3">
                                                     <h4 class="m-0 font-weight-bold text-primary">
@@ -91,8 +91,23 @@
                                                     </p>
                                                 </div>
                                             </div>
+                                        </div> -->
+                                        <!-- sub tarjeta  informes con for-->
+                                        <div class="card-body col-6" *ngFor="let config_informe of config.config_informes; let j = index">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        {{config_informe.tipo_informe}}
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p *ngFor="let pregunta of config_informe.pregunta_informes; let k = index">
+                                                        {{pregunta.enunciado}}
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="card-body col-6">
+                                        <div class="card-body col-6" *ngIf="config.solicitud_documentos.length > 0">
                                             <div class="card shadow mb-4">
                                                 <div class="card-header py-3">
                                                     <h4 class="m-0 font-weight-bold text-primary">
