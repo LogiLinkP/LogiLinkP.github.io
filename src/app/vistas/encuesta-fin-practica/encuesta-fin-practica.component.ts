@@ -55,7 +55,7 @@ export class EncuestaFinPracticaComponent {
   enunciado_ramos = "¿Qué ramos de la carrera te han resultado útiles durante tu práctica?";
 
   evaluacion_empresa = {
-    "enunciado": "Evalúa la empresa donde realizaste tu practica entre 1 y 5 considerando que tanto la recomendarías para que un estudiante realizara su práctica allí",
+    "enunciado": "Evalúa la empresa donde realizaste tu práctica entre 1 y 5, considerando qué tanto la recomendarías para que un estudiante realizara su práctica allí",
     "tipo_respuesta": "alternativas",
     "opciones": "1;;2;;3;;4;;5"
   }
