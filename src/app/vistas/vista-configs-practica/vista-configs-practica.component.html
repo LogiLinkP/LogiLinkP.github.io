@@ -87,7 +87,7 @@
                                                 </div>
                                                 <div class="card-body">
                                                     <p *ngFor="let pregunta of config_informe.pregunta_informes; let k = index">
-                                                        {{pregunta.enunciado}}
+                                                        {{k+1}}. {{pregunta.enunciado}}
                                                     </p>
                                                 </div>
                                             </div>
@@ -105,6 +105,21 @@
                                                         {{ doc.tipo_archivo }}
                                                         {{ doc.nombre_archivo }}
                                                         {{ doc.descripcion }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- sub tarjeta pregunta supervisor -->
+                                        <div class="card-body col-6">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        Preguntas para el supervisor
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p *ngFor="let pregunta of config.pregunta_supervisors; let j = index">
+                                                        {{j+1}}. {{ pregunta.enunciado }} [{{ pregunta.tipo_respuesta }}]
                                                     </p>
                                                 </div>
                                             </div>
@@ -136,7 +151,6 @@
                                 <!-- <div class="m-0 text-gray-800">Estado: No iniciada</div> -->
                             </a>
                             <div class="collapse" id="cardCrear">
-                                <!-- Tarjeta interna total-->
                                 <div class="card-body">
                                     <div class="row">
                                         <!-- sub tarjeta -->
