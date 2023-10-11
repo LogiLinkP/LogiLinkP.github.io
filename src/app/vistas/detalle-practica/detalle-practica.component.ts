@@ -75,6 +75,7 @@ export class DetallePracticaComponent implements OnInit {
 
   prom: number = -1;
   hay_respuesta: number = -1;
+  ev_encargado:any = [];
 
   constructor(private fragmentosService: FragmentosService, private service: DetallePracticaService, private service2: SetDetallesAlumnoService,
     private _snackBar: MatSnackBar, private route: ActivatedRoute,
@@ -111,8 +112,13 @@ export class DetallePracticaComponent implements OnInit {
         },
         complete: () => {
           this.practica = respuesta.body;
-          console.log(this.practica);
           this.check_resumen();
+
+          if(this.practica.ev_encargado==null){
+            this.ev_encargado = "-"
+          }else{
+            this.ev_encargado = this.practica.ev_encargado;
+          }
 
           if (this.practica.estado == environment.estado_practica.evaluada ||
             this.practica.estado == environment.estado_practica.aprobada ||
