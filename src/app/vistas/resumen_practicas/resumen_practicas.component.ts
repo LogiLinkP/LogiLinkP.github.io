@@ -96,16 +96,16 @@ export class TablaComponent {
         let temppracticas:any = [];
 
         for (let alumno of respuesta.body){
+          //console.log(alumno)
           if (alumno.modalidad.config_practica.id_carrera == this.carrera_encargado && alumno.modalidad.config_practica.id_carrera != null){
-          temppracticas.push(alumno);
-          if(alumno.ev_encargado == null){
-            this.ev_values.push("-")
-            }else{
-            this.ev_values.push(alumno.ev_encargado)
-            }
+            temppracticas.push(alumno);
+            if(alumno.ev_encargado == null || alumno.ev_encargado == -1){
+              this.ev_values.push("-")
+              }else{
+              this.ev_values.push(alumno.ev_encargado)
+              }
           }
         }
-        console.log(this.ev_values);
 
         this.practicas = temppracticas.map((alumno: any) => {
 
@@ -139,6 +139,7 @@ export class TablaComponent {
             },
             complete: () => {
               let evaluaciones = respuesta.body.respuesta_supervisors
+              //console.log(evaluaciones)
               
               if(evaluaciones.length == 0){
                 this.temp_notas.push([iditem, 0])
@@ -151,7 +152,7 @@ export class TablaComponent {
                   let temp: any = [];
                   
                   if(val.pregunta_supervisor != null){
-                    if (val.pregunta_supervisor.enunciado == "Evalue entre 1 y 5 las siguientes aptitudes del practicante"){
+                    if (val.pregunta_supervisor.enunciado == "Evalúe entre 1 y 5 las siguientes aptitudes del practicante"){
                       find = 1
                       temp = val.respuesta.split(",");
                       for(var n of temp){
@@ -179,6 +180,7 @@ export class TablaComponent {
                   this.notas_promedio.push(item2[1])
                 }
               }
+              //console.log(this.notas_promedio)
             }
           });
         }     
@@ -210,14 +212,12 @@ export class TablaComponent {
                                                 a.estudiante.usuario.nombre < b.estudiante.usuario.nombre ? -1 :
                                                 0 
           )
-          console.log(this.practicas)
           break;
         case 2:
           this.practicas.sort((a:any, b:any) => a.estudiante.rut > b.estudiante.rut ? 1 :
                                                 a.estudiante.rut < b.estudiante.rut ? -1 :
                                                 0 
           )
-          console.log(this.practicas)
           break;
         case 3:
           this.practicas.sort((a:any, b:any) => a.modalidad.config_practica.nombre > b.modalidad.config_practica.nombre ? 1 :
@@ -249,14 +249,12 @@ export class TablaComponent {
                                                 a.estudiante.usuario.nombre > b.estudiante.usuario.nombre ? -1 :
                                                 0 
           )
-          console.log(this.practicas)
           break;
         case 2:
           this.practicas.sort((a:any, b:any) => a.estudiante.rut < b.estudiante.rut ? 1 :
                                                 a.estudiante.rut > b.estudiante.rut ? -1 :
                                                 0 
           )
-          console.log(this.practicas)
           break;
         case 3:
           this.practicas.sort((a:any, b:any) => a.modalidad.config_practica.nombre < b.modalidad.config_practica.nombre ? 1 :
@@ -301,7 +299,6 @@ export class TablaComponent {
           )
           break;
         case 10:
-          console.log(this.notas_promedio)
           this.notas_promedio.sort((a:any, b:any) => a < b ? 1 : a > b ? -1 : 0)
       }
       this.booleanValue = !this.booleanValue
@@ -318,6 +315,10 @@ export class TablaComponent {
   }
 
   evaluacion_encargado(id_practica:number, index:number){
+    if(this.ev_value == -1){
+      this.editables[index] = "0"
+      return;
+    }
     let respuesta:any = [];
     this.practi_service.evaluacion_encargado(id_practica, this.ev_value).subscribe({
       next:(data:any) => {
@@ -332,7 +333,6 @@ export class TablaComponent {
     })
     this.editables[index] = "0"
     this.ev_values[index] = this.ev_value;
-    console.log(this.ev_values)
     this.ev_value = -1
   }
 }

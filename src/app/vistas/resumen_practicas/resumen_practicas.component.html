@@ -63,7 +63,7 @@
                                                 <div>
                                                 {{ev_values[indice]}}
                                                 </div>
-                                                <button (click)="editar(indice)">Evaluar</button>
+                                                <button class="btn btn-primary btn-user btn-block" (click)="editar(indice)">Evaluar</button>
                                             </div>
                                             <ng-template #editable>
                                                 <select class="form-select" (input)="checkout($event)">
@@ -74,7 +74,7 @@
                                                     <option value=4>4</option>
                                                     <option value=5>5</option>
                                                 </select>
-                                                <button (click)="evaluacion_encargado(practica.id, indice)">Confirmar</button>
+                                                <button class="btn btn-primary btn-user btn-block" (click)="evaluacion_encargado(practica.id, indice)">Confirmar</button>
                                             </ng-template>
                                         </td>
                                         <td [ngSwitch]="practica.estado" style="vertical-align: middle;">
