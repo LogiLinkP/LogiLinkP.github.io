@@ -16,130 +16,230 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
-                <!-- Page Heading -->
-                <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Estadísticas</h1>
-                    <!-- <h2 class="h3 mb-0 text-gray-800">Respuestas estudiantes al finalizar la páctica</h2> -->
-                    <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                            class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
+                <ul *ngIf="vista_actual=='general'" class="nav nav-pills nav-justified">
+                    <li>
+                        <h1 class="h3 mb-0 text-gray-800" style="padding-top: 3%;">Estadísticas &nbsp; &nbsp; </h1>
+                    </li>
+
+                    <li class="nav-item">
+                      <button class="nav-link active" (click)="cambio_vista('general')">Generales</button>
+                    </li>
+                    <li class="nav-item">
+                      <button class="nav-link" (click)="cambio_vista('aptitudes')">Aptitudes</button>
+                    </li>
+                    <li class="nav-item">
+                      <button class="nav-link" (click)="cambio_vista('remuneracion')">Remuneración</button>
+                    </li>
+                    <li class="nav-item">
+                      <button class="nav-link" (click)="cambio_vista('encuesta')"> Encuesta final</button>
+                    </li>
+                </ul>
+
+                <ul *ngIf="vista_actual=='aptitudes'" class="nav nav-pills nav-justified">
+                    <li>
+                        <h1 class="h3 mb-0 text-gray-800" style="padding-top: 3%;">Estadísticas &nbsp; &nbsp; </h1>
+                    </li>
+
+                    <li class="nav-item">
+                      <button class="nav-link" (click)="cambio_vista('general')">Generales</button>
+                    </li>
+                    <li class="nav-item">
+                      <button class="nav-link active" (click)="cambio_vista('aptitudes')">Aptitudes</button>
+                    </li>
+                    <li class="nav-item">
+                      <button class="nav-link" (click)="cambio_vista('remuneracion')">Remuneración</button>
+                    </li>
+                    <li class="nav-item">
+                      <button class="nav-link" (click)="cambio_vista('encuesta')"> Encuesta final</button>
+                    </li>
+                </ul>
+
+                <ul *ngIf="vista_actual=='remuneracion'" class="nav nav-pills nav-justified">
+                    <li>
+                        <h1 class="h3 mb-0 text-gray-800" style="padding-top: 3%;">Estadísticas &nbsp; &nbsp; </h1>
+                    </li>
+
+                    <li class="nav-item">
+                      <button class="nav-link" (click)="cambio_vista('general')">Generales</button>
+                    </li>
+                    <li class="nav-item">
+                      <button class="nav-link" (click)="cambio_vista('aptitudes')">Aptitudes</button>
+                    </li>
+                    <li class="nav-item">
+                      <button class="nav-link active" (click)="cambio_vista('remuneracion')">Remuneración</button>
+                    </li>
+                    <li class="nav-item">
+                      <button class="nav-link" (click)="cambio_vista('encuesta')"> Encuesta final</button>
+                    </li>
+                </ul>
+
+                <ul *ngIf="vista_actual=='encuesta'" class="nav nav-pills nav-justified">
+                    <li>
+                        <h1 class="h3 mb-0 text-gray-800" style="padding-top: 3%;">Estadísticas &nbsp; &nbsp; </h1>
+                    </li>
+
+                    <li class="nav-item">
+                      <button class="nav-link" (click)="cambio_vista('general')">Generales</button>
+                    </li>
+                    <li class="nav-item">
+                      <button class="nav-link" (click)="cambio_vista('aptitudes')">Aptitudes</button>
+                    </li>
+                    <li class="nav-item">
+                      <button class="nav-link" (click)="cambio_vista('remuneracion')">Remuneración</button>
+                    </li>
+                    <li class="nav-item">
+                      <button class="nav-link active" (click)="cambio_vista('encuesta')"> Encuesta final</button>
+                    </li>
+                </ul>
+
+                <br>
+
+                <div *ngIf="vista_actual=='general'">
+                    Estadisticas Generales
                 </div>
-                <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h2 class="h3 mb-0 text-gray-800">Respuestas de estudiantes al finalizar la práctica</h2>
+
+                <div *ngIf="vista_actual=='aptitudes'">
+                    Estadisticas Aptitudes
                 </div>
 
-                <!-- SELECT CONFIG PRACTICA -->
+                <div *ngIf="vista_actual=='remuneracion'">
+                    Estadisticas Remuneración
+                </div>
 
-                <!-- {{AUX_config_practicas[0].id}} -->
-
-                <!-- <div *ngFor="let config_practica of AUX_config_practicas; let i = index">
-                    {{config_practica.id}}
-                    {{config_practica.nombre}}
-                    <br>
-                    -----------------------
-                </div> -->
-
-                <select name="tipo" id="tipo" (change)="cambiar_config_practica($event)"
-                    class="form-select form-select-sm mb-4 col-4" aria-label="Default select example">
-
-                    <option value="0">Seleccione práctica a mostrar</option>
-                    <option *ngFor="let config_practica of AUX_config_practicas" [value]="config_practica.id">
-                        {{config_practica.nombre}}</option>
-
-
-                    <!-- <option value="0">Seleccione el tipo de respuesta</option>
-                    <option value="1">Abierta</option>
-                    <option value="2">Casillas</option>
-                    <option value="3">Alternativa</option> -->
-                </select>
-
-                <!-- MOSTRANDO PREGUNTAS -->
-
-                <div class="row">
-
-                    <div *ngIf="largo_arreglo(preguntas_mostrar)==0 && id_config_practica_mostrar != 0">
-                        No hay estadísticas para mostrar
+                <div *ngIf="vista_actual=='encuesta'">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h2 class="h3 mb-0 text-gray-800">Respuestas de estudiantes en encuesta realizada al finalizar la práctica</h2>
                     </div>
-
-                    <div class="col-lg-6 mb-4" *ngFor="let pregunta of preguntas_mostrar; let i = index">
-
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">{{pregunta[1]}}
-                                </h6>
-                            </div>
-
-                            <!-- MOSTRANDO OPCIONES DE LA PREGUNTA -->
-
-                            <div class="card-body">
-                                <div *ngFor="let pos of pregunta; let k = index">
-                                    <div *ngIf="!isNumber(pos) && k>1">
-
-                                        <h4 class="small font-weight-bold">{{pregunta[k]}} <span
-                                                class="float-right">{{toInt(pregunta[k+1])}}%</span></h4>
-                                        <div class="progress mb-4">
-                                            <div class="progress-bar" role="progressbar"
-                                                [style]="'width: '+pregunta[k+1]+'%'" aria-valuenow="40"
-                                                aria-valuemin="0" aria-valuemax="100">
+    
+                    <select name="tipo" id="tipo" (change)="cambiar_config_practica($event)"
+                        class="form-select form-select-sm mb-4 col-4" aria-label="Default select example">
+    
+                        <option value="0">Seleccione práctica a mostrar</option>
+                        <option *ngFor="let config_practica of AUX_config_practicas" [value]="config_practica.id">
+                            {{config_practica.nombre}}</option>
+    
+    
+                        <!-- <option value="0">Seleccione el tipo de respuesta</option>
+                        <option value="1">Abierta</option>
+                        <option value="2">Casillas</option>
+                        <option value="3">Alternativa</option> -->
+                    </select>
+    
+                    <!-- MOSTRANDO PREGUNTAS -->
+    
+                    <div class="row">
+    
+                        <div *ngIf="largo_arreglo(preguntas_mostrar)==0 && id_config_practica_mostrar != 0">
+                            No hay estadísticas para mostrar
+                        </div>
+    
+                        <div class="col-lg-6 mb-4" *ngFor="let pregunta of preguntas_mostrar; let i = index">
+    
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">{{pregunta[1]}}
+                                    </h6>
+                                </div>
+    
+                                <!-- MOSTRANDO OPCIONES DE LA PREGUNTA -->
+    
+                                <div class="card-body">
+                                    <div *ngFor="let pos of pregunta; let k = index">
+                                        <div *ngIf="!isNumber(pos) && k>1">
+    
+                                            <h4 class="small font-weight-bold">{{pregunta[k]}} <span
+                                                    class="float-right">{{toInt(pregunta[k+1])}}%</span></h4>
+                                            <div class="progress mb-4">
+                                                <div class="progress-bar" role="progressbar"
+                                                    [style]="'width: '+pregunta[k+1]+'%'" aria-valuenow="40"
+                                                    aria-valuemin="0" aria-valuemax="100">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+    
                     </div>
-
                 </div>
 
+                <!-- <mat-tab-group>
 
-                <!-- Content Row -->
+                    <mat-tab label="Generales"> 
+                        <br>
+                        Estadisticas Generales
+                    </mat-tab>
 
-                <!-- <div class="row">
+                    <mat-tab label="Aptitudes">
+                        <br>
+                        Estadisticas Aptitudes
+                    </mat-tab>
 
+                    <mat-tab label="Remuneración">
+                        <br>
+                        Estadisticas Remuneración
+                    </mat-tab>
+
+                    <mat-tab label="Por tipo de práctica">
+                        <br>
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                            <h2 class="h3 mb-0 text-gray-800">Respuestas de estudiantes en encuesta realizada al finalizar la práctica</h2>
+                        </div>
+        
+                        <select name="tipo" id="tipo" (change)="cambiar_config_practica($event)"
+                            class="form-select form-select-sm mb-4 col-4" aria-label="Default select example">
+        
+                            <option value="0">Seleccione práctica a mostrar</option>
+                            <option *ngFor="let config_practica of AUX_config_practicas" [value]="config_practica.id">
+                                {{config_practica.nombre}}</option>
+        
+        
+                             <option value="0">Seleccione el tipo de respuesta</option>
+                            <option value="1">Abierta</option>
+                            <option value="2">Casillas</option>
+                            <option value="3">Alternativa</option>
+                        </select>
+    
+        
+                        <div class="row">
+        
+                            <div *ngIf="largo_arreglo(preguntas_mostrar)==0 && id_config_practica_mostrar != 0">
+                                No hay estadísticas para mostrar
+                            </div>
+        
+                            <div class="col-lg-6 mb-4" *ngFor="let pregunta of preguntas_mostrar; let i = index">
+        
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">{{pregunta[1]}}
+                                        </h6>
+                                    </div>
+        
+                                   
+        
+                                    <div class="card-body">
+                                        <div *ngFor="let pos of pregunta; let k = index">
+                                            <div *ngIf="!isNumber(pos) && k>1">
+        
+                                                <h4 class="small font-weight-bold">{{pregunta[k]}} <span
+                                                        class="float-right">{{toInt(pregunta[k+1])}}%</span></h4>
+                                                <div class="progress mb-4">
+                                                    <div class="progress-bar" role="progressbar"
+                                                        [style]="'width: '+pregunta[k+1]+'%'" aria-valuenow="40"
+                                                        aria-valuemin="0" aria-valuemax="100">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+        
+                        </div>
+                    </mat-tab>
                     
-                    <div class="col-lg-6 mb-4">
-
-                        
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Enunciado pregunta 1</h6>
-                            </div>
-                            <div class="card-body">
-                                <h4 class="small font-weight-bold">Server Migration <span
-                                        class="float-right">20% {{ancho}}</span></h4>
-                                <div class="progress mb-4">
-                                    <div class="progress-bar bg-danger" role="progressbar" [style]="'width: '+ancho+'%'"
-                                        aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div> 
-                                </div>
-                                <h4 class="small font-weight-bold">Sales Tracking <span
-                                        class="float-right">40%</span></h4>
-                                <div class="progress mb-4">
-                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 40%"
-                                        aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <h4 class="small font-weight-bold">Customer Database <span
-                                        class="float-right">60%</span></h4>
-                                <div class="progress mb-4">
-                                    <div class="progress-bar" role="progressbar" style="width: 60%"
-                                        aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <h4 class="small font-weight-bold">Payout Details <span
-                                        class="float-right">80%</span></h4>
-                                <div class="progress mb-4">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: 80%"
-                                        aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <h4 class="small font-weight-bold">Account Setup <span
-                                        class="float-right">Complete!</span></h4>
-                                <div class="progress">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%"
-                                        aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                        </div>                     
-
-                    </div>
-
-                </div> -->
+                </mat-tab-group> -->
 
             </div>
             <!-- /.container-fluid -->
