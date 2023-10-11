@@ -31,8 +31,6 @@ export class PublicacionesComponent {
   ID_carrera:number = -1;
   ID_encargado:number = -1;
 
-  last_id:number = -1;
-
   constructor(private service_publi:PublicacionesService, private datetime:DatePipe, private fb: FormBuilder,) {
     this.usuario = JSON.parse(localStorage.getItem('auth-user') || '{}').userdata;
     if (this.usuario.es_estudiante == 1) {
@@ -81,23 +79,16 @@ export class PublicacionesComponent {
           })
 
           let temp_publicaciones = aux;
-          respuesta = [];
 
           if(temp_publicaciones.length != 0){
             for(let publi of temp_publicaciones){
               if(publi.isfijo == 1){
                 this.fixed_publicaciones.push(publi)
                 this.fixed_edit_flags.push(0)
-                if (this.last_id <= publi.id){
-                  this.last_id = publi.id
-                }
               }
               else{
                 this.publicaciones.push(publi)
                 this.edit_flags.push(0)
-                if (this.last_id <= publi.id){
-                  this.last_id = publi.id
-                }
               }
             }
           }
@@ -105,51 +96,49 @@ export class PublicacionesComponent {
       })
     }
     else{
-      this.service_publi.obtener_encargado(this.usuario.encargado.id).subscribe({
-        next:(data:any) => {
-          respuesta = {...respuesta, ...data};
-        },
-        error:(error:any) => {
-          console.log(error);
-          return;
-        },
-        complete:() => {
+      this.obtener_como_encargado();
+    } 
+  }
 
-          let aux: Array<any> = respuesta.body.map((notificacion: any) => {
-            notificacion.fecha_og = notificacion.fecha;
-            notificacion.fecha = dayjs(notificacion.fecha, "YYYY-MM-DDTHH:mm:ssZ").format("DD/MM/YYYY HH:mm");
-            return notificacion;
-          });
-          aux.sort(function (a: any, b: any): number {
-            if (a.fecha_og > b.fecha_og) return -1;
-            if (a.fecha_og < b.fecha_og) return 1;
-            return 0;
-          })
-  
-          let temp_publicaciones = aux;
-          respuesta = [];
+  obtener_como_encargado(){
+    let respuesta:any = [];
+    this.service_publi.obtener_encargado(this.usuario.encargado.id).subscribe({
+      next:(data:any) => {
+        respuesta = {...respuesta, ...data};
+      },
+      error:(error:any) => {
+        console.log(error);
+        return;
+      },
+      complete:() => {
 
-          if(temp_publicaciones.length != 0){
-            for(let publi of temp_publicaciones){
-              if(publi.isfijo){
-                this.fixed_publicaciones.push(publi)
-                this.fixed_edit_flags.push(0)
-                if (this.last_id <= publi.id){
-                  this.last_id = publi.id
-                }
-              }
-              else{
-                this.publicaciones.push(publi)
-                this.edit_flags.push(0)
-                if (this.last_id <= publi.id){
-                  this.last_id = publi.id
-                }
-              }
+        let aux: Array<any> = respuesta.body.map((notificacion: any) => {
+          notificacion.fecha_og = notificacion.fecha;
+          notificacion.fecha = dayjs(notificacion.fecha, "YYYY-MM-DDTHH:mm:ssZ").format("DD/MM/YYYY HH:mm");
+          return notificacion;
+        });
+        aux.sort(function (a: any, b: any): number {
+          if (a.fecha_og > b.fecha_og) return -1;
+          if (a.fecha_og < b.fecha_og) return 1;
+          return 0;
+        })
+
+        let temp_publicaciones = aux;
+
+        if(temp_publicaciones.length != 0){
+          for(let publi of temp_publicaciones){
+            if(publi.isfijo){
+              this.fixed_publicaciones.push(publi)
+              this.fixed_edit_flags.push(0)
+            }
+            else{
+              this.publicaciones.push(publi)
+              this.edit_flags.push(0)
             }
           }
         }
-      })
-    } 
+      }
+    })
   }
 
   crear(){
@@ -179,14 +168,13 @@ export class PublicacionesComponent {
         return;
       },
       complete:() => {
+        this.fixed_publicaciones = [];
+        this.publicaciones = [];
+
+        this.obtener_como_encargado();
+
         console.log("Publicación Creada")
         this.create_flag = 0;
-        this.last_id+=1;
-        if(isfijo == true){
-          this.fixed_publicaciones.push({id:this.last_id, id_encargado:this.ID_encargado, id_carrera:this.ID_carrera, titulo:titulo, enunciado:enunciado, fecha:fecha, isfijo:isfijo})
-        } else{
-          this.publicaciones.push({id:this.last_id, id_encargado:this.ID_encargado, id_carrera:this.ID_carrera, titulo:titulo, enunciado:enunciado, fecha:fecha, isfijo:isfijo})
-        }
       }
     })
   }
@@ -217,7 +205,13 @@ export class PublicacionesComponent {
         console.log(error);
       },
       complete:() => {
+        this.fixed_publicaciones = [];
+        this.publicaciones = [];
+        
+        this.obtener_como_encargado();
+        
         console.log("Publicación Editada")
+        /*
         if(fixed == 1 && isfijo == true){
           this.fixed_edit_flags[index] = 0;
           this.fixed_publicaciones[index].titulo = titulo;
@@ -241,6 +235,7 @@ export class PublicacionesComponent {
           this.fixed_publicaciones.push(this.publicaciones[index]);
           this.publicaciones.splice(index, 1);
         }
+        */
       }
     })
   }
@@ -259,14 +254,6 @@ export class PublicacionesComponent {
           this.fixed_publicaciones.splice(index,1)
         } else {
           this.publicaciones.splice(index,1)
-        }
-        
-        this.last_id = -1
-        for( let publi of this.fixed_publicaciones){
-          if(this.last_id <= publi.id) this.last_id = publi.id;
-        }
-        for( let publi of this.publicaciones){
-          if(this.last_id <= publi.id) this.last_id = publi.id;
         }
       }
     })
