@@ -162,9 +162,13 @@ export class PublicacionesComponent {
     let isfijo:boolean;
     if (data.IsFijo == "1"){
       isfijo = true;
-    }else{
+    }else if(data.IsFijo == "0"){
       isfijo = false;
+    } else {
+      return;
     }
+
+    if(titulo == "" || enunciado == "") return;
     
     this.service_publi.nueva_publicacion(this.ID_encargado, this.ID_carrera, titulo, enunciado, fecha, isfijo).subscribe({
       next:() => {
@@ -197,9 +201,13 @@ export class PublicacionesComponent {
 
     if (data.IsFijo == "1"){
       isfijo = true;
-    }else{
+    }else if(data.IsFijo == "0"){
       isfijo = false;
+    } else {
+      return;
     }
+
+    if(titulo == "" || enunciado == "") return;
     
     this.service_publi.editar_publciacion(id,titulo,enunciado).subscribe({
       next:() => {
@@ -251,6 +259,14 @@ export class PublicacionesComponent {
           this.fixed_publicaciones.splice(index,1)
         } else {
           this.publicaciones.splice(index,1)
+        }
+        
+        this.last_id = -1
+        for( let publi of this.fixed_publicaciones){
+          if(this.last_id <= publi.id) this.last_id = publi.id;
+        }
+        for( let publi of this.publicaciones){
+          if(this.last_id <= publi.id) this.last_id = publi.id;
         }
       }
     })
