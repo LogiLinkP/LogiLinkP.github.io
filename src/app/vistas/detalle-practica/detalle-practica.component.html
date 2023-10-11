@@ -401,15 +401,23 @@
                                                         </ng-template>
 
                                                     </tbody>
+                                                </table>
+                                                <table class="table table-bordered hoverTable" id="dataTable" width="100%" cellspacing="0">
                                                     <p></p>
                                                     <thead>
                                                         <h1>Encargado</h1>
                                                     </thead>
                                                     <tbody>
-                                                        <td>Evaluación</td>
-                                                        <td>{{ev_encargado}}</td>
+                                                        <tr>
+                                                            <td class="font-weight-bold">Evaluación</td>
+                                                            <td *ngIf="ev_encargado!=-1; else sinNota">{{ev_encargado}}</td>
+                                                            <ng-template #sinNota>
+                                                                <td>Alumno aún no evaluado</td>
+                                                            </ng-template>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
+
                                             </div>
                                         </div>
                                     </div>
