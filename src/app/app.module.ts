@@ -20,6 +20,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTabsModule } from '@angular/material/tabs';
 
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -151,7 +152,8 @@ import { ConfigPracticaComponent } from './vistas/wizards/config-practica/config
     MatDialogModule,
     MatRadioModule,
     MatTooltipModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTabsModule
   ],
   providers: [
     GetDetallesAlumnoService,

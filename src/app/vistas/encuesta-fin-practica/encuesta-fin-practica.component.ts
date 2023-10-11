@@ -14,6 +14,7 @@ import { CarreraService } from 'src/app/servicios/carrera/carrera.service';
 import { RespuestaRamosService } from 'src/app/servicios/respuesta-ramos/respuesta-ramos.service';
 
 import { PreguntasEncuestaFinalService } from 'src/app/servicios/alumno/preguntas-encuesta-final.service';
+import e from 'express';
 
 @Component({
   selector: 'app-encuesta-fin-practica',
@@ -49,6 +50,25 @@ export class EncuestaFinPracticaComponent {
 
   id_carrera_estudiante = 0;
 
+  error = 0;
+
+  enunciado_ramos = "¿Qué ramos de la carrera te han resultado útiles durante tu práctica?";
+
+  evaluacion_empresa = {
+    "enunciado": "Evalúa la empresa donde realizaste tu práctica entre 1 y 5, considerando qué tanto la recomendarías para que un estudiante realizara su práctica allí",
+    "tipo_respuesta": "alternativas",
+    "opciones": "1;;2;;3;;4;;5"
+  }
+
+  comentario_empresa = {
+    "enunciado": "¿Qué te pareció la empresa donde realizaste tu práctica?",
+    "tipo_respuesta": "abierta",
+  }
+
+  pregunta_sueldo = {
+    "enunciado": "Indica la remuneración mensual que recibiste durante tu práctica. (Recuerda que esta información es anónima y sólo se utiliza para fines estadísticos)",
+    "tipo_respuesta": "abierta",
+  }
   //preguntas_encuesta: object[] = [];
 
   //enunciados_preguntas: string[] = [];
@@ -185,9 +205,8 @@ export class EncuestaFinPracticaComponent {
                       }
                     }
 
-
                     let pregunta_ramos = {
-                      "enunciado": "¿Qué ramos de la carrera te han resultado útiles durante tu práctica?",
+                      "enunciado": this.enunciado_ramos,
                       "tipo_respuesta": "casillas",
                       "opciones": string_ramos
                     }
@@ -200,19 +219,12 @@ export class EncuestaFinPracticaComponent {
 
                     //AGREGANDO PREGUNTAS DE EMPRESA
 
-                    let evaluacion_empresa = {
-                      "enunciado": "Evalúa la empresa donde realizaste tu practica entre 1 y 5 considerando que tanto la recomendarías para que un estudiante realizara su práctica allí",
-                      "tipo_respuesta": "alternativas",
-                      "opciones": "1;;2;;3;;4;;5"
-                    }
+                    
 
-                    let comentario_empresa = {
-                      "enunciado": "¿Qué te pareció la empresa donde realizaste tu práctica?",
-                      "tipo_respuesta": "abierta",
-                    }
-
-                    this.preguntas.push(evaluacion_empresa);
-                    this.preguntas.push(comentario_empresa);
+                    this.preguntas.push(this.pregunta_sueldo);
+                    this.preguntas.push(this.evaluacion_empresa);
+                    this.preguntas.push(this.comentario_empresa);
+                    
 
                   }
                 });
@@ -248,6 +260,16 @@ export class EncuestaFinPracticaComponent {
         });
         return;
       }
+      if(this.preguntas[i].enunciado == this.pregunta_sueldo.enunciado){
+        //revision si respuesta ingresada es un numero
+        if(isNaN(Number(this.respuestas[i]))){
+          this._snackbar.open("Error: el sueldo ingresado debe ser un número", "Cerrar", {
+            duration: 2000,
+            panelClass: ['red-snackbar']
+          });
+          return;
+        }
+      }
     }
 
     // for que envia respuestas
@@ -256,7 +278,7 @@ export class EncuestaFinPracticaComponent {
       let respuesta_aux = "";
 
       //pregunta de ramos
-      if (this.preguntas[i].enunciado == "¿Qué ramos de la carrera te han resultado útiles durante tu práctica?") {
+      if (this.preguntas[i].enunciado == this.enunciado_ramos) {
         let ramos_aux = "";
         for (let j = 0; j < this.respuestas[i].length; j++) {
           if (this.respuestas[i][j]) {
@@ -286,7 +308,7 @@ export class EncuestaFinPracticaComponent {
       }
 
       //pregunta calificacion empresa
-      if (this.preguntas[i].enunciado == "Evalúa la empresa donde realizaste tu practica entre 1 y 5 considerando que tanto la recomendarías para que un estudiante realizara su práctica allí") {
+      else if (this.preguntas[i].enunciado == this.evaluacion_empresa.enunciado) {
         this.servicePreguntas.agregar_calificacion_empresa(this.id_practica, Number(this.respuestas[i])).subscribe({
           next: (data: any) => {
           },
@@ -306,7 +328,7 @@ export class EncuestaFinPracticaComponent {
       }
 
       //pregunta comentario empresa
-      if (this.preguntas[i].enunciado == "¿Qué te pareció la empresa donde realizaste tu práctica?") {
+      else if (this.preguntas[i].enunciado == this.comentario_empresa.enunciado) {
         this.servicePreguntas.agregar_comentario_empresa(this.id_practica, this.respuestas[i]).subscribe({
           next: (data: any) => {
           },
@@ -323,6 +345,31 @@ export class EncuestaFinPracticaComponent {
             });
           }
         });
+      }
+
+      //pregunta sueldo
+      else if(this.preguntas[i].enunciado == this.pregunta_sueldo.enunciado){
+        let sueldo = Number(this.respuestas[i]);
+        //console.log(sueldo);
+        //console.log(this.id_practica);
+        //console.log("Actualizando sueldo practica")
+        this.servicePreguntas.agregar_sueldo_practica(this.id_practica, sueldo).subscribe({
+          next: (data: any) => {
+          },
+          error: (error: any) => {
+            this._snackbar.open("Error al enviar la respuesta", "Cerrar", {
+              duration: 2000,
+              panelClass: ['red-snackbar']
+            });
+          },
+          complete: () => {
+            this._snackbar.open("Encuesta enviada. Redirigiendo a página principal...", "Cerrar", {
+              duration: 3000,
+              panelClass: ['green-snackbar']
+            });
+          }
+        });
+
       }
 
       //pregunta estandar
@@ -357,6 +404,7 @@ export class EncuestaFinPracticaComponent {
         }
         respuestas_aux.push(respuesta_aux);
 
+        
         this.servicePreguntas.agregar_respuesta(this.preguntas[i].id, respuesta_aux).subscribe({
           next: (data: any) => {
           },
@@ -373,6 +421,7 @@ export class EncuestaFinPracticaComponent {
             });
           }
         });
+        
       }
     }
 
