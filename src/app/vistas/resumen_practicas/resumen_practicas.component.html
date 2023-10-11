@@ -32,12 +32,12 @@
                                         <th style="vertical-align: bottom;" (click)="sort(2)">Rut</th>
                                         <th style="vertical-align: bottom;" (click)="sort(3)">Tipo Práctica</th>
                                         <th style="vertical-align: bottom;" (click)="sort(4)">Estado</th>
-                                        <th style="vertical-align: bottom;" (click)="sort(5)">Promedio Evaluación
+                                        <th style="vertical-align: bottom;" (click)="sort(5)">Nota Supervisor
                                             <a class ="pointer" title="{{texto_promedio_evaluacion}}"
                                                 data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
                                                     class="fas fa-info-circle"></i></a>
                                         </th>
-                                        <th style="vertical-align:bottom;" (click)="sort(6)">Evaluación Encargado
+                                        <th style="vertical-align:bottom;" (click)="sort(6)">Nota Encargado
                                             <a class="pointer" title="{{texto_evaluacion_encargado}}"
                                                 data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
                                                     class="fas fa-info-circle"></i></a>
@@ -57,17 +57,17 @@
                                         <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
                                             style="vertical-align: middle;">{{practica.estado}}</td>
                                         <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
-                                            style="vertical-align: middle;">{{notas_promedio[indice]}}</td>
+                                            style="vertical-align: middle;">{{notas_promedio[indice] | number: '1.2-2' }}</td>
                                         <td class="table-item" style="vertical-align: middle;">
                                             <div *ngIf="editables[indice]=='0'; else editable">
-                                                <div>
-                                                {{ev_values[indice]}}
+                                                <div><!-- format the number so that it has 2 decimal places-->
+                                                    {{ ev_values[indice] | number: '1.2-2' }}
                                                 </div>
-                                                <button class="btn btn-primary btn-user btn-block" (click)="editar(indice)">Evaluar</button>
+                                                <button class="btn btn-primary btn-user" (click)="editar(indice)">Evaluar</button>
                                             </div>
                                             <ng-template #editable>
                                                 <select class="form-select" (input)="checkout($event)">
-                                                    <option value=-1 disabled selected>Valorice la práctica</option>
+                                                    <option value=-1 disabled selected>Evalúe la práctica</option>
                                                     <option value=1>1</option>
                                                     <option value=2>2</option>
                                                     <option value=3>3</option>
@@ -93,7 +93,7 @@
                                                 [id_modalidad]="practica.modalidad.id"
                                                 [id_usuario_estudiante]="practica.estudiante.id_usuario">
                                             </app-revision>
-                                            <div *ngSwitchDefault>Esperando evaluacion del supervisor</div>
+                                            <div *ngSwitchDefault>Esperando evaluación del supervisor</div>
                                         </td>
                                     </tr>
                                 </tbody>
