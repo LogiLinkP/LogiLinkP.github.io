@@ -339,4 +339,17 @@ export class TablaComponent {
   isNumber(value: any): boolean {
     return !isNaN(parseFloat(value)) && isFinite(value);
   }
+
+  getEstadoClass(estado: string): string {
+    switch (estado) {
+      case 'Aprobada':
+        return 'text-success';
+      case 'Reprobada':
+        return 'text-danger';
+      case 'Evaluada':
+        return 'text-primary';
+      default:
+        return ''; // Clase por defecto o ninguna clase si no coincide
+    }
+  }
 }
