@@ -42,7 +42,9 @@ export class DetalleAlumnoComponent implements OnInit{
 
   fechasSeleccionadas: Date[][] = [];
 
-  documentos_enviados:number = 1;
+  documentos_enviados:any = [];
+
+  warning_text:string = "No puede finalizar la práctica hasta que subas todos los documentos solicitados";
 
   constructor(private service_datos: ObtenerDatosService , private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, 
               private service_gestion: GestionarService, private service_supervisor: SupervisorService, private router: Router,
@@ -134,7 +136,6 @@ export class DetalleAlumnoComponent implements OnInit{
           error: (error: any) => console.log(error),
           complete: async () => {
             this.practicas = respuesta.body;
-            console.log("Practicas:",this.practicas)
             let index = 0;
 
             // Guardar nombres y practicas en un arreglo
@@ -187,18 +188,20 @@ export class DetalleAlumnoComponent implements OnInit{
               if(practica.documentos.length != 0){
                 for(let docu of practica.documentos){
                   if(docu.key == null){
-                    this.documentos_enviados = 0;
+                    this.documentos_enviados.push(0);
+                    continue
                   }
                 }
               }
               if(practica.documento_extras.length != 0){
                 for(let docuex of practica.documento_extras){
-                  console.log(docuex)
                   if(docuex.key == null){
-                    this.documentos_enviados = 0;
+                    this.documentos_enviados.push(0);
+                    continue
                   }
                 }
-              }            
+              }
+              this.documentos_enviados.push(1);
             }
 
             for (var item of this.practicas){
