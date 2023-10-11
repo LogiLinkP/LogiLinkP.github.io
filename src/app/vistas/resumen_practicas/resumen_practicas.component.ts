@@ -335,4 +335,8 @@ export class TablaComponent {
     this.ev_values[index] = this.ev_value;
     this.ev_value = -1
   }
+
+  isNumber(value: any): boolean {
+    return !isNaN(parseFloat(value)) && isFinite(value);
+  }
 }

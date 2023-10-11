@@ -48,20 +48,24 @@
                                 <tbody>
                                     <tr class="pointer" *ngFor="let practica of practicas; let indice=index">
                                         <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
-                                            style="vertical-align: middle;">{{practica.estudiante.usuario.nombre}}</td>
+                                            style="vertical-align: middle;">{{practica?.estudiante?.usuario?.nombre}}</td>
                                         <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
-                                            style="vertical-align: middle;">{{practica.estudiante.rut}}</td>
+                                            style="vertical-align: middle;">{{practica?.estudiante?.rut}}</td>
                                         <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
                                             style="vertical-align: middle;">
-                                            {{practica.modalidad.config_practica.nombre}}</td>
+                                            {{practica?.modalidad?.config_practica?.nombre}}</td>
                                         <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
-                                            style="vertical-align: middle;">{{practica.estado}}</td>
+                                            style="vertical-align: middle;">{{practica?.estado}}</td>
                                         <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
-                                            style="vertical-align: middle;">{{notas_promedio[indice] | number: '1.2-2' }}</td>
+                                            style="vertical-align: middle;"><!--Check if notas_promedio[indice] is a number-->
+                                            <div *ngIf="isNumber(notas_promedio[indice])">
+                                                {{notas_promedio[indice] | number: '1.2-2' }}
+                                            </div>
+                                        </td>
                                         <td class="table-item" style="vertical-align: middle;">
                                             <div *ngIf="editables[indice]=='0'; else editable">
-                                                <div><!-- format the number so that it has 2 decimal places-->
-                                                    {{ ev_values[indice] | number: '1.2-2' }}
+                                                <div *ngIf="isNumber(ev_values[indice])"><!-- format the number so that it has 2 decimal places-->
+                                                    {{ ev_values[indice] | number: '1.2' }}
                                                 </div>
                                                 <button class="btn btn-primary btn-user" (click)="editar(indice)">Evaluar</button>
                                             </div>
