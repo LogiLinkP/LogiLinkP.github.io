@@ -125,25 +125,13 @@ export class EvaluacionComponent {
                 }
                 //CAMBIOS PREGUNTA EVALUACION
                 else if (pregunta.tipo_respuesta == "evaluacion") {
-                  this.service_supervisor.getAptitudes(this.practica.id).subscribe({
-                    next: data => {
-                      response = { ...response, ...data };
-                    },
-                    error: (error: any) => {
-                      this._snackbar.open("Error al obtener la aptitudes", "Cerrar", {
-                        duration: 2000,
-                        panelClass: ['red-snackbar']
-                      });
-                    },
-                    complete: () => {
-                      this.aptitudes_evaluacion = response.body.data.config_practica.carrera.aptituds;
-                      let array_aux_evaluacion = [];
-                      for (let i = 0; i < this.aptitudes_evaluacion.length; i++) {
-                        array_aux_evaluacion.push(-1);
-                      }
-                      this.respuestas.push(array_aux_evaluacion);
-                    }
-                  });
+                  let array_aux_evaluacion = [];
+                  let array_aux_aptitudes = pregunta.opciones.split(";;");
+                  this.aptitudes_evaluacion = array_aux_aptitudes;
+                  for (let i = 0; i < pregunta.opciones.split(";;").length; i++) {
+                    array_aux_evaluacion.push(-1);
+                  }
+                  this.respuestas.push(array_aux_evaluacion);
                 }
                 else {
                   this.respuestas.push("");
