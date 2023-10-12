@@ -46,10 +46,6 @@
                                                             <td>{{ config.nombre }}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td> Estado:</td>
-                                                            <td>{{ config.activada }}</td> <!-- cambiar por activa -->
-                                                        </tr>
-                                                        <tr>
                                                             <td>Frecuencia de Informes:</td>
                                                             <td>{{ config.frecuencia_informes }}</td>
                                                         </tr>
@@ -60,7 +56,7 @@
                                                     </table>
                                                 </div>
                                                 <div class="card-footer">
-                                                    <button class="btn btn-primary">
+                                                    <button class="btn btn-primary" (click)="seccion_edit='general'" data-toggle="modal" data-target="#editarModal">
                                                         Editar
                                                     </button>
                                                 </div>
@@ -231,10 +227,11 @@
                 </div>
 
             </div>
-        </div>
+        </div>  
     </div>
 </div>
 
 <app-logout-modal></app-logout-modal>
+<app-edicion-simple-modal [seccion]="seccion_edit" (mandarDatosMigrar)=""></app-edicion-simple-modal>
 
 <!-- investigar trim() -->

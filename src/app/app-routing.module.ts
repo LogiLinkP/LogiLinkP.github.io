@@ -30,7 +30,6 @@ import { EstadisticaEmpresasComponent } from './vistas/estadistica-empresas/esta
 import { AdminComponent } from './vistas/admin/admin.component';
 import { CrearCarreraComponent } from './vistas/crear-carrera/crear-carrera.component';
 import { CrearEncargadoComponent } from './vistas/crear-encargado/crear-encargado.component';
-import { AsignacionComponent } from './vistas/asignacion/asignacion.component';
 import { RegistroEncargadoComponent } from './vistas/registro-encargado/registro-encargado.component';
 import { IngresoInformeComponent } from './vistas/ingreso-informe/ingreso-informe.component';
 import { EstudianteVerInformeComponent } from './vistas/estudiante-ver-informe/estudiante-ver-informe.component';
@@ -125,7 +124,6 @@ export const routingComponents = [
   AdminComponent,
   CrearCarreraComponent,
   CrearEncargadoComponent,
-  AsignacionComponent,
   RegistroEncargadoComponent,
   EliminarEncargadoComponent,
   EncuestaFinPracticaComponent,

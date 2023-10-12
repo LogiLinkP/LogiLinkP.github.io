@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ConfigService } from 'src/app/servicios/encargado/config-practica/config.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-vista-configs-practica',
@@ -9,13 +8,15 @@ import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@ang
   styleUrls: ['./vista-configs-practica.component.scss']
 })
 export class VistaConfigsPracticaComponent {
-	disabled: boolean = true;
+	disabled: boolean = true; //const
+
 	user: any = JSON.parse(localStorage.getItem('auth-user') || "{}").userdata;
 	configs: any = {};
 	flag: boolean = false;
-	practicasForm: FormGroup;
+
+	seccion_edit: string;
 	
-	constructor(private service: ConfigService, private snackBar: MatSnackBar, private _fb: FormBuilder) {
+	constructor(private service: ConfigService, private snackBar: MatSnackBar) {
 		//console.log("user: ", this.user);
 
 		let respuesta: any = {};
@@ -35,26 +36,9 @@ export class VistaConfigsPracticaComponent {
 				this.configs = respuesta.body;
 				this.flag = true; //mover para abajo
 				console.log("configs: ", this.configs);
-
-				this.practicasForm = this._fb.group({
-					practicas: this._fb.array([
-						this._fb.group({
-							nombre: ['', [Validators.required]]
-						})
-					])
-				});
 			}
 		});
 	}
 
-	initPracticaCard(): void {
-		const practicasArray = <FormArray>this.practicasForm.controls['practicas'];
-		practicasArray.push(this._fb.group({
-			nombre: ['', [Validators.required]]
-		}));
-	}
-
-	crearSimple() {
-
-	}
+	crearSimple() {}
 }

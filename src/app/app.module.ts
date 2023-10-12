@@ -69,7 +69,6 @@ import { EstadisticaEmpresasComponent } from './vistas/estadistica-empresas/esta
 import { AdminComponent } from './vistas/admin/admin.component';
 import { CrearCarreraComponent } from './vistas/crear-carrera/crear-carrera.component';
 import { CrearEncargadoComponent } from './vistas/crear-encargado/crear-encargado.component';
-import { AsignacionComponent } from './vistas/asignacion/asignacion.component';
 import { BarraLateralAdminComponent } from './componentes/barra-lateral-admin/barra-lateral-admin.component';
 import { RegistroEncargadoComponent } from './vistas/registro-encargado/registro-encargado.component';
 import { IngresoInformeComponent } from './vistas/ingreso-informe/ingreso-informe.component';
@@ -84,6 +83,7 @@ import { EditarCarreraModalComponent } from './componentes/editar-carrera-modal/
 import { RegistroSupervisorComponent } from './vistas/registro-supervisor/registro-supervisor.component';
 import { ConfigPracticaComponent } from './vistas/wizards/config-practica/config-practica.component';
 import { VistaConfigsPracticaComponent } from './vistas/vista-configs-practica/vista-configs-practica.component';
+import { EdicionSimpleModalComponent } from './componentes/edicion-simple-modal/edicion-simple-modal.component';
 
 @NgModule({
   declarations: [
@@ -120,7 +120,6 @@ import { VistaConfigsPracticaComponent } from './vistas/vista-configs-practica/v
     AdminComponent,
     CrearCarreraComponent,
     CrearEncargadoComponent,
-    AsignacionComponent,
     BarraLateralAdminComponent,
     RegistroEncargadoComponent,
     IngresoInformeComponent,
@@ -135,6 +134,7 @@ import { VistaConfigsPracticaComponent } from './vistas/vista-configs-practica/v
     RegistroSupervisorComponent,
     ConfigPracticaComponent,
     VistaConfigsPracticaComponent,
+    EdicionSimpleModalComponent,
   ],
   imports: [
     BrowserModule,
