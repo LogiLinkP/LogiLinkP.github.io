@@ -127,8 +127,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <button type="button" class="btn btn-primary btn-lg btn-block">
-                                                Editar
+                                            <button type="button" class="btn btn-primary btn-lg btn-block" [routerLink]="['/configurar', config.nombre]">
+                                                Edición avanzada
                                             </button>
                                         </div>
                                     </div>
@@ -153,8 +153,8 @@
                             <div class="collapse" id="cardCrear">
                                 <div class="card-body">
                                     <div class="row">
-                                        <!-- sub tarjeta -->
-                                        <div class="card-body col-6">
+                                        <!-- sub tarjeta general -->
+                                        <div class="card-body col-12">
                                             <div class="card shadow mb-4">
                                                 <div class="card-header py-3">
                                                     <h4 class="m-0 font-weight-bold text-primary">
@@ -162,11 +162,27 @@
                                                     </h4>
                                                 </div>
                                                 <div class="card-body">
-                                                    <table>
+                                                    <form>
+                                                        <label for="nombre">Nombre:</label>
+                                                        <input id="nombre" type="text" value="Práctica 1" class="form-control" name="nombre">
+                                                        
+                                                        <br>
+
+                                                        <div class="form-check form-check-inline">
+                                                            <label for="meses" class="form-check-label">Meses:</label>
+                                                            <input id="meses" type="checkbox" class="form-check-input" checked>
+                                                        </div>
+
+                                                        <div class="form-check form-check-inline">
+                                                            <label for="horas" class="form-check-label">Horas:</label>
+                                                            <input id="horas" type="checkbox" class="form-check-input">
+                                                        </div>
+                                                    </form>
+                                                    <!-- <table>
                                                         <tr>
                                                             <td>Nombre:</td>
                                                             <td>
-                                                                <input type="text" placeholder="Practica 1">
+                                                                <input type="text" value="Práctica 1" class="form form-control" name="nombre">
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -177,21 +193,21 @@
                                                             <td>Informe final:</td>
                                                             <td>Si</td>
                                                         </tr> 
-                                                    </table>
+                                                    </table> -->
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <button type="button" class="btn btn-primary btn-lg btn-block">
+                                            <button type="button" class="btn btn-primary btn-lg btn-block" onclick="crearSimple()">
                                                 Crear
                                             </button>
                                         </div>
                                         <div class="col-md-5"></div>
                                         <div class="col-md-4">
                                             <button type="button" class="btn btn-primary btn-lg btn-block" routerLink="/configurar/blanco">
-                                                Configuracion desde cero
+                                                Configurar de cero
                                             </button>
                                         </div>
                                     </div>

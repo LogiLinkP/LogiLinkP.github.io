@@ -1,7 +1,6 @@
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { ConfigService } from 'src/app/servicios/encargado/config-practica/config.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-vista-configs-practica',
@@ -13,7 +12,7 @@ export class VistaConfigsPracticaComponent {
 	configs: any = {};
 	flag: boolean = false;
 	
-	constructor(@Inject(DOCUMENT) private document: Document, private service: ConfigService, private snackBar: MatSnackBar) {
+	constructor(private service: ConfigService, private snackBar: MatSnackBar) {
 		//console.log("user: ", this.user);
 
 		let respuesta: any = {};
@@ -38,8 +37,7 @@ export class VistaConfigsPracticaComponent {
 		});
 	}
 
-	scrollToTop(): void {
-		this.document.body.scrollTop = 0;
-		this.document.documentElement.scrollTop = 0;
+	crearSimple() {
+
 	}
 }

@@ -383,7 +383,7 @@ export class ConfigService {
     }
 
     getConfigsCarrera(id_carrera: number) {
-        const req = new HttpRequest('GET', `${environment.url_back}/config_practica/carrera?id=${id_carrera}`, {
+        const req = new HttpRequest('GET', `${environment.url_back}/config_practica/all/carrera?id=${id_carrera}`, {
             responseType: 'json'
         });
 

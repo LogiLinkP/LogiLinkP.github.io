@@ -1,3 +1,13 @@
 th, td {
     padding: 2px 15px;
 }
+
+input.form-control {
+    width: auto;
+    display: inline-block;
+}
+
+label {
+    display: inline-block;
+    margin-right: 5px;
+}
