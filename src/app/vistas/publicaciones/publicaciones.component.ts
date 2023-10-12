@@ -187,6 +187,7 @@ export class PublicacionesComponent {
 
         console.log("Publicación Creada")
         this.create_flag = 0;
+        this.fecha_flag = 0;
       }
     })
   }
@@ -223,31 +224,6 @@ export class PublicacionesComponent {
         this.obtener_como_encargado();
         
         console.log("Publicación Editada")
-        /*
-        if(fixed == 1 && isfijo == true){
-          this.fixed_edit_flags[index] = 0;
-          this.fixed_publicaciones[index].titulo = titulo;
-          this.fixed_publicaciones[index].enunciado = enunciado;
-        } else if(fixed == 0 && isfijo == false) {
-          this.edit_flags[index] = 0;
-          this.publicaciones[index].titulo = titulo;
-          this.publicaciones[index].enunciado = titulo; 
-        } else if(fixed == 1 && isfijo == false){
-          this.fixed_edit_flags[index] = 0;
-          this.fixed_publicaciones[index].titulo = titulo;
-          this.fixed_publicaciones[index].enunciado = enunciado;
-
-          this.publicaciones.push(this.fixed_publicaciones[index])
-          this.fixed_publicaciones.splice(index, 1)
-        } else if(fixed == 0 && isfijo == true){
-          this.edit_flags[index] = 0;
-          this.publicaciones[index].titulo = titulo;
-          this.publicaciones[index].enunciado = titulo; 
-
-          this.fixed_publicaciones.push(this.publicaciones[index]);
-          this.publicaciones.splice(index, 1);
-        }
-        */
       }
     })
   }
