@@ -20,13 +20,13 @@ export class PublicacionesService {
     return this._http.request(req);
   }
 
-  nueva_publicacion(id_encargado:number, id_carrera:number, titulo:string, enunciado:string, fecha:any, isfijo:boolean){
-    const req = new HttpRequest('POST', `${environment.url_back}/publicacion/crear`, {id_encargado, id_carrera, titulo, enunciado, fecha, isfijo}, {responseType:"text"});
+  nueva_publicacion(id_encargado:number, id_carrera:number, titulo:string, enunciado:string, fecha:any, isfijo:boolean, fecha_programada:any){
+    const req = new HttpRequest('POST', `${environment.url_back}/publicacion/crear`, {id_encargado, id_carrera, titulo, enunciado, fecha, isfijo, fecha_programada}, {responseType:"text"});
     return this._http.request(req);
   }
 
-  editar_publciacion(id:number, titulo:string, enunciado:string){
-    const req = new HttpRequest('PUT', `${environment.url_back}/publicacion/editar`, {id, titulo, enunciado}, {responseType:"text"});
+  editar_publciacion(id:number, titulo:string, enunciado:string, isfijo:boolean){
+    const req = new HttpRequest('PUT', `${environment.url_back}/publicacion/editar`, {id, titulo, enunciado, isfijo}, {responseType:"text"});
     return this._http.request(req);
   }
 

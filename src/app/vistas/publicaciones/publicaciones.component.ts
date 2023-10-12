@@ -24,6 +24,8 @@ export class PublicacionesComponent {
   
   fixed_edit_flags:any = [];
   edit_flags:any = [];
+  
+  fecha_flag = 0;
 
   Titulo:string = "";
   Enunciado:string = "";
@@ -49,7 +51,9 @@ export class PublicacionesComponent {
     this.publiForm = this.fb.group({
       Titulo: ['', [Validators.required, Validators.minLength(3)]],
       Enunciado: ['', [Validators.required, Validators.minLength(3)]],
-      IsFijo:['', [Validators.required]]
+      IsFijo:['', [Validators.required]],
+      fecha_programada1:['', [Validators.required]],
+      fecha_programada2:['', [Validators.required]]
     });
   }
   
@@ -112,6 +116,7 @@ export class PublicacionesComponent {
       },
       complete:() => {
 
+
         let aux: Array<any> = respuesta.body.map((notificacion: any) => {
           notificacion.fecha_og = notificacion.fecha;
           notificacion.fecha = dayjs(notificacion.fecha, "YYYY-MM-DDTHH:mm:ssZ").format("DD/MM/YYYY HH:mm");
@@ -157,9 +162,16 @@ export class PublicacionesComponent {
       return;
     }
 
+    let fecha_programada:any = [];
+
+    if(this.fecha_flag == 1){
+      let fechaF = data.fecha_programada1 + " " + data.fecha_programada2
+      fecha_programada = new Date(fechaF);
+    }
+
     if(titulo == "" || enunciado == "") return;
     
-    this.service_publi.nueva_publicacion(this.ID_encargado, this.ID_carrera, titulo, enunciado, fecha, isfijo).subscribe({
+    this.service_publi.nueva_publicacion(this.ID_encargado, this.ID_carrera, titulo, enunciado, fecha, isfijo, fecha_programada).subscribe({
       next:() => {
 
       },
@@ -197,7 +209,7 @@ export class PublicacionesComponent {
 
     if(titulo == "" || enunciado == "") return;
     
-    this.service_publi.editar_publciacion(id,titulo,enunciado).subscribe({
+    this.service_publi.editar_publciacion(id,titulo,enunciado, isfijo).subscribe({
       next:() => {
 
       },
@@ -269,5 +281,9 @@ export class PublicacionesComponent {
     } else{
       this.edit_flags[index] = 1
     }
+  }
+
+  checkout(arg: any) {
+    this.fecha_flag = Number(arg.target.value)
   }
 }
