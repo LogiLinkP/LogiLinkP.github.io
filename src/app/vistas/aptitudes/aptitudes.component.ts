@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AptitudService } from 'src/app/servicios/encargado/aptitud.service';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: './aptitudes.component.html',
   styleUrls: ['./aptitudes.component.scss']
 })
-export class AptitudesComponent {
+export class AptitudesComponent implements OnInit{
 
   aptitudes: any = [];
   user: any = JSON.parse(localStorage.getItem('auth-user') || "{}").userdata;
@@ -36,10 +36,34 @@ export class AptitudesComponent {
     });
   }
 
-  editar(id: number, nombre: string, rango: number, id_carrera: number){
+  ngOnInit(): void {
+    let response: any = {};
+    this.aptitud.getRango(this.user.encargado.id_carrera).subscribe({
+      next: data => {
+        response = { ...response, ...data }
+      },
+      error: error => {
+        this._snackBar.open("Error al obtener rango", "Cerrar", {
+          panelClass: ['red-snackbar'],
+          duration: 2000
+        });
+      },
+      complete: () => {
+        if (response.status == 200) {
+          this.rango = response.data;
+        } else {
+          this._snackBar.open("Error al obtener rango", "Cerrar", {
+            panelClass: ['red-snackbar'],
+            duration: 2000
+          });
+        }
+      }
+    });
+  }
+
+  editar(id: number, nombre: string, id_carrera: number){
     this.id = id;
     this.nombre = nombre;
-    this.rango = rango;
     this.id_carrera = id_carrera;
   }
 

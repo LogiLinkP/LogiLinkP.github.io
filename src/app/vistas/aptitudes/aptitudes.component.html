@@ -26,23 +26,28 @@
                         <button id="myBtn" class="btn btn-primary mb-2" data-target="#crear-aptitud-modal" data-toggle="modal">
                             Agregar Aptitud
                         </button>
-                        
+                        <br>
+                        <div>
+                            Rango actual: {{rango}}
+                        </div>
+                        <br>
+                        <button id="myBtn" class="btn btn-primary mb-2" data-target="#rango-modal" data-toggle="modal">
+                            Actualizar Rango
+                        </button>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover" id="dataTable" width="100%"
                                 cellspacing="0">
                                 <thead>
                                     <tr>
                                         <th style="vertical-align: bottom;">Aptitud</th>
-                                        <th style="vertical-align: bottom;">Rango</th>
                                         <th style="vertical-align: bottom;">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let aptitud of aptitudes">
                                         <td>{{aptitud.nombre}}</td>
-                                        <td>{{aptitud.rango}}</td>
                                         <td>
-                                            <button class="btn btn-primary" (click)="editar(aptitud.id, aptitud.nombre, aptitud.rango, aptitud.id_carrera)" data-target="#editar-aptitud-modal" data-toggle="modal">Editar</button>
+                                            <button class="btn btn-primary" (click)="editar(aptitud.id, aptitud.nombre, aptitud.id_carrera)" data-target="#editar-aptitud-modal" data-toggle="modal">Editar</button>
                                             <button class="btn btn-danger ml-2" (click)="eliminar(aptitud.id)">Eliminar</button>
                                         </td>
                                     </tr>
@@ -69,7 +74,8 @@
 </a>
 
 <app-crear-aptitud-modal></app-crear-aptitud-modal>
-<app-editar-aptitud-modal [id]="id" [nombre]="nombre" [rango]="rango" [id_carrera]="id_carrera"></app-editar-aptitud-modal>
+<app-editar-aptitud-modal [id]="id" [nombre]="nombre" [id_carrera]="id_carrera"></app-editar-aptitud-modal>
+<app-rango-modal></app-rango-modal>
 
 <!-- Logout Modal-->
 

@@ -11,13 +11,13 @@ export class AptitudService {
 
   constructor(private http: HttpClient) { }
 
-  crearAptitud(id_carrera: number, nombre: string, rango: number){
-    const req = new HttpRequest('POST',`${this.url}/encargado/crear-aptitud`,{id_carrera, nombre, rango});
+  crearAptitud(id_carrera: number, lista: any){
+    const req = new HttpRequest('POST',`${this.url}/encargado/crear-aptitud`,{id_carrera, lista});
     return this.http.request(req);
   }
 
-  editarAptitud(id: number, id_carrera: number, nombre: string, rango: number){
-    const req = new HttpRequest('POST',`${this.url}/encargado/editar-aptitud`,{id, id_carrera, nombre, rango});
+  editarAptitud(id: number, id_carrera: number, nombre: string){
+    const req = new HttpRequest('POST',`${this.url}/encargado/editar-aptitud`,{id, id_carrera, nombre});
     return this.http.request(req);
   }
 
@@ -28,6 +28,16 @@ export class AptitudService {
 
   getAptitudes(id_carrera: number){
     const req = new HttpRequest('POST',`${this.url}/encargado/todos-aptitudes`,{id_carrera});
+    return this.http.request(req);
+  }
+
+  actualizarRango(id_carrera: number, rango: number){
+    const req = new HttpRequest('POST',`${this.url}/encargado/rango`,{id_carrera, rango});
+    return this.http.request(req);
+  }
+
+  getRango(id_carrera: number){
+    const req = new HttpRequest('POST',`${this.url}/encargado/get-rango`,{id_carrera});
     return this.http.request(req);
   }
 }

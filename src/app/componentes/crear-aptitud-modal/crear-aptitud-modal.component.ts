@@ -13,13 +13,11 @@ export class CrearAptitudModalComponent implements OnInit{
 
   aptitudForm: FormGroup;
   nombre: string;
-  rango: number;
   user: any = JSON.parse(localStorage.getItem('auth-user') || "{}").userdata;
 
   createForm(){
     this.aptitudForm = this.fb.group({
       nombre: ['', Validators.required],
-      rango: ['', Validators.required]
     });
   }
 
@@ -34,9 +32,8 @@ export class CrearAptitudModalComponent implements OnInit{
   crear(){
     let data = this.aptitudForm.value;
     let _data: any = {};
-    this.nombre = data.nombre;
-    this.rango = data.rango;
-    this.aptitud.crearAptitud(this.user.encargado.id_carrera, this.nombre, this.rango).subscribe({
+    let lista = this.listar(this.nombre);
+    this.aptitud.crearAptitud(this.user.encargado.id_carrera, lista).subscribe({
       next: data => {
         _data = { ..._data, ...data }
       },
@@ -63,5 +60,13 @@ export class CrearAptitudModalComponent implements OnInit{
         }
       }
     });
+  }
+
+  listar(nombre: string){
+    let lista = nombre.split('\n');
+    for(let i = 0; i < lista.length; i++){
+      lista[i]=lista[i].trim();
+    }
+    return lista;
   }
 }
