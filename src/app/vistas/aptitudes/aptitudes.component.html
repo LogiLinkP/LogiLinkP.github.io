@@ -34,6 +34,7 @@
                         <button id="myBtn" class="btn btn-primary mb-2" data-target="#rango-modal" data-toggle="modal">
                             Actualizar Rango
                         </button>
+                        <br>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover" id="dataTable" width="100%"
                                 cellspacing="0">
@@ -74,7 +75,7 @@
 </a>
 
 <app-crear-aptitud-modal></app-crear-aptitud-modal>
-<app-editar-aptitud-modal [id]="id" [nombre]="nombre" [id_carrera]="id_carrera"></app-editar-aptitud-modal>
+<app-editar-aptitud-modal [id]="id" [n_aptitud]="n_aptitud" [id_carrera]="id_carrera"></app-editar-aptitud-modal>
 <app-rango-modal></app-rango-modal>
 
 <!-- Logout Modal-->

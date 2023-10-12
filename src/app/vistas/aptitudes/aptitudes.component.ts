@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AptitudService } from 'src/app/servicios/encargado/aptitud.service';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,12 +12,12 @@ export class AptitudesComponent implements OnInit{
 
   aptitudes: any = [];
   user: any = JSON.parse(localStorage.getItem('auth-user') || "{}").userdata;
-  nombre: string;
+  n_aptitud: string;
   rango: number;
   id: number;
   id_carrera: number;
 
-  constructor(private aptitud: AptitudService, private _snackBar: MatSnackBar, private fb: FormBuilder, private router: Router) { 
+  constructor(private aptitud: AptitudService, private _snackBar: MatSnackBar, private router: Router) { 
     let _data: any = {};
     this.aptitud.getAptitudes(this.user.encargado.id_carrera).subscribe({
       next: data => {
@@ -34,9 +33,6 @@ export class AptitudesComponent implements OnInit{
         this.aptitudes = _data.body.data;
       }
     });
-  }
-
-  ngOnInit(): void {
     let response: any = {};
     this.aptitud.getRango(this.user.encargado.id_carrera).subscribe({
       next: data => {
@@ -50,7 +46,7 @@ export class AptitudesComponent implements OnInit{
       },
       complete: () => {
         if (response.status == 200) {
-          this.rango = response.data;
+          this.rango = response.body.data;
         } else {
           this._snackBar.open("Error al obtener rango", "Cerrar", {
             panelClass: ['red-snackbar'],
@@ -61,9 +57,13 @@ export class AptitudesComponent implements OnInit{
     });
   }
 
-  editar(id: number, nombre: string, id_carrera: number){
+  ngOnInit(): void {
+    
+  }
+
+  editar(id: number, n_aptitud: string, id_carrera: number){
     this.id = id;
-    this.nombre = nombre;
+    this.n_aptitud = n_aptitud;
     this.id_carrera = id_carrera;
   }
 

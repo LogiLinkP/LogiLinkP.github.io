@@ -32,7 +32,7 @@ export class CrearAptitudModalComponent implements OnInit{
   crear(){
     let data = this.aptitudForm.value;
     let _data: any = {};
-    let lista = this.listar(this.nombre);
+    let lista = this.listar(data.nombre);
     this.aptitud.crearAptitud(this.user.encargado.id_carrera, lista).subscribe({
       next: data => {
         _data = { ..._data, ...data }

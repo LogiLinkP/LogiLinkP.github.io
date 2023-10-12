@@ -23,9 +23,6 @@ export class RangoModalComponent implements OnInit {
 
   constructor(private aptitud: AptitudService, private fb: FormBuilder, private _snackBar: MatSnackBar) {
     this.createForm();
-  }
-
-  ngOnInit(): void {
     let response: any = {};
     this.aptitud.getRango(this.user.encargado.id_carrera).subscribe({
       next: data => {
@@ -39,7 +36,7 @@ export class RangoModalComponent implements OnInit {
       },
       complete: () => {
         if (response.status == 200) {
-          this.actual = response.data;
+          this.actual = response.body.data;
         } else {
           this._snackBar.open("Error al obtener rango", "Cerrar", {
             panelClass: ['red-snackbar'],
@@ -47,7 +44,11 @@ export class RangoModalComponent implements OnInit {
           });
         }
       }
-    })
+    });
+  }
+
+  ngOnInit(): void {
+    
   }
 
   actualizar() {

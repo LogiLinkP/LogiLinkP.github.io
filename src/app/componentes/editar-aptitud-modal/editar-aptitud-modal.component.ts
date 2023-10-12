@@ -11,7 +11,7 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 })
 export class EditarAptitudModalComponent implements OnInit{
   @Input() id: number;
-  @Input() nombre: string;
+  @Input() n_aptitud: string;
   @Input() id_carrera: number;
 
   editarForm: FormGroup;
@@ -19,7 +19,7 @@ export class EditarAptitudModalComponent implements OnInit{
 
   createForm() {
     this.editarForm = this.fb.group({
-      nombre: ['', [Validators.required]],
+      n_aptitud: ['', [Validators.required]],
     });
   }
 
@@ -36,7 +36,7 @@ export class EditarAptitudModalComponent implements OnInit{
     let _data: any = {};
     this.nombre_aptitud = data.nombre;
     if(this.nombre_aptitud == ""){
-      this.nombre_aptitud = this.nombre;
+      this.nombre_aptitud = this.n_aptitud;
     }
     this.aptitud.editarAptitud(this.id, this.id_carrera, this.nombre_aptitud).subscribe({
       next: data => {
