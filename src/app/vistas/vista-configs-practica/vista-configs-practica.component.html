@@ -59,6 +59,9 @@
                                                         </tr> 
                                                     </table>
                                                 </div>
+                                                <div class="card-footer">
+                                                    Editar
+                                                </div>
                                             </div>
                                         </div>
                                         <!-- sub tarjeta  modalidades -->
@@ -124,6 +127,21 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <!-- sub tarjeta pregunta encuesta final -->
+                                        <div class="card-body col-6">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        Preguntas para el alumno al terminar
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p *ngFor="let pregunta of config.pregunta_encuesta_finals; let j = index">
+                                                        {{j+1}}. {{ pregunta.enunciado }} [{{ pregunta.tipo_respuesta }}]
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3">
@@ -132,9 +150,6 @@
                                             </button>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="card-footer">
-                                    footer
                                 </div>
                             </div>
                         </div>
@@ -170,30 +185,14 @@
 
                                                         <div class="form-check form-check-inline">
                                                             <label for="meses" class="form-check-label">Meses:</label>
-                                                            <input id="meses" type="checkbox" class="form-check-input" checked>
+                                                            <input id="meses" type="checkbox" class="form-check-input">
                                                         </div>
 
                                                         <div class="form-check form-check-inline">
                                                             <label for="horas" class="form-check-label">Horas:</label>
-                                                            <input id="horas" type="checkbox" class="form-check-input">
+                                                            <input id="horas" type="checkbox" class="form-check-input" checked>
                                                         </div>
                                                     </form>
-                                                    <!-- <table>
-                                                        <tr>
-                                                            <td>Nombre:</td>
-                                                            <td>
-                                                                <input type="text" value="Práctica 1" class="form form-control" name="nombre">
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Frecuencia de Informes:</td>
-                                                            <td>Sin informe de avance</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Informe final:</td>
-                                                            <td>Si</td>
-                                                        </tr> 
-                                                    </table> -->
                                                 </div>
                                             </div>
                                         </div>
