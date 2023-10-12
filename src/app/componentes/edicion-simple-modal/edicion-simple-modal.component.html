@@ -1,0 +1,31 @@
+<div class="modal fade" id="editarModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edición {{seccion}}</h5>
+            </div>
+            <div class="modal-body">
+                <form class="user" [formGroup]="editarForm">
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <input type="text" class="form-control form-control-user" placeholder="Nombre" formControlName="nombre" (ngModelChange)="check()" (ngModelChange)="print()">
+                            <div *ngIf="editarForm.controls['nombre'].invalid && (editarForm.controls['nombre'].dirty || editarForm.controls['nombre'].touched)"
+                                class="alert alert-danger">
+                                <div *ngIf="editarForm.controls['nombre'].errors?.['required']">
+                                    Campo requerido
+                                </div>
+                                <div *ngIf="editarForm.controls['nombre'].errors?.['minlength']">
+                                    Mínimo 3 caracteres.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" (click)="reset()" data-dismiss="modal">Cancelar</button>
+                <button class="btn btn-success" (click)="guardar()" [disabled]="errors">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
