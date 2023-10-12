@@ -60,7 +60,9 @@
                                                     </table>
                                                 </div>
                                                 <div class="card-footer">
-                                                    Editar
+                                                    <button class="btn btn-primary">
+                                                        Editar
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -92,6 +94,9 @@
                                                     <p *ngFor="let pregunta of config_informe.pregunta_informes; let k = index">
                                                         {{k+1}}. {{pregunta.enunciado}}
                                                     </p>
+                                                </div>
+                                                <div class="card-footer" >
+                                                    <span class="btn btn-primary disabled-button" matTooltip="Se debe editar en configuracion avanzada">Editar</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -125,6 +130,9 @@
                                                         {{j+1}}. {{ pregunta.enunciado }} [{{ pregunta.tipo_respuesta }}]
                                                     </p>
                                                 </div>
+                                                <div class="card-footer" >
+                                                    <span class="btn btn-primary disabled-button" matTooltip="Se debe editar en configuracion avanzada">Editar</span>
+                                                </div>
                                             </div>
                                         </div>
                                         <!-- sub tarjeta pregunta encuesta final -->
@@ -139,6 +147,9 @@
                                                     <p *ngFor="let pregunta of config.pregunta_encuesta_finals; let j = index">
                                                         {{j+1}}. {{ pregunta.enunciado }} [{{ pregunta.tipo_respuesta }}]
                                                     </p>
+                                                </div>
+                                                <div class="card-footer" >
+                                                    <span class="btn btn-primary disabled-button" matTooltip="Se debe editar en configuracion avanzada">Editar</span>
                                                 </div>
                                             </div>
                                         </div>
