@@ -1,0 +1,27 @@
+<div class="modal fade" id="rango-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar</h5>
+            </div>
+            <div class="modal-body">
+                Ingrese una o varias carreras a agregar, para hacerlo utilice una linea por carrera.
+                <form class="asignacion" [formGroup]="editarForm">
+                    <div>
+                        Nombre: <input type="text" name="nombre" id="nombre" formControlName="nombre"
+                            [value]="actual">
+                    </div>
+                </form>
+
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button id="myBtn" type="submit" class="btn btn-primary" data-dismiss="modal" (click)="actualizar()">
+                    Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
