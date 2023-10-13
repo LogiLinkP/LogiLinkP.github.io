@@ -103,7 +103,156 @@
                 </div>
 
                 <div *ngIf="vista_actual=='remuneracion'">
-                    Estadisticas Remuneración
+
+                    <div class="row">
+                        <div class="col-lg-6 mb-4">
+                            <div class="card shadow mb-4">
+                                <a href="#collapseCardTipoPractica" class="d-block card-header py-3"
+                                    data-toggle="collapse" role="button" aria-expanded="true"
+                                    aria-controls="collapseCardTipoPractica">
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Remuneración promedio por tipo de práctica</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardTipoPractica">
+                                    <div class="overflow-auto">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered hover" id="dataTable"
+                                                width="100%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tipo de práctica</th>
+                                                        <th>Remuneración</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr
+                                                        *ngFor="let remuneracion_practica of remuneracion_tipo_practica; let j = index">
+                                                        <th>{{remuneracion_practica.tipo}}</th>
+                                                        <th>{{remuneracion_practica.remuneracion}}</th>
+                                                    </tr>
+                                                    <tr class="table-light">
+                                                        <th>Promedio</th>
+                                                        <th>{{remuneracion_promedio_tipo_practica}}</th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="col-lg-6 mb-4">
+                            <div class="card shadow mb-4">
+                                <a href="#collapseCardCarreraRemuneracion" class="d-block card-header py-3"
+                                    data-toggle="collapse" role="button" aria-expanded="true"
+                                    aria-controls="collapseCardCarreraRemuneracion">
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Remuneración promedio por carrera</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardCarreraRemuneracion">
+                                    <div class="overflow-auto">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered hover" id="dataTable"
+                                                width="100%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Carrera</th>
+                                                        <th>Remuneración</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr
+                                                        *ngFor="let remuneracion_practica of remuneracion_por_carrera; let j = index">
+                                                        <th>{{remuneracion_practica.carrera}}</th>
+                                                        <th>{{remuneracion_practica.remuneracion}}</th>
+                                                    </tr>
+                                                    <tr class="table-light">
+                                                        <th>Promedio</th>
+                                                        <th>{{remuneracion_promedio_por_carrera}}</th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-4">
+                            <div class="card shadow mb-4">
+                                <a href="#collapseCardEmpresaRemuneracion" class="d-block card-header py-3"
+                                    data-toggle="collapse" role="button" aria-expanded="true"
+                                    aria-controls="collapseCardEmpresaRemuneracion">
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Remuneración promedio por empresa</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardEmpresaRemuneracion">
+                                    <div class="overflow-auto">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered hover" id="dataTable"
+                                                width="100%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Empresa</th>
+                                                        <th>Remuneración</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr
+                                                        *ngFor="let remuneracion_practica of remuneracion_por_empresa; let j = index">
+                                                        <th>{{remuneracion_practica.empresa}}</th>
+                                                        <th>{{remuneracion_practica.remuneracion}}</th>
+                                                    </tr>
+                                                    <tr class="table-light">
+                                                        <th>Promedio</th>
+                                                        <th>{{remuneracion_promedio_por_empresa}}</th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-4">
+                            <div class="card shadow mb-4">
+                                <a href="#collapseCardRamoRemuneracion" class="d-block card-header py-3"
+                                    data-toggle="collapse" role="button" aria-expanded="true"
+                                    aria-controls="collapseCardRamoRemuneracion">
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Remuneración promedio por ramo marcado como útil</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardRamoRemuneracion">
+                                    <div class="overflow-auto">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered hover" id="dataTable"
+                                                width="100%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Ramo</th>
+                                                        <th>Remuneración</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr
+                                                        *ngFor="let remuneracion_practica of remuneracion_por_ramo_util; let j = index">
+                                                        <th>{{remuneracion_practica.ramo}}</th>
+                                                        <th>{{remuneracion_practica.remuneracion}}</th>
+                                                    </tr>
+                                                    <tr class="table-light">
+                                                        <th>Promedio</th>
+                                                        <th>{{remuneracion_promedio_por_ramo_util}}</th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div *ngIf="vista_actual=='encuesta'">
@@ -118,11 +267,6 @@
                         <option *ngFor="let config_practica of AUX_config_practicas" [value]="config_practica.id">
                             {{config_practica.nombre}}</option>
     
-    
-                        <!-- <option value="0">Seleccione el tipo de respuesta</option>
-                        <option value="1">Abierta</option>
-                        <option value="2">Casillas</option>
-                        <option value="3">Alternativa</option> -->
                     </select>
     
                     <!-- MOSTRANDO PREGUNTAS -->
