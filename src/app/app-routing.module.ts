@@ -36,6 +36,7 @@ import { ConfigPracticaComponent } from './vistas/wizards/config-practica/config
 
 import { environment } from 'src/environments/environment';
 import { PerfilComponent } from './vistas/perfil/perfil.component';
+import { DocumentacionComponent } from './vistas/documentacion/documentacion.component';
 
 
 const routes: Routes = [
@@ -64,6 +65,7 @@ const routes: Routes = [
   { path: 'blank', component: BlankComponent },
   { path: 'resetPass', component: ForgotPasswordComponent },
   { path: 'estadisticas', component: EstadisticasComponent },
+  { path: 'documentacion', component: DocumentacionComponent},
   { 
     path: 'admin', 
     children: [
@@ -89,6 +91,7 @@ const routes: Routes = [
   { path: 'guias/detalle-estudiante', component: DetalleEstudianteComponent },
   { path: 'guias/config-practica', component: ConfigPracticaComponent },
   { path: 'perfil', component: PerfilComponent},
+  { path: 'documentacion', component: DocumentacionComponent},
   { path: '**', component: PnfComponent },
 ];
 
