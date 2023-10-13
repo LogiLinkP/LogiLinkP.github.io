@@ -65,6 +65,19 @@ export class EstadisticasComponent {
   remuneracion_por_ramo_util: any[] = [];
   remuneracion_promedio_por_ramo_util: number = 0;
 
+  //generales
+
+  alumnos_practica_nombre: string[] = [];
+  alumnos_cursando_practica_cantidad: number[] = [];
+  alumnos_practica_finalizada_cantidad: number[] = [];
+
+  total_alumnos_finalizada_practica_cantidad = 0;
+  total_alumnos_cursando_practica_cantidad = 0;
+
+  top5_empresas: any[] = [];
+  top5_ramos: any[] = [];
+  top5_aptitudes: any[] = [];
+
   id_carrera_encargado = 0;
 
   ngOnInit(): void {
@@ -107,12 +120,61 @@ export class EstadisticasComponent {
             let cantidad_tipos_practicas_remuneracion=0;
             for (let i=0; i<this.AUX_config_practicas.length; i++) {
 
+              this.alumnos_practica_nombre.push(this.AUX_config_practicas[i].nombre);
+              this.alumnos_cursando_practica_cantidad.push(0);
+              this.alumnos_practica_finalizada_cantidad.push(0);
+            }
+
+            for (let i=0; i<this.AUX_config_practicas.length; i++) {
+
+              //let aux_cantidad_cursando = 0;
+              //let aux_cantidad_finalizada = 0;
+              
+              //contando cantidad de alumnos cursando practica y con practica finalizada
+              this.serviceConfig.obtener_practicas_config_practica(this.AUX_config_practicas[i].id).subscribe({
+                next: data => {
+                  //console.log(data);
+                  respuesta = { ...respuesta, ...data };
+                },
+                error: error => {
+                  console.log(error);
+                },
+                complete: () => {
+                  //console.log("practicas_por_config_practica de ID ", this.AUX_config_practicas[i].id, " : ");
+                  //console.log(respuesta.body)
+
+                  let pos_config_practica = this.alumnos_practica_nombre.indexOf(this.AUX_config_practicas[i].nombre);
+
+                  for(i=0;i<respuesta.body.length;i++){
+
+                    if(respuesta.body[i].estado == "Finalizada" || respuesta.body[i].estado == "Aprobada" || respuesta.body[i].estado == "Reprobada") {
+                      this.alumnos_practica_finalizada_cantidad[pos_config_practica]++;
+                      this.total_alumnos_finalizada_practica_cantidad++;
+                    }
+                    else{
+                      this.alumnos_cursando_practica_cantidad[pos_config_practica]++;
+                      this.total_alumnos_cursando_practica_cantidad++;
+                    }
+                  }
+
+                  //this.alumnos_cursando_practica_cantidad.push(aux_cantidad_cursando);
+                  //this.alumnos_practica_finalizada_cantidad.push(aux_cantidad_finalizada);
+
+                  //console.log("alumnos_practica_nombre: ", this.alumnos_practica_nombre);
+                  //console.log("alumnos_cursando_practica_cantidad: ", this.alumnos_cursando_practica_cantidad);
+                  //console.log("alumnos_practica_finalizada_cantidad: ", this.alumnos_practica_finalizada_cantidad);
+                }
+              });
+
+              //---------------------FIN CONTANDO ALUMNOS POR PRACTICA------------------    
+
               if (this.AUX_config_practicas[i].sueldo_promedio !=0 && this.AUX_config_practicas[i].sueldo_promedio != null){
                 this.remuneracion_tipo_practica.push({tipo: this.AUX_config_practicas[i].nombre, remuneracion: this.AUX_config_practicas[i].sueldo_promedio});
                 this.remuneracion_promedio_tipo_practica += this.AUX_config_practicas[i].sueldo_promedio;
                 cantidad_tipos_practicas_remuneracion++;
               } 
             }
+
             this.remuneracion_promedio_tipo_practica = Math.floor(this.remuneracion_promedio_tipo_practica / cantidad_tipos_practicas_remuneracion);
 
             this.serviceEstadisticas.obtener_todas_estadisticas().subscribe({
@@ -200,7 +262,7 @@ export class EstadisticasComponent {
               }
             });
 
-          }
+          } 
         });
       }
     });

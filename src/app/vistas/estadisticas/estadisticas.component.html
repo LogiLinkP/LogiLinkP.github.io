@@ -95,7 +95,125 @@
                 <br>
 
                 <div *ngIf="vista_actual=='general'">
-                    Estadisticas Generales
+                    <div class="row">
+
+                        <div class="col-lg-6 mb-4">
+                            <div class="card shadow mb-4">
+                                <a href="#collapseCardCursandoPractica" class="d-block card-header py-3"
+                                    data-toggle="collapse" role="button" aria-expanded="true"
+                                    aria-controls="collapseCardCursandoPractica">
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Alumnos cursando práctica</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardCursandoPractica">
+                                    <div class="overflow-auto">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered hover" id="dataTable"
+                                                width="100%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tipo de práctica</th>
+                                                        <th>Cantidad de alumnos</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr
+                                                        *ngFor="let practica of alumnos_practica_nombre; let j = index">
+                                                        <th>{{practica}}</th>
+                                                        <th>{{alumnos_cursando_practica_cantidad[j]}}</th>
+                                                    </tr>
+                                                    <tr class="table-light">
+                                                        <th>Total</th>
+                                                        <th>{{total_alumnos_cursando_practica_cantidad}}</th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-4">
+                            <div class="card shadow mb-4">
+                                <a href="#collapseCardPracticaFinalizada" class="d-block card-header py-3"
+                                    data-toggle="collapse" role="button" aria-expanded="true"
+                                    aria-controls="collapseCardPracticaFinalizada">
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Alumnos con práctica finalizada</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardPracticaFinalizada">
+                                    <div class="overflow-auto">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered hover" id="dataTable"
+                                                width="100%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tipo de práctica</th>
+                                                        <th>Cantidad de alumnos</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr
+                                                        *ngFor="let practica of alumnos_practica_nombre; let j = index">
+                                                        <th>{{practica}}</th>
+                                                        <th>{{alumnos_practica_finalizada_cantidad[j]}}</th>
+                                                    </tr>
+                                                    <tr class="table-light">
+                                                        <th>Total</th>
+                                                        <th>{{total_alumnos_finalizada_practica_cantidad}}</th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-4">
+                            <div class="card shadow mb-4">
+                                <a href="#collapseCard5Empresas" class="d-block card-header py-3"
+                                    data-toggle="collapse" role="button" aria-expanded="true"
+                                    aria-controls="collapseCard5Empresas">
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Top 5 empresas mejor valoradas</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCard5Empresas">
+                                    tabla con nombre y calificacion
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-4">
+                            <div class="card shadow mb-4">
+                                <a href="#collapseCard5Ramos" class="d-block card-header py-3"
+                                    data-toggle="collapse" role="button" aria-expanded="true"
+                                    aria-controls="collapseCard5Ramos">
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Top 5 ramos más útiles</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCard5Ramos">
+                                    mostrar ramos y porcentajes (sacar de estadisticas ramos alumnos)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-4">
+                            <div class="card shadow mb-4">
+                                <a href="#collapseCard5Aptitudes" class="d-block card-header py-3"
+                                    data-toggle="collapse" role="button" aria-expanded="true"
+                                    aria-controls="collapseCardAptitudes">
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Top 5 aptitudes mejor valoradas</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCard5Aptitudes">
+                                    tabla con nombre aptitud y calificacion promedio
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
 
                 <div *ngIf="vista_actual=='aptitudes'">
