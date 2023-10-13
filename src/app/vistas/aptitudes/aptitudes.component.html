@@ -18,15 +18,15 @@
 
                 <!-- Page Heading -->
                 <div class="h2 mb-2 font-weight-bold text-gray-800">Aptitudes</div>
-                <p class="mb-4">Aqui se ve una lista de aptitudes asociadas a cada estudiante</p>
+                <p class="mb-4">Aqui se ve una lista de aptitudes asociadas a cada estudiante en conjunto con el rango de evaluacion de cada aptitud</p>
 
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
                     <div class="card-body">
-                        
                         <div>
                             Rango de evaluacion actual: <ng-template [ngIf]="!flag" [ngIfElse]="warning">{{rango}}</ng-template> <ng-template #warning>No hay un rango de evaluacion disponible</ng-template>
-                        </div><br>
+                        </div>
+                        <br>
                         <button id="myBtn" class="btn btn-primary mb-2" data-target="#rango-modal" data-toggle="modal" [disabled]="!if_aptitud">
                             Actualizar Rango de evaluacion
                         </button>
