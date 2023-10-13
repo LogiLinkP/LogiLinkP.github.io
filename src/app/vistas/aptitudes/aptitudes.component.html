@@ -28,7 +28,7 @@
                         </button>
                         <br>
                         <div>
-                            Rango de evaluacion actual: {{rango}}
+                            Rango de evaluacion actual: <ng-template [ngIf]="!flag" [ngIfElse]="warning">{{rango}}</ng-template> <ng-template #warning>No hay un rango de evaluacion disponible</ng-template>
                         </div>
                         <br>
                         <button id="myBtn" class="btn btn-primary mb-2" data-target="#crear-aptitud-modal" data-toggle="modal">

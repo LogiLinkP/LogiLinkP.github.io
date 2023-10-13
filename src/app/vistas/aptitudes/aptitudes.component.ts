@@ -16,6 +16,7 @@ export class AptitudesComponent implements OnInit{
   rango: number;
   id: number;
   id_carrera: number;
+  flag: boolean = false;
 
   constructor(private aptitud: AptitudService, private _snackBar: MatSnackBar, private router: Router) { 
     let _data: any = {};
@@ -47,6 +48,9 @@ export class AptitudesComponent implements OnInit{
       complete: () => {
         if (response.status == 200) {
           this.rango = response.body.data;
+          if (this.rango == 0) {
+            this.flag = true;
+          }
         } else {
           this._snackBar.open("Error al obtener rango", "Cerrar", {
             panelClass: ['red-snackbar'],
