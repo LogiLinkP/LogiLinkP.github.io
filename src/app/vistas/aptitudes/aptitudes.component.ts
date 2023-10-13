@@ -17,6 +17,7 @@ export class AptitudesComponent implements OnInit{
   id: number;
   id_carrera: number;
   flag: boolean = false;
+  if_aptitud: boolean;
 
   constructor(private aptitud: AptitudService, private _snackBar: MatSnackBar, private router: Router) { 
     let _data: any = {};
@@ -57,6 +58,21 @@ export class AptitudesComponent implements OnInit{
             duration: 2000
           });
         }
+      }
+    });
+    let respuesta: any = {};
+    this.aptitud.ifAptitudes(this.user.encargado.id_carrera).subscribe({
+      next: data => {
+        respuesta = { ...respuesta, ...data }
+      },
+      error: error => {
+        this._snackBar.open("Error al obtener aptitudes", "Cerrar", {
+          panelClass: ['red-snackbar'],
+          duration: 2000
+        });
+      },
+      complete: () => {
+        this.if_aptitud = respuesta.body.data;
       }
     });
   }

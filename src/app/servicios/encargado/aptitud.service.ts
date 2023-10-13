@@ -40,4 +40,9 @@ export class AptitudService {
     const req = new HttpRequest('POST',`${this.url}/encargado/get-rango`,{id_carrera});
     return this.http.request(req);
   }
+
+  ifAptitudes(id_carrera: number){
+    const req = new HttpRequest('POST',`${this.url}/encargado/if-aptitudes`,{id_carrera});
+    return this.http.request(req);
+  }
 }
