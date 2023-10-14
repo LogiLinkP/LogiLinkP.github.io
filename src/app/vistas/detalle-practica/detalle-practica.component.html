@@ -251,7 +251,7 @@
                                                         <tr>
                                                             <th>Tipo</th>
                                                             <th>Horas Trabajadas</th>
-                                                            <th>Fecha Subido</th>
+                                                            <th>Fecha</th>
                                                             <th>Ver Informe</th>
                                                         </tr>
                                                     </thead>
@@ -260,7 +260,7 @@
                                                             <td>{{ informe.config_informe.tipo_informe }}</td>
                                                             <td>{{ informe.horas_trabajadas }}</td>
                                                             <td>{{ informe.fecha | date: 'dd/MM/yyyy' }}</td>
-                                                            <td>
+                                                            <td *ngIf="informe.key != null && !isDataEmpty(informe.key); else informeNoRespondido">
                                                                 <a class="nostyle"
                                                                     href="/informe/{{practica.id}}/{{informe.id}}">
                                                                     <button class="btn btn-primary btn-sm btn-block">
@@ -268,6 +268,11 @@
                                                                     </button>
                                                                 </a>
                                                             </td>
+                                                            <ng-template #informeNoRespondido>
+                                                                <td>
+                                                                    No subido aún
+                                                                </td>
+                                                            </ng-template>
                                                         </tr>                                                        
                                                     </tbody>
                                                 </table>
