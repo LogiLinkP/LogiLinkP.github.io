@@ -1,0 +1,11 @@
+.chatWidget {
+    max-height: 500px;
+    overflow: auto;
+}
+
+.fixed-header {
+    position: sticky;
+    top: 0;
+    background-color: #fff; /* Set a background color to match your design */
+    z-index: 1;
+}
