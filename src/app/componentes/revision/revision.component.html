@@ -1,4 +1,14 @@
-<div class="container">
+<div *ngIf="this.cambiar_estado; else botonCambiarEstado" class="container">
     <button class="btn btn-success btn-md ml-1 mr-1 mt-1 mb-1"  (click)="aprobar(1)">Aprobar</button>
     <button class="btn btn-danger btn-md ml-1 mr-1 mt-1 mb-1" (click)="aprobar(0)">Reprobar</button>
 </div>
+<ng-template #botonCambiarEstado>
+    <div class="container" *ngIf="this.estado_practica=='Aprobada'; else cambiarAAprobada">
+        <button class="btn btn-secondary ml-1 mr-1 mt-1 mb-1"  (click)="aprobar(0)">Cambiar a "Reprobada"</button>
+    </div>
+    <ng-template #cambiarAAprobada>
+        <div class="container">
+            <button class="btn btn-secondary btn-md ml-1 mr-1 mt-1 mb-1"  (click)="aprobar(1)">Cambiar a "Aprobada"</button>
+        </div>
+    </ng-template>
+</ng-template>

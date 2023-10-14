@@ -54,8 +54,9 @@
                                         <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
                                             style="vertical-align: middle;">
                                             {{practica?.modalidad?.config_practica?.nombre}}</td>
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
-                                            style="vertical-align: middle;">{{practica?.estado}}</td>
+                                        <td class="table-item font-weight-bold" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
+                                            style="vertical-align: middle;" [ngClass]="getEstadoClass(practica.estado)">
+                                            {{ practica?.estado === 'Evaluada' ? 'Evaluada por supervisor' : practica?.estado }}</td>
                                         <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
                                             style="vertical-align: middle;"><!--Check if notas_promedio[indice] is a number-->
                                             <div *ngIf="isNumber(notas_promedio[indice])">
@@ -67,7 +68,10 @@
                                                 <div *ngIf="isNumber(ev_values[indice])"><!-- format the number so that it has 2 decimal places-->
                                                     {{ ev_values[indice] | number: '1.2' }}
                                                 </div>
-                                                <button class="btn btn-primary btn-user" (click)="editar(indice)">Evaluar</button>
+                                                <button *ngIf="!isNumber(ev_values[indice]); else yaEvaluado" class="btn btn-primary btn-user" (click)="editar(indice)">Evaluar</button>
+                                                <ng-template #yaEvaluado>
+                                                    <button class="btn btn-secondary btn-user"  (click)="editar(indice)">Cambiar</button>
+                                                </ng-template>
                                             </div>
                                             <ng-template #editable>
                                                 <select class="form-select" (input)="checkout($event)">
@@ -85,17 +89,23 @@
                                             <app-revision *ngSwitchCase="'Evaluada'"
                                                 [id_estudiante]="practica.id_estudiante"
                                                 [id_modalidad]="practica.modalidad.id"
-                                                [id_usuario_estudiante]="practica.estudiante.id_usuario">
+                                                [id_usuario_estudiante]="practica.estudiante.id_usuario"
+                                                [estado_practica]="practica.estado"
+                                            >
                                             </app-revision>
                                             <app-revision *ngSwitchCase="'Aprobada'"
                                                 [id_estudiante]="practica.id_estudiante"
                                                 [id_modalidad]="practica.modalidad.id"
-                                                [id_usuario_estudiante]="practica.estudiante.id_usuario">
+                                                [id_usuario_estudiante]="practica.estudiante.id_usuario"
+                                                [estado_practica]="practica.estado"
+                                            >
                                             </app-revision>
                                             <app-revision *ngSwitchCase="'Reprobada'"
                                                 [id_estudiante]="practica.id_estudiante"
                                                 [id_modalidad]="practica.modalidad.id"
-                                                [id_usuario_estudiante]="practica.estudiante.id_usuario">
+                                                [id_usuario_estudiante]="practica.estudiante.id_usuario"
+                                                [estado_practica]="practica.estado"
+                                            >
                                             </app-revision>
                                             <div *ngSwitchDefault>Esperando evaluación del supervisor</div>
                                         </td>
