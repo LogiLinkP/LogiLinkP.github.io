@@ -112,6 +112,7 @@ export class DetallePracticaComponent implements OnInit {
         },
         complete: () => {
           this.practica = respuesta.body;
+          //console.log(this.practica);
           this.check_resumen();
 
           if(this.practica.ev_encargado==null){
@@ -208,21 +209,21 @@ export class DetallePracticaComponent implements OnInit {
                 }
               }
               respuestas_traducidas = respuestas_traducidas.slice(0, -2);
-              console.log(respuestas_traducidas);
+              //console.log(respuestas_traducidas);
               this.respuestas_supervisor[i].respuesta = respuestas_traducidas;
             }
           }
 
           if(this.practica.informes.length > 0){
-            console.log(this.practica.informes[0].key)
+            //console.log(this.practica.informes[0].key)
 
             //respuestas preguntas
             let lista_informes = Object.values(this.practica.informes[0].key)
-            console.log(lista_informes)
+            //console.log(lista_informes)
 
             //id preguntas
             let keys = Object.keys(this.practica.informes[0].key)
-            console.log(keys)
+            //console.log(keys)
 
             let preguntas_informe: any = []
 
@@ -243,7 +244,7 @@ export class DetallePracticaComponent implements OnInit {
 
                   if (i == keys.length - 1) {
 
-                    console.log(preguntas_informe)
+                    //console.log(preguntas_informe)
                     //console.log(preguntas_informe.length)
 
                     //orednar preguntas informe
@@ -257,8 +258,8 @@ export class DetallePracticaComponent implements OnInit {
                       }
                     }
 
-                    console.log("preguntas informe ordenadas")
-                    console.log(preguntas_informe_ordenadas)
+                    //console.log("preguntas informe ordenadas")
+                    //console.log(preguntas_informe_ordenadas)
 
                     let preguntas_respuestas_informes_aux = []
 
@@ -267,8 +268,8 @@ export class DetallePracticaComponent implements OnInit {
                       preguntas_respuestas_informes_aux.push(lista_informes[i])
                     }
 
-                    console.log("preguntas_respuestas_informes")
-                    console.log(preguntas_respuestas_informes_aux)
+                    //console.log("preguntas_respuestas_informes")
+                    //console.log(preguntas_respuestas_informes_aux)
 
                     this.preguntas_respuestas_informe = preguntas_respuestas_informes_aux
 
@@ -344,7 +345,7 @@ export class DetallePracticaComponent implements OnInit {
         data = { ...data, ..._data };
       },
       complete: () => {
-        console.log(data.body)
+        //console.log(data.body)
         if (!data.body) {
           this._snackBar.open("Error al solicitar resumen, por favor vuelva más tarde", "Cerrar", {
             panelClass: ['red-snackbar'],
@@ -447,7 +448,7 @@ export class DetallePracticaComponent implements OnInit {
 
     //console.log(keys)
 
-    console.log(this.preguntas_respuestas_informe)
+    //console.log(this.preguntas_respuestas_informe)
 
     for (let i = 0; i < this.preguntas_respuestas_informe.length; i++) {
       var palabras_informe = this.preguntas_respuestas_informe[i].split(" ")
@@ -685,7 +686,7 @@ export class DetallePracticaComponent implements OnInit {
             return;
           },
           complete: () => {
-            console.log("Notificación enviada con éxito");
+            //console.log("Notificación enviada con éxito");
             window.location.reload()
           }
         });

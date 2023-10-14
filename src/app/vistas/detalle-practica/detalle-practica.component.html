@@ -151,7 +151,7 @@
                     <!-- Fila de Información general y Archivos -->
                     <div class="row">
                         <!-- Tarjeta Información general -->
-                        <div class="col-lg-12">
+                        <div class="col-lg-6">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Accordion -->
                                 <a href="#collapseCardGeneral" class="d-block card-header py-3" data-toggle="collapse"
@@ -167,13 +167,8 @@
                                             </div>
                                             <div class="col-6">
                                                 {{ practica?.estudiante?.usuario.correo }}
-                                            </div>
-                                            <div class="col-6">
-                                                Correo Supervisor:
-                                            </div>
-                                            <div class="col-6">
-                                                {{ practica?.supervisor?.correo }}
-                                            </div>
+                                            </div>                                            
+                                            
                                             <div class="col-6">
                                                 Horas Trabajadas:
                                             </div>
@@ -200,6 +195,40 @@
                                 </div>
                             </div>
                         </div><!-- Fin Tarjeta Información general -->
+
+                        <!-- Tarjeta Información Empresa -->
+                        <div class="col-lg-6">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Accordion -->
+                                <a href="#collapseCardEmpresa" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardEmpresa">
+                                    <h6 class="m-0 font-weight-bold text-primary">Información Empresa</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardEmpresa">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-6">                                                
+                                                Correo Supervisor:
+                                            </div>
+                                            <div class="col-6">
+                                                {{ practica?.supervisor?.correo }}
+                                            </div>
+                                            <div class="col-6">                                                
+                                                ¿Empresa verificada?:
+                                            </div>
+                                            <div class="col-6">
+                                                <i *ngIf="practica?.empresa?.empresa_verificada" title="Empresa verificada"
+                                                    class="fa-solid fa-check"></i>
+                                                <i *ngIf="!practica?.empresa?.empresa_verificada" title="Empresa no verificada"
+                                                    class="fa-solid fa-times"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- Fin Tarjeta Información Empresa -->
+
                     </div><!-- Fin Fila -->
 
                     <div class="row">

@@ -2,16 +2,17 @@ thead th {
     text-align: center;
     color: #727272;
     vertical-align: middle;
-    background-color: #e7e7e7;
-    border-color: #d6d6d6;
-    position: sticky;
-    top: 0;
 }
 
 tbody{
+    max-height: calc(100vh - 350px);
     display: block;
     overflow: auto;
-    max-height: 60vh;
+}
+
+thead :hover{
+    background-color: #e7e7e7;
+    cursor: pointer;
 }
 
 thead, tbody tr {
@@ -37,4 +38,8 @@ tbody tr td {
 
 .pointer {
     cursor: pointer;
+}
+
+.headerTabla {
+    width: calc(100% - 16px);
 }
