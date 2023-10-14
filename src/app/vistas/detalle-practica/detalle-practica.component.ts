@@ -213,73 +213,71 @@ export class DetallePracticaComponent implements OnInit {
             }
           }
 
-          console.log(this.practica.informes[0].key)
+          if(this.practica.informes.length > 0){
+            console.log(this.practica.informes[0].key)
 
-          //respuestas preguntas
-          let lista_informes = Object.values(this.practica.informes[0].key)
-          console.log(lista_informes)
+            //respuestas preguntas
+            let lista_informes = Object.values(this.practica.informes[0].key)
+            console.log(lista_informes)
 
-          //id preguntas
-          let keys = Object.keys(this.practica.informes[0].key)
-          console.log(keys)
+            //id preguntas
+            let keys = Object.keys(this.practica.informes[0].key)
+            console.log(keys)
 
-          let preguntas_informe: any = []
+            let preguntas_informe: any = []
 
-          for (let i = 0; i < keys.length; i++) {
-            this.service_informe.get_pregunta_informe(Number(keys[i])).subscribe({
-              next: (data: any) => {
-                respuesta = { ...respuesta, ...data }
-              },
-              error: (error: any) => {
-                this._snackBar.open("Error al buscar configuracion de practica", "Cerrar", {
-                  duration: 3000,
-                  panelClass: ['red-snackbar']
-                });
-                console.log("Error al buscar configuracion de practica", error);
-              },
-              complete: () => {
-                preguntas_informe.push(respuesta.body)
+            for (let i = 0; i < keys.length; i++) {
+              this.service_informe.get_pregunta_informe(Number(keys[i])).subscribe({
+                next: (data: any) => {
+                  respuesta = { ...respuesta, ...data }
+                },
+                error: (error: any) => {
+                  this._snackBar.open("Error al buscar configuracion de practica", "Cerrar", {
+                    duration: 3000,
+                    panelClass: ['red-snackbar']
+                  });
+                  console.log("Error al buscar configuracion de practica", error);
+                },
+                complete: () => {
+                  preguntas_informe.push(respuesta.body)
 
-                if (i == keys.length - 1) {
+                  if (i == keys.length - 1) {
 
-                  console.log(preguntas_informe)
-                  //console.log(preguntas_informe.length)
+                    console.log(preguntas_informe)
+                    //console.log(preguntas_informe.length)
 
-                  //orednar preguntas informe
-                  let preguntas_informe_ordenadas: any = []
+                    //orednar preguntas informe
+                    let preguntas_informe_ordenadas: any = []
 
-                  for (let id of keys) {
-                    for (let pregunta of preguntas_informe) {
-                      if (pregunta.id == id) {
-                        preguntas_informe_ordenadas.push(pregunta.enunciado)
+                    for (let id of keys) {
+                      for (let pregunta of preguntas_informe) {
+                        if (pregunta.id == id) {
+                          preguntas_informe_ordenadas.push(pregunta.enunciado)
+                        }
                       }
                     }
+
+                    console.log("preguntas informe ordenadas")
+                    console.log(preguntas_informe_ordenadas)
+
+                    let preguntas_respuestas_informes_aux = []
+
+                    for (let i = 0; i < preguntas_informe_ordenadas.length; i++) {
+                      preguntas_respuestas_informes_aux.push(preguntas_informe_ordenadas[i])
+                      preguntas_respuestas_informes_aux.push(lista_informes[i])
+                    }
+
+                    console.log("preguntas_respuestas_informes")
+                    console.log(preguntas_respuestas_informes_aux)
+
+                    this.preguntas_respuestas_informe = preguntas_respuestas_informes_aux
+
                   }
-
-                  console.log("preguntas informe ordenadas")
-                  console.log(preguntas_informe_ordenadas)
-
-                  let preguntas_respuestas_informes_aux = []
-
-                  for (let i = 0; i < preguntas_informe_ordenadas.length; i++) {
-                    preguntas_respuestas_informes_aux.push(preguntas_informe_ordenadas[i])
-                    preguntas_respuestas_informes_aux.push(lista_informes[i])
-                  }
-
-                  console.log("preguntas_respuestas_informes")
-                  console.log(preguntas_respuestas_informes_aux)
-
-                  this.preguntas_respuestas_informe = preguntas_respuestas_informes_aux
-
                 }
-              }
-            });
-          }
-
+              });
+            }
           //console.log(preguntas_informe)
-
-
-
+          }
 
         }
       }); // fin request para obtener la practica  
