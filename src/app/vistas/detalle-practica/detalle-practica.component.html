@@ -216,7 +216,7 @@
                                     <div class="card-body">
                                         <div class="overflow-auto">
                                             <div class="table-responsive ">
-                                                <table class="table table-bordered hoverTable" id="dataTable"
+                                                <table class="table table-bordered hoverTable" id="dataTable" *ngIf="informes.length>0; else noHayInformes"
                                                     width="100%" cellspacing="0">
                                                     <thead>
                                                         <tr>
@@ -227,28 +227,26 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <div *ngIf="informes.length>0; else noHayInformes" >
-                                                            <tr *ngFor="let informe of informes;">
-                                                                <td>{{ informe.config_informe.tipo_informe }}</td>
-                                                                <td>{{ informe.horas_trabajadas }}</td>
-                                                                <td>{{ informe.fecha | date: 'dd/MM/yyyy' }}</td>
-                                                                <td>
-                                                                    <a class="nostyle"
-                                                                        href="/informe/{{practica.id}}/{{informe.id}}">
-                                                                        <button class="btn btn-primary btn-sm btn-block">
-                                                                            Ver Informe
-                                                                        </button>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                        </div>
-                                                        <ng-template #noHayInformes>
-                                                            <tr>
-                                                                <td colspan="4" class="text-center">No hay informes asociados a esta práctica.</td>
-                                                            </tr>
-                                                        </ng-template>
+                                                        <tr *ngFor="let informe of informes;">
+                                                            <td>{{ informe.config_informe.tipo_informe }}</td>
+                                                            <td>{{ informe.horas_trabajadas }}</td>
+                                                            <td>{{ informe.fecha | date: 'dd/MM/yyyy' }}</td>
+                                                            <td>
+                                                                <a class="nostyle"
+                                                                    href="/informe/{{practica.id}}/{{informe.id}}">
+                                                                    <button class="btn btn-primary btn-sm btn-block">
+                                                                        Ver Informe
+                                                                    </button>
+                                                                </a>
+                                                            </td>
+                                                        </tr>                                                        
                                                     </tbody>
                                                 </table>
+                                                <ng-template #noHayInformes>
+                                                    <tr>
+                                                        <td colspan="4" class="text-center">No hay informes asociados a esta práctica.</td>
+                                                    </tr>
+                                                </ng-template>
                                             </div>
                                         </div>
                                     </div>
@@ -269,8 +267,8 @@
                                     <div class="card-body">
                                         <div class="overflow-auto">
                                             <div class="table-responsive">
-                                                <table class="table table-bordered hoverTable" id="dataTable"
-                                                    width="100%" cellspacing="0">
+                                                <table class="table table-bordered hoverTable" id="dataTable" width="100%" cellspacing="0"
+                                                *ngIf="solicitudes_documentos.length>0 || documento_extras.length>0; else noHaySolicitudes">
                                                     <thead>
                                                         <tr>
                                                             <th>Archivo</th>
@@ -280,40 +278,38 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <div *ngIf="solicitudes_documentos.length>0 || documento_extras.length>0; else noHaySolicitudes">
-                                                            <tr *ngFor="let solicitud of solicitudes_documentos;">
-                                                                <td>{{solicitud.nombre_solicitud}}</td>
-                                                                <td>{{solicitud.tipo_archivo}}</td>
-                                                                <td>Normal</td>
-                                                                <td><button class="btn btn-primary btn-sm btn-block"
-                                                                        *ngIf="solicitud.documentos.length != 0; else no_doc"
-                                                                        (click)="descargar_documento(solicitud.documentos[0].id, doc_str)">Descargar</button>
-                                                                    <ng-template #no_doc>
-                                                                        <b>No subido aún</b>
-                                                                    </ng-template>
-                                                                </td>
-                                                            </tr>
-                                                            <tr *ngFor="let doc_extra of documento_extras;">
-                                                                <td>{{doc_extra.nombre_solicitud}}</td>
-                                                                <td>{{doc_extra.tipo_archivo}}</td>
-                                                                <td>Extra</td>
-                                                                <td><button
-                                                                        *ngIf="doc_extra.key!=null && doc_extra.key!=''; else no_doc_extra"
-                                                                        class="btn btn-primary btn-sm btn-block"
-                                                                        (click)="descargar_documento(doc_extra.id, doc_extra_str)">Descargar</button>
-                                                                    <ng-template #no_doc_extra>
-                                                                        <b>No subido aún</b>
-                                                                    </ng-template>
-                                                                </td>
-                                                            </tr>
-                                                        </div>
-                                                        <ng-template #noHaySolicitudes>
-                                                            <tr>
-                                                                <td colspan="4" class="text-center">No hay solicitudes de archivos asociadas a esta práctica.</td>
-                                                            </tr>
-                                                        </ng-template>
+                                                        <tr *ngFor="let solicitud of solicitudes_documentos;">
+                                                            <td>{{solicitud.nombre_solicitud}}</td>
+                                                            <td>{{solicitud.tipo_archivo}}</td>
+                                                            <td>Normal</td>
+                                                            <td><button class="btn btn-primary btn-sm btn-block"
+                                                                    *ngIf="solicitud.documentos.length != 0; else no_doc"
+                                                                    (click)="descargar_documento(solicitud.documentos[0].id, doc_str)">Descargar</button>
+                                                                <ng-template #no_doc>
+                                                                    <b>No subido aún</b>
+                                                                </ng-template>
+                                                            </td>
+                                                        </tr>
+                                                        <tr *ngFor="let doc_extra of documento_extras;">
+                                                            <td>{{doc_extra.nombre_solicitud}}</td>
+                                                            <td>{{doc_extra.tipo_archivo}}</td>
+                                                            <td>Extra</td>
+                                                            <td><button
+                                                                    *ngIf="doc_extra.key!=null && doc_extra.key!=''; else no_doc_extra"
+                                                                    class="btn btn-primary btn-sm btn-block"
+                                                                    (click)="descargar_documento(doc_extra.id, doc_extra_str)">Descargar</button>
+                                                                <ng-template #no_doc_extra>
+                                                                    <b>No subido aún</b>
+                                                                </ng-template>
+                                                            </td>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
+                                                <ng-template #noHaySolicitudes>
+                                                    <tr>
+                                                        <td colspan="4" class="text-center">No hay solicitudes de archivos asociadas a esta práctica.</td>
+                                                    </tr>
+                                                </ng-template>
                                             </div>
                                         </div>
                                     </div>
@@ -338,7 +334,7 @@
                                     <div class="card-body">
                                         <div class="overflow-auto">
                                             <div class="table-responsive">
-                                                <table class="table table-bordered hoverTable" id="dataTable"
+                                                <table class="table table-bordered hoverTable" id="dataTable" *ngIf="hay_respuesta == 1; else noHayRespuesta"
                                                     width="100%" cellspacing="0">
                                                     <thead>
                                                         <tr>
@@ -347,24 +343,21 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <div *ngIf="hay_respuesta == 1; else noHayRespuesta">
-                                                            <tr
-                                                                *ngFor="let aptitud of aptitudes_practica[0]; let j = index">
-                                                                <th>{{aptitud}}</th>
-                                                                <th>{{notas_aptitudes[0][j]}}</th>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>Promedio</th>
-                                                                <th>{{promedio}}</th>
-                                                            </tr>
-                                                        </div>
-                                                        <ng-template #noHayRespuesta>
-                                                            <tr>
-                                                                <td colspan="2" class="text-center">El supervisor no ha evaluado esta práctica.</td>
-                                                            </tr>
-                                                        </ng-template>
+                                                        <tr *ngFor="let aptitud of aptitudes_practica[0]; let j = index">
+                                                            <th>{{aptitud}}</th>
+                                                            <th>{{notas_aptitudes[0][j]}}</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Promedio</th>
+                                                            <th>{{promedio}}</th>
+                                                        </tr>                                                     
                                                     </tbody>
                                                 </table>
+                                                <ng-template #noHayRespuesta>
+                                                    <tr>
+                                                        <td colspan="2" class="text-center">El supervisor no ha evaluado esta práctica.</td>
+                                                    </tr>
+                                                </ng-template>
                                             </div>
                                         </div>
                                     </div>
@@ -456,7 +449,7 @@
                     <div class="row">
                         <!-- Tarjeta Consistencia -->
                         <div class="col-lg-12">
-                            <div class="card shadow mb-4">
+                            <div class="card shadow mb-4" style="max-height: 500px; overflow:auto">
                                 <!-- Card Header - Accordion -->
                                 <a href="#collapseCardConsistencias" class="d-block card-header py-3"
                                     data-toggle="collapse" role="button" aria-expanded="true"
@@ -466,7 +459,7 @@
                                 <!-- Card Content - Collapse -->
                                 <div class="collapse show" id="collapseCardConsistencias">
                                     <div class="card-body">
-                                        <div class="overflow-auto_consistencia">
+                                        <div>
                                             <!-- tarjetas internas consistencia_informe y consistencia_nota-->
                                             <div class="row" style="max-width: 100%;">
                                                 <div class="col-xl-3"></div>
@@ -541,7 +534,7 @@
                                                                                 </div>
                                                                             </div>
                                                                             <ng-template #hay_resumen_alumno>
-                                                                                <div>
+                                                                                <div style="max-height: 200px; overflow: auto;">
                                                                                     {{practica.resumen.informe}}
                                                                                 </div>
                                                                             </ng-template>

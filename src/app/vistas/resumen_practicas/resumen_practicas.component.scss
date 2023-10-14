@@ -1,25 +1,39 @@
-thead th{
+thead th {
     text-align: center;
     color: #727272;
     vertical-align: middle;
-    background-color: #e7e7e7; 
+    background-color: #e7e7e7;
     border-color: #d6d6d6;
+    position: sticky;
+    top: 0;
 }
 
-tbody tr td{
+tbody{
+    display: block;
+    overflow: auto;
+    max-height: 60vh;
+}
+
+thead, tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;/* even columns width , fix width of table too*/
+}
+
+tbody tr td {
     vertical-align: middle;
     text-align: center;
     color: #686868;
 }
 
-.table-item{
+.table-item {
     vertical-align: middle;
     text-align: center;
 }
 
 .custom-tooltip {
-    font-size:25px;
- }
+    font-size: 25px;
+}
 
 .pointer {
     cursor: pointer;

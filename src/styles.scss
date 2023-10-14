@@ -12,13 +12,10 @@ body {
     align-self: flex-end;
 }
 
-.navbar{
-    height: 9vh;
-}
-
 .container-fluid{
-    overflow: auto;
-    height: 91vh;
+    height: calc(100vh - 60px);
     display: block;
     padding-top: 20px;
+    overflow: auto;
 }
+
