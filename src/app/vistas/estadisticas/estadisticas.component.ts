@@ -74,8 +74,26 @@ export class EstadisticasComponent {
   total_alumnos_finalizada_practica_cantidad = 0;
   total_alumnos_cursando_practica_cantidad = 0;
 
+  //ramos
+  arreglo_ramos: any[] = [];
+
+  ramos: string[] = [];
+  porcentajes: number[] = [];
+
+  ramos_top5: string[] = [];
+  porcentajes_top5: number[] = [];
+
+  arreglo_ramos_top5: any[] = [];
+
+  //valoracion_empresas
+  nombre_empresas: string[] = [];
+  valoracion_empresas: number[] = [];
+
+  nombre_empresas_top5: string[] = [];
+  valoracion_empresas_top5: number[] = [];
+
+
   top5_empresas: any[] = [];
-  top5_ramos: any[] = [];
   top5_aptitudes: any[] = [];
 
   id_carrera_encargado = 0;
@@ -98,9 +116,68 @@ export class EstadisticasComponent {
       },
       complete: () => {
 
-        //console.log("id_carrera_encargado: ", respuesta.body.id_carrera);
-
         this.id_carrera_encargado = respuesta.body.id_carrera;
+
+        //------------- ESTADISTIOCAS RAMOS ----------------
+
+        this.serviceCarrera.obtener_carrera(respuesta.body.id_carrera).subscribe({
+          next: data => {
+            //console.log(data);
+            respuesta = { ...respuesta, ...data };
+          },
+          error: error => {
+            console.log(error);
+          },
+          complete: () => {
+            
+            this.arreglo_ramos = respuesta.body.estadistica_ramos.array[0];
+
+            for (let i = 0; i < this.arreglo_ramos.length; i++) {
+              if (this.isNumber(this.arreglo_ramos[i])) {
+                this.porcentajes.push(Number(this.arreglo_ramos[i]));
+              }
+              else{
+                this.ramos.push(String(this.arreglo_ramos[i]));
+              }
+            }
+
+            for (let i = 0; i < this.ramos.length; i++) {
+              this.ramos_top5.push(this.ramos[i]);
+              this.porcentajes_top5.push(this.porcentajes[i]);
+            }
+        
+            //ordenar porcentaje de mayor a menor
+            for (let i = 0; i < this.porcentajes_top5.length; i++) {
+              for (let k = 0; k < this.porcentajes_top5.length; k++) {
+                if (this.porcentajes_top5[i] > this.porcentajes_top5[k]) {
+                  let aux = this.porcentajes_top5[i];
+                  this.porcentajes_top5[i] = this.porcentajes_top5[k];
+                  this.porcentajes_top5[k] = aux;
+        
+                  let aux2 = this.ramos_top5[i];
+                  this.ramos_top5[i] = this.ramos_top5[k];
+                  this.ramos_top5[k] = aux2;
+                }
+              }
+            }
+
+            for (let i = 0; i < 5; i++) {
+              if (this.ramos_top5[i] != undefined) {
+                //this.ramos_top5[i] = " ";
+                this.arreglo_ramos_top5.push(this.ramos_top5[i]);
+                this.arreglo_ramos_top5.push(this.porcentajes_top5[i]);
+              }
+            }
+        
+            this.arreglo_ramos = this.arreglo_ramos_top5;
+
+            //console.log("Arreglo top 5: ");
+            //console.log(this.arreglo_ramos);
+        
+          }
+        });
+        //------------ FIN ESTADISTICAS RAMOS --------------
+
 
         //obteniendo datos remuneracion por tipo de practica
 
@@ -113,6 +190,7 @@ export class EstadisticasComponent {
             console.log(error);
           },
           complete: () => {
+
             //console.log("config_practica_carrera: ", respuesta.body);
             this.AUX_config_practicas = respuesta.body;
 
@@ -249,16 +327,43 @@ export class EstadisticasComponent {
                 //console.log("empresas: ", respuesta.body);
                 let cantidad_empresas_remuneracion=0;
                 for (let i=0; i<respuesta.body.length; i++) {
+                  this.nombre_empresas.push(respuesta.body[i].nombre_empresa);
+                  this.valoracion_empresas.push(respuesta.body[i].calificacion_promedio);
                   if (respuesta.body[i].sueldo_promedio !=0 && respuesta.body[i].sueldo_promedio != null){
                     this.remuneracion_por_empresa.push({empresa: respuesta.body[i].nombre_empresa, remuneracion: respuesta.body[i].sueldo_promedio});
                     this.remuneracion_promedio_por_empresa += respuesta.body[i].sueldo_promedio;
                     cantidad_empresas_remuneracion++;
                   }  
                 }
+                //console.log("nombre_empresas: ", this.nombre_empresas)
+                //console.log("valoracion_empresas: ", this.valoracion_empresas)
+
+                //ordenar valoracion de mayor a menor
+                for (let i = 0; i < this.valoracion_empresas.length; i++) {
+                  for (let k = 0; k < this.valoracion_empresas.length; k++) {
+                    if (this.valoracion_empresas[i] > this.valoracion_empresas[k]) {
+                      let aux = this.valoracion_empresas[i];
+                      this.valoracion_empresas[i] = Math.round(this.valoracion_empresas[k] * 10) / 10;
+                      this.valoracion_empresas[k] = aux;
+        
+                      let aux2 = this.nombre_empresas[i];
+                      this.nombre_empresas[i] = this.nombre_empresas[k];
+                      this.nombre_empresas[k] = aux2;
+                    }
+                  }
+                }
+                //console.log("nombre_empresas_ordenado: ", this.nombre_empresas)
+                //console.log("valoracion_empresas_ordenado: ", this.valoracion_empresas)
+
+                this.nombre_empresas_top5 = this.nombre_empresas.slice(0,5);
+                this.valoracion_empresas_top5 = this.valoracion_empresas.slice(0,5);
+
+                //console.log("nombre_empresas_ordenado_TOP5: ", this.nombre_empresas_top5)
+                //console.log("valoracion_empresas_ordenado_TOP5: ", this.valoracion_empresas_top5)
+
+
                 this.remuneracion_promedio_por_empresa = Math.floor(this.remuneracion_promedio_por_empresa / cantidad_empresas_remuneracion);
 
-                //console.log("remuneracion_por_empresa: ", this.remuneracion_por_empresa);
-                //console.log("remuneracion_promedio_por_empresa: ", this.remuneracion_promedio_por_empresa);
               }
             });
 
@@ -312,5 +417,46 @@ export class EstadisticasComponent {
   scrollToTop(): void {
     this.document.body.scrollTop = 0;
     this.document.documentElement.scrollTop = 0;
+  }
+
+  cant_estrellas_completas(calificacion: number){
+    let cant = 0
+    if (calificacion == null){
+      return 0;
+    }
+    else if (calificacion < 1){
+      return 0;
+    }
+    else if (calificacion < 2){
+      return 1;
+    }
+    else if (calificacion < 3){
+      return 2;
+    }
+    else if (calificacion < 4){
+      return 3;
+    }
+    else if (calificacion < 5){
+      return 4;
+    }
+    else if (calificacion == 5){
+      return 5;
+    }
+    else{
+      return 0;
+    }
+  }
+
+  media_estrella(calificacion: number){
+    if (calificacion == null){
+      return false;
+    }
+    let decimal = calificacion - Math.floor(calificacion);
+    if (decimal < 0.5){
+      return false;
+    }
+    else{
+      return true;
+    }
   }
 }
