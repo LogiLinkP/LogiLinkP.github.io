@@ -10,22 +10,22 @@ export class DocumentacionService {
   constructor(private _http: HttpClient) { }
 
   obtener_todas(id_carrera:number){
-    const req = new HttpRequest('GET', `${environment.url_back}/documento_encargados/todas?id_carrera=${id_carrera}`);
+    const req = new HttpRequest('GET', `${environment.url_back}/documento_encargado/todas?id_carrera=${id_carrera}`);
     return this._http.request(req);
   }
 
   obtener_encargado(id_encargado:number){
-    const req = new HttpRequest('GET', `${environment.url_back}/documento_encargados/encargado?id_encargado=${id_encargado}`);
+    const req = new HttpRequest('GET', `${environment.url_back}/documento_encargado/encargado?id_encargado=${id_encargado}`);
     return this._http.request(req);
   }
 
-  nuevo_documento(id_encargado:number, id_carrera:number, tipo:string, nombre:string){
-    const req = new HttpRequest('POST', `${environment.url_back}/documento_encargados/crear`, {id_encargado, id_carrera, tipo, nombre}, {responseType:"text"});
+  nuevo_documento(id_encargado:number, id_carrera:number, tipo:string, nombre:string, key:string){
+    const req = new HttpRequest('POST', `${environment.url_back}/documento_encargado/crear`, {id_encargado, id_carrera, tipo, nombre, key}, {responseType:"text"});
     return this._http.request(req);
   }
 
   eliminar_documento(id:number){
-    const req = new HttpRequest('DELETE', `${environment.url_back}/documento_encargados/eliminar?id=${id}`, {responseType:"text"});
+    const req = new HttpRequest('DELETE', `${environment.url_back}/documento_encargado/eliminar?id=${id}`, {responseType:"text"});
     return this._http.request(req);
   }
 }

@@ -13,12 +13,10 @@ import { ArchivosService } from '../../servicios/archivos/archivos.service';
 import { ActivatedRoute, Router} from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
-import { Dialog2 } from '../subir-archivo/subir-archivo.component';
+import { DocumentacionService } from 'src/app/servicios/documento_encargado/documentacion.service';
 
 export interface DialogData {
-  nombre_solicitud: string;
-  nombre_documento: string;
-  tipo_archivo: string[];
+
 }
 
 @Component({
@@ -28,12 +26,18 @@ export interface DialogData {
 })
 
 export class SubirDocumentoEncargadoComponent {
+
+  @Input() id_encargado:number = -1;
+  @Input() id_carrera:number = -1;
+
   constructor(public dialog: MatDialog, private _snackBar: MatSnackBar, private archivo_service: ArchivosService, private router: Router, 
-    private activated_route: ActivatedRoute, private service_noti: NotificacionesService) {}
+    private activated_route: ActivatedRoute, private service_noti: NotificacionesService, private docu_service: DocumentacionService) {}
 
+  
   subir_archivos() {
-
-    const dialogRef = this.dialog.open(Dialog2, {
+    
+    let formatos = ["pdf", "doc", "docx", "xls", "xlsx"]
+    const dialogRef = this.dialog.open(Dialog3, {
       width: '400px',
       enterAnimationDuration: "100ms",
       exitAnimationDuration: "100ms",
@@ -44,7 +48,8 @@ export class SubirDocumentoEncargadoComponent {
         return;
       }
       let [, file] = result;
-      this.archivo_service.checkFileType(file, tipo_archivo).then((type_file: boolean) => {
+
+      this.archivo_service.checkFileType(file, formatos).then((type_file: boolean) => {
         if (!type_file) {
           this._snackBar.open("Archivo con formato incorrecto", "Cerrar", {
             panelClass: ['red-snackbar'],
@@ -52,10 +57,15 @@ export class SubirDocumentoEncargadoComponent {
           });
           return;
         }
-
+  
         let _data: any = {};
+
+        let _filename = file.name.toLowerCase();
+        let file_ext = _filename.slice((_filename.lastIndexOf(".") - 1 >>> 0) + 2)
+
+        let key: string = "";
         
-        this.archivo_service.subirDocumento(file, id_solicitud, id_practica).subscribe({
+        this.docu_service.nuevo_documento(this.id_encargado,this.id_carrera, file_ext, file.name, key).subscribe({
           next: data => {
             _data = { ..._data, ...data }
           },
@@ -63,21 +73,6 @@ export class SubirDocumentoEncargadoComponent {
             let upload_string = "";
             if (_data.status == 200) {
               upload_string = "?upload_success=success";
-              let respuesta: any = [];
-              let enlace = environment.url_front + "/practicas/" + this.id_estudiante_usuario;
-
-              this.service_noti.postnotificacion(this.id_encargado_usuario, "El alumno ha subido el archivo extra solicitado", this.correo_encargado, this.estado_config, enlace).subscribe({
-                next: (data: any) => {
-                  respuesta = { ...respuesta, ...data };
-                },
-                error: (error: any) => {
-                  console.log(error);
-                  return;
-                },
-                complete: () => {
-                  console.log("Notificacion enviada con exito");
-                }
-              });
             } else if (_data.status == 415) {
               upload_string = "?upload_success=format";
             } else {
@@ -104,5 +99,26 @@ export class SubirDocumentoEncargadoComponent {
         });
       });
     });
+  }
+}
+
+@Component({
+  selector: 'app-dialog3',
+  templateUrl: 'dialog3.html',
+  standalone: true,
+  imports: [MatDialogModule, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatSelectModule, CommonModule,
+    NgFor],
+})
+export class Dialog3 {
+  selectedFile: File | null = null;
+
+  constructor(public dialogRef: MatDialogRef<Dialog3>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0] ?? null;
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }
