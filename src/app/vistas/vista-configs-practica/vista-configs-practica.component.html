@@ -59,6 +59,7 @@
                                                     <button class="btn btn-primary" 
                                                             (click)="seccion_edit='general'"
                                                             (click)="practica_edit_id=i"
+                                                            (click)="practica_edit=configs[i]"
                                                             data-toggle="modal" 
                                                             data-target="#editarModal">
                                                         Editar
@@ -172,7 +173,7 @@
                     <div class="col-12">
                         <div class="card shadow mb-4">
                             <a href="#cardCrear" class="d-block card-header py-3 collapsed" data-toggle="collapse"
-                                role="button" aria-expanded="true" aria-controls="cardCrear" style="background-color: #858796;">
+                                role="button" aria-expanded="true" aria-controls="cardCrear" style="background-color: #a5a6af;">
                                 <h2 class="m-0 font-weight-bold text-primary">Crear práctica</h2>
                                 <!-- <div class="m-0 text-gray-800">Estado: No iniciada</div> -->
                             </a>
@@ -180,7 +181,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <!-- sub tarjeta general -->
-                                        <div class="card-body col-12">
+                                        <div class="card-body col-6">
                                             <div class="card shadow mb-4">
                                                 <div class="card-header py-3">
                                                     <h4 class="m-0 font-weight-bold text-primary">
@@ -188,29 +189,149 @@
                                                     </h4>
                                                 </div>
                                                 <div class="card-body">
-                                                    <form>
+                                                    <form [formGroup]="crearForm">
                                                         <label for="nombre">Nombre:</label>
-                                                        <input id="nombre" type="text" value="Práctica 1" class="form-control" name="nombre">
-                                                        
-                                                        <br>
+                                                        <input type="text" class="form-control form-control-user" formControlName="nombre">
 
+														<!-- <p>Modalidades: </p>
+														MESES
+														<div class="form-check form-check-inline">
+                            							    <input id="meses" type="checkbox" class="form-check-input" formControlName="meses">
+                            							    <label for="meses" class="form-check-label">Meses</label>
+                            							</div>
+														
+														HORAS
+                            							<div class="form-check form-check-inline">
+                            							    <input id="horas" type="checkbox" class="form-check-input" formControlName="horas">
+                            							    <label for="horas" class="form-check-label">Horas</label>
+                            							</div> -->
+
+                                                        <!-- FRECUENCIA DE INFORME -->
+                                                        <p>Frecuencia informe: </p>
                                                         <div class="form-check form-check-inline">
-                                                            <label for="meses" class="form-check-label">Meses:</label>
-                                                            <input id="meses" type="checkbox" class="form-check-input">
+                                                            <input class="form-check-input" type="radio" id="informeDiario" value="diario" formControlName="frecuencia_informes">
+                                                            <label class="form-check-label" for="informeDiario">Diario</label>
                                                         </div>
-
                                                         <div class="form-check form-check-inline">
-                                                            <label for="horas" class="form-check-label">Horas:</label>
-                                                            <input id="horas" type="checkbox" class="form-check-input" checked>
+                                                            <input class="form-check-input" type="radio" id="infomreSemanal" value="semanal" formControlName="frecuencia_informes">
+                                                            <label class="form-check-label" for="infomreSemanal">Semanal</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" id="informeMensual" value="mensual" formControlName="frecuencia_informes">
+                                                            <label class="form-check-label" for="informeMensual">Mensual</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" id="sinAvance" value="sinAvance" formControlName="frecuencia_informes">
+                                                            <label class="form-check-label" for="sinAvance">Ninguno</label>
+                                                        </div>
+                                                        <br><br>
+                                                    
+                                                        <!-- INFORME FINAL -->
+                                                        <p>Informe final: </p>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" id="informeFinalSI" value="si" formControlName="informe_final">
+                                                            <label class="form-check-label" for="informeFinalSI">Si</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                        	<input class="form-check-input" type="radio" id="informeFinalNO" value="no" formControlName="informe_final">
+                                                        	<label class="form-check-label" for="informeFinalNO">No</label>
                                                         </div>
                                                     </form>
                                                 </div>
                                             </div>
                                         </div>
+										<!-- sub tarjeta modalidades -->
+                                        <div class="card-body col-6">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        Modalidades
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p *ngFor="let modalidad of practica_default.modalidads; let j = index">
+                                                        {{modalidad.cantidad_tiempo}}
+                                                        {{modalidad.tipo_modalidad}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- sub tarjetas informes con for-->
+                                        <div class="card-body col-6" *ngFor="let config_informe of practica_default.config_informes; let j = index">
+                                            <div class="card shadow mb-4" *ngIf="config_informe.tipo_informe=='Informe avance' && crearForm.value.frecuencia_informes!='sinAvance'">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        {{config_informe.tipo_informe}}
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p *ngFor="let pregunta of config_informe.pregunta_informes; let k = index">
+                                                        {{k+1}}. {{pregunta.enunciado}}
+                                                    </p>
+                                                </div>
+                                                <div class="card-footer" >
+                                                    <span class="btn btn-primary disabled-button" matTooltip="{{string_bloqueo}}">Editar</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- sub tarjeta solicitud documentos -->
+                                        <!-- <div class="card-body col-6" *ngIf="practica_default.solicitud_documentos">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        Solicitudes de documentos
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p *ngFor="let doc of practica_default.solicitud_documentos; let j = index">
+                                                        {{ doc.tipo_archivo }}
+                                                        {{ doc.nombre_archivo }}
+                                                        {{ doc.descripcion }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <!-- sub tarjeta pregunta supervisor -->
+                                        <div class="card-body col-6">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        Preguntas para el supervisor
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p *ngFor="let pregunta of practica_default.pregunta_supervisors; let j = index">
+                                                        {{j+1}}. {{ pregunta.enunciado }} [{{ pregunta.tipo_respuesta }}]
+                                                    </p>
+                                                </div>
+                                                <div class="card-footer" >
+                                                    <span class="btn btn-primary disabled-button" matTooltip="{{string_bloqueo}}">Editar</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- sub tarjeta pregunta encuesta final -->
+                                        <div class="card-body col-6">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        Preguntas para el alumno al terminar
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p *ngFor="let pregunta of practica_default.pregunta_encuesta_finals; let j = index">
+                                                        {{j+1}}. {{ pregunta.enunciado }} [{{ pregunta.tipo_respuesta }}]
+                                                    </p>
+                                                </div>
+                                                <div class="card-footer" >
+                                                    <span class="btn btn-primary disabled-button" matTooltip="{{string_bloqueo}}">Editar</span>
+                                                </div>
+                                            </div>
+                                        </div>
+										
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <button type="button" class="btn btn-primary btn-lg btn-block" onclick="crearSimple()">
+                                            <button type="button" class="btn btn-primary btn-lg btn-block" (click)="crearSimple()">
                                                 Crear
                                             </button>
                                         </div>
@@ -221,9 +342,6 @@
                                             </button>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="card-footer">
-                                    footer
                                 </div>
                             </div>
                         </div>
@@ -239,6 +357,7 @@
 
 <app-edicion-simple-modal 
     [seccion]="seccion_edit"
+    [practica]="practica_edit"
     (completo)="editarSimple($event)">
 </app-edicion-simple-modal>
 

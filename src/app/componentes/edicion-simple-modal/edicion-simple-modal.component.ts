@@ -8,6 +8,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class EdicionSimpleModalComponent implements OnInit {
 	@Input() seccion: string;
+	@Input() practica: any;
 
     @Output() mandarNombre = new EventEmitter<string>();
 	@Output() mandarMeses = new EventEmitter<string>();
@@ -44,7 +45,7 @@ export class EdicionSimpleModalComponent implements OnInit {
 
 	guardar() {
 		console.log("guardar", this.editarForm);
-		this.mandarNombre.emit(this.editarForm.value.nombre);
+		this.mandarNombre.emit(this.editarForm.value.nombre); 
 		this.mandarMeses.emit(this.editarForm.value.frecuencia_informes);
 		this.mandarHoras.emit(this.editarForm.value.informe_final);
 		this.completo.emit([this.editarForm.value.nombre, this.editarForm.value.frecuencia_informes, this.editarForm.value.informe_final]);
