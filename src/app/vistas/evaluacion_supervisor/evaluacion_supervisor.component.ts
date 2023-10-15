@@ -23,6 +23,9 @@ export class EvaluacionComponent {
 
   aptitudes_evaluacion: any = [];
 
+  rango_aptitudes: number;
+  array_rango_aptitudes: any = [];
+
 
   constructor(private service_supervisor: SupervisorService, private _snackbar: MatSnackBar, private router: Router, private activated_route: ActivatedRoute) {}
    
@@ -125,9 +128,15 @@ export class EvaluacionComponent {
                 }
                 //CAMBIOS PREGUNTA EVALUACION
                 else if (pregunta.tipo_respuesta == "evaluacion") {
+
                   let array_aux_evaluacion = [];
                   let array_aux_aptitudes = pregunta.opciones.split(";;");
                   this.aptitudes_evaluacion = array_aux_aptitudes;
+                  this.rango_aptitudes = pregunta.rango;
+                  console.log("RANGO APTITUDES", this.rango_aptitudes);
+                  this.array_rango_aptitudes = Array.from({length: this.rango_aptitudes}, (_, i) => i + 1);
+
+                  
                   for (let i = 0; i < pregunta.opciones.split(";;").length; i++) {
                     array_aux_evaluacion.push(-1);
                   }
