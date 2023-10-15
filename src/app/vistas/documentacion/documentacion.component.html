@@ -12,5 +12,25 @@
             <app-barra-superior></app-barra-superior>
         </div>
         DOCUMENTACION WORKS
+
+        <div id="container-fluid overflow-auto" style="max-height: 80vh;">
+            <!--<button (click)="volver_atras()" class="btn btn-primary d-flex align-items-right">Volver</button>-->
+            <div class="h3 mt-2 ml-2">Documentación Adicional</div>
+            
+            <div *ngFor="let docu of documentos, let indice = index">
+                <div class="mt-2">
+                    <div class="small text-gray-500">{{docu?.nombre}}
+                    <p></p>
+                    <button class="btn btn-success btn-sm btn-block" (click)="descargar_documento(docu.id, docu.key)">Descargar</button>
+                    <div *ngIf="esalumno==0">
+                        <button class="btn btn-danger btn-lg btn-block" (click)="eliminar(docu.id, indice)">Eliminar</button>
+                    </div>
+                </div>
+            </div>  
+        </div>
+        <p></p>
+        <div *ngIf="esalumno==0">
+            <app-subir-documento-encargado></app-subir-documento-encargado>
+        </div>
     </div>
 </div>
