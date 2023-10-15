@@ -27,7 +27,7 @@
                                 <h2 class="m-0 font-weight-bold text-primary">{{config.nombre}}</h2>
                                 <!-- <div class="m-0 text-gray-800">Estado: No iniciada</div> -->
                             </a>
-                            <div class="collapse" id="{{ 'card' + i }}">
+                            <div class="collapse" id="{{ 'card' + i }}"> 
                                 <!-- Tarjeta interna total-->
                                 <div class="card-body">
                                     <div class="row">
@@ -56,7 +56,11 @@
                                                     </table>
                                                 </div>
                                                 <div class="card-footer">
-                                                    <button class="btn btn-primary" (click)="seccion_edit='general'" data-toggle="modal" data-target="#editarModal">
+                                                    <button class="btn btn-primary" 
+                                                            (click)="seccion_edit='general'"
+                                                            (click)="practica_edit_id=i"
+                                                            data-toggle="modal" 
+                                                            data-target="#editarModal">
                                                         Editar
                                                     </button>
                                                 </div>
@@ -232,6 +236,10 @@
 </div>
 
 <app-logout-modal></app-logout-modal>
-<app-edicion-simple-modal [seccion]="seccion_edit" (mandarDatosMigrar)=""></app-edicion-simple-modal>
+
+<app-edicion-simple-modal 
+    [seccion]="seccion_edit"
+    (completo)="editarSimple($event)">
+</app-edicion-simple-modal>
 
 <!-- investigar trim() -->

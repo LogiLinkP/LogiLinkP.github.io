@@ -7,29 +7,34 @@ import { FormGroup, FormBuilder, Validators, AbstractControl, FormControl } from
   styleUrls: ['./edicion-simple-modal.component.scss']
 })
 export class EdicionSimpleModalComponent implements OnInit {
-	@Input()
-    seccion: string;
+	@Input() seccion: string;
 
-    @Output() mandarDatosMigrar = new EventEmitter<string>();
+    @Output() mandarNombre = new EventEmitter<string>();
+	@Output() mandarMeses = new EventEmitter<string>();
+	@Output() mandarHoras = new EventEmitter<boolean>();
+	@Output() completo = new EventEmitter<any>();
+
+	editarForm: FormGroup;
+	errors: boolean = true; //se sobreescribe el valor false cuando se apreto cancelar
 
 	constructor(private fb: FormBuilder) {}
 
-	editarForm: FormGroup;
-	errors: boolean = true;
-
 	ngOnInit(): void {
 		this.editarForm = this.fb.group({
-			nombre: ['', [Validators.required, Validators.minLength(3)]]
+			nombre: ['', [Validators.required, Validators.minLength(3)]],
+			frecuencia_informes: ['', [Validators.required]],
+			informe_final: ['', [Validators.required]]
 		});
-		this.print();
-	}
 
-	check() {
-		if (this.editarForm.dirty && this.editarForm.invalid) {
-			this.errors = true;
-		} else {
-			this.errors = false;
-		}
+		//console.log(this.editarForm);
+		this.editarForm.valueChanges.subscribe(change => {
+			if (this.editarForm.dirty && this.editarForm.invalid) {
+				this.errors = true;
+			} else {
+				this.errors = false;
+			}
+			//console.log(change);
+		});
 	}
 
 	reset() {
@@ -38,10 +43,10 @@ export class EdicionSimpleModalComponent implements OnInit {
 	}
 
 	guardar() {
-		this.mandarDatosMigrar.emit(this.editarForm.value.nombre);
-	}
-
-	print() {
-		console.log(this.editarForm);
+		console.log("guardar", this.editarForm);
+		this.mandarNombre.emit(this.editarForm.value.nombre);
+		this.mandarMeses.emit(this.editarForm.value.frecuencia_informes);
+		this.mandarHoras.emit(this.editarForm.value.informe_final);
+		this.completo.emit([this.editarForm.value.nombre, this.editarForm.value.frecuencia_informes, this.editarForm.value.informe_final]);
 	}
 }
