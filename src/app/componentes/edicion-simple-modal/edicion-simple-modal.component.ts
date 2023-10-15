@@ -1,5 +1,5 @@
 import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-edicion-simple-modal',

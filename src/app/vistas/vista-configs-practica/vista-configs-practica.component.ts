@@ -10,6 +10,7 @@ import { EdicionService } from 'src/app/servicios/encargado/edicion-simple/edici
 })
 export class VistaConfigsPracticaComponent {
 	disabled: boolean = true; //const
+	string_bloqueo: string = "Se requiere usar la configuración avanzada"
 
 	user: any = JSON.parse(localStorage.getItem('auth-user') || "{}").userdata;
 	configs: any = {};
