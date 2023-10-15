@@ -15,10 +15,11 @@ export class RespuestaRamosService {
     return this._http.request(req);
   }
 
-  crear_respuesta_ramos( id_carrera: number, respuesta: string) {
+  crear_respuesta_ramos( id_carrera: number, respuesta: string, id_practica: number) {
     const req = new HttpRequest('POST', `${environment.url_back}/respuesta_ramos/crear`, {
       id_carrera: id_carrera, 
-      respuesta: respuesta
+      respuesta: respuesta,
+      id_practica: id_practica
     });
     return this._http.request(req);
   }

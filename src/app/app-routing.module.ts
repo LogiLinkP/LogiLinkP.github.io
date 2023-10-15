@@ -33,9 +33,11 @@ import { EstudianteVerInformeComponent } from './vistas/estudiante-ver-informe/e
 import { InfoYEvaluacionEstudianteComponent } from "./vistas/wizards/info-y-evaluacion-estudiante/info-y-evaluacion-estudiante.component";
 import { DetalleEstudianteComponent } from "./vistas/wizards/detalle-estudiante/detalle-estudiante.component";
 import { ConfigPracticaComponent } from './vistas/wizards/config-practica/config-practica.component';
+import { AptitudesComponent } from './vistas/aptitudes/aptitudes.component';
 
 import { environment } from 'src/environments/environment';
 import { PerfilComponent } from './vistas/perfil/perfil.component';
+
 
 
 const routes: Routes = [
@@ -71,6 +73,7 @@ const routes: Routes = [
     ] 
   },
   { path: 'encargado/registro/:token', component: RegistroEncargadoComponent },
+  { path: 'encargado/aptitudes', component: AptitudesComponent },
   { path: 'configurar/:nombre', component: ConfiguracionPracticaComponent },
   { path: 'configurar/:nombre/copia', component: ConfiguracionPracticaComponent },
   { path: environment.ruta_alumno + '/:id/chat/:room/:id1/:id2/:tipo', component: ChatComponent },
