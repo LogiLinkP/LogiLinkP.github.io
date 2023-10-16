@@ -96,16 +96,21 @@
         </a>
         <div id="menu_guias" class="collapse" aria-labelledby="menu_guias" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" [routerLink]="['/guias/info_y_eval_estudiante']" data-toggle="modal">
-                    Evaluar estudiantes
+                <a class="collapse-item" [routerLink]="['/guias/info_y_eval_estudiante']" data-toggle="modal" style="white-space:break-spaces; word-wrap: break-word;">
+                Evaluar estudiantes
                 </a>
-                <a class="collapse-item" [routerLink]="['/guias/config-practica']" data-toggle="modal">
-                    Crear configuración de práctica
+                <a class="collapse-item" [routerLink]="['/guias/config-practica']" data-toggle="modal" style="white-space:break-spaces; word-wrap: break-word;">
+                Crear configuración de práctica
                 </a>
             </div>
         </div>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/encargado/aptitudes']">
+            <i class="fas fa-fw fa-regular fa-pen-to-square"></i>
+            <span>Editar Aptitudes</span></a>
+    </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

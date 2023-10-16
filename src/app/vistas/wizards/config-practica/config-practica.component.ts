@@ -142,7 +142,7 @@ export class ConfigPracticaComponent {
             },
             attachTo: { element: '#encuesta-fin', on: 'bottom' },
             buttons: [{ classes: 'shepherd-button-secondary', text: 'Salir', action: tour.cancel },
-            { classes: 'shepherd-button-primary', text: 'Atrás', action: ()=> { this.estado = "solicitud_documento", tour.back();}},
+            { classes: 'shepherd-button-primary', text: 'Atrás', action: ()=> { this.estado = "solicitud_documentos", tour.back();}},
             { classes: 'shepherd-button-primary', text: 'Siguiente', action: ()=> { this.estado = "aptitudes"; tour.next();}}],
             highlightClass: 'highlight',
             title: titulo,

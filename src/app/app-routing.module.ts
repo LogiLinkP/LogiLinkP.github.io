@@ -13,7 +13,6 @@ import { CuestionarioComponent } from './vistas/cuestionario/cuestionario.compon
 import { TablaComponent } from './vistas/resumen_practicas/resumen_practicas.component';
 import { ConfiguracionPracticaComponent } from './vistas/configuracion-practica/configuracion-practica.component';
 import { EncuestaFinPracticaComponent } from './vistas/encuesta-fin-practica/encuesta-fin-practica.component';
-//import { ConsistenciaComponent } from './vistas/consistencia/consistencia.component';
 import { ExplicacionConsistenciaComponent } from './vistas/explicacion-consistencia/explicacion-consistencia.component';
 import { VistaSupervisorComponent } from './vistas/vista-supervisor/vista-supervisor/vista-supervisor.component';
 import { PnfComponent } from './componentes/pnf/pnf.component';
@@ -28,19 +27,18 @@ import { RamosAlumnosComponent } from './vistas/ramos-alumnos/ramos-alumnos.comp
 import { RamosEncargadoComponent } from './vistas/ramos-encargado/ramos-encargado.component';
 import { EstadisticaEmpresasComponent } from './vistas/estadistica-empresas/estadistica-empresas.component';
 import { AdminComponent } from './vistas/admin/admin.component';
-import { CrearCarreraComponent } from './vistas/crear-carrera/crear-carrera.component';
-import { CrearEncargadoComponent } from './vistas/crear-encargado/crear-encargado.component';
 import { RegistroEncargadoComponent } from './vistas/registro-encargado/registro-encargado.component';
 import { IngresoInformeComponent } from './vistas/ingreso-informe/ingreso-informe.component';
 import { EstudianteVerInformeComponent } from './vistas/estudiante-ver-informe/estudiante-ver-informe.component';
 import { InfoYEvaluacionEstudianteComponent } from "./vistas/wizards/info-y-evaluacion-estudiante/info-y-evaluacion-estudiante.component";
 import { DetalleEstudianteComponent } from "./vistas/wizards/detalle-estudiante/detalle-estudiante.component";
 import { ConfigPracticaComponent } from './vistas/wizards/config-practica/config-practica.component';
-import { EliminarEncargadoComponent } from './vistas/eliminar-encargado/eliminar-encargado.component';
+import { AptitudesComponent } from './vistas/aptitudes/aptitudes.component';
 
 import { environment } from 'src/environments/environment';
 import { PerfilComponent } from './vistas/perfil/perfil.component';
 import { VistaConfigsPracticaComponent } from './vistas/vista-configs-practica/vista-configs-practica.component';
+
 
 
 const routes: Routes = [
@@ -76,7 +74,7 @@ const routes: Routes = [
     ] 
   },
   { path: 'encargado/registro/:token', component: RegistroEncargadoComponent },
-  // { path: ':tipo/:id/notificaciones', component: NotificacionesComponent},
+  { path: 'encargado/aptitudes', component: AptitudesComponent },
   { path: 'configurar/:nombre', component: ConfiguracionPracticaComponent },
   { path: 'configurar/:nombre/copia', component: ConfiguracionPracticaComponent },
   { path: 'detalles/practicas', component: VistaConfigsPracticaComponent },
@@ -122,10 +120,7 @@ export const routingComponents = [
   ChatComponent,
   ConfiguracionPracticaComponent,
   AdminComponent,
-  CrearCarreraComponent,
-  CrearEncargadoComponent,
   RegistroEncargadoComponent,
-  EliminarEncargadoComponent,
   EncuestaFinPracticaComponent,
   PerfilComponent,
   IngresoInformeComponent,
