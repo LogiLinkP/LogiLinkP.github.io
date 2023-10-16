@@ -52,7 +52,7 @@
                                         <td routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}">
                                             {{practica?.modalidad?.config_practica?.nombre}}</td>
                                         <td class="font-weight-bold" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}" [ngClass]="getEstadoClass(practica.estado)">
-                                            {{ practica?.estado === 'Evaluada' ? 'Evaluada por supervisor' : practica?.estado }}</td>
+                                            {{ practica?.estado === 'Evaluada' ? 'Evaluada por supervisor' : practica?.estado === 'Finalizada' ? 'Esperando evaluación de supervisor' : practica?.estado }}</td>
                                         <td routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"><!--Check if notas_promedio[indice] is a number-->
                                             <div *ngIf="isNumber(notas_promedio[indice])">
                                                 {{notas_promedio[indice] | number: '1.2-2' }}
@@ -102,7 +102,7 @@
                                                 [estado_practica]="practica.estado"
                                             >
                                             </app-revision>
-                                            <div *ngSwitchDefault>Esperando evaluación del supervisor</div>
+                                            <div *ngSwitchDefault>No disponible</div>
                                         </td>
                                     </tr>
                                 </tbody>

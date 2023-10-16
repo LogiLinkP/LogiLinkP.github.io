@@ -315,14 +315,14 @@ export class TablaComponent {
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
     // Handle the window resize event here
-    console.log('Window has been resized', window.innerWidth, window.innerHeight);
+    //console.log('Window has been resized', window.innerWidth, window.innerHeight);
     // You can put your custom logic here
     const element = document.getElementById('cuerpoTabla');
-              const targetElement = document.getElementById('headerTabla');
-              if (element) {
-                const elementWidth = element.offsetWidth;
-                targetElement!.style.width = elementWidth + 'px';
-              }  
+    const targetElement = document.getElementById('headerTabla');
+    if (element) {
+      const elementWidth = element.offsetWidth;
+      targetElement!.style.width = elementWidth + 'px';
+    }  
   }
 
   editar(index:number){
