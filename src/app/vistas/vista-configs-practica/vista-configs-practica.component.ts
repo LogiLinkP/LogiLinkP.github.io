@@ -223,9 +223,9 @@ export class VistaConfigsPracticaComponent implements OnInit{
                 for (let i = 0; i < datos_informe.length; i++) {
                     this.crearConfigInforme(respuesta.body.id, datos_informe[i].tipo_informe, datos_informe[i].pregunta_informes);
                 }
-                //setTimeout(() => {
-                //	window.location.reload();
-                //}, 3000);
+                setTimeout(() => {
+                	window.location.reload();
+                }, 3000);
             }
         });
 	}
