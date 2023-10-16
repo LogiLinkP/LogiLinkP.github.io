@@ -97,7 +97,7 @@ export class TablaComponent {
 
         for (let alumno of respuesta.body){
           //console.log(alumno)
-          if (alumno.modalidad.config_practica.id_carrera == this.carrera_encargado && alumno.modalidad.config_practica.id_carrera != null){
+          if (alumno?.modalidad?.config_practica?.id_carrera == this.carrera_encargado && alumno?.modalidad?.config_practica?.id_carrera != null){
             temppracticas.push(alumno);
             if(alumno.ev_encargado == null || alumno.ev_encargado == -1){
               this.ev_values.push("-")
