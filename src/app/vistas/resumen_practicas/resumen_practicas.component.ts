@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation, HostListener } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { GetDetallesAlumnoService } from '../../servicios/encargado/resumen_practicas.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -107,6 +107,8 @@ export class TablaComponent {
           }
         }
 
+        
+
         this.practicas = temppracticas.map((alumno: any) => {
 
           alumno.consistencia_nota = alumno.consistencia_nota ? `${Math.round(100 * alumno.consistencia_nota)}%` : "—";
@@ -180,16 +182,20 @@ export class TablaComponent {
                   this.notas_promedio.push(item2[1])
                 }
               }
-              //console.log(this.notas_promedio)
+              //console.log(this.notas_promedio) 
+              const element = document.getElementById('cuerpoTabla');
+              const targetElement = document.getElementById('headerTabla');
+              if (element) {
+                const elementWidth = element.offsetWidth;
+                targetElement!.style.width = elementWidth + 'px';
+              }  
             }
           });
-        }     
-        this.rerender();
+        }
       }
     });
   }
-  rerender(): void {
-  }
+
 
   ngAfterViewInit(): void {
     this.dtTrigger.next(0);
@@ -306,6 +312,19 @@ export class TablaComponent {
 
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    // Handle the window resize event here
+    console.log('Window has been resized', window.innerWidth, window.innerHeight);
+    // You can put your custom logic here
+    const element = document.getElementById('cuerpoTabla');
+              const targetElement = document.getElementById('headerTabla');
+              if (element) {
+                const elementWidth = element.offsetWidth;
+                targetElement!.style.width = elementWidth + 'px';
+              }  
+  }
+
   editar(index:number){
     this.editables[index] = "1"
   }
@@ -352,4 +371,6 @@ export class TablaComponent {
         return ''; // Clase por defecto o ninguna clase si no coincide
     }
   }
+
+  
 }

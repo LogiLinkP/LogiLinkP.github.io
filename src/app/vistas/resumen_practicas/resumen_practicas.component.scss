@@ -1,19 +1,24 @@
+thead {
+    border: #e4e4e4 solid 1px;
+}
+
 thead th {
     text-align: center;
     color: #727272;
     vertical-align: middle;
 }
 
-tbody{
-    max-height: calc(100vh - 350px);
-    display: block;
-    overflow: auto;
-}
-
 thead :hover{
     background-color: #e7e7e7;
     cursor: pointer;
 }
+
+tbody{
+    max-height: calc(100vh - 350px);
+    display: block;
+    overflow-y: auto;
+}
+
 
 thead, tbody tr {
     display: table;
@@ -22,14 +27,9 @@ thead, tbody tr {
 }
 
 tbody tr td {
-    vertical-align: middle;
+    vertical-align: middle !important;
     text-align: center;
     color: #686868;
-}
-
-.table-item {
-    vertical-align: middle;
-    text-align: center;
 }
 
 .custom-tooltip {
@@ -40,6 +40,3 @@ tbody tr td {
     cursor: pointer;
 }
 
-.headerTabla {
-    width: calc(100% - 16px);
-}
