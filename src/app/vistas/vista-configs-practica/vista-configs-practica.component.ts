@@ -66,12 +66,15 @@ export class VistaConfigsPracticaComponent implements OnInit{
         ],
         "solicitud_documentos": [
 			{
-				"tipo_archivo": "informe avance",
-				"enunciado": ""
+				"tipo_archivo": "pdf",
+				"nombre_solicitud": "un pdf",
+                "descripcion": "mas detalles"
+                
 			},
 			{
-				"tipo_documento": "informe final",
-				"cantidad_documentos": 3
+				"tipo_archivo": "DOCX",
+				"nombre_solicitud": "un word",
+                "descripcion": "mas detalles"
 			}
 		],
         "pregunta_supervisors": [
@@ -148,9 +151,10 @@ export class VistaConfigsPracticaComponent implements OnInit{
 	}
 
 	ngOnInit(): void {
-		console.log(this.crearForm);
+        console.log("practica default: ", this.practica_default);
+		//console.log(this.crearForm);
 		this.crearForm.valueChanges.subscribe(change => {
-			console.log(change);
+			//console.log(change);
 		});
 	}
 
@@ -201,13 +205,133 @@ export class VistaConfigsPracticaComponent implements OnInit{
                 this.snackBar.open("Configuración de práctica creada exitosamente", "Cerrar", {
                     duration: 3500,
                     panelClass: ['green-snackbar']
-                });
-				setTimeout(() => {
-					window.location.reload();
-				}, 3000);
+                })
+                //console.log("crear respuesta:", respuesta);
+
+                for (let i = 0; i < this.practica_default.modalidads.length; i++) {
+                    this.tablaModalidad(respuesta.body.id, this.practica_default.modalidads[i].tipo_modalidad, this.practica_default.modalidads[i].cantidad_tiempo);
+                }
+                let datos_encuesta = this.practica_default.pregunta_encuesta_finals;
+                for (let i = 0; i < datos_encuesta.length; i++) {
+                    this.crearPreguntaEncuestaFinal(respuesta.body.id, datos_encuesta[i].enunciado, datos_encuesta[i].tipo_respuesta, datos_encuesta[i].opciones);
+                }
+                let datos_sup = this.practica_default.pregunta_supervisors;
+                for (let i = 0; i < datos_sup.length; i++) {
+                    this.crearPreguntaSupervisor(respuesta.body.id, datos_sup[i].enunciado, datos_sup[i].tipo_respuesta, datos_sup[i].opciones, false);
+                }
+                let datos_informe = this.practica_default.config_informes;
+                for (let i = 0; i < datos_informe.length; i++) {
+                    this.crearConfigInforme(respuesta.body.id, datos_informe[i].tipo_informe, datos_informe[i].pregunta_informes);
+                }
+                //setTimeout(() => {
+                //	window.location.reload();
+                //}, 3000);
             }
         });
-
-		window.location.reload();
 	}
+
+    tablaModalidad(id_config_practica: number, tipo_modalidad: string, cant: number) {
+        let respuesta: any = {};
+        
+        this.service.crearModalidad(id_config_practica, tipo_modalidad, cant).subscribe({
+            next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+                this.snackBar.open("Error al guardar modalidad", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['red-snackbar']
+                });
+                console.log("Error al guardar modalidad", error);
+            },
+            complete: () => {
+                console.log("Modalidad guardada exitosamente");
+            }
+        });
+    }
+
+    crearConfigInforme(id_config_practica: number, tipoInforme: string, preguntas: any) {
+        let respuesta: any = {};
+
+        this.service.crearConfigInforme(id_config_practica, tipoInforme).subscribe({
+            next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+                this.snackBar.open("Error al guardar configuracion de informe", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['red-snackbar']
+                });
+                console.log("Error al guardar configuracion de informe", error);
+            },
+            complete: () => {
+                //console.log("BUSACR EL ID: ", respuesta);
+                for (let i = 0; i < preguntas.length; i++) {
+                    this.crearPreguntaInforme(respuesta.body.id, preguntas[i].enunciado, preguntas[i].tipo_respuesta, preguntas[i].opciones);
+                }
+            }
+        });
+    }
+
+    crearPreguntaInforme(id_config_informe: number, pregunta: string, tipo_pregunta: string, opciones: string) {
+        let respuesta: any = {};
+        //console.log("pregunta: ", pregunta, "tipo_pregunta: ", tipo_pregunta, "opciones: ", opciones);
+
+        this.service.crearPreguntaInforme(id_config_informe, pregunta, tipo_pregunta, opciones).subscribe({
+            next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+                this.snackBar.open("Error al guardar pregunta de informe", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['red-snackbar']
+                });
+                console.log("Error al guardar pregunta de informe", error);
+            },
+            complete: () => {
+                console.log("Pregunta de informe guardada exitosamente");
+            }
+        });
+    }
+
+    crearPreguntaEncuestaFinal(id_config_practica: number, pregunta: string, tipo_pregunta: string, opciones: string) {
+        let respuesta: any = {};
+
+        this.service.crearPreguntaEncuestaFinal(id_config_practica, pregunta, tipo_pregunta, opciones).subscribe({
+            next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+                this.snackBar.open("Error al guardar pregunta de encuesta", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['red-snackbar']
+                });
+                console.log("Error al guardar pregunta de encuesta", error);
+            },
+            complete: () => {
+                console.log("Pregunta de encuesta guardada exitosamente");
+            }
+        });
+    }
+
+    crearPreguntaSupervisor(id_config_practica: number, pregunta: string, tipo_pregunta: string, opciones: string, fija: boolean) {
+        let respuesta: any = {};
+
+        this.service.crearPreguntaSupervisor(id_config_practica, pregunta, tipo_pregunta, opciones, fija).subscribe({
+            next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+                this.snackBar.open("Error al guardar pregunta de supervisor", "Cerrar", {
+                    duration: 3500,
+                    panelClass: ['red-snackbar']
+                });
+                console.log("Error al guardar pregunta de supervisor", error);
+            },
+            complete: () => {
+                console.log("Pregunta de supervisor guardada exitosamente");
+            }
+        });
+    }
+
 }

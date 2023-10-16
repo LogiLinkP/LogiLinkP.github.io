@@ -111,9 +111,7 @@
                                                 </div>
                                                 <div class="card-body">
                                                     <p *ngFor="let doc of config.solicitud_documentos; let j = index">
-                                                        {{ doc.tipo_archivo }}
-                                                        {{ doc.nombre_archivo }}
-                                                        {{ doc.descripcion }}
+                                                        {{j+1}}. {{ doc.nombre_solicitud }} [{{ doc.tipo_archivo }}]
                                                     </p>
                                                 </div>
                                             </div>
@@ -258,7 +256,9 @@
                                         </div>
                                         <!-- sub tarjetas informes con for-->
                                         <div class="card-body col-6" *ngFor="let config_informe of practica_default.config_informes; let j = index">
-                                            <div class="card shadow mb-4" *ngIf="config_informe.tipo_informe=='Informe avance' && crearForm.value.frecuencia_informes!='sinAvance'">
+                                            <div class="card shadow mb-4" 
+                                                *ngIf="(config_informe.tipo_informe=='Informe avance' && crearForm.value.frecuencia_informes!='sinAvance')
+                                                        || (config_informe.tipo_informe=='Informe final' && crearForm.value.informe_final=='si')">
                                                 <div class="card-header py-3">
                                                     <h4 class="m-0 font-weight-bold text-primary">
                                                         {{config_informe.tipo_informe}}
@@ -275,7 +275,7 @@
                                             </div>
                                         </div>
                                         <!-- sub tarjeta solicitud documentos -->
-                                        <!-- <div class="card-body col-6" *ngIf="practica_default.solicitud_documentos">
+                                        <!-- <div class="card-body col-6" *ngIf="practica_default.solicitud_documentos.length > 0">
                                             <div class="card shadow mb-4">
                                                 <div class="card-header py-3">
                                                     <h4 class="m-0 font-weight-bold text-primary">
@@ -284,9 +284,7 @@
                                                 </div>
                                                 <div class="card-body">
                                                     <p *ngFor="let doc of practica_default.solicitud_documentos; let j = index">
-                                                        {{ doc.tipo_archivo }}
-                                                        {{ doc.nombre_archivo }}
-                                                        {{ doc.descripcion }}
+                                                        {{j+1}}. {{ doc.nombre_solicitud }} [{{ doc.tipo_archivo }}]
                                                     </p>
                                                 </div>
                                             </div>
