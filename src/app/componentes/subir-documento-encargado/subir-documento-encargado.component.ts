@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ArchivosService } from '../../servicios/archivos/archivos.service';
 import { Router} from '@angular/router';
 import { DocumentacionService } from 'src/app/servicios/documento_encargado/documentacion.service';
+import { EmitType } from '@syncfusion/ej2-base';
 
 import {v4 as uuidv4} from 'uuid';
 import { Observable, Subscriber } from 'rxjs';
@@ -91,6 +92,13 @@ export class SubirDocumentoEncargadoComponent {
         return;
       }
       let [, file] = result;
+      if(file.size>10000000){
+        this._snackBar.open("Este Archivo es Demasiado Grande", "Cerrar", {
+          panelClass: ['red-snackbar'],
+          duration: 3000
+        });
+        return
+      }
 
       this.archivo_service.checkFileType(file, formatos).then((type_file: boolean) => {
         if (!type_file) {
@@ -159,6 +167,7 @@ export class Dialog3 {
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0] ?? null;
+    console.log(this.selectedFile)
   }
 
   onNoClick(): void {
