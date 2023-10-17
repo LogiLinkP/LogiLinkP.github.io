@@ -38,6 +38,22 @@ export class EdicionSimpleModalComponent implements OnInit {
 		});
 	}
 
+	//cuando cambie la practica, se actualiza el formulario
+	ngOnChanges() {
+		if (this.practica) {
+			let frecu_informe_aux = this.practica.frecuencia_informes.toLowerCase().trim();
+			if(frecu_informe_aux =="sin informe de avance"){
+				frecu_informe_aux = "sinAvance";
+			}
+			this.editarForm.setValue({
+				nombre: this.practica.nombre,
+				frecuencia_informes: frecu_informe_aux,
+				informe_final: this.practica.informe_final
+			});
+			
+		}
+	}
+
 	reset() {
 		this.editarForm.reset();
 		this.errors = false;
