@@ -19,7 +19,7 @@ export class DocumentacionService {
     return this._http.request(req);
   }
 
-  nuevo_documento(archivo:File, id_encargado:number, id_carrera:number, tipo:string, nombre:string, key:string){
+  nuevo_documento(archivo:any, id_encargado:number, id_carrera:number, tipo:string, nombre:string, key:string){
     console.log(archivo)
     const req = new HttpRequest('POST', `${environment.url_back}/documento_encargado/crear`, {archivo, id_encargado, id_carrera, tipo, nombre, key}, {responseType:"text"});
     return this._http.request(req);

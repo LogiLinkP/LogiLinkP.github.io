@@ -31,7 +31,7 @@ export class SubirDocumentoEncargadoComponent {
   @Input() id_carrera:number = -1;
 
   observando!:Observable<any>
-  codigobase64!:any
+  codigobase64!:any;
 
   constructor(public dialog: MatDialog, private _snackBar: MatSnackBar, private archivo_service: ArchivosService, private router: Router, 
       private docu_service: DocumentacionService) {}
@@ -41,9 +41,49 @@ export class SubirDocumentoEncargadoComponent {
       this.readfile(file,subscriber)
     })
     observable.subscribe((d) => {
-      console.log(d);
       this.observando = d;
       this.codigobase64 = d;
+      console.log(this.codigobase64);
+
+      let _data: any = {};
+
+      let _filename = file.name.toLowerCase();
+      let file_ext = _filename.slice((_filename.lastIndexOf(".") - 1 >>> 0) + 2)
+
+      let key: string = uuidv4();
+
+      this.docu_service.nuevo_documento(this.codigobase64, this.id_encargado,this.id_carrera, file_ext, file.name, key).subscribe({
+        next: data => {
+          _data = { ..._data, ...data }
+        },
+        complete: () => {
+          let upload_string = "";
+          if (_data.status == 200) {
+            upload_string = "?upload_success=success";
+          } else if (_data.status == 415) {
+            upload_string = "?upload_success=format";
+          } else {
+            upload_string = "?upload_success=error";
+          }
+          // check if the current url already has a query string and remove it
+          let newUrl = this.router.url.split("?")[0];
+          newUrl += upload_string;
+          window.location.href = newUrl;
+        },
+        error: error => {
+          if (error.status == 415) {
+            this._snackBar.open("Archivo con formato incorrecto", "Cerrar", {
+              panelClass: ['red-snackbar'],
+              duration: 3000
+            });
+          } else {
+            this._snackBar.open("Error al subir archivo", "Cerrar", {
+              panelClass: ['red-snackbar'],
+              duration: 3000
+            });
+          }
+        }
+      });
     })
     /*
     return new Promise((resolve, reject) => {
@@ -99,52 +139,7 @@ export class SubirDocumentoEncargadoComponent {
           });
           return;
         }
-
-        let _data: any = {};
-
-        let _filename = file.name.toLowerCase();
-        let file_ext = _filename.slice((_filename.lastIndexOf(".") - 1 >>> 0) + 2)
-
-        let key: string = uuidv4();
-        console.log(file)
-
         this.getBase64(file);
-        console.log(this.observando);
-        console.log(this.codigobase64);
-        return;
-          
-        this.docu_service.nuevo_documento(file, this.id_encargado,this.id_carrera, file_ext, file.name, key).subscribe({
-          next: data => {
-            _data = { ..._data, ...data }
-          },
-          complete: () => {
-            let upload_string = "";
-            if (_data.status == 200) {
-              upload_string = "?upload_success=success";
-            } else if (_data.status == 415) {
-              upload_string = "?upload_success=format";
-            } else {
-              upload_string = "?upload_success=error";
-            }
-            // check if the current url already has a query string and remove it
-            let newUrl = this.router.url.split("?")[0];
-            newUrl += upload_string;
-            window.location.href = newUrl;
-          },
-          error: error => {
-            if (error.status == 415) {
-              this._snackBar.open("Archivo con formato incorrecto", "Cerrar", {
-                panelClass: ['red-snackbar'],
-                duration: 3000
-              });
-            } else {
-              this._snackBar.open("Error al subir archivo", "Cerrar", {
-                panelClass: ['red-snackbar'],
-                duration: 3000
-              });
-            }
-          }
-        });
       });
     });
   }
