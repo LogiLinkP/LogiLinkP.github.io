@@ -37,6 +37,7 @@ import { AptitudesComponent } from './vistas/aptitudes/aptitudes.component';
 
 import { environment } from 'src/environments/environment';
 import { PerfilComponent } from './vistas/perfil/perfil.component';
+import { VistaConfigsPracticaComponent } from './vistas/vista-configs-practica/vista-configs-practica.component';
 import { PlagiosComponent } from "./vistas/plagios/plagios.component"
 
 
@@ -77,6 +78,7 @@ const routes: Routes = [
   { path: 'encargado/aptitudes', component: AptitudesComponent },
   { path: 'configurar/:nombre', component: ConfiguracionPracticaComponent },
   { path: 'configurar/:nombre/copia', component: ConfiguracionPracticaComponent },
+  { path: 'detalles/practicas', component: VistaConfigsPracticaComponent },
   { path: environment.ruta_alumno + '/:id/chat/:room/:id1/:id2/:tipo', component: ChatComponent },
   { path: environment.ruta_alumno + '/:id/historial', component: NotisHistorialComponent },
   { path: "historial", component: NotisHistorialComponent },
