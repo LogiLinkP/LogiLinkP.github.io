@@ -61,4 +61,9 @@ export class ObtenerDatosService {
     const req = new HttpRequest('GET', `${environment.url_back}/informe/preguntas?id=${id_informe}`);
     return this._http.request(req);
   }
+
+  obtener_comentarios_supervisor(id_practica: number){
+    const req = new HttpRequest('POST', `${environment.url_back}/estudiante/get-comentarios`,{id_practica});
+    return this._http.request(req);
+  }
 }
