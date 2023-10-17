@@ -30,7 +30,7 @@
                                         <th (click)="sort(1)" [class.asc]="sortedColumn === 1 && sortOrder === -1" [class.desc]="sortedColumn === 1 && sortOrder === 1">Nombre Estudiante</th>
                                         <th (click)="sort(2)" [class.asc]="sortedColumn === 2 && sortOrder === -1" [class.desc]="sortedColumn === 2 && sortOrder === 1">Rut</th>
                                         <th (click)="sort(3)" [class.asc]="sortedColumn === 3 && sortOrder === -1" [class.desc]="sortedColumn === 3 && sortOrder === 1">Tipo Práctica</th>
-                                        <th (click)="sort(4)" [class.asc]="sortedColumn === 4 && sortOrder === -1" [class.desc]="sortedColumn === 4 && sortOrder === 1">Estado</th>
+                                        <th (click)="sort(4)" [class.asc]="sortedColumn === 4 && sortOrder === -1" [class.desc]="sortedColumn === 4 && sortOrder === -1">Estado</th>
                                         <th class="exclude-hover">Nota Supervisor
                                             <a class ="pointer" title="{{texto_promedio_evaluacion}}"
                                                 data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
@@ -45,26 +45,26 @@
                                     </tr>                            
                                 </thead>
                                 <tbody>
-                                    <tr id="cuerpoTabla" class="pointer" *ngFor="let practica of practicas; let indice=index">
+                                    <tr id="cuerpoTabla" class="pointer" *ngFor="let practica of practicas">
                                         <td routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}">{{practica?.estudiante?.usuario?.nombre}}</td>
                                         <td routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}">{{practica?.estudiante?.rut}}</td>
                                         <td routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}">
                                             {{practica?.modalidad?.config_practica?.nombre}}</td>
                                         <td class="font-weight-bold" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}" [ngClass]="getEstadoClass(practica.estado)">
                                             {{ practica?.estado === 'Evaluada' ? 'Evaluada por supervisor' : practica?.estado === 'Finalizada' ? 'Esperando evaluación de supervisor' : practica?.estado }}</td>
-                                        <td routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"><!--Check if notas_promedio[indice] is a number-->
-                                            <div *ngIf="isNumber(notas_promedio[indice])">
-                                                {{notas_promedio[indice] | number: '1.2-2' }}
+                                        <td routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"><!--Check if notas_promedio[practica.id] is a number-->
+                                            <div *ngIf="isNumber(notas_promedio[practica.id])">
+                                                {{notas_promedio[practica.id] | number: '1.2-2' }}
                                             </div>
                                         </td>
                                         <td>
-                                            <div *ngIf="editables[indice]=='0'; else editable">
-                                                <div *ngIf="isNumber(ev_values[indice])"><!-- format the number so that it has 2 decimal places-->
-                                                    {{ ev_values[indice] | number: '1.2' }}
+                                            <div *ngIf="editables[practica.id]=='0'; else editable">
+                                                <div *ngIf="isNumber(ev_values[practica.id])"><!-- format the number so that it has 2 decimal places-->
+                                                    {{ ev_values[practica.id] | number: '1.2' }}
                                                 </div>
-                                                <button *ngIf="!isNumber(ev_values[indice]); else yaEvaluado" class="btn btn-sm btn-primary btn-user" (click)="editar(indice)">Evaluar</button>
+                                                <button *ngIf="!isNumber(ev_values[practica.id]); else yaEvaluado" class="btn btn-sm btn-primary btn-user" (click)="editar(practica.id)">Evaluar</button>
                                                 <ng-template #yaEvaluado>
-                                                    <button class="btn btn-sm btn-secondary btn-user"  (click)="editar(indice)">Cambiar</button>
+                                                    <button class="btn btn-sm btn-secondary btn-user"  (click)="editar(practica.id)">Cambiar</button>
                                                 </ng-template>
                                             </div>
                                             <ng-template #editable>
@@ -76,7 +76,7 @@
                                                     <option value=4>4</option>
                                                     <option value=5>5</option>
                                                 </select>
-                                                <button class="btn btn-sm btn-primary btn-user btn-block" (click)="evaluacion_encargado(practica.id, indice)">Confirmar</button>
+                                                <button class="btn btn-sm btn-primary btn-user btn-block" (click)="evaluacion_encargado(practica.id)">Confirmar</button>
                                             </ng-template>
                                         </td>
                                         <td [ngSwitch]="practica.estado">
