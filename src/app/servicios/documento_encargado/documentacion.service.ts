@@ -19,14 +19,20 @@ export class DocumentacionService {
     return this._http.request(req);
   }
 
-  nuevo_documento(archivo:any, id_encargado:number, id_carrera:number, tipo:string, nombre:string, key:string){
-    console.log(archivo)
-    const req = new HttpRequest('POST', `${environment.url_back}/documento_encargado/crear`, {archivo, id_encargado, id_carrera, tipo, nombre, key}, {responseType:"text"});
+  nuevo_documento(archivo:File, id_encargado:number, id_carrera:number, tipo:string, nombre:string, key:string){
+    const formData:FormData = new FormData()
+    formData.append("file",archivo)
+    formData.append("id_encargado", id_encargado.toString())
+    formData.append("id_carrera", id_carrera.toString())
+    formData.append("tipo", tipo)
+    formData.append("nombre", nombre)
+    formData.append("key", key)
+    const req = new HttpRequest('POST', `${environment.url_back}/documento_encargado/crear`, formData, {responseType:"json"});
     return this._http.request(req);
   }
 
   eliminar_documento(id:number){
-    const req = new HttpRequest('DELETE', `${environment.url_back}/documento_encargado/eliminar?id=${id}`, {responseType:"text"});
+    const req = new HttpRequest('DELETE', `${environment.url_back}/documento_encargado/eliminar?id=${id}`, {responseType:"json"});
     return this._http.request(req);
   }
 }

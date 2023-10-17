@@ -9,6 +9,8 @@ import { environment } from 'src/environments/environment';
 })
 export class DocumentacionComponent implements OnInit {
 
+  bucketlink:string = "https://d2v9ocre132gvc.cloudfront.net/"
+
   esalumno:number = -1;
   usuario:any = {};
   documentos:any = {};
@@ -75,11 +77,9 @@ export class DocumentacionComponent implements OnInit {
     })
   }
 
-  descargar_documento(documento_id: string, solicitud_tipo: string) {
-    //console.log("decargar documento")
-    console.log(documento_id)
-    console.log(environment.url_back+"/documento_encargado/download?id=" + documento_id, "_blank")
+  descargar_documento(key: string) {
+    console.log(this.bucketlink + key)
     // abrir nueva pestaña con url de descarga, que es url_backend (sacada desde el env) + /documentos/ + documento_key
-    window.open(environment.url_back+"/documento_encargado/download?id=" + documento_id);
+    window.open(this.bucketlink + key);
   }
 }
