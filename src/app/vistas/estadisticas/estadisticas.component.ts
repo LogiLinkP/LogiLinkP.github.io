@@ -18,6 +18,23 @@ import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.serv
 import { CarreraService } from 'src/app/servicios/carrera/carrera.service';
 import { EmpresaService } from 'src/app/servicios/empresa/empresa.service';
 
+import { HttpClient, HttpRequest } from '@angular/common/http';
+import { Input } from '@angular/core';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common'
+
+export interface DialogData {
+  //formatos: Formato[];
+  nombre_empresa: string;
+  aptitudes: any[];
+  promedio_aptitudes: any[];
+}
 
 @Component({
   selector: 'app-estadisticas',
@@ -25,7 +42,7 @@ import { EmpresaService } from 'src/app/servicios/empresa/empresa.service';
   styleUrls: ['./estadisticas.component.scss'],
 })
 export class EstadisticasComponent {
-  constructor(private _fb: FormBuilder, private cd: ChangeDetectorRef, @Inject(DOCUMENT) private document: Document, private router: Router, private serviceUsuario: DataUsuarioService,
+  constructor(public dialog: MatDialog, private _fb: FormBuilder, private cd: ChangeDetectorRef, @Inject(DOCUMENT) private document: Document, private router: Router, private serviceUsuario: DataUsuarioService,
   private serviceBarra: BarraLateralService, private _snackBar: MatSnackBar, private route: ActivatedRoute, private serviceConfig: ConfigService, private serviceCarrera: CarreraService,
   private serviceEmpresa: EmpresaService , private servicePreguntas: PreguntasEncuestaFinalService, private _snackbar: MatSnackBar, private serviceEstadisticas : EstadisticasService) {}
 
@@ -47,6 +64,15 @@ export class EstadisticasComponent {
 
   preguntas_estadisticas_AUX: any[] = [];
   preguntas_estadisticas: any[][] = [];
+
+  //estadisticas aptitudes general
+  promedio_aptitudes_carrera= 0;
+  nombre_aptitudes: string[] = [];
+  promedio_aptitudes: number[] = [];
+
+  nombre_aptitudes_top5: string[] = [];
+  promedio_aptitudes_top5: number[] = [];
+
 
   dia_actualizacion_DB = 0;
 
@@ -96,6 +122,12 @@ export class EstadisticasComponent {
   top5_empresas: any[] = [];
   top5_aptitudes: any[] = [];
 
+  //aptitudes
+
+  jsons_empresas: any[] = [];
+
+  aptitudes_empresas: any[] = [];
+
   id_carrera_encargado = 0;
 
   ngOnInit(): void {
@@ -129,6 +161,47 @@ export class EstadisticasComponent {
             console.log(error);
           },
           complete: () => {
+
+            this.promedio_aptitudes_carrera = respuesta.body.promedio_aptitudes.array[0];
+            //console.log("promedio_aptitudes_carrera: ", this.promedio_aptitudes_carrera);
+
+            for (let i = 1; i < respuesta.body.promedio_aptitudes.array.length; i++){
+              if (this.isNumber(respuesta.body.promedio_aptitudes.array[i])) {
+                this.promedio_aptitudes.push(Number(respuesta.body.promedio_aptitudes.array[i]));
+              }
+              else{
+                this.nombre_aptitudes.push(String(respuesta.body.promedio_aptitudes.array[i]));
+              }
+            }
+
+            //console.log("nombre_aptitudes: ", this.nombre_aptitudes);
+            //console.log("promedio_aptitudes: ", this.promedio_aptitudes);
+
+            for (let i = 0; i < this.promedio_aptitudes.length; i++) {
+              for (let k = 0; k < this.promedio_aptitudes.length; k++) {
+                if (this.promedio_aptitudes[i] > this.promedio_aptitudes[k]) {
+                  let aux = this.promedio_aptitudes[i];
+                  this.promedio_aptitudes[i] = this.promedio_aptitudes[k];
+                  this.promedio_aptitudes[k] = aux;
+        
+                  let aux2 = this.nombre_aptitudes[i];
+                  this.nombre_aptitudes[i] = this.nombre_aptitudes[k];
+                  this.nombre_aptitudes[k] = aux2;
+                }
+              }
+            }
+
+            //console.log("nombre_aptitudes_ordenado: ", this.nombre_aptitudes);
+            //console.log("promedio_aptitudes_ordenado: ", this.promedio_aptitudes);
+
+            if (this.nombre_aptitudes.length >= 5) {
+              this.nombre_aptitudes_top5 = this.nombre_aptitudes.slice(0,5);
+              this.promedio_aptitudes_top5 = this.promedio_aptitudes.slice(0,5);
+            }
+
+            //console.log("nombre_aptitudes_top5: ", this.nombre_aptitudes_top5);
+            //console.log("promedio_aptitudes_top5: ", this.promedio_aptitudes_top5);
+
             
             this.arreglo_ramos = respuesta.body.estadistica_ramos.array[0];
 
@@ -327,6 +400,7 @@ export class EstadisticasComponent {
                 //console.log("empresas: ", respuesta.body);
                 let cantidad_empresas_remuneracion=0;
                 for (let i=0; i<respuesta.body.length; i++) {
+                  this.jsons_empresas.push(respuesta.body[i].promedio_aptitudes);
                   this.nombre_empresas.push(respuesta.body[i].nombre_empresa);
                   this.valoracion_empresas.push(respuesta.body[i].calificacion_promedio);
                   if (respuesta.body[i].sueldo_promedio !=0 && respuesta.body[i].sueldo_promedio != null){
@@ -336,6 +410,20 @@ export class EstadisticasComponent {
                   }  
                 }
                 //console.log("nombre_empresas: ", this.nombre_empresas)
+                //console.log("jsons_empresas: ", this.jsons_empresas)
+
+                //console.log("id_carrera_encargado", this.id_carrera_encargado)
+
+
+                for(let i=0; i<this.jsons_empresas.length; i++) {
+                  this.aptitudes_empresas.push(this.jsons_empresas[i][this.id_carrera_encargado])
+                  //console.log("jsons_empresas[i]: ", this.jsons_empresas[i][this.id_carrera_encargado])
+                }
+
+                //console.log("aptitudes_empresas: ", this.aptitudes_empresas)
+
+                //filtrando empresas por carrera
+                
                 //console.log("valoracion_empresas: ", this.valoracion_empresas)
 
                 //ordenar valoracion de mayor a menor
@@ -459,4 +547,70 @@ export class EstadisticasComponent {
       return true;
     }
   }
+
+
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, nombre_empresa: string): void {
+    /*
+    for (let i = 0; i < this.empresas.length; i++){
+      if (this.empresas[i].id == id_empresa){
+
+        this.comentarios_empresa = this.comentarios[i];
+        this.nombre_empresa_comentario = this.empresas[i].nombre_empresa;
+        if (this.palabras_clave_empresa[i]){
+          this.palabras_clave_una_empresa = this.palabras_clave_empresa[i].split(',');
+        }
+        else{
+          this.palabras_clave_una_empresa = [];
+        }
+        //this.comentarios_empresa.splice(0, 1);
+        //this.comentarios_empresa.shift();
+        break;
+      }
+    }
+    */
+    //this.comentarios_empresa.shift();
+
+    let pos_empresa = this.nombre_empresas.indexOf(nombre_empresa);
+    let aptitudes_empresa = this.aptitudes_empresas[pos_empresa];
+
+    let aptitudes_empresa_aux: any[] = [];
+    let promedio_aptitudes_empresa_aux: any[] = [];
+
+    for(let i=0; i<aptitudes_empresa.length; i++) {
+      if (this.isNumber(aptitudes_empresa[i])) {
+        promedio_aptitudes_empresa_aux.push(aptitudes_empresa[i]);
+      }
+      else{
+        aptitudes_empresa_aux.push(aptitudes_empresa[i]);
+      }
+    }
+
+    const dialogRef = this.dialog.open(Dialog, {
+      width: '800px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: { nombre_empresa: nombre_empresa, aptitudes:aptitudes_empresa_aux, promedio_aptitudes: promedio_aptitudes_empresa_aux}
+    });
+
+  }
+}
+
+@Component({
+  selector: 'app-dialog',
+  templateUrl: 'dialog.html',
+  standalone: true,
+  imports: [MatDialogModule, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatSelectModule, CommonModule,
+    NgFor],
+})
+export class Dialog {
+  
+  nombre_empresa: string;
+  aptitudes: any[] = [];
+
+  constructor(public dialogRef: MatDialogRef<Dialog>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
 }
