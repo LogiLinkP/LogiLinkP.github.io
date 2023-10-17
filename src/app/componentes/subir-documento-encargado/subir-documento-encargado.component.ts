@@ -7,13 +7,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { NgFor } from '@angular/common';
 import { CommonModule } from '@angular/common'
-import { DocumentosService } from '../../servicios/encargado/documentos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ArchivosService } from '../../servicios/archivos/archivos.service';
-import { ActivatedRoute, Router} from '@angular/router';
-import { environment } from 'src/environments/environment';
-import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
+import { Router} from '@angular/router';
 import { DocumentacionService } from 'src/app/servicios/documento_encargado/documentacion.service';
+
+import {v4 as uuidv4} from 'uuid';
+import { Observable, Subscriber } from 'rxjs';
 
 export interface DialogData {
 
@@ -30,19 +30,61 @@ export class SubirDocumentoEncargadoComponent {
   @Input() id_encargado:number = -1;
   @Input() id_carrera:number = -1;
 
-  constructor(public dialog: MatDialog, private _snackBar: MatSnackBar, private archivo_service: ArchivosService, private router: Router, 
-    private activated_route: ActivatedRoute, private service_noti: NotificacionesService, private docu_service: DocumentacionService) {}
+  observando!:Observable<any>
+  codigobase64!:any
 
+  constructor(public dialog: MatDialog, private _snackBar: MatSnackBar, private archivo_service: ArchivosService, private router: Router, 
+      private docu_service: DocumentacionService) {}
+
+  getBase64(file: File) {
+    const observable = new Observable((subscriber:Subscriber<any>) => {
+      this.readfile(file,subscriber)
+    })
+    observable.subscribe((d) => {
+      console.log(d);
+      this.observando = d;
+      this.codigobase64 = d;
+    })
+    /*
+    return new Promise((resolve, reject) => {
+      if (!file) {
+        reject('file object is null');
+      }
   
+      var reader = new FileReader();
+  
+      reader.onloadend = function () {
+        resolve({ res: reader.result, name: file.name });
+        };
+      reader.readAsDataURL(file);
+    });
+    */
+  }
+
+  readfile(file:File, subscriber:Subscriber<any>){
+    const filereader = new FileReader()
+
+    filereader.readAsDataURL(file)
+
+    filereader.onload = () => {
+      subscriber.next(filereader.result);
+      subscriber.complete;
+    }
+    filereader.onerror = () => {
+      subscriber.error()
+      subscriber.complete();
+    }
+  }
+
   subir_archivos() {
-    
+      
     let formatos = ["pdf", "doc", "docx", "xls", "xlsx"]
     const dialogRef = this.dialog.open(Dialog3, {
       width: '400px',
       enterAnimationDuration: "100ms",
       exitAnimationDuration: "100ms",
     });
-
+      
     dialogRef.afterClosed().subscribe((result: any) => {
       if (!result || !result[0]) {
         return;
@@ -57,15 +99,21 @@ export class SubirDocumentoEncargadoComponent {
           });
           return;
         }
-  
+
         let _data: any = {};
 
         let _filename = file.name.toLowerCase();
         let file_ext = _filename.slice((_filename.lastIndexOf(".") - 1 >>> 0) + 2)
 
-        let key: string = "";
-        
-        this.docu_service.nuevo_documento(this.id_encargado,this.id_carrera, file_ext, file.name, key).subscribe({
+        let key: string = uuidv4();
+        console.log(file)
+
+        this.getBase64(file);
+        console.log(this.observando);
+        console.log(this.codigobase64);
+        return;
+          
+        this.docu_service.nuevo_documento(file, this.id_encargado,this.id_carrera, file_ext, file.name, key).subscribe({
           next: data => {
             _data = { ..._data, ...data }
           },
