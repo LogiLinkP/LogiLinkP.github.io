@@ -1,0 +1,36 @@
+<div class="modal fade" id="comentarios-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Comentarios de la evaluacion</h5>
+            </div>
+            <div class="modal-body">
+                <ng-template [ngIf]="flag" [ngIfElse]="case">
+                    <div class="table-responsive">
+                        <table class="table table-bordered hoverTable"
+                            id="dataTable" width="100%"
+                            cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th style="vertical-align: bottom;">Pregunta</th>
+                                    <th style="vertical-align: bottom;">Respuesta</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let comentario of data_response">
+                                    <td>{{comentario.pregunta}}</td>
+                                    <td>{{comentario.respuesta}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </ng-template>
+                <ng-template #case>No hay comentarios en esta practica</ng-template>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Volver</button>
+            </div>
+        </div>
+    </div>
+</div>
