@@ -27,23 +27,22 @@
                                 cellspacing="0">
                                 <thead id="headerTabla">
                                     <tr>
-                                        <th (click)="sort(1)">Nombre Estudiante</th>
-                                        <th (click)="sort(2)">Rut</th>
-                                        <th (click)="sort(3)">Tipo Práctica</th>
-                                        <th (click)="sort(4)">Estado</th>
-                                        <th (click)="sort(5)">Nota Supervisor
+                                        <th (click)="sort(1)" [class.asc]="sortedColumn === 1 && sortOrder === -1" [class.desc]="sortedColumn === 1 && sortOrder === 1">Nombre Estudiante</th>
+                                        <th (click)="sort(2)" [class.asc]="sortedColumn === 2 && sortOrder === -1" [class.desc]="sortedColumn === 2 && sortOrder === 1">Rut</th>
+                                        <th (click)="sort(3)" [class.asc]="sortedColumn === 3 && sortOrder === -1" [class.desc]="sortedColumn === 3 && sortOrder === 1">Tipo Práctica</th>
+                                        <th (click)="sort(4)" [class.asc]="sortedColumn === 4 && sortOrder === -1" [class.desc]="sortedColumn === 4 && sortOrder === 1">Estado</th>
+                                        <th class="exclude-hover">Nota Supervisor
                                             <a class ="pointer" title="{{texto_promedio_evaluacion}}"
                                                 data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
                                                     class="fas fa-info-circle"></i></a>
                                         </th>
-                                        <th (click)="sort(6)">Nota Encargado
+                                        <th class="exclude-hover">Nota Encargado
                                             <a class="pointer" title="{{texto_evaluacion_encargado}}"
                                                 data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
                                                     class="fas fa-info-circle"></i></a>
                                         </th>
-                                        <th style="vertical-align: bottom">Aprobación</th>                                        
-                                    </tr>
-                            
+                                        <th class="exclude-hover" style="vertical-align: bottom">Aprobación</th>                                        
+                                    </tr>                            
                                 </thead>
                                 <tbody>
                                     <tr id="cuerpoTabla" class="pointer" *ngFor="let practica of practicas; let indice=index">
@@ -63,9 +62,9 @@
                                                 <div *ngIf="isNumber(ev_values[indice])"><!-- format the number so that it has 2 decimal places-->
                                                     {{ ev_values[indice] | number: '1.2' }}
                                                 </div>
-                                                <button *ngIf="!isNumber(ev_values[indice]); else yaEvaluado" class="btn btn-primary btn-user" (click)="editar(indice)">Evaluar</button>
+                                                <button *ngIf="!isNumber(ev_values[indice]); else yaEvaluado" class="btn btn-sm btn-primary btn-user" (click)="editar(indice)">Evaluar</button>
                                                 <ng-template #yaEvaluado>
-                                                    <button class="btn btn-secondary btn-user"  (click)="editar(indice)">Cambiar</button>
+                                                    <button class="btn btn-sm btn-secondary btn-user"  (click)="editar(indice)">Cambiar</button>
                                                 </ng-template>
                                             </div>
                                             <ng-template #editable>
@@ -77,7 +76,7 @@
                                                     <option value=4>4</option>
                                                     <option value=5>5</option>
                                                 </select>
-                                                <button class="btn btn-primary btn-user btn-block" (click)="evaluacion_encargado(practica.id, indice)">Confirmar</button>
+                                                <button class="btn btn-sm btn-primary btn-user btn-block" (click)="evaluacion_encargado(practica.id, indice)">Confirmar</button>
                                             </ng-template>
                                         </td>
                                         <td [ngSwitch]="practica.estado">

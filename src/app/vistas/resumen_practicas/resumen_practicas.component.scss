@@ -8,7 +8,7 @@ thead th {
     vertical-align: middle;
 }
 
-thead :hover{
+thead th:not(.exclude-hover):hover {
     background-color: #e7e7e7;
     cursor: pointer;
 }
@@ -40,3 +40,12 @@ tbody tr td {
     cursor: pointer;
 }
 
+/* Ascending arrow style */
+.asc:after {
+    content: ' ▲'; /* Up arrow */
+  }
+  
+  /* Descending arrow style */
+  .desc:after {
+    content: ' ▼'; /* Down arrow */
+  }

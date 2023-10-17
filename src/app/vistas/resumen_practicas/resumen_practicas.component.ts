@@ -210,7 +210,13 @@ export class TablaComponent {
     this.dtTrigger.unsubscribe();
   }
 
+  sortedColumn: number | null = null;
+  sortOrder: number | null = null;
+
   sort(n:number) {
+    this.sortedColumn = n;
+    this.sortOrder = this.booleanValue ? 1 : -1;
+    console.log(this.booleanValue, this.sortOrder)
     if (this.booleanValue == false){
       switch(n){
         case 1:
@@ -235,15 +241,6 @@ export class TablaComponent {
           this.practicas.sort((a:any, b:any) => a.estado > b.estado ? 1 :
                                                 a.estado < b.estado ? -1 :
                                                 0 
-          )
-          break;
-        case 5:
-          this.notas_promedio.sort((a:any, b:any) => a > b ? 1 : a < b ? -1 : 0);
-          break;
-        case 6:
-          this.practicas.sort((a:any, b:any) => a.ev_encargado > b.ev_encargado ? 1 :
-                                                a.ev_encargado < b.ev_encargado ? -1:
-                                                0
           )
           break;
       }
