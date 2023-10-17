@@ -195,6 +195,14 @@
                                             <ng-template #nofecha>
                                                 <div class="col-6">Sin terminar</div>
                                             </ng-template>
+                                            <div class="col-6">
+                                                ¿Plagio detectado?:
+                                            </div>
+                                            <div [class]="hay_plagio? 'bg-warning col-6' : 'col-6'">
+
+                                                <i *ngIf="hay_plagio" class="fa-solid fa-triangle-exclamation"></i>
+                                                {{hay_plagio?"Hay plagio":"No hay plagio"}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
