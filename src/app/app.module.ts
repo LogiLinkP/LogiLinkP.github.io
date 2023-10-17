@@ -86,6 +86,8 @@ import { EditarAptitudModalComponent } from './componentes/editar-aptitud-modal/
 import { RangoModalComponent } from './componentes/rango-modal/rango-modal.component';
 import { VistaConfigsPracticaComponent } from './vistas/vista-configs-practica/vista-configs-practica.component';
 import { EdicionSimpleModalComponent } from './componentes/edicion-simple-modal/edicion-simple-modal.component';
+import { PlagiosComponent } from './vistas/plagios/plagios.component';
+import { ComentariosModalComponent } from './componentes/comentarios-modal/comentarios-modal.component';
 
 @NgModule({
   declarations: [
@@ -138,6 +140,8 @@ import { EdicionSimpleModalComponent } from './componentes/edicion-simple-modal/
     RangoModalComponent,
     VistaConfigsPracticaComponent,
     EdicionSimpleModalComponent,
+    PlagiosComponent,
+    ComentariosModalComponent,
   ],
   imports: [
     BrowserModule,
