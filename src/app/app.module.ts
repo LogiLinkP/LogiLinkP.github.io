@@ -84,6 +84,9 @@ import { AptitudesComponent } from './vistas/aptitudes/aptitudes.component';
 import { CrearAptitudModalComponent } from './componentes/crear-aptitud-modal/crear-aptitud-modal.component';
 import { EditarAptitudModalComponent } from './componentes/editar-aptitud-modal/editar-aptitud-modal.component';
 import { RangoModalComponent } from './componentes/rango-modal/rango-modal.component';
+import { VistaConfigsPracticaComponent } from './vistas/vista-configs-practica/vista-configs-practica.component';
+import { EdicionSimpleModalComponent } from './componentes/edicion-simple-modal/edicion-simple-modal.component';
+import { PlagiosComponent } from './vistas/plagios/plagios.component';
 import { ComentariosModalComponent } from './componentes/comentarios-modal/comentarios-modal.component';
 
 @NgModule({
@@ -135,6 +138,9 @@ import { ComentariosModalComponent } from './componentes/comentarios-modal/comen
     CrearAptitudModalComponent,
     EditarAptitudModalComponent,
     RangoModalComponent,
+    VistaConfigsPracticaComponent,
+    EdicionSimpleModalComponent,
+    PlagiosComponent,
     ComentariosModalComponent,
   ],
   imports: [
