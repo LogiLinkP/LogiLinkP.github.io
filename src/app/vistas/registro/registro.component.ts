@@ -114,14 +114,14 @@ export class RegistroComponent implements OnInit {
             duration: 2000
           });
         } else {
-          this._snackBar.open("Error al crear usuario", "Cerrar", {
+          this._snackBar.open(_data.body.message, "Cerrar", {
             panelClass: ['red-snackbar'],
             duration: 2000
           });
         }
       },
       error: err => {
-        this._snackBar.open("Error al crear usuario", "Cerrar", {
+        this._snackBar.open(err.error.message, "Cerrar", {
           panelClass: ['red-snackbar'],
           duration: 2000
         });
