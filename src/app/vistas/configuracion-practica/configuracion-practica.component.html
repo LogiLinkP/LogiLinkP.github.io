@@ -150,10 +150,21 @@
                     formControlName="informeFinal">
                   <label class="form-check-label" for="informeFinalNO">No</label>
                 </div>
+                <div *ngIf="fg.value.informeFinal == 'si'">
+                  <p class="mt-2"> Elija el tipo de informe final que desea utilizar</p>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="informeFinalCuestionario" value="cuestionario"
+                    formControlName="tipoInformeFinal">
+                    <label class="form-check-label" for="informeFinalCuestionario">Cuestionario</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="informeFinalArchivo" value="archivo"
+                    formControlName="tipoInformeFinal">
+                    <label class="form-check-label" for="informeFinalArchivo">Archivo</label>
+                  </div>
+                </div>
                 <br>
-                <br>
-
-                <button class="btn btn-primary btn-user btn-md" type="submit">Siguiente</button>
+                <button class="btn btn-primary btn-user btn-md " type="submit">Siguiente</button>
               </form>
             </div>
           </div><!-- Fin tarjeta inicial-->
@@ -354,7 +365,7 @@
           </div><!-- Fin tarjeta inicial-->
 
           <!-------------------------------------------------- CONFIGURACION PREGUNTAS INFORME FINAL -------------------------------------------------------------->
-          <div class="card shadow" *ngIf="estado == 'informe_final'">
+          <div class="card shadow" *ngIf="estado == 'informe_final_cuestionario'">
             <div class="card-body text-center">
               <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
                 Preguntas informe final

@@ -121,10 +121,13 @@ export class ConfigService {
         return this._http.request(req);
     }
 
-    crearConfigInforme(id_config_practica: number, tipo_informe: string) {
+    crearConfigInforme(id_config_practica: number, tipo_informe: string, archivo_o_encuesta: string = "", tipo_archivo: string = "", plantilla: string = "") {
         const config = {
             id_config_practica: id_config_practica,
-            tipo_informe: tipo_informe
+            tipo_informe: tipo_informe,
+            archivo_o_encuesta,
+            tipo_archivo,
+            plantilla
         }
 
         const req = new HttpRequest('POST', `${environment.url_back}/config_informe/crear`, config, {
