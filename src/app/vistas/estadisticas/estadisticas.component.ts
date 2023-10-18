@@ -128,6 +128,9 @@ export class EstadisticasComponent {
 
   aptitudes_empresas: any[] = [];
 
+  nombre_empresas_con_aptitudes: string[] = [];
+  aptitudes_empresas_con_aptitudes: any[] = [];
+
   id_carrera_encargado = 0;
 
   ngOnInit(): void {
@@ -437,9 +440,26 @@ export class EstadisticasComponent {
                       let aux2 = this.nombre_empresas[i];
                       this.nombre_empresas[i] = this.nombre_empresas[k];
                       this.nombre_empresas[k] = aux2;
+
+                      let aux3 = this.aptitudes_empresas[i];
+                      this.aptitudes_empresas[i] = this.aptitudes_empresas[k];
+                      this.aptitudes_empresas[k] = aux3;
                     }
                   }
                 }
+
+                for(let i = 0; i < this.nombre_empresas.length; i++){
+                  if(this.aptitudes_empresas[i] != null){
+                    if(this.aptitudes_empresas[i].length != 0){
+                      this.nombre_empresas_con_aptitudes.push(this.nombre_empresas[i]);
+                      this.aptitudes_empresas_con_aptitudes.push(this.aptitudes_empresas[i]);
+                    }
+                  }
+                }
+
+                //console.log("nombre_empresas_con_aptitudes: ", this.nombre_empresas_con_aptitudes)
+                //console.log("aptitudes_empresas_con_aptitudes: ", this.aptitudes_empresas_con_aptitudes)
+
                 //console.log("nombre_empresas_ordenado: ", this.nombre_empresas)
                 //console.log("valoracion_empresas_ordenado: ", this.valoracion_empresas)
 
@@ -548,6 +568,19 @@ export class EstadisticasComponent {
     }
   }
 
+  /*
+  empresa_tiene_aptitudes(nombre_empresa: string){
+    //get pos de nombre_empresa en nombre_empresas
+    let pos_empresa = this.nombre_empresas.indexOf(nombre_empresa);
+    let aptitudes_empresa = this.aptitudes_empresas[pos_empresa];
+    if(aptitudes_empresa.length=0){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+  */
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, nombre_empresa: string): void {
     /*
@@ -570,8 +603,8 @@ export class EstadisticasComponent {
     */
     //this.comentarios_empresa.shift();
 
-    let pos_empresa = this.nombre_empresas.indexOf(nombre_empresa);
-    let aptitudes_empresa = this.aptitudes_empresas[pos_empresa];
+    let pos_empresa = this.nombre_empresas_con_aptitudes.indexOf(nombre_empresa);
+    let aptitudes_empresa = this.aptitudes_empresas_con_aptitudes[pos_empresa];
 
     let aptitudes_empresa_aux: any[] = [];
     let promedio_aptitudes_empresa_aux: any[] = [];
