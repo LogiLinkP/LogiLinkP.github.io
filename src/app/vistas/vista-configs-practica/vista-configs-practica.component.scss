@@ -1,0 +1,21 @@
+th, td {
+    padding: 2px 15px;
+}
+
+input.form-control {
+    width: auto;
+    display: inline-block;
+}
+
+label {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.disabled-button {
+    opacity: .65;
+}
+
+.disabled-button:hover {
+    cursor: not-allowed;
+}

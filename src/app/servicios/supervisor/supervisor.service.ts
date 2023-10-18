@@ -46,4 +46,9 @@ export class SupervisorService {
     const req = new HttpRequest('POST', `${environment.url_back}/similitud/textos_repetidos`, {id_practica});
     return this._http.request(req);
   }
+
+  getAptitudes(id_practica: number) {
+    const req = new HttpRequest('POST',`${environment.url_back}/pregunta_supervisor/aptitudes`, {id_practica});
+    return this._http.request(req);
+  }
 }

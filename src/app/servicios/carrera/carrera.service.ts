@@ -15,4 +15,9 @@ export class CarreraService {
     return this._http.request(req);
   }
 
+  obtener_carreras() {
+    const req = new HttpRequest('GET', `${environment.url_back}/carrera/todos`);
+    return this._http.request(req);
+  }
+
 }

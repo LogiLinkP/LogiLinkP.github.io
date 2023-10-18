@@ -10,22 +10,12 @@ import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.
 import { FragmentosService } from '../../servicios/fragmentos/fragmentos.service';
 import { ResumenService } from 'src/app/servicios/resumen/resumen.service';
 import { InformeService } from 'src/app/servicios/informe/informe.service';
-
-//import pdfMake from 'pdfmake/build/pdfmake';
-//import pdfFonts from 'pdfmake/build/vfs_fonts';
-//pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
 import jsPDF from 'jspdf';
-//import pdfMake from 'pdfmake/build/pdfmake';
-//import pdfFonts from 'pdfmake/build/vfs_fonts';
-//pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import htmlToPdfmake from 'html-to-pdfmake';
 import e from 'express';
-
-//import { jsPDF } from "jspdf"; 
-
 import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
-import { NULL } from 'sass';
+import { PlagioService } from "../../servicios/plagio/plagio.service";
+
 
 @Component({
   selector: 'app-detalle-practica',
@@ -45,6 +35,7 @@ export class DetallePracticaComponent implements OnInit {
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
+  id_practica: number;
 
   practica: any = {};
   solicitudes_documentos: any = [];
@@ -75,11 +66,14 @@ export class DetallePracticaComponent implements OnInit {
 
   prom: number = -1;
   hay_respuesta: number = -1;
+  ev_encargado: any = [];
+
+  hay_plagio: boolean = false;
 
   constructor(private fragmentosService: FragmentosService, private service: DetallePracticaService, private service2: SetDetallesAlumnoService,
     private _snackBar: MatSnackBar, private route: ActivatedRoute,
     private service_obtener: DataUsuarioService, private service_resumen: ResumenService, private service_informe: InformeService,
-    private service_noti: NotificacionesService) {
+    private service_noti: NotificacionesService, private plagioService: PlagioService) {
 
     this.dtOptions = {
       language: {
@@ -93,10 +87,23 @@ export class DetallePracticaComponent implements OnInit {
     let respuesta: any = {};
 
     let id_practica = parseInt(this.route.snapshot.url[1].path); //obtener el id de práctica de la url
+    this.id_practica = id_practica;
 
     if (!isNaN(id_practica)) {
 
-      //console.log("id_practica: ", id_practica);
+      let res_plagio: any = {};
+      plagioService.get_plagio_por_practica(id_practica).subscribe({
+        next: (data: any) => {
+          res_plagio = { ...res_plagio, ...data }
+        }, error: (err: any) => {
+
+        }, complete: () => {
+          console.log("plagio:", res_plagio)
+          if (res_plagio.status == 200) {
+            this.hay_plagio = res_plagio.body.length > 0;
+          }
+        }
+      })
       //====REQUEST para obtener la practica (con el estudiante, config_practica y otras tablas)====//
       this.service.obtener_practica(id_practica).subscribe({
         next: (data: any) => {
@@ -111,8 +118,13 @@ export class DetallePracticaComponent implements OnInit {
         },
         complete: () => {
           this.practica = respuesta.body;
-          console.log(this.practica);
           this.check_resumen();
+
+          if (this.practica.ev_encargado == null) {
+            this.ev_encargado = "-"
+          } else {
+            this.ev_encargado = this.practica.ev_encargado;
+          }
 
           if (this.practica.estado == environment.estado_practica.evaluada ||
             this.practica.estado == environment.estado_practica.aprobada ||

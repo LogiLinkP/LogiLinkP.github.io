@@ -39,4 +39,12 @@ export class PreguntasEncuestaFinalService {
     return this._http.request(req);
   }
 
+  agregar_sueldo_practica(id_practica: number, remuneracion_practica: number) {
+    const req = new HttpRequest('PUT', `${environment.url_back}/practica/actualizar`, {
+      id: id_practica,
+      sueldo: remuneracion_practica
+    });
+    return this._http.request(req);
+  }
+
 }

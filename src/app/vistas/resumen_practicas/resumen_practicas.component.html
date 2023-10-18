@@ -32,33 +32,13 @@
                                         <th style="vertical-align: bottom;" (click)="sort(2)">Rut</th>
                                         <th style="vertical-align: bottom;" (click)="sort(3)">Tipo Práctica</th>
                                         <th style="vertical-align: bottom;" (click)="sort(4)">Estado</th>
-                                        <th style="vertical-align: bottom;" (click)="sort(5)">Índice Repetición
-                                            <a class="pointer" title="{{texto_indice_repeticion}}" data-toggle="tooltip"
-                                                data-placement="bottom" (click)="redirecting()"><i
-                                                    class="fas fa-info-circle"></i></a>
-                                        </th>
-                                        <th style="vertical-align: bottom;" (click)="sort(6)">Consistencia Informes
-                                            <a class="pointer" title="{{texto_consistencia_informe}}"
-                                                data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
-                                                    class="fas fa-info-circle"></i></a>
-                                        </th>
-                                        <th style="vertical-align: bottom;" (click)="sort(7)">Consistencia Evaluación
-                                            <a class="pointer" title="{{texto_consistencia_evaluacion}}"
-                                                data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
-                                                    class="fas fa-info-circle"></i></a>
-                                        </th>
-                                        <th style="vertical-align: bottom;" (click)="sort(8)">Interpretación Informes
-                                            <a class="pointer" title="{{texto_interpretacion_informes}}"
-                                                data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
-                                                    class="fas fa-info-circle"></i></a>
-                                        </th>
-                                        <th style="vertical-align: bottom;" (click)="sort(9)">Interpretación Nota
-                                            <a class="pointer" title="{{texto_interpretacion_nota}}"
-                                                data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
-                                                    class="fas fa-info-circle"></i></a>
-                                        </th>
-                                        <th style="vertical-align: bottom;" (click)="sort(10)">Promedio Evaluación
+                                        <th style="vertical-align: bottom;" (click)="sort(5)">Nota Supervisor
                                             <a class ="pointer" title="{{texto_promedio_evaluacion}}"
+                                                data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
+                                                    class="fas fa-info-circle"></i></a>
+                                        </th>
+                                        <th style="vertical-align:bottom;" (click)="sort(6)">Nota Encargado
+                                            <a class="pointer" title="{{texto_evaluacion_encargado}}"
                                                 data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
                                                     class="fas fa-info-circle"></i></a>
                                         </th>
@@ -66,30 +46,41 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let practica of practicas; let indice=index">
+                                    <tr class="pointer" *ngFor="let practica of practicas; let indice=index">
                                         <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
-                                            style="vertical-align: middle;">{{practica.estudiante.usuario.nombre}}</td>
+                                            style="vertical-align: middle;">{{practica?.estudiante?.usuario?.nombre}}</td>
                                         <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
-                                            style="vertical-align: middle;">{{practica.estudiante.rut}}</td>
+                                            style="vertical-align: middle;">{{practica?.estudiante?.rut}}</td>
                                         <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
                                             style="vertical-align: middle;">
-                                            {{practica.modalidad.config_practica.nombre}}</td>
+                                            {{practica?.modalidad?.config_practica?.nombre}}</td>
                                         <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
-                                            style="vertical-align: middle;">{{practica.estado}}</td>
+                                            style="vertical-align: middle;">{{practica?.estado}}</td>
                                         <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
-                                            style="vertical-align: middle;">{{practica.indice_repeticion?
-                                            practica.indice_repeticion : "—"}}</td>
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
-                                            style="vertical-align: middle;">{{practica.consistencia_informe}}</td>
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
-                                            style="vertical-align: middle;">{{practica.consistencia_nota}}</td>
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
-                                            style="vertical-align: middle;">{{practica.interpretacion_nota}}</td>
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
-                                            style="vertical-align: middle;">{{practica.interpretacion_informe}}</td>
-                                        
-                                        <td class="table-item" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
-                                            style="vertical-align: middle;">{{notas_promedio[indice]}}</td>
+                                            style="vertical-align: middle;"><!--Check if notas_promedio[indice] is a number-->
+                                            <div *ngIf="isNumber(notas_promedio[indice])">
+                                                {{notas_promedio[indice] | number: '1.2-2' }}
+                                            </div>
+                                        </td>
+                                        <td class="table-item" style="vertical-align: middle;">
+                                            <div *ngIf="editables[indice]=='0'; else editable">
+                                                <div *ngIf="isNumber(ev_values[indice])"><!-- format the number so that it has 2 decimal places-->
+                                                    {{ ev_values[indice] | number: '1.2' }}
+                                                </div>
+                                                <button class="btn btn-primary btn-user" (click)="editar(indice)">Evaluar</button>
+                                            </div>
+                                            <ng-template #editable>
+                                                <select class="form-select" (input)="checkout($event)">
+                                                    <option value=-1 disabled selected>Evalúe la práctica</option>
+                                                    <option value=1>1</option>
+                                                    <option value=2>2</option>
+                                                    <option value=3>3</option>
+                                                    <option value=4>4</option>
+                                                    <option value=5>5</option>
+                                                </select>
+                                                <button class="btn btn-primary btn-user btn-block" (click)="evaluacion_encargado(practica.id, indice)">Confirmar</button>
+                                            </ng-template>
+                                        </td>
                                         <td [ngSwitch]="practica.estado" style="vertical-align: middle;">
                                             <app-revision *ngSwitchCase="'Evaluada'"
                                                 [id_estudiante]="practica.id_estudiante"
@@ -106,7 +97,7 @@
                                                 [id_modalidad]="practica.modalidad.id"
                                                 [id_usuario_estudiante]="practica.estudiante.id_usuario">
                                             </app-revision>
-                                            <div *ngSwitchDefault>Esperando evaluacion del supervisor</div>
+                                            <div *ngSwitchDefault>Esperando evaluación del supervisor</div>
                                         </td>
                                     </tr>
                                 </tbody>
