@@ -19,6 +19,7 @@ import { Express, response } from 'express'; //! NO BORRAR! SE MUERE TODO. PORQU
 export class ConfiguracionPracticaComponent {
 
     currentRoute: string;
+    rutaAnterior: string;
     importada: boolean = false;
     migracion_legal: boolean = true;
     user: any = JSON.parse(localStorage.getItem('auth-user') || "{}").userdata;
@@ -27,6 +28,7 @@ export class ConfiguracionPracticaComponent {
         private serviceBarra: BarraLateralService, private _snackBar: MatSnackBar, private route: ActivatedRoute,
         private serviceComplete: ConfigService, private router: Router) {
         this.currentRoute = "";
+        this.rutaAnterior = "";
 
         this.router.events.subscribe((event: Event) => {
             if (event instanceof NavigationStart) {
@@ -41,18 +43,22 @@ export class ConfiguracionPracticaComponent {
                 let ruta_cortada = event.url.split("/");
                 //console.log("NavigationEnd:", event.url, "split", ruta_cortada);
                 //console.log("current route: ", this.currentRoute);
+                
                 if (ruta_cortada[ruta_cortada.length - 1] == "copia") {
                     this.requestInicial(true);
                     this.importada = true;
                 } else {
+                    if (this.estado == "configuracion_general") {
+                        if (this.rutaAnterior[1] == "configurar") {
+                            this.fg.reset();
+                        }
+                    } else {
+                        window.location.reload();
+                    }
                     this.requestInicial();
                 }
-                if (this.estado == "configuracion_general") {
-                    this.scrollToTop();
-                } else {
-                    this.fg.reset();
-                    window.location.reload();
-                }
+
+                this.rutaAnterior = this.currentRoute;
             }
 
             if (event instanceof NavigationError) {
@@ -287,7 +293,7 @@ export class ConfiguracionPracticaComponent {
                             });
                         },
                         complete: () => {
-                            //console.log("request config informe:", respuesta.body);
+                            console.log("request config informe:", respuesta.body);
 
                             //* guardar id's para poder actualizar mas tarde
                             for (let i = 0; i < respuesta.body.length; i++) {
@@ -311,6 +317,9 @@ export class ConfiguracionPracticaComponent {
                                     }
                                 }
                             }
+
+                            console.log("preguntas avance:", this.lista_preguntas_avance);
+                            console.log("preguntas final:", this.lista_preguntas_final);
 
                             //* set preguntas encuesta
                             this.serviceComplete.getPreguntaEncuestaFinal(id_config_practica).subscribe({
@@ -385,7 +394,7 @@ export class ConfiguracionPracticaComponent {
                                                             console.log("Error al buscar aptitudes", error);
                                                         },
                                                         complete: () => {
-                                                            //console.log("request aptitudes:", respuesta.body);
+                                                            console.log("request aptitudes:", respuesta.body);
                                                             this.lista_aptitudes = respuesta.body.opciones.split(";;");
 
                                                             //* set formulario

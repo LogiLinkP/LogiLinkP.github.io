@@ -15,6 +15,8 @@ import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.
 import { UsuarioService } from 'src/app/servicios/usuario/usuario.service';
 import { data } from 'jquery';
 import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
+import { CarreraService } from 'src/app/servicios/carrera/carrera.service';
+import { EmpresaService } from 'src/app/servicios/empresa/empresa.service';
 
 
 @Component({
@@ -24,8 +26,8 @@ import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.serv
 })
 export class EstadisticasComponent {
   constructor(private _fb: FormBuilder, private cd: ChangeDetectorRef, @Inject(DOCUMENT) private document: Document, private router: Router, private serviceUsuario: DataUsuarioService,
-  private serviceBarra: BarraLateralService, private _snackBar: MatSnackBar, private route: ActivatedRoute, private serviceConfig: ConfigService,
-  private servicePreguntas: PreguntasEncuestaFinalService, private _snackbar: MatSnackBar, private serviceEstadisticas : EstadisticasService) {}
+  private serviceBarra: BarraLateralService, private _snackBar: MatSnackBar, private route: ActivatedRoute, private serviceConfig: ConfigService, private serviceCarrera: CarreraService,
+  private serviceEmpresa: EmpresaService , private servicePreguntas: PreguntasEncuestaFinalService, private _snackbar: MatSnackBar, private serviceEstadisticas : EstadisticasService) {}
 
   sesion: any = JSON.parse(localStorage.getItem("auth-user") || "{}")
 
@@ -50,13 +52,27 @@ export class EstadisticasComponent {
 
   vista_actual = "general";
 
+  //remuneracion
+  remuneracion_tipo_practica: any[] = [];
+  remuneracion_promedio_tipo_practica: number = 0;
+
+  remuneracion_por_carrera: any[] = [];
+  remuneracion_promedio_por_carrera: number = 0;
+
+  remuneracion_por_empresa: any[] = [];
+  remuneracion_promedio_por_empresa: number = 0;
+
+  remuneracion_por_ramo_util: any[] = [];
+  remuneracion_promedio_por_ramo_util: number = 0;
+
+  id_carrera_encargado = 0;
+
   ngOnInit(): void {
 
     let id_usuario = this.sesion.userdata.id;
 
-    console.log("id_usuario: ", id_usuario);
+    //console.log("id_usuario: ", id_usuario);
     
-
     let respuesta: any = {};
 
     this.serviceUsuario.obtener_encargado(id_usuario).subscribe({
@@ -69,7 +85,11 @@ export class EstadisticasComponent {
       },
       complete: () => {
 
-        console.log("id_carrera_encargado: ", respuesta.body.id_carrera);
+        //console.log("id_carrera_encargado: ", respuesta.body.id_carrera);
+
+        this.id_carrera_encargado = respuesta.body.id_carrera;
+
+        //obteniendo datos remuneracion por tipo de practica
 
         this.serviceConfig.obtener_config_practica_carrera(respuesta.body.id_carrera).subscribe({
           next: data => {
@@ -80,8 +100,20 @@ export class EstadisticasComponent {
             console.log(error);
           },
           complete: () => {
-            console.log("config_practica_carrera: ", respuesta.body);
+            //console.log("config_practica_carrera: ", respuesta.body);
             this.AUX_config_practicas = respuesta.body;
+
+            //obteniendo datos remuneracion por tipo de practica
+            let cantidad_tipos_practicas_remuneracion=0;
+            for (let i=0; i<this.AUX_config_practicas.length; i++) {
+
+              if (this.AUX_config_practicas[i].sueldo_promedio !=0 && this.AUX_config_practicas[i].sueldo_promedio != null){
+                this.remuneracion_tipo_practica.push({tipo: this.AUX_config_practicas[i].nombre, remuneracion: this.AUX_config_practicas[i].sueldo_promedio});
+                this.remuneracion_promedio_tipo_practica += this.AUX_config_practicas[i].sueldo_promedio;
+                cantidad_tipos_practicas_remuneracion++;
+              } 
+            }
+            this.remuneracion_promedio_tipo_practica = Math.floor(this.remuneracion_promedio_tipo_practica / cantidad_tipos_practicas_remuneracion);
 
             this.serviceEstadisticas.obtener_todas_estadisticas().subscribe({
               next: data => {
@@ -100,77 +132,78 @@ export class EstadisticasComponent {
 
               }
             });
+
+            //obtenemos datos remuneracion por carrera y ramo marcado como util
+
+            this.serviceCarrera.obtener_carreras().subscribe({
+              next: data => {
+                respuesta = { ...respuesta, ...data }
+              },
+              error: error => {
+                console.log(error);
+              },
+              complete: () => {
+                //console.log("carreras: ", respuesta.body);
+
+                let cantidad_carreras_remuneracion=0;
+                for (let i=0; i<respuesta.body.length; i++) {
+                  if (respuesta.body[i].sueldo_promedio !=0 && respuesta.body[i].sueldo_promedio != null){
+                    this.remuneracion_por_carrera.push({carrera: respuesta.body[i].nombre, remuneracion: respuesta.body[i].sueldo_promedio});
+                    this.remuneracion_promedio_por_carrera += respuesta.body[i].sueldo_promedio;
+                    cantidad_carreras_remuneracion++;
+                  }
+                  
+
+                  if (respuesta.body[i].id ==this.id_carrera_encargado){  
+                    let sueldo_ramos_AUX = respuesta.body[i].sueldo_ramos.array;
+                    //console.log("sueldo_ramos_AUX: ", sueldo_ramos_AUX);
+                    for(let j=0; j<sueldo_ramos_AUX.length; j=j+2) {
+                      //console.log("j: ", j);
+                      //console.log("sueldo_ramos_AUX[j]: ", sueldo_ramos_AUX[j]);
+                      //console.log("sueldo_ramos_AUX[j+1]: ", sueldo_ramos_AUX[j+1]);
+                      this.remuneracion_por_ramo_util.push({ramo: sueldo_ramos_AUX[j], remuneracion: sueldo_ramos_AUX[j+1]});
+                      this.remuneracion_promedio_por_ramo_util += sueldo_ramos_AUX[j+1];
+                    }
+                    this.remuneracion_promedio_por_ramo_util = Math.floor(this.remuneracion_promedio_por_ramo_util / (sueldo_ramos_AUX.length/2));
+                  }
+                }
+                this.remuneracion_promedio_por_carrera = Math.floor(this.remuneracion_promedio_por_carrera / cantidad_carreras_remuneracion);
+
+                //console.log("remuneracion_por_carrera: ", this.remuneracion_por_carrera);
+                //console.log("remuneracion_promedio_por_carrera: ", this.remuneracion_promedio_por_carrera);
+              }
+            });
+
+            //obtenemos datos remuneracion por empresa
+
+            this.serviceEmpresa.obtener_empresas().subscribe({
+              next: data => {
+                respuesta = { ...respuesta, ...data }
+              },
+              error: error => {
+                console.log(error);
+              },
+              complete: () => {
+                //console.log("empresas: ", respuesta.body);
+                let cantidad_empresas_remuneracion=0;
+                for (let i=0; i<respuesta.body.length; i++) {
+                  if (respuesta.body[i].sueldo_promedio !=0 && respuesta.body[i].sueldo_promedio != null){
+                    this.remuneracion_por_empresa.push({empresa: respuesta.body[i].nombre_empresa, remuneracion: respuesta.body[i].sueldo_promedio});
+                    this.remuneracion_promedio_por_empresa += respuesta.body[i].sueldo_promedio;
+                    cantidad_empresas_remuneracion++;
+                  }  
+                }
+                this.remuneracion_promedio_por_empresa = Math.floor(this.remuneracion_promedio_por_empresa / cantidad_empresas_remuneracion);
+
+                //console.log("remuneracion_por_empresa: ", this.remuneracion_por_empresa);
+                //console.log("remuneracion_promedio_por_empresa: ", this.remuneracion_promedio_por_empresa);
+              }
+            });
+
           }
         });
       }
     });
-
-
-    
-    //let respuesta: any = {};
-
-    //OBTENIENDO FECHA ACTUALIZACION ESTADISTICAS
-    /*
-    this.serviceEstadisticas.obtener_actualizacion_estadistica().subscribe({
-      next: data => {
-        //console.log(data);
-        respuesta = { ...respuesta, ...data }
-      },
-      error: error => {
-        console.log(error);
-      },
-      complete: () => {
-        //console.log(respuesta);
-        //this.dia_actualizacion_estadisticas_AUX = respuesta.body;
-        
-        //console.log("dia_actualizacion_DB");
-        //console.log(respuesta.body.dia_actualizacion);
-        //this.dia_actualizacion_DB = respuesta.body.dia_actualizacion;
-      
-
-      this.serviceEstadisticas.obtener_todas_estadisticas().subscribe({
-        next: data => {
-          //console.log(data);
-          respuesta = { ...respuesta, ...data }
-        },
-        error: error => {
-          console.log(error);
-        },
-        complete: () => {
-          
-          this.preguntas_estadisticas_AUX = respuesta.body;
-
-          for (let x = 0; x < this.preguntas_estadisticas_AUX.length; x++) {
-            this.preguntas_estadisticas.push(this.preguntas_estadisticas_AUX[x].pregunta_respuestas.array);
-          }
-
-          //console.log("preguntas_estadisticas desde DB");
-          //console.log(this.preguntas_estadisticas);
-
-          this.serviceEstadisticas.obtener_todas_config_practicas().subscribe({
-            next: data => {
-              respuesta = { ...respuesta, ...data }
-            },
-            error: error => {
-              console.log(error);
-            },
-            complete: () => {
-    
-              //OBTENIENDO CONFIG_PRACTICAS
-              this.AUX_config_practicas = respuesta.body;
-              //console.log(this.AUX_config_practicas);
-          
-              //var currDate = new Date();
-              //console.log(typeof currDate.getDay());
-
-              //console.log("estado_DB", localStorage.getItem('estado_DB'))
-            }
-          });
-        }
-      });
-      }
-    });
-    */
   }
 
   cambiar_config_practica(arg: any) {
@@ -187,19 +220,19 @@ export class EstadisticasComponent {
   cambio_vista(arg: any) {
     
     if ( arg == "general" ) {
-      console.log("general");
+      //console.log("general");
       this.vista_actual = "general";
     }
     else if ( arg == "aptitudes" ) {
-      console.log("aptitudes");
+      //console.log("aptitudes");
       this.vista_actual = "aptitudes";
     }
     else if( arg == "remuneracion" ) {
-      console.log("remuneracion");
+      //console.log("remuneracion");
       this.vista_actual = "remuneracion";
     }
     else if( arg == "encuesta" ) {
-      console.log("encuesta_final");
+      //console.log("encuesta_final");
       this.vista_actual = "encuesta";
     }
   }

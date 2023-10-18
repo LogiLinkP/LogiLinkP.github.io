@@ -288,7 +288,7 @@ export class EncuestaFinPracticaComponent {
         }
         ramos_aux = ramos_aux.slice(0, -2);
 
-        this.ramosService.crear_respuesta_ramos(this.id_carrera_estudiante, ramos_aux).subscribe({
+        this.ramosService.crear_respuesta_ramos(this.id_carrera_estudiante, ramos_aux, this.id_practica).subscribe({
           next: (data: any) => {
           },
           error: (error: any) => {

@@ -10,6 +10,7 @@ import { NotificacionesService } from 'src/app/servicios/notificaciones/notifica
 import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
 import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
 import { async } from 'rxjs';
+import { data } from 'jquery';
 
 @Component({
   selector: 'alumno',
@@ -22,6 +23,10 @@ export class DetalleAlumnoComponent implements OnInit{
   config_practicas: any = [];
   practicas: any = [];
   solicitudes_practicas: any = {};
+
+  id_p: any;
+  data_response: any = [];
+  flag: boolean = false;
 
   estado_config:string = "";
 
@@ -461,6 +466,39 @@ export class DetalleAlumnoComponent implements OnInit{
       }
       return '';
     };
+  }
+
+  comentarios(id_practica: any){
+    this.id_p = id_practica;
+    let response: any = {};
+    this.service_datos.obtener_comentarios_supervisor(this.id_p).subscribe({
+      next: data => {
+        response = { ...response, ...data }
+      },
+      error: error => {
+        this._snackBar.open("Error al obtener comentarios", "Cerrar", {
+          panelClass: ['red-snackbar'],
+          duration: 2000
+        });
+      },
+      complete: () => {
+        if(response.body.data.respuesta_supervisors.length == 0){
+          this.flag = false;
+        }
+        else{
+          this.flag = true;
+        }
+        if(this.data_response.length > 0){
+          this.data_response = [];
+        }
+        for(let i = 0; i < response.body.data.respuesta_supervisors.length; i++){
+          if(response.body.data.respuesta_supervisors[i].pregunta_supervisor.tipo_respuesta != "evaluacion"){
+            let json = {pregunta: response.body.data.respuesta_supervisors[i].pregunta_supervisor.enunciado, respuesta: response.body.data.respuesta_supervisors[i].respuesta}
+            this.data_response.push(json)
+          }
+        }
+      }
+    })
   }
 }
 

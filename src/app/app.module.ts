@@ -80,6 +80,14 @@ import { CrearCarreraModalComponent } from './componentes/crear-carrera-modal/cr
 import { EditarCarreraModalComponent } from './componentes/editar-carrera-modal/editar-carrera-modal.component';
 import { RegistroSupervisorComponent } from './vistas/registro-supervisor/registro-supervisor.component';
 import { ConfigPracticaComponent } from './vistas/wizards/config-practica/config-practica.component';
+import { AptitudesComponent } from './vistas/aptitudes/aptitudes.component';
+import { CrearAptitudModalComponent } from './componentes/crear-aptitud-modal/crear-aptitud-modal.component';
+import { EditarAptitudModalComponent } from './componentes/editar-aptitud-modal/editar-aptitud-modal.component';
+import { RangoModalComponent } from './componentes/rango-modal/rango-modal.component';
+import { VistaConfigsPracticaComponent } from './vistas/vista-configs-practica/vista-configs-practica.component';
+import { EdicionSimpleModalComponent } from './componentes/edicion-simple-modal/edicion-simple-modal.component';
+import { PlagiosComponent } from './vistas/plagios/plagios.component';
+import { ComentariosModalComponent } from './componentes/comentarios-modal/comentarios-modal.component';
 import { DocumentacionComponent } from './vistas/documentacion/documentacion.component';
 import { SubirDocumentoEncargadoComponent } from './componentes/subir-documento-encargado/subir-documento-encargado.component';
 
@@ -128,6 +136,14 @@ import { SubirDocumentoEncargadoComponent } from './componentes/subir-documento-
     EditarCarreraModalComponent,
     RegistroSupervisorComponent,
     ConfigPracticaComponent,
+    AptitudesComponent,
+    CrearAptitudModalComponent,
+    EditarAptitudModalComponent,
+    RangoModalComponent,
+    VistaConfigsPracticaComponent,
+    EdicionSimpleModalComponent,
+    PlagiosComponent,
+    ComentariosModalComponent,
     DocumentacionComponent,
     SubirDocumentoEncargadoComponent
   ],
