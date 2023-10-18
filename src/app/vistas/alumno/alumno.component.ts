@@ -524,6 +524,13 @@ export class DetalleAlumnoComponent implements OnInit{
       }
     })
   }
+
+  warning_practica(){
+    this._snackBar.open("No puede finalizar la práctica hasta que subas todos los documentos solicitados", "Cerrar", {
+      panelClass: ['red-snackbar'],
+      duration: 2000
+    });
+  }
 }
 
 
