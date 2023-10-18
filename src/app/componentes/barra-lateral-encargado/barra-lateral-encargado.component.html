@@ -22,8 +22,14 @@
         Configuracion
     </div>
 
-    <!-- Nav Item - Config Practicas Collapse Menu -->
     <li class="nav-item">
+        <a class="nav-link" routerLink="/detalles/practicas">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Configurar prácticas</span></a>
+    </li>
+
+    <!-- Nav Item - Config Practicas Collapse Menu -->
+    <!--  <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
             aria-controls="collapseTwo">
             <i class="fas fa-fw fa-cog"></i>
@@ -38,10 +44,19 @@
                     </a>
                 </div>
                 <h6 class="collapse-header">Crear Nueva:</h6>
-                <!-- <a class="collapse-item" [routerLink]="['/configurar', 'configBase']">Planilla base</a> -->
+                Desabilitar links
+                <a class="collapse-item disabled" *ngIf="!ramos_creados">
+                    <i class="fas fa-regular fa-copy fa-sm fa-fw mr-2 text-gray-400"></i>
+                    <span matTooltip="Deben existir ramos antes de crear practicas nuevas!">Plantilla base</span>
+                </a>
                 <a class="collapse-item disabled" *ngIf="!ramos_creados">
                     <i class="fas fa-regular fa-plus fa-sm fa-fw mr-2 text-gray-400"></i>
                     <span matTooltip="Deben existir ramos antes de crear practicas nuevas!">Plantilla en blanco</span>
+                </a>
+                Hilitar links
+                <a class="collapse-item" [routerLink]="['/configurar', 'configBase']" *ngIf="ramos_creados">
+                    <i class="fas fa-regular fa-copy fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Plantilla base
                 </a>
                 <a class="collapse-item" [routerLink]="['/configurar', 'blanco']" *ngIf="ramos_creados">
                     <i class="fas fa-regular fa-plus fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -55,7 +70,7 @@
                 </div>
             </div>
         </div>
-    </li>
+    </li> -->
 
     <li class="nav-item">
         <a class="nav-link" [routerLink]="['/ramos']">
