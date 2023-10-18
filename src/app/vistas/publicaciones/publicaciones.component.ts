@@ -106,7 +106,8 @@ export class PublicacionesComponent {
 
   obtener_como_encargado(){
     let respuesta:any = [];
-    this.service_publi.obtener_encargado(this.usuario.encargado.id).subscribe({
+    console.log(this.ID_encargado)
+    this.service_publi.obtener_encargado(this.ID_encargado).subscribe({
       next:(data:any) => {
         respuesta = {...respuesta, ...data};
       },
@@ -251,11 +252,23 @@ export class PublicacionesComponent {
     this.create_flag = 1;
   }
 
+  cancelar_creacion(){
+    this.create_flag = 0;
+  }
+
   inicio_edicion(fix:number, index:number){
     if(fix == 1){
       this.fixed_edit_flags[index] = 1
     } else{
       this.edit_flags[index] = 1
+    }
+  }
+
+  terminar_edicion(fix:number, index:number){
+    if(fix == 1){
+      this.fixed_edit_flags[index] = 0
+    } else{
+      this.edit_flags[index] = 0
     }
   }
 

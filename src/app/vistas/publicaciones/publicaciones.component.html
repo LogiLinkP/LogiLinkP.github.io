@@ -54,6 +54,7 @@
                                         <option value="0">No</option>
                                     </select>
                                     <button type="submit" class="btn btn-primary btn-user btn-block" (click)="edicion(publi.id, 1, indice)">Confirmar</button>
+                                    <button class="btn btn-danger btn-lg btn-block" (click)="terminar_edicion(1, indice)">Cancelar</button>
                                 </form>
                             </div>
                         </div>
@@ -100,6 +101,7 @@
                                         <option value="0">No</option>
                                     </select>
                                     <button type="submit" class="btn btn-primary btn-user btn-block" (click)="edicion(publi.id, 0, indice)">Publicar</button>
+                                    <button class="btn btn-danger btn-lg btn-block" (click)="terminar_edicion(0, indice)">Cancelar</button>
                                 </form>
                             </div>
                         </div>
@@ -152,6 +154,7 @@
                         </div>
 
                         <button type="submit" class="btn btn-primary btn-user btn-block" (click)="crear()">Publicar</button>
+                        <button class="btn btn-danger btn-lg btn-block" (click)="cancelar_creacion()">Cancelar</button>
                     </form>
                 </div>
             </div>

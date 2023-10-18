@@ -20,6 +20,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTabsModule } from '@angular/material/tabs';
 
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -79,6 +80,14 @@ import { CrearCarreraModalComponent } from './componentes/crear-carrera-modal/cr
 import { EditarCarreraModalComponent } from './componentes/editar-carrera-modal/editar-carrera-modal.component';
 import { RegistroSupervisorComponent } from './vistas/registro-supervisor/registro-supervisor.component';
 import { ConfigPracticaComponent } from './vistas/wizards/config-practica/config-practica.component';
+import { AptitudesComponent } from './vistas/aptitudes/aptitudes.component';
+import { CrearAptitudModalComponent } from './componentes/crear-aptitud-modal/crear-aptitud-modal.component';
+import { EditarAptitudModalComponent } from './componentes/editar-aptitud-modal/editar-aptitud-modal.component';
+import { RangoModalComponent } from './componentes/rango-modal/rango-modal.component';
+import { VistaConfigsPracticaComponent } from './vistas/vista-configs-practica/vista-configs-practica.component';
+import { EdicionSimpleModalComponent } from './componentes/edicion-simple-modal/edicion-simple-modal.component';
+import { PlagiosComponent } from './vistas/plagios/plagios.component';
+import { ComentariosModalComponent } from './componentes/comentarios-modal/comentarios-modal.component';
 
 @NgModule({
   declarations: [
@@ -125,6 +134,14 @@ import { ConfigPracticaComponent } from './vistas/wizards/config-practica/config
     EditarCarreraModalComponent,
     RegistroSupervisorComponent,
     ConfigPracticaComponent,
+    AptitudesComponent,
+    CrearAptitudModalComponent,
+    EditarAptitudModalComponent,
+    RangoModalComponent,
+    VistaConfigsPracticaComponent,
+    EdicionSimpleModalComponent,
+    PlagiosComponent,
+    ComentariosModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -151,7 +168,8 @@ import { ConfigPracticaComponent } from './vistas/wizards/config-practica/config
     MatDialogModule,
     MatRadioModule,
     MatTooltipModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTabsModule
   ],
   providers: [
     GetDetallesAlumnoService,

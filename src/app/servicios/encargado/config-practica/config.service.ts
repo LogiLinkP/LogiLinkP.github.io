@@ -362,7 +362,7 @@ export class ConfigService {
     }
 
     getPracticasConConfig(id_config_practica: number) {
-        const req = new HttpRequest('GET', `${environment.url_back}/practica/configs?id=${id_config_practica}`, {
+        const req = new HttpRequest('GET', `${environment.url_back}/practica/configs?id_carrera=${id_config_practica}`, {
             responseType: 'json'
         });
 
@@ -376,6 +376,22 @@ export class ConfigService {
         }
 
         const req = new HttpRequest('PUT', `${environment.url_back}/estudiante/actualizarConfig`, payload, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
+    obtener_config_practica_carrera(id_carrera: number) {
+        const req = new HttpRequest('GET', `${environment.url_back}/config_practica/carrera?id_carrera=${id_carrera}`, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
+    getConfigsCarrera(id_carrera: number) {
+        const req = new HttpRequest('GET', `${environment.url_back}/config_practica/all/carrera?id=${id_carrera}`, {
             responseType: 'json'
         });
 
