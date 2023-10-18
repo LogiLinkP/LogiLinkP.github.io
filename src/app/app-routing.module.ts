@@ -37,6 +37,8 @@ import { AptitudesComponent } from './vistas/aptitudes/aptitudes.component';
 
 import { environment } from 'src/environments/environment';
 import { PerfilComponent } from './vistas/perfil/perfil.component';
+import { VistaConfigsPracticaComponent } from './vistas/vista-configs-practica/vista-configs-practica.component';
+import { PlagiosComponent } from "./vistas/plagios/plagios.component"
 
 
 
@@ -54,7 +56,7 @@ const routes: Routes = [
           { path: 'cuestionario/:n', component: CuestionarioComponent },
           { path: 'empresas', component: EmpresasComponent },
           { path: 'iniciarpractica/:n', component: IniciarPracticaComponent },
-          { path: 'perfil', component: PerfilComponent}
+          { path: 'perfil', component: PerfilComponent }
         ]
       }
     ]
@@ -66,16 +68,17 @@ const routes: Routes = [
   { path: 'blank', component: BlankComponent },
   { path: 'resetPass', component: ForgotPasswordComponent },
   { path: 'estadisticas', component: EstadisticasComponent },
-  { 
-    path: 'admin', 
+  {
+    path: 'admin',
     children: [
-      { path: '', component: AdminComponent},
-    ] 
+      { path: '', component: AdminComponent },
+    ]
   },
   { path: 'encargado/registro/:token', component: RegistroEncargadoComponent },
   { path: 'encargado/aptitudes', component: AptitudesComponent },
   { path: 'configurar/:nombre', component: ConfiguracionPracticaComponent },
   { path: 'configurar/:nombre/copia', component: ConfiguracionPracticaComponent },
+  { path: 'detalles/practicas', component: VistaConfigsPracticaComponent },
   { path: environment.ruta_alumno + '/:id/chat/:room/:id1/:id2/:tipo', component: ChatComponent },
   { path: environment.ruta_alumno + '/:id/historial', component: NotisHistorialComponent },
   { path: "historial", component: NotisHistorialComponent },
@@ -91,8 +94,10 @@ const routes: Routes = [
   { path: 'guias/info_y_eval_estudiante', component: InfoYEvaluacionEstudianteComponent },
   { path: 'guias/detalle-estudiante', component: DetalleEstudianteComponent },
   { path: 'guias/config-practica', component: ConfigPracticaComponent },
-  { path: 'perfil', component: PerfilComponent},
+  { path: 'perfil', component: PerfilComponent },
+  { path: "plagios/:id_practica", component: PlagiosComponent },
   { path: '**', component: PnfComponent },
+
 ];
 
 @NgModule({
@@ -125,5 +130,6 @@ export const routingComponents = [
   EstudianteVerInformeComponent,
   InfoYEvaluacionEstudianteComponent,
   DetalleEstudianteComponent,
-  EncuestaFinPracticaComponent
+  EncuestaFinPracticaComponent,
+  PlagiosComponent
 ]

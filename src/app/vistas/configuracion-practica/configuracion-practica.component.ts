@@ -19,6 +19,7 @@ import { Express, response } from 'express'; //! NO BORRAR! SE MUERE TODO. PORQU
 export class ConfiguracionPracticaComponent {
 
     currentRoute: string;
+    rutaAnterior: string;
     importada: boolean = false;
     migracion_legal: boolean = true;
     user: any = JSON.parse(localStorage.getItem('auth-user') || "{}").userdata;
@@ -27,6 +28,7 @@ export class ConfiguracionPracticaComponent {
         private serviceBarra: BarraLateralService, private _snackBar: MatSnackBar, private route: ActivatedRoute,
         private serviceComplete: ConfigService, private router: Router) {
         this.currentRoute = "";
+        this.rutaAnterior = "";
 
         this.router.events.subscribe((event: Event) => {
             if (event instanceof NavigationStart) {
@@ -41,18 +43,22 @@ export class ConfiguracionPracticaComponent {
                 let ruta_cortada = event.url.split("/");
                 //console.log("NavigationEnd:", event.url, "split", ruta_cortada);
                 //console.log("current route: ", this.currentRoute);
+                
                 if (ruta_cortada[ruta_cortada.length - 1] == "copia") {
                     this.requestInicial(true);
                     this.importada = true;
                 } else {
+                    if (this.estado == "configuracion_general") {
+                        if (this.rutaAnterior[1] == "configurar") {
+                            this.fg.reset();
+                        }
+                    } else {
+                        window.location.reload();
+                    }
                     this.requestInicial();
                 }
-                if (this.estado == "configuracion_general") {
-                    this.scrollToTop();
-                } else {
-                    this.fg.reset();
-                    window.location.reload();
-                }
+
+                this.rutaAnterior = this.currentRoute;
             }
 
             if (event instanceof NavigationError) {
@@ -113,7 +119,7 @@ export class ConfiguracionPracticaComponent {
     habilitarHoras: boolean = false;
     habilitarMeses: boolean = false;
 
-    lista_aptitudes: string[] = [];
+    //lista_aptitudes: string[] = [];
 
     lista_preguntas_avance: string[] = [];
     tipos_preguntas_avance: string[] = [];
@@ -287,7 +293,7 @@ export class ConfiguracionPracticaComponent {
                             });
                         },
                         complete: () => {
-                            //console.log("request config informe:", respuesta.body);
+                            console.log("request config informe:", respuesta.body);
 
                             //* guardar id's para poder actualizar mas tarde
                             for (let i = 0; i < respuesta.body.length; i++) {
@@ -311,6 +317,9 @@ export class ConfiguracionPracticaComponent {
                                     }
                                 }
                             }
+
+                            console.log("preguntas avance:", this.lista_preguntas_avance);
+                            console.log("preguntas final:", this.lista_preguntas_final);
 
                             //* set preguntas encuesta
                             this.serviceComplete.getPreguntaEncuestaFinal(id_config_practica).subscribe({
@@ -373,6 +382,7 @@ export class ConfiguracionPracticaComponent {
                                                     }
 
                                                     //* set aptitudes
+                                                    /*
                                                     this.serviceComplete.getAptitudes(id_config_practica).subscribe({
                                                         next: (data: any) => {
                                                             respuesta = { ...respuesta, ...data }
@@ -385,7 +395,7 @@ export class ConfiguracionPracticaComponent {
                                                             console.log("Error al buscar aptitudes", error);
                                                         },
                                                         complete: () => {
-                                                            //console.log("request aptitudes:", respuesta.body);
+                                                            console.log("request aptitudes:", respuesta.body);
                                                             this.lista_aptitudes = respuesta.body.opciones.split(";;");
 
                                                             //* set formulario
@@ -418,6 +428,7 @@ export class ConfiguracionPracticaComponent {
                                                             this.flag = true;
                                                         }
                                                     });
+                                                    */
                                                 }
                                             });
                                         }
@@ -679,6 +690,7 @@ export class ConfiguracionPracticaComponent {
         this.pregunta = "";
     }
 
+    /*
     onSubmitAddAptitud() {
         this.aptitud = this.fg.value.aptitudFORM;
         this.lista_aptitudes.push(this.aptitud);
@@ -686,6 +698,7 @@ export class ConfiguracionPracticaComponent {
 
         this.aptitud = "";
     }
+    */
 
     onSubmitAddPreguntaSupervisor() {
         //this.lista_opciones_preguntas = [];
@@ -796,14 +809,16 @@ export class ConfiguracionPracticaComponent {
 
     avanzarDesdePreguntasEncuesta() {
         //this.estado = "agregar_ramos";
-        this.estado = "aptitudes";
+        this.estado = "preguntas_supervisor";
         this.printForm();
     }
 
+    /*
     avanzarDesdeAptitud() {
         this.estado = "preguntas_supervisor";
         this.printForm();
     }
+    */
 
     avanzarDesdePreguntasSupervisor() {
         this.estado = "fin_configuracion";
@@ -850,13 +865,15 @@ export class ConfiguracionPracticaComponent {
           this.estado = "encuesta_final";
         }
         */
+       /*
         else if (this.estado == "aptitudes") {
             this.estado = "encuesta_final";
         }
+        */
         //volver desde preguntas supervisor
         else if (this.estado == "preguntas_supervisor") {
             //this.estado = "agregar_ramos";
-            this.estado = "aptitudes";
+            this.estado = "encuesta_final";
         }
         //volver desde fin configuracion
         else if (this.estado == "fin_configuracion") {
@@ -919,11 +936,13 @@ export class ConfiguracionPracticaComponent {
         this.migracion_legal = false;
     }
 
+    /*
     eliminarAptitud(index: number) {
         console.log("eliminando aptitud", index);
         this.lista_aptitudes.splice(index, 1);
         this.migracion_legal = false;
     }
+    */
 
     mandarDatos() { //se estan apilando los snackbars positivos (dejar los negativos)
         let tipo_request: string;
@@ -1056,6 +1075,7 @@ export class ConfiguracionPracticaComponent {
 
     crearConfigPractica(nombre: string, frecuencia: string, final: string) {
 
+        /*
         //agregando pregunta aptitudes/evaluacion a preguntas supervisor
         var opciones_aptitudes = ""
         for (let i = 0; i < this.lista_aptitudes.length; i++) {
@@ -1068,6 +1088,7 @@ export class ConfiguracionPracticaComponent {
         this.tipos_preguntas_supervisor.push("evaluacion");
         this.lista_opciones_preguntas_supervisor.push(opciones_aptitudes);
         this.lista_fija_preguntas_supervisor.push(true);
+        */
 
         let respuesta: any = {};
 

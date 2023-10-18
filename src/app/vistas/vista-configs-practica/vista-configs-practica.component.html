@@ -1,0 +1,368 @@
+<div id="wrapper">
+
+    <app-barra-lateral-encargado></app-barra-lateral-encargado>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <div id="content" class="main-content">
+
+            <app-barra-superior></app-barra-superior>
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid" *ngIf="flag">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-xl-10">
+                        <div class="h3 mb-2 font-weight-bold text-gray-800">Configurar prácticas</div>
+                        <p class="mb-4">
+                            Lista de prácticas que pueden elegir los alumnos.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row" *ngFor="let config of configs; let i = index">
+                    <div class="col-xl-12">
+                        <div class="card shadow mb-4">
+                            <a [href]="'#card'+ i" class="d-block card-header py-3 collapsed" data-toggle="collapse"
+                                role="button" aria-expanded="true" [attr.aria-controls]="'card'+ i">
+                                <h2 class="m-0 font-weight-bold text-primary">{{config.nombre}}</h2>
+                                <!-- <div class="m-0 text-gray-800">Estado: No iniciada</div> -->
+                            </a>
+                            <div class="collapse" id="{{ 'card' + i }}"> 
+                                <!-- Tarjeta interna total-->
+                                <div class="card-body">
+                                    <div class="row">
+                                        <!-- sub tarjeta -->
+                                        <div class="card-body col-6">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        General
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <table>
+                                                        <tr>
+                                                            <td>Nombre:</td>
+                                                            <td>{{ config.nombre }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Frecuencia de Informes:</td>
+                                                            <td>{{ config.frecuencia_informes }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Informe final:</td>
+                                                            <td>{{ config.informe_final }}</td>
+                                                        </tr> 
+                                                    </table>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <button class="btn btn-primary" 
+                                                            (click)="seccion_edit='general'"
+                                                            (click)="practica_edit_id=i"
+                                                            (click)="practica_edit=configs[i]"
+                                                            data-toggle="modal" 
+                                                            data-target="#editarModal">
+                                                        Editar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- sub tarjeta  modalidades -->
+                                        <div class="card-body col-6">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        Modalidades
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p *ngFor="let modalidad of config.modalidads; let j = index">
+                                                        {{modalidad.cantidad_tiempo}}
+                                                        {{modalidad.tipo_modalidad}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- sub tarjetas informes con for-->
+                                        <div class="card-body col-6" *ngFor="let config_informe of config.config_informes; let j = index">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        {{config_informe.tipo_informe}}
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p *ngFor="let pregunta of config_informe.pregunta_informes; let k = index">
+                                                        {{k+1}}. {{pregunta.enunciado}}
+                                                    </p>
+                                                </div>
+                                                <div class="card-footer" >
+                                                    <span class="btn btn-primary disabled-button" matTooltip="{{string_bloqueo}}">Editar</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- sub tarjeta solicitud documentos -->
+                                        <div class="card-body col-6" *ngIf="config.solicitud_documentos.length > 0">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        Solicitudes de documentos
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p *ngFor="let doc of config.solicitud_documentos; let j = index">
+                                                        {{j+1}}. {{ doc.nombre_solicitud }} [{{ doc.tipo_archivo }}]
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- sub tarjeta pregunta supervisor -->
+                                        <div class="card-body col-6">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        Preguntas para el supervisor
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p *ngFor="let pregunta of config.pregunta_supervisors; let j = index">
+                                                        {{j+1}}. {{ pregunta.enunciado }} [{{ pregunta.tipo_respuesta }}]
+                                                    </p>
+                                                </div>
+                                                <div class="card-footer" >
+                                                    <span class="btn btn-primary disabled-button" matTooltip="{{string_bloqueo}}">Editar</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- sub tarjeta pregunta encuesta final -->
+                                        <div class="card-body col-6">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        Preguntas para el alumno al terminar
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p *ngFor="let pregunta of config.pregunta_encuesta_finals; let j = index">
+                                                        {{j+1}}. {{ pregunta.enunciado }} [{{ pregunta.tipo_respuesta }}]
+                                                    </p>
+                                                </div>
+                                                <div class="card-footer" >
+                                                    <span class="btn btn-primary disabled-button" matTooltip="{{string_bloqueo}}">Editar</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-primary btn-lg btn-block" [routerLink]="['/configurar', config.nombre]">
+                                                Edición avanzada
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- End of row -->
+
+                <!-- Configuracion plantilla  base -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card shadow mb-4">
+                            <a href="#cardCrear" class="d-block card-header py-3 collapsed" data-toggle="collapse"
+                                role="button" aria-expanded="true" aria-controls="cardCrear" style="background-color: #a5a6af;">
+                                <h2 class="m-0 font-weight-bold text-primary">Crear práctica</h2>
+                                <!-- <div class="m-0 text-gray-800">Estado: No iniciada</div> -->
+                            </a>
+                            <div class="collapse" id="cardCrear">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <!-- sub tarjeta general -->
+                                        <div class="card-body col-6">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        General
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <form [formGroup]="crearForm">
+                                                        <label for="nombre">Nombre:</label>
+                                                        <input type="text" class="form-control form-control-user" formControlName="nombre">
+
+														<!-- <p>Modalidades: </p>
+														MESES
+														<div class="form-check form-check-inline">
+                            							    <input id="meses" type="checkbox" class="form-check-input" formControlName="meses">
+                            							    <label for="meses" class="form-check-label">Meses</label>
+                            							</div>
+														
+														HORAS
+                            							<div class="form-check form-check-inline">
+                            							    <input id="horas" type="checkbox" class="form-check-input" formControlName="horas">
+                            							    <label for="horas" class="form-check-label">Horas</label>
+                            							</div> -->
+
+                                                        <!-- FRECUENCIA DE INFORME -->
+                                                        <p>Frecuencia informe: </p>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" id="informeDiario" value="diario" formControlName="frecuencia_informes">
+                                                            <label class="form-check-label" for="informeDiario">Diario</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" id="infomreSemanal" value="semanal" formControlName="frecuencia_informes">
+                                                            <label class="form-check-label" for="infomreSemanal">Semanal</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" id="informeMensual" value="mensual" formControlName="frecuencia_informes">
+                                                            <label class="form-check-label" for="informeMensual">Mensual</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" id="sinAvance" value="sinAvance" formControlName="frecuencia_informes">
+                                                            <label class="form-check-label" for="sinAvance">Ninguno</label>
+                                                        </div>
+                                                        <br><br>
+                                                    
+                                                        <!-- INFORME FINAL -->
+                                                        <p>Informe final: </p>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" id="informeFinalSI" value="si" formControlName="informe_final">
+                                                            <label class="form-check-label" for="informeFinalSI">Si</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                        	<input class="form-check-input" type="radio" id="informeFinalNO" value="no" formControlName="informe_final">
+                                                        	<label class="form-check-label" for="informeFinalNO">No</label>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+										<!-- sub tarjeta modalidades -->
+                                        <div class="card-body col-6">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        Modalidades
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p *ngFor="let modalidad of practica_default.modalidads; let j = index">
+                                                        {{modalidad.cantidad_tiempo}}
+                                                        {{modalidad.tipo_modalidad}}
+                                                    </p>
+                                                </div>
+                                                <div class="card-footer" >
+                                                    <span class="btn btn-primary disabled-button" matTooltip="{{string_bloqueo}}">Editar</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- sub tarjetas informes con for-->
+                                        <div class="card-body col-6" *ngFor="let config_informe of practica_default.config_informes; let j = index">
+                                            <div class="card shadow mb-4" 
+                                                *ngIf="(config_informe.tipo_informe=='Informe avance' && crearForm.value.frecuencia_informes!='sinAvance')
+                                                        || (config_informe.tipo_informe=='Informe final' && crearForm.value.informe_final=='si')">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        {{config_informe.tipo_informe}}
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p *ngFor="let pregunta of config_informe.pregunta_informes; let k = index">
+                                                        {{k+1}}. {{pregunta.enunciado}}
+                                                    </p>
+                                                </div>
+                                                <div class="card-footer" >
+                                                    <span class="btn btn-primary disabled-button" matTooltip="{{string_bloqueo}}">Editar</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- sub tarjeta solicitud documentos -->
+                                        <!-- <div class="card-body col-6" *ngIf="practica_default.solicitud_documentos.length > 0">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        Solicitudes de documentos
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p *ngFor="let doc of practica_default.solicitud_documentos; let j = index">
+                                                        {{j+1}}. {{ doc.nombre_solicitud }} [{{ doc.tipo_archivo }}]
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <!-- sub tarjeta pregunta supervisor -->
+                                        <div class="card-body col-6">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        Preguntas para el supervisor
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body">                                                    
+                                                    <p *ngFor="let pregunta of practica_default.pregunta_supervisors; let j = index">
+                                                        {{j+1}}. {{ pregunta.enunciado }} [{{ pregunta.tipo_respuesta }}]
+                                                    </p>
+                                                    <p>(Se pedirá también evaluar las aptitudes configuradas en la sección de aptitudes)</p>
+                                                </div>
+                                                <div class="card-footer" >
+                                                    <span class="btn btn-primary disabled-button" matTooltip="{{string_bloqueo}}">Editar</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- sub tarjeta pregunta encuesta final -->
+                                        <div class="card-body col-6">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h4 class="m-0 font-weight-bold text-primary">
+                                                        Preguntas para el alumno al terminar
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p *ngFor="let pregunta of practica_default.pregunta_encuesta_finals; let j = index">
+                                                        {{j+1}}. {{ pregunta.enunciado }} [{{ pregunta.tipo_respuesta }}]
+                                                    </p>
+                                                </div>
+                                                <div class="card-footer" >
+                                                    <span class="btn btn-primary disabled-button" matTooltip="{{string_bloqueo}}">Editar</span>
+                                                </div>
+                                            </div>
+                                        </div>
+										
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-primary btn-lg btn-block" (click)="crearSimple()">
+                                                Crear
+                                            </button>
+                                        </div>
+                                        <div class="col-md-5"></div>
+                                        <div class="col-md-4">
+                                            <button type="button" class="btn btn-primary btn-lg btn-block" routerLink="/configurar/blanco">
+                                                Configurar de cero
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>  
+    </div>
+</div>
+
+<app-logout-modal></app-logout-modal>
+
+<app-edicion-simple-modal 
+    [seccion]="seccion_edit"
+    [practica]="practica_edit"
+    (completo)="editarSimple($event)">
+</app-edicion-simple-modal>
+
+<!-- investigar trim() -->

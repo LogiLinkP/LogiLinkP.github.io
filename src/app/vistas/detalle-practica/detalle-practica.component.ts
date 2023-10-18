@@ -35,6 +35,7 @@ export class DetallePracticaComponent implements OnInit {
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
+  id_practica: number;
 
   practica: any = {};
   solicitudes_documentos: any = [];
@@ -86,6 +87,7 @@ export class DetallePracticaComponent implements OnInit {
     let respuesta: any = {};
 
     let id_practica = parseInt(this.route.snapshot.url[1].path); //obtener el id de práctica de la url
+    this.id_practica = id_practica;
 
     if (!isNaN(id_practica)) {
 

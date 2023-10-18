@@ -198,11 +198,13 @@
                                             <div class="col-6">
                                                 ¿Plagio detectado?:
                                             </div>
-                                            <div [class]="hay_plagio? 'bg-warning col-6' : 'col-6'">
-
-                                                <i *ngIf="hay_plagio" class="fa-solid fa-triangle-exclamation"></i>
-                                                {{hay_plagio?"Hay plagio":"No hay plagio"}}
+                                            <div class="bg-warning col-6" *ngIf="hay_plagio; else no_hay_plagio">
+                                                <i class="fa-solid fa-triangle-exclamation"></i>
+                                                <a href="{{'plagios/'+id_practica}}">Hay plagio</a>
                                             </div>
+                                            <ng-template #no_hay_plagio>
+                                                <div class="col-6">No hay plagio</div>
+                                            </ng-template>
                                         </div>
                                     </div>
                                 </div>

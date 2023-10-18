@@ -820,51 +820,6 @@
             </div>
           </div><!-- Fin tarjeta inicial-->
 
-          <!-------------------------------------------------- CONFIGURACION APTITUDES A EVALUAR -------------------------------------------------------------->
-          <div class="card shadow" *ngIf="estado == 'aptitudes'">
-            <div class="card-body text-center">
-              <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
-                Ingrese las aptitudes que el supervisor evaluará del practicante
-              </div>
-              <div *ngFor="let aptitud of lista_aptitudes; let i = index" class="pregunta">
-                Aptitud Ingresada:
-                <br>
-                {{aptitud}}
-
-                <br>
-                <form *ngIf="flag" (ngSubmit)="eliminarAptitud(i)">
-                  <button class="btn btn-danger">
-                    Eliminar Aptitud
-                  </button>
-                </form>
-              </div>
-
-              <br>
-
-              <form *ngIf="flag">
-
-                <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitAddAptitud()">
-                  <input type="text" [(ngModel)]="aptitud" class="form-control input-center"
-                    placeholder="Ingresar Aptitud" formControlName="aptitudFORM">
-                  <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
-                    class="btn-save" type="submit">Agregar Aptitud</button>
-
-                </form>
-              </form>
-              <div class="row mt-5 mb-3 align-items-end">
-                <div class="col-4"></div>
-                <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="volver()"
-                  style="margin-right: 20px;">
-                  Volver
-                </button>
-                <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="avanzarDesdeAptitud()">
-                  Siguiente
-                </button>
-                <div class="col-4"></div>
-              </div>
-            </div>
-          </div><!-- Fin tarjeta inicial-->
-
           <!-------------------------------------------------- CONFIGURACION  PREGUNTAS SUPERVISOR -------------------------------------------------------------->
           <div class="card shadow" *ngIf="estado == 'preguntas_supervisor'">
             <div class="card-body text-center">
