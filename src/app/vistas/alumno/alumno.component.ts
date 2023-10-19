@@ -183,35 +183,28 @@ export class DetalleAlumnoComponent implements OnInit{
                 complete: () => {
                   this.solicitudes_practicas[element.id] = respuesta.body;
 
+                  for(let practica of this.practicas){
+                    if(this.solicitudes_practicas[practica.id][0].documentos.length == 0){
+                      this.documentos_enviados.push(0);
+                      continue
+                    }
+                    if(practica.documento_extras.length == 0){
+                      this.documentos_enviados.push(0);
+                      continue
+                    }
+                    this.documentos_enviados.push(1);
+                  }
                   //console.log("Solicitudes:", this.solicitudes_practicas)
                   resolve(true);
                 }
               });})
             });  
 
-            for(let practica of this.practicas){
-              if(practica.documentos.length != 0){
-                for(let docu of practica.documentos){
-                  if(docu.key == null){
-                    this.documentos_enviados.push(0);
-                    continue
-                  }
-                }
-              }
-              if(practica.documento_extras.length != 0){
-                for(let docuex of practica.documento_extras){
-                  if(docuex.key == null){
-                    this.documentos_enviados.push(0);
-                    continue
-                  }
-                }
-              }
-              this.documentos_enviados.push(1);
-            }
-
+            
             for (var item of this.practicas){
               this.evaluaciones.push(item.respuesta_supervisors)
             }
+
             /*
             this.evaluaciones = this.practicas.filter((respuesta_supervisors: any) => {
               return !isNaN(respuesta_supervisors.respuesta);
