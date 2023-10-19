@@ -108,6 +108,9 @@ export class RamosEncargadoComponent {
                     duration: 3500,
                     panelClass: ['green-snackbar']
                 });
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000);
                 console.log("Ramos guardados exitosamente");
             }
         });

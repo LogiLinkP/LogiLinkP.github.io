@@ -47,6 +47,10 @@ export class DetalleAlumnoComponent implements OnInit{
 
   fechasSeleccionadas: Date[][] = [];
 
+  documentos_enviados:any = [];
+
+  warning_text:string = "No puede finalizar la práctica hasta que subas todos los documentos solicitados";
+
   constructor(private service_datos: ObtenerDatosService , private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, 
               private service_gestion: GestionarService, private service_supervisor: SupervisorService, private router: Router,
               private service_noti: NotificacionesService, private service_obtener: DataUsuarioService) {
@@ -137,7 +141,6 @@ export class DetalleAlumnoComponent implements OnInit{
           error: (error: any) => console.log(error),
           complete: async () => {
             this.practicas = respuesta.body;
-            //console.log("Practicas:",this.practicas)
             let index = 0;
 
             // Guardar nombres y practicas en un arreglo
@@ -179,15 +182,36 @@ export class DetalleAlumnoComponent implements OnInit{
                 error: (error: any) => console.log(error),
                 complete: () => {
                   this.solicitudes_practicas[element.id] = respuesta.body;
+
+                  let flag = 0;
+                  for(let practica of this.practicas){
+                    for(let soli of this.solicitudes_practicas[practica.id]){
+                      if(soli.documentos.length == 0){
+                        flag = 1;
+                        this.documentos_enviados.push(0);
+                        break;
+                      } 
+                    }
+                    for (let docuex of practica.documento_extras){
+                      if(docuex.key == null){
+                        flag = 1;
+                        this.documentos_enviados.push(0);
+                      }
+                    }
+                    if(flag == 0){this.documentos_enviados.push(1);}
+                  }
+                  console.log(this.documentos_enviados)
                   console.log("Solicitudes:", this.solicitudes_practicas)
                   resolve(true);
                 }
               });})
             });  
 
+            
             for (var item of this.practicas){
               this.evaluaciones.push(item.respuesta_supervisors)
             }
+
             /*
             this.evaluaciones = this.practicas.filter((respuesta_supervisors: any) => {
               return !isNaN(respuesta_supervisors.respuesta);
@@ -499,6 +523,13 @@ export class DetalleAlumnoComponent implements OnInit{
         }
       }
     })
+  }
+
+  warning_practica(){
+    this._snackBar.open("No puede finalizar la práctica hasta que subas todos los documentos solicitados", "Cerrar", {
+      panelClass: ['red-snackbar'],
+      duration: 2000
+    });
   }
 }
 

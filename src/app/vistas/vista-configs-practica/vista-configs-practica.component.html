@@ -302,10 +302,11 @@
                                                         Preguntas para el supervisor
                                                     </h4>
                                                 </div>
-                                                <div class="card-body">
+                                                <div class="card-body">                                                    
                                                     <p *ngFor="let pregunta of practica_default.pregunta_supervisors; let j = index">
                                                         {{j+1}}. {{ pregunta.enunciado }} [{{ pregunta.tipo_respuesta }}]
                                                     </p>
+                                                    <p>(Se pedirá también evaluar las aptitudes configuradas en la sección de aptitudes)</p>
                                                 </div>
                                                 <div class="card-footer" >
                                                     <span class="btn btn-primary disabled-button" matTooltip="{{string_bloqueo}}">Editar</span>
