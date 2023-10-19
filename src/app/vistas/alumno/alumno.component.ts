@@ -344,56 +344,7 @@ export class DetalleAlumnoComponent implements OnInit{
   }
   
   finalizar_practica(practica: any) {
-    let respuesta: any = [];
-    let id_encargado = practica.encargado.id_usuario;
-    let correo_encargado: string = "";
-
-    //console.log("Así se ve la configuración de estados");
-    //console.log(respuesta.body.config);
-    correo_encargado = practica.encargado.usuario.correo;
-    //console.log("correo_encargado:",correo_encargado);
-
-    let correo_supervisor: string = practica.supervisor.correo;
-
-    //console.log("practica",practica)
-    let nom_estudiante: string = this.usuario.nombre;
-
     window.location.href = environment.url_front + "/encuestaFinal/" + practica.id;
-    /*
-    this.service_gestion.finalizar_practica(practica.id_estudiante, practica.id, environment.estado_practica.finalizada, correo_supervisor, nom_estudiante).subscribe({
-      next: (data: any) => {
-        //console.log("Respuesta finalizar practica:",data);
-      },
-      error: (error: any) => console.log("Error en finalizar practica:",error),
-      complete: () => {
-        let respuesta: any = [];
-        let enlace: string = environment.url_front + "/alumno/" + this.usuario.id;
-        this.service_noti.postnotificacion(id_encargado, "El alumno " + this.estudiante.nombre + " ha finalizado su práctica y desea su realización", correo_encargado, this.estado_config, enlace).subscribe({
-          next:(data:any) => {
-            respuesta = {...respuesta, ...data};
-          },
-          error:(error:any) => {
-            //console.log(error);
-            return;
-          },
-          complete:() => {
-            //console.log("Notificación enviada con éxito");
-          }
-        });
-        this._snackBar.open("Práctica Finalizada","Cerrar",{
-          panelClass: ['red-snackbar'],
-          duration: 3000
-        })
-        // after 3 seconds reload the page
-        setTimeout(() => {
-          //window.location.reload();
-          window.location.href = environment.url_front + "/encuestaFinal/" + practica.id;
-        }
-        , 3000);
-
-      }
-    });
-    */ 
   }
 
   abrir_inscripcion(index: number) {
