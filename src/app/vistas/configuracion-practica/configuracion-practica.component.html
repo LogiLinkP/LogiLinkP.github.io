@@ -153,6 +153,14 @@
                 <br>
                 <br>
 
+                <p>¿Desea incluir la creación del documento para dirección de estudios?</p>
+                <label>
+                  <input type="checkbox" formControlName="hay_doc_direst" (change)="habilitarDocDirest($event)">
+                  Habilitar
+                </label>
+                <br>
+                <br>
+
                 <button class="btn btn-primary btn-user btn-md" type="submit">Siguiente</button>
               </form>
             </div>
@@ -583,7 +591,8 @@
                   <textarea rows="3" class="form-control input-center text-area" placeholder="Descripción solicitud"
                     formControlName="descripcion_solicitud_documentos"></textarea>
                   <label for="dropdown">Tipo de documento:</label>
-                  <select class="form-select input-center" id="dropdown" placeholder="Tipo documento" formControlName="tipo_solicitud_documentos">
+                  <select class="form-select input-center" id="dropdown" placeholder="Tipo documento"
+                    formControlName="tipo_solicitud_documentos">
                     <option value="pdf">PDF</option>
                     <option value="jpg">JPG</option>
                     <option value="xlsx">Excel</option>
@@ -825,6 +834,10 @@
             <div class="card-body text-center">
               <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
                 Preguntas para que supervisor evalúe al practicante
+              </div>
+              <div *ngIf="hay_doc_direst" class="h5 mb-3 text-gray-800 mx-auto w-50 text-center">
+                Debido a que seleccionó la opción para generar documento para DIREST, al supervisor ya se le pregunta
+                por las tareas realizadas y las observaciones.
               </div>
               <div *ngFor="let pregunta_supervisor of lista_preguntas_supervisor; let i = index">
                 <div *ngIf="tipos_preguntas_supervisor[i] != 'evaluacion'" class="pregunta">

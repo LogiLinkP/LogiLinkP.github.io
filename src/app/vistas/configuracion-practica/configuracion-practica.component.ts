@@ -24,6 +24,8 @@ export class ConfiguracionPracticaComponent {
     migracion_legal: boolean = true;
     user: any = JSON.parse(localStorage.getItem('auth-user') || "{}").userdata;
 
+    hay_doc_direst: boolean = false;
+
     constructor(private _fb: FormBuilder, private cd: ChangeDetectorRef, @Inject(DOCUMENT) private document: Document,
         private serviceBarra: BarraLateralService, private _snackBar: MatSnackBar, private route: ActivatedRoute,
         private serviceComplete: ConfigService, private router: Router) {
@@ -43,7 +45,7 @@ export class ConfiguracionPracticaComponent {
                 let ruta_cortada = event.url.split("/");
                 //console.log("NavigationEnd:", event.url, "split", ruta_cortada);
                 //console.log("current route: ", this.currentRoute);
-                
+
                 if (ruta_cortada[ruta_cortada.length - 1] == "copia") {
                     this.requestInicial(true);
                     this.importada = true;
@@ -214,6 +216,7 @@ export class ConfiguracionPracticaComponent {
             this.frecuenciaInformes = "";
             this.informeFinal = "";
             this.tipo_solicitud_documentos = "pdf";
+            this.hay_doc_direst = false;
 
             this.fg = this._fb.group({
                 opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
@@ -240,6 +243,9 @@ export class ConfiguracionPracticaComponent {
                 nombre_solicitud_documentos: new FormControl(this.nombre_solicitud_documentos),
                 descripcion_solicitud_documentos: new FormControl(this.descripcion_solicitud_documentos),
                 tipo_solicitud_documentos: new FormControl(this.tipo_solicitud_documentos),
+
+                //doc direst
+                hay_doc_direst: new FormControl(this.hay_doc_direst)
             });
 
             this.flag = true;
@@ -249,6 +255,7 @@ export class ConfiguracionPracticaComponent {
             this.nombrePractica = this.config.nombre;
             this.frecuenciaInformes = this.config.frecuencia_informes;
             this.informeFinal = this.config.informe_final;
+            this.hay_doc_direst = this.config.doc_direst;
 
             //* set modalidad
             //console.log("modalidad get id:", id_config_practica);
@@ -865,11 +872,11 @@ export class ConfiguracionPracticaComponent {
           this.estado = "encuesta_final";
         }
         */
-       /*
-        else if (this.estado == "aptitudes") {
-            this.estado = "encuesta_final";
-        }
-        */
+        /*
+         else if (this.estado == "aptitudes") {
+             this.estado = "encuesta_final";
+         }
+         */
         //volver desde preguntas supervisor
         else if (this.estado == "preguntas_supervisor") {
             //this.estado = "agregar_ramos";
@@ -944,6 +951,39 @@ export class ConfiguracionPracticaComponent {
     }
     */
 
+    agregar_doc_direst() {
+        const pregunta_tareas_desarrolladas = "Detalle las tareas realizadas por el estudiante.";
+        const pregunta_observaciones = "Escriba sus observaciones sobre el estudiante y el trabajo realizado.";
+
+        let idx_preg_tareas = this.lista_preguntas_supervisor.indexOf(pregunta_tareas_desarrolladas);
+        if (idx_preg_tareas > -1) {
+            this.lista_preguntas_supervisor.splice(idx_preg_tareas, 1);
+            this.tipos_preguntas_supervisor.splice(idx_preg_tareas, 1);
+            this.lista_opciones_preguntas_supervisor.splice(idx_preg_tareas, 1);
+            this.lista_fija_preguntas_supervisor
+        }
+        let idx_preg_obs = this.lista_preguntas_supervisor.indexOf(pregunta_observaciones);
+        if (idx_preg_obs > -1) {
+            this.lista_preguntas_supervisor.splice(idx_preg_obs, 1);
+            this.tipos_preguntas_supervisor.splice(idx_preg_obs, 1);
+            this.lista_opciones_preguntas_supervisor.splice(idx_preg_obs, 1);
+            this.lista_fija_preguntas_supervisor.splice(idx_preg_obs, 1);
+        }
+
+        if (!this.fg.value.hay_doc_direst) return;
+
+        this.lista_preguntas_supervisor.push(pregunta_tareas_desarrolladas);
+        this.tipos_preguntas_supervisor.push("abierta");
+        this.lista_opciones_preguntas_supervisor.push("");
+        this.lista_fija_preguntas_supervisor.push(true);
+
+        this.lista_preguntas_supervisor.push(pregunta_observaciones);
+        this.tipos_preguntas_supervisor.push("abierta");
+        this.lista_opciones_preguntas_supervisor.push("");
+        this.lista_fija_preguntas_supervisor.push(true);
+
+    }
+
     mandarDatos() { //se estan apilando los snackbars positivos (dejar los negativos)
         let tipo_request: string;
 
@@ -961,7 +1001,6 @@ export class ConfiguracionPracticaComponent {
         } else {
             this.actualizarConfigPractica(this.nombrePractica, this.frecuenciaInformes, this.informeFinal);
         }
-
     }
 
     actualizarConfigPractica(nombre: string, frecuencia: string, final: string) {
@@ -997,7 +1036,7 @@ export class ConfiguracionPracticaComponent {
         //}
 
         //crear nuevos (copias)
-        this.serviceComplete.crearConfigPractica(nombre, frecuencia, final, +this.user.encargado.id_carrera).subscribe({
+        this.serviceComplete.crearConfigPractica(nombre, frecuencia, final, +this.user.encargado.id_carrera, this.hay_doc_direst).subscribe({
             next: (data: any) => {
                 respuesta = { ...respuesta, ...data }
             },
@@ -1092,7 +1131,7 @@ export class ConfiguracionPracticaComponent {
 
         let respuesta: any = {};
 
-        this.serviceComplete.crearConfigPractica(nombre, frecuencia, final, +this.user.encargado.id_carrera).subscribe({
+        this.serviceComplete.crearConfigPractica(nombre, frecuencia, final, +this.user.encargado.id_carrera, this.hay_doc_direst).subscribe({
             next: (data: any) => {
                 respuesta = { ...respuesta, ...data }
             },
@@ -1418,6 +1457,10 @@ export class ConfiguracionPracticaComponent {
                 console.log("Solicitud de documento eliminada exitosamente");
             }
         });
+    }
+
+    habilitarDocDirest(evnt: any) {
+        this.hay_doc_direst = this.fg.value.hay_doc_direst;
     }
 
 }
