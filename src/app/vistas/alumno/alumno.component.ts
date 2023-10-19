@@ -183,17 +183,24 @@ export class DetalleAlumnoComponent implements OnInit{
                 complete: () => {
                   this.solicitudes_practicas[element.id] = respuesta.body;
 
+                  let flag = 0;
                   for(let practica of this.practicas){
-                    if(this.solicitudes_practicas[practica.id][0].documentos.length == 0){
-                      this.documentos_enviados.push(0);
-                      continue
+                    for(let soli of this.solicitudes_practicas[practica.id]){
+                      if(soli.documentos.length == 0){
+                        flag = 1;
+                        this.documentos_enviados.push(0);
+                        break;
+                      } 
                     }
-                    if(practica.documento_extras.length == 0){
-                      this.documentos_enviados.push(0);
-                      continue
+                    for (let docuex of practica.documento_extras){
+                      if(docuex.key == null){
+                        flag = 1;
+                        this.documentos_enviados.push(0);
+                      }
                     }
-                    this.documentos_enviados.push(1);
+                    if(flag == 0){this.documentos_enviados.push(1);}
                   }
+                  console.log(this.documentos_enviados)
                   //console.log("Solicitudes:", this.solicitudes_practicas)
                   resolve(true);
                 }
