@@ -118,6 +118,7 @@ export class DetallePracticaComponent implements OnInit {
         },
         complete: () => {
           this.practica = respuesta.body;
+          console.log(this.practica);
           this.check_resumen();
 
           if (this.practica.ev_encargado == null) {
@@ -214,78 +215,93 @@ export class DetallePracticaComponent implements OnInit {
                 }
               }
               respuestas_traducidas = respuestas_traducidas.slice(0, -2);
-              console.log(respuestas_traducidas);
+              //console.log(respuestas_traducidas);
               this.respuestas_supervisor[i].respuesta = respuestas_traducidas;
             }
           }
 
-          console.log(this.practica.informes[0].key)
+          
+          if(this.practica.informes.length > 0){           
 
-          //respuestas preguntas
-          let lista_informes = Object.values(this.practica.informes[0].key)
-          console.log(lista_informes)
+            // buscar si hay algun informe que haya sido respondido (su key es un objeto no vacío), obtener su indice dentro del arreglo
+            let indice_informe_respondido = -1;
+            for (let i = 0; i < this.practica.informes.length; i++) {
+              if(this.practica.informes[i].key == null) continue;
+              if (Object.keys(this.practica.informes[i].key).length > 0) {
+                indice_informe_respondido = i;
+                break;
+              }
+            }
 
-          //id preguntas
-          let keys = Object.keys(this.practica.informes[0].key)
-          console.log(keys)
+            if (indice_informe_respondido != -1) {
+              let key_informe_respondido = this.practica.informes[indice_informe_respondido].key;
 
-          let preguntas_informe: any = []
+              //console.log(key_informe_respondido)
 
-          for (let i = 0; i < keys.length; i++) {
-            this.service_informe.get_pregunta_informe(Number(keys[i])).subscribe({
-              next: (data: any) => {
-                respuesta = { ...respuesta, ...data }
-              },
-              error: (error: any) => {
-                this._snackBar.open("Error al buscar configuracion de practica", "Cerrar", {
-                  duration: 3000,
-                  panelClass: ['red-snackbar']
-                });
-                console.log("Error al buscar configuracion de practica", error);
-              },
-              complete: () => {
-                preguntas_informe.push(respuesta.body)
+              //obtener las respuestas de las preguntas del informe
+              let lista_informes = Object.values(key_informe_respondido)
+              //console.log(lista_informes)
 
-                if (i == keys.length - 1) {
+              //obtener los ids de las preguntas del informe
+              let keys = Object.keys(key_informe_respondido)
+              //console.log(keys)
 
-                  console.log(preguntas_informe)
-                  //console.log(preguntas_informe.length)
+              let preguntas_informe: any = []
 
-                  //orednar preguntas informe
-                  let preguntas_informe_ordenadas: any = []
+              for (let i = 0; i < keys.length; i++) {
+                this.service_informe.get_pregunta_informe(Number(keys[i])).subscribe({
+                  next: (data: any) => {
+                    respuesta = { ...respuesta, ...data }
+                  },
+                  error: (error: any) => {
+                    this._snackBar.open("Error al buscar configuracion de practica", "Cerrar", {
+                      duration: 3000,
+                      panelClass: ['red-snackbar']
+                    });
+                    console.log("Error al buscar configuracion de practica", error);
+                  },
+                  complete: () => {
+                    preguntas_informe.push(respuesta.body)
 
-                  for (let id of keys) {
-                    for (let pregunta of preguntas_informe) {
-                      if (pregunta.id == id) {
-                        preguntas_informe_ordenadas.push(pregunta.enunciado)
+                    if (i == keys.length - 1) {
+
+                      //console.log(preguntas_informe)
+                      //console.log(preguntas_informe.length)
+
+                      //orednar preguntas informe
+                      let preguntas_informe_ordenadas: any = []
+
+                      for (let id of keys) {
+                        for (let pregunta of preguntas_informe) {
+                          if (pregunta.id == id) {
+                            preguntas_informe_ordenadas.push(pregunta.enunciado)
+                          }
+                        }
                       }
+
+                      //console.log("preguntas informe ordenadas")
+                      //console.log(preguntas_informe_ordenadas)
+
+                      let preguntas_respuestas_informes_aux = []
+
+                      for (let i = 0; i < preguntas_informe_ordenadas.length; i++) {
+                        preguntas_respuestas_informes_aux.push(preguntas_informe_ordenadas[i])
+                        preguntas_respuestas_informes_aux.push(lista_informes[i])
+                      }
+
+                      //console.log("preguntas_respuestas_informes")
+                      //console.log(preguntas_respuestas_informes_aux)
+
+                      this.preguntas_respuestas_informe = preguntas_respuestas_informes_aux
+
                     }
                   }
-
-                  console.log("preguntas informe ordenadas")
-                  console.log(preguntas_informe_ordenadas)
-
-                  let preguntas_respuestas_informes_aux = []
-
-                  for (let i = 0; i < preguntas_informe_ordenadas.length; i++) {
-                    preguntas_respuestas_informes_aux.push(preguntas_informe_ordenadas[i])
-                    preguntas_respuestas_informes_aux.push(lista_informes[i])
-                  }
-
-                  console.log("preguntas_respuestas_informes")
-                  console.log(preguntas_respuestas_informes_aux)
-
-                  this.preguntas_respuestas_informe = preguntas_respuestas_informes_aux
-
-                }
+                });
               }
-            });
-          }
-
+              
+            }            
           //console.log(preguntas_informe)
-
-
-
+          }
 
         }
       }); // fin request para obtener la practica  
@@ -352,7 +368,7 @@ export class DetallePracticaComponent implements OnInit {
         data = { ...data, ..._data };
       },
       complete: () => {
-        console.log(data.body)
+        //console.log(data.body)
         if (!data.body) {
           this._snackBar.open("Error al solicitar resumen, por favor vuelva más tarde", "Cerrar", {
             panelClass: ['red-snackbar'],
@@ -455,7 +471,7 @@ export class DetallePracticaComponent implements OnInit {
 
     //console.log(keys)
 
-    console.log(this.preguntas_respuestas_informe)
+    //console.log(this.preguntas_respuestas_informe)
 
     for (let i = 0; i < this.preguntas_respuestas_informe.length; i++) {
       var palabras_informe = this.preguntas_respuestas_informe[i].split(" ")
@@ -654,6 +670,7 @@ export class DetallePracticaComponent implements OnInit {
   }
 
   isDataEmpty(data: any): boolean {
+    if (data == null || data == undefined) return true;
     return Object.keys(data).length === 0 && data.constructor === Object;
   }
 
@@ -693,7 +710,7 @@ export class DetallePracticaComponent implements OnInit {
             return;
           },
           complete: () => {
-            console.log("Notificación enviada con éxito");
+            //console.log("Notificación enviada con éxito");
             window.location.reload()
           }
         });
