@@ -15,6 +15,11 @@ import { RespuestaRamosService } from 'src/app/servicios/respuesta-ramos/respues
 
 import { PreguntasEncuestaFinalService } from 'src/app/servicios/alumno/preguntas-encuesta-final.service';
 import e from 'express';
+import { environment } from 'src/environments/environment';
+import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
+import { GestionarService } from 'src/app/servicios/alumno/gestionar_practica.service';
+import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.service';
+import { config } from 'rxjs';
 
 @Component({
   selector: 'app-encuesta-fin-practica',
@@ -25,7 +30,9 @@ export class EncuestaFinPracticaComponent {
 
   constructor(@Inject(DOCUMENT) private document: Document, private router: Router, private service_obtener: ObtenerDatosService,
     private route: ActivatedRoute, private serviceCarrera: CarreraService,
-    private servicePreguntas: PreguntasEncuestaFinalService, private _snackbar: MatSnackBar, private ramosService: RespuestaRamosService) { }
+    private servicePreguntas: PreguntasEncuestaFinalService, private _snackbar: MatSnackBar, private ramosService: RespuestaRamosService,
+    private service_noti: NotificacionesService, private service_gestion: GestionarService, private _snackBar: MatSnackBar,
+    private data_usuario: DataUsuarioService) { }
 
   //id_config_practica = 2; // hardcodeado
 
@@ -69,6 +76,13 @@ export class EncuestaFinPracticaComponent {
     "enunciado": "Indica la remuneración mensual que recibiste durante tu práctica. (Recuerda que esta información es anónima y sólo se utiliza para fines estadísticos)",
     "tipo_respuesta": "abierta",
   }
+
+  practica:any = [];
+  usuario:any = JSON.parse(localStorage.getItem('auth-user') || '{}').userdata;
+  estado_config:string = "";
+  id_encargado:number = -1;
+  correo_encargado:string="";
+
   //preguntas_encuesta: object[] = [];
 
   //enunciados_preguntas: string[] = [];
@@ -129,7 +143,21 @@ export class EncuestaFinPracticaComponent {
 
   ngOnInit(): void {
 
+    console.log(this.usuario)
     let respuesta: any = {};
+
+    this.data_usuario.obtener_usuario(this.usuario.id).subscribe({
+      next:(data:any) => {
+        respuesta = {...respuesta, ...data}
+      },
+      error:(error:any) => {
+        console.log(error)
+        return
+      },
+      complete:() => {
+        this.estado_config = respuesta.body.config
+      }
+    })
 
     this.service_obtener.obtener_practica_id(this.id_practica).subscribe({
       next: data => {
@@ -138,6 +166,8 @@ export class EncuestaFinPracticaComponent {
       error: error => {
       },
       complete: () => {
+        this.practica = respuesta.body;
+        console.log(this.practica)
         this.id_config_practica = respuesta.body.id_config_practica;
 
         this.servicePreguntas.obtener_preguntas(this.id_config_practica).subscribe({
@@ -148,7 +178,6 @@ export class EncuestaFinPracticaComponent {
           error: error => {
           },
           complete: () => {
-
             this.preguntas = respuesta.body;
 
             if (this.preguntas.length > 0) {
@@ -425,9 +454,64 @@ export class EncuestaFinPracticaComponent {
       }
     }
 
+    let respuesta: any = [];
+    
+    let correo_supervisor: string = this.practica.supervisor.correo;
+    let nom_estudiante: string = this.usuario.nombre;
+
+    this.service_obtener.obtener_practica(this.usuario.estudiante.id).subscribe({
+      next: (data: any) => {
+        respuesta = { ...respuesta, ...data }
+      },
+      error: (error: any) => console.log(error),
+      complete: () => {
+        let practicas = respuesta.body;
+        console.log(practicas)
+        for(let practi of practicas){
+          console.log("ENTRAx1")
+          if(practi.id == this.practica.id){
+            console.log("ENTRAx2")
+            this.id_encargado = practi.encargado.id_usuario;
+            this.correo_encargado = practi.encargado.usuario.correo;
+            break
+          }
+        }
+
+        this.service_gestion.finalizar_practica(this.practica.id_estudiante, this.practica.id, environment.estado_practica.finalizada, correo_supervisor, nom_estudiante).subscribe({
+          next: (data: any) => {
+            //console.log("Respuesta finalizar practica:",data);
+          },
+          error: (error: any) => console.log("Error en finalizar practica:",error),
+          complete: () => {
+            let respuesta: any = [];
+            let enlace: string = environment.url_front + "/alumno/" + nom_estudiante;
+            
+            this.service_noti.postnotificacion(this.id_encargado, "El alumno " + nom_estudiante + " ha finalizado su práctica y desea su realización", this.correo_encargado, this.estado_config, enlace).subscribe({
+              next:(data:any) => {
+                respuesta = {...respuesta, ...data};
+              },
+              error:(error:any) => {
+                console.log(error);
+                return;
+              },
+              complete:() => {
+                //console.log("Notificación enviada con éxito");
+              }
+            });
+            this._snackBar.open("Práctica Finalizada","Cerrar",{
+              panelClass: ['red-snackbar'],
+              duration: 3000
+            }) 
+          }
+        });        
+      }
+    })
+
+    
+
     // after 2 seconds, redirect to home
     setTimeout(() => {
-      this.router.navigate(['/']);
+      window.history.back();
     }
       , 3000);
 

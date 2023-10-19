@@ -56,7 +56,7 @@ export class DetalleAlumnoComponent implements OnInit{
               private service_noti: NotificacionesService, private service_obtener: DataUsuarioService) {
     this.usuario = JSON.parse(localStorage.getItem('auth-user') || '{}').userdata;
     this.estudiante = this.usuario.estudiante;
-    this.estado_config = this.usuario.body;
+    this.estado_config = this.usuario.config;
 
     //console.log("usuario:",this.usuario);
     //console.log("estudiante:",this.estudiante);
@@ -185,6 +185,7 @@ export class DetalleAlumnoComponent implements OnInit{
 
                   let flag = 0;
                   for(let practica of this.practicas){
+                    console.log(practica)
                     for(let soli of this.solicitudes_practicas[practica.id]){
                       if(soli.documentos.length == 0){
                         flag = 1;
@@ -200,7 +201,6 @@ export class DetalleAlumnoComponent implements OnInit{
                     }
                     if(flag == 0){this.documentos_enviados.push(1);}
                   }
-                  console.log(this.documentos_enviados)
                   //console.log("Solicitudes:", this.solicitudes_practicas)
                   resolve(true);
                 }
@@ -358,6 +358,8 @@ export class DetalleAlumnoComponent implements OnInit{
     //console.log("practica",practica)
     let nom_estudiante: string = this.usuario.nombre;
 
+    window.location.href = environment.url_front + "/encuestaFinal/" + practica.id;
+    /*
     this.service_gestion.finalizar_practica(practica.id_estudiante, practica.id, environment.estado_practica.finalizada, correo_supervisor, nom_estudiante).subscribe({
       next: (data: any) => {
         //console.log("Respuesta finalizar practica:",data);
@@ -390,7 +392,8 @@ export class DetalleAlumnoComponent implements OnInit{
         , 3000);
 
       }
-    }); 
+    });
+    */ 
   }
 
   abrir_inscripcion(index: number) {
