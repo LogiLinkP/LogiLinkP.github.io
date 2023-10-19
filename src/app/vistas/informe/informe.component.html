@@ -10,9 +10,21 @@
 
             <!-- Begin Page Content -->
             <div class="container">
-                <h1 class="h3 mb-1 text-gray-800">
-                    Informe: {{fecha_informe}}
-                </h1>
+                <div class="row">
+                    <div class="col-xl-10">
+                        <div class="h3 mb-1 mt-4 text-gray-800">
+                            Informe: {{fecha_informe}}
+                        </div>
+                    </div>
+                    <div class="col-xl-1">
+                    </div>
+                    <div class="col-xl-1">
+                        <!--boton para volver a pagina anterior-->
+                        <a class="btn btn-primary btn-md mt-4" href="javascript:history.back()">
+                            <span class="text">Volver</span>
+                        </a>
+                    </div>
+                </div>
                 <div class="mt-3 card mb-4" *ngFor="let item of pares_pregunta_respuesta">
                     <div class="card-header">
                         {{item[0]}}
