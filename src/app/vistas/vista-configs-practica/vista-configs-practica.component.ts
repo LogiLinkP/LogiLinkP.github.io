@@ -79,11 +79,6 @@ export class VistaConfigsPracticaComponent implements OnInit{
 		],
         "pregunta_supervisors": [
             {
-                "enunciado": "Evalúe entre 1 y 5 las siguientes aptitudes del practicante",
-                "tipo_respuesta": "evaluacion",
-                "opciones": "Responsable;;Puntual;;Comprometido;;Iniciativa"
-            },
-            {
                 "enunciado": "¿Consideraría contratar a este practicante?",
                 "tipo_respuesta": "alternativas",
                 "opciones": "Sí;;No;;No sé"
@@ -313,7 +308,7 @@ export class VistaConfigsPracticaComponent implements OnInit{
             }
         });
     }
-
+    
     crearPreguntaSupervisor(id_config_practica: number, pregunta: string, tipo_pregunta: string, opciones: string, fija: boolean) {
         let respuesta: any = {};
 
