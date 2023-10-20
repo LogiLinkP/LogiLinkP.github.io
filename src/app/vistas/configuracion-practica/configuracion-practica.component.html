@@ -154,12 +154,12 @@
                   <p class="mt-2"> Elija el tipo de informe final que desea utilizar</p>
                   <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" id="informeFinalCuestionario" value="cuestionario"
-                    formControlName="tipoInformeFinal">
+                      formControlName="tipoInformeFinal">
                     <label class="form-check-label" for="informeFinalCuestionario">Cuestionario</label>
                   </div>
                   <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" id="informeFinalArchivo" value="archivo"
-                    formControlName="tipoInformeFinal">
+                      formControlName="tipoInformeFinal">
                     <label class="form-check-label" for="informeFinalArchivo">Archivo</label>
                   </div>
                 </div>
@@ -418,11 +418,11 @@
                     </button>
                   </form>
                 </div>
-              </div>
+              </div>             
+    
+              <!-- <form (ngSubmit)="avanzarDesdePreguntasFinal()"> -->
 
               <br>
-
-              <!-- <form (ngSubmit)="avanzarDesdePreguntasFinal()"> -->
 
               <form *ngIf="flag">
 
@@ -561,7 +561,41 @@
                 <div class="col-4"></div>
               </div>
             </div>
-          </div><!-- Fin tarjeta inicial-->
+          </div><!-- Fin Configuracion preguntas informe final-->
+
+          <!-------------------------------------------------- CONFIGURACION DE ARCHIVO INFORME FINAL -------------------------------------------------------------->
+          <div class="card shadow" *ngIf="estado == 'informe_final_archivo'">
+            <div class="card-body text-center">
+              <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
+                Archivo del Informe Final
+              </div>
+            
+
+            Formatos aceptados <br>
+            <input type="checkbox" formControlName="horas"> pdf
+            <input type="checkbox" formControlName="meses"> word
+            <br>
+            ¿Desea incluir una plantilla de ejemplo? <br>
+            <input type="checkbox" formControlName="horas"> Si
+            <input type="checkbox" formControlName="meses"> No
+            <br>
+            <br>
+            Plantilla de ejemplo
+
+            <div class="row mt-5 mb-3 align-items-end">
+              <div class="col-4"></div>
+              <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="volver()"
+                style="margin-right: 20px;">
+                Volver
+              </button>
+              <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="avanzarDesdePreguntasFinal()">
+                Siguiente
+              </button>
+              <div class="col-4"></div>
+            </div>
+          </div>
+          </div> <!-- Fin Configuracion archivo informe final-->
+
           <!-------------------------------------------------- CONFIGURACION DOCUMENTOS -------------------------------------------------------------->
           <div class="card shadow" *ngIf="estado == 'solicitud_documentos'">
             <div class="card-body text-center">
@@ -594,7 +628,8 @@
                   <textarea rows="3" class="form-control input-center text-area" placeholder="Descripción solicitud"
                     formControlName="descripcion_solicitud_documentos"></textarea>
                   <label for="dropdown">Tipo de documento:</label>
-                  <select class="form-select input-center" id="dropdown" placeholder="Tipo documento" formControlName="tipo_solicitud_documentos">
+                  <select class="form-select input-center" id="dropdown" placeholder="Tipo documento"
+                    formControlName="tipo_solicitud_documentos">
                     <option value="pdf">PDF</option>
                     <option value="jpg">JPG</option>
                     <option value="xlsx">Excel</option>
