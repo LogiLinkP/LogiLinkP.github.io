@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
 import { ChangeDetectorRef, Component, Inject } from '@angular/core';
-import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormArray, FormBuilder, Validators, isFormRecord } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table'
 
 import { BarraLateralService } from 'src/app/servicios/encargado/barra-lateral/barra-lateral.service';
@@ -25,6 +25,7 @@ export class ConfiguracionPracticaComponent {
     user: any = JSON.parse(localStorage.getItem('auth-user') || "{}").userdata;
     archivo_plantilla: File | undefined;
     key_plantilla: string = "";
+    link_descarga_plantilla:string = "";
 
     constructor(private _fb: FormBuilder, private cd: ChangeDetectorRef, @Inject(DOCUMENT) private document: Document,
         private serviceBarra: BarraLateralService, private _snackBar: MatSnackBar, private route: ActivatedRoute,
@@ -327,6 +328,8 @@ export class ConfiguracionPracticaComponent {
                                             }
                                             if (respuesta.body[j]?.plantilla != "" ){
                                                 this.plantillaInformeFinal = "si";
+                                                this.key_plantilla = respuesta.body[j].plantilla;
+                                                this.link_descarga_plantilla = "https://d2v9ocre132gvc.cloudfront.net/" + this.key_plantilla;
                                             }
                                             else {
                                                 this.plantillaInformeFinal = "no";

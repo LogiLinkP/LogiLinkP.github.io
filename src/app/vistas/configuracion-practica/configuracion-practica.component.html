@@ -581,7 +581,7 @@
                   <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="plantillaInformeFinal"
                       id="plantillaInformeFinalSI" value="si" formControlName="plantillaInformeFinal">
-                    <label class="form-check-label" for="plantillaInformeFinalSI">Si</label>
+                    <label class="form-check-label mr-2" for="plantillaInformeFinalSI">Si</label>
 
                     <input class="form-check-input" type="radio" name="plantillaInformeFinal"
                       id="plantillaInformeFinalNO" value="no" formControlName="plantillaInformeFinal">
@@ -590,8 +590,28 @@
                   <br>
                   <br>
                   <div *ngIf="fg.value.plantillaInformeFinal == 'si'">
-                    Subir Plantilla de ejemplo<br>
-                    <app-subir-plantilla-informe-final (key_event)="recibirPlantillaInforme($event)" (file_plantilla_event)="recibirPlantillaInforme($event)"></app-subir-plantilla-informe-final>
+                    <div *ngIf="currentRoute.includes('blanco'); else editandoExistente">
+                      Subir Plantilla de ejemplo<br>
+                      <app-subir-plantilla-informe-final (key_event)="recibirPlantillaInforme($event)"
+                        (file_plantilla_event)="recibirPlantillaInforme($event)"></app-subir-plantilla-informe-final>
+                    </div>
+                  
+                    <ng-template #editandoExistente>
+                      <div *ngIf="link_descarga_plantilla != ''; else editandoAntiguaSinPlantilla">
+                        <button type = "button" class = "btn btn-primary btn-md mb-2">
+                          <a [href]="link_descarga_plantilla" target="_blank" style = "color:white">Descargar plantilla actual</a>
+                        </button><br><br>
+                        Subir nueva plantilla de ejemplo<br>(Reemplazará la plantilla actual)<br>
+                          <app-subir-plantilla-informe-final (key_event)="recibirPlantillaInforme($event)"
+                          (file_plantilla_event)="recibirPlantillaInforme($event)"></app-subir-plantilla-informe-final>
+                      </div>
+                      <ng-template #editandoAntiguaSinPlantilla>
+                        Subir Plantilla de ejemplo<br>
+                        <app-subir-plantilla-informe-final (key_event)="recibirPlantillaInforme($event)"
+                          (file_plantilla_event)="recibirPlantillaInforme($event)"></app-subir-plantilla-informe-final>
+                      </ng-template>
+
+                    </ng-template>
                   </div>
 
                   <div class="row mt-5 mb-3 align-items-end">
@@ -606,7 +626,7 @@
                     <div class="col-4"></div>
                   </div>
                 </form>
-              </form>              
+              </form>
             </div>
           </div> <!-- Fin Configuracion archivo informe final-->
 

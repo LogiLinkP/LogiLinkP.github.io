@@ -39,7 +39,7 @@ export class VistaConfigsPracticaComponent implements OnInit{
         ],
         "config_informes": [
             {
-                "tipo_informe": "Informe avance",
+                "tipo_informe": "informe avance",
                 "pregunta_informes": [
                     {
                         "enunciado": "Describa el trabajo realizado",
@@ -49,7 +49,7 @@ export class VistaConfigsPracticaComponent implements OnInit{
                 ]
             },
             {
-                "tipo_informe": "Informe final",
+                "tipo_informe": "informe final",
                 "archivo_o_encuesta": "encuesta",
                 "pregunta_informes": [
                     {
