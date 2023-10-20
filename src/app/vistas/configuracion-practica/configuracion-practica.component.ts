@@ -26,8 +26,7 @@ export class ConfiguracionPracticaComponent {
 
     hay_doc_direst: boolean = false;
 
-    timer_modalidad_horas: Array<Promise<boolean>> = [];
-    timer_modalidad_meses: Array<Promise<boolean>> = [];
+    timer_modalidades: Array<Promise<boolean>> = [];
     timer_preguntas_encuesta_final: Array<Promise<boolean>> = [];
     timer_pregunta_supervisor: Array<Promise<boolean>> = [];
     timer_solicitud_documento: Array<Promise<boolean>> = [];
@@ -1065,6 +1064,7 @@ export class ConfiguracionPracticaComponent {
                     panelClass: ['green-snackbar']
                 });
 
+                this.timer_modalidades = [];
                 if (this.horas == true) {
                     this.tablaModalidad(respuesta.body.id, "horas", Object.values(this.opcion_horas));
                 }
@@ -1139,8 +1139,7 @@ export class ConfiguracionPracticaComponent {
 
                 // asegurarse de que todas las requests hayan terminado antes de recargar la página
                 Promise.allSettled([
-                    Promise.allSettled(this.timer_modalidad_horas),
-                    Promise.allSettled(this.timer_modalidad_meses),
+                    Promise.allSettled(this.timer_modalidades),
                     Promise.allSettled(this.timer_preguntas_encuesta_final),
                     Promise.allSettled(this.timer_pregunta_supervisor),
                     Promise.allSettled(this.timer_solicitud_documento),
@@ -1191,6 +1190,7 @@ export class ConfiguracionPracticaComponent {
                     panelClass: ['green-snackbar']
                 });
 
+                this.timer_modalidades = [];
                 if (this.horas == true) {
                     this.tablaModalidad(respuesta.body.id, "horas", Object.values(this.opcion_horas));
                 }
@@ -1219,8 +1219,7 @@ export class ConfiguracionPracticaComponent {
 
                 // asegurarse de que todas las requests hayan terminado antes de recargar la página
                 Promise.allSettled([
-                    Promise.allSettled(this.timer_modalidad_horas),
-                    Promise.allSettled(this.timer_modalidad_meses),
+                    Promise.allSettled(this.timer_modalidades),
                     Promise.allSettled(this.timer_preguntas_encuesta_final),
                     Promise.allSettled(this.timer_pregunta_supervisor),
                     Promise.allSettled(this.timer_solicitud_documento),
@@ -1235,7 +1234,6 @@ export class ConfiguracionPracticaComponent {
     }
 
     tablaModalidad(id_config_practica: number, tipo_modalidad: string, lista_cant: number[]) {
-        let timer: Array<Promise<boolean>> = []
 
         for (let i = 0; i < Object.keys(lista_cant).length; i++) {
             let prom: Promise<boolean> = new Promise((resolve: any, reject: any) => {
@@ -1259,12 +1257,8 @@ export class ConfiguracionPracticaComponent {
                     }
                 });
             });
-            timer.push(prom);
+            this.timer_modalidades.push(prom);
         }
-        if (tipo_modalidad == "horas")
-            this.timer_modalidad_horas = timer;
-        else
-            this.timer_modalidad_meses = timer;
     }
 
     actualizarTablaModalidad(id_config_practica: number, tipo_modalidad: string, lista_cant: number[]) {
