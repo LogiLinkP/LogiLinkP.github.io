@@ -418,8 +418,8 @@
                     </button>
                   </form>
                 </div>
-              </div>             
-    
+              </div>
+
               <!-- <form (ngSubmit)="avanzarDesdePreguntasFinal()"> -->
 
               <br>
@@ -569,33 +569,43 @@
               <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
                 Archivo del Informe Final
               </div>
-            
-
-            Formatos aceptados <br>
-            <input type="checkbox" formControlName="horas"> pdf
-            <input type="checkbox" formControlName="meses"> word
-            <br><br>
-            ¿Desea incluir una plantilla de ejemplo? <br>
-            <input type="radio" name= "radioPlantilla" formControlName="horas"> Si
-            <input type="radio" name= "radioPlantilla" formControlName="meses"> No
-            <br>
-            <br>
-            Subir Plantilla de ejemplo<br>
-            <app-subir-plantilla-informe-final></app-subir-plantilla-informe-final>
 
 
-            <div class="row mt-5 mb-3 align-items-end">
-              <div class="col-4"></div>
-              <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="volver()"
-                style="margin-right: 20px;">
-                Volver
-              </button>
-              <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="avanzarDesdePreguntasFinal()">
-                Siguiente
-              </button>
-              <div class="col-4"></div>
+              Formatos aceptados <br>
+              <input type="checkbox" formControlName="horas"> pdf
+              <input type="checkbox" formControlName="meses"> word
+              <br><br>
+              ¿Desea incluir una plantilla de ejemplo? <br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="plantillaInformeFinalradio" id="plantillaInformeFinalSI"
+                  value="si" formControlName="plantillaInformeFinal">
+                <label class="form-check-label" for="plantillaInformeFinalSI">Si</label>
+
+                <input class="form-check-input" type="radio" name="plantillaInformeFinalradio" id="plantillaInformeFinalNO"
+                  value="no" formControlName="plantillaInformeFinal">
+                <label class="form-check-label" for="plantillaInformeFinalNO">No</label>
+              </div>
+              <br>
+              <br>
+              hola 
+              <div>
+              Subir Plantilla de ejemplo<br>
+                <app-subir-plantilla-informe-final></app-subir-plantilla-informe-final>
+              </div>
+
+
+              <div class="row mt-5 mb-3 align-items-end">
+                <div class="col-4"></div>
+                <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="volver()"
+                  style="margin-right: 20px;">
+                  Volver
+                </button>
+                <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="avanzarDesdePreguntasFinal()">
+                  Siguiente
+                </button>
+                <div class="col-4"></div>
+              </div>
             </div>
-          </div>
           </div> <!-- Fin Configuracion archivo informe final-->
 
           <!-------------------------------------------------- CONFIGURACION DOCUMENTOS -------------------------------------------------------------->

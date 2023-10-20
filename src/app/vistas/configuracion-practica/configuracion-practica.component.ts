@@ -102,6 +102,8 @@ export class ConfiguracionPracticaComponent {
     frecuenciaInformes: string;
     informeFinal: string;
     tipoInformeFinal: string;
+    formatoInformeFinal: string;
+    plantillaInformeFinal: string;
     preguntaFORM = new FormControl('')
 
     nombre_solicitud_documentos: string;
@@ -211,6 +213,8 @@ export class ConfiguracionPracticaComponent {
             this.informeFinal = "";
             this.tipo_solicitud_documentos = "pdf";
             this.tipoInformeFinal = "";
+            this.formatoInformeFinal = "";
+            this.plantillaInformeFinal = "";
 
             this.fg = this._fb.group({
                 opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
@@ -225,6 +229,8 @@ export class ConfiguracionPracticaComponent {
                 frecuenciaInformes: new FormControl(this.frecuenciaInformes, Validators.required),
                 informeFinal: new FormControl(this.informeFinal, Validators.required),
                 tipoInformeFinal: new FormControl(this.tipoInformeFinal),
+                formatoInformeFinal: new FormControl(this.formatoInformeFinal),
+                plantillaInformeFinal: new FormControl(this.plantillaInformeFinal),
                 //pregunta: this.preguntaFORM,
 
                 preguntaFORM: this.pregunta,
@@ -392,6 +398,8 @@ export class ConfiguracionPracticaComponent {
                                                                 frecuenciaInformes: new FormControl(this.frecuenciaInformes, Validators.required),
                                                                 informeFinal: new FormControl(this.informeFinal, Validators.required),
                                                                 tipoInformeFinal: new FormControl(this.tipoInformeFinal),
+                                                                formatoInformeFinal: new FormControl(this.formatoInformeFinal),
+                                                                plantillaInformeFinal: new FormControl(this.plantillaInformeFinal),
                                                                 //pregunta: this.preguntaFORM,
 
                                                                 preguntaFORM: this.pregunta,
@@ -493,6 +501,8 @@ export class ConfiguracionPracticaComponent {
         this.frecuenciaInformes = this.fg.value.frecuenciaInformes;
         this.informeFinal = this.fg.value.informeFinal;
         this.tipoInformeFinal = this.fg.value.tipoInformeFinal;
+        this.formatoInformeFinal = this.fg.value.formatoInformeFinal;
+        this.plantillaInformeFinal = this.fg.value.plantillaInformeFinal;
         this.opcion_horas = this.arregloHoras.value;
         this.opcion_meses = this.arregloMeses.value;
 
