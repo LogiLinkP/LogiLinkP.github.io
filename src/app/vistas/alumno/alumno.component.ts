@@ -33,6 +33,7 @@ export class DetalleAlumnoComponent implements OnInit{
   nombres_config_practica: string[] = [];
   practicas_correspondiente_nombre: any = [];
   
+  informe_final: any = {};
   flags_inscripcion_list: boolean[] = [];
   link_finalizacion = ""
   link_inscripcion = ""
@@ -200,7 +201,7 @@ export class DetalleAlumnoComponent implements OnInit{
                     }
                     if(flag == 0){this.documentos_enviados.push(1);}
                   }
-                  console.log(this.documentos_enviados)
+                  //console.log(this.documentos_enviados)
                   //console.log("Solicitudes:", this.solicitudes_practicas)
                   resolve(true);
                 }
@@ -255,62 +256,6 @@ export class DetalleAlumnoComponent implements OnInit{
   }
 
   
-  ingresarInforme(practica: any){
-    let respuesta: any = {};
-    let texto_informe = (document.getElementById("informe") as HTMLInputElement).value;
-    let horas_trabajadas = (document.getElementById("horas") as HTMLInputElement).valueAsNumber;
-    let id_config_informe = practica.modalidad.config_practica.config_informes[0].id; // AGARRA EL PRIMER CONFIG INFORME QUE ENCUENTRE
-    let id_encargado = practica.encargado.id;
-
-    let key = JSON.stringify({[practica.modalidad.config_practica.config_informes[0].
-                              pregunta_informes[0].id]: texto_informe}); //AGARRA LA PRIMERA PREGUNTA DEL CONFIG INFORME QUE ENCUENTRE Y LE ASIGNA EL TEXTO DEL INFORME
-    
-    if (Number.isNaN(horas_trabajadas)){
-      horas_trabajadas = 0;
-    }
-
-    if (key == "") {
-      this._snackBar.open("Debe ingresar texto en la casilla de actividades","Cerrar",{
-        panelClass: ['red-snackbar'],
-        duration: 3000
-      })
-      return;
-    }
-
-    //console.log("id_practica:", practica.id);
-    //console.log("casilla horas:", horas_trabajadas);
-    
-    this.service_datos.ingresar_informe(practica.id, key, id_config_informe, horas_trabajadas, id_encargado).subscribe({
-      next: (data: any) => {
-        respuesta = { ...respuesta, ...data }
-        //console.log("Respuesta ingresar informe:",data);
-      },
-      error: (error: any) => console.log("Error en ingresar informe:",error),
-      complete: () => {
-        /*
-        let id_encargado_usuario = practica.encargado.id_usuario;
-        let correo_encargado: string = "";
-        this.service_noti.postnotificacion(id_encargado_usuario, "El alumno "+ this.estudiante.nombre + " ha ingresado un informe diario", correo_encargado).subscribe({
-          next:(data:any) => {
-            respuesta = {...respuesta, ...data};
-          },
-          error:(error:any) =>{
-            console.log(error);
-          },
-          complete:()=>{
-            console.log("Notificacion enviada con éxito");
-          }
-        })*/
-        this._snackBar.open("Informe Ingresado","Cerrar",{
-          panelClass: ['red-snackbar'],
-          duration: 3000
-        })
-        window.location.reload();        
-      }
-    });
-  }
-
-  
   descargar_documento(documento_id: string, solicitud_tipo: string) {
     //console.log("decargar documento")
     // abrir nueva pestaña con url de descarga, que es url_backend (sacada desde el env) + /documentos/ + documento_key
@@ -320,27 +265,6 @@ export class DetalleAlumnoComponent implements OnInit{
     else{
       window.open(environment.url_back+"/documento_extra/download?id=" + documento_id, "_blank");
     }
-  }
-
-  mostrar_informe(informes: any, informe_id: string) {
-    //console.log("informes:",informes,"id",informe_id)
-    // abrir una ventana modal que muestre el texto del informe
-    let informe = informes.find((informe: any) => informe.id == informe_id);
-    if(informe){
-      // abrir una ventana pequeña que muestre el texto del informe dentro de un textarea
-      let ventana = window.open("", "_blank", "width=800,height=400");
-      if (!ventana) {
-        alert("Por favor, deshabilite el bloqueador de ventanas emergentes para este sitio");
-      }
-      else{
-        let respuestas = informe.key
-        // obtener las llaves del json donde estan las respuestas a las preguntas
-        let keys = Object.keys(respuestas);
-        let texto_informe = respuestas[keys[0]]; // AGARRA EL TEXTO DE LA PRIMERA RESPUESTA 
-        //console.log("texto_informe:",texto_informe);
-        ventana.document.write("<textarea style='width: 100%; height: 100%; resize: none; border: none;'>" + texto_informe + "</textarea>");
-      }
-    }    
   }
   
   finalizar_practica(practica: any) {

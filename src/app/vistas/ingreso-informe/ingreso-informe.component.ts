@@ -227,7 +227,7 @@ export class IngresoInformeComponent {
     //console.log("RESPUESTAS A ENVIAR EN QUERY", respuestas_aux);
     let respuesta2: any = {};
 
-    this.service_informe.update_key_informe(this.id_informe, JSON.stringify(respuestas_aux)).subscribe({
+    this.service_informe.update_key_informe(this.id_informe, respuestas_aux).subscribe({
       next: (data: any) => {
         respuesta2 = { ...respuesta2, ...data }
       },

@@ -200,24 +200,6 @@
                                             <ng-template #no_hay_plagio>
                                                 <div class="col-6">No hay plagio</div>
                                             </ng-template>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!-- Fin Tarjeta Información general -->
-
-                        <!-- Tarjeta Información Empresa -->
-                        <div class="col-lg-6">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Accordion -->
-                                <a href="#collapseCardEmpresa" class="d-block card-header py-3" data-toggle="collapse"
-                                    role="button" aria-expanded="true" aria-controls="collapseCardEmpresa">
-                                    <h6 class="m-0 font-weight-bold text-primary">Información Empresa</h6>
-                                </a>
-                                <!-- Card Content - Collapse -->
-                                <div class="collapse show" id="collapseCardEmpresa">
-                                    <div class="card-body">
-                                        <div class="row">
                                             <div class="col-6">                                                
                                                 Correo Supervisor:
                                             </div>
@@ -237,66 +219,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div><!-- Fin Tarjeta Información Empresa -->
-
-                    </div><!-- Fin Fila -->
-
-                    <div class="row">
-                        <!-- Tarjeta Informes -->
-                        <div class="col-lg-6">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Accordion -->
-                                <a href="#collapseCardInformes" class="d-block card-header py-3" data-toggle="collapse"
-                                    role="button" aria-expanded="true" aria-controls="collapseCardInformes">
-                                    <h6 class="m-0 font-weight-bold text-primary">Informes Realizados</h6>
-                                </a>
-                                <!-- Card Content - Collapse -->
-                                <div class="collapse show" id="collapseCardInformes">
-                                    <div class="card-body">
-                                        <div class="overflow-auto">
-                                            <div class="table-responsive ">
-                                                <table class="table table-bordered hoverTable" id="dataTable" *ngIf="informes.length>0; else noHayInformes"
-                                                    width="100%" cellspacing="0">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Tipo</th>
-                                                            <th>Horas Trabajadas</th>
-                                                            <th>Fecha</th>
-                                                            <th>Ver Informe</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr *ngFor="let informe of informes;">
-                                                            <td>{{ informe.config_informe.tipo_informe }}</td>
-                                                            <td>{{ informe.horas_trabajadas }}</td>
-                                                            <td>{{ informe.fecha | date: 'dd/MM/yyyy' }}</td>
-                                                            <td *ngIf="informe.key != null && !isDataEmpty(informe.key); else informeNoRespondido">
-                                                                <a class="nostyle"
-                                                                    href="/informe/{{practica.id}}/{{informe.id}}">
-                                                                    <button class="btn btn-primary btn-sm btn-block">
-                                                                        Ver Informe
-                                                                    </button>
-                                                                </a>
-                                                            </td>
-                                                            <ng-template #informeNoRespondido>
-                                                                <td>
-                                                                    No subido aún
-                                                                </td>
-                                                            </ng-template>
-                                                        </tr>                                                        
-                                                    </tbody>
-                                                </table>
-                                                <ng-template #noHayInformes>
-                                                    <tr>
-                                                        <td colspan="4" class="text-center">No hay informes asociados a esta práctica.</td>
-                                                    </tr>
-                                                </ng-template>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!-- Fin Tarjeta Informes -->
+                        </div><!-- Fin Tarjeta Información general -->
 
                         <!-- Tarjeta Archivos -->
                         <div class="col-lg-6">
@@ -355,6 +278,84 @@
                                                     </tr>
                                                 </ng-template>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- Fin Tarjeta Archivos -->
+
+
+                    </div><!-- Fin Fila -->
+
+                    <div class="row">
+                        <!-- Tarjeta Informes -->
+                        <div class="col-lg-6">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Accordion -->
+                                <a href="#collapseCardInformes" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardInformes">
+                                    <h6 class="m-0 font-weight-bold text-primary">Informes de Avances</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardInformes">
+                                    <div class="card-body">
+                                        <div class="overflow-auto">
+                                            <div class="table-responsive ">
+                                                <table class="table table-bordered hoverTable" id="dataTable" *ngIf="informes.length>0; else noHayInformes"
+                                                    width="100%" cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Tipo</th>
+                                                            <th>Horas Trabajadas</th>
+                                                            <th>Fecha</th>
+                                                            <th>Ver Informe</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let informe of informes;">
+                                                            <td>{{ informe.config_informe.tipo_informe }}</td>
+                                                            <td>{{ informe.horas_trabajadas }}</td>
+                                                            <td>{{ informe.fecha | date: 'dd/MM/yyyy' }}</td>
+                                                            <td *ngIf="informe.key != null && !isDataEmpty(informe.key); else informeNoRespondido">
+                                                                <a class="nostyle"
+                                                                    href="/informe/{{practica.id}}/{{informe.id}}">
+                                                                    <button class="btn btn-primary btn-sm btn-block">
+                                                                        Ver Informe
+                                                                    </button>
+                                                                </a>
+                                                            </td>
+                                                            <ng-template #informeNoRespondido>
+                                                                <td>
+                                                                    No subido aún
+                                                                </td>
+                                                            </ng-template>
+                                                        </tr>                                                        
+                                                    </tbody>
+                                                </table>
+                                                <ng-template #noHayInformes>
+                                                    <tr>
+                                                        <td colspan="4" class="text-center">No hay informes asociados a esta práctica.</td>
+                                                    </tr>
+                                                </ng-template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- Fin Tarjeta Informes -->
+
+                        <!-- Tarjeta Archivos -->
+                        <div class="col-lg-6">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Accordion -->
+                                <a href="#collapseCardInformeFinal" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardInformeFinal">
+                                    <h6 class="m-0 font-weight-bold text-primary">Informe Final</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardInformeFinal">
+                                    <div class="card-body">
+                                        <div class="overflow-auto">
                                         </div>
                                     </div>
                                 </div>
