@@ -574,13 +574,15 @@
             Formatos aceptados <br>
             <input type="checkbox" formControlName="horas"> pdf
             <input type="checkbox" formControlName="meses"> word
-            <br>
+            <br><br>
             ¿Desea incluir una plantilla de ejemplo? <br>
-            <input type="checkbox" formControlName="horas"> Si
-            <input type="checkbox" formControlName="meses"> No
+            <input type="radio" name= "radioPlantilla" formControlName="horas"> Si
+            <input type="radio" name= "radioPlantilla" formControlName="meses"> No
             <br>
             <br>
-            Plantilla de ejemplo
+            Subir Plantilla de ejemplo<br>
+            <app-subir-plantilla-informe-final></app-subir-plantilla-informe-final>
+
 
             <div class="row mt-5 mb-3 align-items-end">
               <div class="col-4"></div>
