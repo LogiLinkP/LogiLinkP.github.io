@@ -1150,7 +1150,7 @@ export class ConfiguracionPracticaComponent {
                     Promise.allSettled(timer_get_cofigs),
                     Promise.allSettled(timer_actualizar_estudiantes),
                 ]).then((vals: any) => {
-                    // window.location.reload();
+                    window.location.reload();
                 });
             }
         });
