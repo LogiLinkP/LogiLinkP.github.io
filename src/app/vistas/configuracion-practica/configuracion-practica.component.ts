@@ -313,6 +313,26 @@ export class ConfiguracionPracticaComponent {
                             //* set preguntas informe
                             if (respuesta.body?.length) { // el encargado seteó preguntas de informe
                                 for (let j = 0; j < respuesta.body.length; j++) {
+                                    if ( (respuesta.body[j]?.tipo_informe).toLowerCase() == "informe final" ){
+                                        if ( (respuesta.body[j]?.archivo_o_encuesta).toLowerCase() == "encuesta" ) {
+                                            this.tipoInformeFinal = "encuesta";
+                                        }
+                                        else if ( (respuesta.body[j]?.archivo_o_encuesta).toLowerCase() == "archivo" ) {
+                                            this.tipoInformeFinal = "archivo";
+                                            if (respuesta.body[j]?.tipo_archivo.includes("pdf")) {
+                                                this.opcion_pdf = true;
+                                            }
+                                            if (respuesta.body[j]?.tipo_archivo.includes("doc")) {
+                                                this.opcion_word = true;
+                                            }
+                                            if (respuesta.body[j]?.plantilla != "" ){
+                                                this.plantillaInformeFinal = "si";
+                                            }
+                                            else {
+                                                this.plantillaInformeFinal = "no";
+                                            }
+                                        }
+                                    }
                                     for (let i = 0; i < respuesta.body[j].pregunta_informes.length; i++) {
                                         if (respuesta.body[j].tipo_informe == "informe final") {
                                             this.lista_preguntas_final.push(respuesta.body[j].pregunta_informes[i].enunciado);

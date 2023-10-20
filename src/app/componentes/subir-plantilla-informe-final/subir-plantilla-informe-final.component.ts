@@ -26,13 +26,10 @@ export interface DialogData {
 })
 export class SubirPlantillaInformeFinalComponent {
 
-  @Input() id_encargado: number = -1;
-  @Input() id_carrera: number = -1;
-
   @Output() key_event = new EventEmitter<string>();
   @Output() file_plantilla_event = new EventEmitter<File>();
 
-  observando!: Observable<any>
+  nombre_archivo: string = "";
 
   constructor(public dialog: MatDialog, private _snackBar: MatSnackBar, private archivo_service: ArchivosService, private router: Router,) { }
 
@@ -83,6 +80,7 @@ export class SubirPlantillaInformeFinalComponent {
 
 
         let _filename = file.name.toLowerCase();
+        this.nombre_archivo = _filename;
         let file_ext = _filename.slice((_filename.lastIndexOf(".") - 1 >>> 0) + 2)
 
         // wait for 1 second and then emit event
