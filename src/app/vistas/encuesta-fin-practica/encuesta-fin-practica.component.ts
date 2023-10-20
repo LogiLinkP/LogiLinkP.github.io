@@ -143,7 +143,6 @@ export class EncuestaFinPracticaComponent {
 
   ngOnInit(): void {
 
-    console.log(this.usuario)
     let respuesta: any = {};
 
     this.data_usuario.obtener_usuario(this.usuario.id).subscribe({
@@ -167,7 +166,6 @@ export class EncuestaFinPracticaComponent {
       },
       complete: () => {
         this.practica = respuesta.body;
-        console.log(this.practica)
         this.id_config_practica = respuesta.body.id_config_practica;
 
         this.servicePreguntas.obtener_preguntas(this.id_config_practica).subscribe({
@@ -466,17 +464,13 @@ export class EncuestaFinPracticaComponent {
       error: (error: any) => console.log(error),
       complete: () => {
         let practicas = respuesta.body;
-        console.log(practicas)
         for(let practi of practicas){
-          console.log("ENTRAx1")
           if(practi.id == this.practica.id){
-            console.log("ENTRAx2")
             this.id_encargado = practi.encargado.id_usuario;
             this.correo_encargado = practi.encargado.usuario.correo;
             break
           }
         }
-
         this.service_gestion.finalizar_practica(this.practica.id_estudiante, this.practica.id, environment.estado_practica.finalizada, correo_supervisor, nom_estudiante).subscribe({
           next: (data: any) => {
             //console.log("Respuesta finalizar practica:",data);
@@ -495,7 +489,7 @@ export class EncuestaFinPracticaComponent {
                 return;
               },
               complete:() => {
-                //console.log("Notificación enviada con éxito");
+                console.log("Notificación enviada con éxito");
               }
             });
             this._snackBar.open("Práctica Finalizada","Cerrar",{
