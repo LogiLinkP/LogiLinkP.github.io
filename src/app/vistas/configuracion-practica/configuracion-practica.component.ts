@@ -23,6 +23,8 @@ export class ConfiguracionPracticaComponent {
     importada: boolean = false;
     migracion_legal: boolean = true;
     user: any = JSON.parse(localStorage.getItem('auth-user') || "{}").userdata;
+    archivo_plantilla: File | null = null;
+    key_plantilla: string = "";
 
     constructor(private _fb: FormBuilder, private cd: ChangeDetectorRef, @Inject(DOCUMENT) private document: Document,
         private serviceBarra: BarraLateralService, private _snackBar: MatSnackBar, private route: ActivatedRoute,
@@ -103,6 +105,9 @@ export class ConfiguracionPracticaComponent {
     informeFinal: string;
     tipoInformeFinal: string;
     formatoInformeFinal: string;
+    opcion_pdf: boolean = false;
+    opcion_word: boolean = false;
+
     plantillaInformeFinal: string;
     preguntaFORM = new FormControl('')
 
@@ -231,6 +236,8 @@ export class ConfiguracionPracticaComponent {
                 tipoInformeFinal: new FormControl(this.tipoInformeFinal),
                 formatoInformeFinal: new FormControl(this.formatoInformeFinal),
                 plantillaInformeFinal: new FormControl(this.plantillaInformeFinal),
+                opcion_pdf: new FormControl(this.opcion_pdf),
+                opcion_word: new FormControl(this.opcion_word),
                 //pregunta: this.preguntaFORM,
 
                 preguntaFORM: this.pregunta,
@@ -400,6 +407,8 @@ export class ConfiguracionPracticaComponent {
                                                                 tipoInformeFinal: new FormControl(this.tipoInformeFinal),
                                                                 formatoInformeFinal: new FormControl(this.formatoInformeFinal),
                                                                 plantillaInformeFinal: new FormControl(this.plantillaInformeFinal),
+                                                                opcion_pdf: new FormControl(this.opcion_pdf),
+                                                                opcion_word: new FormControl(this.opcion_word),
                                                                 //pregunta: this.preguntaFORM,
 
                                                                 preguntaFORM: this.pregunta,
@@ -501,8 +510,6 @@ export class ConfiguracionPracticaComponent {
         this.frecuenciaInformes = this.fg.value.frecuenciaInformes;
         this.informeFinal = this.fg.value.informeFinal;
         this.tipoInformeFinal = this.fg.value.tipoInformeFinal;
-        this.formatoInformeFinal = this.fg.value.formatoInformeFinal;
-        this.plantillaInformeFinal = this.fg.value.plantillaInformeFinal;
         this.opcion_horas = this.arregloHoras.value;
         this.opcion_meses = this.arregloMeses.value;
 
@@ -633,6 +640,23 @@ export class ConfiguracionPracticaComponent {
 
         this.arregloOpcionesPreguntas.clear();
         this.pregunta = "";
+    }
+
+    onSubmitArchivoInformeFinal() {
+        this.formatoInformeFinal = "";
+        if (this.fg.value.opcion_pdf == true) {
+            this.formatoInformeFinal += "pdf,";
+        }
+        if (this.fg.value.opcion_word == true) {
+            this.formatoInformeFinal += "doc,docx,";
+        }
+        if (this.formatoInformeFinal.slice(-1) == ",") {
+            this.formatoInformeFinal = this.formatoInformeFinal.slice(0, -1);
+        }
+        console.log(this.formatoInformeFinal);
+        this.plantillaInformeFinal = this.fg.value.plantillaInformeFinal;
+
+        this.avanzarDesdePreguntasFinal()
     }
 
     onSubmitAddPreguntaEncuesta() {
@@ -1362,6 +1386,16 @@ export class ConfiguracionPracticaComponent {
                 console.log("Solicitud de documento eliminada exitosamente");
             }
         });
+    }
+
+    recibirPlantillaInforme(data: any){
+        if (typeof(data) == "string"){
+            this.key_plantilla = data;
+        }
+        else if (typeof(data) == "object"){
+            this.archivo_plantilla = data;
+        }            
+        console.log("key: ", this.key_plantilla, "archivo: ", this.archivo_plantilla);
     }
 
 }

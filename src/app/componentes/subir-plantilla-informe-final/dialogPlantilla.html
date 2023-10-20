@@ -7,7 +7,7 @@
             <div class="card-body text-gray-800" style="text-align: center;">  
 
                 <form style="width: 100%;">
-                    <span class="file-name">{{selectedFile?.name}}</span>
+                    <span class="file-name">{{selectedFile?.name}}</span><br>
                     <button type="button" class="btn btn-primary btn-md" (click)="fileInput.click()">Elegir Archivo</button>
                     <input hidden (change)="onFileSelected($event)" #fileInput type="file" required>                    
                 </form>

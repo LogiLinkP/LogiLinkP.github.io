@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
@@ -29,8 +29,10 @@ export class SubirPlantillaInformeFinalComponent {
   @Input() id_encargado: number = -1;
   @Input() id_carrera: number = -1;
 
+  @Output() key_event = new EventEmitter<string>();
+  @Output() file_plantilla_event = new EventEmitter<File>();
+
   observando!: Observable<any>
-  codigobase64!: any;
 
   constructor(public dialog: MatDialog, private _snackBar: MatSnackBar, private archivo_service: ArchivosService, private router: Router,) { }
 
@@ -50,7 +52,6 @@ export class SubirPlantillaInformeFinalComponent {
   }
 
   subir_archivos() {
-
     let formatos = ["pdf", "doc", "docx"]
     const dialogRef = this.dialog.open(Dialog3, {
       width: '400px',
@@ -80,12 +81,14 @@ export class SubirPlantillaInformeFinalComponent {
           return;
         }
 
-        let _data: any = {};
 
         let _filename = file.name.toLowerCase();
         let file_ext = _filename.slice((_filename.lastIndexOf(".") - 1 >>> 0) + 2)
 
-        let key: string = uuidv4() + "." + file_ext;
+        // wait for 1 second and then emit event
+        
+        this.key_event.emit(uuidv4() + "." + file_ext);
+        this.file_plantilla_event.emit(file);
       });
     });
   }

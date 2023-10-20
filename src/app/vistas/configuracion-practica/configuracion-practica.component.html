@@ -569,42 +569,44 @@
               <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
                 Archivo del Informe Final
               </div>
+              <form *ngIf="flag">
+                <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitArchivoInformeFinal()">
 
+                  Formatos aceptados <br>
+                  <input type="checkbox" formControlName="opcion_pdf"> pdf
+                  <input type="checkbox" formControlName="opcion_word"> word
+                  {{fg.value.formatoInformeFinal}}
+                  <br><br>
+                  ¿Desea incluir una plantilla de ejemplo? <br>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="plantillaInformeFinal"
+                      id="plantillaInformeFinalSI" value="si" formControlName="plantillaInformeFinal">
+                    <label class="form-check-label" for="plantillaInformeFinalSI">Si</label>
 
-              Formatos aceptados <br>
-              <input type="checkbox" formControlName="horas"> pdf
-              <input type="checkbox" formControlName="meses"> word
-              <br><br>
-              ¿Desea incluir una plantilla de ejemplo? <br>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="plantillaInformeFinalradio" id="plantillaInformeFinalSI"
-                  value="si" formControlName="plantillaInformeFinal">
-                <label class="form-check-label" for="plantillaInformeFinalSI">Si</label>
+                    <input class="form-check-input" type="radio" name="plantillaInformeFinal"
+                      id="plantillaInformeFinalNO" value="no" formControlName="plantillaInformeFinal">
+                    <label class="form-check-label" for="plantillaInformeFinalNO">No</label>
+                  </div>
+                  <br>
+                  <br>
+                  <div *ngIf="fg.value.plantillaInformeFinal == 'si'">
+                    Subir Plantilla de ejemplo<br>
+                    <app-subir-plantilla-informe-final (key_event)="recibirPlantillaInforme($event)" (file_plantilla_event)="recibirPlantillaInforme($event)"></app-subir-plantilla-informe-final>
+                  </div>
 
-                <input class="form-check-input" type="radio" name="plantillaInformeFinalradio" id="plantillaInformeFinalNO"
-                  value="no" formControlName="plantillaInformeFinal">
-                <label class="form-check-label" for="plantillaInformeFinalNO">No</label>
-              </div>
-              <br>
-              <br>
-              hola 
-              <div>
-              Subir Plantilla de ejemplo<br>
-                <app-subir-plantilla-informe-final></app-subir-plantilla-informe-final>
-              </div>
-
-
-              <div class="row mt-5 mb-3 align-items-end">
-                <div class="col-4"></div>
-                <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="volver()"
-                  style="margin-right: 20px;">
-                  Volver
-                </button>
-                <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="avanzarDesdePreguntasFinal()">
-                  Siguiente
-                </button>
-                <div class="col-4"></div>
-              </div>
+                  <div class="row mt-5 mb-3 align-items-end">
+                    <div class="col-4"></div>
+                    <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="volver()"
+                      style="margin-right: 20px;">
+                      Volver
+                    </button>
+                    <button class="btn btn-primary btn-user btn-block btn-md col-2" type="submit">
+                      Siguiente
+                    </button>
+                    <div class="col-4"></div>
+                  </div>
+                </form>
+              </form>              
             </div>
           </div> <!-- Fin Configuracion archivo informe final-->
 
