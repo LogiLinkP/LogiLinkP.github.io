@@ -23,7 +23,7 @@ export class ConfiguracionPracticaComponent {
     importada: boolean = false;
     migracion_legal: boolean = true;
     user: any = JSON.parse(localStorage.getItem('auth-user') || "{}").userdata;
-    archivo_plantilla: File | null = null;
+    archivo_plantilla: File | undefined;
     key_plantilla: string = "";
 
     constructor(private _fb: FormBuilder, private cd: ChangeDetectorRef, @Inject(DOCUMENT) private document: Document,
@@ -526,8 +526,8 @@ export class ConfiguracionPracticaComponent {
             //console.log("documentos");
         }
         else if (this.frecuenciaInformes == "sinAvance" && this.informeFinal == "si" ) {
-            if (this.tipoInformeFinal == "cuestionario"){
-                this.estado = "informe_final_cuestionario";
+            if (this.tipoInformeFinal == "encuesta"){
+                this.estado = "informe_final_encuesta";
             }
             else if (this.tipoInformeFinal == "archivo"){
                 this.estado = "informe_final_archivo";
@@ -794,8 +794,8 @@ export class ConfiguracionPracticaComponent {
 
     avanzarDesdePreguntasAvance() {
         if (this.informeFinal == "si") {
-            if (this.tipoInformeFinal == "cuestionario"){
-                this.estado = "informe_final_cuestionario";
+            if (this.tipoInformeFinal == "encuesta"){
+                this.estado = "informe_final_encuesta";
             }
             else if (this.tipoInformeFinal == "archivo"){
                 this.estado = "informe_final_archivo";
@@ -841,7 +841,7 @@ export class ConfiguracionPracticaComponent {
         }
 
         //volver desde preguntas final
-        if (this.estado == "informe_final_cuestionario" || this.estado == "informe_final_archivo") {
+        if (this.estado == "informe_final_encuesta" || this.estado == "informe_final_archivo") {
             if (this.frecuenciaInformes == "sinAvance") {
                 this.estado = "configuracion_general";
             }
@@ -852,8 +852,8 @@ export class ConfiguracionPracticaComponent {
         //volver desde solicitud de documentos
         else if (this.estado == "solicitud_documentos") {
             if (this.informeFinal == "si") {
-                if (this.tipoInformeFinal == "cuestionario"){
-                    this.estado = "informe_final_cuestionario";
+                if (this.tipoInformeFinal == "encuesta"){
+                    this.estado = "informe_final_encuesta";
                 }
                 else if (this.tipoInformeFinal == "archivo"){
                     this.estado = "informe_final_archivo";
@@ -1092,12 +1092,21 @@ export class ConfiguracionPracticaComponent {
                     this.crearSolicitudDocumento(respuesta.body.id, this.lista_nombre_solicitud_documentos[i], this.lista_descripcion_solicitud_documentos[i], this.lista_tipo_solicitud_documentos[i]);
                 }
                 if (this.informeFinal == "si") {
-                    this.crearConfigInforme(respuesta.body.id, "informe final")
+                    console.log("tipo informe final: ", this.tipoInformeFinal);
+                    console.log("formato informe final: ", this.formatoInformeFinal);
+                    console.log("key plantilla: ", this.key_plantilla);
+                    console.log("archivo plantilla: ", this.archivo_plantilla);
+                    
+                    this.crearConfigInforme(respuesta.body.id, "informe final", this.tipoInformeFinal, this.formatoInformeFinal, this.key_plantilla, this.archivo_plantilla);
                 }
                 if (this.frecuenciaInformes != "sinAvance") {
                     this.crearConfigInforme(respuesta.body.id, "informe avance")
                 }
-                this.router.navigate(["/" + environment.ruta_practicas])
+                //wait for 1 second then redirect
+                setTimeout(() => {
+                    this.router.navigate(["/" + environment.ruta_practicas])
+                }, 2000);
+                
             }
         });
     }
@@ -1148,10 +1157,12 @@ export class ConfiguracionPracticaComponent {
         }
     }
 
-    crearConfigInforme(id_config_practica: number, tipoInforme: string) {
+    crearConfigInforme(id_config_practica: number, tipoInforme: string, archivo_o_encuesta: string = "", 
+                        tipo_archivo: string = "", plantilla: string = "", file_plantilla: File = new File([], "")) {
         let respuesta: any = {};
 
-        this.serviceComplete.crearConfigInforme(id_config_practica, tipoInforme).subscribe({
+        this.serviceComplete.crearConfigInforme(id_config_practica, tipoInforme, archivo_o_encuesta, 
+            tipo_archivo, plantilla, file_plantilla).subscribe({
             next: (data: any) => {
                 respuesta = { ...respuesta, ...data }
             },
@@ -1163,8 +1174,8 @@ export class ConfiguracionPracticaComponent {
                 console.log("Error al guardar configuracion de informe", error);
             },
             complete: () => {
-                console.log("BUSACR EL ID: ", respuesta);
-                if (tipoInforme == "informe final") {
+                console.log("BUSCAR EL ID: ", respuesta);
+                if (tipoInforme == "informe final" && this.tipoInformeFinal == "encuesta") {
                     for (let i = 0; i < this.lista_preguntas_final.length; i++) {
                         //console.log("lista pregunta final: ", this.lista_preguntas_final[i], "tipos preguntas final: ", this.tipos_preguntas_final[i], "lista opciones preguntas final: ", this.lista_opciones_preguntas_final[i]);
                         this.crearPreguntaInforme(respuesta.body.id, this.lista_preguntas_final[i], this.tipos_preguntas_final[i], this.lista_opciones_preguntas_final[i]);
