@@ -53,7 +53,7 @@ export class EstadisticaEmpresasComponent {
 
     let id_usuario = this.sesion.userdata.id;
 
-    console.log("id usuario: ", id_usuario);
+    //console.log("id usuario: ", id_usuario);
 
     let respuesta: any = {};
 
@@ -70,7 +70,7 @@ export class EstadisticaEmpresasComponent {
         //console.log("respuesta estudiante:");
         //console.log(respuesta.body);
         this.id_carrera_estudiante = respuesta.body.id_carrera;
-        console.log("id carrera estudiante: ", this.id_carrera_estudiante);   
+        //console.log("id carrera estudiante: ", this.id_carrera_estudiante);   
 
         this.empresaService.obtener_empresas().subscribe({
           next: data => {
@@ -113,7 +113,7 @@ export class EstadisticaEmpresasComponent {
               }
             }
 
-            console.log("ramos empresas: ", this.ramos_empresas);
+            //console.log("ramos empresas: ", this.ramos_empresas);
 
             
 
@@ -241,9 +241,9 @@ export class EstadisticaEmpresasComponent {
            }
         }
         
-        console.log("ramos utiles aux: ", ramos_utiles_aux);
-        console.log("nombre ramos utiles: ", nombre_ramos_utiles);
-        console.log("porcentaje ramos utiles: ", porcentaje_ramos_utiles);
+        //console.log("ramos utiles aux: ", ramos_utiles_aux);
+        //console.log("nombre ramos utiles: ", nombre_ramos_utiles);
+        //console.log("porcentaje ramos utiles: ", porcentaje_ramos_utiles);
 
         this.comentarios_empresa = this.comentarios[i];
         this.nombre_empresa_comentario = this.empresas[i].nombre_empresa;
