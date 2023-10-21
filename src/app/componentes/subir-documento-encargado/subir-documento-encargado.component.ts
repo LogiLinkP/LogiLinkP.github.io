@@ -102,8 +102,7 @@ export class SubirDocumentoEncargadoComponent {
 
       let key: string = uuidv4() +"." + file_ext;
 
-
-      this.docu_service.nuevo_documento(file, this.id_encargado,this.id_carrera, file_ext, nombre, nombre, descripcion).subscribe({
+      this.docu_service.nuevo_documento(file, this.id_encargado,this.id_carrera, file_ext, nombre, key, descripcion).subscribe({
         next: data => {
           _data = { ..._data, ...data }
         },
@@ -179,6 +178,6 @@ export class Dialog3 {
     let data = this.publiForm.value
     this.Nombre = data.Nombre
     this.Descripcion = data.Descripcion
-    this.dialogRef.close();
+    this.dialogRef.close([true, this.selectedFile, this.Nombre, this.Descripcion]);
   }
 }
