@@ -39,7 +39,7 @@ export class VistaConfigsPracticaComponent implements OnInit{
         ],
         "config_informes": [
             {
-                "tipo_informe": "Informe avance",
+                "tipo_informe": "informe avance",
                 "pregunta_informes": [
                     {
                         "enunciado": "Describa el trabajo realizado",
@@ -49,7 +49,8 @@ export class VistaConfigsPracticaComponent implements OnInit{
                 ]
             },
             {
-                "tipo_informe": "Informe final",
+                "tipo_informe": "informe final",
+                "archivo_o_encuesta": "encuesta",
                 "pregunta_informes": [
                     {
                         "enunciado": "Que conocimientos adquirió trabajando en la empresa",
@@ -248,24 +249,49 @@ export class VistaConfigsPracticaComponent implements OnInit{
     crearConfigInforme(id_config_practica: number, tipoInforme: string, preguntas: any) {
         let respuesta: any = {};
 
-        this.service.crearConfigInforme(id_config_practica, tipoInforme).subscribe({
-            next: (data: any) => {
-                respuesta = { ...respuesta, ...data }
-            },
-            error: (error: any) => {
-                this.snackBar.open("Error al guardar configuracion de informe", "Cerrar", {
-                    duration: 3500,
-                    panelClass: ['red-snackbar']
-                });
-                console.log("Error al guardar configuracion de informe", error);
-            },
-            complete: () => {
-                //console.log("BUSACR EL ID: ", respuesta);
-                for (let i = 0; i < preguntas.length; i++) {
-                    this.crearPreguntaInforme(respuesta.body.id, preguntas[i].enunciado, preguntas[i].tipo_respuesta, preguntas[i].opciones);
+        if (tipoInforme == "Informe final") {
+            this.service.crearConfigInforme(id_config_practica, tipoInforme, this.practica_default.config_informes[1].archivo_o_encuesta).subscribe({
+                next: (data: any) => {
+                    respuesta = { ...respuesta, ...data }
+                },
+                error: (error: any) => {
+                    this.snackBar.open("Error al guardar configuracion de informe", "Cerrar", {
+                        duration: 3500,
+                        panelClass: ['red-snackbar']
+                    });
+                    console.log("Error al guardar configuracion de informe", error);
+                },
+                complete: () => {
+                    //console.log("BUSACR EL ID: ", respuesta);
+                    for (let i = 0; i < preguntas.length; i++) {
+                        this.crearPreguntaInforme(respuesta.body.id, preguntas[i].enunciado, preguntas[i].tipo_respuesta, preguntas[i].opciones);
+                    }
                 }
-            }
-        });
+            });
+            
+        }
+        else{
+            this.service.crearConfigInforme(id_config_practica, tipoInforme).subscribe({
+                next: (data: any) => {
+                    respuesta = { ...respuesta, ...data }
+                },
+                error: (error: any) => {
+                    this.snackBar.open("Error al guardar configuracion de informe", "Cerrar", {
+                        duration: 3500,
+                        panelClass: ['red-snackbar']
+                    });
+                    console.log("Error al guardar configuracion de informe", error);
+                },
+                complete: () => {
+                    //console.log("BUSACR EL ID: ", respuesta);
+                    for (let i = 0; i < preguntas.length; i++) {
+                        this.crearPreguntaInforme(respuesta.body.id, preguntas[i].enunciado, preguntas[i].tipo_respuesta, preguntas[i].opciones);
+                    }
+                }
+            });
+        }
+
+        
     }
 
     crearPreguntaInforme(id_config_informe: number, pregunta: string, tipo_pregunta: string, opciones: string) {

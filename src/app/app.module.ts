@@ -90,6 +90,7 @@ import { PlagiosComponent } from './vistas/plagios/plagios.component';
 import { ComentariosModalComponent } from './componentes/comentarios-modal/comentarios-modal.component';
 import { DocumentacionComponent } from './vistas/documentacion/documentacion.component';
 import { SubirDocumentoEncargadoComponent } from './componentes/subir-documento-encargado/subir-documento-encargado.component';
+import { SubirPlantillaInformeFinalComponent } from './componentes/subir-plantilla-informe-final/subir-plantilla-informe-final.component';
 
 @NgModule({
   declarations: [
@@ -145,7 +146,8 @@ import { SubirDocumentoEncargadoComponent } from './componentes/subir-documento-
     PlagiosComponent,
     ComentariosModalComponent,
     DocumentacionComponent,
-    SubirDocumentoEncargadoComponent
+    SubirDocumentoEncargadoComponent,
+    SubirPlantillaInformeFinalComponent,
   ],
   imports: [
     BrowserModule,
