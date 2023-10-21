@@ -17,161 +17,163 @@
                 <div class="card" *ngIf="fixed_publicaciones.length == 0 && publicaciones.length == 0">
                     No hay Publicaciones Disponibles
                 </div>
-                <div *ngFor="let publi of fixed_publicaciones, let indice = index">
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h3 class="m-0 font-weight-bold text-primary">(Publicacion Fijada) {{publi?.titulo}} </h3>
-                        </div>
-                        <div class="card-body">
-                            <p>{{publi?.fecha}}</p>
-                            <p>{{publi?.enunciado}}</p>
-                        </div>
+                <div class="container">
+                    <div *ngFor="let publi of fixed_publicaciones, let indice = index">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h3 class="m-0 font-weight-bold text-primary">(Publicacion Fijada) {{publi?.titulo}} </h3>
+                            </div>
+                            <div class="card-body">
+                                <p>{{publi?.fecha}}</p>
+                                <p>{{publi?.enunciado}}</p>
+                            </div>
 
-                        <div *ngIf="esalumno==0" style="display: flex;">
-                            <button class="btn btn-primary btn-user btn-block" style="width: 150px; height: 50px;" (click)="inicio_edicion(1, indice, publi.titulo, publi.enunciado, publi.IsFijo)">Editar</button>
-                            <button class="btn btn-danger btn-lg btn-block"  style="width: 150px; height: 50px;" (click)="eliminar(publi.id, 1, indice)">Eliminar</button>
-                            <div class="card shadow mb-4" *ngIf="fixed_edit_flags[indice] == 1">
-                                <div class="card-header py3">
-                                    <h3 class="m-0 font-weight-bold text-primary"> Edite la Publicación</h3>
-                                </div>
-                                <form class="user" [formGroup]="publiForm">
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <input type="text" class="form-control form-control-user"
-                                                id="Titulo" formControlName="Titulo" name="Titulo" placeholder="{{publi?.titulo}}" value="{{publi.titulo}}">   
-                                        </div>
-                                        <div *ngIf="publiForm.controls['Titulo'].invalid && (publiForm.controls['Titulo'].dirty || publiForm.controls['Titulo'].touched)"
-                                                    class="alert alert-danger">
-                                            <p *ngIf="publiForm.controls['Titulo'].errors?.['required']">
-                                                Se requiere un título para la publicación.
-                                            </p>
-                                        </div>
-                                        
-                                        <div class="col-sm-6">
-                                            <input type="text" class="form-control form-control-user"
-                                                id="Enunciado" formControlName="Enunciado" name="Enunciado" placeholder="{{publi?.enunciado}}" value="{{publi.enunciado}}">
-                                        </div>
-                                        <div *ngIf="publiForm.controls['Enunciado'].invalid && (publiForm.controls['Enunciado'].dirty || publiForm.controls['Enunciado'].touched)"
-                                                    class="alert alert-danger">
-                                            <p *ngIf="publiForm.controls['Enunciado'].errors?.['required']">
-                                                Se requiere que la publicación tenga un enunciado.
-                                            </p>
-                                        </div>
+                            <div *ngIf="esalumno==0" style="display: flex;">
+                                <button class="btn btn-primary btn-user btn-block" style="width: 150px; height: 50px;" (click)="inicio_edicion(1, indice, publi.titulo, publi.enunciado, publi.IsFijo)">Editar</button>
+                                <button class="btn btn-danger btn-lg btn-block"  style="width: 150px; height: 50px;" (click)="eliminar(publi.id, 1, indice)">Eliminar</button>
+                                <div class="card shadow mb-4" *ngIf="fixed_edit_flags[indice] == 1">
+                                    <div class="card-header py3">
+                                        <h3 class="m-0 font-weight-bold text-primary"> Edite la Publicación</h3>
                                     </div>
-                                    <p></p>
-                                    <select class="form-select" name="IsFijo" id="IsFijo" formControlName="IsFijo" value="{{publi?.IsFijo}}">
-                                        <option value="" disabled selected>Fijar Publicacion</option>
-                                        <option value="1">Si</option>
-                                        <option value="0">No</option>
-                                    </select>
-                                    <button type="submit" class="btn btn-primary btn-user btn-block" style="width: 150px;" (click)="edicion(publi.id, 1, indice)">Confirmar</button>
-                                    <button class="btn btn-danger btn-lg btn-block" style="width: 150px;" (click)="terminar_edicion(1, indice)">Cancelar</button>
-                                </form>
+                                    <form class="user" [formGroup]="publiForm">
+                                        <div class="form-group row">
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <input type="text" class="form-control form-control-user"
+                                                    id="Titulo" formControlName="Titulo" name="Titulo" placeholder="{{publi?.titulo}}" value="{{publi.titulo}}">   
+                                            </div>
+                                            <div *ngIf="publiForm.controls['Titulo'].invalid && (publiForm.controls['Titulo'].dirty || publiForm.controls['Titulo'].touched)"
+                                                        class="alert alert-danger">
+                                                <p *ngIf="publiForm.controls['Titulo'].errors?.['required']">
+                                                    Se requiere un título para la publicación.
+                                                </p>
+                                            </div>
+                                            
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control form-control-user"
+                                                    id="Enunciado" formControlName="Enunciado" name="Enunciado" placeholder="{{publi?.enunciado}}" value="{{publi.enunciado}}">
+                                            </div>
+                                            <div *ngIf="publiForm.controls['Enunciado'].invalid && (publiForm.controls['Enunciado'].dirty || publiForm.controls['Enunciado'].touched)"
+                                                        class="alert alert-danger">
+                                                <p *ngIf="publiForm.controls['Enunciado'].errors?.['required']">
+                                                    Se requiere que la publicación tenga un enunciado.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <p></p>
+                                        <select class="form-select" name="IsFijo" id="IsFijo" formControlName="IsFijo" value="{{publi?.IsFijo}}">
+                                            <option value="" disabled selected>Fijar Publicacion</option>
+                                            <option value="1">Si</option>
+                                            <option value="0">No</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-primary btn-user btn-block" style="width: 150px;" (click)="edicion(publi.id, 1, indice)">Confirmar</button>
+                                        <button class="btn btn-danger btn-lg btn-block" style="width: 150px;" (click)="terminar_edicion(1, indice)">Cancelar</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div *ngFor="let publi of publicaciones, let indice = index">
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h3 class="m-0 font-weight-bold text-primary">{{publi?.titulo}}</h3>
-                        </div>
-                        <div class="card-body">
-                            <p>{{publi?.fecha}}</p>
-                            <p>{{publi?.enunciado}}</p>
-                        </div>
-                        <div *ngIf="esalumno==0" style="display: flex;">
-                            <button class="btn btn-primary btn-user btn-block" style="width: 150px; height: 50px;" (click)="inicio_edicion(0, indice, publi.titulo, publi.enunciado, publi.IsFijo)">Editar</button>
-                            <button class="btn btn-danger btn-lg btn-block" style="width: 150px; height: 50px;" (click)="eliminar(publi.id, 0, indice)">Eliminar</button>
-                            
-                            <div class="card shadow mb-4" *ngIf="edit_flags[indice] == 1">
-                                <form class="user" [formGroup]="publiForm">
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <input type="text" class="form-control form-control-user"
-                                                id="Titulo" formControlName="Titulo" name="Titulo" placeholder="{{publi?.titulo}}" value="{{publi.titulo}}">
-                                        </div>
-                                        <div *ngIf="publiForm.controls['Titulo'].invalid && (publiForm.controls['Titulo'].dirty || publiForm.controls['Titulo'].touched)"
-                                                    class="alert alert-danger">
-                                            <p *ngIf="publiForm.controls['Titulo'].errors?.['required']">
-                                                Se requiere un título para la publicación.
-                                            </p>
-                                        </div>
-                                        
-                                        <div class="col-sm-6">
-                                            <input type="text" class="form-control form-control-user"
-                                                id="Enunciado" formControlName="Enunciado" name="Enunciado" placeholder="{{publi?.enunciado}}" value="{{publi.enunciado}}">
-                                        </div>
-                                        <div *ngIf="publiForm.controls['Enunciado'].invalid && (publiForm.controls['Enunciado'].dirty || publiForm.controls['Enunciado'].touched)"
-                                                    class="alert alert-danger">
-                                            <p *ngIf="publiForm.controls['Enunciado'].errors?.['required']">
-                                                Se requiere que la publicación tenga un enunciado.
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <p></p>
-                                    <select class="form-select" name="IsFijo" id="IsFijo" formControlName="IsFijo" value="{{publi.IsFijo}}">
-                                        <option value="" disabled selected>Fijar Publicacion</option>
-                                        <option value="1">Si</option>
-                                        <option value="0">No</option>
-                                    </select>
-                                    <button type="submit" class="btn btn-primary btn-user btn-block" style="width: 150px;" (click)="edicion(publi.id, 0, indice)">Publicar</button>
-                                    <button class="btn btn-danger btn-lg btn-block" style="width: 150px;" (click)="terminar_edicion(0, indice)">Cancelar</button>
-                                </form>
+                    <div *ngFor="let publi of publicaciones, let indice = index">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h3 class="m-0 font-weight-bold text-primary">{{publi?.titulo}}</h3>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div *ngIf="esalumno==0">
-                    <button class="btn btn-primary btn-user btn-block" style="width: 150px;" (click)="inicio_creacion()">Agregar Publicacion</button>
-                    <div *ngIf="create_flag == 1" class="card shadow mb-4">
-                        <div class="card-header">
-                            <h3 class="m-0 font-weight-bold text-primary">Rellene el Formulario</h3>
-                        </div>
-                        <form class="user" [formGroup]="publiForm">
-                            <div class="form-group row">
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="text" class="form-control form-control-user"
-                                        id="Titulo" placeholder="Titulo" formControlName="Titulo" name="Titulo" value="Titulo">
-                                </div>
-                                <div *ngIf="publiForm.controls['Titulo'].invalid && (publiForm.controls['Titulo'].dirty || publiForm.controls['Titulo'].touched)"
-                                            class="alert alert-danger">
-                                    <p *ngIf="publiForm.controls['Titulo'].errors?.['required']">
-                                        Se requiere un título para la publicación.
-                                    </p>
-                                </div>
+                            <div class="card-body">
+                                <p>{{publi?.fecha}}</p>
+                                <p>{{publi?.enunciado}}</p>
+                            </div>
+                            <div *ngIf="esalumno==0" style="display: flex;">
+                                <button class="btn btn-primary btn-user btn-block" style="width: 150px; height: 50px;" (click)="inicio_edicion(0, indice, publi.titulo, publi.enunciado, publi.IsFijo)">Editar</button>
+                                <button class="btn btn-danger btn-lg btn-block" style="width: 150px; height: 50px;" (click)="eliminar(publi.id, 0, indice)">Eliminar</button>
                                 
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control form-control-user"
-                                        id="Enunciado" placeholder="Enunciado" formControlName="Enunciado" name="Enunciado" value="Enunciado">
-                                </div>
-                                <div *ngIf="publiForm.controls['Enunciado'].invalid && (publiForm.controls['Enunciado'].dirty || publiForm.controls['Enunciado'].touched)"
-                                            class="alert alert-danger">
-                                    <p *ngIf="publiForm.controls['Enunciado'].errors?.['required']">
-                                        Se requiere que la publicación tenga un enunciado.
-                                    </p>
+                                <div class="card shadow mb-4" *ngIf="edit_flags[indice] == 1">
+                                    <form class="user" [formGroup]="publiForm">
+                                        <div class="form-group row">
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <input type="text" class="form-control form-control-user"
+                                                    id="Titulo" formControlName="Titulo" name="Titulo" placeholder="{{publi?.titulo}}" value="{{publi.titulo}}">
+                                            </div>
+                                            <div *ngIf="publiForm.controls['Titulo'].invalid && (publiForm.controls['Titulo'].dirty || publiForm.controls['Titulo'].touched)"
+                                                        class="alert alert-danger">
+                                                <p *ngIf="publiForm.controls['Titulo'].errors?.['required']">
+                                                    Se requiere un título para la publicación.
+                                                </p>
+                                            </div>
+                                            
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control form-control-user"
+                                                    id="Enunciado" formControlName="Enunciado" name="Enunciado" placeholder="{{publi?.enunciado}}" value="{{publi.enunciado}}">
+                                            </div>
+                                            <div *ngIf="publiForm.controls['Enunciado'].invalid && (publiForm.controls['Enunciado'].dirty || publiForm.controls['Enunciado'].touched)"
+                                                        class="alert alert-danger">
+                                                <p *ngIf="publiForm.controls['Enunciado'].errors?.['required']">
+                                                    Se requiere que la publicación tenga un enunciado.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <p></p>
+                                        <select class="form-select" name="IsFijo" id="IsFijo" formControlName="IsFijo" value="{{publi.IsFijo}}">
+                                            <option value="" disabled selected>Fijar Publicacion</option>
+                                            <option value="1">Si</option>
+                                            <option value="0">No</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-primary btn-user btn-block" style="width: 150px;" (click)="edicion(publi.id, 0, indice)">Publicar</button>
+                                        <button class="btn btn-danger btn-lg btn-block" style="width: 150px;" (click)="terminar_edicion(0, indice)">Cancelar</button>
+                                    </form>
                                 </div>
                             </div>
-                            <p></p>
-                            <select class="form-select" name="IsFijo" id="IsFijo" formControlName="IsFijo" value="">
-                                <option value="" disabled selected>Fijar Publicacion</option>
-                                <option value="1">Si</option>
-                                <option value="0">No</option>
-                            </select>
-                            <select class="form-select" (input)="checkout($event)">
-                                <option value="" disabled selected>Programar Publicacion</option>
-                                <option value="1"> Si </option>
-                                <option value="0"> No </option>
-                            </select>
-                            <div *ngIf="fecha_flag==1">
-                                <input type="date" id="start" name="trip-start" value="2018-07-22"
-                                name="fecha_programada1" id="fecha_programada1" formControlName="fecha_programada1"/>
-                                <input type="time" id="fecha_programada2" name="fecha_programada2" formControlName="fecha_programada2"/>
+                        </div>
+                    </div>
+                    <div *ngIf="esalumno==0">
+                        <button class="btn btn-primary btn-user btn-block" style="width: 150px;" (click)="inicio_creacion()">Agregar Publicacion</button>
+                        <div *ngIf="create_flag == 1" class="card shadow mb-4">
+                            <div class="card-header">
+                                <h3 class="m-0 font-weight-bold text-primary">Rellene el Formulario</h3>
                             </div>
+                            <form class="user" [formGroup]="publiForm">
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user"
+                                            id="Titulo" placeholder="Titulo" formControlName="Titulo" name="Titulo" value="Titulo">
+                                    </div>
+                                    <div *ngIf="publiForm.controls['Titulo'].invalid && (publiForm.controls['Titulo'].dirty || publiForm.controls['Titulo'].touched)"
+                                                class="alert alert-danger">
+                                        <p *ngIf="publiForm.controls['Titulo'].errors?.['required']">
+                                            Se requiere un título para la publicación.
+                                        </p>
+                                    </div>
+                                    
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control form-control-user"
+                                            id="Enunciado" placeholder="Enunciado" formControlName="Enunciado" name="Enunciado" value="Enunciado">
+                                    </div>
+                                    <div *ngIf="publiForm.controls['Enunciado'].invalid && (publiForm.controls['Enunciado'].dirty || publiForm.controls['Enunciado'].touched)"
+                                                class="alert alert-danger">
+                                        <p *ngIf="publiForm.controls['Enunciado'].errors?.['required']">
+                                            Se requiere que la publicación tenga un enunciado.
+                                        </p>
+                                    </div>
+                                </div>
+                                <p></p>
+                                <select class="form-select" name="IsFijo" id="IsFijo" formControlName="IsFijo" value="">
+                                    <option value="" disabled selected>Fijar Publicacion</option>
+                                    <option value="1">Si</option>
+                                    <option value="0">No</option>
+                                </select>
+                                <select class="form-select" (input)="checkout($event)">
+                                    <option value="" disabled selected>Programar Publicacion</option>
+                                    <option value="1"> Si </option>
+                                    <option value="0"> No </option>
+                                </select>
+                                <div *ngIf="fecha_flag==1">
+                                    <input type="date" id="start" name="trip-start" value="2018-07-22"
+                                    name="fecha_programada1" id="fecha_programada1" formControlName="fecha_programada1"/>
+                                    <input type="time" id="fecha_programada2" name="fecha_programada2" formControlName="fecha_programada2"/>
+                                </div>
 
-                            <button type="submit" class="btn btn-primary btn-user btn-block" style="width: 150px;" (click)="crear()">Publicar</button>
-                            <button class="btn btn-danger btn-lg btn-block" style="width: 150px;" (click)="cancelar_creacion()">Cancelar</button>
-                        </form>
+                                <button type="submit" class="btn btn-primary btn-user btn-block" style="width: 150px;" (click)="crear()">Publicar</button>
+                                <button class="btn btn-danger btn-lg btn-block" style="width: 150px;" (click)="cancelar_creacion()">Cancelar</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
