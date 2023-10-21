@@ -146,7 +146,7 @@ import { SubirPlantillaInformeFinalComponent } from './componentes/subir-plantil
     PlagiosComponent,
     ComentariosModalComponent,
     DocumentacionComponent,
-    SubirDocumentoEncargadoComponent
+    SubirDocumentoEncargadoComponent,
     SubirPlantillaInformeFinalComponent,
   ],
   imports: [
