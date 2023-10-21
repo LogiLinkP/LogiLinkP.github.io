@@ -131,7 +131,7 @@ export class DetalleAlumnoComponent implements OnInit{
             }
           }
         });
-        //console.log("Practicas Correspondientes:",this.practicas_correspondiente_nombre)
+        console.log("Practicas Correspondientes:",this.practicas_correspondiente_nombre)
         //console.log("Nombres de configuraciones de practica:",this.nombres_config_practica)
 
         // Request para obtener todas las practicas de acuerdo al id del estudiante
