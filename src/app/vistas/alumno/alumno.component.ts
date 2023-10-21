@@ -130,7 +130,7 @@ export class DetalleAlumnoComponent implements OnInit{
             }
           }
         });
-        console.log("Practicas Correspondientes:",this.practicas_correspondiente_nombre)
+        //console.log("Practicas Correspondientes:",this.practicas_correspondiente_nombre)
         //console.log("Nombres de configuraciones de practica:",this.nombres_config_practica)
 
         // Request para obtener todas las practicas de acuerdo al id del estudiante
@@ -201,7 +201,7 @@ export class DetalleAlumnoComponent implements OnInit{
                     if(flag == 0){this.documentos_enviados.push(1);}
                   }
                   console.log(this.documentos_enviados)
-                  console.log("Solicitudes:", this.solicitudes_practicas)
+                  //console.log("Solicitudes:", this.solicitudes_practicas)
                   resolve(true);
                 }
               });})
