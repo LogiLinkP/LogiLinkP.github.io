@@ -4,6 +4,7 @@ import { DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import * as dayjs from 'dayjs'
+import { MatSnackBar } from '@angular/material/snack-bar';
 dayjs().format()
 const customParseFormat = require('dayjs/plugin/customParseFormat');
 dayjs.extend(customParseFormat);
@@ -33,7 +34,8 @@ export class PublicacionesComponent {
   ID_carrera:number = -1;
   ID_encargado:number = -1;
 
-  constructor(private service_publi:PublicacionesService, private datetime:DatePipe, private fb: FormBuilder,) {
+  constructor(private service_publi:PublicacionesService, private datetime:DatePipe, private fb: FormBuilder,
+              private _snackBar: MatSnackBar) {
     this.usuario = JSON.parse(localStorage.getItem('auth-user') || '{}').userdata;
     if (this.usuario.es_estudiante == 1) {
       this.esalumno = 1;
@@ -49,8 +51,8 @@ export class PublicacionesComponent {
 
   createForm() {
     this.publiForm = this.fb.group({
-      Titulo: ['', [Validators.required, Validators.minLength(3)]],
-      Enunciado: ['', [Validators.required, Validators.minLength(3)]],
+      Titulo: ['', [Validators.required]],
+      Enunciado: ['', [Validators.required]],
       IsFijo:['', [Validators.required]],
       fecha_programada1:['', [Validators.required]],
       fecha_programada2:['', [Validators.required]]
@@ -106,7 +108,6 @@ export class PublicacionesComponent {
 
   obtener_como_encargado(){
     let respuesta:any = [];
-    console.log(this.ID_encargado)
     this.service_publi.obtener_encargado(this.ID_encargado).subscribe({
       next:(data:any) => {
         respuesta = {...respuesta, ...data};
@@ -149,7 +150,6 @@ export class PublicacionesComponent {
 
   crear(){
     const data = this.publiForm.value;
-
     let titulo = data.Titulo
     let enunciado = data.Enunciado;
     let fecha = this.datetime.transform((new Date), 'MM/dd/yyyy h:mm:ss')
@@ -160,6 +160,10 @@ export class PublicacionesComponent {
     }else if(data.IsFijo == "0"){
       isfijo = false;
     } else {
+      this._snackBar.open("Debe ingresar todos los datos", "Cerrar", {
+        duration: 10000,
+        panelClass: ['red-snackbar']
+      });
       return;
     }
 
@@ -170,7 +174,17 @@ export class PublicacionesComponent {
       fecha_programada = new Date(fechaF);
     }
 
-    if(titulo == "" || enunciado == "") return;
+    if(titulo == "" || enunciado == ""){
+      this._snackBar.open("Debe ingresar todos los datos", "Cerrar", {
+        duration: 10000,
+        panelClass: ['red-snackbar']
+      });
+      this.createForm();
+      
+      this.create_flag = 0;
+      this.fecha_flag = 0;
+      return;
+    };
     
     this.service_publi.nueva_publicacion(this.ID_encargado, this.ID_carrera, titulo, enunciado, fecha, isfijo, fecha_programada).subscribe({
       next:() => {
@@ -187,6 +201,7 @@ export class PublicacionesComponent {
         this.obtener_como_encargado();
 
         console.log("Publicación Creada")
+        this.createForm();
         this.create_flag = 0;
         this.fecha_flag = 0;
       }
@@ -206,11 +221,20 @@ export class PublicacionesComponent {
     }else if(data.IsFijo == "0"){
       isfijo = false;
     } else {
+      this._snackBar.open("Debe ingresar todos los datos", "Cerrar", {
+        duration: 10000,
+        panelClass: ['red-snackbar']
+      });
       return;
     }
 
-    if(titulo == "" || enunciado == "") return;
-    
+    if(titulo == "" || enunciado == ""){
+      this._snackBar.open("Debe ingresar todos los datos", "Cerrar", {
+        duration: 10000,
+        panelClass: ['red-snackbar']
+      });
+      return;
+    }
     this.service_publi.editar_publciacion(id,titulo,enunciado, isfijo).subscribe({
       next:() => {
 
@@ -225,6 +249,13 @@ export class PublicacionesComponent {
         this.obtener_como_encargado();
         
         console.log("Publicación Editada")
+        if(data.IsFijo == 1){
+          this.fixed_edit_flags[index] = 0
+        }
+        else{
+          this.edit_flags[index] = 0;
+        }
+        this.createForm();
       }
     })
   }
@@ -270,6 +301,7 @@ export class PublicacionesComponent {
     } else{
       this.edit_flags[index] = 0
     }
+    
   }
 
   checkout(arg: any) {
