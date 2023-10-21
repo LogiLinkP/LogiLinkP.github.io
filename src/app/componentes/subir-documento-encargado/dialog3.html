@@ -6,16 +6,20 @@
             </a>
             <div class="card-body text-gray-800" style="text-align: center;">  
 
-                <form style="width: 100%;">
+                <form class="user" style="width: 100%;" [formGroup]="publiForm">
                     <span class="file-name">{{selectedFile?.name}}</span>
                     <button type="button" class="btn btn-primary btn-md btn-block" (click)="fileInput.click()">Elegir Archivo</button>
-                    <input hidden (change)="onFileSelected($event)" #fileInput type="file" required>                    
+                    <input hidden (change)="onFileSelected($event)" #fileInput type="file" required>
+                    <input type="text" class="form-control form-control-user" id="Nombre" name="Nombre" formControlName="Nombre" placeholder="Nombre">
+                    <input type="textfield" class="form-control form-control-user" id="Descripcion" name="Descripcion" formControlName="Descripcion" placeholder="Descripción">
+                    
+                    <div mat-dialog-actions class="d-flex justify-content-center">
+                            <div class="p-2"><button [mat-dialog-close]="[false, selectedFile, Nombre, Descripcion]"
+                                class="btn btn-danger btn-md btn-block" (click)="onNoClick()">Cancelar</button></div>
+                            <div class="p-2"><button type="submit" [mat-dialog-close]="[true, selectedFile, Nombre, Descripcion]"
+                                class="btn btn-success btn-md btn-block" (click)="submitclick()">Aceptar</button></div>
+                    </div>
                 </form>
-                <div mat-dialog-actions class="d-flex justify-content-center">
-                        <div class="p-2"><button [mat-dialog-close]="[false, selectedFile]" class="btn btn-danger btn-md btn-block" (click)="onNoClick()">Cancelar</button></div>
-                        <div class="p-2"><button [mat-dialog-close]="[true, selectedFile]" class="btn btn-success btn-md btn-block" cdkFocusInitial
-                        [disabled]="!selectedFile">Aceptar</button></div>
-                </div>
             </div>
         </div>      
     </div><!-- fin columna -->

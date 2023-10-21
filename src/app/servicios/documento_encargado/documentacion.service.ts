@@ -19,7 +19,7 @@ export class DocumentacionService {
     return this._http.request(req);
   }
 
-  nuevo_documento(archivo:File, id_encargado:number, id_carrera:number, tipo:string, nombre:string, key:string){
+  nuevo_documento(archivo:File, id_encargado:number, id_carrera:number, tipo:string, nombre:string, key:string, descripcion:string){
     const formData:FormData = new FormData()
     formData.append("file",archivo)
     formData.append("id_encargado", id_encargado.toString())
@@ -27,6 +27,7 @@ export class DocumentacionService {
     formData.append("tipo", tipo)
     formData.append("nombre", nombre)
     formData.append("key", key)
+    formData.append("descripcion", descripcion)
     const req = new HttpRequest('POST', `${environment.url_back}/documento_encargado/crear`, formData, {responseType:"json"});
     return this._http.request(req);
   }
