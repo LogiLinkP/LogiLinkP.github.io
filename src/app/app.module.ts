@@ -88,6 +88,8 @@ import { VistaConfigsPracticaComponent } from './vistas/vista-configs-practica/v
 import { EdicionSimpleModalComponent } from './componentes/edicion-simple-modal/edicion-simple-modal.component';
 import { PlagiosComponent } from './vistas/plagios/plagios.component';
 import { ComentariosModalComponent } from './componentes/comentarios-modal/comentarios-modal.component';
+import { DocumentacionComponent } from './vistas/documentacion/documentacion.component';
+import { SubirDocumentoEncargadoComponent } from './componentes/subir-documento-encargado/subir-documento-encargado.component';
 import { SubirPlantillaInformeFinalComponent } from './componentes/subir-plantilla-informe-final/subir-plantilla-informe-final.component';
 
 @NgModule({
@@ -143,6 +145,8 @@ import { SubirPlantillaInformeFinalComponent } from './componentes/subir-plantil
     EdicionSimpleModalComponent,
     PlagiosComponent,
     ComentariosModalComponent,
+    DocumentacionComponent,
+    SubirDocumentoEncargadoComponent,
     SubirPlantillaInformeFinalComponent,
   ],
   imports: [
