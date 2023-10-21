@@ -23,14 +23,14 @@
                         <span class="card-body">{{publi?.enunciado}}</span>
                         <p></p>
                         <div *ngIf="esalumno==0" style="display: flex;">
-                            <button class="btn btn-primary btn-user btn-block" style="width: 150px; height: 50px;" (click)="inicio_edicion(1, indice)">Editar</button>
+                            <button class="btn btn-primary btn-user btn-block" style="width: 150px; height: 50px;" (click)="inicio_edicion(1, indice, publi.titulo, publi.enunciado, publi.IsFijo)">Editar</button>
                             <button class="btn btn-danger btn-lg btn-block"  style="width: 150px; height: 50px;" (click)="eliminar(publi.id, 1, indice)">Eliminar</button>
                             <div *ngIf="fixed_edit_flags[indice] == 1">
                                 <form class="user" [formGroup]="publiForm">
                                     <div class="form-group row">
                                         <div class="col-sm-6 mb-3 mb-sm-0">
                                             <input type="text" class="form-control form-control-user"
-                                                id="Titulo" formControlName="Titulo" name="Titulo" placeholder="{{publi?.titulo}}" value="publi?.titulo">
+                                                id="Titulo" formControlName="Titulo" name="Titulo" placeholder="{{publi?.titulo}}" value="{{publi.titulo}}">   
                                         </div>
                                         <div *ngIf="publiForm.controls['Titulo'].invalid && (publiForm.controls['Titulo'].dirty || publiForm.controls['Titulo'].touched)"
                                                     class="alert alert-danger">
@@ -41,7 +41,7 @@
                                         
                                         <div class="col-sm-6">
                                             <input type="text" class="form-control form-control-user"
-                                                id="Enunciado" formControlName="Enunciado" name="Enunciado" placeholder="{{publi?.enunciado}}" value="publi.enunciado">
+                                                id="Enunciado" formControlName="Enunciado" name="Enunciado" placeholder="{{publi?.enunciado}}" value="{{publi.enunciado}}">
                                         </div>
                                         <div *ngIf="publiForm.controls['Enunciado'].invalid && (publiForm.controls['Enunciado'].dirty || publiForm.controls['Enunciado'].touched)"
                                                     class="alert alert-danger">
@@ -62,6 +62,7 @@
                             </div>
                         </div>
                     </div>
+                    <br>
                 </div>
                 <div *ngFor="let publi of publicaciones, let indice = index">
                     <div class="card">
@@ -69,7 +70,7 @@
                         <span class="card-body">{{publi?.enunciado}}</span>
                         <p></p>
                         <div *ngIf="esalumno==0" style="display: flex;">
-                            <button class="btn btn-primary btn-user btn-block" style="width: 150px; height: 50px;" (click)="inicio_edicion(0, indice)">Editar</button>
+                            <button class="btn btn-primary btn-user btn-block" style="width: 150px; height: 50px;" (click)="inicio_edicion(0, indice, publi.titulo, publi.enunciado, publi.IsFijo)">Editar</button>
                             <button class="btn btn-danger btn-lg btn-block" style="width: 150px; height: 50px;" (click)="eliminar(publi.id, 0, indice)">Eliminar</button>
                             
                             <div *ngIf="edit_flags[indice] == 1">
@@ -77,7 +78,7 @@
                                     <div class="form-group row">
                                         <div class="col-sm-6 mb-3 mb-sm-0">
                                             <input type="text" class="form-control form-control-user"
-                                                id="Titulo" formControlName="Titulo" name="Titulo" placeholder="{{publi?.titulo}}">
+                                                id="Titulo" formControlName="Titulo" name="Titulo" placeholder="{{publi?.titulo}}" value="{{publi.titulo}}">
                                         </div>
                                         <div *ngIf="publiForm.controls['Titulo'].invalid && (publiForm.controls['Titulo'].dirty || publiForm.controls['Titulo'].touched)"
                                                     class="alert alert-danger">
@@ -88,7 +89,7 @@
                                         
                                         <div class="col-sm-6">
                                             <input type="text" class="form-control form-control-user"
-                                                id="Enunciado" formControlName="Enunciado" name="Enunciado" placeholder="{{publi?.enunciado}}" value="publi.enunciado">
+                                                id="Enunciado" formControlName="Enunciado" name="Enunciado" placeholder="{{publi?.enunciado}}" value="{{publi.enunciado}}">
                                         </div>
                                         <div *ngIf="publiForm.controls['Enunciado'].invalid && (publiForm.controls['Enunciado'].dirty || publiForm.controls['Enunciado'].touched)"
                                                     class="alert alert-danger">
@@ -109,6 +110,7 @@
                             </div>
                         </div>
                     </div>
+                    <br>
                 </div>  
                 <p></p>
                 <div *ngIf="esalumno==0">

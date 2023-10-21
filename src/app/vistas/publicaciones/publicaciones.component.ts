@@ -150,10 +150,12 @@ export class PublicacionesComponent {
 
   crear(){
     const data = this.publiForm.value;
+    console.log(data)
     let titulo = data.Titulo
     let enunciado = data.Enunciado;
     let fecha = this.datetime.transform((new Date), 'MM/dd/yyyy h:mm:ss')
 
+    console.log(fecha)
     let isfijo:boolean;
     if (data.IsFijo == "1"){
       isfijo = true;
@@ -172,6 +174,7 @@ export class PublicacionesComponent {
     if(this.fecha_flag == 1){
       let fechaF = data.fecha_programada1 + " " + data.fecha_programada2
       fecha_programada = new Date(fechaF);
+      console.log(fecha_programada)
     }
 
     if(titulo == "" || enunciado == ""){
@@ -287,12 +290,25 @@ export class PublicacionesComponent {
     this.create_flag = 0;
   }
 
-  inicio_edicion(fix:number, index:number){
+  inicio_edicion(fix:number, index:number, titulo:string, enunciado:string, IsFijo:boolean){
     if(fix == 1){
       this.fixed_edit_flags[index] = 1
     } else{
       this.edit_flags[index] = 1
     }
+    let fixed:string;
+    if(IsFijo == true){
+      fixed = "1"
+    } else {
+      fixed = "0"
+    }
+    this.publiForm = this.fb.group({
+      Titulo: [titulo, [Validators.required]],
+      Enunciado: [enunciado, [Validators.required]],
+      IsFijo:[fixed, [Validators.required]],
+      fecha_programada1:['', [Validators.required]],
+      fecha_programada2:['', [Validators.required]]
+    });
   }
 
   terminar_edicion(fix:number, index:number){
