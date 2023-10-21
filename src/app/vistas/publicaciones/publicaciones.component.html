@@ -20,16 +20,19 @@
                 <div *ngFor="let publi of fixed_publicaciones, let indice = index">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">(Publicacion Fijada) {{publi?.titulo}} {{publi?.fecha}}</h6>
+                            <h3 class="m-0 font-weight-bold text-primary">(Publicacion Fijada) {{publi?.titulo}} </h3>
                         </div>
-                        <div class="card-body">{{publi?.enunciado}}</div>
+                        <div class="card-body">
+                            <p>{{publi?.fecha}}</p>
+                            <p>{{publi?.enunciado}}</p>
+                        </div>
 
                         <div *ngIf="esalumno==0" style="display: flex;">
                             <button class="btn btn-primary btn-user btn-block" style="width: 150px; height: 50px;" (click)="inicio_edicion(1, indice, publi.titulo, publi.enunciado, publi.IsFijo)">Editar</button>
                             <button class="btn btn-danger btn-lg btn-block"  style="width: 150px; height: 50px;" (click)="eliminar(publi.id, 1, indice)">Eliminar</button>
                             <div class="card shadow mb-4" *ngIf="fixed_edit_flags[indice] == 1">
                                 <div class="card-header py3">
-                                    <h6 class="m-0 font-weight-bold text-primary"> Edite la Publicación</h6>
+                                    <h3 class="m-0 font-weight-bold text-primary"> Edite la Publicación</h3>
                                 </div>
                                 <form class="user" [formGroup]="publiForm">
                                     <div class="form-group row">
@@ -71,9 +74,12 @@
                 <div *ngFor="let publi of publicaciones, let indice = index">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">(Publicacion Fijada) {{publi?.titulo}} {{publi?.fecha}}</h6>
+                            <h3 class="m-0 font-weight-bold text-primary">{{publi?.titulo}}</h3>
                         </div>
-                        <span class="card-body">{{publi?.enunciado}}</span>
+                        <div class="card-body">
+                            <p>{{publi?.fecha}}</p>
+                            <p>{{publi?.enunciado}}</p>
+                        </div>
                         <div *ngIf="esalumno==0" style="display: flex;">
                             <button class="btn btn-primary btn-user btn-block" style="width: 150px; height: 50px;" (click)="inicio_edicion(0, indice, publi.titulo, publi.enunciado, publi.IsFijo)">Editar</button>
                             <button class="btn btn-danger btn-lg btn-block" style="width: 150px; height: 50px;" (click)="eliminar(publi.id, 0, indice)">Eliminar</button>
@@ -120,7 +126,7 @@
                     <button class="btn btn-primary btn-user btn-block" style="width: 150px;" (click)="inicio_creacion()">Agregar Publicacion</button>
                     <div *ngIf="create_flag == 1" class="card shadow mb-4">
                         <div class="card-header">
-                            <h6 class="m-0 font-weight-bold text-primary">Rellene el Formulario</h6>
+                            <h3 class="m-0 font-weight-bold text-primary">Rellene el Formulario</h3>
                         </div>
                         <form class="user" [formGroup]="publiForm">
                             <div class="form-group row">
