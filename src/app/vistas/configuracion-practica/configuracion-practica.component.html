@@ -150,10 +150,21 @@
                     formControlName="informeFinal">
                   <label class="form-check-label" for="informeFinalNO">No</label>
                 </div>
+                <div *ngIf="fg.value.informeFinal == 'si'">
+                  <p class="mt-2"> Elija el tipo de informe final que desea utilizar</p>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="informeFinalEncuesta" value="encuesta"
+                      formControlName="tipoInformeFinal">
+                    <label class="form-check-label" for="informeFinalEncuesta">Encuesta</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="informeFinalArchivo" value="archivo"
+                      formControlName="tipoInformeFinal">
+                    <label class="form-check-label" for="informeFinalArchivo">Archivo</label>
+                  </div>
+                </div>
                 <br>
-                <br>
-
-                <button class="btn btn-primary btn-user btn-md" type="submit">Siguiente</button>
+                <button class="btn btn-primary btn-user btn-md " type="submit">Siguiente</button>
               </form>
             </div>
           </div><!-- Fin tarjeta inicial-->
@@ -354,7 +365,7 @@
           </div><!-- Fin tarjeta inicial-->
 
           <!-------------------------------------------------- CONFIGURACION PREGUNTAS INFORME FINAL -------------------------------------------------------------->
-          <div class="card shadow" *ngIf="estado == 'informe_final'">
+          <div class="card shadow" *ngIf="estado == 'informe_final_encuesta'">
             <div class="card-body text-center">
               <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
                 Preguntas informe final
@@ -409,9 +420,9 @@
                 </div>
               </div>
 
-              <br>
-
               <!-- <form (ngSubmit)="avanzarDesdePreguntasFinal()"> -->
+
+              <br>
 
               <form *ngIf="flag">
 
@@ -550,7 +561,75 @@
                 <div class="col-4"></div>
               </div>
             </div>
-          </div><!-- Fin tarjeta inicial-->
+          </div><!-- Fin Configuracion preguntas informe final-->
+
+          <!-------------------------------------------------- CONFIGURACION DE ARCHIVO INFORME FINAL -------------------------------------------------------------->
+          <div class="card shadow" *ngIf="estado == 'informe_final_archivo'">
+            <div class="card-body text-center">
+              <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
+                Archivo del Informe Final
+              </div>
+              <form *ngIf="flag">
+                <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitArchivoInformeFinal()">
+
+                  Formatos aceptados <br>
+                  <input type="checkbox" formControlName="opcion_pdf"> pdf
+                  <input type="checkbox" formControlName="opcion_word"> word
+                  {{fg.value.formatoInformeFinal}}
+                  <br><br>
+                  ¿Desea incluir una plantilla de ejemplo? <br>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="plantillaInformeFinal"
+                      id="plantillaInformeFinalSI" value="si" formControlName="plantillaInformeFinal">
+                    <label class="form-check-label mr-2" for="plantillaInformeFinalSI">Si</label>
+
+                    <input class="form-check-input" type="radio" name="plantillaInformeFinal"
+                      id="plantillaInformeFinalNO" value="no" formControlName="plantillaInformeFinal">
+                    <label class="form-check-label" for="plantillaInformeFinalNO">No</label>
+                  </div>
+                  <br>
+                  <br>
+                  <div *ngIf="fg.value.plantillaInformeFinal == 'si'">
+                    <div *ngIf="currentRoute.includes('blanco'); else editandoExistente">
+                      Subir Plantilla de ejemplo<br>
+                      <app-subir-plantilla-informe-final (key_event)="recibirPlantillaInforme($event)"
+                        (file_plantilla_event)="recibirPlantillaInforme($event)"></app-subir-plantilla-informe-final>
+                    </div>
+                  
+                    <ng-template #editandoExistente>
+                      <div *ngIf="link_descarga_plantilla != ''; else editandoAntiguaSinPlantilla">
+                        <button type = "button" class = "btn btn-primary btn-md mb-2">
+                          <a [href]="link_descarga_plantilla" target="_blank" style = "color:white">Descargar plantilla actual</a>
+                        </button><br><br>
+                        Subir nueva plantilla de ejemplo<br>(Reemplazará la plantilla actual)<br>
+                          <app-subir-plantilla-informe-final (key_event)="recibirPlantillaInforme($event)"
+                          (file_plantilla_event)="recibirPlantillaInforme($event)"></app-subir-plantilla-informe-final>
+                      </div>
+                      <ng-template #editandoAntiguaSinPlantilla>
+                        Subir Plantilla de ejemplo<br>
+                        <app-subir-plantilla-informe-final (key_event)="recibirPlantillaInforme($event)"
+                          (file_plantilla_event)="recibirPlantillaInforme($event)"></app-subir-plantilla-informe-final>
+                      </ng-template>
+
+                    </ng-template>
+                  </div>
+
+                  <div class="row mt-5 mb-3 align-items-end">
+                    <div class="col-4"></div>
+                    <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="volver()"
+                      style="margin-right: 20px;">
+                      Volver
+                    </button>
+                    <button class="btn btn-primary btn-user btn-block btn-md col-2" type="submit">
+                      Siguiente
+                    </button>
+                    <div class="col-4"></div>
+                  </div>
+                </form>
+              </form>
+            </div>
+          </div> <!-- Fin Configuracion archivo informe final-->
+
           <!-------------------------------------------------- CONFIGURACION DOCUMENTOS -------------------------------------------------------------->
           <div class="card shadow" *ngIf="estado == 'solicitud_documentos'">
             <div class="card-body text-center">
@@ -583,7 +662,8 @@
                   <textarea rows="3" class="form-control input-center text-area" placeholder="Descripción solicitud"
                     formControlName="descripcion_solicitud_documentos"></textarea>
                   <label for="dropdown">Tipo de documento:</label>
-                  <select class="form-select input-center" id="dropdown" placeholder="Tipo documento" formControlName="tipo_solicitud_documentos">
+                  <select class="form-select input-center" id="dropdown" placeholder="Tipo documento"
+                    formControlName="tipo_solicitud_documentos">
                     <option value="pdf">PDF</option>
                     <option value="jpg">JPG</option>
                     <option value="xlsx">Excel</option>

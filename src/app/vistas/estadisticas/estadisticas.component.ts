@@ -18,6 +18,23 @@ import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.serv
 import { CarreraService } from 'src/app/servicios/carrera/carrera.service';
 import { EmpresaService } from 'src/app/servicios/empresa/empresa.service';
 
+import { HttpClient, HttpRequest } from '@angular/common/http';
+import { Input } from '@angular/core';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common'
+
+export interface DialogData {
+  //formatos: Formato[];
+  nombre_empresa: string;
+  aptitudes: any[];
+  promedio_aptitudes: any[];
+}
 
 @Component({
   selector: 'app-estadisticas',
@@ -25,7 +42,7 @@ import { EmpresaService } from 'src/app/servicios/empresa/empresa.service';
   styleUrls: ['./estadisticas.component.scss'],
 })
 export class EstadisticasComponent {
-  constructor(private _fb: FormBuilder, private cd: ChangeDetectorRef, @Inject(DOCUMENT) private document: Document, private router: Router, private serviceUsuario: DataUsuarioService,
+  constructor(public dialog: MatDialog, private _fb: FormBuilder, private cd: ChangeDetectorRef, @Inject(DOCUMENT) private document: Document, private router: Router, private serviceUsuario: DataUsuarioService,
   private serviceBarra: BarraLateralService, private _snackBar: MatSnackBar, private route: ActivatedRoute, private serviceConfig: ConfigService, private serviceCarrera: CarreraService,
   private serviceEmpresa: EmpresaService , private servicePreguntas: PreguntasEncuestaFinalService, private _snackbar: MatSnackBar, private serviceEstadisticas : EstadisticasService) {}
 
@@ -48,6 +65,15 @@ export class EstadisticasComponent {
   preguntas_estadisticas_AUX: any[] = [];
   preguntas_estadisticas: any[][] = [];
 
+  //estadisticas aptitudes general
+  promedio_aptitudes_carrera= 0;
+  nombre_aptitudes: string[] = [];
+  promedio_aptitudes: number[] = [];
+
+  nombre_aptitudes_top5: string[] = [];
+  promedio_aptitudes_top5: number[] = [];
+
+
   dia_actualizacion_DB = 0;
 
   vista_actual = "general";
@@ -64,6 +90,46 @@ export class EstadisticasComponent {
 
   remuneracion_por_ramo_util: any[] = [];
   remuneracion_promedio_por_ramo_util: number = 0;
+
+  //generales
+
+  alumnos_practica_nombre: string[] = [];
+  alumnos_cursando_practica_cantidad: number[] = [];
+  alumnos_practica_finalizada_cantidad: number[] = [];
+
+  total_alumnos_finalizada_practica_cantidad = 0;
+  total_alumnos_cursando_practica_cantidad = 0;
+
+  //ramos
+  arreglo_ramos: any[] = [];
+
+  ramos: string[] = [];
+  porcentajes: number[] = [];
+
+  ramos_top5: string[] = [];
+  porcentajes_top5: number[] = [];
+
+  arreglo_ramos_top5: any[] = [];
+
+  //valoracion_empresas
+  nombre_empresas: string[] = [];
+  valoracion_empresas: number[] = [];
+
+  nombre_empresas_top5: string[] = [];
+  valoracion_empresas_top5: number[] = [];
+
+
+  top5_empresas: any[] = [];
+  top5_aptitudes: any[] = [];
+
+  //aptitudes
+
+  jsons_empresas: any[] = [];
+
+  aptitudes_empresas: any[] = [];
+
+  nombre_empresas_con_aptitudes: string[] = [];
+  aptitudes_empresas_con_aptitudes: any[] = [];
 
   id_carrera_encargado = 0;
 
@@ -85,9 +151,109 @@ export class EstadisticasComponent {
       },
       complete: () => {
 
-        //console.log("id_carrera_encargado: ", respuesta.body.id_carrera);
-
         this.id_carrera_encargado = respuesta.body.id_carrera;
+
+        //------------- ESTADISTIOCAS RAMOS ----------------
+
+        this.serviceCarrera.obtener_carrera(respuesta.body.id_carrera).subscribe({
+          next: data => {
+            //console.log(data);
+            respuesta = { ...respuesta, ...data };
+          },
+          error: error => {
+            console.log(error);
+          },
+          complete: () => {
+
+            this.promedio_aptitudes_carrera = respuesta.body.promedio_aptitudes.array[0];
+            //console.log("promedio_aptitudes_carrera: ", this.promedio_aptitudes_carrera);
+
+            for (let i = 1; i < respuesta.body.promedio_aptitudes.array.length; i++){
+              if (this.isNumber(respuesta.body.promedio_aptitudes.array[i])) {
+                this.promedio_aptitudes.push(Number(respuesta.body.promedio_aptitudes.array[i]));
+              }
+              else{
+                this.nombre_aptitudes.push(String(respuesta.body.promedio_aptitudes.array[i]));
+              }
+            }
+
+            //console.log("nombre_aptitudes: ", this.nombre_aptitudes);
+            //console.log("promedio_aptitudes: ", this.promedio_aptitudes);
+
+            for (let i = 0; i < this.promedio_aptitudes.length; i++) {
+              for (let k = 0; k < this.promedio_aptitudes.length; k++) {
+                if (this.promedio_aptitudes[i] > this.promedio_aptitudes[k]) {
+                  let aux = this.promedio_aptitudes[i];
+                  this.promedio_aptitudes[i] = this.promedio_aptitudes[k];
+                  this.promedio_aptitudes[k] = aux;
+        
+                  let aux2 = this.nombre_aptitudes[i];
+                  this.nombre_aptitudes[i] = this.nombre_aptitudes[k];
+                  this.nombre_aptitudes[k] = aux2;
+                }
+              }
+            }
+
+            //console.log("nombre_aptitudes_ordenado: ", this.nombre_aptitudes);
+            //console.log("promedio_aptitudes_ordenado: ", this.promedio_aptitudes);
+
+            if (this.nombre_aptitudes.length >= 5) {
+              this.nombre_aptitudes_top5 = this.nombre_aptitudes.slice(0,5);
+              this.promedio_aptitudes_top5 = this.promedio_aptitudes.slice(0,5);
+            }
+
+            //console.log("nombre_aptitudes_top5: ", this.nombre_aptitudes_top5);
+            //console.log("promedio_aptitudes_top5: ", this.promedio_aptitudes_top5);
+
+            
+            this.arreglo_ramos = respuesta.body.estadistica_ramos.array[0];
+
+            for (let i = 0; i < this.arreglo_ramos.length; i++) {
+              if (this.isNumber(this.arreglo_ramos[i])) {
+                this.porcentajes.push(Number(this.arreglo_ramos[i]));
+              }
+              else{
+                this.ramos.push(String(this.arreglo_ramos[i]));
+              }
+            }
+
+            for (let i = 0; i < this.ramos.length; i++) {
+              this.ramos_top5.push(this.ramos[i]);
+              this.porcentajes_top5.push(this.porcentajes[i]);
+            }
+        
+            //ordenar porcentaje de mayor a menor
+            for (let i = 0; i < this.porcentajes_top5.length; i++) {
+              for (let k = 0; k < this.porcentajes_top5.length; k++) {
+                if (this.porcentajes_top5[i] > this.porcentajes_top5[k]) {
+                  let aux = this.porcentajes_top5[i];
+                  this.porcentajes_top5[i] = this.porcentajes_top5[k];
+                  this.porcentajes_top5[k] = aux;
+        
+                  let aux2 = this.ramos_top5[i];
+                  this.ramos_top5[i] = this.ramos_top5[k];
+                  this.ramos_top5[k] = aux2;
+                }
+              }
+            }
+
+            for (let i = 0; i < 5; i++) {
+              if (this.ramos_top5[i] != undefined) {
+                //this.ramos_top5[i] = " ";
+                this.arreglo_ramos_top5.push(this.ramos_top5[i]);
+                this.arreglo_ramos_top5.push(this.porcentajes_top5[i]);
+              }
+            }
+        
+            this.arreglo_ramos = this.arreglo_ramos_top5;
+
+            //console.log("Arreglo top 5: ");
+            //console.log(this.arreglo_ramos);
+        
+          }
+        });
+        //------------ FIN ESTADISTICAS RAMOS --------------
+
 
         //obteniendo datos remuneracion por tipo de practica
 
@@ -100,6 +266,7 @@ export class EstadisticasComponent {
             console.log(error);
           },
           complete: () => {
+
             //console.log("config_practica_carrera: ", respuesta.body);
             this.AUX_config_practicas = respuesta.body;
 
@@ -107,12 +274,61 @@ export class EstadisticasComponent {
             let cantidad_tipos_practicas_remuneracion=0;
             for (let i=0; i<this.AUX_config_practicas.length; i++) {
 
+              this.alumnos_practica_nombre.push(this.AUX_config_practicas[i].nombre);
+              this.alumnos_cursando_practica_cantidad.push(0);
+              this.alumnos_practica_finalizada_cantidad.push(0);
+            }
+
+            for (let i=0; i<this.AUX_config_practicas.length; i++) {
+
+              //let aux_cantidad_cursando = 0;
+              //let aux_cantidad_finalizada = 0;
+              
+              //contando cantidad de alumnos cursando practica y con practica finalizada
+              this.serviceConfig.obtener_practicas_config_practica(this.AUX_config_practicas[i].id).subscribe({
+                next: data => {
+                  //console.log(data);
+                  respuesta = { ...respuesta, ...data };
+                },
+                error: error => {
+                  console.log(error);
+                },
+                complete: () => {
+                  //console.log("practicas_por_config_practica de ID ", this.AUX_config_practicas[i].id, " : ");
+                  //console.log(respuesta.body)
+
+                  let pos_config_practica = this.alumnos_practica_nombre.indexOf(this.AUX_config_practicas[i].nombre);
+
+                  for(i=0;i<respuesta.body.length;i++){
+
+                    if(respuesta.body[i].estado == "Finalizada" || respuesta.body[i].estado == "Aprobada" || respuesta.body[i].estado == "Reprobada") {
+                      this.alumnos_practica_finalizada_cantidad[pos_config_practica]++;
+                      this.total_alumnos_finalizada_practica_cantidad++;
+                    }
+                    else{
+                      this.alumnos_cursando_practica_cantidad[pos_config_practica]++;
+                      this.total_alumnos_cursando_practica_cantidad++;
+                    }
+                  }
+
+                  //this.alumnos_cursando_practica_cantidad.push(aux_cantidad_cursando);
+                  //this.alumnos_practica_finalizada_cantidad.push(aux_cantidad_finalizada);
+
+                  //console.log("alumnos_practica_nombre: ", this.alumnos_practica_nombre);
+                  //console.log("alumnos_cursando_practica_cantidad: ", this.alumnos_cursando_practica_cantidad);
+                  //console.log("alumnos_practica_finalizada_cantidad: ", this.alumnos_practica_finalizada_cantidad);
+                }
+              });
+
+              //---------------------FIN CONTANDO ALUMNOS POR PRACTICA------------------    
+
               if (this.AUX_config_practicas[i].sueldo_promedio !=0 && this.AUX_config_practicas[i].sueldo_promedio != null){
                 this.remuneracion_tipo_practica.push({tipo: this.AUX_config_practicas[i].nombre, remuneracion: this.AUX_config_practicas[i].sueldo_promedio});
                 this.remuneracion_promedio_tipo_practica += this.AUX_config_practicas[i].sueldo_promedio;
                 cantidad_tipos_practicas_remuneracion++;
               } 
             }
+
             this.remuneracion_promedio_tipo_practica = Math.floor(this.remuneracion_promedio_tipo_practica / cantidad_tipos_practicas_remuneracion);
 
             this.serviceEstadisticas.obtener_todas_estadisticas().subscribe({
@@ -187,20 +403,79 @@ export class EstadisticasComponent {
                 //console.log("empresas: ", respuesta.body);
                 let cantidad_empresas_remuneracion=0;
                 for (let i=0; i<respuesta.body.length; i++) {
+                  this.jsons_empresas.push(respuesta.body[i].promedio_aptitudes);
+                  this.nombre_empresas.push(respuesta.body[i].nombre_empresa);
+                  this.valoracion_empresas.push(respuesta.body[i].calificacion_promedio);
                   if (respuesta.body[i].sueldo_promedio !=0 && respuesta.body[i].sueldo_promedio != null){
                     this.remuneracion_por_empresa.push({empresa: respuesta.body[i].nombre_empresa, remuneracion: respuesta.body[i].sueldo_promedio});
                     this.remuneracion_promedio_por_empresa += respuesta.body[i].sueldo_promedio;
                     cantidad_empresas_remuneracion++;
                   }  
                 }
+                //console.log("nombre_empresas: ", this.nombre_empresas)
+                //console.log("jsons_empresas: ", this.jsons_empresas)
+
+                //console.log("id_carrera_encargado", this.id_carrera_encargado)
+
+
+                for(let i=0; i<this.jsons_empresas.length; i++) {
+                  this.aptitudes_empresas.push(this.jsons_empresas[i][this.id_carrera_encargado])
+                  //console.log("jsons_empresas[i]: ", this.jsons_empresas[i][this.id_carrera_encargado])
+                }
+
+                //console.log("aptitudes_empresas: ", this.aptitudes_empresas)
+
+                //filtrando empresas por carrera
+                
+                //console.log("valoracion_empresas: ", this.valoracion_empresas)
+
+                //ordenar valoracion de mayor a menor
+                for (let i = 0; i < this.valoracion_empresas.length; i++) {
+                  for (let k = 0; k < this.valoracion_empresas.length; k++) {
+                    if (this.valoracion_empresas[i] > this.valoracion_empresas[k]) {
+                      let aux = this.valoracion_empresas[i];
+                      this.valoracion_empresas[i] = Math.round(this.valoracion_empresas[k] * 10) / 10;
+                      this.valoracion_empresas[k] = aux;
+        
+                      let aux2 = this.nombre_empresas[i];
+                      this.nombre_empresas[i] = this.nombre_empresas[k];
+                      this.nombre_empresas[k] = aux2;
+
+                      let aux3 = this.aptitudes_empresas[i];
+                      this.aptitudes_empresas[i] = this.aptitudes_empresas[k];
+                      this.aptitudes_empresas[k] = aux3;
+                    }
+                  }
+                }
+
+                for(let i = 0; i < this.nombre_empresas.length; i++){
+                  if(this.aptitudes_empresas[i] != null){
+                    if(this.aptitudes_empresas[i].length != 0){
+                      this.nombre_empresas_con_aptitudes.push(this.nombre_empresas[i]);
+                      this.aptitudes_empresas_con_aptitudes.push(this.aptitudes_empresas[i]);
+                    }
+                  }
+                }
+
+                //console.log("nombre_empresas_con_aptitudes: ", this.nombre_empresas_con_aptitudes)
+                //console.log("aptitudes_empresas_con_aptitudes: ", this.aptitudes_empresas_con_aptitudes)
+
+                //console.log("nombre_empresas_ordenado: ", this.nombre_empresas)
+                //console.log("valoracion_empresas_ordenado: ", this.valoracion_empresas)
+
+                this.nombre_empresas_top5 = this.nombre_empresas.slice(0,5);
+                this.valoracion_empresas_top5 = this.valoracion_empresas.slice(0,5);
+
+                //console.log("nombre_empresas_ordenado_TOP5: ", this.nombre_empresas_top5)
+                //console.log("valoracion_empresas_ordenado_TOP5: ", this.valoracion_empresas_top5)
+
+
                 this.remuneracion_promedio_por_empresa = Math.floor(this.remuneracion_promedio_por_empresa / cantidad_empresas_remuneracion);
 
-                //console.log("remuneracion_por_empresa: ", this.remuneracion_por_empresa);
-                //console.log("remuneracion_promedio_por_empresa: ", this.remuneracion_promedio_por_empresa);
               }
             });
 
-          }
+          } 
         });
       }
     });
@@ -251,4 +526,124 @@ export class EstadisticasComponent {
     this.document.body.scrollTop = 0;
     this.document.documentElement.scrollTop = 0;
   }
+
+  cant_estrellas_completas(calificacion: number){
+    let cant = 0
+    if (calificacion == null){
+      return 0;
+    }
+    else if (calificacion < 1){
+      return 0;
+    }
+    else if (calificacion < 2){
+      return 1;
+    }
+    else if (calificacion < 3){
+      return 2;
+    }
+    else if (calificacion < 4){
+      return 3;
+    }
+    else if (calificacion < 5){
+      return 4;
+    }
+    else if (calificacion == 5){
+      return 5;
+    }
+    else{
+      return 0;
+    }
+  }
+
+  media_estrella(calificacion: number){
+    if (calificacion == null){
+      return false;
+    }
+    let decimal = calificacion - Math.floor(calificacion);
+    if (decimal < 0.5){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+
+  /*
+  empresa_tiene_aptitudes(nombre_empresa: string){
+    //get pos de nombre_empresa en nombre_empresas
+    let pos_empresa = this.nombre_empresas.indexOf(nombre_empresa);
+    let aptitudes_empresa = this.aptitudes_empresas[pos_empresa];
+    if(aptitudes_empresa.length=0){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+  */
+
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, nombre_empresa: string): void {
+    /*
+    for (let i = 0; i < this.empresas.length; i++){
+      if (this.empresas[i].id == id_empresa){
+
+        this.comentarios_empresa = this.comentarios[i];
+        this.nombre_empresa_comentario = this.empresas[i].nombre_empresa;
+        if (this.palabras_clave_empresa[i]){
+          this.palabras_clave_una_empresa = this.palabras_clave_empresa[i].split(',');
+        }
+        else{
+          this.palabras_clave_una_empresa = [];
+        }
+        //this.comentarios_empresa.splice(0, 1);
+        //this.comentarios_empresa.shift();
+        break;
+      }
+    }
+    */
+    //this.comentarios_empresa.shift();
+
+    let pos_empresa = this.nombre_empresas_con_aptitudes.indexOf(nombre_empresa);
+    let aptitudes_empresa = this.aptitudes_empresas_con_aptitudes[pos_empresa];
+
+    let aptitudes_empresa_aux: any[] = [];
+    let promedio_aptitudes_empresa_aux: any[] = [];
+
+    for(let i=0; i<aptitudes_empresa.length; i++) {
+      if (this.isNumber(aptitudes_empresa[i])) {
+        promedio_aptitudes_empresa_aux.push(aptitudes_empresa[i]);
+      }
+      else{
+        aptitudes_empresa_aux.push(aptitudes_empresa[i]);
+      }
+    }
+
+    const dialogRef = this.dialog.open(Dialog, {
+      width: '800px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: { nombre_empresa: nombre_empresa, aptitudes:aptitudes_empresa_aux, promedio_aptitudes: promedio_aptitudes_empresa_aux}
+    });
+
+  }
+}
+
+@Component({
+  selector: 'app-dialog',
+  templateUrl: 'dialog.html',
+  standalone: true,
+  imports: [MatDialogModule, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatSelectModule, CommonModule,
+    NgFor],
+})
+export class Dialog {
+  
+  nombre_empresa: string;
+  aptitudes: any[] = [];
+
+  constructor(public dialogRef: MatDialogRef<Dialog>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
 }
