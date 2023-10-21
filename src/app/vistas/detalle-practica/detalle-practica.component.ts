@@ -42,6 +42,7 @@ export class DetallePracticaComponent implements OnInit {
   documento_extras: any = [];
   informes: any = [];
   informe_final: any = {};
+  link_descarga_plantilla:string = "";
   evaluaciones: any = [];
   respuestas_supervisor: any = {};
   data_supervisor_rdy: boolean = false;
@@ -206,6 +207,9 @@ export class DetallePracticaComponent implements OnInit {
             if (this.informes[i]?.config_informe.tipo_informe == "informe final") {
               console.log("informe final: ", this.informes[i])
               this.informe_final = this.informes[i];
+              if (this.informe_final.config_informe?.plantilla != null && this.informe_final.config_informe?.plantilla != "") {
+                this.link_descarga_plantilla = "https://d2v9ocre132gvc.cloudfront.net/" + this.informe_final.config_informe.plantilla;
+              }
               // remove informe final from informes
               this.informes.splice(i, 1);
               break;
