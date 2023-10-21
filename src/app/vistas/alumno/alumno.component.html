@@ -45,9 +45,16 @@
                                             <div class="row" *ngIf="practica[1].estado=='En curso'">
                                                 <div class="col-xl-9"></div>
                                                 <div class="col-xl-2">
-                                                    <button type="button" class="btn btn-primary btn-lg btn-block"
+                                                    <div *ngIf="documentos_enviados[i] == 1; else elsedocument">
+                                                        <button type="button" class="btn btn-primary btn-lg btn-block"
                                                         (click)="finalizar_practica(practica[1])">
                                                         Finalizar Práctica</button>
+                                                    </div>
+                                                    <ng-template #elsedocument>
+                                                        <button type="button" class="btn btn-primary btn-lg btn-block"
+                                                        title="{{warning_text}}" (click)="warning_practica()">
+                                                        Finalizar Práctica</button>
+                                                    </ng-template>                                    
                                                 </div>
                                             </div>
 
@@ -328,8 +335,6 @@
                                                                                                         [descripcion]="doc_extra.descripcion"
                                                                                                         [nombre_solicitud]="doc_extra.nombre_solicitud"
                                                                                                         [tipo_archivo]="doc_extra.tipo_archivo"
-                                                                                                        [id_encargado_usuario]=" practica[1].encargado.id_usuario"
-                                                                                                        [correo_encargado]="practica[1].encargado.usuario.correo"
                                                                                                         [estado_config]="estado_config"
                                                                                                         [id_estudiante_usuario]="usuario.id">
                                                                                                     </app-subir-archivo-extra>

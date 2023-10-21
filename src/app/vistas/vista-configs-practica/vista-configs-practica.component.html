@@ -230,11 +230,16 @@
                                                         <p>Informe final: </p>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio" id="informeFinalSI" value="si" formControlName="informe_final">
-                                                            <label class="form-check-label" for="informeFinalSI">Si</label>
+                                                            <label class="form-check-label" for="informeFinalSI">Sí</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                         	<input class="form-check-input" type="radio" id="informeFinalNO" value="no" formControlName="informe_final">
                                                         	<label class="form-check-label" for="informeFinalNO">No</label>
+                                                        </div>
+                                                        <!--Seccion para elegir el tipo de informe final en caso de que se elija Si-->
+                                                        <div *ngIf="crearForm.value.informe_final=='si'">
+                                                            
+                                                            
                                                         </div>
                                                     </form>
                                                 </div>
