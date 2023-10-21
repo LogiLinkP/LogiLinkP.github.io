@@ -40,6 +40,7 @@ import { PerfilComponent } from './vistas/perfil/perfil.component';
 import { VistaConfigsPracticaComponent } from './vistas/vista-configs-practica/vista-configs-practica.component';
 import { PlagiosComponent } from "./vistas/plagios/plagios.component"
 
+import { DocumentacionComponent } from './vistas/documentacion/documentacion.component';
 
 
 const routes: Routes = [
@@ -68,8 +69,9 @@ const routes: Routes = [
   { path: 'blank', component: BlankComponent },
   { path: 'resetPass', component: ForgotPasswordComponent },
   { path: 'estadisticas', component: EstadisticasComponent },
-  {
-    path: 'admin',
+  { path: 'documentacion', component: DocumentacionComponent},
+  { 
+    path: 'admin', 
     children: [
       { path: '', component: AdminComponent },
     ]
@@ -96,6 +98,7 @@ const routes: Routes = [
   { path: 'guias/config-practica', component: ConfigPracticaComponent },
   { path: 'perfil', component: PerfilComponent },
   { path: "plagios/:id_practica", component: PlagiosComponent },
+  { path: 'documentacion', component: DocumentacionComponent},
   { path: '**', component: PnfComponent },
 
 ];

@@ -39,5 +39,4 @@ export class EmpresaService {
     const req = new HttpRequest('GET', `${environment.url_back}/practica/empresa?id=${id}`);
     return this._http.request(req);
   }
-
 }
