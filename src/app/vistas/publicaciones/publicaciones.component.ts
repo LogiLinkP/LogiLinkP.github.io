@@ -283,6 +283,7 @@ export class PublicacionesComponent {
   }
 
   inicio_creacion(){
+    this.createForm();
     this.create_flag = 1;
   }
 
