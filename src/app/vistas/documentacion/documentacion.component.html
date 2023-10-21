@@ -15,11 +15,15 @@
             <!--<button (click)="volver_atras()" class="btn btn-primary d-flex align-items-right">Volver</button>-->
             <div class="h3 mt-2 ml-2">Documentación Adicional</div>
             
+            <div *ngIf="documentos.length == 0">
+                <h2>No hay documentación Disponible</h2>
+            </div>
             <div *ngFor="let docu of documentos, let indice = index">
-                <div class="card">
-                    <div class="small text-gray-500">{{docu?.nombre}}
-                    <p></p>
-                    <div style="display:flex">
+                <div class="card shadow mb-4">
+                    <div class="card header">
+                        <h3 class="m-0 font-weight-bold text-primary">{{docu?.nombre}}</h3>
+                    </div>
+                    <div class="card-body" style="display:flex">
                         <button class="btn btn-success btn-sm btn-block" style="width: 150px;" (click)="descargar_documento(docu.key)">Descargar</button>
                         <div *ngIf="esalumno==0">
                             <button class="btn btn-danger btn-lg btn-block" style="width: 150px;" (click)="eliminar(docu.id, indice)">Eliminar</button>
