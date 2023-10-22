@@ -47,14 +47,14 @@
                                                 <div class="col-xl-2">
                                                     <div *ngIf="documentos_enviados[i] == 1; else elsedocument">
                                                         <button type="button" class="btn btn-primary btn-lg btn-block"
-                                                        (click)="finalizar_practica(practica[1])">
-                                                        Finalizar Práctica</button>
+                                                            (click)="finalizar_practica(practica[1])">
+                                                            Finalizar Práctica</button>
                                                     </div>
                                                     <ng-template #elsedocument>
                                                         <button type="button" class="btn btn-primary btn-lg btn-block"
-                                                        title="{{warning_text}}" (click)="warning_practica()">
-                                                        Finalizar Práctica</button>
-                                                    </ng-template>                                    
+                                                            title="{{warning_text}}" (click)="warning_practica()">
+                                                            Finalizar Práctica</button>
+                                                    </ng-template>
                                                 </div>
                                             </div>
 
@@ -99,7 +99,8 @@
                                                                                     <td>{{ practica[1]?.fecha_termino |
                                                                                         date: 'dd/MM/yyyy' }}</td>
                                                                                 </tr>
-                                                                                <tr *ngIf="practica[1]?.modalidad?.config_practica?.frecuencia_informes !='sinAvance'">
+                                                                                <tr
+                                                                                    *ngIf="practica[1]?.modalidad?.config_practica?.frecuencia_informes !='sinAvance'">
                                                                                     <td>Frecuencia de Informes:</td>
                                                                                     <td>{{
                                                                                         practica[1]?.modalidad?.config_practica?.frecuencia_informes
@@ -197,39 +198,76 @@
                                                                                         cellspacing="0">
                                                                                         <thead>
                                                                                             <tr>
-                                                                                                <th>Tipo</th>
+                                                                                                <th style="width:40%">Tipo</th>
                                                                                                 <!--<th>Horas Trabajadas
                                                                                                 </th>-->
-                                                                                                <th>Fecha</th>
-                                                                                                <th></th>
+                                                                                                <th style="width:30%">Fecha</th>
+                                                                                                <th style="width:30%"></th>
                                                                                             </tr>
                                                                                         </thead>
                                                                                         <tbody>
                                                                                             <tr
                                                                                                 *ngFor="let informe of practica[1].informes;">
-                                                                                                <td>{{
-                                                                                                    informe?.config_informe?.tipo_informe
-                                                                                                    }}</td>
+                                                                                                <td
+                                                                                                    *ngIf="informe?.config_informe?.tipo_informe == 'informe final'">
+                                                                                                    <b>{{informe?.config_informe?.tipo_informe}}</b>
+                                                                                                </td>
+                                                                                                <ng-template>
+                                                                                                    <td>
+                                                                                                        {{informe?.config_informe?.tipo_informe}}
+                                                                                                    </td>
+                                                                                                </ng-template>
                                                                                                 <!--<td>{{ informe?.horas_trabajadas }}</td>-->
                                                                                                 <td>{{ informe?.fecha |
                                                                                                     date: 'dd/MM/yyyy'
                                                                                                     }}</td>
                                                                                                 <!--<td><button class="btn btn-primary btn-sm btn-block" (click)="mostrar_informe(practica[1].informes,informe.id)">Ver
                                                                                                     Informe</button></td>-->
-                                                                                                <td><button
-                                                                                                        *ngIf="!informe.key || isEmptyObject(informe.key); else elseBlock"
-                                                                                                        class="btn btn-primary btn-sm btn-block"
-                                                                                                        (click)="redirigir_a_ingreso_informe(informe.id)">Responder</button>
+                                                                                                <td class="text-center">
+                                                                                                    <div
+                                                                                                        *ngIf="informe?.config_informe?.archivo_o_encuesta == 'encuesta'; else informeArchivo">
+                                                                                                        <button
+                                                                                                            *ngIf="!informe.key || isEmptyObject(informe.key); else yaSeSubio"
+                                                                                                            class="btn btn-primary btn-sm btn-block"
+                                                                                                            (click)="redirigir_a_ingreso_informe(informe.id)">Responder</button>
+                                                                                                        <ng-template
+                                                                                                            #yaSeSubio>
+                                                                                                            <a class="nostyle"
+                                                                                                                href="/estudiante-ver-informe/{{practica[1].id}}/{{informe.id}}">
+                                                                                                                <button
+                                                                                                                    class="btn btn-primary btn-sm btn-block">
+                                                                                                                    Ver
+                                                                                                                    Informe
+                                                                                                                </button>
+                                                                                                            </a>
+                                                                                                        </ng-template>
+                                                                                                    </div>
                                                                                                     <ng-template
-                                                                                                        #elseBlock>
-                                                                                                        <a class="nostyle"
-                                                                                                            href="/estudiante-ver-informe/{{practica[1].id}}/{{informe.id}}">
+                                                                                                        #informeArchivo>
+                                                                                                        <app-subir-archivo-informe-final *ngIf="!informe.key || isEmptyObject(informe.key); else yaSeSubio"
+                                                                                                            [id_informe]=informe.id
+                                                                                                        >
+                                                                                                        </app-subir-archivo-informe-final>                                                                                                        
+                                                                                                        <ng-template
+                                                                                                            #yaSeSubio>
                                                                                                             <button
-                                                                                                                class="btn btn-primary btn-sm btn-block">
-                                                                                                                Ver
-                                                                                                                Informe
-                                                                                                            </button>
-                                                                                                        </a>
+                                                                                                            type="button"
+                                                                                                            class="btn btn-primary btn-sm mt-2">
+                                                                                                            <a [href]="'https://d2v9ocre132gvc.cloudfront.net/'+informe?.key?.filename"
+                                                                                                                target="_blank"
+                                                                                                                style="color:white">Descargar</a>
+                                                                                                        </button>
+                                                                                                        </ng-template>
+                                                                                                        <br>
+                                                                                                        <button
+                                                                                                            *ngIf="informe.config_informe?.plantilla!=null && informe.config_informe?.plantilla!=''"
+                                                                                                            type="button"
+                                                                                                            class="btn btn-primary btn-sm mt-2">
+                                                                                                            <a [href]="'https://d2v9ocre132gvc.cloudfront.net/'+informe.config_informe?.plantilla"
+                                                                                                                target="_blank"
+                                                                                                                style="color:white">Ver
+                                                                                                                plantilla</a>
+                                                                                                        </button>
                                                                                                     </ng-template>
                                                                                                 </td>
                                                                                             </tr>
@@ -308,7 +346,6 @@
                                                                                                         [descripcion]="solicitud.descripcion"
                                                                                                         [nombre_solicitud]="solicitud.nombre_solicitud"
                                                                                                         [tipo_archivo]="solicitud.tipo_archivo"
-                                                                                                        
                                                                                                         [id_encargado_usuario]=" practica[1].encargado.id_usuario"
                                                                                                         [correo_encargado]="practica[1].encargado.usuario.correo"
                                                                                                         [estado_config]="estado_config"
@@ -363,14 +400,19 @@
                                                                 <div>
                                                                     <div class="card-body overflow-auto">
                                                                         <div>
-                                                                            <button class="btn btn-primary btn-sm btn-block" (click)="comentarios(practica[1].id)" data-target="#comentarios-modal" data-toggle="modal">Ver comentarios evaluacion</button>
+                                                                            <button
+                                                                                class="btn btn-primary btn-sm btn-block"
+                                                                                (click)="comentarios(practica[1].id)"
+                                                                                data-target="#comentarios-modal"
+                                                                                data-toggle="modal">Ver comentarios
+                                                                                evaluacion</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            
+
                                                         </div><!-- Fin Fila -->
-                                                        
+
 
                                                         <!--Tarjeta Aptitudes -->
                                                         <div class="row" style="max-width: 100%"
