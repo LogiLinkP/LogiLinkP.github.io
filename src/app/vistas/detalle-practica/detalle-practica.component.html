@@ -359,21 +359,26 @@
                                     <div class="card-body">
                                         <div *ngIf="!isDataEmpty(informe_final); else NoHayInformeFinal">
                                             <div class="row mb-4">
-                                                <div class="col-12">
+                                                <div class="col-12 text-center">
                                                     <div
                                                         *ngIf="!isDataEmpty(informe_final.key); else InformeFinalNoSubido">
+                                                        <button class="btn btn-primary btn-md"><a
+                                                                [href]="link_descarga_informe" style="color:white"
+                                                                target="_blank">
+                                                                Descargar Informe del Alumno
+                                                            </a>
+                                                        </button>
                                                     </div>
                                                     <ng-template #InformeFinalNoSubido>
                                                         <div class="text-center">Informe final no subido aún.</div>
                                                     </ng-template>
-                                                </div>                                                
+                                                </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-1">
-                                                </div>
-                                                <div class="col-md-10 text-center">
-                                                    <button class="btn btn-md btn-primary"><a [href]="link_descarga_plantilla" 
-                                                        style = "color:white" target="_blank" >Ver plantilla</a></button>
+                                                <div class="col-md-12 text-center">
+                                                    <button class="btn btn-md btn-primary"><a
+                                                            [href]="link_descarga_plantilla" style="color:white"
+                                                            target="_blank">Ver plantilla</a></button>
                                                 </div>
                                             </div>
                                         </div>

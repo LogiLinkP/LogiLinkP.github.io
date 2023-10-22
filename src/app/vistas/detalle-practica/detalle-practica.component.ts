@@ -43,6 +43,7 @@ export class DetallePracticaComponent implements OnInit {
   informes: any = [];
   informe_final: any = {};
   link_descarga_plantilla:string = "";
+  link_descarga_informe:string = "";
   evaluaciones: any = [];
   respuestas_supervisor: any = {};
   data_supervisor_rdy: boolean = false;
@@ -158,7 +159,6 @@ export class DetallePracticaComponent implements OnInit {
 
           this.documento_extras = this.practica.documento_extras;
           this.informes = this.practica.informes;
-          console.log("🚀 ~ file: detalle-practica.component.ts:159 ~ this.service.obtener_practica ~ this.informes:", this.informes)
           // considerar como evaluaciones todas las respuestas que tengan un tipo_respuesta que sea un número
           // this.evaluaciones = this.practica.respuesta_supervisors.filter((respuesta_supervisor: any) => {
           //   return !isNaN(respuesta_supervisor.respuesta);
@@ -191,8 +191,6 @@ export class DetallePracticaComponent implements OnInit {
             }
           }
 
-
-
           // considerar como respuestas todas las que sean strings
           this.respuestas_supervisor = this.practica.respuesta_supervisors.filter((respuesta_supervisor: any) => {
             return isNaN(respuesta_supervisor.respuesta);
@@ -209,6 +207,9 @@ export class DetallePracticaComponent implements OnInit {
               this.informe_final = this.informes[i];
               if (this.informe_final.config_informe?.plantilla != null && this.informe_final.config_informe?.plantilla != "") {
                 this.link_descarga_plantilla = "https://d2v9ocre132gvc.cloudfront.net/" + this.informe_final.config_informe.plantilla;
+              }
+              if (this.informe_final.key != null && Object.keys(this.informe_final.key).length > 0) {
+                this.link_descarga_informe = "https://d2v9ocre132gvc.cloudfront.net/" + this.informe_final.key.filename;
               }
               // remove informe final from informes
               this.informes.splice(i, 1);
