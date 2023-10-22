@@ -103,6 +103,16 @@ export class GestionarService {
     const req = new HttpRequest('PUT', `${environment.url_back}/informe/subirInforme`, formData, {responseType:"json"});
     return this.http.request(req);
   }
+
+  eliminar_informe_final(id_informe: number) {
+    let key = {};
+    const req = new HttpRequest('PUT', `${environment.url_back}/informe/actualizar`, {
+      id: id_informe,
+      key,
+      responseType: 'json'
+    });
+    return this.http.request(req);
+  }
 }
 
 

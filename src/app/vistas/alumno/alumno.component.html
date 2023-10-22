@@ -45,7 +45,7 @@
                                             <div class="row" *ngIf="practica[1].estado=='En curso'">
                                                 <div class="col-xl-9"></div>
                                                 <div class="col-xl-2">
-                                                    <div *ngIf="documentos_enviados[i] == 1; else elsedocument">
+                                                    <div *ngIf="documentos_enviados[practica[1].id] == 1; else elsedocument">
                                                         <button type="button" class="btn btn-primary btn-lg btn-block"
                                                             (click)="finalizar_practica(practica[1])">
                                                             Finalizar Práctica</button>
@@ -198,11 +198,14 @@
                                                                                         cellspacing="0">
                                                                                         <thead>
                                                                                             <tr>
-                                                                                                <th style="width:40%">Tipo</th>
+                                                                                                <th style="width:40%">
+                                                                                                    Tipo</th>
                                                                                                 <!--<th>Horas Trabajadas
                                                                                                 </th>-->
-                                                                                                <th style="width:30%">Fecha</th>
-                                                                                                <th style="width:30%"></th>
+                                                                                                <th style="width:30%">
+                                                                                                    Fecha</th>
+                                                                                                <th style="width:30%">
+                                                                                                </th>
                                                                                             </tr>
                                                                                         </thead>
                                                                                         <tbody>
@@ -242,32 +245,47 @@
                                                                                                             </a>
                                                                                                         </ng-template>
                                                                                                     </div>
+
                                                                                                     <ng-template
                                                                                                         #informeArchivo>
-                                                                                                        <app-subir-archivo-informe-final *ngIf="!informe.key || isEmptyObject(informe.key); else yaSeSubio"
-                                                                                                            [id_informe]=informe.id
-                                                                                                        >
-                                                                                                        </app-subir-archivo-informe-final>                                                                                                        
-                                                                                                        <ng-template
-                                                                                                            #yaSeSubio>
-                                                                                                            <button
-                                                                                                            type="button"
-                                                                                                            class="btn btn-primary btn-sm mt-2">
-                                                                                                            <a [href]="'https://d2v9ocre132gvc.cloudfront.net/'+informe?.key?.filename"
-                                                                                                                target="_blank"
-                                                                                                                style="color:white">Descargar</a>
-                                                                                                        </button>
-                                                                                                        </ng-template>
-                                                                                                        <br>
-                                                                                                        <button
-                                                                                                            *ngIf="informe.config_informe?.plantilla!=null && informe.config_informe?.plantilla!=''"
-                                                                                                            type="button"
-                                                                                                            class="btn btn-primary btn-sm mt-2">
-                                                                                                            <a [href]="'https://d2v9ocre132gvc.cloudfront.net/'+informe.config_informe?.plantilla"
-                                                                                                                target="_blank"
-                                                                                                                style="color:white">Ver
-                                                                                                                plantilla</a>
-                                                                                                        </button>
+                                                                                                        <div
+                                                                                                            class="row">
+                                                                                                            <div
+                                                                                                                class="col-12 text-center">
+                                                                                                                <app-subir-archivo-informe-final
+                                                                                                                    *ngIf="!informe.key || isEmptyObject(informe.key); else yaSeSubio"
+                                                                                                                    [id_informe]=informe.id
+                                                                                                                    [tipo_archivo]="informe.config_informe?.tipo_archivo">
+                                                                                                                </app-subir-archivo-informe-final>
+                                                                                                                <ng-template
+                                                                                                                    #yaSeSubio>
+                                                                                                                    <button
+                                                                                                                        type="button"
+                                                                                                                        class="btn btn-primary btn-sm mr-1 ml-1">
+                                                                                                                        <a [href]="'https://d2v9ocre132gvc.cloudfront.net/'+informe?.key?.filename"
+                                                                                                                            target="_blank"
+                                                                                                                            style="color:white">Descargar</a>
+                                                                                                                    </button>
+                                                                                                                    <button
+                                                                                                                        class="btn btn-danger btn-sm" (click)="eliminarArchivoInformeFinal(informe.id)">Eliminar</button>
+                                                                                                                </ng-template>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            class="row">
+                                                                                                            <div
+                                                                                                                class="col-12 text-center">
+                                                                                                                <button
+                                                                                                                    *ngIf="informe.config_informe?.plantilla!=null && informe.config_informe?.plantilla!=''"
+                                                                                                                    type="button"
+                                                                                                                    class="btn btn-primary btn-sm mt-2">
+                                                                                                                    <a [href]="'https://d2v9ocre132gvc.cloudfront.net/'+informe.config_informe?.plantilla"
+                                                                                                                        target="_blank"
+                                                                                                                        style="color:white">Ver
+                                                                                                                        plantilla</a>
+                                                                                                                </button>
+                                                                                                            </div>
+                                                                                                        </div>
                                                                                                     </ng-template>
                                                                                                 </td>
                                                                                             </tr>

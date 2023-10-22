@@ -11,6 +11,7 @@ import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.
 import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
 import { async } from 'rxjs';
 import { data } from 'jquery';
+import { Dialog } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'alumno',
@@ -48,7 +49,7 @@ export class DetalleAlumnoComponent implements OnInit{
 
   fechasSeleccionadas: Date[][] = [];
 
-  documentos_enviados:any = [];
+  documentos_enviados:any = {};
 
   warning_text:string = "No puede finalizar la práctica hasta que subas todos los documentos solicitados";
 
@@ -131,7 +132,7 @@ export class DetalleAlumnoComponent implements OnInit{
             }
           }
         });
-        console.log("Practicas Correspondientes:",this.practicas_correspondiente_nombre)
+        //console.log("Practicas Correspondientes:",this.practicas_correspondiente_nombre)
         //console.log("Nombres de configuraciones de practica:",this.nombres_config_practica)
 
         // Request para obtener todas las practicas de acuerdo al id del estudiante
@@ -145,7 +146,7 @@ export class DetalleAlumnoComponent implements OnInit{
             let index = 0;
 
             // Guardar nombres y practicas en un arreglo
-            this.practicas.forEach(async (element: any) => {
+            this.practicas.forEach(async (practica_aux: any) => {
               
 
               index += 1; 
@@ -153,17 +154,17 @@ export class DetalleAlumnoComponent implements OnInit{
               //console.log("practica:",element.modalidad.config_practica.nombre)
               // Para cada practica que el alumno tiene, encontrar el nombre de la configuracion de practica en el arreglo
               // de nombres y agregar la practica en el arreglo que se encarga de mantener la correspondencia entre nombre y practica
-              if(element.modalidad.config_practica.nombre == this.nombres_config_practica.find((elemento: any) => elemento == element.modalidad.config_practica.nombre)){
-                let index = this.nombres_config_practica.indexOf(element.modalidad.config_practica.nombre);
-                element.documentos.map((doc:any) => {
+              if(practica_aux.modalidad.config_practica.nombre == this.nombres_config_practica.find((elemento: any) => elemento == practica_aux.modalidad.config_practica.nombre)){
+                let index = this.nombres_config_practica.indexOf(practica_aux.modalidad.config_practica.nombre);
+                practica_aux.documentos.map((doc:any) => {
                   // Cambiar además las strings de tipo_archivo a un arreglo de strings
                   doc.solicitud_documento.tipo_archivo = doc.solicitud_documento.tipo_archivo.split(",");                  
                   return doc;
                 });
-                this.practicas_correspondiente_nombre[index].push(element);  
+                this.practicas_correspondiente_nombre[index].push(practica_aux);  
 
-                if(element.informes.length > 0 && element.modalidad.config_practica.frecuencia_informes == "diario"){
-                  for(var informe of element.informes){
+                if(practica_aux.informes.length > 0 && practica_aux.modalidad.config_practica.frecuencia_informes == "diario"){
+                  for(var informe of practica_aux.informes){
                     //console.log("informe:",informe.fecha)
                     if(informe.fecha != null){
                       informe.fecha = informe.fecha.split("T")[0];
@@ -175,33 +176,45 @@ export class DetalleAlumnoComponent implements OnInit{
                 }            
               }
               // request para obtener todas las solicitudes_documentos de la practica actual
+              
 
-              await new Promise( (resolve) => {this.service_datos.obtener_solicitudes_documentos_practica(element.modalidad.config_practica.id, element.id).subscribe({
+              await new Promise( (resolve) => {this.service_datos.obtener_solicitudes_documentos_practica(practica_aux.modalidad.config_practica.id, practica_aux.id).subscribe({
                 next: (data: any) => {
                   respuesta = { ...respuesta, ...data }
                 },
                 error: (error: any) => console.log(error),
                 complete: () => {
-                  this.solicitudes_practicas[element.id] = respuesta.body;
+                  this.solicitudes_practicas[practica_aux.id] = respuesta.body;
 
-                  let flag = 0;
-                  for(let practica of this.practicas){
-                    for(let soli of this.solicitudes_practicas[practica.id]){
+
+                  let faltan_documentos = 0;
+                  for(let practica of this.practicas_correspondiente_nombre){
+                    for(let soli of this.solicitudes_practicas[practica_aux.id]){
                       if(soli.documentos.length == 0){
-                        flag = 1;
-                        this.documentos_enviados.push(0);
+                        faltan_documentos = 1;
+                        this.documentos_enviados[practica_aux.id] = 0;
                         break;
                       } 
                     }
-                    for (let docuex of practica.documento_extras){
+                    for (let docuex of practica_aux.documento_extras){
                       if(docuex.key == null){
-                        flag = 1;
-                        this.documentos_enviados.push(0);
+                        faltan_documentos = 1;
+                        this.documentos_enviados[practica_aux.id] = 0;
+                        break;
                       }
                     }
-                    if(flag == 0){this.documentos_enviados.push(1);}
+                    for (let informe of practica_aux.informes){
+                      if((informe.config_informe.tipo_informe).toLowerCase() == "informe final"){
+                        if(informe.key == null || informe.key == undefined || Object.keys(informe.key).length == 0){
+                          faltan_documentos = 1;
+                          this.documentos_enviados[practica_aux.id] = 0;
+                          break;
+                        }
+                      }
+                    }
+                    if(faltan_documentos == 0){this.documentos_enviados[practica_aux.id] = 1;}
                   }
-                  //console.log(this.documentos_enviados)
+                  //console.log("DOCUMENTOS ENVIADOS",this.documentos_enviados)
                   //console.log("Solicitudes:", this.solicitudes_practicas)
                   resolve(true);
                 }
@@ -454,6 +467,47 @@ export class DetalleAlumnoComponent implements OnInit{
       panelClass: ['red-snackbar'],
       duration: 2000
     });
+  }
+
+  eliminarArchivoInformeFinal(id_informe: any){
+    // show a dialog to confirm the action
+    window.confirm("¿Está seguro que desea eliminar el informe final subido?");
+
+    // if confirmed, delete the informe_final with the id_informe
+    // if not confirmed, do nothing
+
+    let respuesta: any = {};
+    
+    this.service_gestion.eliminar_informe_final(id_informe).subscribe({
+      next: (data: any) => {
+        respuesta = { ...respuesta, ...data }
+      },
+      error: (error: any) => console.log("Error en eliminar informe final:",error),
+      complete: () => {
+        //console.log("Respuesta eliminar informe final:",respuesta);
+        this._snackBar.open("Informe final eliminado correctamente", "Cerrar", {
+          panelClass: ['green-snackbar'],
+          duration: 2000
+        });
+        // after 2 seconds reload the page
+        setTimeout(() => {
+          // check if the url has any query params, if it does, remove them
+          let currentUrl = this.router.url;
+          if(currentUrl.includes("?")){
+            currentUrl = currentUrl.split("?")[0];
+            if(currentUrl.includes("%")){
+              currentUrl = currentUrl.split("%")[0];
+            }
+            window.location.href = currentUrl;
+          }
+          else{
+            window.location.reload();    
+          }
+        }
+        , 2000);
+      }
+    });
+    
   }
 }
 

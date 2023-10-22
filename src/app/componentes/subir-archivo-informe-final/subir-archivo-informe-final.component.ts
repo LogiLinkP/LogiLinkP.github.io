@@ -28,6 +28,7 @@ export interface DialogData {
 export class SubirArchivoInformeFinalComponent {
 
   @Input() id_informe: number = 0;
+  @Input() tipo_archivo: string = "";
 
   constructor(public dialog: MatDialog, private _snackBar: MatSnackBar, private archivo_service: ArchivosService, private router: Router, private service_gestion: GestionarService) { }
 
@@ -47,7 +48,8 @@ export class SubirArchivoInformeFinalComponent {
   }
 
   subir_archivos() {
-    let formatos = ["pdf", "doc", "docx"]
+    let formatos = this.tipo_archivo.split(",");
+    console.log("Formatos permitidos:",formatos);
     const dialogRef = this.dialog.open(Dialog3, {
       width: '400px',
       enterAnimationDuration: "100ms",
