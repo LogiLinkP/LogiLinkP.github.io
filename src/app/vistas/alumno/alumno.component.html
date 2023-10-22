@@ -457,15 +457,17 @@
                                                                                 <div class="text-center">
                                                                                     <div
                                                                                         *ngIf="informe?.config_informe?.archivo_o_encuesta == 'encuesta'; else informeArchivo">
+                                                                                        <div class="mb-2"  *ngIf="!informe.key || isEmptyObject(informe.key);">Encuesta de informe final no respondida aún</div>
                                                                                         <button
-                                                                                            *ngIf="!informe.key || isEmptyObject(informe.key); else yaSeSubio"
-                                                                                            class="btn btn-primary btn-sm btn-block"
+                                                                                            *ngIf="!informe.key || isEmptyObject(informe.key); else yaSeSubio1"
+                                                                                            class="btn btn-primary btn-sm "
                                                                                             (click)="redirigir_a_ingreso_informe(informe.id)">Responder</button>
-                                                                                        <ng-template #yaSeSubio>
+                                                                                        <ng-template #yaSeSubio1>
+                                                                                            <div class="mb-2"  *ngIf="!informe.key || isEmptyObject(informe.key);">Encuesta de informe final ya respondida</div>
                                                                                             <a class="nostyle"
                                                                                                 href="/estudiante-ver-informe/{{practica[1].id}}/{{informe.id}}">
                                                                                                 <button
-                                                                                                    class="btn btn-primary btn-sm btn-block">
+                                                                                                    class="btn btn-primary btn-sm">
                                                                                                     Ver
                                                                                                     Informe
                                                                                                 </button>
@@ -478,12 +480,12 @@
                                                                                                 class="col-12 text-center">
                                                                                                 <div class="mb-2"  *ngIf="!informe.key || isEmptyObject(informe.key);">Informe final no subido aún</div>
                                                                                                 <app-subir-archivo-informe-final
-                                                                                                    *ngIf="!informe.key || isEmptyObject(informe.key); else yaSeSubio"
+                                                                                                    *ngIf="!informe.key || isEmptyObject(informe.key); else yaSeSubio2"
                                                                                                     [id_informe]=informe.id
                                                                                                     [tipo_archivo]="informe.config_informe?.tipo_archivo">
                                                                                                     
                                                                                                 </app-subir-archivo-informe-final>
-                                                                                                <ng-template #yaSeSubio>
+                                                                                                <ng-template #yaSeSubio2>
                                                                                                     <div class="mb-2">Informe final ya subido</div>
                                                                                                     <button
                                                                                                         type="button"

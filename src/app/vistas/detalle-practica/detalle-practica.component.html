@@ -358,25 +358,33 @@
                                 <div class="collapse show" id="collapseCardInformeFinal">
                                     <div class="card-body">
                                         <div *ngIf="!isDataEmpty(informe_final); else NoHayInformeFinal">
-                                            <div class="row mb-4">
+                                            <div class="row">
                                                 <div class="col-12 text-center">
                                                     <div
                                                         *ngIf="!isDataEmpty(informe_final.key); else InformeFinalNoSubido">
-                                                        <button class="btn btn-primary btn-md"><a
+                                                        <button class="btn btn-primary btn-md" *ngIf="(informe_final.config_informe.archivo_o_encuesta).toLowerCase()=='archivo'; else informeFinalCuestionario"><a
                                                                 [href]="link_descarga_informe" style="color:white"
                                                                 target="_blank">
                                                                 Descargar Informe del Alumno
                                                             </a>
                                                         </button>
+                                                        <ng-template #informeFinalCuestionario>
+                                                            <button class="btn btn-primary btn-md" *ngIf="(informe_final.config_informe.archivo_o_encuesta).toLowerCase()=='encuesta'"><a
+                                                                    href="/informe/{{practica.id}}/{{informe_final.id}}"
+                                                                    style="color:white">
+                                                                    Ver Encuesta de Informe Final
+                                                                </a>
+                                                            </button>
+                                                        </ng-template>
                                                     </div>
                                                     <ng-template #InformeFinalNoSubido>
                                                         <div class="text-center">Informe final no subido aún.</div>
                                                     </ng-template>
                                                 </div>
                                             </div>
-                                            <div class="row">
+                                            <div class="row mt-4" *ngIf="!isDataEmpty(informe_final.config_informe.plantilla) && informe_final.config_informe.plantilla!=''">
                                                 <div class="col-md-12 text-center">
-                                                    <button class="btn btn-md btn-primary"><a
+                                                    <button class="btn btn-md btn-primary" ><a
                                                             [href]="link_descarga_plantilla" style="color:white"
                                                             target="_blank">Ver plantilla</a></button>
                                                 </div>
