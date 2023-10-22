@@ -9,6 +9,8 @@ import { BarraLateralService } from 'src/app/servicios/encargado/barra-lateral/b
 import { ConfigService } from 'src/app/servicios/encargado/config-practica/config.service';
 import { environment } from 'src/environments/environment';
 import { Express, response } from 'express'; //! NO BORRAR! SE MUERE TODO. PORQUE? NI IDEA, SALU2 // harold estuvo aquí
+import { EdicionService } from 'src/app/servicios/encargado/edicion-simple/edicion.service';
+import { log } from 'console';
 
 @Component({
     selector: 'app-configuracion-practica',
@@ -26,10 +28,11 @@ export class ConfiguracionPracticaComponent {
     archivo_plantilla: File | undefined;
     key_plantilla: string = "";
     link_descarga_plantilla:string = "";
+    tiene_alumnos: boolean = false;
 
     constructor(private _fb: FormBuilder, private cd: ChangeDetectorRef, @Inject(DOCUMENT) private document: Document,
         private serviceBarra: BarraLateralService, private _snackBar: MatSnackBar, private route: ActivatedRoute,
-        private serviceComplete: ConfigService, private router: Router) {
+        private serviceComplete: ConfigService, private router: Router, private serviceEdicion: EdicionService) {
         this.currentRoute = "";
         this.rutaAnterior = "";
 
@@ -201,7 +204,26 @@ export class ConfiguracionPracticaComponent {
                 complete: () => {
                     this.config = respuesta.body;
                     //console.log("request practica existente:", this.config);
-                    this.generarFormulario(this.config.id);
+
+                    let respuesta1: any = {};
+                    this.serviceEdicion.getConfigsConPractica(this.config.id).subscribe({
+                        next: (data: any) => {
+                            respuesta1 = { ...respuesta1, ...data }
+                        },
+                        error: (error: any) => {
+                            this._snackBar.open("Error al buscar estudiantes", "Cerrar", {
+                                duration: 3000,
+                                panelClass: ['red-snackbar']
+                            });
+                            console.log("Error al buscar estudiantes", error);
+                        },
+                        complete: () => {
+                            console.log("request:", respuesta1.body);
+                            this.tiene_alumnos = respuesta1.body.practicas.length > 0 ? true : false;
+                            console.log("tiene alumnos:", this.tiene_alumnos);
+                            this.generarFormulario(this.config.id);
+                        }
+                    });
                 }
             });
         }
@@ -304,7 +326,7 @@ export class ConfiguracionPracticaComponent {
                             });
                         },
                         complete: () => {
-                            console.log("request config informe:", respuesta.body);
+                            //console.log("request config informe:", respuesta.body);
 
                             //* guardar id's para poder actualizar mas tarde
                             for (let i = 0; i < respuesta.body.length; i++) {
@@ -314,7 +336,7 @@ export class ConfiguracionPracticaComponent {
                             //* set preguntas informe
                             if (respuesta.body?.length) { // el encargado seteó preguntas de informe
                                 for (let j = 0; j < respuesta.body.length; j++) {
-                                    if ( (respuesta.body[j]?.tipo_informe).toLowerCase() == "informe final" ){
+                                    if ( (respuesta.body[j]?.tipo_informe).toLowerCase() == "informe final" && (respuesta.body[j]?.archivo_o_encuesta) != null){
                                         if ( (respuesta.body[j]?.archivo_o_encuesta).toLowerCase() == "encuesta" ) {
                                             this.tipoInformeFinal = "encuesta";
                                         }
@@ -351,8 +373,8 @@ export class ConfiguracionPracticaComponent {
                                 }
                             }
 
-                            console.log("preguntas avance:", this.lista_preguntas_avance);
-                            console.log("preguntas final:", this.lista_preguntas_final);
+                            //console.log("preguntas avance:", this.lista_preguntas_avance);
+                            //console.log("preguntas final:", this.lista_preguntas_final);
 
                             //* set preguntas encuesta
                             this.serviceComplete.getPreguntaEncuestaFinal(id_config_practica).subscribe({
@@ -414,38 +436,38 @@ export class ConfiguracionPracticaComponent {
                                                         this.lista_tipo_solicitud_documentos.push(respuesta.body[i].tipo_archivo);
                                                     }
 
-                                                            //* set formulario
-                                                            this.fg = this._fb.group({
-                                                                opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
-                                                                opcion_horasFORM: this.opcion_horas,
-                                                                opcion_mesesFORM: this.opcion_meses,
+                                                    //* set formulario
+                                                    this.fg = this._fb.group({
+                                                        opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
+                                                        opcion_horasFORM: this.opcion_horas,
+                                                        opcion_mesesFORM: this.opcion_meses,
 
-                                                                nombrePractica: new FormControl(this.nombrePractica, Validators.required),
-                                                                cant_horas: this.cant_horas,
-                                                                cant_meses: this.cant_meses,
-                                                                horas: new FormControl(this.horas),
-                                                                meses: new FormControl(this.meses),
-                                                                frecuenciaInformes: new FormControl(this.frecuenciaInformes, Validators.required),
-                                                                informeFinal: new FormControl(this.informeFinal, Validators.required),
-                                                                tipoInformeFinal: new FormControl(this.tipoInformeFinal),
-                                                                formatoInformeFinal: new FormControl(this.formatoInformeFinal),
-                                                                plantillaInformeFinal: new FormControl(this.plantillaInformeFinal),
-                                                                opcion_pdf: new FormControl(this.opcion_pdf),
-                                                                opcion_word: new FormControl(this.opcion_word),
-                                                                //pregunta: this.preguntaFORM,
+                                                        nombrePractica: new FormControl(this.nombrePractica, Validators.required),
+                                                        cant_horas: this.cant_horas,
+                                                        cant_meses: this.cant_meses,
+                                                        horas: new FormControl(this.horas),
+                                                        meses: new FormControl(this.meses),
+                                                        frecuenciaInformes: new FormControl(this.frecuenciaInformes, Validators.required),
+                                                        informeFinal: new FormControl(this.informeFinal, Validators.required),
+                                                        tipoInformeFinal: new FormControl(this.tipoInformeFinal),
+                                                        formatoInformeFinal: new FormControl(this.formatoInformeFinal),
+                                                        plantillaInformeFinal: new FormControl(this.plantillaInformeFinal),
+                                                        opcion_pdf: new FormControl(this.opcion_pdf),
+                                                        opcion_word: new FormControl(this.opcion_word),
+                                                        //pregunta: this.preguntaFORM,
 
-                                                                preguntaFORM: this.pregunta,
+                                                        preguntaFORM: this.pregunta,
 
-                                                                arregloOpcionesPreguntas: this._fb.array([]),
-                                                                arregloHoras: this._fb.array([]),
-                                                                arregloMeses: this._fb.array([]),
+                                                        arregloOpcionesPreguntas: this._fb.array([]),
+                                                        arregloHoras: this._fb.array([]),
+                                                        arregloMeses: this._fb.array([]),
 
-                                                                //documentos
-                                                                nombre_solicitud_documentos: new FormControl(this.nombre_solicitud_documentos),
-                                                                descripcion_solicitud_documentos: new FormControl(this.descripcion_solicitud_documentos),
-                                                                tipo_solicitud_documentos: new FormControl(this.tipo_solicitud_documentos),
-                                                            });
-                                                            this.flag = true;
+                                                        //documentos
+                                                        nombre_solicitud_documentos: new FormControl(this.nombre_solicitud_documentos),
+                                                        descripcion_solicitud_documentos: new FormControl(this.descripcion_solicitud_documentos),
+                                                        tipo_solicitud_documentos: new FormControl(this.tipo_solicitud_documentos),
+                                                    });
+                                                    this.flag = true;
                                                 }
                                             });
                                         }

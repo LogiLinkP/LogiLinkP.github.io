@@ -29,7 +29,7 @@
                                 <h2 class="m-0 font-weight-bold text-primary">{{config.nombre}}</h2>
                                 <!-- <div class="m-0 text-gray-800">Estado: No iniciada</div> -->
                             </a>
-                            <div class="collapse" id="{{ 'card' + i }}"> 
+                            <div class="collapse show" id="{{ 'card' + i }}"> 
                                 <!-- Tarjeta interna total-->
                                 <div class="card-body">
                                     <div class="row">
@@ -82,6 +82,9 @@
                                                         {{modalidad.cantidad_tiempo}}
                                                         {{modalidad.tipo_modalidad}}
                                                     </p>
+                                                </div>
+                                                <div class="card-footer" >
+                                                    <span class="btn btn-primary disabled-button" matTooltip="{{string_bloqueo}}">Editar</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -267,8 +270,8 @@
                                         <!-- sub tarjetas informes con for-->
                                         <div class="card-body col-6" *ngFor="let config_informe of practica_default.config_informes; let j = index">
                                             <div class="card shadow mb-4" 
-                                                *ngIf="(config_informe.tipo_informe=='Informe avance' && crearForm.value.frecuencia_informes!='sinAvance')
-                                                        || (config_informe.tipo_informe=='Informe final' && crearForm.value.informe_final=='si')">
+                                                *ngIf="(config_informe.tipo_informe=='informe avance' && crearForm.value.frecuencia_informes!='sinAvance')
+                                                        || (config_informe.tipo_informe=='informe final' && crearForm.value.informe_final=='si')">
                                                 <div class="card-header py-3">
                                                     <h4 class="m-0 font-weight-bold text-primary">
                                                         {{config_informe.tipo_informe}}
@@ -367,6 +370,7 @@
 <app-edicion-simple-modal 
     [seccion]="seccion_edit"
     [practica]="practica_edit"
+    [tiene_alumnos]="tiene_alumnos"
     (completo)="editarSimple($event)">
 </app-edicion-simple-modal>
 

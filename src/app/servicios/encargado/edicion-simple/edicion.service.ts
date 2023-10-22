@@ -23,4 +23,13 @@ export class EdicionService {
 
     	return this._http.request(req);
     }
+
+	getConfigsConPractica(id_config_practica: number){
+		const req = new HttpRequest('GET', `${environment.url_back}/config_practica/configConPractica?id=${id_config_practica}`, {
+            responseType: 'json'
+        });
+		
+        return this._http.request(req);
+    }
+
 }

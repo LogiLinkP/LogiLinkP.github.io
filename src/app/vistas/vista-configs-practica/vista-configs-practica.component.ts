@@ -13,6 +13,7 @@ export class VistaConfigsPracticaComponent implements OnInit{
 	disabled: boolean = true; //const
 	string_bloqueo: string = "Se requiere usar la configuración avanzada"
 	crearForm: FormGroup;
+    tiene_alumnos: boolean = false;
 
 	practica_default = 
 	{
@@ -141,13 +142,13 @@ export class VistaConfigsPracticaComponent implements OnInit{
 				}
 
 				this.flag = true;
-				//console.log("configs: ", this.configs);
+				console.log("configs: ", this.configs);
 			}
 		});
 	}
 
 	ngOnInit(): void {
-        console.log("practica default: ", this.practica_default);
+        //console.log("practica default: ", this.practica_default);
 		//console.log(this.crearForm);
 		this.crearForm.valueChanges.subscribe(change => {
 			//console.log(change);
@@ -155,10 +156,27 @@ export class VistaConfigsPracticaComponent implements OnInit{
 	}
 
 	editarSimple(input: any) {
-		console.log("event: ", input);
-		console.log("practica", this.practica_edit_id);
-
+		//console.log("event: ", input);
+		//console.log("practica", this.practica_edit_id);
 		let id_practica: number = this.configs[this.practica_edit_id].id;
+
+        let respuesta1: any = {};
+        this.serviceEdicion.getConfigsConPractica(id_practica).subscribe({
+			next: (data: any) => {
+				respuesta1 = { ...respuesta1, ...data }
+			},
+			error: (error: any) => {
+				this.snackBar.open("Error al buscar estudiantes", "Cerrar", {
+					duration: 3000,
+					panelClass: ['red-snackbar']
+				});
+				console.log("Error al buscar estudiantes", error);
+			},
+			complete: () => {
+				//console.log("request:", respuesta1.body);
+                this.tiene_alumnos = respuesta1.body.practicas.length > 0 ? true : false;
+			}
+		});
 
 		let respuesta: any = {};
 		this.serviceEdicion.actualizarConfigPractica(id_practica, input[0], input[1], input[2]).subscribe({

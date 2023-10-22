@@ -3,13 +3,16 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Edición {{seccion}}</h5>
+                <div *ngIf="tiene_alumnos" class="alert alert-danger">
+                    <p>Los estudiantes que estén cursando (o hayan cursado) esta práctica quedarán con la versión anterior</p>
+                </div>
             </div>
             <div class="modal-body">
                 <form class="user" [formGroup]="editarForm">
                     <div class="form-group row">
                         <div class="col-12 mb-3 mb-sm-0">
                             <!-- NOMBRE -->
-                            <input type="text" class="form-control form-control-user" placeholder="Nombre" formControlName="nombre">
+                            <input type="text" class="form-control form-control-user" formControlName="nombre">
                             <div *ngIf="editarForm.controls['nombre'].invalid && (editarForm.controls['nombre'].dirty || editarForm.controls['nombre'].touched)"
                                 class="alert alert-danger">
                                 <div *ngIf="editarForm.controls['nombre'].errors?.['required']">
