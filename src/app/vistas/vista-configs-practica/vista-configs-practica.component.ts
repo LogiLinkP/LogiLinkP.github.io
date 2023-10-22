@@ -13,6 +13,11 @@ export class VistaConfigsPracticaComponent implements OnInit{
 	disabled: boolean = true; //const
 	string_bloqueo: string = "Se requiere usar la configuración avanzada"
 	crearForm: FormGroup;
+    archivo_plantilla: File | undefined;
+    key_plantilla: string = "";
+    link_descarga_plantilla:string = "";
+    plantillaInformeFinal:string = "no";
+    tipoInformeFinal: string = "encuesta";
 
 	practica_default = 
 	{
@@ -106,6 +111,9 @@ export class VistaConfigsPracticaComponent implements OnInit{
 	seccion_edit: string;
 	practica_edit_id: number;
 	practica_edit: any;
+
+    opcion_word: boolean = false;
+    opcion_pdf: boolean = false;
 	
 	constructor(private service: ConfigService, private serviceEdicion: EdicionService, private snackBar: MatSnackBar, private fb: FormBuilder) {
 		//console.log("user: ", this.user);
@@ -115,7 +123,11 @@ export class VistaConfigsPracticaComponent implements OnInit{
 			//meses: [meses, [Validators.required]],
 			//horas: [horas, [Validators.required]],
 			frecuencia_informes: [this.practica_default.frecuencia_informes, [Validators.required]],
-			informe_final: [this.practica_default.informe_final, [Validators.required]]
+			informe_final: [this.practica_default.informe_final, [Validators.required]],
+            plantillaInformeFinal: [this.plantillaInformeFinal],
+            opcion_word: [this.opcion_word],
+            opcion_pdf: [this.opcion_pdf],
+            tipoInformeFinal: [this.tipoInformeFinal]
 		});
 
 		let respuesta: any = {};
@@ -217,7 +229,12 @@ export class VistaConfigsPracticaComponent implements OnInit{
                 }
                 let datos_informe = this.practica_default.config_informes;
                 for (let i = 0; i < datos_informe.length; i++) {
-                    this.crearConfigInforme(respuesta.body.id, datos_informe[i].tipo_informe, datos_informe[i].pregunta_informes);
+                    if (datos_informe[i].tipo_informe == "informe final"){
+                        this.crearConfigInforme(respuesta.body.id, datos_informe[i].tipo_informe, datos_informe[i].pregunta_informes, this.crearForm.value.tipoInformeFinal);
+                    }
+                    else{
+                        this.crearConfigInforme(respuesta.body.id, datos_informe[i].tipo_informe, datos_informe[i].pregunta_informes);
+                    }
                 }
                 setTimeout(() => {
                 	window.location.reload();
@@ -246,29 +263,55 @@ export class VistaConfigsPracticaComponent implements OnInit{
         });
     }
 
-    crearConfigInforme(id_config_practica: number, tipoInforme: string, preguntas: any) {
-        let respuesta: any = {};
-
-        if (tipoInforme == "Informe final") {
-            this.service.crearConfigInforme(id_config_practica, tipoInforme, this.practica_default.config_informes[1].archivo_o_encuesta).subscribe({
-                next: (data: any) => {
-                    respuesta = { ...respuesta, ...data }
-                },
-                error: (error: any) => {
-                    this.snackBar.open("Error al guardar configuracion de informe", "Cerrar", {
-                        duration: 3500,
-                        panelClass: ['red-snackbar']
-                    });
-                    console.log("Error al guardar configuracion de informe", error);
-                },
-                complete: () => {
-                    //console.log("BUSACR EL ID: ", respuesta);
-                    for (let i = 0; i < preguntas.length; i++) {
-                        this.crearPreguntaInforme(respuesta.body.id, preguntas[i].enunciado, preguntas[i].tipo_respuesta, preguntas[i].opciones);
-                    }
+    crearConfigInforme(id_config_practica: number, tipoInforme: string, preguntas:any ,archivo_o_encuesta: string = "") {
+        let respuesta: any = {};        
+        if ((tipoInforme).toLocaleLowerCase() == "informe final") {
+            if ((archivo_o_encuesta).toLocaleLowerCase() == "archivo") {
+                let formatoInformeFinal = "";
+                if (this.crearForm.value.opcion_pdf == true) {
+                    formatoInformeFinal += "pdf,";
                 }
-            });
-            
+                if (this.crearForm.value.opcion_word == true) {
+                    formatoInformeFinal += "doc,docx,";
+                }
+                if (formatoInformeFinal.slice(-1) == ",") {
+                    formatoInformeFinal = formatoInformeFinal.slice(0, -1);
+                }
+                this.service.crearConfigInforme(id_config_practica, tipoInforme, archivo_o_encuesta, formatoInformeFinal, this.key_plantilla, this.archivo_plantilla).subscribe({
+                    next: (data: any) => {
+                        respuesta = { ...respuesta, ...data }
+                    },
+                    error: (error: any) => {
+                        this.snackBar.open("Error al guardar configuracion de informe", "Cerrar", {
+                            duration: 3500,
+                            panelClass: ['red-snackbar']
+                        });
+                        console.log("Error al guardar configuracion de informe", error);
+                    },
+                    complete: () => {
+                    }
+                });
+            }
+            else if(archivo_o_encuesta == "encuesta"){
+                this.service.crearConfigInforme(id_config_practica, tipoInforme, this.practica_default.config_informes[1].archivo_o_encuesta).subscribe({
+                    next: (data: any) => {
+                        respuesta = { ...respuesta, ...data }
+                    },
+                    error: (error: any) => {
+                        this.snackBar.open("Error al guardar configuracion de informe", "Cerrar", {
+                            duration: 3500,
+                            panelClass: ['red-snackbar']
+                        });
+                        console.log("Error al guardar configuracion de informe", error);
+                    },
+                    complete: () => {
+                        //console.log("BUSACR EL ID: ", respuesta);
+                        for (let i = 0; i < preguntas.length; i++) {
+                            this.crearPreguntaInforme(respuesta.body.id, preguntas[i].enunciado, preguntas[i].tipo_respuesta, preguntas[i].opciones);
+                        }
+                    }
+                });
+            }            
         }
         else{
             this.service.crearConfigInforme(id_config_practica, tipoInforme).subscribe({
@@ -353,6 +396,16 @@ export class VistaConfigsPracticaComponent implements OnInit{
                 console.log("Pregunta de supervisor guardada exitosamente");
             }
         });
+    }
+
+    recibirPlantillaInforme(data: any){
+        if (typeof(data) == "string"){
+            this.key_plantilla = data;
+        }
+        else if (typeof(data) == "object"){
+            this.archivo_plantilla = data;
+        }            
+        //console.log("key: ", this.key_plantilla, "archivo: ", this.archivo_plantilla);
     }
 
 }
