@@ -45,7 +45,8 @@
                                             <div class="row" *ngIf="practica[1].estado=='En curso'">
                                                 <div class="col-xl-9"></div>
                                                 <div class="col-xl-2">
-                                                    <div *ngIf="documentos_enviados[practica[1].id] == 1; else elsedocument">
+                                                    <div
+                                                        *ngIf="documentos_enviados[practica[1].id] == 1; else elsedocument">
                                                         <button type="button" class="btn btn-primary btn-lg btn-block"
                                                             (click)="finalizar_practica(practica[1])">
                                                             Finalizar Práctica</button>
@@ -211,83 +212,92 @@
                                                                                         <tbody>
                                                                                             <tr
                                                                                                 *ngFor="let informe of practica[1].informes;">
-                                                                                                <td
-                                                                                                    *ngIf="informe?.config_informe?.tipo_informe == 'informe final'">
-                                                                                                    <b>{{informe?.config_informe?.tipo_informe}}</b>
-                                                                                                </td>
-                                                                                                <ng-template>
-                                                                                                    <td>
-                                                                                                        {{informe?.config_informe?.tipo_informe}}
+                                                                                                <ng-container
+                                                                                                    *ngIf="informe?.config_informe?.tipo_informe != 'informe final'">
+                                                                                                    <td style="width:40%"
+                                                                                                        *ngIf="informe?.config_informe?.tipo_informe == 'informe final'">
+                                                                                                        <b>{{informe?.config_informe?.tipo_informe}}</b>
                                                                                                     </td>
-                                                                                                </ng-template>
-                                                                                                <!--<td>{{ informe?.horas_trabajadas }}</td>-->
-                                                                                                <td>{{ informe?.fecha |
-                                                                                                    date: 'dd/MM/yyyy'
-                                                                                                    }}</td>
-                                                                                                <!--<td><button class="btn btn-primary btn-sm btn-block" (click)="mostrar_informe(practica[1].informes,informe.id)">Ver
-                                                                                                    Informe</button></td>-->
-                                                                                                <td class="text-center">
-                                                                                                    <div
-                                                                                                        *ngIf="informe?.config_informe?.archivo_o_encuesta == 'encuesta'; else informeArchivo">
-                                                                                                        <button
-                                                                                                            *ngIf="!informe.key || isEmptyObject(informe.key); else yaSeSubio"
-                                                                                                            class="btn btn-primary btn-sm btn-block"
-                                                                                                            (click)="redirigir_a_ingreso_informe(informe.id)">Responder</button>
-                                                                                                        <ng-template
-                                                                                                            #yaSeSubio>
-                                                                                                            <a class="nostyle"
-                                                                                                                href="/estudiante-ver-informe/{{practica[1].id}}/{{informe.id}}">
-                                                                                                                <button
-                                                                                                                    class="btn btn-primary btn-sm btn-block">
-                                                                                                                    Ver
-                                                                                                                    Informe
-                                                                                                                </button>
-                                                                                                            </a>
-                                                                                                        </ng-template>
-                                                                                                    </div>
-
-                                                                                                    <ng-template
-                                                                                                        #informeArchivo>
-                                                                                                        <div
-                                                                                                            class="row">
-                                                                                                            <div
-                                                                                                                class="col-12 text-center">
-                                                                                                                <app-subir-archivo-informe-final
-                                                                                                                    *ngIf="!informe.key || isEmptyObject(informe.key); else yaSeSubio"
-                                                                                                                    [id_informe]=informe.id
-                                                                                                                    [tipo_archivo]="informe.config_informe?.tipo_archivo">
-                                                                                                                </app-subir-archivo-informe-final>
-                                                                                                                <ng-template
-                                                                                                                    #yaSeSubio>
-                                                                                                                    <button
-                                                                                                                        type="button"
-                                                                                                                        class="btn btn-primary btn-sm mr-1 ml-1">
-                                                                                                                        <a [href]="'https://d2v9ocre132gvc.cloudfront.net/'+informe?.key?.filename"
-                                                                                                                            target="_blank"
-                                                                                                                            style="color:white">Descargar</a>
-                                                                                                                    </button>
-                                                                                                                    <button
-                                                                                                                        class="btn btn-danger btn-sm" (click)="eliminarArchivoInformeFinal(informe.id)">Eliminar</button>
-                                                                                                                </ng-template>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                        <div
-                                                                                                            class="row">
-                                                                                                            <div
-                                                                                                                class="col-12 text-center">
-                                                                                                                <button
-                                                                                                                    *ngIf="informe.config_informe?.plantilla!=null && informe.config_informe?.plantilla!=''"
-                                                                                                                    type="button"
-                                                                                                                    class="btn btn-primary btn-sm mt-2">
-                                                                                                                    <a [href]="'https://d2v9ocre132gvc.cloudfront.net/'+informe.config_informe?.plantilla"
-                                                                                                                        target="_blank"
-                                                                                                                        style="color:white">Ver
-                                                                                                                        plantilla</a>
-                                                                                                                </button>
-                                                                                                            </div>
-                                                                                                        </div>
+                                                                                                    <ng-template>
+                                                                                                        <td
+                                                                                                            style="width:40%">
+                                                                                                            {{informe?.config_informe?.tipo_informe}}
+                                                                                                        </td>
                                                                                                     </ng-template>
-                                                                                                </td>
+                                                                                                    <!--<td>{{ informe?.horas_trabajadas }}</td>-->
+                                                                                                    <td
+                                                                                                        style="width:30%">
+                                                                                                        {{
+                                                                                                        informe?.fecha |
+                                                                                                        date:
+                                                                                                        'dd/MM/yyyy'
+                                                                                                        }}</td>
+                                                                                                    <!--<td><button class="btn btn-primary btn-sm btn-block" (click)="mostrar_informe(practica[1].informes,informe.id)">Ver
+                                                                                                    Informe</button></td>-->
+                                                                                                    <td class="text-center"
+                                                                                                        style="width:30%">
+                                                                                                        <div
+                                                                                                            *ngIf="informe?.config_informe?.archivo_o_encuesta == 'encuesta'; else informeArchivo">
+                                                                                                            <button
+                                                                                                                *ngIf="!informe.key || isEmptyObject(informe.key); else yaSeSubio"
+                                                                                                                class="btn btn-primary btn-sm btn-block"
+                                                                                                                (click)="redirigir_a_ingreso_informe(informe.id)">Responder</button>
+                                                                                                            <ng-template
+                                                                                                                #yaSeSubio>
+                                                                                                                <a class="nostyle"
+                                                                                                                    href="/estudiante-ver-informe/{{practica[1].id}}/{{informe.id}}">
+                                                                                                                    <button
+                                                                                                                        class="btn btn-primary btn-sm btn-block">
+                                                                                                                        Ver
+                                                                                                                        Informe
+                                                                                                                    </button>
+                                                                                                                </a>
+                                                                                                            </ng-template>
+                                                                                                        </div>
+                                                                                                        <ng-template
+                                                                                                            #informeArchivo>
+                                                                                                            <div
+                                                                                                                class="row">
+                                                                                                                <div
+                                                                                                                    class="col-12 text-center">
+                                                                                                                    <app-subir-archivo-informe-final
+                                                                                                                        *ngIf="!informe.key || isEmptyObject(informe.key); else yaSeSubio"
+                                                                                                                        [id_informe]=informe.id
+                                                                                                                        [tipo_archivo]="informe.config_informe?.tipo_archivo">
+                                                                                                                    </app-subir-archivo-informe-final>
+                                                                                                                    <ng-template
+                                                                                                                        #yaSeSubio>
+                                                                                                                        <button
+                                                                                                                            type="button"
+                                                                                                                            class="btn btn-primary btn-sm mr-1 ml-1">
+                                                                                                                            <a [href]="'https://d2v9ocre132gvc.cloudfront.net/'+informe?.key?.filename"
+                                                                                                                                target="_blank"
+                                                                                                                                style="color:white">Descargar</a>
+                                                                                                                        </button>
+                                                                                                                        <button
+                                                                                                                            class="btn btn-danger btn-sm"
+                                                                                                                            (click)="eliminarArchivoInformeFinal(informe.id)">Eliminar</button>
+                                                                                                                    </ng-template>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div
+                                                                                                                class="row">
+                                                                                                                <div
+                                                                                                                    class="col-12 text-center">
+                                                                                                                    <button
+                                                                                                                        *ngIf="informe.config_informe?.plantilla!=null && informe.config_informe?.plantilla!=''"
+                                                                                                                        type="button"
+                                                                                                                        class="btn btn-primary btn-sm mt-2">
+                                                                                                                        <a [href]="'https://d2v9ocre132gvc.cloudfront.net/'+informe.config_informe?.plantilla"
+                                                                                                                            target="_blank"
+                                                                                                                            style="color:white">Ver
+                                                                                                                            plantilla</a>
+                                                                                                                    </button>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </ng-template>
+                                                                                                    </td>
+                                                                                                </ng-container>
                                                                                             </tr>
                                                                                         </tbody>
                                                                                     </table>
@@ -429,6 +439,88 @@
                                                                 </div>
                                                             </div>
 
+                                                            <!-- Tarjeta Ver Informes -->
+                                                            <div class="col-xl-6"
+                                                                *ngIf="practica[1].modalidad.config_practica.informe_final=='si'">
+                                                                <div class="card shadow mb-4">
+                                                                    <!-- Card Header - Accordion -->
+                                                                    <a class="card-header py-3">
+                                                                        <h4 class="m-0 font-weight-bold text-primary">
+                                                                            Informe Final</h4>
+                                                                    </a>
+                                                                    <!-- Card Content - Collapse -->
+                                                                    <div class="card-body overflow-auto">
+                                                                        <ng-container
+                                                                            *ngFor="let informe of practica[1].informes;">
+                                                                            <ng-container
+                                                                                *ngIf="informe?.config_informe?.tipo_informe == 'informe final'">
+                                                                                <div class="text-center">
+                                                                                    <div
+                                                                                        *ngIf="informe?.config_informe?.archivo_o_encuesta == 'encuesta'; else informeArchivo">
+                                                                                        <button
+                                                                                            *ngIf="!informe.key || isEmptyObject(informe.key); else yaSeSubio"
+                                                                                            class="btn btn-primary btn-sm btn-block"
+                                                                                            (click)="redirigir_a_ingreso_informe(informe.id)">Responder</button>
+                                                                                        <ng-template #yaSeSubio>
+                                                                                            <a class="nostyle"
+                                                                                                href="/estudiante-ver-informe/{{practica[1].id}}/{{informe.id}}">
+                                                                                                <button
+                                                                                                    class="btn btn-primary btn-sm btn-block">
+                                                                                                    Ver
+                                                                                                    Informe
+                                                                                                </button>
+                                                                                            </a>
+                                                                                        </ng-template>
+                                                                                    </div>
+                                                                                    <ng-template #informeArchivo>
+                                                                                        <div class="row">
+                                                                                            <div
+                                                                                                class="col-12 text-center">
+                                                                                                <div class="mb-2"  *ngIf="!informe.key || isEmptyObject(informe.key);">Informe final no subido aún</div>
+                                                                                                <app-subir-archivo-informe-final
+                                                                                                    *ngIf="!informe.key || isEmptyObject(informe.key); else yaSeSubio"
+                                                                                                    [id_informe]=informe.id
+                                                                                                    [tipo_archivo]="informe.config_informe?.tipo_archivo">
+                                                                                                    
+                                                                                                </app-subir-archivo-informe-final>
+                                                                                                <ng-template #yaSeSubio>
+                                                                                                    <div class="mb-2">Informe final ya subido</div>
+                                                                                                    <button
+                                                                                                        type="button"
+                                                                                                        class="btn btn-primary btn-sm mr-1 ml-1">
+                                                                                                        <a [href]="'https://d2v9ocre132gvc.cloudfront.net/'+informe?.key?.filename"
+                                                                                                            target="_blank"
+                                                                                                            style="color:white">Descargar</a>
+                                                                                                    </button>
+                                                                                                    <button
+                                                                                                        class="btn btn-danger btn-sm"
+                                                                                                        (click)="eliminarArchivoInformeFinal(informe.id)">Eliminar</button>
+                                                                                                </ng-template>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row">
+                                                                                            <div
+                                                                                                class="col-12 text-center">
+                                                                                                <button
+                                                                                                    *ngIf="informe.config_informe?.plantilla!=null && informe.config_informe?.plantilla!=''"
+                                                                                                    type="button"
+                                                                                                    class="btn btn-primary btn-sm mt-2">
+                                                                                                    <a [href]="'https://d2v9ocre132gvc.cloudfront.net/'+informe.config_informe?.plantilla"
+                                                                                                        target="_blank"
+                                                                                                        style="color:white">Ver
+                                                                                                        plantilla</a>
+                                                                                                </button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </ng-template>
+                                                                                </div>
+
+                                                                            </ng-container>
+                                                                        </ng-container>
+                                                                    </div>
+                                                                </div>
+                                                            </div><!-- Fin Tarjeta Informes -->
+
                                                         </div><!-- Fin Fila -->
 
 
@@ -484,7 +576,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div><!-- Fin de tarjeta de estructura interna -->
+                                                    </div><!-- Fin de tarjeta de aptitudes -->
+
+
 
                                                 </div>
                                             </div>
