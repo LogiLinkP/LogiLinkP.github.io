@@ -204,11 +204,15 @@
                                             <div class="col-6">
                                                 Correo Supervisor:
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-6" *ngIf="correo_verificado">
+                                                {{ practica?.supervisor?.correo }}
+                                            </div>
+                                            <div class="col-6 alert alert-warning" *ngIf="!correo_verificado">
+                                                <i class="fa-solid fa-triangle-exclamation"></i>
                                                 {{ practica?.supervisor?.correo }}
                                             </div>
                                             <div class="col-6">
-                                                ¿Empresa verificada?:
+                                                Empresa verificada:
                                             </div>
                                             <div class="col-6">
                                                 <i *ngIf="practica?.empresa?.empresa_verificada"
