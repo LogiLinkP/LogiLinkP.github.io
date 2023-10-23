@@ -25,7 +25,7 @@ export class ConfiguracionPracticaComponent {
     user: any = JSON.parse(localStorage.getItem('auth-user') || "{}").userdata;
     archivo_plantilla: File | undefined;
     key_plantilla: string = "";
-    link_descarga_plantilla:string = "";
+    link_descarga_plantilla: string = "";
 
     hay_doc_direst: boolean = false;
 
@@ -329,11 +329,11 @@ export class ConfiguracionPracticaComponent {
                             //* set preguntas informe
                             if (respuesta.body?.length) { // el encargado seteó preguntas de informe
                                 for (let j = 0; j < respuesta.body.length; j++) {
-                                    if ( (respuesta.body[j]?.tipo_informe).toLowerCase() == "informe final" && (respuesta.body[j]?.archivo_o_encuesta) != null){
-                                        if ( (respuesta.body[j]?.archivo_o_encuesta).toLowerCase() == "encuesta" ) {
+                                    if ((respuesta.body[j]?.tipo_informe).toLowerCase() == "informe final" && (respuesta.body[j]?.archivo_o_encuesta) != null) {
+                                        if ((respuesta.body[j]?.archivo_o_encuesta).toLowerCase() == "encuesta") {
                                             this.tipoInformeFinal = "encuesta";
                                         }
-                                        else if ( (respuesta.body[j]?.archivo_o_encuesta).toLowerCase() == "archivo" ) {
+                                        else if ((respuesta.body[j]?.archivo_o_encuesta).toLowerCase() == "archivo") {
                                             this.tipoInformeFinal = "archivo";
                                             if (respuesta.body[j]?.tipo_archivo.includes("pdf")) {
                                                 this.opcion_pdf = true;
@@ -341,7 +341,7 @@ export class ConfiguracionPracticaComponent {
                                             if (respuesta.body[j]?.tipo_archivo.includes("doc")) {
                                                 this.opcion_word = true;
                                             }
-                                            if (respuesta.body[j]?.plantilla != "" ){
+                                            if (respuesta.body[j]?.plantilla != "") {
                                                 this.plantillaInformeFinal = "si";
                                                 this.key_plantilla = respuesta.body[j].plantilla;
                                                 this.link_descarga_plantilla = "https://d2v9ocre132gvc.cloudfront.net/" + this.key_plantilla;
@@ -444,7 +444,7 @@ export class ConfiguracionPracticaComponent {
                                                         //pregunta: this.preguntaFORM,
 
                                                         preguntaFORM: this.pregunta,
-                                                        aptitudFORM: this.aptitud,
+                                                        // aptitudFORM: this.aptitud,
 
                                                         arregloOpcionesPreguntas: this._fb.array([]),
                                                         arregloHoras: this._fb.array([]),
@@ -459,38 +459,38 @@ export class ConfiguracionPracticaComponent {
                                                         hay_doc_direst: new FormControl(this.hay_doc_direst)
                                                     });
                                                     this.flag = true;
-                                                            //* set formulario
-                                                            this.fg = this._fb.group({
-                                                                opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
-                                                                opcion_horasFORM: this.opcion_horas,
-                                                                opcion_mesesFORM: this.opcion_meses,
+                                                    //* set formulario
+                                                    this.fg = this._fb.group({
+                                                        opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
+                                                        opcion_horasFORM: this.opcion_horas,
+                                                        opcion_mesesFORM: this.opcion_meses,
 
-                                                                nombrePractica: new FormControl(this.nombrePractica, Validators.required),
-                                                                cant_horas: this.cant_horas,
-                                                                cant_meses: this.cant_meses,
-                                                                horas: new FormControl(this.horas),
-                                                                meses: new FormControl(this.meses),
-                                                                frecuenciaInformes: new FormControl(this.frecuenciaInformes, Validators.required),
-                                                                informeFinal: new FormControl(this.informeFinal, Validators.required),
-                                                                tipoInformeFinal: new FormControl(this.tipoInformeFinal),
-                                                                formatoInformeFinal: new FormControl(this.formatoInformeFinal),
-                                                                plantillaInformeFinal: new FormControl(this.plantillaInformeFinal),
-                                                                opcion_pdf: new FormControl(this.opcion_pdf),
-                                                                opcion_word: new FormControl(this.opcion_word),
-                                                                //pregunta: this.preguntaFORM,
+                                                        nombrePractica: new FormControl(this.nombrePractica, Validators.required),
+                                                        cant_horas: this.cant_horas,
+                                                        cant_meses: this.cant_meses,
+                                                        horas: new FormControl(this.horas),
+                                                        meses: new FormControl(this.meses),
+                                                        frecuenciaInformes: new FormControl(this.frecuenciaInformes, Validators.required),
+                                                        informeFinal: new FormControl(this.informeFinal, Validators.required),
+                                                        tipoInformeFinal: new FormControl(this.tipoInformeFinal),
+                                                        formatoInformeFinal: new FormControl(this.formatoInformeFinal),
+                                                        plantillaInformeFinal: new FormControl(this.plantillaInformeFinal),
+                                                        opcion_pdf: new FormControl(this.opcion_pdf),
+                                                        opcion_word: new FormControl(this.opcion_word),
+                                                        //pregunta: this.preguntaFORM,
 
-                                                                preguntaFORM: this.pregunta,
+                                                        preguntaFORM: this.pregunta,
 
-                                                                arregloOpcionesPreguntas: this._fb.array([]),
-                                                                arregloHoras: this._fb.array([]),
-                                                                arregloMeses: this._fb.array([]),
+                                                        arregloOpcionesPreguntas: this._fb.array([]),
+                                                        arregloHoras: this._fb.array([]),
+                                                        arregloMeses: this._fb.array([]),
 
-                                                                //documentos
-                                                                nombre_solicitud_documentos: new FormControl(this.nombre_solicitud_documentos),
-                                                                descripcion_solicitud_documentos: new FormControl(this.descripcion_solicitud_documentos),
-                                                                tipo_solicitud_documentos: new FormControl(this.tipo_solicitud_documentos),
-                                                            });
-                                                            this.flag = true;
+                                                        //documentos
+                                                        nombre_solicitud_documentos: new FormControl(this.nombre_solicitud_documentos),
+                                                        descripcion_solicitud_documentos: new FormControl(this.descripcion_solicitud_documentos),
+                                                        tipo_solicitud_documentos: new FormControl(this.tipo_solicitud_documentos),
+                                                    });
+                                                    this.flag = true;
                                                 }
                                             });
                                         }
@@ -593,13 +593,13 @@ export class ConfiguracionPracticaComponent {
             this.estado = "solicitud_documentos";
             //console.log("documentos");
         }
-        else if (this.frecuenciaInformes == "sinAvance" && this.informeFinal == "si" ) {
-            if (this.tipoInformeFinal == "encuesta"){
+        else if (this.frecuenciaInformes == "sinAvance" && this.informeFinal == "si") {
+            if (this.tipoInformeFinal == "encuesta") {
                 this.estado = "informe_final_encuesta";
             }
-            else if (this.tipoInformeFinal == "archivo"){
+            else if (this.tipoInformeFinal == "archivo") {
                 this.estado = "informe_final_archivo";
-            }            
+            }
             console.log("informe final", this.tipoInformeFinal);
         }
         else if (this.frecuenciaInformes != "sinAvance") {
@@ -862,10 +862,10 @@ export class ConfiguracionPracticaComponent {
 
     avanzarDesdePreguntasAvance() {
         if (this.informeFinal == "si") {
-            if (this.tipoInformeFinal == "encuesta"){
+            if (this.tipoInformeFinal == "encuesta") {
                 this.estado = "informe_final_encuesta";
             }
-            else if (this.tipoInformeFinal == "archivo"){
+            else if (this.tipoInformeFinal == "archivo") {
                 this.estado = "informe_final_archivo";
             }
         }
@@ -920,10 +920,10 @@ export class ConfiguracionPracticaComponent {
         //volver desde solicitud de documentos
         else if (this.estado == "solicitud_documentos") {
             if (this.informeFinal == "si") {
-                if (this.tipoInformeFinal == "encuesta"){
+                if (this.tipoInformeFinal == "encuesta") {
                     this.estado = "informe_final_encuesta";
                 }
-                else if (this.tipoInformeFinal == "archivo"){
+                else if (this.tipoInformeFinal == "archivo") {
                     this.estado = "informe_final_archivo";
                 }
             }
@@ -1232,7 +1232,7 @@ export class ConfiguracionPracticaComponent {
                     console.log("formato informe final: ", this.formatoInformeFinal);
                     console.log("key plantilla: ", this.key_plantilla);
                     console.log("archivo plantilla: ", this.archivo_plantilla);
-                    
+
                     this.crearConfigInforme(respuesta.body.id, "informe final", this.tipoInformeFinal, this.formatoInformeFinal, this.key_plantilla, this.archivo_plantilla);
                 }
                 if (this.frecuenciaInformes != "sinAvance") {
@@ -1309,48 +1309,47 @@ export class ConfiguracionPracticaComponent {
         }
     }
 
-    crearConfigInforme(id_config_practica: number, tipoInforme: string, archivo_o_encuesta: string = "", 
-                        tipo_archivo: string = "", plantilla: string = "", file_plantilla: File = new File([], "") {
+    crearConfigInforme(id_config_practica: number, tipoInforme: string, archivo_o_encuesta: string = "",
+        tipo_archivo: string = "", plantilla: string = "", file_plantilla: File = new File([], "")) {
 
         let prom: Promise<boolean> = new Promise((resolve: any, reject: any) => {
             let respuesta: any = {};
 
-            this.serviceComplete.crearConfigInforme(id_config_practica, tipoInforme, archivo_o_encuesta, 
-            tipo_archivo, plantilla, file_plantilla).subscribe({
-                next: (data: any) => {
-                    respuesta = { ...respuesta, ...data }
-                },
-                error: (error: any) => {
-                    reject(false);
-                    this._snackBar.open("Error al guardar configuracion de informe", "Cerrar", {
-                        duration: 3500,
-                        panelClass: ['red-snackbar']
-                    });
-                    console.log("Error al guardar configuracion de informe", error);
-                },
-                complete: () => {
-                    console.log("BUSACR EL ID: ", respuesta);
-                    if (tipoInforme == "informe final" && this.tipoInformeFinal == "encuesta") {
-                        for (let i = 0; i < this.lista_preguntas_final.length; i++) {
-                            //console.log("lista pregunta final: ", this.lista_preguntas_final[i], "tipos preguntas final: ", this.tipos_preguntas_final[i], "lista opciones preguntas final: ", this.lista_opciones_preguntas_final[i]);
-                            this.crearPreguntaInforme(respuesta.body.id, this.lista_preguntas_final[i], this.tipos_preguntas_final[i], this.lista_opciones_preguntas_final[i]);
+            this.serviceComplete.crearConfigInforme(id_config_practica, tipoInforme, archivo_o_encuesta,
+                tipo_archivo, plantilla, file_plantilla).subscribe({
+                    next: (data: any) => {
+                        respuesta = { ...respuesta, ...data }
+                    },
+                    error: (error: any) => {
+                        reject(false);
+                        this._snackBar.open("Error al guardar configuracion de informe", "Cerrar", {
+                            duration: 3500,
+                            panelClass: ['red-snackbar']
+                        });
+                        console.log("Error al guardar configuracion de informe", error);
+                    },
+                    complete: () => {
+                        console.log("BUSACR EL ID: ", respuesta);
+                        if (tipoInforme == "informe final" && this.tipoInformeFinal == "encuesta") {
+                            for (let i = 0; i < this.lista_preguntas_final.length; i++) {
+                                //console.log("lista pregunta final: ", this.lista_preguntas_final[i], "tipos preguntas final: ", this.tipos_preguntas_final[i], "lista opciones preguntas final: ", this.lista_opciones_preguntas_final[i]);
+                                this.crearPreguntaInforme(respuesta.body.id, this.lista_preguntas_final[i], this.tipos_preguntas_final[i], this.lista_opciones_preguntas_final[i]);
+                            }
                         }
-                    }
-                    if (tipoInforme == "informe avance") {
-                        for (let i = 0; i < this.lista_preguntas_avance.length; i++) {
-                            this.crearPreguntaInforme(respuesta.body.id, this.lista_preguntas_avance[i], this.tipos_preguntas_avance[i], this.lista_opciones_preguntas_avance[i]);
+                        if (tipoInforme == "informe avance") {
+                            for (let i = 0; i < this.lista_preguntas_avance.length; i++) {
+                                this.crearPreguntaInforme(respuesta.body.id, this.lista_preguntas_avance[i], this.tipos_preguntas_avance[i], this.lista_opciones_preguntas_avance[i]);
+                            }
                         }
+                        resolve(true);
                     }
-                    resolve(true);
-                }
-            });
+                });
         })
-
 
         if (tipoInforme == "informe final")
             this.timer_config_informe_inf_final = [prom];
         else
-            this.timer_config_informe_inf_avance = [prom]
+            this.timer_config_informe_inf_avance = [prom];
     }
 
     crearPreguntaInforme(id_config_informe: number, pregunta: string, tipo_pregunta: string, opciones: string) {
@@ -1589,13 +1588,13 @@ export class ConfiguracionPracticaComponent {
         this.hay_doc_direst = this.fg.value.hay_doc_direst;
     }
 
-    recibirPlantillaInforme(data: any){
-        if (typeof(data) == "string"){
+    recibirPlantillaInforme(data: any) {
+        if (typeof (data) == "string") {
             this.key_plantilla = data;
         }
-        else if (typeof(data) == "object"){
+        else if (typeof (data) == "object") {
             this.archivo_plantilla = data;
-        }            
+        }
         console.log("key: ", this.key_plantilla, "archivo: ", this.archivo_plantilla);
     }
 
