@@ -80,6 +80,9 @@
                                                         {{modalidad.tipo_modalidad}}
                                                     </p>
                                                 </div>
+                                                <div class="card-footer" >
+                                                    <span class="btn btn-primary disabled-button" matTooltip="{{string_bloqueo}}">Editar</span>
+                                                </div>
                                             </div>
                                         </div>
                                         <!-- sub tarjetas informes con for-->
@@ -387,11 +390,11 @@
                                             </div>
                                         </div>
                                         <!-- sub tarjetas informes con for-->
-                                        <div class="card-body col-6"
-                                            *ngFor="let config_informe of practica_default.config_informes; let j = index">
+                                        <div class="card-body col-6" *ngFor="let config_informe of practica_default.config_informes; let j = index">
                                             <div class="card shadow mb-4"
                                                 *ngIf="(config_informe.tipo_informe=='Informe avance' && crearForm.value.frecuencia_informes!='sinAvance')
                                                         || (config_informe.tipo_informe=='Informe final' && crearForm.value.informe_final=='si')">
+
                                                 <div class="card-header py-3">
                                                     <h4 class="m-0 font-weight-bold text-primary">
                                                         {{config_informe.tipo_informe}}

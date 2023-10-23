@@ -200,6 +200,7 @@
                                             <ng-template #no_hay_plagio>
                                                 <div class="col-6">No hay plagio</div>
                                             </ng-template>
+
                                             <div class="col-6">
                                                 Correo Supervisor:
                                             </div>
@@ -214,6 +215,10 @@
                                                     title="Empresa verificada" class="fa-solid fa-check"></i>
                                                 <i *ngIf="!practica?.empresa?.empresa_verificada"
                                                     title="Empresa no verificada" class="fa-solid fa-times"></i>
+                                            </div
+
+                                            <div *ngIf="!activada" class="mt-3 mb-0 alert alert-warning">
+                                                <p>Este estudiante tiene una versión anterior de la práctica</p>
                                             </div>
                                         </div>
                                     </div>
