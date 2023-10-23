@@ -29,7 +29,7 @@
                                 <h2 class="m-0 font-weight-bold text-primary">{{config.nombre}}</h2>
                                 <!-- <div class="m-0 text-gray-800">Estado: No iniciada</div> -->
                             </a>
-                            <div class="collapse show" id="{{ 'card' + i }}"> 
+                            <div class="collapse" id="{{ 'card' + i }}"> 
                                 <!-- Tarjeta interna total-->
                                 <div class="card-body">
                                     <div class="row">
@@ -370,7 +370,6 @@
 <app-edicion-simple-modal 
     [seccion]="seccion_edit"
     [practica]="practica_edit"
-    [tiene_alumnos]="tiene_alumnos"
     (completo)="editarSimple($event)">
 </app-edicion-simple-modal>
 

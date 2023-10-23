@@ -157,7 +157,7 @@ export class VistaConfigsPracticaComponent implements OnInit{
 
 	editarSimple(input: any) {
 		//console.log("event: ", input);
-		//console.log("practica", this.practica_edit_id);
+		console.log("practica", this.practica_edit_id);
 		let id_practica: number = this.configs[this.practica_edit_id].id;
 
         let respuesta1: any = {};
@@ -178,26 +178,86 @@ export class VistaConfigsPracticaComponent implements OnInit{
 			}
 		});
 
-		let respuesta: any = {};
-		this.serviceEdicion.actualizarConfigPractica(id_practica, input[0], input[1], input[2]).subscribe({
-            next: (data: any) => {
-                respuesta = { ...respuesta, ...data }
-            },
-            error: (error: any) => {
-                this.snackBar.open("Error al actualizar configuración de práctica", "Cerrar", {
-                    duration: 3500,
-                    panelClass: ['red-snackbar']
-                });
-				console.log("Error al actualizar config practica", error);
-            },
-            complete: () => {
-                this.snackBar.open("Configuración de práctica actualizada exitosamente", "Cerrar", {
-                    duration: 3500,
-                    panelClass: ['green-snackbar']
-                });
-				window.location.reload();
-            }
-        });
+        if (!this.tiene_alumnos) {
+            let respuesta: any = {};
+            this.serviceEdicion.actualizarConfigPractica(id_practica, input[0], input[1], input[2]).subscribe({
+                next: (data: any) => {
+                    respuesta = { ...respuesta, ...data }
+                },
+                error: (error: any) => {
+                    this.snackBar.open("Error al actualizar configuración de práctica", "Cerrar", {
+                        duration: 3500,
+                        panelClass: ['red-snackbar']
+                    });
+                    console.log("Error al actualizar config practica", error);
+                },
+                complete: () => {
+                    this.snackBar.open("Configuración de práctica actualizada exitosamente", "Cerrar", {
+                        duration: 3500,
+                        panelClass: ['green-snackbar']
+                    });
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 3000);
+                }
+            });
+        } else {
+            let respuesta: any = {};
+            //desactivar practica actual
+            this.service.actualizarConfigPractica(id_practica, false).subscribe({
+                next: (data: any) => {
+                    respuesta = { ...respuesta, ...data }
+                },
+                error: (error: any) => {
+                    console.log("Error al desactivar config practica", error);
+                },
+                complete: () => {
+                    console.log("Configuración de práctica desactivada exitosamente");
+                }
+            });
+
+            //se crea una nueva
+            this.service.crearConfigPractica(input[0], input[1], input[2], this.user.encargado.id_carrera).subscribe({
+                next: (data: any) => {
+                    respuesta = { ...respuesta, ...data }
+                },
+                error: (error: any) => {
+                    this.snackBar.open("Error al actualizar configuración de práctica", "Cerrar", {
+                        duration: 3500,
+                        panelClass: ['red-snackbar']
+                    });
+                    console.log("Error al crear config practica", error);
+                },
+                complete: () => {
+                    this.snackBar.open("Configuración de práctica actualizada exitosamente", "Cerrar", {
+                        duration: 3500,
+                        panelClass: ['green-snackbar']
+                    })
+                    //console.log("crear respuesta:", respuesta);
+                    let indice = this.practica_edit_id
+
+                    let datos_modalidad = this.configs[indice].modalidads;
+                    for (let i = 0; i < datos_modalidad.length; i++) {
+                        this.tablaModalidad(id_practica, datos_modalidad[i].tipo_modalidad, datos_modalidad[i].cantidad_tiempo);
+                    }
+                    let datos_encuesta = this.configs[indice].pregunta_encuesta_finals;
+                    for (let i = 0; i < datos_encuesta.length; i++) {
+                        this.crearPreguntaEncuestaFinal(id_practica, datos_encuesta[i].enunciado, datos_encuesta[i].tipo_respuesta, datos_encuesta[i].opciones);
+                    }
+                    let datos_sup = this.configs[indice].pregunta_supervisors;
+                    for (let i = 0; i < datos_sup.length; i++) {
+                        this.crearPreguntaSupervisor(id_practica, datos_sup[i].enunciado, datos_sup[i].tipo_respuesta, datos_sup[i].opciones, false);
+                    }
+                    let datos_informe = this.configs[indice].config_informes;
+                    for (let i = 0; i < datos_informe.length; i++) {
+                        this.crearConfigInforme(id_practica, datos_informe[i].tipo_informe, datos_informe[i].pregunta_informes);
+                    }
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 3000);
+                }
+            });
+        }
 	}
 
 	crearSimple() {
