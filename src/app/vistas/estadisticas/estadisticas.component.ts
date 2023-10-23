@@ -572,42 +572,120 @@ export class EstadisticasComponent {
     }
   }
 
+  orden_nombre = ""
+  orden_promedio = ""
+
   sort(ordenar_por:string){
     //console.log("ordenar_por: ", ordenar_por);
 
     if(ordenar_por=="nombre"){
-      //ordenando aptitudes por nombre aptitudes
-      for (let i = 0; i < this.nombre_aptitudes.length; i++) {
-        for (let k = 0; k < this.nombre_aptitudes.length; k++) {
-          if (this.nombre_aptitudes[i] < this.nombre_aptitudes[k]) {
-            let aux = this.nombre_aptitudes[i];
-            this.nombre_aptitudes[i] = this.nombre_aptitudes[k];
-            this.nombre_aptitudes[k] = aux;
-  
-            let aux2 = this.promedio_aptitudes[i];
-            this.promedio_aptitudes[i] = this.promedio_aptitudes[k];
-            this.promedio_aptitudes[k] = aux2;
 
+      this.orden_promedio = ""
+
+      if (this.orden_nombre == "descendente" || this.orden_nombre == ""){
+        this.orden_nombre = "ascendente";
+        //ordenando aptitudes de forma ascendente por nombre aptitudes
+        for (let i = 0; i < this.nombre_aptitudes.length; i++) {
+          for (let k = 0; k < this.nombre_aptitudes.length; k++) {
+            if (this.nombre_aptitudes[i] < this.nombre_aptitudes[k]) {
+              let aux = this.nombre_aptitudes[i];
+              this.nombre_aptitudes[i] = this.nombre_aptitudes[k];
+              this.nombre_aptitudes[k] = aux;
+    
+              let aux2 = this.promedio_aptitudes[i];
+              this.promedio_aptitudes[i] = this.promedio_aptitudes[k];
+              this.promedio_aptitudes[k] = aux2;
+  
+            }
           }
         }
       }
+      else{
+        this.orden_nombre = "descendente";
+        //ordenando aptitudes de forma descendente por nombre aptitudes
+        for (let i = 0; i < this.nombre_aptitudes.length; i++) {
+          for (let k = 0; k < this.nombre_aptitudes.length; k++) {
+            if (this.nombre_aptitudes[i] > this.nombre_aptitudes[k]) {
+              let aux = this.nombre_aptitudes[i];
+              this.nombre_aptitudes[i] = this.nombre_aptitudes[k];
+              this.nombre_aptitudes[k] = aux;
+    
+              let aux2 = this.promedio_aptitudes[i];
+              this.promedio_aptitudes[i] = this.promedio_aptitudes[k];
+              this.promedio_aptitudes[k] = aux2;
+  
+            }
+          }
+        }
+      }
+
+  
       
       //console.log("nombre_aptitudes_ordenado: ", this.nombre_aptitudes)
       //console.log("promedio_aptitudes_ordenado: ", this.promedio_aptitudes)
     }
 
     else if(ordenar_por=="nota"){
-      //ordenando aptitudes por promedio aptitudes
-      for(let i = 0; i < this.promedio_aptitudes.length; i++){
-        for(let k = 0; k < this.promedio_aptitudes.length; k++){
-          if(this.promedio_aptitudes[i] > this.promedio_aptitudes[k]){
-            let aux = this.promedio_aptitudes[i];
-            this.promedio_aptitudes[i] = this.promedio_aptitudes[k];
-            this.promedio_aptitudes[k] = aux;
 
-            let aux2 = this.nombre_aptitudes[i];
-            this.nombre_aptitudes[i] = this.nombre_aptitudes[k];
-            this.nombre_aptitudes[k] = aux2;
+      this.orden_nombre = ""
+
+      if(this.orden_promedio == "descendente" || this.orden_promedio == ""){
+        this.orden_promedio = "ascendente";
+        //ordenando aptitudes de forma ascendente por promedio aptitudes
+        for(let i = 0; i < this.promedio_aptitudes.length; i++){
+          for(let k = 0; k < this.promedio_aptitudes.length; k++){
+
+            if (this.promedio_aptitudes[i] == this.promedio_aptitudes[k]){
+              if(this.nombre_aptitudes[i] > this.nombre_aptitudes[k]){
+                let aux = this.promedio_aptitudes[i];
+                this.promedio_aptitudes[i] = this.promedio_aptitudes[k];
+                this.promedio_aptitudes[k] = aux;
+    
+                let aux2 = this.nombre_aptitudes[i];
+                this.nombre_aptitudes[i] = this.nombre_aptitudes[k];
+                this.nombre_aptitudes[k] = aux2;
+              }
+            }
+
+            if(this.promedio_aptitudes[i] > this.promedio_aptitudes[k]){
+              let aux = this.promedio_aptitudes[i];
+              this.promedio_aptitudes[i] = this.promedio_aptitudes[k];
+              this.promedio_aptitudes[k] = aux;
+  
+              let aux2 = this.nombre_aptitudes[i];
+              this.nombre_aptitudes[i] = this.nombre_aptitudes[k];
+              this.nombre_aptitudes[k] = aux2;
+            }
+          }
+        }
+      }
+      else{
+        this.orden_promedio = "descendente";
+        //ordenando aptitudes de forma descendente por promdeio aptitudes
+        for(let i = 0; i < this.promedio_aptitudes.length; i++){
+          for(let k = 0; k < this.promedio_aptitudes.length; k++){
+
+            if(this.promedio_aptitudes[i] == this.promedio_aptitudes[k]){
+              if(this.nombre_aptitudes[i] < this.nombre_aptitudes[k]){
+                let aux = this.promedio_aptitudes[i];
+                this.promedio_aptitudes[i] = this.promedio_aptitudes[k];
+                this.promedio_aptitudes[k] = aux;
+    
+                let aux2 = this.nombre_aptitudes[i];
+                this.nombre_aptitudes[i] = this.nombre_aptitudes[k];
+                this.nombre_aptitudes[k] = aux2;
+              }
+            }
+
+            if(this.promedio_aptitudes[i] < this.promedio_aptitudes[k]){
+              let aux = this.promedio_aptitudes[i];
+              this.promedio_aptitudes[i] = this.promedio_aptitudes[k];
+              this.promedio_aptitudes[k] = aux;
+  
+              let aux2 = this.nombre_aptitudes[i];
+              this.nombre_aptitudes[i] = this.nombre_aptitudes[k];
+              this.nombre_aptitudes[k] = aux2;
+            }
           }
         }
       }
