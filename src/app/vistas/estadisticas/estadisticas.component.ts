@@ -56,6 +56,10 @@ export class EstadisticasComponent {
   AUX_respuestas_encuestas: any[] = [];
   AUX_preguntas_encuestas: any[] = [];
 
+  filtro_empresas = "";
+
+  filtroEmpresaFORM = new FormControl('')
+
   //preguntas_por_config_practica: any[][] = [];
   //respuestas_por_pregunta: any[][] = [];
 
@@ -568,19 +572,143 @@ export class EstadisticasComponent {
     }
   }
 
-  /*
-  empresa_tiene_aptitudes(nombre_empresa: string){
-    //get pos de nombre_empresa en nombre_empresas
-    let pos_empresa = this.nombre_empresas.indexOf(nombre_empresa);
-    let aptitudes_empresa = this.aptitudes_empresas[pos_empresa];
-    if(aptitudes_empresa.length=0){
-      return false;
+  orden_nombre = ""
+  orden_promedio = ""
+
+  sort(ordenar_por:string){
+    //console.log("ordenar_por: ", ordenar_por);
+
+    if(ordenar_por=="nombre"){
+
+      this.orden_promedio = ""
+
+      if (this.orden_nombre == "descendente" || this.orden_nombre == ""){
+        this.orden_nombre = "ascendente";
+        //ordenando aptitudes de forma ascendente por nombre aptitudes
+        for (let i = 0; i < this.nombre_aptitudes.length; i++) {
+          for (let k = 0; k < this.nombre_aptitudes.length; k++) {
+            if (this.nombre_aptitudes[i] < this.nombre_aptitudes[k]) {
+              let aux = this.nombre_aptitudes[i];
+              this.nombre_aptitudes[i] = this.nombre_aptitudes[k];
+              this.nombre_aptitudes[k] = aux;
+    
+              let aux2 = this.promedio_aptitudes[i];
+              this.promedio_aptitudes[i] = this.promedio_aptitudes[k];
+              this.promedio_aptitudes[k] = aux2;
+  
+            }
+          }
+        }
+      }
+      else{
+        this.orden_nombre = "descendente";
+        //ordenando aptitudes de forma descendente por nombre aptitudes
+        for (let i = 0; i < this.nombre_aptitudes.length; i++) {
+          for (let k = 0; k < this.nombre_aptitudes.length; k++) {
+            if (this.nombre_aptitudes[i] > this.nombre_aptitudes[k]) {
+              let aux = this.nombre_aptitudes[i];
+              this.nombre_aptitudes[i] = this.nombre_aptitudes[k];
+              this.nombre_aptitudes[k] = aux;
+    
+              let aux2 = this.promedio_aptitudes[i];
+              this.promedio_aptitudes[i] = this.promedio_aptitudes[k];
+              this.promedio_aptitudes[k] = aux2;
+  
+            }
+          }
+        }
+      }
+
+  
+      
+      //console.log("nombre_aptitudes_ordenado: ", this.nombre_aptitudes)
+      //console.log("promedio_aptitudes_ordenado: ", this.promedio_aptitudes)
     }
-    else{
-      return true;
+
+    else if(ordenar_por=="nota"){
+
+      this.orden_nombre = ""
+
+      if(this.orden_promedio == "descendente" || this.orden_promedio == ""){
+        this.orden_promedio = "ascendente";
+        //ordenando aptitudes de forma ascendente por promedio aptitudes
+        for(let i = 0; i < this.promedio_aptitudes.length; i++){
+          for(let k = 0; k < this.promedio_aptitudes.length; k++){
+
+            if (this.promedio_aptitudes[i] == this.promedio_aptitudes[k]){
+              if(this.nombre_aptitudes[i] > this.nombre_aptitudes[k]){
+                let aux = this.promedio_aptitudes[i];
+                this.promedio_aptitudes[i] = this.promedio_aptitudes[k];
+                this.promedio_aptitudes[k] = aux;
+    
+                let aux2 = this.nombre_aptitudes[i];
+                this.nombre_aptitudes[i] = this.nombre_aptitudes[k];
+                this.nombre_aptitudes[k] = aux2;
+              }
+            }
+
+            if(this.promedio_aptitudes[i] > this.promedio_aptitudes[k]){
+              let aux = this.promedio_aptitudes[i];
+              this.promedio_aptitudes[i] = this.promedio_aptitudes[k];
+              this.promedio_aptitudes[k] = aux;
+  
+              let aux2 = this.nombre_aptitudes[i];
+              this.nombre_aptitudes[i] = this.nombre_aptitudes[k];
+              this.nombre_aptitudes[k] = aux2;
+            }
+          }
+        }
+      }
+      else{
+        this.orden_promedio = "descendente";
+        //ordenando aptitudes de forma descendente por promdeio aptitudes
+        for(let i = 0; i < this.promedio_aptitudes.length; i++){
+          for(let k = 0; k < this.promedio_aptitudes.length; k++){
+
+            if(this.promedio_aptitudes[i] == this.promedio_aptitudes[k]){
+              if(this.nombre_aptitudes[i] < this.nombre_aptitudes[k]){
+                let aux = this.promedio_aptitudes[i];
+                this.promedio_aptitudes[i] = this.promedio_aptitudes[k];
+                this.promedio_aptitudes[k] = aux;
+    
+                let aux2 = this.nombre_aptitudes[i];
+                this.nombre_aptitudes[i] = this.nombre_aptitudes[k];
+                this.nombre_aptitudes[k] = aux2;
+              }
+            }
+
+            if(this.promedio_aptitudes[i] < this.promedio_aptitudes[k]){
+              let aux = this.promedio_aptitudes[i];
+              this.promedio_aptitudes[i] = this.promedio_aptitudes[k];
+              this.promedio_aptitudes[k] = aux;
+  
+              let aux2 = this.nombre_aptitudes[i];
+              this.nombre_aptitudes[i] = this.nombre_aptitudes[k];
+              this.nombre_aptitudes[k] = aux2;
+            }
+          }
+        }
+      }
     }
   }
-  */
+
+  updateFiltroEmpresas(filtro: string){
+    //console.log("filtro: ", filtro);
+    this.filtro_empresas = filtro;
+  }
+
+  empresa_in_filtro(nombre_empresa: string){
+
+    let nombre_empresa_minusculas = nombre_empresa.toLowerCase();
+    let filtro_minusculas = this.filtro_empresas.toLowerCase();
+
+    if(nombre_empresa_minusculas.includes(filtro_minusculas)){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, nombre_empresa: string): void {
     /*

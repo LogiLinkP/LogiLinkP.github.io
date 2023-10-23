@@ -167,8 +167,8 @@
                                             </div>
                                             <div class="col-6">
                                                 {{ practica?.estudiante?.usuario.correo }}
-                                            </div>                                            
-                                            
+                                            </div>
+
                                             <div class="col-6">
                                                 Horas Trabajadas:
                                             </div>
@@ -200,103 +200,31 @@
                                             <ng-template #no_hay_plagio>
                                                 <div class="col-6">No hay plagio</div>
                                             </ng-template>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!-- Fin Tarjeta Información general -->
 
-                        <!-- Tarjeta Información Empresa -->
-                        <div class="col-lg-6">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Accordion -->
-                                <a href="#collapseCardEmpresa" class="d-block card-header py-3" data-toggle="collapse"
-                                    role="button" aria-expanded="true" aria-controls="collapseCardEmpresa">
-                                    <h6 class="m-0 font-weight-bold text-primary">Información Empresa</h6>
-                                </a>
-                                <!-- Card Content - Collapse -->
-                                <div class="collapse show" id="collapseCardEmpresa">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-6">                                                
+                                            <div class="col-6">
                                                 Correo Supervisor:
                                             </div>
                                             <div class="col-6">
                                                 {{ practica?.supervisor?.correo }}
                                             </div>
-                                            <div class="col-6">                                                
+                                            <div class="col-6">
                                                 ¿Empresa verificada?:
                                             </div>
                                             <div class="col-6">
-                                                <i *ngIf="practica?.empresa?.empresa_verificada" title="Empresa verificada"
-                                                    class="fa-solid fa-check"></i>
-                                                <i *ngIf="!practica?.empresa?.empresa_verificada" title="Empresa no verificada"
-                                                    class="fa-solid fa-times"></i>
+                                                <i *ngIf="practica?.empresa?.empresa_verificada"
+                                                    title="Empresa verificada" class="fa-solid fa-check"></i>
+                                                <i *ngIf="!practica?.empresa?.empresa_verificada"
+                                                    title="Empresa no verificada" class="fa-solid fa-times"></i>
+                                            </div>
+
+                                            <div *ngIf="!activada" class="mt-3 mb-0 alert alert-warning">
+                                                <p>Este estudiante tiene una versión anterior de la práctica</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div><!-- Fin Tarjeta Información Empresa -->
-
-                    </div><!-- Fin Fila -->
-
-                    <div class="row">
-                        <!-- Tarjeta Informes -->
-                        <div class="col-lg-6">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Accordion -->
-                                <a href="#collapseCardInformes" class="d-block card-header py-3" data-toggle="collapse"
-                                    role="button" aria-expanded="true" aria-controls="collapseCardInformes">
-                                    <h6 class="m-0 font-weight-bold text-primary">Informes Realizados</h6>
-                                </a>
-                                <!-- Card Content - Collapse -->
-                                <div class="collapse show" id="collapseCardInformes">
-                                    <div class="card-body">
-                                        <div class="overflow-auto">
-                                            <div class="table-responsive ">
-                                                <table class="table table-bordered hoverTable" id="dataTable" *ngIf="informes.length>0; else noHayInformes"
-                                                    width="100%" cellspacing="0">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Tipo</th>
-                                                            <th>Horas Trabajadas</th>
-                                                            <th>Fecha</th>
-                                                            <th>Ver Informe</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr *ngFor="let informe of informes;">
-                                                            <td>{{ informe.config_informe.tipo_informe }}</td>
-                                                            <td>{{ informe.horas_trabajadas }}</td>
-                                                            <td>{{ informe.fecha | date: 'dd/MM/yyyy' }}</td>
-                                                            <td *ngIf="informe.key != null && !isDataEmpty(informe.key); else informeNoRespondido">
-                                                                <a class="nostyle"
-                                                                    href="/informe/{{practica.id}}/{{informe.id}}">
-                                                                    <button class="btn btn-primary btn-sm btn-block">
-                                                                        Ver Informe
-                                                                    </button>
-                                                                </a>
-                                                            </td>
-                                                            <ng-template #informeNoRespondido>
-                                                                <td>
-                                                                    No subido aún
-                                                                </td>
-                                                            </ng-template>
-                                                        </tr>                                                        
-                                                    </tbody>
-                                                </table>
-                                                <ng-template #noHayInformes>
-                                                    <tr>
-                                                        <td colspan="4" class="text-center">No hay informes asociados a esta práctica.</td>
-                                                    </tr>
-                                                </ng-template>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!-- Fin Tarjeta Informes -->
+                        </div><!-- Fin Tarjeta Información general -->
 
                         <!-- Tarjeta Archivos -->
                         <div class="col-lg-6">
@@ -311,8 +239,9 @@
                                     <div class="card-body">
                                         <div class="overflow-auto">
                                             <div class="table-responsive">
-                                                <table class="table table-bordered hoverTable" id="dataTable" width="100%" cellspacing="0"
-                                                *ngIf="solicitudes_documentos.length>0 || documento_extras.length>0; else noHaySolicitudes">
+                                                <table class="table table-bordered hoverTable" id="dataTable"
+                                                    width="100%" cellspacing="0"
+                                                    *ngIf="solicitudes_documentos.length>0 || documento_extras.length>0; else noHaySolicitudes">
                                                     <thead>
                                                         <tr>
                                                             <th>Archivo</th>
@@ -350,12 +279,129 @@
                                                     </tbody>
                                                 </table>
                                                 <ng-template #noHaySolicitudes>
-                                                    <tr>
-                                                        <td colspan="4" class="text-center">No hay solicitudes de archivos asociadas a esta práctica.</td>
-                                                    </tr>
+                                                    <div class="text-center">No hay solicitudes de archivos asociadas a
+                                                        esta práctica.</div>
                                                 </ng-template>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- Fin Tarjeta Archivos -->
+
+
+                    </div><!-- Fin Fila -->
+
+                    <div class="row">
+                        <!-- Tarjeta Informes -->
+                        <div class="col-lg-6">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Accordion -->
+                                <a href="#collapseCardInformes" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardInformes">
+                                    <h6 class="m-0 font-weight-bold text-primary">Informes de Avances</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardInformes">
+                                    <div class="card-body">
+                                        <div class="overflow-auto">
+                                            <div class="table-responsive ">
+                                                <table class="table table-bordered hoverTable" id="dataTable"
+                                                    *ngIf="informes.length>0; else noHayInformes" width="100%"
+                                                    cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Tipo</th>
+                                                            <th>Horas Trabajadas</th>
+                                                            <th>Fecha</th>
+                                                            <th>Ver Informe</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let informe of informes;">
+                                                            <td>{{ informe.config_informe.tipo_informe }}</td>
+                                                            <td>{{ informe.horas_trabajadas }}</td>
+                                                            <td>{{ informe.fecha | date: 'dd/MM/yyyy' }}</td>
+                                                            <td
+                                                                *ngIf="informe.key != null && !isDataEmpty(informe.key); else informeNoRespondido">
+                                                                <a class="nostyle"
+                                                                    href="/informe/{{practica.id}}/{{informe.id}}">
+                                                                    <button class="btn btn-primary btn-sm btn-block">
+                                                                        Ver Informe
+                                                                    </button>
+                                                                </a>
+                                                            </td>
+                                                            <ng-template #informeNoRespondido>
+                                                                <td>
+                                                                    No subido aún
+                                                                </td>
+                                                            </ng-template>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <ng-template #noHayInformes>
+                                                    <div class="text-center">No hay informes de avances asociados a esta
+                                                        práctica.</div>
+                                                </ng-template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- Fin Tarjeta Informes -->
+
+                        <!-- Tarjeta Archivos -->
+                        <div class="col-lg-6">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Accordion -->
+                                <a href="#collapseCardInformeFinal" class="d-block card-header py-3"
+                                    data-toggle="collapse" role="button" aria-expanded="true"
+                                    aria-controls="collapseCardInformeFinal">
+                                    <h6 class="m-0 font-weight-bold text-primary">Informe Final</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="collapseCardInformeFinal">
+                                    <div class="card-body">
+                                        <div *ngIf="!isDataEmpty(informe_final); else NoHayInformeFinal">
+                                            <div class="row">
+                                                <div class="col-12 text-center">
+                                                    <div
+                                                        *ngIf="!isDataEmpty(informe_final.key); else InformeFinalNoSubido">
+                                                        <button class="btn btn-primary btn-md"
+                                                            *ngIf="(informe_final.config_informe.archivo_o_encuesta).toLowerCase()=='archivo'; else informeFinalCuestionario"><a
+                                                                [href]="link_descarga_informe" style="color:white"
+                                                                target="_blank">
+                                                                Descargar Informe del Alumno
+                                                            </a>
+                                                        </button>
+                                                        <ng-template #informeFinalCuestionario>
+                                                            <button class="btn btn-primary btn-md"
+                                                                *ngIf="(informe_final.config_informe.archivo_o_encuesta).toLowerCase()=='encuesta'"><a
+                                                                    href="/informe/{{practica.id}}/{{informe_final.id}}"
+                                                                    style="color:white">
+                                                                    Ver Encuesta de Informe Final
+                                                                </a>
+                                                            </button>
+                                                        </ng-template>
+                                                    </div>
+                                                    <ng-template #InformeFinalNoSubido>
+                                                        <div class="text-center">Informe final no subido aún.</div>
+                                                    </ng-template>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-4"
+                                                *ngIf="!isDataEmpty(informe_final.config_informe.plantilla) && informe_final.config_informe.plantilla!=''">
+                                                <div class="col-md-12 text-center">
+                                                    <button class="btn btn-md btn-primary"><a
+                                                            [href]="link_descarga_plantilla" style="color:white"
+                                                            target="_blank">Ver plantilla</a></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <ng-template #NoHayInformeFinal>
+                                            <div class="text-center">No se ha configurado informe final para este tipo
+                                                de práctica.</div>
+                                        </ng-template>
                                     </div>
                                 </div>
                             </div>
@@ -378,8 +424,9 @@
                                     <div class="card-body">
                                         <div class="overflow-auto">
                                             <div class="table-responsive">
-                                                <table class="table table-bordered hoverTable" id="dataTable" *ngIf="hay_respuesta == 1; else noHayRespuesta"
-                                                    width="100%" cellspacing="0">
+                                                <table class="table table-bordered hoverTable" id="dataTable"
+                                                    *ngIf="hay_respuesta == 1; else noHayRespuesta" width="100%"
+                                                    cellspacing="0">
                                                     <thead>
                                                         <tr>
                                                             <th>Aptitud</th>
@@ -387,20 +434,20 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr *ngFor="let aptitud of aptitudes_practica[0]; let j = index">
+                                                        <tr
+                                                            *ngFor="let aptitud of aptitudes_practica[0]; let j = index">
                                                             <th>{{aptitud}}</th>
                                                             <th>{{notas_aptitudes[0][j]}}</th>
                                                         </tr>
                                                         <tr>
                                                             <th>Promedio</th>
                                                             <th>{{promedio}}</th>
-                                                        </tr>                                                     
+                                                        </tr>
                                                     </tbody>
                                                 </table>
                                                 <ng-template #noHayRespuesta>
-                                                    <tr>
-                                                        <td colspan="2" class="text-center">El supervisor no ha evaluado esta práctica.</td>
-                                                    </tr>
+                                                    <div class="text-center">El supervisor no ha evaluado esta práctica.
+                                                    </div>
                                                 </ng-template>
                                             </div>
                                         </div>
@@ -435,7 +482,8 @@
                                                     <tbody>
                                                         <tr
                                                             *ngIf="!respuestas_sup_parsed || respuestas_sup_parsed.length<1; else sin_respuestas_abiertas">
-                                                            <td colspan="2" class="text-center">El supervisor no ha hecho comentarios sobre esta práctica.</td>
+                                                            <td colspan="2" class="text-center">El supervisor no ha
+                                                                hecho comentarios sobre esta práctica.</td>
                                                         </tr>
                                                         <ng-template #sin_respuestas_abiertas>
                                                             <tr *ngFor="let resp of respuestas_sup_parsed;">
@@ -460,7 +508,8 @@
 
                                                     </tbody>
                                                 </table>
-                                                <table class="table table-bordered hoverTable" id="dataTable" width="100%" cellspacing="0">
+                                                <table class="table table-bordered hoverTable" id="dataTable"
+                                                    width="100%" cellspacing="0">
                                                     <p></p>
                                                     <thead>
                                                         <h1>Encargado</h1>
@@ -468,7 +517,8 @@
                                                     <tbody>
                                                         <tr>
                                                             <td class="font-weight-bold">Evaluación</td>
-                                                            <td *ngIf="ev_encargado!=-1; else sinNota">{{ev_encargado}}</td>
+                                                            <td *ngIf="ev_encargado!=-1; else sinNota">{{ev_encargado}}
+                                                            </td>
                                                             <ng-template #sinNota>
                                                                 <td>Alumno aún no evaluado</td>
                                                             </ng-template>
@@ -481,8 +531,12 @@
                                     </div>
 
                                     <ng-template #supervisor_data>
-                                        <div class="spinner-border" role="status">
-                                            <span class="sr-only">Loading...</span>
+                                        <div class="row mb-2 mt-2">
+                                            <div class="col-12 text-center">
+                                                <div class="spinner-border" role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </ng-template>
                                 </div>
@@ -578,7 +632,8 @@
                                                                                 </div>
                                                                             </div>
                                                                             <ng-template #hay_resumen_alumno>
-                                                                                <div style="max-height: 200px; overflow: auto;">
+                                                                                <div
+                                                                                    style="max-height: 200px; overflow: auto;">
                                                                                     {{practica.resumen.informe}}
                                                                                 </div>
                                                                             </ng-template>

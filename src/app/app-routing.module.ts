@@ -38,6 +38,7 @@ import { ConfirmacionUsuarioComponent } from './vistas/confirmacion-usuario/conf
 
 import { environment } from 'src/environments/environment';
 import { PerfilComponent } from './vistas/perfil/perfil.component';
+import { PublicacionesComponent } from './vistas/publicaciones/publicaciones.component';
 import { VistaConfigsPracticaComponent } from './vistas/vista-configs-practica/vista-configs-practica.component';
 import { PlagiosComponent } from "./vistas/plagios/plagios.component"
 
@@ -58,7 +59,8 @@ const routes: Routes = [
           { path: 'cuestionario/:n', component: CuestionarioComponent },
           { path: 'empresas', component: EmpresasComponent },
           { path: 'iniciarpractica/:n', component: IniciarPracticaComponent },
-          { path: 'perfil', component: PerfilComponent }
+          { path: 'perfil', component: PerfilComponent },
+          { path: 'publicaciones', component: PublicacionesComponent}
         ]
       }
     ]
@@ -85,6 +87,7 @@ const routes: Routes = [
   { path: environment.ruta_alumno + '/:id/chat/:room/:id1/:id2/:tipo', component: ChatComponent },
   { path: environment.ruta_alumno + '/:id/historial', component: NotisHistorialComponent },
   { path: "historial", component: NotisHistorialComponent },
+  { path: 'publicaciones', component: PublicacionesComponent},
   { path: 'chat/:room/:id1/:id2/:tipo', component: ChatComponent },
   { path: 'informe/:id_practica/:id_informe', component: InformeComponent },
   { path: 'encuestaFinal/:id_practica', component: EncuestaFinPracticaComponent },
@@ -136,5 +139,6 @@ export const routingComponents = [
   InfoYEvaluacionEstudianteComponent,
   DetalleEstudianteComponent,
   EncuestaFinPracticaComponent,
+  PublicacionesComponent,
   PlagiosComponent
 ]

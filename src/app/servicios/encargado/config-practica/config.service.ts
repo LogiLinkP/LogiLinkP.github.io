@@ -9,12 +9,13 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 export class ConfigService {
     constructor(private _http: HttpClient) { }
 
-    crearConfigPractica(nombre: string, frecuencia_informes: string, informe_final: string, id_carrera: number) {
+    crearConfigPractica(nombre: string, frecuencia_informes: string, informe_final: string, id_carrera: number, doc_direst: boolean=false) {
         const config = {
             nombre: nombre,
             frecuencia_informes: frecuencia_informes,
             informe_final: informe_final,
-            id_carrera
+            id_carrera,
+            doc_direst
         }
 
         const req = new HttpRequest('POST', `${environment.url_back}/config_practica/crear`, config, {
@@ -123,7 +124,7 @@ export class ConfigService {
 
     crearConfigInforme(id_config_practica: number, tipo_informe: string, archivo_o_encuesta: string = "", 
     tipo_archivo: string = "", plantilla: string = "", file_plantilla: File = new File([], "")) {
-
+        //console.log("todo: ", id_config_practica, tipo_informe, archivo_o_encuesta, tipo_archivo, plantilla, file_plantilla)
         if(archivo_o_encuesta == "archivo" && plantilla != ""){
             const formData:FormData = new FormData()
             formData.append('id_config_practica', id_config_practica.toString())

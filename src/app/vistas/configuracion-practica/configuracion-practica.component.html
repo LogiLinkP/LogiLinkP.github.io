@@ -26,6 +26,9 @@
                 Configuración de práctica
               </div>
               <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitPractica()">
+                <div *ngIf="tiene_alumnos" class="alert alert-warning">
+                  <p>Los estudiantes que estén cursando (o hayan cursado) esta práctica quedarán con la versión anterior</p>
+                </div>
 
                 <input type="text" class="form-control text-center input-center" formControlName="nombrePractica">
                 <input type="checkbox" formControlName="horas" (change)="habilitarHorasFunc($event)"> Horas
@@ -163,6 +166,14 @@
                     <label class="form-check-label" for="informeFinalArchivo">Archivo</label>
                   </div>
                 </div>
+                <br>
+                <br>
+
+                <p>¿Desea incluir la creación del documento para dirección de estudios?</p>
+                <label>
+                  <input type="checkbox" formControlName="hay_doc_direst" (change)="habilitarDocDirest($event)">
+                  Habilitar
+                </label>
                 <br>
                 <button class="btn btn-primary btn-user btn-md " type="submit">Siguiente</button>
               </form>
@@ -575,7 +586,6 @@
                   Formatos aceptados <br>
                   <input type="checkbox" formControlName="opcion_pdf"> pdf
                   <input type="checkbox" formControlName="opcion_word"> word
-                  {{fg.value.formatoInformeFinal}}
                   <br><br>
                   ¿Desea incluir una plantilla de ejemplo? <br>
                   <div class="form-check form-check-inline">
@@ -905,6 +915,10 @@
             <div class="card-body text-center">
               <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
                 Preguntas para que supervisor evalúe al practicante
+              </div>
+              <div *ngIf="hay_doc_direst" class="h5 mb-3 text-gray-800 mx-auto w-50 text-center">
+                Debido a que seleccionó la opción para generar documento para DIREST, al supervisor ya se le pregunta
+                por las tareas realizadas y las observaciones.
               </div>
               <div *ngFor="let pregunta_supervisor of lista_preguntas_supervisor; let i = index">
                 <div *ngIf="tipos_preguntas_supervisor[i] != 'evaluacion'" class="pregunta">
