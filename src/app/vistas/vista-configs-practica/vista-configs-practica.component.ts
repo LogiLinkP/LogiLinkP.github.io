@@ -5,20 +5,23 @@ import { EdicionService } from 'src/app/servicios/encargado/edicion-simple/edici
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-vista-configs-practica',
-  templateUrl: './vista-configs-practica.component.html',
-  styleUrls: ['./vista-configs-practica.component.scss']
+    selector: 'app-vista-configs-practica',
+    templateUrl: './vista-configs-practica.component.html',
+    styleUrls: ['./vista-configs-practica.component.scss']
 })
+
 export class VistaConfigsPracticaComponent implements OnInit{
 	disabled: boolean = true; //const
 	string_bloqueo: string = "Se requiere usar la configuración avanzada"
 	crearForm: FormGroup;
-    archivo_plantilla: File | undefined;
-    key_plantilla: string = "";
-    link_descarga_plantilla:string = "";
-    plantillaInformeFinal:string = "no";
-    tipoInformeFinal: string = "encuesta";
-
+  archivo_plantilla: File | undefined;
+  key_plantilla: string = "";
+  link_descarga_plantilla:string = "";
+  plantillaInformeFinal:string = "no";
+  tipoInformeFinal: string = "encuesta";
+  user: any = JSON.parse(localStorage.getItem('auth-user') || "{}").userdata;
+  configs: any = {};
+  flag: boolean = false;
 	practica_default = 
 	{
         "nombre": "Práctica 1",
@@ -37,10 +40,10 @@ export class VistaConfigsPracticaComponent implements OnInit{
                 "tipo_modalidad": "horas",
                 "cantidad_tiempo": 180
             },
-			{
-				"tipo_modalidad": "horas",
-				"cantidad_tiempo": 360
-			}
+            {
+              "tipo_modalidad": "horas",
+              "cantidad_tiempo": 360
+            }
         ],
         "config_informes": [
             {
@@ -104,9 +107,9 @@ export class VistaConfigsPracticaComponent implements OnInit{
         ]
     };
 
-	user: any = JSON.parse(localStorage.getItem('auth-user') || "{}").userdata;
-	configs: any = {};
-	flag: boolean = false;
+    seccion_edit: string;
+    practica_edit_id: number;
+    practica_edit: any;
 
 	seccion_edit: string;
 	practica_edit_id: number;
@@ -124,56 +127,56 @@ export class VistaConfigsPracticaComponent implements OnInit{
 			//horas: [horas, [Validators.required]],
 			frecuencia_informes: [this.practica_default.frecuencia_informes, [Validators.required]],
 			informe_final: [this.practica_default.informe_final, [Validators.required]],
-            plantillaInformeFinal: [this.plantillaInformeFinal],
-            opcion_word: [this.opcion_word],
-            opcion_pdf: [this.opcion_pdf],
-            tipoInformeFinal: [this.tipoInformeFinal]
+      plantillaInformeFinal: [this.plantillaInformeFinal],
+      opcion_word: [this.opcion_word],
+      opcion_pdf: [this.opcion_pdf],
+      tipoInformeFinal: [this.tipoInformeFinal]
 		});
 
-		let respuesta: any = {};
-		this.service.getConfigsCarrera(this.user.encargado.id_carrera).subscribe({
-			next: (data: any) => {
-				respuesta = { ...respuesta, ...data }
-			},
-			error: (error: any) => {
-				this.snackBar.open("Error al buscar configuraciones", "Cerrar", {
-					duration: 3000,
-					panelClass: ['red-snackbar']
-				});
-				console.log("Error al buscar config practica", error);
-			},
-			complete: () => {
-				//console.log("request grande:", respuesta.body);
-				this.configs = respuesta.body;
+        let respuesta: any = {};
+        this.service.getConfigsCarrera(this.user.encargado.id_carrera).subscribe({
+            next: (data: any) => {
+                respuesta = { ...respuesta, ...data }
+            },
+            error: (error: any) => {
+                this.snackBar.open("Error al buscar configuraciones", "Cerrar", {
+                    duration: 3000,
+                    panelClass: ['red-snackbar']
+                });
+                console.log("Error al buscar config practica", error);
+            },
+            complete: () => {
+                //console.log("request grande:", respuesta.body);
+                this.configs = respuesta.body;
 
-				for (let i = 0; i < this.configs.length; i++) {
-					if (this.configs[i].frecuencia_informes == "sinAvance") {
-						this.configs[i].frecuencia_informes = "Sin informe de avance";
-					}
-				}
+                for (let i = 0; i < this.configs.length; i++) {
+                    if (this.configs[i].frecuencia_informes == "sinAvance") {
+                        this.configs[i].frecuencia_informes = "Sin informe de avance";
+                    }
+                }
 
-				this.flag = true;
-				//console.log("configs: ", this.configs);
-			}
-		});
-	}
+                this.flag = true;
+                //console.log("configs: ", this.configs);
+            }
+        });
+    }
 
-	ngOnInit(): void {
+    ngOnInit(): void {
         console.log("practica default: ", this.practica_default);
-		//console.log(this.crearForm);
-		this.crearForm.valueChanges.subscribe(change => {
-			//console.log(change);
-		});
-	}
+        //console.log(this.crearForm);
+        this.crearForm.valueChanges.subscribe(change => {
+            //console.log(change);
+        });
+    }
 
-	editarSimple(input: any) {
-		console.log("event: ", input);
-		console.log("practica", this.practica_edit_id);
+    editarSimple(input: any) {
+        console.log("event: ", input);
+        console.log("practica", this.practica_edit_id);
 
-		let id_practica: number = this.configs[this.practica_edit_id].id;
+        let id_practica: number = this.configs[this.practica_edit_id].id;
 
-		let respuesta: any = {};
-		this.serviceEdicion.actualizarConfigPractica(id_practica, input[0], input[1], input[2]).subscribe({
+        let respuesta: any = {};
+        this.serviceEdicion.actualizarConfigPractica(id_practica, input[0], input[1], input[2]).subscribe({
             next: (data: any) => {
                 respuesta = { ...respuesta, ...data }
             },
@@ -182,23 +185,23 @@ export class VistaConfigsPracticaComponent implements OnInit{
                     duration: 3500,
                     panelClass: ['red-snackbar']
                 });
-				console.log("Error al actualizar config practica", error);
+                console.log("Error al actualizar config practica", error);
             },
             complete: () => {
                 this.snackBar.open("Configuración de práctica actualizada exitosamente", "Cerrar", {
                     duration: 3500,
                     panelClass: ['green-snackbar']
                 });
-				window.location.reload();
+                window.location.reload();
             }
         });
-	}
+    }
 
-	crearSimple() {
-		let valores = this.crearForm.value;
-		let respuesta: any = {};
+    crearSimple() {
+        let valores = this.crearForm.value;
+        let respuesta: any = {};
 
-		this.service.crearConfigPractica(valores.nombre, valores.frecuencia_informes, valores.informe_final, this.user.encargado.id_carrera).subscribe({
+        this.service.crearConfigPractica(valores.nombre, valores.frecuencia_informes, valores.informe_final, this.user.encargado.id_carrera, false).subscribe({
             next: (data: any) => {
                 respuesta = { ...respuesta, ...data }
             },
@@ -207,7 +210,7 @@ export class VistaConfigsPracticaComponent implements OnInit{
                     duration: 3500,
                     panelClass: ['red-snackbar']
                 });
-				console.log("Error al crear config practica", error);
+                console.log("Error al crear config practica", error);
             },
             complete: () => {
                 this.snackBar.open("Configuración de práctica creada exitosamente", "Cerrar", {
@@ -237,15 +240,15 @@ export class VistaConfigsPracticaComponent implements OnInit{
                     }
                 }
                 setTimeout(() => {
-                	window.location.reload();
+                    window.location.reload();
                 }, 3000);
             }
         });
-	}
+    }
 
     tablaModalidad(id_config_practica: number, tipo_modalidad: string, cant: number) {
         let respuesta: any = {};
-        
+
         this.service.crearModalidad(id_config_practica, tipo_modalidad, cant).subscribe({
             next: (data: any) => {
                 respuesta = { ...respuesta, ...data }
@@ -377,7 +380,7 @@ export class VistaConfigsPracticaComponent implements OnInit{
             }
         });
     }
-    
+
     crearPreguntaSupervisor(id_config_practica: number, pregunta: string, tipo_pregunta: string, opciones: string, fija: boolean) {
         let respuesta: any = {};
 
