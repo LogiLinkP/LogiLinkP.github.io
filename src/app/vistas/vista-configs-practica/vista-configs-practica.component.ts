@@ -9,103 +9,112 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
     templateUrl: './vista-configs-practica.component.html',
     styleUrls: ['./vista-configs-practica.component.scss']
 })
+
 export class VistaConfigsPracticaComponent implements OnInit {
     disabled: boolean = true; //const
     string_bloqueo: string = "Se requiere usar la configuración avanzada"
     crearForm: FormGroup;
+    archivo_plantilla: File | undefined;
+    key_plantilla: string = "";
+    link_descarga_plantilla: string = "";
+    plantillaInformeFinal: string = "no";
+    tipoInformeFinal: string = "encuesta";
     tiene_alumnos: boolean = false;
   
     user: any = JSON.parse(localStorage.getItem('auth-user') || "{}").userdata;
     configs: any = {};
     flag: boolean = false;
-    practica_default = 
-    {
-        "nombre": "Práctica 1",
-        "frecuencia_informes": "semanal",
-        "informe_final": "si",
-        "modalidads": [
-            {
-                "tipo_modalidad": "meses",
-                "cantidad_tiempo": 1
-            },
-            {
-                "tipo_modalidad": "meses",
-                "cantidad_tiempo": 2
-            },
-            {
-                "tipo_modalidad": "horas",
-                "cantidad_tiempo": 180
-            },
-            {
-              "tipo_modalidad": "horas",
-              "cantidad_tiempo": 360
-            }
-        ],
-        "config_informes": [
-            {
-                "tipo_informe": "informe avance",
-                "pregunta_informes": [
-                    {
-                        "enunciado": "Describa el trabajo realizado",
-                        "tipo_respuesta": "abierta",
-                        "opciones": ""
-                    }
-                ]
-            },
-            {
-                "tipo_informe": "informe final",
-                "archivo_o_encuesta": "encuesta",
-                "pregunta_informes": [
-                    {
-                        "enunciado": "Que conocimientos adquirió trabajando en la empresa",
-                        "tipo_respuesta": "abierta",
-                        "opciones": ""
-                    },
-                    {
-                        "enunciado": "Describa el trabajo realizado durante la práctica",
-                        "tipo_respuesta": "abierta",
-                        "opciones": ""
-                    }
-                ]
-            }
-        ],
-        "solicitud_documentos": [
-			{
-				"tipo_archivo": "pdf",
-				"nombre_solicitud": "un pdf",
-                "descripcion": "mas detalles"
-                
-			},
-			{
-				"tipo_archivo": "DOCX",
-				"nombre_solicitud": "un word",
-                "descripcion": "mas detalles"
-			}
-		],
-        "pregunta_supervisors": [
-            {
-                "enunciado": "¿Consideraría contratar a este practicante?",
-                "tipo_respuesta": "alternativas",
-                "opciones": "Sí;;No;;No sé"
-            },
-            {
-                "enunciado": "Describa el trabajo realizado por el practicante",
-                "tipo_respuesta": "abierta",
-                "opciones": ""
-            }
-        ],
-        "pregunta_encuesta_finals": [
-            {
-                "enunciado": "Le gustaría continuar trabajando en la empresa donde realizó su práctica",
-                "tipo_respuesta": "alternativas",
-                "opciones": "Sí;;No;;No sé"
-            }
-        ]
-    };
+    practica_default =
+        {
+            "nombre": "Práctica 1",
+            "frecuencia_informes": "semanal",
+            "informe_final": "si",
+            "modalidads": [
+                {
+                    "tipo_modalidad": "meses",
+                    "cantidad_tiempo": 1
+                },
+                {
+                    "tipo_modalidad": "meses",
+                    "cantidad_tiempo": 2
+                },
+                {
+                    "tipo_modalidad": "horas",
+                    "cantidad_tiempo": 180
+                },
+                {
+                    "tipo_modalidad": "horas",
+                    "cantidad_tiempo": 360
+                }
+            ],
+            "config_informes": [
+                {
+                    "tipo_informe": "informe avance",
+                    "pregunta_informes": [
+                        {
+                            "enunciado": "Describa el trabajo realizado",
+                            "tipo_respuesta": "abierta",
+                            "opciones": ""
+                        }
+                    ]
+                },
+                {
+                    "tipo_informe": "informe final",
+                    "archivo_o_encuesta": "encuesta",
+                    "pregunta_informes": [
+                        {
+                            "enunciado": "Que conocimientos adquirió trabajando en la empresa",
+                            "tipo_respuesta": "abierta",
+                            "opciones": ""
+                        },
+                        {
+                            "enunciado": "Describa el trabajo realizado durante la práctica",
+                            "tipo_respuesta": "abierta",
+                            "opciones": ""
+                        }
+                    ]
+                }
+            ],
+            "solicitud_documentos": [
+                {
+                    "tipo_archivo": "pdf",
+                    "nombre_solicitud": "un pdf",
+                    "descripcion": "mas detalles"
+
+                },
+                {
+                    "tipo_archivo": "DOCX",
+                    "nombre_solicitud": "un word",
+                    "descripcion": "mas detalles"
+                }
+            ],
+            "pregunta_supervisors": [
+                {
+                    "enunciado": "¿Consideraría contratar a este practicante?",
+                    "tipo_respuesta": "alternativas",
+                    "opciones": "Sí;;No;;No sé"
+                },
+                {
+                    "enunciado": "Describa el trabajo realizado por el practicante",
+                    "tipo_respuesta": "abierta",
+                    "opciones": ""
+                }
+            ],
+            "pregunta_encuesta_finals": [
+                {
+                    "enunciado": "Le gustaría continuar trabajando en la empresa donde realizó su práctica",
+                    "tipo_respuesta": "alternativas",
+                    "opciones": "Sí;;No;;No sé"
+                }
+            ]
+        };
 
     seccion_edit: string;
     practica_edit_id: number;
     practica_edit: any;
+
+    opcion_word: boolean = false;
+    opcion_pdf: boolean = false;
 
     constructor(private service: ConfigService, private serviceEdicion: EdicionService, private snackBar: MatSnackBar, private fb: FormBuilder) {
         //console.log("user: ", this.user);
@@ -115,7 +124,11 @@ export class VistaConfigsPracticaComponent implements OnInit {
             //meses: [meses, [Validators.required]],
             //horas: [horas, [Validators.required]],
             frecuencia_informes: [this.practica_default.frecuencia_informes, [Validators.required]],
-            informe_final: [this.practica_default.informe_final, [Validators.required]]
+            informe_final: [this.practica_default.informe_final, [Validators.required]],
+            plantillaInformeFinal: [this.plantillaInformeFinal],
+            opcion_word: [this.opcion_word],
+            opcion_pdf: [this.opcion_pdf],
+            tipoInformeFinal: [this.tipoInformeFinal]
         });
 
         let respuesta: any = {};
@@ -295,7 +308,12 @@ export class VistaConfigsPracticaComponent implements OnInit {
                 }
                 let datos_informe = this.practica_default.config_informes;
                 for (let i = 0; i < datos_informe.length; i++) {
-                    this.crearConfigInforme(respuesta.body.id, datos_informe[i].tipo_informe, datos_informe[i].pregunta_informes);
+                    if (datos_informe[i].tipo_informe == "informe final") {
+                        this.crearConfigInforme(respuesta.body.id, datos_informe[i].tipo_informe, datos_informe[i].pregunta_informes, this.crearForm.value.tipoInformeFinal);
+                    }
+                    else {
+                        this.crearConfigInforme(respuesta.body.id, datos_informe[i].tipo_informe, datos_informe[i].pregunta_informes);
+                    }
                 }
                 setTimeout(() => {
                     window.location.reload();
@@ -324,31 +342,57 @@ export class VistaConfigsPracticaComponent implements OnInit {
         });
     }
 
-    crearConfigInforme(id_config_practica: number, tipoInforme: string, preguntas: any) {
+    crearConfigInforme(id_config_practica: number, tipoInforme: string, preguntas: any, archivo_o_encuesta: string = "") {
         let respuesta: any = {};
-
-        if (tipoInforme == "Informe final") {
-            this.service.crearConfigInforme(id_config_practica, tipoInforme, this.practica_default.config_informes[1].archivo_o_encuesta).subscribe({
-                next: (data: any) => {
-                    respuesta = { ...respuesta, ...data }
-                },
-                error: (error: any) => {
-                    this.snackBar.open("Error al guardar configuracion de informe", "Cerrar", {
-                        duration: 3500,
-                        panelClass: ['red-snackbar']
-                    });
-                    console.log("Error al guardar configuracion de informe", error);
-                },
-                complete: () => {
-                    //console.log("BUSACR EL ID: ", respuesta);
-                    for (let i = 0; i < preguntas.length; i++) {
-                        this.crearPreguntaInforme(respuesta.body.id, preguntas[i].enunciado, preguntas[i].tipo_respuesta, preguntas[i].opciones);
-                    }
+        if ((tipoInforme).toLocaleLowerCase() == "informe final") {
+            if ((archivo_o_encuesta).toLocaleLowerCase() == "archivo") {
+                let formatoInformeFinal = "";
+                if (this.crearForm.value.opcion_pdf == true) {
+                    formatoInformeFinal += "pdf,";
                 }
-            });
-            
+                if (this.crearForm.value.opcion_word == true) {
+                    formatoInformeFinal += "doc,docx,";
+                }
+                if (formatoInformeFinal.slice(-1) == ",") {
+                    formatoInformeFinal = formatoInformeFinal.slice(0, -1);
+                }
+                this.service.crearConfigInforme(id_config_practica, tipoInforme, archivo_o_encuesta, formatoInformeFinal, this.key_plantilla, this.archivo_plantilla).subscribe({
+                    next: (data: any) => {
+                        respuesta = { ...respuesta, ...data }
+                    },
+                    error: (error: any) => {
+                        this.snackBar.open("Error al guardar configuracion de informe", "Cerrar", {
+                            duration: 3500,
+                            panelClass: ['red-snackbar']
+                        });
+                        console.log("Error al guardar configuracion de informe", error);
+                    },
+                    complete: () => {
+                    }
+                });
+            }
+            else if (archivo_o_encuesta == "encuesta") {
+                this.service.crearConfigInforme(id_config_practica, tipoInforme, this.practica_default.config_informes[1].archivo_o_encuesta).subscribe({
+                    next: (data: any) => {
+                        respuesta = { ...respuesta, ...data }
+                    },
+                    error: (error: any) => {
+                        this.snackBar.open("Error al guardar configuracion de informe", "Cerrar", {
+                            duration: 3500,
+                            panelClass: ['red-snackbar']
+                        });
+                        console.log("Error al guardar configuracion de informe", error);
+                    },
+                    complete: () => {
+                        //console.log("BUSACR EL ID: ", respuesta);
+                        for (let i = 0; i < preguntas.length; i++) {
+                            this.crearPreguntaInforme(respuesta.body.id, preguntas[i].enunciado, preguntas[i].tipo_respuesta, preguntas[i].opciones);
+                        }
+                    }
+                });
+            }
         }
-        else{
+        else {
             this.service.crearConfigInforme(id_config_practica, tipoInforme).subscribe({
                 next: (data: any) => {
                     respuesta = { ...respuesta, ...data }
@@ -369,7 +413,7 @@ export class VistaConfigsPracticaComponent implements OnInit {
             });
         }
 
-        
+
     }
 
     crearPreguntaInforme(id_config_informe: number, pregunta: string, tipo_pregunta: string, opciones: string) {
@@ -431,6 +475,16 @@ export class VistaConfigsPracticaComponent implements OnInit {
                 console.log("Pregunta de supervisor guardada exitosamente");
             }
         });
+    }
+
+    recibirPlantillaInforme(data: any) {
+        if (typeof (data) == "string") {
+            this.key_plantilla = data;
+        }
+        else if (typeof (data) == "object") {
+            this.archivo_plantilla = data;
+        }
+        //console.log("key: ", this.key_plantilla, "archivo: ", this.archivo_plantilla);
     }
 
 }

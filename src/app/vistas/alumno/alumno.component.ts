@@ -11,6 +11,7 @@ import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.
 import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
 import { async } from 'rxjs';
 import { data } from 'jquery';
+import { Dialog } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'alumno',
@@ -33,6 +34,7 @@ export class DetalleAlumnoComponent implements OnInit{
   nombres_config_practica: string[] = [];
   practicas_correspondiente_nombre: any = [];
   
+  informe_final: any = {};
   flags_inscripcion_list: boolean[] = [];
   link_finalizacion = ""
   link_inscripcion = ""
@@ -47,7 +49,7 @@ export class DetalleAlumnoComponent implements OnInit{
 
   fechasSeleccionadas: Date[][] = [];
 
-  documentos_enviados:any = [];
+  documentos_enviados:any = {};
 
   warning_text:string = "No puede finalizar la práctica hasta que subas todos los documentos solicitados";
 
@@ -130,7 +132,7 @@ export class DetalleAlumnoComponent implements OnInit{
             }
           }
         });
-        console.log("Practicas Correspondientes:",this.practicas_correspondiente_nombre)
+        //console.log("Practicas Correspondientes:",this.practicas_correspondiente_nombre)
         //console.log("Nombres de configuraciones de practica:",this.nombres_config_practica)
 
         // Request para obtener todas las practicas de acuerdo al id del estudiante
@@ -144,7 +146,7 @@ export class DetalleAlumnoComponent implements OnInit{
             let index = 0;
 
             // Guardar nombres y practicas en un arreglo
-            this.practicas.forEach(async (element: any) => {
+            this.practicas.forEach(async (practica_aux: any) => {
               
 
               index += 1; 
@@ -152,17 +154,17 @@ export class DetalleAlumnoComponent implements OnInit{
               //console.log("practica:",element.modalidad.config_practica.nombre)
               // Para cada practica que el alumno tiene, encontrar el nombre de la configuracion de practica en el arreglo
               // de nombres y agregar la practica en el arreglo que se encarga de mantener la correspondencia entre nombre y practica
-              if(element.modalidad.config_practica.nombre == this.nombres_config_practica.find((elemento: any) => elemento == element.modalidad.config_practica.nombre)){
-                let index = this.nombres_config_practica.indexOf(element.modalidad.config_practica.nombre);
-                element.documentos.map((doc:any) => {
+              if(practica_aux.modalidad.config_practica.nombre == this.nombres_config_practica.find((elemento: any) => elemento == practica_aux.modalidad.config_practica.nombre)){
+                let index = this.nombres_config_practica.indexOf(practica_aux.modalidad.config_practica.nombre);
+                practica_aux.documentos.map((doc:any) => {
                   // Cambiar además las strings de tipo_archivo a un arreglo de strings
                   doc.solicitud_documento.tipo_archivo = doc.solicitud_documento.tipo_archivo.split(",");                  
                   return doc;
                 });
-                this.practicas_correspondiente_nombre[index].push(element);  
+                this.practicas_correspondiente_nombre[index].push(practica_aux);  
 
-                if(element.informes.length > 0 && element.modalidad.config_practica.frecuencia_informes == "diario"){
-                  for(var informe of element.informes){
+                if(practica_aux.informes.length > 0 && practica_aux.modalidad.config_practica.frecuencia_informes == "diario"){
+                  for(var informe of practica_aux.informes){
                     //console.log("informe:",informe.fecha)
                     if(informe.fecha != null){
                       informe.fecha = informe.fecha.split("T")[0];
@@ -174,33 +176,43 @@ export class DetalleAlumnoComponent implements OnInit{
                 }            
               }
               // request para obtener todas las solicitudes_documentos de la practica actual
+              
 
-              await new Promise( (resolve) => {this.service_datos.obtener_solicitudes_documentos_practica(element.modalidad.config_practica.id, element.id).subscribe({
+              await new Promise( (resolve) => {this.service_datos.obtener_solicitudes_documentos_practica(practica_aux.modalidad.config_practica.id, practica_aux.id).subscribe({
                 next: (data: any) => {
                   respuesta = { ...respuesta, ...data }
                 },
                 error: (error: any) => console.log(error),
                 complete: () => {
-                  this.solicitudes_practicas[element.id] = respuesta.body;
-
-                  let flag = 0;
-                  for(let practica of this.practicas){
-                    console.log(practica)
-                    for(let soli of this.solicitudes_practicas[practica.id]){
+                  this.solicitudes_practicas[practica_aux.id] = respuesta.body;
+                  let faltan_documentos = 0;
+                  for(let practica of this.practicas_correspondiente_nombre){
+                    for(let soli of this.solicitudes_practicas[practica_aux.id]){
                       if(soli.documentos.length == 0){
-                        flag = 1;
-                        this.documentos_enviados.push(0);
+                        faltan_documentos = 1;
+                        this.documentos_enviados[practica_aux.id] = 0;
                         break;
                       } 
                     }
-                    for (let docuex of practica.documento_extras){
+                    for (let docuex of practica_aux.documento_extras){
                       if(docuex.key == null){
-                        flag = 1;
-                        this.documentos_enviados.push(0);
+                        faltan_documentos = 1;
+                        this.documentos_enviados[practica_aux.id] = 0;
+                        break;
                       }
                     }
-                    if(flag == 0){this.documentos_enviados.push(1);}
+                    for (let informe of practica_aux.informes){
+                      if((informe.config_informe.tipo_informe).toLowerCase() == "informe final"){
+                        if(informe.key == null || informe.key == undefined || Object.keys(informe.key).length == 0){
+                          faltan_documentos = 1;
+                          this.documentos_enviados[practica_aux.id] = 0;
+                          break;
+                        }
+                      }
+                    }
+                    if(faltan_documentos == 0){this.documentos_enviados[practica_aux.id] = 1;}
                   }
+                  //console.log("DOCUMENTOS ENVIADOS",this.documentos_enviados)
                   //console.log("Solicitudes:", this.solicitudes_practicas)
                   resolve(true);
                 }
@@ -255,62 +267,6 @@ export class DetalleAlumnoComponent implements OnInit{
   }
 
   
-  ingresarInforme(practica: any){
-    let respuesta: any = {};
-    let texto_informe = (document.getElementById("informe") as HTMLInputElement).value;
-    let horas_trabajadas = (document.getElementById("horas") as HTMLInputElement).valueAsNumber;
-    let id_config_informe = practica.modalidad.config_practica.config_informes[0].id; // AGARRA EL PRIMER CONFIG INFORME QUE ENCUENTRE
-    let id_encargado = practica.encargado.id;
-
-    let key = JSON.stringify({[practica.modalidad.config_practica.config_informes[0].
-                              pregunta_informes[0].id]: texto_informe}); //AGARRA LA PRIMERA PREGUNTA DEL CONFIG INFORME QUE ENCUENTRE Y LE ASIGNA EL TEXTO DEL INFORME
-    
-    if (Number.isNaN(horas_trabajadas)){
-      horas_trabajadas = 0;
-    }
-
-    if (key == "") {
-      this._snackBar.open("Debe ingresar texto en la casilla de actividades","Cerrar",{
-        panelClass: ['red-snackbar'],
-        duration: 3000
-      })
-      return;
-    }
-
-    //console.log("id_practica:", practica.id);
-    //console.log("casilla horas:", horas_trabajadas);
-    
-    this.service_datos.ingresar_informe(practica.id, key, id_config_informe, horas_trabajadas, id_encargado).subscribe({
-      next: (data: any) => {
-        respuesta = { ...respuesta, ...data }
-        //console.log("Respuesta ingresar informe:",data);
-      },
-      error: (error: any) => console.log("Error en ingresar informe:",error),
-      complete: () => {
-        /*
-        let id_encargado_usuario = practica.encargado.id_usuario;
-        let correo_encargado: string = "";
-        this.service_noti.postnotificacion(id_encargado_usuario, "El alumno "+ this.estudiante.nombre + " ha ingresado un informe diario", correo_encargado).subscribe({
-          next:(data:any) => {
-            respuesta = {...respuesta, ...data};
-          },
-          error:(error:any) =>{
-            console.log(error);
-          },
-          complete:()=>{
-            console.log("Notificacion enviada con éxito");
-          }
-        })*/
-        this._snackBar.open("Informe Ingresado","Cerrar",{
-          panelClass: ['red-snackbar'],
-          duration: 3000
-        })
-        window.location.reload();        
-      }
-    });
-  }
-
-  
   descargar_documento(documento_id: string, solicitud_tipo: string) {
     //console.log("decargar documento")
     // abrir nueva pestaña con url de descarga, que es url_backend (sacada desde el env) + /documentos/ + documento_key
@@ -320,27 +276,6 @@ export class DetalleAlumnoComponent implements OnInit{
     else{
       window.open(environment.url_back+"/documento_extra/download?id=" + documento_id, "_blank");
     }
-  }
-
-  mostrar_informe(informes: any, informe_id: string) {
-    //console.log("informes:",informes,"id",informe_id)
-    // abrir una ventana modal que muestre el texto del informe
-    let informe = informes.find((informe: any) => informe.id == informe_id);
-    if(informe){
-      // abrir una ventana pequeña que muestre el texto del informe dentro de un textarea
-      let ventana = window.open("", "_blank", "width=800,height=400");
-      if (!ventana) {
-        alert("Por favor, deshabilite el bloqueador de ventanas emergentes para este sitio");
-      }
-      else{
-        let respuestas = informe.key
-        // obtener las llaves del json donde estan las respuestas a las preguntas
-        let keys = Object.keys(respuestas);
-        let texto_informe = respuestas[keys[0]]; // AGARRA EL TEXTO DE LA PRIMERA RESPUESTA 
-        //console.log("texto_informe:",texto_informe);
-        ventana.document.write("<textarea style='width: 100%; height: 100%; resize: none; border: none;'>" + texto_informe + "</textarea>");
-      }
-    }    
   }
   
   finalizar_practica(practica: any) {
@@ -484,6 +419,47 @@ export class DetalleAlumnoComponent implements OnInit{
       panelClass: ['red-snackbar'],
       duration: 2000
     });
+  }
+
+  eliminarArchivoInformeFinal(id_informe: any){
+    // show a dialog to confirm the action
+    window.confirm("¿Está seguro que desea eliminar el informe final subido?");
+
+    // if confirmed, delete the informe_final with the id_informe
+    // if not confirmed, do nothing
+
+    let respuesta: any = {};
+    
+    this.service_gestion.eliminar_informe_final(id_informe).subscribe({
+      next: (data: any) => {
+        respuesta = { ...respuesta, ...data }
+      },
+      error: (error: any) => console.log("Error en eliminar informe final:",error),
+      complete: () => {
+        //console.log("Respuesta eliminar informe final:",respuesta);
+        this._snackBar.open("Informe final eliminado correctamente", "Cerrar", {
+          panelClass: ['green-snackbar'],
+          duration: 2000
+        });
+        // after 2 seconds reload the page
+        setTimeout(() => {
+          // check if the url has any query params, if it does, remove them
+          let currentUrl = this.router.url;
+          if(currentUrl.includes("?")){
+            currentUrl = currentUrl.split("?")[0];
+            if(currentUrl.includes("%")){
+              currentUrl = currentUrl.split("%")[0];
+            }
+            window.location.href = currentUrl;
+          }
+          else{
+            window.location.reload();    
+          }
+        }
+        , 2000);
+      }
+    });
+    
   }
 }
 

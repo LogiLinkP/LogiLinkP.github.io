@@ -2,12 +2,12 @@
     <div class="col-xl-12 p-0" >
         <div class="card">
             <a class="card-header">
-                <h3 class="m-0 font-weight-bold text-primary" style="text-align: center;">Plantilla para Informe Final</h3>
+                <h3 class="m-0 font-weight-bold text-primary" style="text-align: center;">Subir Informe Final</h3>
             </a>
             <div class="card-body text-gray-800" style="text-align: center;">  
 
                 <form style="width: 100%;">
-                    <span class="file-name mb-1">{{selectedFile?.name}}</span><br>
+                    <div class="file-name mb-1">{{selectedFile?.name}}</div><br>
                     <button type="button" class="btn btn-primary btn-md" (click)="fileInput.click()">Elegir Archivo</button>
                     <input hidden (change)="onFileSelected($event)" #fileInput type="file" required>                    
                 </form>

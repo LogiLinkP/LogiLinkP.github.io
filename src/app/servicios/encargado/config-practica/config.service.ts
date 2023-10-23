@@ -124,7 +124,7 @@ export class ConfigService {
 
     crearConfigInforme(id_config_practica: number, tipo_informe: string, archivo_o_encuesta: string = "", 
     tipo_archivo: string = "", plantilla: string = "", file_plantilla: File = new File([], "")) {
-
+        //console.log("todo: ", id_config_practica, tipo_informe, archivo_o_encuesta, tipo_archivo, plantilla, file_plantilla)
         if(archivo_o_encuesta == "archivo" && plantilla != ""){
             const formData:FormData = new FormData()
             formData.append('id_config_practica', id_config_practica.toString())
