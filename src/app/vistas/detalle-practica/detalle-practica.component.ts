@@ -73,6 +73,7 @@ export class DetallePracticaComponent implements OnInit {
 
   hay_plagio: boolean = false;
   activada: boolean = true;
+  correo_verificado: boolean = false;
 
   constructor(private fragmentosService: FragmentosService, private service: DetallePracticaService, private service2: SetDetallesAlumnoService,
     private _snackBar: MatSnackBar, private route: ActivatedRoute,
@@ -122,10 +123,11 @@ export class DetallePracticaComponent implements OnInit {
         },
         complete: () => {
           this.practica = respuesta.body;
-          //console.log(this.practica);
+          console.log(this.practica);
           this.check_resumen();
 
           this.activada = this.practica.modalidad.config_practica.activada;
+          this.correo_verificado = this.practica.supervisor.es_correo_institucional;
 
           if (this.practica.ev_encargado == null) {
             this.ev_encargado = "-"
