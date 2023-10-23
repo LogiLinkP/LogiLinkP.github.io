@@ -16,6 +16,7 @@ export const commonEnv = {
         finalizada: 'Finalizada',
         reprobada: 'Reprobada',
         aprobada: 'Aprobada',
-        evaluada: 'Evaluada'
+        evaluada: 'Evaluada',
+        esperando_confirmacion: 'Esperando confirmacion',
     }
 };
