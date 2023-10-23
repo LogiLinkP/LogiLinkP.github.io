@@ -91,6 +91,7 @@ import { ComentariosModalComponent } from './componentes/comentarios-modal/comen
 import { DocumentacionComponent } from './vistas/documentacion/documentacion.component';
 import { SubirDocumentoEncargadoComponent } from './componentes/subir-documento-encargado/subir-documento-encargado.component';
 import { SubirPlantillaInformeFinalComponent } from './componentes/subir-plantilla-informe-final/subir-plantilla-informe-final.component';
+import { ConfirmacionUsuarioComponent } from './vistas/confirmacion-usuario/confirmacion-usuario.component';
 
 @NgModule({
   declarations: [
@@ -148,6 +149,7 @@ import { SubirPlantillaInformeFinalComponent } from './componentes/subir-plantil
     DocumentacionComponent,
     SubirDocumentoEncargadoComponent,
     SubirPlantillaInformeFinalComponent,
+    ConfirmacionUsuarioComponent,
   ],
   imports: [
     BrowserModule,
