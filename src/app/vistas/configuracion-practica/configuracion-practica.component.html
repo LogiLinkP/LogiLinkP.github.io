@@ -26,6 +26,9 @@
                 Configuración de práctica
               </div>
               <form *ngIf="flag" class="formulario" [formGroup]="fg" (ngSubmit)="onSubmitPractica()">
+                <div *ngIf="tiene_alumnos" class="alert alert-warning">
+                  <p>Los estudiantes que estén cursando (o hayan cursado) esta práctica quedarán con la versión anterior</p>
+                </div>
 
                 <input type="text" class="form-control text-center input-center" formControlName="nombrePractica">
                 <input type="checkbox" formControlName="horas" (change)="habilitarHorasFunc($event)"> Horas
@@ -583,7 +586,6 @@
                   Formatos aceptados <br>
                   <input type="checkbox" formControlName="opcion_pdf"> pdf
                   <input type="checkbox" formControlName="opcion_word"> word
-                  {{fg.value.formatoInformeFinal}}
                   <br><br>
                   ¿Desea incluir una plantilla de ejemplo? <br>
                   <div class="form-check form-check-inline">

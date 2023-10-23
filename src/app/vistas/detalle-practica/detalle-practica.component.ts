@@ -41,6 +41,9 @@ export class DetallePracticaComponent implements OnInit {
   solicitudes_documentos: any = [];
   documento_extras: any = [];
   informes: any = [];
+  informe_final: any = {};
+  link_descarga_plantilla:string = "";
+  link_descarga_informe:string = "";
   evaluaciones: any = [];
   respuestas_supervisor: any = {};
   data_supervisor_rdy: boolean = false;
@@ -69,6 +72,8 @@ export class DetallePracticaComponent implements OnInit {
   ev_encargado: any = [];
 
   hay_plagio: boolean = false;
+  activada: boolean = true;
+  correo_verificado: boolean = false;
 
   constructor(private fragmentosService: FragmentosService, private service: DetallePracticaService, private service2: SetDetallesAlumnoService,
     private _snackBar: MatSnackBar, private route: ActivatedRoute,
@@ -120,6 +125,9 @@ export class DetallePracticaComponent implements OnInit {
           this.practica = respuesta.body;
           console.log(this.practica);
           this.check_resumen();
+
+          this.activada = this.practica.modalidad.config_practica.activada;
+          this.correo_verificado = this.practica.supervisor.es_correo_institucional;
 
           if (this.practica.ev_encargado == null) {
             this.ev_encargado = "-"
@@ -188,8 +196,6 @@ export class DetallePracticaComponent implements OnInit {
             }
           }
 
-
-
           // considerar como respuestas todas las que sean strings
           this.respuestas_supervisor = this.practica.respuesta_supervisors.filter((respuesta_supervisor: any) => {
             return isNaN(respuesta_supervisor.respuesta);
@@ -201,6 +207,19 @@ export class DetallePracticaComponent implements OnInit {
 
           //console.log("respuestas_supervisor: ", this.respuestas_supervisor);
           for (let i = 0; i < this.informes.length; i++) {
+            if (this.informes[i]?.config_informe.tipo_informe == "informe final") {
+              console.log("informe final: ", this.informes[i])
+              this.informe_final = this.informes[i];
+              if (this.informe_final.config_informe?.plantilla != null && this.informe_final.config_informe?.plantilla != "") {
+                this.link_descarga_plantilla = "https://d2v9ocre132gvc.cloudfront.net/" + this.informe_final.config_informe.plantilla;
+              }
+              if (this.informe_final.key != null && Object.keys(this.informe_final.key).length > 0) {
+                this.link_descarga_informe = "https://d2v9ocre132gvc.cloudfront.net/" + this.informe_final.key.filename;
+              }
+              // remove informe final from informes
+              this.informes.splice(i, 1);
+              break;
+            }
             this.horas_totales += this.informes[i].horas_trabajadas;
           }
 

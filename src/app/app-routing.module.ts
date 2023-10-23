@@ -35,6 +35,7 @@ import { DetalleEstudianteComponent } from "./vistas/wizards/detalle-estudiante/
 import { ConfigPracticaComponent } from './vistas/wizards/config-practica/config-practica.component';
 import { AptitudesComponent } from './vistas/aptitudes/aptitudes.component';
 import { ConfirmarInicioPracticaComponent } from './vistas/confirmar-inicio-practica/confirmar-inicio-practica.component';
+import { ConfirmacionUsuarioComponent } from './vistas/confirmacion-usuario/confirmacion-usuario.component';
 
 import { environment } from 'src/environments/environment';
 import { PerfilComponent } from './vistas/perfil/perfil.component';
@@ -104,6 +105,7 @@ const routes: Routes = [
   { path: "plagios/:id_practica", component: PlagiosComponent },
   { path: 'documentacion', component: DocumentacionComponent},
   { path: 'confirmar-inicio-practica', component: ConfirmarInicioPracticaComponent},
+  { path: 'usuario/confirmacion', component: ConfirmacionUsuarioComponent },
   { path: '**', component: PnfComponent },
 
 ];

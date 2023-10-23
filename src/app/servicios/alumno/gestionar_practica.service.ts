@@ -94,4 +94,25 @@ export class GestionarService {
     });
     return this.http.request(req);
   }
+
+  subir_informe(id_informe: number, key: Object, file_informe: File) {
+    const formData:FormData = new FormData();
+    formData.append('id', id_informe.toString());
+    formData.append('key', JSON.stringify(key));
+    formData.append('file_informe', file_informe);
+    const req = new HttpRequest('PUT', `${environment.url_back}/informe/subirInforme`, formData, {responseType:"json"});
+    return this.http.request(req);
+  }
+
+  eliminar_informe_final(id_informe: number) {
+    let key = {};
+    const req = new HttpRequest('PUT', `${environment.url_back}/informe/actualizar`, {
+      id: id_informe,
+      key,
+      responseType: 'json'
+    });
+    return this.http.request(req);
+  }
 }
+
+
