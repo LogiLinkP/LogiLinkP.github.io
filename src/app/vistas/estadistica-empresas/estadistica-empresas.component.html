@@ -30,12 +30,13 @@
                                             <th style="vertical-align: bottom;">Nombre</th>
                                             <th style="vertical-align: bottom;">RUT</th>
                                             <th style="vertical-align: bottom;">Calificación</th>
-                                            <th style="vertical-align: bottom;">Porcentaje salto<br> a empresa destacada
+                                            <!-- <th style="vertical-align: bottom;">Porcentaje salto<br> a empresa destacada
                                                 <a class="pointer" 
                                                 title={{texto_explicaion}} data-toggle="tooltip"
                                                 ><i
-                                                    class="fas fa-info-circle"></i></a></th>
+                                                    class="fas fa-info-circle"></i></a></th> -->
                                             <th style="vertical-align: bottom;">Comentarios</th>
+                                            <th style="vertical-align: bottom;">Ramos más útiles</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -61,15 +62,26 @@
                                             <td *ngIf="!empresa.calificacion_promedio">
                                                 No hay opiniones de esta empresa
                                             </td>
-                                            <td>{{empresa.practicantes_destacados*100}}%</td>
-                                            <td>
+                                            <!-- <td>{{empresa.practicantes_destacados*100}}%</td> -->
+                                            <td style="text-align: center;">
                                                 <!-- <button mat-flat-button style="background-color:#7a91d7;">
                                                     <div style="color: white"> Ver Comentarios FALSO</div>
                                                     </button> -->
 
                                                 
-                                                <button mat-flat-button style="background-color:#7a91d7;" (click)="openDialog('100ms', '100ms', empresa.id)">
+                                                <button mat-flat-button style="background-color:#7a91d7;" (click)="openDialog('100ms', '100ms', empresa.id, 'comentarios')">
                                                     <div style="color: white"> Ver Comentarios</div>
+                                                </button>
+                                            </td>
+
+                                            <td style="text-align: center;">
+                                                <!-- <button mat-flat-button style="background-color:#7a91d7;">
+                                                    <div style="color: white"> Ver Comentarios FALSO</div>
+                                                    </button> -->
+
+                                                
+                                                <button mat-flat-button style="background-color:#7a91d7;" (click)="openDialog('100ms', '100ms', empresa.id, 'ramos')">
+                                                    <div style="color: white"> Ver Ramos</div>
                                                 </button>
                                             </td>
                                         </tr>
