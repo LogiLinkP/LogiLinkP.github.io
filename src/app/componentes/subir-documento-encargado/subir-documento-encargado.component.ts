@@ -1,7 +1,7 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogModule, MatDialogClose } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { FormsModule } from '@angular/forms';
+import { FormGroup, Validators, FormsModule, FormBuilder, ReactiveFormsModule  } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -35,33 +35,9 @@ export class SubirDocumentoEncargadoComponent {
   codigobase64!:any;
 
   constructor(public dialog: MatDialog, private _snackBar: MatSnackBar, private archivo_service: ArchivosService, private router: Router, 
-      private docu_service: DocumentacionService) {}
-  /*
-  getBase64(file: File) {
-    const observable = new Observable((subscriber:Subscriber<any>) => {
-      this.readfile(file,subscriber)
-    })
-    observable.subscribe((d) => {
-      this.observando = d;
-      this.codigobase64 = d;
-      console.log(this.codigobase64);
-
-      
-    })
-    return new Promise((resolve, reject) => {
-      if (!file) {
-        reject('file object is null');
+      private docu_service: DocumentacionService, private fb: FormBuilder) {
       }
-  
-      var reader = new FileReader();
-  
-      reader.onloadend = function () {
-        resolve({ res: reader.result, name: file.name });
-        };
-      reader.readAsDataURL(file);
-    });
-  }
-  */
+
 
   readfile(file:File, subscriber:Subscriber<any>){
     const filereader = new FileReader()
@@ -88,10 +64,20 @@ export class SubirDocumentoEncargadoComponent {
     });
       
     dialogRef.afterClosed().subscribe((result: any) => {
+      console.log(result)
+      console.log(result[0])
       if (!result || !result[0]) {
+        console.log("CANCELADO")
         return;
       }
-      let [, file] = result;
+      if(!result[1] || !result[2]){
+        this._snackBar.open("Recuerda Ingresar Título y Descripción", "Cerrar", {
+          panelClass: ['red-snackbar'],
+          duration: 3000
+        });
+        return
+      }
+      let [, file, nombre, descripcion] = result;
       if(file.size>10000000){
         this._snackBar.open("Este Archivo es Demasiado Grande", "Cerrar", {
           panelClass: ['red-snackbar'],
@@ -116,7 +102,7 @@ export class SubirDocumentoEncargadoComponent {
 
       let key: string = uuidv4() +"." + file_ext;
 
-      this.docu_service.nuevo_documento(file, this.id_encargado,this.id_carrera, file_ext, file.name, key).subscribe({
+      this.docu_service.nuevo_documento(file, this.id_encargado,this.id_carrera, file_ext, nombre, key, descripcion).subscribe({
         next: data => {
           _data = { ..._data, ...data }
         },
@@ -158,12 +144,25 @@ export class SubirDocumentoEncargadoComponent {
   templateUrl: 'dialog3.html',
   standalone: true,
   imports: [MatDialogModule, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatSelectModule, CommonModule,
-    NgFor],
+    NgFor, ReactiveFormsModule],
 })
 export class Dialog3 {
   selectedFile: File | null = null;
+  Nombre:String = ""
+  Descripcion:String = ""
+  publiForm: FormGroup;
 
-  constructor(public dialogRef: MatDialogRef<Dialog3>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+  constructor(public dialogRef: MatDialogRef<Dialog3>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private fb: FormBuilder) {
+    this.createForm();
+   }
+
+
+  createForm() {
+    this.publiForm = this.fb.group({
+      Nombre: ['', [Validators.required]],
+      Descripcion: ['', [Validators.required]],
+      });
+  }
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0] ?? null;
@@ -171,6 +170,14 @@ export class Dialog3 {
   }
 
   onNoClick(): void {
+    console.log("CANCELAR")
     this.dialogRef.close();
+  }
+
+  submitclick(){
+    let data = this.publiForm.value
+    this.Nombre = data.Nombre
+    this.Descripcion = data.Descripcion
+    this.dialogRef.close([true, this.selectedFile, this.Nombre, this.Descripcion]);
   }
 }

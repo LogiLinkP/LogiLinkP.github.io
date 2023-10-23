@@ -314,7 +314,7 @@ export class ConfiguracionPracticaComponent {
                             //* set preguntas informe
                             if (respuesta.body?.length) { // el encargado seteó preguntas de informe
                                 for (let j = 0; j < respuesta.body.length; j++) {
-                                    if ( (respuesta.body[j]?.tipo_informe).toLowerCase() == "informe final" ){
+                                    if ( (respuesta.body[j]?.tipo_informe).toLowerCase() == "informe final" && (respuesta.body[j]?.archivo_o_encuesta) != null){
                                         if ( (respuesta.body[j]?.archivo_o_encuesta).toLowerCase() == "encuesta" ) {
                                             this.tipoInformeFinal = "encuesta";
                                         }

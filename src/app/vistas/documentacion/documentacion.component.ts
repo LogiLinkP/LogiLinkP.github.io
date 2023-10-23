@@ -34,6 +34,7 @@ export class DocumentacionComponent implements OnInit {
 
   ngOnInit(){
     let respuesta:any = [];
+    console.log("ESALUMNO=", this.esalumno)
     if(this.esalumno == 1){
       this.service_docu.obtener_todas(this.id_carrera).subscribe({
         next:(data:any) => {

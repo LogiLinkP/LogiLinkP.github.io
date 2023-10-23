@@ -10,12 +10,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { NgFor } from '@angular/common';
 import { CommonModule } from '@angular/common'
+import { ObtenerDatosService } from '../../servicios/alumno/obtener_datos.service';
+import e from 'express';
 
 export interface DialogData {
   //formatos: Formato[];
   nombre_empresa: string;
   lista_comentarios: any[];
   palabras_clave: string[];
+  tipo: string;
+  nombre_ramos_utiles: string[];
+  porcentaje_ramos_utiles: number[];
 }
 
 @Component({
@@ -26,10 +31,13 @@ export interface DialogData {
 
 export class EstadisticaEmpresasComponent {
 
-  constructor(public dialog: MatDialog, private _http: HttpClient, private _router: Router, private empresaService: EmpresaService) { }
+  constructor(public dialog: MatDialog, private _http: HttpClient, private _router: Router, private empresaService: EmpresaService, private datosService: ObtenerDatosService) { }
+
+  sesion: any = JSON.parse(localStorage.getItem("auth-user") || "{}")
 
   closeResult = '';
   empresas: any[] = [];
+  ramos_empresas: any[] = [];
   practicas: any[] = [];
   comentarios: any[][] = [];
   comentarios_empresa: any[] = [];
@@ -39,73 +47,124 @@ export class EstadisticaEmpresasComponent {
   texto_explicaion= " Esto indica el porcentaje de alumnos\n que realizaron su práctica en esta empresa\n y luego, llegaron a trabajar en una gran empresa"
   empresas_no_encontradas = false;
 
+  id_carrera_estudiante = 0;
+
   ngOnInit(): void {
+
+    let id_usuario = this.sesion.userdata.id;
+
+    //console.log("id usuario: ", id_usuario);
 
     let respuesta: any = {};
 
-    this.empresaService.obtener_empresas().subscribe({
+    //obteniendo estudiante segun id_usuario
+    this.datosService.obtener_estudiante(id_usuario).subscribe({
       next: data => {
         //console.log(data);
         respuesta = { ...respuesta, ...data }
       },
       error: error => {
         console.log(error);
-        if (error.status == 404) {
-            this.empresas_no_encontradas = true;
-        }
       },
       complete: () => {
-        //console.log("respuesta empresas:");
+        //console.log("respuesta estudiante:");
         //console.log(respuesta.body);
-        this.empresas = respuesta.body;
-        //console.log(this.empresas);
+        this.id_carrera_estudiante = respuesta.body.id_carrera;
+        //console.log("id carrera estudiante: ", this.id_carrera_estudiante);   
 
-        let comentarios_desordenados: any[][] = [];
-
-        //crear arreglo para insertar ahi los comentarios de cada empresa
-        for (let i = 0;i<this.empresas.length;i++){
-          comentarios_desordenados.push([]);
-        }
-
-        for (let i = 0; i < this.empresas.length; i++){
-          console.log("empresa: ", this.empresas[i].nombre_empresa);
-          console.log("palabras clave: ", this.empresas[i].palabras_clave);
-          this.palabras_clave_empresa.push(this.empresas[i].palabras_clave);
-          this.empresaService.obtener_practicas_por_empresa(this.empresas[i].id).subscribe({
-            next: data => {
-              //console.log(data);
-              respuesta = { ...respuesta, ...data }
-            },
-            error: error => {
-              console.log(error);
-            },
-            complete: () => {
-              let practica_aux = [];
-              //console.log("respuesta practicas:");
-              //console.log("practicas en empresa " + this.empresas[i].nombre_empresa);
-              //console.log(respuesta.body);
-              practica_aux = respuesta.body;
-              let comentarios_aux = [];
-              //comentarios_aux.push(this.empresas[i].id);
-              for (let j = 0; j < practica_aux.length; j++){
-                comentarios_aux.push(practica_aux[j].comentario_empresa);
-              }
-              comentarios_desordenados[i] = comentarios_aux;
-              //let eliminar = comentarios_desordenados[i].shift();
-              //omentarios_desordenados.push(comentarios_aux);
+        this.empresaService.obtener_empresas().subscribe({
+          next: data => {
+            //console.log(data);
+            respuesta = { ...respuesta, ...data }
+          },
+          error: error => {
+            console.log(error);
+            if (error.status == 404) {
+                this.empresas_no_encontradas = true;
             }
-          })
-        }
+          },
+          complete: () => {
+            //console.log("respuesta empresas:");
+            //console.log(respuesta.body);
+            this.empresas = respuesta.body;
+            //console.log(this.empresas);
 
-        this.comentarios = comentarios_desordenados;
-        
-        //console.log("empresas:");
-        //console.log(this.empresas);
+            //dejando calificaciones con 1 decimal
+            for (let i = 0; i < this.empresas.length; i++){
 
-        console.log("comentarios:");
-        console.log(this.comentarios);
+              if (this.empresas[i].ramos_utiles == null){
+                this.ramos_empresas.push(this.empresas[i].ramos_utiles);
+              }
+              else{
+                //console.log("hay ramos en la empresa");
+                let ramos_carrera_empresa = this.empresas[i].ramos_utiles[this.id_carrera_estudiante];
+                //console.log("ramos carrera empresa: ", ramos_carrera_empresa);
+                if (ramos_carrera_empresa != null){
+                  //console.log("ramos carrera empresa no es null");
+                  this.ramos_empresas.push(ramos_carrera_empresa);
+                }
+                else{
+                  this.ramos_empresas.push(null);
+                }
+              }
+
+              if (this.empresas[i].calificacion_promedio != null){
+                this.empresas[i].calificacion_promedio = Number(this.empresas[i].calificacion_promedio.toFixed(1));
+              }
+            }
+
+            //console.log("ramos empresas: ", this.ramos_empresas);
+
+            
+
+            let comentarios_desordenados: any[][] = [];
+
+            //crear arreglo para insertar ahi los comentarios de cada empresa
+            for (let i = 0;i<this.empresas.length;i++){
+              comentarios_desordenados.push([]);
+            }
+
+            for (let i = 0; i < this.empresas.length; i++){
+              //console.log("empresa: ", this.empresas[i].nombre_empresa);
+              //console.log("palabras clave: ", this.empresas[i].palabras_clave);
+              this.palabras_clave_empresa.push(this.empresas[i].palabras_clave);
+              this.empresaService.obtener_practicas_por_empresa(this.empresas[i].id).subscribe({
+                next: data => {
+                  //console.log(data);
+                  respuesta = { ...respuesta, ...data }
+                },
+                error: error => {
+                  console.log(error);
+                },
+                complete: () => {
+                  let practica_aux = [];
+                  //console.log("respuesta practicas:");
+                  //console.log("practicas en empresa " + this.empresas[i].nombre_empresa);
+                  //console.log(respuesta.body);
+                  practica_aux = respuesta.body;
+                  let comentarios_aux = [];
+                  //comentarios_aux.push(this.empresas[i].id);
+                  for (let j = 0; j < practica_aux.length; j++){
+                    comentarios_aux.push(practica_aux[j].comentario_empresa);
+                  }
+                  comentarios_desordenados[i] = comentarios_aux;
+                  //let eliminar = comentarios_desordenados[i].shift();
+                  //omentarios_desordenados.push(comentarios_aux);
+                }
+              })
+            }
+
+            this.comentarios = comentarios_desordenados;
+            
+            //console.log("empresas:");
+            //console.log(this.empresas);
+
+            //console.log("comentarios:");
+            //console.log(this.comentarios);
+          }
+        })
       }
-    })
+    }) 
   }
 
   cant_not_null(array: any[]){
@@ -159,9 +218,32 @@ export class EstadisticaEmpresasComponent {
     }
   }
 
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, id_empresa: number): void {
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, id_empresa: number, tipo_dialog: string): void {
+
+    let ramos_utiles_aux: any[] = [];
+    let nombre_ramos_utiles: string[] = [];
+    let porcentaje_ramos_utiles: number[] = [];
+
     for (let i = 0; i < this.empresas.length; i++){
       if (this.empresas[i].id == id_empresa){
+
+        let ramos_utiles_aux = this.ramos_empresas[i];
+
+        if(ramos_utiles_aux != null){
+          for(let k=0; k<ramos_utiles_aux.length;k++){
+            //si en number push porcentaje
+             if(typeof ramos_utiles_aux[k] == 'number'){
+               porcentaje_ramos_utiles.push(ramos_utiles_aux[k]);
+             }
+             else{
+               nombre_ramos_utiles.push(ramos_utiles_aux[k]);
+             } 
+           }
+        }
+        
+        //console.log("ramos utiles aux: ", ramos_utiles_aux);
+        //console.log("nombre ramos utiles: ", nombre_ramos_utiles);
+        //console.log("porcentaje ramos utiles: ", porcentaje_ramos_utiles);
 
         this.comentarios_empresa = this.comentarios[i];
         this.nombre_empresa_comentario = this.empresas[i].nombre_empresa;
@@ -176,13 +258,16 @@ export class EstadisticaEmpresasComponent {
         break;
       }
     }
+
+    //let pos_empresa = this.empresas.indexOf()
+
     //this.comentarios_empresa.shift();
 
     const dialogRef = this.dialog.open(Dialog, {
       width: '800px',
       enterAnimationDuration,
       exitAnimationDuration,
-      data: {nombre_empresa: this.nombre_empresa_comentario, lista_comentarios: this.comentarios_empresa, palabras_clave: this.palabras_clave_una_empresa}
+      data: {nombre_empresa: this.nombre_empresa_comentario, lista_comentarios: this.comentarios_empresa, palabras_clave: this.palabras_clave_una_empresa, tipo: tipo_dialog, nombre_ramos_utiles: nombre_ramos_utiles, porcentaje_ramos_utiles: porcentaje_ramos_utiles}
     });
 
   }
@@ -202,6 +287,9 @@ export class Dialog {
   lista_comentarios: any[] = [];
   nombre_empresa: string;
   palabras_clave: string[];
+  tipo: string;
+  nombre_ramos_utiles: string[];
+  porcentaje_ramos_utiles: number[];
   
 
   constructor(public dialogRef: MatDialogRef<Dialog>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
