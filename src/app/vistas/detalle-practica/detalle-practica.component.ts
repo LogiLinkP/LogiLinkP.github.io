@@ -69,6 +69,7 @@ export class DetallePracticaComponent implements OnInit {
   ev_encargado: any = [];
 
   hay_plagio: boolean = false;
+  activada: boolean = true;
 
   constructor(private fragmentosService: FragmentosService, private service: DetallePracticaService, private service2: SetDetallesAlumnoService,
     private _snackBar: MatSnackBar, private route: ActivatedRoute,
@@ -118,8 +119,10 @@ export class DetallePracticaComponent implements OnInit {
         },
         complete: () => {
           this.practica = respuesta.body;
-          console.log(this.practica);
+          //console.log(this.practica);
           this.check_resumen();
+
+          this.activada = this.practica.modalidad.config_practica.activada;
 
           if (this.practica.ev_encargado == null) {
             this.ev_encargado = "-"
