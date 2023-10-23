@@ -15,8 +15,10 @@ export class RevisionComponent {
   @Input() id_estudiante: number = -1;
   @Input() id_modalidad: number = -1;
   @Input() id_usuario_estudiante: number = -1; 
+  @Input() estado_practica: string = "";
   private sub: any;
 
+  cambiar_estado: boolean = true;
   estado_config: string = ""
   correo_estudiante: string= ""
   respuesta: any = [];
@@ -27,6 +29,9 @@ export class RevisionComponent {
   }
 
   ngOnInit() {
+    if (this.estado_practica == "Aprobada" || this.estado_practica == "Reprobada") {
+      this.cambiar_estado = false;
+    }
     this.service_obtener.obtener_estudiante(this.id_usuario_estudiante).subscribe({
       next:(data:any) => {
         this.respuesta = {...this.respuesta, ...data};
@@ -90,5 +95,9 @@ export class RevisionComponent {
       }
     });
     
+  }
+
+  cambiarEstado() {
+    this.cambiar_estado = !this.cambiar_estado;
   }
 }

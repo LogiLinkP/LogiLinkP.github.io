@@ -121,17 +121,37 @@ export class ConfigService {
         return this._http.request(req);
     }
 
-    crearConfigInforme(id_config_practica: number, tipo_informe: string) {
-        const config = {
-            id_config_practica: id_config_practica,
-            tipo_informe: tipo_informe
+    crearConfigInforme(id_config_practica: number, tipo_informe: string, archivo_o_encuesta: string = "", 
+    tipo_archivo: string = "", plantilla: string = "", file_plantilla: File = new File([], "")) {
+
+        if(archivo_o_encuesta == "archivo" && plantilla != ""){
+            const formData:FormData = new FormData()
+            formData.append('id_config_practica', id_config_practica.toString())
+            formData.append('tipo_informe', tipo_informe)
+            formData.append('archivo_o_encuesta', archivo_o_encuesta)
+            formData.append('tipo_archivo', tipo_archivo)
+            formData.append('plantilla', plantilla)
+            formData.append('file_plantilla', file_plantilla)
+            const req = new HttpRequest('POST', `${environment.url_back}/config_informe/crearConArchivo`, formData, {responseType:"json"});
+            return this._http.request(req);
+
         }
+        else{
+            const config = {
+                id_config_practica: id_config_practica,
+                tipo_informe: tipo_informe,
+                archivo_o_encuesta,
+                tipo_archivo,
+                plantilla
+            }
 
-        const req = new HttpRequest('POST', `${environment.url_back}/config_informe/crear`, config, {
-            responseType: 'json'
-        });
+            const req = new HttpRequest('POST', `${environment.url_back}/config_informe/crear`, config, {
+                responseType: 'json'
+            });
+        
 
-        return this._http.request(req);
+            return this._http.request(req);
+        }
     }
 
     actualizarConfigInforme(id_config_practica: number, tipo_informe: string) {
@@ -362,7 +382,7 @@ export class ConfigService {
     }
 
     getPracticasConConfig(id_config_practica: number) {
-        const req = new HttpRequest('GET', `${environment.url_back}/practica/configs?id_carrera=${id_config_practica}`, {
+        const req = new HttpRequest('GET', `${environment.url_back}/practica/configs?id=${id_config_practica}`, {
             responseType: 'json'
         });
 
