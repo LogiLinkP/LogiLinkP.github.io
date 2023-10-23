@@ -30,7 +30,7 @@
                                         <th (click)="sort(1)" [class.asc]="sortedColumn === 1 && sortOrder === -1" [class.desc]="sortedColumn === 1 && sortOrder === 1">Nombre Estudiante</th>
                                         <th (click)="sort(2)" [class.asc]="sortedColumn === 2 && sortOrder === -1" [class.desc]="sortedColumn === 2 && sortOrder === 1">Rut</th>
                                         <th (click)="sort(3)" [class.asc]="sortedColumn === 3 && sortOrder === -1" [class.desc]="sortedColumn === 3 && sortOrder === 1">Tipo Práctica</th>
-                                        <th (click)="sort(4)" [class.asc]="sortedColumn === 4 && sortOrder === -1" [class.desc]="sortedColumn === 4 && sortOrder === -1">Estado</th>
+                                        <th (click)="sort(4)" [class.asc]="sortedColumn === 4 && sortOrder === -1" [class.desc]="sortedColumn === 4 && sortOrder === 1">Estado</th>
                                         <th class="exclude-hover">Nota Supervisor
                                             <a class ="pointer" title="{{texto_promedio_evaluacion}}"
                                                 data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
