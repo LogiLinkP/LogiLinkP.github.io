@@ -18,6 +18,7 @@ export class IngresoInformeComponent {
   id_informe: number = 0;
   sesion: any = JSON.parse(localStorage.getItem("auth-user") || "{}")
   modificando: boolean = false;
+  config_informe: any = {};
 
   pregunta_actual = 0;
 
@@ -87,7 +88,14 @@ export class IngresoInformeComponent {
       },
       error: (error: any) => {
         console.log(error);
-        this._snackbar.open("Error al obtener las preguntas de informe de avances", "Cerrar", {
+        let string_error = "";
+        if ((this.config_informe.tipo_informe).toLowerCase() == "informe avance") {
+          string_error = "Error al obtener las preguntas de informe de avances";
+        }
+        else if ((this.config_informe.tipo_informe).toLowerCase() == "informe final") {
+          string_error = "Error al obtener las preguntas de informe final";
+        }
+        this._snackbar.open(string_error, "Cerrar", {
           duration: 2000,
           panelClass: ['red-snackbar']
         });
@@ -95,6 +103,7 @@ export class IngresoInformeComponent {
       complete: () => {
         //console.log("RESPUESTA OBTENIDA", respuesta);
         this.preguntas = respuesta.body.config_informe.pregunta_informes;
+        this.config_informe = respuesta.body.config_informe;
         let respuestas_aux = respuesta.body.key;
         //console.log("PREGUNTAS", respuesta.body)
         
@@ -227,7 +236,7 @@ export class IngresoInformeComponent {
     //console.log("RESPUESTAS A ENVIAR EN QUERY", respuestas_aux);
     let respuesta2: any = {};
 
-    this.service_informe.update_key_informe(this.id_informe, JSON.stringify(respuestas_aux)).subscribe({
+    this.service_informe.update_key_informe(this.id_informe, respuestas_aux).subscribe({
       next: (data: any) => {
         respuesta2 = { ...respuesta2, ...data }
       },

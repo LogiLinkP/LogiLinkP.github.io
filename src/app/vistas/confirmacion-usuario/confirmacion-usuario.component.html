@@ -1,0 +1,45 @@
+<div id="wrapper">
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content" class="main-content">
+            <!-- Begin Page Content -->
+            <div class="container-fluid" style="height: 100vh;">
+                <!-- Page Heading -->
+                <div class="row pt-5">
+                    <div class="col-lg-2"></div>
+                    <!-- Column -->
+                    <div class="col-lg-8">
+                        <!-- Tarjeta inicial-->
+                        <div class="card border-left-primary shadow py-2">
+                            <div class="card-body" *ngIf="correo_confirmado==true; else errorConfirmacion">
+                                <div class="h4 mb-3 font-weight-bold text-gray-800 text-center">
+                                    ¡Gracias por confirmar tu correo!
+                                </div>
+                                <div class="h5 mb-3 text-gray-800 text-center">
+                                    Ahora puedes iniciar sesión con el correo
+                                    {{usuario.correo}}
+                                </div>
+                                <div class="h5 mb-3 text-gray-800 text-center">
+                                    <button class = "btn btn-primary btn-user" >
+                                        <a href = "/"
+                                        style = "color:white">Iniciar sesión</a>
+                                    </button>
+                                </div>
+                            </div>
+                            <ng-template #errorConfirmacion>
+                                <div class="card-body">
+                                    <div class="h4 mb-3 font-weight-bold text-gray-800 text-center">
+                                        ¡Hubo un error al confirmar tu correo!
+                                    </div>
+
+                                    <div class="h5 mb-3 text-gray-800 text-center">
+                                        Por favor, intenta de nuevo
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
