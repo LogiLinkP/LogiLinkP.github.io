@@ -9,12 +9,13 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 export class ConfigService {
     constructor(private _http: HttpClient) { }
 
-    crearConfigPractica(nombre: string, frecuencia_informes: string, informe_final: string, id_carrera: number) {
+    crearConfigPractica(nombre: string, frecuencia_informes: string, informe_final: string, id_carrera: number, doc_direst: boolean) {
         const config = {
             nombre: nombre,
             frecuencia_informes: frecuencia_informes,
             informe_final: informe_final,
-            id_carrera
+            id_carrera,
+            doc_direst
         }
 
         const req = new HttpRequest('POST', `${environment.url_back}/config_practica/crear`, config, {
