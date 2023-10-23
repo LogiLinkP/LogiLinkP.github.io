@@ -1,0 +1,60 @@
+.nav-item{
+    background-color: #d5d5d56b;  
+    border-radius: 2px;
+}
+
+button{
+    color: rgb(31, 31, 31);
+}
+
+thead {
+    border: #e4e4e4 solid 1px;
+}
+
+thead th {
+    text-align: center;
+    color: #727272;
+    vertical-align: middle;
+}
+
+thead th:not(.exclude-hover):hover {
+    background-color: #e7e7e7;
+    cursor: pointer;
+}
+
+tbody{
+    max-height: calc(100vh - 350px);
+    display: block;
+    overflow-y: auto;
+}
+
+
+thead, tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;/* even columns width , fix width of table too*/
+}
+
+tbody tr td {
+    vertical-align: middle !important;
+    text-align: center;
+    color: #686868;
+}
+
+.custom-tooltip {
+    font-size: 25px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+/* Ascending arrow style */
+.asc:after {
+    content: ' ▲'; /* Up arrow */
+  }
+  
+  /* Descending arrow style */
+  .desc:after {
+    content: ' ▼'; /* Down arrow */
+  }

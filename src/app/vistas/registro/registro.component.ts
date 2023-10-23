@@ -109,19 +109,19 @@ export class RegistroComponent implements OnInit {
       complete: () => {
         if (_data.status == 200) {
           this.router.navigate(["/" + environment.ruta_login])
-          this._snackBar.open("Usuario creado correctamente", "Cerrar", {
+          this._snackBar.open("Se ha enviado correo de confirmación para crear al usuario.", "Cerrar", {
             panelClass: ['green-snackbar'],
             duration: 2000
           });
         } else {
-          this._snackBar.open("Error al crear usuario", "Cerrar", {
+          this._snackBar.open(_data.body.message, "Cerrar", {
             panelClass: ['red-snackbar'],
             duration: 2000
           });
         }
       },
       error: err => {
-        this._snackBar.open("Error al crear usuario", "Cerrar", {
+        this._snackBar.open(err.error.message, "Cerrar", {
           panelClass: ['red-snackbar'],
           duration: 2000
         });

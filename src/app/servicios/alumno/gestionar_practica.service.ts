@@ -47,7 +47,7 @@ export class GestionarService {
     id_empresa: number, id_supervisor: number, id_encargado: number, id_config_practica: number) {
 
     const nueva_practica = {
-      estado: environment.estado_practica.en_curso,
+      estado: environment.estado_practica.esperando_confirmacion,
       id_estudiante: id_estudiante,
       id_modalidad: id_modalidad,
       fecha_inicio: fecha_inicio,
@@ -57,7 +57,7 @@ export class GestionarService {
       id_encargado: id_encargado,
       id_config_practica
     }
-    const req = new HttpRequest('POST', `${environment.url_back}/practica/crear`, nueva_practica, {
+    const req = new HttpRequest('POST', `${environment.url_back}/practica/crear_verifica_supervisor`, nueva_practica, {
       responseType: 'text'
     });
     return this.http.request(req);
@@ -94,4 +94,25 @@ export class GestionarService {
     });
     return this.http.request(req);
   }
+
+  subir_informe(id_informe: number, key: Object, file_informe: File) {
+    const formData:FormData = new FormData();
+    formData.append('id', id_informe.toString());
+    formData.append('key', JSON.stringify(key));
+    formData.append('file_informe', file_informe);
+    const req = new HttpRequest('PUT', `${environment.url_back}/informe/subirInforme`, formData, {responseType:"json"});
+    return this.http.request(req);
+  }
+
+  eliminar_informe_final(id_informe: number) {
+    let key = {};
+    const req = new HttpRequest('PUT', `${environment.url_back}/informe/actualizar`, {
+      id: id_informe,
+      key,
+      responseType: 'json'
+    });
+    return this.http.request(req);
+  }
 }
+
+

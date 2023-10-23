@@ -1,0 +1,83 @@
+<div class="modal fade" id="editarModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edición {{seccion}}</h5>
+            </div>
+            <div class="modal-body">
+                <form class="user" [formGroup]="editarForm">
+                    <div class="form-group row">
+                        <div *ngIf="tiene_alumnos" class="alert alert-danger">
+                            <p>Los estudiantes que estén cursando (o hayan cursado) esta práctica quedarán con la versión anterior</p>
+                        </div>
+                        <div class="col-12 mb-3 mb-sm-0">
+                            <!-- NOMBRE -->
+                            <input type="text" class="form-control form-control-user" formControlName="nombre">
+                            <div *ngIf="editarForm.controls['nombre'].invalid && (editarForm.controls['nombre'].dirty || editarForm.controls['nombre'].touched)"
+                                class="alert alert-danger">
+                                <div *ngIf="editarForm.controls['nombre'].errors?.['required']">
+                                    Campo requerido
+                                </div>
+                                <div *ngIf="editarForm.controls['nombre'].errors?.['minlength']">
+                                    Mínimo 3 caracteres.
+                                </div>
+                            </div>
+                            <br>
+
+                            <!-- FRECUENCIA DE INFORME -->
+                            <p>Frecuencia informe: </p>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="informeDiario" value="diario" formControlName="frecuencia_informes">
+                                <label class="form-check-label" for="informeDiario">Diario</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="infomreSemanal" value="semanal" formControlName="frecuencia_informes">
+                                <label class="form-check-label" for="infomreSemanal">Semanal</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="informeMensual" value="mensual" formControlName="frecuencia_informes">
+                                <label class="form-check-label" for="informeMensual">Mensual</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="sinAvance" value="sinAvance" formControlName="frecuencia_informes">
+                                <label class="form-check-label" for="sinAvance">Ninguno</label>
+                            </div>
+                            <!-- <div *ngIf="editarForm.controls['nombre'].invalid"
+                                class="alert alert-danger">
+                                <div *ngIf="editarForm.controls['frecuencia_informes'].errors?.['required']">
+                                    Campo requerido
+                                </div>
+                            </div> -->
+                            <br><br>
+
+                            <!-- INFORME FINAL -->
+                            <p>Informe final: </p>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="informeFinalSI" value="si" formControlName="informe_final">
+                                <label class="form-check-label" for="informeFinalSI">Si</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" id="informeFinalNO" value="no" formControlName="informe_final">
+                              <label class="form-check-label" for="informeFinalNO">No</label>
+                            </div>
+                            <!-- <div class="form-check form-check-inline">
+                                <input id="meses" type="checkbox" class="form-check-input" formControlName="frecuencia_informes">
+                                <label for="meses" class="form-check-label">Meses</label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input id="horas" type="checkbox" class="form-check-input" formControlName="informe_final">
+                                <label for="horas" class="form-check-label">Horas</label>
+                            </div> -->
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" (click)="reset()" data-dismiss="modal">Cancelar</button>
+                <button class="btn btn-success" (click)="guardar()" data-dismiss="modal" [disabled]="errors">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>

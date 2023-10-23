@@ -33,4 +33,9 @@ export class UsuarioService {
     return this.http.request(req);
   }
 
+  get_usuario_encriptado(token: string, iv: string): Observable<any>{
+    const req = new HttpRequest('GET', `${environment.url_back}/usuario/confirmar_correo?token=${token}&iv=${iv}`);
+    return this.http.request(req);
+  }
+
 }

@@ -1,12 +1,10 @@
-import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation, HostListener } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { GetDetallesAlumnoService } from '../../servicios/encargado/resumen_practicas.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Router } from "@angular/router";
-import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
-import { NULL } from 'sass';
 import { DetallePracticaService } from 'src/app/servicios/encargado/detalle-practica.service';
 
 
@@ -35,7 +33,12 @@ export class TablaComponent {
   usuario:any = []
   encargado: any = []
 
-  booleanValue: boolean = true; 
+  booleanValue: boolean = true;
+  
+  editables:any = {};
+  ev_values:any = {};
+
+  ev_value:number = -1;
 
   texto_consistencia_informe: string = "Indica qué tan relacionados están los informes del\n" +
     "estudiante con lo que escribió su supervisor.\n" +
@@ -54,7 +57,9 @@ export class TablaComponent {
   texto_indice_repeticion: string = "Es un valor que indica qué tanto contenido de los informes es texto repetido\n" +
     "Para más información, haga click en el botón.";
 
-  texto_promedio_evaluacion: string = "Es un valor que indica en promedio las aptitudes del estudiante evaluadas por el supervisor";
+  texto_evaluacion_encargado:string = "Valor numérico del 1 al 5 (De peor a mejor), que le da un encargado como evaluación a una práctica."
+
+  texto_promedio_evaluacion: string = "Valor numérico del 1 al 5 (De peor a mejor), que indica en promedio las aptitudes del estudiante evaluadas por el supervisor";
 
   
   constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar,
@@ -88,22 +93,31 @@ export class TablaComponent {
         });
       },
       complete: () => {
+        
+
         let temppracticas:any = [];
 
-        for (let alumno of respuesta.body){
-          if (alumno.modalidad.config_practica.id_carrera == this.carrera_encargado && alumno.modalidad.config_practica.id_carrera != null){
-          temppracticas.push(alumno);
+        for (let practicaux of respuesta.body){
+          //console.log(alumno)
+          if (practicaux?.modalidad?.config_practica?.id_carrera == this.carrera_encargado && practicaux?.modalidad?.config_practica?.id_carrera != null){
+            temppracticas.push(practicaux);
+            if(practicaux.ev_encargado == null || practicaux.ev_encargado == -1){
+              this.ev_values[practicaux.id] = "-"
+              }else{
+              this.ev_values[practicaux.id]= practicaux.ev_encargado
+              }
           }
         }
-        //console.log(temppracticas);
 
-        this.practicas = temppracticas.map((alumno: any) => {
+        
 
-          alumno.consistencia_nota = alumno.consistencia_nota ? `${Math.round(100 * alumno.consistencia_nota)}%` : "—";
-          alumno.consistencia_informe = alumno.consistencia_informe ? `${Math.round(100 * alumno.consistencia_informe)}%` : "—";
-          alumno.nota_evaluacion = alumno.nota_evaluacion ? alumno.nota_evaluacion : "—";
-          alumno.interpretacion_nota = alumno.interpretacion_nota ? alumno.interpretacion_nota : "—";
-          alumno.interpretacion_informe = alumno.interpretacion_informe ? alumno.interpretacion_informe : "—";
+        this.practicas = temppracticas.map((practicaux: any) => {
+
+          practicaux.consistencia_nota = practicaux.consistencia_nota ? `${Math.round(100 * practicaux.consistencia_nota)}%` : "—";
+          practicaux.consistencia_informe = practicaux.consistencia_informe ? `${Math.round(100 * practicaux.consistencia_informe)}%` : "—";
+          practicaux.nota_eval = practicaux.nota_eval ? practicaux.nota_eval : "—";
+          practicaux.interpretacion_nota = practicaux.interpretacion_nota ? practicaux.interpretacion_nota : "—";
+          practicaux.interpretacion_informe = practicaux.interpretacion_informe ? practicaux.interpretacion_informe : "—";
           
           /*alumno ={... alumno, carrera: this.carreras[Math.floor(Math.random() * this.carreras.length)]}
           console.log(alumno);
@@ -112,11 +126,13 @@ export class TablaComponent {
             this.practicas.splice(index, 1);
           }
           */
-          return alumno;
+          return practicaux;
         });
-        for (var item of this.practicas){
-          let iditem = item.id
-          this.practi_service.obtener_practica(item.id).subscribe({
+        console.log(this.practicas)
+        for (var practicaux of this.practicas){
+          this.editables[practicaux.id] = "0"
+          let id_practicaux = practicaux.id
+          this.practi_service.obtener_practica(id_practicaux).subscribe({
             next: (data: any) => {
               respuesta = { ...respuesta, ...data }
             },
@@ -128,9 +144,10 @@ export class TablaComponent {
             },
             complete: () => {
               let evaluaciones = respuesta.body.respuesta_supervisors
+              //console.log(evaluaciones)
               
               if(evaluaciones.length == 0){
-                this.temp_notas.push([iditem, 0])
+                this.temp_notas.push([id_practicaux, 0])
               }
               else{
                 let find = -1
@@ -140,7 +157,7 @@ export class TablaComponent {
                   let temp: any = [];
                   
                   if(val.pregunta_supervisor != null){
-                    if (val.pregunta_supervisor.enunciado == "Evalue entre 1 y 5 las siguientes aptitudes del practicante"){
+                    if (val.pregunta_supervisor.enunciado == "Evalúe entre 1 y 5 las siguientes aptitudes del practicante"){
                       find = 1
                       temp = val.respuesta.split(",");
                       for(var n of temp){
@@ -148,35 +165,40 @@ export class TablaComponent {
                         prom += 1;
                       } 
                       nota_promedio = nota_promedio/prom
-                      this.temp_notas.push([iditem, nota_promedio])  
+                      this.temp_notas.push([id_practicaux, nota_promedio])  
                       break
                     }
                   }
                 }
                 if (find == -1){
-                  this.temp_notas.push([iditem, 0])
+                  this.temp_notas.push([id_practicaux, 0])
                 } 
               }
               this.temp_notas.sort(function(a:any, b:any){
                 return a[0] - b[0];
               })
               this.notas_promedio = [];
-              for (let item2 of this.temp_notas){
-                if (item2[1] == 0){
+              for (let nota_temp of this.temp_notas){
+                if (nota_temp[1] == 0){
                   this.notas_promedio.push("-")
                 } else{
-                  this.notas_promedio.push(item2[1])
+                  this.notas_promedio.push(nota_temp[1])
                 }
               }
+              //console.log(this.notas_promedio) 
+              const element = document.getElementById('cuerpoTabla');
+              const targetElement = document.getElementById('headerTabla');
+              if (element) {
+                const elementWidth = element.offsetWidth;
+                targetElement!.style.width = elementWidth + 'px';
+              }  
             }
           });
-        }     
-        this.rerender();
+        }
       }
     });
   }
-  rerender(): void {
-  }
+
 
   ngAfterViewInit(): void {
     this.dtTrigger.next(0);
@@ -191,7 +213,13 @@ export class TablaComponent {
     this.dtTrigger.unsubscribe();
   }
 
+  sortedColumn: number | null = null;
+  sortOrder: number | null = null;
+
   sort(n:number) {
+    this.sortedColumn = n;
+    this.sortOrder = this.booleanValue ? 1 : -1;
+    //console.log(this.booleanValue, this.sortOrder)
     if (this.booleanValue == false){
       switch(n){
         case 1:
@@ -199,14 +227,12 @@ export class TablaComponent {
                                                 a.estudiante.usuario.nombre < b.estudiante.usuario.nombre ? -1 :
                                                 0 
           )
-          console.log(this.practicas)
           break;
         case 2:
           this.practicas.sort((a:any, b:any) => a.estudiante.rut > b.estudiante.rut ? 1 :
                                                 a.estudiante.rut < b.estudiante.rut ? -1 :
                                                 0 
           )
-          console.log(this.practicas)
           break;
         case 3:
           this.practicas.sort((a:any, b:any) => a.modalidad.config_practica.nombre > b.modalidad.config_practica.nombre ? 1 :
@@ -220,39 +246,6 @@ export class TablaComponent {
                                                 0 
           )
           break;
-        case 5:
-          this.practicas.sort((a:any, b:any) => a.indice_repeticion > b.indice_repeticion ? 1 :
-                                                a.indice_repeticion < b.indice_repeticion ? -1 :
-                                                0 
-          )
-          break;
-        case 6:
-          this.practicas.sort((a:any, b:any) => a.consistencia_informe > b.consistencia_informe ? 1 :
-                                                a.consistencia_informe < b.consistencia_informe ? -1 :
-                                                0 
-          )
-          break;
-        case 7:
-          this.practicas.sort((a:any, b:any) => a.consistencia_nota > b.consistencia_nota ? 1 :
-                                                a.consistencia_nota < b.consistencia_nota ? -1 :
-                                                0 
-          )
-          break;
-        case 8:
-          this.practicas.sort((a:any, b:any) => a.interpretacion_nota > b.interpretacion_nota ? 1 :
-                                                a.interpretacion_nota < b.interpretacion_nota ? -1 :
-                                                0 
-          )
-          break;
-        case 9: 
-          this.practicas.sort((a:any, b:any) => a.interpretacion_informe > b.interpretacion_informe ? 1 :
-                                                a.interpretacion_informe < b.interpretacion_informe ? -1 :
-                                                0 
-          )
-          break;
-        case 10:
-          console.log(this.notas_promedio)
-          this.notas_promedio.sort((a:any, b:any) => a > b ? 1 : a < b ? -1 : 0)
       }
       this.booleanValue = !this.booleanValue
     } else{
@@ -262,14 +255,12 @@ export class TablaComponent {
                                                 a.estudiante.usuario.nombre > b.estudiante.usuario.nombre ? -1 :
                                                 0 
           )
-          console.log(this.practicas)
           break;
         case 2:
           this.practicas.sort((a:any, b:any) => a.estudiante.rut < b.estudiante.rut ? 1 :
                                                 a.estudiante.rut > b.estudiante.rut ? -1 :
                                                 0 
           )
-          console.log(this.practicas)
           break;
         case 3:
           this.practicas.sort((a:any, b:any) => a.modalidad.config_practica.nombre < b.modalidad.config_practica.nombre ? 1 :
@@ -282,43 +273,71 @@ export class TablaComponent {
                                                 a.estado > b.estado ? -1 :
                                                 0 
           )
-          break;
-        case 5:
-          this.practicas.sort((a:any, b:any) => a.indice_repeticion < b.indice_repeticion ? 1 :
-                                                a.indice_repeticion > b.indice_repeticion ? -1 :
-                                                0 
-          )
-          break;
-        case 6:
-          this.practicas.sort((a:any, b:any) => a.consistencia_informe < b.consistencia_informe ? 1 :
-                                                a.consistencia_informe > b.consistencia_informe ? -1 :
-                                                0 
-          )
-          break;
-        case 7:
-          this.practicas.sort((a:any, b:any) => a.consistencia_nota < b.consistencia_nota ? 1 :
-                                                a.consistencia_nota > b.consistencia_nota ? -1 :
-                                                0 
-          )
-          break;
-        case 8:
-          this.practicas.sort((a:any, b:any) => a.interpretacion_nota < b.interpretacion_nota ? 1 :
-                                                a.interpretacion_nota > b.interpretacion_nota ? -1 :
-                                                0 
-          )
-          break;
-        case 9: 
-          this.practicas.sort((a:any, b:any) => a.interpretacion_informe < b.interpretacion_informe ? 1 :
-                                                a.interpretacion_informe > b.interpretacion_informe ? -1 :
-                                                0 
-          )
-          break;
-        case 10:
-          console.log(this.notas_promedio)
-          this.notas_promedio.sort((a:any, b:any) => a < b ? 1 : a > b ? -1 : 0)
       }
       this.booleanValue = !this.booleanValue
     }
 
   }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    // Handle the window resize event here
+    //console.log('Window has been resized', window.innerWidth, window.innerHeight);
+    // You can put your custom logic here
+    const element = document.getElementById('cuerpoTabla');
+    const targetElement = document.getElementById('headerTabla');
+    if (element) {
+      const elementWidth = element.offsetWidth;
+      targetElement!.style.width = elementWidth + 'px';
+    }  
+  }
+
+  editar(id_practica:number){
+    this.editables[id_practica] = "1"
+  }
+
+  checkout(arg: any) {
+    this.ev_value = Number(arg.target.value)
+  }
+
+  evaluacion_encargado(id_practica:number){
+    if(this.ev_value == -1){
+      this.editables[id_practica] = "0"
+      return;
+    }
+    let respuesta:any = [];
+    this.practi_service.evaluacion_encargado(id_practica, this.ev_value).subscribe({
+      next:(data:any) => {
+        respuesta = {...respuesta, ...data};
+      },
+      error:(error:any) => {
+        console.log(error);
+        return;
+      },
+      complete:() => {
+      }
+    })
+    this.editables[id_practica] = "0"
+    this.ev_values[id_practica] = this.ev_value;
+    this.ev_value = -1
+  }
+
+  isNumber(value: any): boolean {
+    return !isNaN(parseFloat(value)) && isFinite(value);
+  }
+
+  getEstadoClass(estado: string): string {
+    switch (estado) {
+      case 'Aprobada':
+        return 'text-success';
+      case 'Reprobada':
+        return 'text-danger';
+      case 'Evaluada':
+        return 'text-primary';
+      default:
+        return ''; // Clase por defecto o ninguna clase si no coincide
+    }
+  }
+
+  
 }

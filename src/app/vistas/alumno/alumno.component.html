@@ -34,6 +34,7 @@
 
                                 <!-- Carta que se muestra en caso de que alumno efectivamente tenga una practica registrada -->
                                 <div *ngSwitchCase="2">
+
                                     <a [href]="'#card'+ i" [attr.aria-controls]="'card'+ i"
                                         class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button"
                                         aria-expanded="true" v-on:click="getPractica(nombre)">
@@ -42,371 +43,429 @@
                                     </a>
                                     <div class="collapse" id="{{ 'card' + i }}">
                                         <div class="card-body">
-                                            <div class="row" *ngIf="practica[1].estado=='En curso'">
-                                                <div class="col-xl-9"></div>
-                                                <div class="col-xl-2">
-                                                    <button type="button" class="btn btn-primary btn-lg btn-block"
-                                                        (click)="finalizar_practica(practica[1])">
-                                                        Finalizar Práctica</button>
+                                            <div *ngIf="practica[1].estado!='Esperando confirmacion'; else practicaNoConfirmada">
+                                                <div class="row" *ngIf="practica[1].estado=='En curso'">
+                                                    <div class="col-xl-9"></div>
+                                                    <div class="col-xl-2">
+                                                        <div *ngIf="documentos_enviados[i] == 1; else elsedocument">
+                                                            <button type="button"
+                                                                class="btn btn-primary btn-lg btn-block"
+                                                                (click)="finalizar_practica(practica[1])">
+                                                                Finalizar Práctica</button>
+                                                        </div>
+                                                        <ng-template #elsedocument>
+                                                            <button type="button"
+                                                                class="btn btn-primary btn-lg btn-block"
+                                                                title="{{warning_text}}" (click)="warning_practica()">
+                                                                Finalizar Práctica</button>
+                                                        </ng-template>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="row">
-                                                <div class="col-xl-12">
-                                                    <!-- Estructura interna de la carta -->
-                                                    <div class="card-body">
-                                                        <!-- tarjetas internas consistencia_informe y consistencia_nota-->
+                                                <div class="row">
+                                                    <div class="col-xl-12">
+                                                        <!-- Estructura interna de la carta -->
+                                                        <div class="card-body">
+                                                            <!-- tarjetas internas consistencia_informe y consistencia_nota-->
 
-                                                        <div class="row" style="max-width: 100%;">
-                                                            <!-- Tarjeta Info de práctica -->
-                                                            <div class="col-xl-6">
-                                                                <div class="card shadow mb-4">
-                                                                    <!-- Card Header - Accordion -->
-                                                                    <a class="card-header py-3">
-                                                                        <h4 class="m-0 font-weight-bold text-primary">
-                                                                            Práctica</h4>
-                                                                    </a>
-                                                                    <!-- Card Content - Collapse -->
-                                                                    <div>
-                                                                        <div class="card-body">
-                                                                            <table style="width:40%">
-                                                                                <tr>
-                                                                                    <td>Estado:</td>
-                                                                                    <td>{{ practica[1]?.estado }}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>Modalidad:</td>
-                                                                                    <td>{{
-                                                                                        practica[1]?.modalidad.cantidad_tiempo}}
-                                                                                        {{
-                                                                                        practica[1]?.modalidad.tipo_modalidad}}
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>Fecha Inicio:</td>
-                                                                                    <td>{{ practica[1]?.fecha_inicio |
-                                                                                        date: 'dd/MM/yyyy' }}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>Fecha Término:</td>
-                                                                                    <td>{{ practica[1]?.fecha_termino |
-                                                                                        date: 'dd/MM/yyyy' }}</td>
-                                                                                </tr>
-                                                                                <tr *ngIf="practica[1]?.modalidad?.config_practica?.frecuencia_informes !='sinAvance'">
-                                                                                    <td>Frecuencia de Informes:</td>
-                                                                                    <td>{{
-                                                                                        practica[1]?.modalidad?.config_practica?.frecuencia_informes
-                                                                                        }}</td>
-                                                                                </tr>
+                                                            <div class="row" style="max-width: 100%;">
+                                                                <!-- Tarjeta Info de práctica -->
+                                                                <div class="col-xl-6">
+                                                                    <div class="card shadow mb-4">
+                                                                        <!-- Card Header - Accordion -->
+                                                                        <a class="card-header py-3">
+                                                                            <h4
+                                                                                class="m-0 font-weight-bold text-primary">
+                                                                                Práctica</h4>
+                                                                        </a>
+                                                                        <!-- Card Content - Collapse -->
+                                                                        <div>
+                                                                            <div class="card-body">
+                                                                                <table style="width:40%">
+                                                                                    <tr>
+                                                                                        <td>Estado:</td>
+                                                                                        <td>{{ practica[1]?.estado }}
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>Modalidad:</td>
+                                                                                        <td>{{
+                                                                                            practica[1]?.modalidad.cantidad_tiempo}}
+                                                                                            {{
+                                                                                            practica[1]?.modalidad.tipo_modalidad}}
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>Fecha Inicio:</td>
+                                                                                        <td>{{ practica[1]?.fecha_inicio
+                                                                                            |
+                                                                                            date: 'dd/MM/yyyy' }}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>Fecha Término:</td>
+                                                                                        <td>{{
+                                                                                            practica[1]?.fecha_termino |
+                                                                                            date: 'dd/MM/yyyy' }}</td>
+                                                                                    </tr>
+                                                                                    <tr
+                                                                                        *ngIf="practica[1]?.modalidad?.config_practica?.frecuencia_informes !='sinAvance'">
+                                                                                        <td>Frecuencia de Informes:</td>
+                                                                                        <td>{{
+                                                                                            practica[1]?.modalidad?.config_practica?.frecuencia_informes
+                                                                                            }}</td>
+                                                                                    </tr>
 
-                                                                            </table>
+                                                                                </table>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </div><!-- Fin Tarjeta Información general -->
+                                                                </div><!-- Fin Tarjeta Información general -->
 
-                                                            <!-- Tarjeta de Info de Empresa -->
-                                                            <div class="col-xl-6">
-                                                                <div class="card shadow mb-4">
-                                                                    <!-- Card Header - Accordion -->
-                                                                    <a class="card-header py-3">
-                                                                        <h4 class="m-0 font-weight-bold text-primary">
-                                                                            Empresa</h4>
-                                                                    </a>
-                                                                    <!-- Card Content - Collapse -->
-                                                                    <div>
-                                                                        <div class="card-body">
-                                                                            <table style="width:80%">
-                                                                                <tr>
-                                                                                    <td>Nombre Empresa:</td>
-                                                                                    <td>{{
-                                                                                        practica[1]?.empresa.nombre_empresa
-                                                                                        }}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>Nombre Supervisor:</td>
-                                                                                    <td>{{
-                                                                                        practica[1]?.supervisor.nombre
-                                                                                        }}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>Correo Supervisor:</td>
-                                                                                    <td>{{
-                                                                                        practica[1]?.supervisor.correo
-                                                                                        }}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>Rut Empresa:</td>
+                                                                <!-- Tarjeta de Info de Empresa -->
+                                                                <div class="col-xl-6">
+                                                                    <div class="card shadow mb-4">
+                                                                        <!-- Card Header - Accordion -->
+                                                                        <a class="card-header py-3">
+                                                                            <h4
+                                                                                class="m-0 font-weight-bold text-primary">
+                                                                                Empresa</h4>
+                                                                        </a>
+                                                                        <!-- Card Content - Collapse -->
+                                                                        <div>
+                                                                            <div class="card-body">
+                                                                                <table style="width:80%">
+                                                                                    <tr>
+                                                                                        <td>Nombre Empresa:</td>
+                                                                                        <td>{{
+                                                                                            practica[1]?.empresa.nombre_empresa
+                                                                                            }}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>Nombre Supervisor:</td>
+                                                                                        <td>{{
+                                                                                            practica[1]?.supervisor.nombre
+                                                                                            }}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>Correo Supervisor:</td>
+                                                                                        <td>{{
+                                                                                            practica[1]?.supervisor.correo
+                                                                                            }}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>Rut Empresa:</td>
 
-                                                                                    <td>
-                                                                                        {{
+                                                                                        <td>
+                                                                                            {{
 
-                                                                                        practica[1]?.empresa.rut_empresa
-                                                                                        }}</td>
-                                                                                </tr>
-                                                                                <tr>
+                                                                                            practica[1]?.empresa.rut_empresa
+                                                                                            }}</td>
+                                                                                    </tr>
+                                                                                    <tr>
 
-                                                                                    <td
-                                                                                        [class]="!practica[1]?.empresa.empresa_verificada? 'bg-warning' : ''">
-                                                                                        Empresa Verificada:</td>
-                                                                                    <td
-                                                                                        [class]="!practica[1]?.empresa.empresa_verificada? 'bg-warning' : ''">
-                                                                                        <i *ngIf="!practica[1]?.empresa.empresa_verificada"
-                                                                                            class="fa-solid fa-triangle-exclamation"></i>
-                                                                                        {{
-                                                                                        practica[1]?.empresa.empresa_verificada?
-                                                                                        'Si':'No'
-                                                                                        }}
-                                                                                    </td>
+                                                                                        <td
+                                                                                            [class]="!practica[1]?.empresa.empresa_verificada? 'bg-warning' : ''">
+                                                                                            Empresa Verificada:</td>
+                                                                                        <td
+                                                                                            [class]="!practica[1]?.empresa.empresa_verificada? 'bg-warning' : ''">
+                                                                                            <i *ngIf="!practica[1]?.empresa.empresa_verificada"
+                                                                                                class="fa-solid fa-triangle-exclamation"></i>
+                                                                                            {{
+                                                                                            practica[1]?.empresa.empresa_verificada?
+                                                                                            'Si':'No'
+                                                                                            }}
+                                                                                        </td>
 
-                                                                                </tr>
-                                                                            </table>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </div><!-- Fin Tarjeta Información general -->
-                                                        </div><!-- Fin de la fila -->
+                                                                </div><!-- Fin Tarjeta Información general -->
+                                                            </div><!-- Fin de la fila -->
 
 
-                                                        <div class="row" style="max-width: 100%;">
+                                                            <div class="row" style="max-width: 100%;">
 
-                                                            <!-- Tarjeta Ver Informes -->
-                                                            <div class="col-xl-6">
-                                                                <div class="card shadow mb-4">
-                                                                    <!-- Card Header - Accordion -->
-                                                                    <a class="card-header py-3">
-                                                                        <h4 class="m-0 font-weight-bold text-primary">
-                                                                            Informes</h4>
-                                                                    </a>
-                                                                    <!-- Card Content - Collapse -->
-                                                                    <div>
-                                                                        <div class="card-body overflow-auto">
-                                                                            <div>
-                                                                                <div class="table-responsive"
-                                                                                    *ngIf="practica[1].modalidad?.config_practica?.frecuencia_informes!='diario'; else informesDiarios">
-                                                                                    <table
-                                                                                        class="table table-bordered hoverTable"
-                                                                                        id="dataTable" width="100%"
-                                                                                        cellspacing="0">
-                                                                                        <thead>
-                                                                                            <tr>
-                                                                                                <th>Tipo</th>
-                                                                                                <!--<th>Horas Trabajadas
+                                                                <!-- Tarjeta Ver Informes -->
+                                                                <div class="col-xl-6">
+                                                                    <div class="card shadow mb-4">
+                                                                        <!-- Card Header - Accordion -->
+                                                                        <a class="card-header py-3">
+                                                                            <h4
+                                                                                class="m-0 font-weight-bold text-primary">
+                                                                                Informes</h4>
+                                                                        </a>
+                                                                        <!-- Card Content - Collapse -->
+                                                                        <div>
+                                                                            <div class="card-body overflow-auto">
+                                                                                <div>
+                                                                                    <div class="table-responsive"
+                                                                                        *ngIf="practica[1].modalidad?.config_practica?.frecuencia_informes!='diario'; else informesDiarios">
+                                                                                        <table
+                                                                                            class="table table-bordered hoverTable"
+                                                                                            id="dataTable" width="100%"
+                                                                                            cellspacing="0">
+                                                                                            <thead>
+                                                                                                <tr>
+                                                                                                    <th>Tipo</th>
+                                                                                                    <!--<th>Horas Trabajadas
                                                                                                 </th>-->
-                                                                                                <th>Fecha</th>
-                                                                                                <th></th>
-                                                                                            </tr>
-                                                                                        </thead>
-                                                                                        <tbody>
-                                                                                            <tr
-                                                                                                *ngFor="let informe of practica[1].informes;">
-                                                                                                <td>{{
-                                                                                                    informe?.config_informe?.tipo_informe
-                                                                                                    }}</td>
-                                                                                                <!--<td>{{ informe?.horas_trabajadas }}</td>-->
-                                                                                                <td>{{ informe?.fecha |
-                                                                                                    date: 'dd/MM/yyyy'
-                                                                                                    }}</td>
-                                                                                                <!--<td><button class="btn btn-primary btn-sm btn-block" (click)="mostrar_informe(practica[1].informes,informe.id)">Ver
+                                                                                                    <th>Fecha</th>
+                                                                                                    <th></th>
+                                                                                                </tr>
+                                                                                            </thead>
+                                                                                            <tbody>
+                                                                                                <tr
+                                                                                                    *ngFor="let informe of practica[1].informes;">
+                                                                                                    <td>{{
+                                                                                                        informe?.config_informe?.tipo_informe
+                                                                                                        }}</td>
+                                                                                                    <!--<td>{{ informe?.horas_trabajadas }}</td>-->
+                                                                                                    <td>{{
+                                                                                                        informe?.fecha |
+                                                                                                        date:
+                                                                                                        'dd/MM/yyyy'
+                                                                                                        }}</td>
+                                                                                                    <!--<td><button class="btn btn-primary btn-sm btn-block" (click)="mostrar_informe(practica[1].informes,informe.id)">Ver
                                                                                                     Informe</button></td>-->
-                                                                                                <td><button
-                                                                                                        *ngIf="!informe.key || isEmptyObject(informe.key); else elseBlock"
-                                                                                                        class="btn btn-primary btn-sm btn-block"
-                                                                                                        (click)="redirigir_a_ingreso_informe(informe.id)">Responder</button>
-                                                                                                    <ng-template
-                                                                                                        #elseBlock>
-                                                                                                        <a class="nostyle"
-                                                                                                            href="/estudiante-ver-informe/{{practica[1].id}}/{{informe.id}}">
-                                                                                                            <button
-                                                                                                                class="btn btn-primary btn-sm btn-block">
-                                                                                                                Ver
-                                                                                                                Informe
-                                                                                                            </button>
-                                                                                                        </a>
-                                                                                                    </ng-template>
+                                                                                                    <td><button
+                                                                                                            *ngIf="!informe.key || isEmptyObject(informe.key); else elseBlock"
+                                                                                                            class="btn btn-primary btn-sm btn-block"
+                                                                                                            (click)="redirigir_a_ingreso_informe(informe.id)">Responder</button>
+                                                                                                        <ng-template
+                                                                                                            #elseBlock>
+                                                                                                            <a class="nostyle"
+                                                                                                                href="/estudiante-ver-informe/{{practica[1].id}}/{{informe.id}}">
+                                                                                                                <button
+                                                                                                                    class="btn btn-primary btn-sm btn-block">
+                                                                                                                    Ver
+                                                                                                                    Informe
+                                                                                                                </button>
+                                                                                                            </a>
+                                                                                                        </ng-template>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </div>
+
+                                                                                    <ng-template #informesDiarios>
+                                                                                        <p class="text-gray-800">En
+                                                                                            verde se
+                                                                                            muestran los informes que ya
+                                                                                            has
+                                                                                            respondido, en amarillo los
+                                                                                            que
+                                                                                            aún no has respondido.</p>
+
+                                                                                        <table style="width:100%">
+                                                                                            <tr>
+                                                                                                <td style="width:32%">
+                                                                                                </td>
+                                                                                                <td style="width:36%">
+                                                                                                    <mat-calendar
+                                                                                                        class="calendario{{i}}"
+                                                                                                        [selected]="selectedDate"
+                                                                                                        [minDate]="minDate"
+                                                                                                        (selectedChange)="onFechaClick($event, practica[1].id)"
+                                                                                                        [dateClass]="dateClass(i, practica[1].id)">
+                                                                                                    </mat-calendar>
+                                                                                                </td>
+                                                                                                <td style="width:32%">
                                                                                                 </td>
                                                                                             </tr>
-                                                                                        </tbody>
-                                                                                    </table>
+                                                                                        </table>
+                                                                                    </ng-template>
+
                                                                                 </div>
-
-                                                                                <ng-template #informesDiarios>
-                                                                                    <p class="text-gray-800">En verde se
-                                                                                        muestran los informes que ya has
-                                                                                        respondido, en amarillo los que
-                                                                                        aún no has respondido.</p>
-
-                                                                                    <table style="width:100%">
-                                                                                        <tr>
-                                                                                            <td style="width:32%"></td>
-                                                                                            <td style="width:36%">
-                                                                                                <mat-calendar
-                                                                                                    class="calendario{{i}}"
-                                                                                                    [selected]="selectedDate"
-                                                                                                    [minDate]="minDate"
-                                                                                                    (selectedChange)="onFechaClick($event, practica[1].id)"
-                                                                                                    [dateClass]="dateClass(i, practica[1].id)">
-                                                                                                </mat-calendar>
-                                                                                            </td>
-                                                                                            <td style="width:32%"></td>
-                                                                                        </tr>
-                                                                                    </table>
-                                                                                </ng-template>
-
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </div><!-- Fin Tarjeta Informes -->
+                                                                </div><!-- Fin Tarjeta Informes -->
 
-                                                            <!-- Tarjeta Archivos -->
-                                                            <div class="col-xl-6">
-                                                                <div class="card shadow mb-4">
-                                                                    <!-- Card Header - Accordion -->
-                                                                    <a class="card-header py-3">
-                                                                        <h4 class="m-0 font-weight-bold text-primary">
-                                                                            Documentos Requeridos</h4>
-                                                                    </a>
-                                                                    <!-- Card Content - Collapse -->
+                                                                <!-- Tarjeta Archivos -->
+                                                                <div class="col-xl-6">
+                                                                    <div class="card shadow mb-4">
+                                                                        <!-- Card Header - Accordion -->
+                                                                        <a class="card-header py-3">
+                                                                            <h4
+                                                                                class="m-0 font-weight-bold text-primary">
+                                                                                Documentos Requeridos</h4>
+                                                                        </a>
+                                                                        <!-- Card Content - Collapse -->
+                                                                        <div>
+                                                                            <div class="card-body overflow-auto">
+                                                                                <div>
+                                                                                    <div class="table-responsive">
+                                                                                        <table
+                                                                                            class="table table-bordered hoverTable"
+                                                                                            id="dataTable" width="100%"
+                                                                                            cellspacing="0">
+                                                                                            <thead>
+                                                                                                <tr>
+                                                                                                    <th>Documento</th>
+                                                                                                    <th>Formato</th>
+                                                                                                    <th>Tipo Solicitud
+                                                                                                    </th>
+                                                                                                    <th></th>
+                                                                                                </tr>
+                                                                                            </thead>
+                                                                                            <tbody>
+                                                                                                <tr
+                                                                                                    *ngFor="let solicitud of solicitudes_practicas[practica[1].id];">
+                                                                                                    <td>{{solicitud?.nombre_solicitud}}
+                                                                                                    </td>
+                                                                                                    <td>{{solicitud?.tipo_archivo}}
+                                                                                                    </td>
+                                                                                                    <td>Normal</td>
+                                                                                                    <td
+                                                                                                        [ngSwitch]="solicitud.documentos.length">
+                                                                                                        <app-subir-archivo
+                                                                                                            *ngSwitchCase="0"
+                                                                                                            [id_solicitud]=solicitud.id
+                                                                                                            [id_practica]=practica[1].id
+                                                                                                            [descripcion]="solicitud.descripcion"
+                                                                                                            [nombre_solicitud]="solicitud.nombre_solicitud"
+                                                                                                            [tipo_archivo]="solicitud.tipo_archivo"
+                                                                                                            [id_encargado_usuario]=" practica[1].encargado.id_usuario"
+                                                                                                            [correo_encargado]="practica[1].encargado.usuario.correo"
+                                                                                                            [estado_config]="estado_config"
+                                                                                                            [id_estudiante_usuario]="usuario.id">
+
+                                                                                                        </app-subir-archivo>
+                                                                                                        <button
+                                                                                                            *ngSwitchDefault
+                                                                                                            class="btn btn-success btn-sm btn-block"
+                                                                                                            (click)="descargar_documento(solicitud.documentos[0].id, doc_str)">Descargar</button>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr
+                                                                                                    *ngFor="let doc_extra of practica[1].documento_extras;">
+                                                                                                    <td>{{doc_extra?.nombre_solicitud}}
+                                                                                                    </td>
+                                                                                                    <td>{{doc_extra?.tipo_archivo}}
+                                                                                                    </td>
+                                                                                                    <td>Extra</td>
+                                                                                                    <td>
+                                                                                                        <app-subir-archivo-extra
+                                                                                                            *ngIf="!doc_extra.key || doc_extra.key.length==0; else elseBlock"
+                                                                                                            [id_documento_extra]=doc_extra.id
+                                                                                                            [descripcion]="doc_extra.descripcion"
+                                                                                                            [nombre_solicitud]="doc_extra.nombre_solicitud"
+                                                                                                            [tipo_archivo]="doc_extra.tipo_archivo"
+                                                                                                            [estado_config]="estado_config"
+                                                                                                            [id_estudiante_usuario]="usuario.id">
+                                                                                                        </app-subir-archivo-extra>
+                                                                                                        <ng-template
+                                                                                                            #elseBlock>
+                                                                                                            <button
+                                                                                                                class="btn btn-success btn-sm btn-block"
+                                                                                                                (click)="descargar_documento(doc_extra.id, doc_extra_str)">Descargar</button></ng-template>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div><!-- Fin Tarjeta Archivos -->
+                                                                <div class="col-xl-6">
+                                                                    <div class="card shadow mb-4">
+                                                                        <a class="card-header py-3">
+                                                                            <h4
+                                                                                class="m-0 font-weight-bold text-primary">
+                                                                                Comentarios supervisor</h4>
+                                                                        </a>
+                                                                    </div>
                                                                     <div>
                                                                         <div class="card-body overflow-auto">
                                                                             <div>
-                                                                                <div class="table-responsive">
-                                                                                    <table
-                                                                                        class="table table-bordered hoverTable"
-                                                                                        id="dataTable" width="100%"
-                                                                                        cellspacing="0">
-                                                                                        <thead>
-                                                                                            <tr>
-                                                                                                <th>Documento</th>
-                                                                                                <th>Formato</th>
-                                                                                                <th>Tipo Solicitud</th>
-                                                                                                <th></th>
-                                                                                            </tr>
-                                                                                        </thead>
-                                                                                        <tbody>
-                                                                                            <tr
-                                                                                                *ngFor="let solicitud of solicitudes_practicas[practica[1].id];">
-                                                                                                <td>{{solicitud?.nombre_solicitud}}
-                                                                                                </td>
-                                                                                                <td>{{solicitud?.tipo_archivo}}
-                                                                                                </td>
-                                                                                                <td>Normal</td>
-                                                                                                <td
-                                                                                                    [ngSwitch]="solicitud.documentos.length">
-                                                                                                    <app-subir-archivo
-                                                                                                        *ngSwitchCase="0"
-                                                                                                        [id_solicitud]=solicitud.id
-                                                                                                        [id_practica]=practica[1].id
-                                                                                                        [descripcion]="solicitud.descripcion"
-                                                                                                        [nombre_solicitud]="solicitud.nombre_solicitud"
-                                                                                                        [tipo_archivo]="solicitud.tipo_archivo"
-                                                                                                        
-                                                                                                        [id_encargado_usuario]=" practica[1].encargado.id_usuario"
-                                                                                                        [correo_encargado]="practica[1].encargado.usuario.correo"
-                                                                                                        [estado_config]="estado_config"
-                                                                                                        [id_estudiante_usuario]="usuario.id">
->
-                                                                                                    </app-subir-archivo>
-                                                                                                    <button
-                                                                                                        *ngSwitchDefault
-                                                                                                        class="btn btn-success btn-sm btn-block"
-                                                                                                        (click)="descargar_documento(solicitud.documentos[0].id, doc_str)">Descargar</button>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr
-                                                                                                *ngFor="let doc_extra of practica[1].documento_extras;">
-                                                                                                <td>{{doc_extra?.nombre_solicitud}}
-                                                                                                </td>
-                                                                                                <td>{{doc_extra?.tipo_archivo}}
-                                                                                                </td>
-                                                                                                <td>Extra</td>
-                                                                                                <td>
-                                                                                                    <app-subir-archivo-extra
-                                                                                                        *ngIf="!doc_extra.key || doc_extra.key.length==0; else elseBlock"
-                                                                                                        [id_documento_extra]=doc_extra.id
-                                                                                                        [descripcion]="doc_extra.descripcion"
-                                                                                                        [nombre_solicitud]="doc_extra.nombre_solicitud"
-                                                                                                        [tipo_archivo]="doc_extra.tipo_archivo"
-                                                                                                        [id_encargado_usuario]=" practica[1].encargado.id_usuario"
-                                                                                                        [correo_encargado]="practica[1].encargado.usuario.correo"
-                                                                                                        [estado_config]="estado_config"
-                                                                                                        [id_estudiante_usuario]="usuario.id">
-                                                                                                    </app-subir-archivo-extra>
-                                                                                                    <ng-template
-                                                                                                        #elseBlock>
-                                                                                                        <button
-                                                                                                            class="btn btn-success btn-sm btn-block"
-                                                                                                            (click)="descargar_documento(doc_extra.id, doc_extra_str)">Descargar</button></ng-template>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                        </tbody>
-                                                                                    </table>
-                                                                                </div>
+                                                                                <button
+                                                                                    class="btn btn-primary btn-sm btn-block"
+                                                                                    (click)="comentarios(practica[1].id)"
+                                                                                    data-target="#comentarios-modal"
+                                                                                    data-toggle="modal">Ver comentarios
+                                                                                    evaluacion</button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div><!-- Fin Tarjeta Archivos -->
-                                                        </div><!-- Fin Fila -->
+
+                                                            </div><!-- Fin Fila -->
 
 
-                                                        <!--Tarjeta Aptitudes -->
-                                                        <div class="row" style="max-width: 100%"
-                                                            *ngIf="hay_respuesta[i] == 1">
-                                                            <!-- Tarjeta Archivos -->
-                                                            <div class="col-xl-6">
-                                                                <div class="card shadow mb-4">
-                                                                    <!-- Card Header - Accordion -->
-                                                                    <a class="card-header py-3">
-                                                                        <h4 class="m-0 font-weight-bold text-primary">
-                                                                            Evaluación Supervisor</h4>
-                                                                    </a>
-                                                                    <!-- Card Content - Collapse -->
-                                                                    <div class="collapse" id="collapseCardExample">
-                                                                        <div class="card-body">
-                                                                            <div class="overflow-auto">
-                                                                                <div class="table-responsive">
-                                                                                    <table
-                                                                                        class="table table-bordered hoverTable"
-                                                                                        id="dataTable" width="100%"
-                                                                                        cellspacing="0">
-                                                                                        <thead>
-                                                                                            <tr>
-                                                                                                <th>Aptitud</th>
-                                                                                                <th>Evaluación</th>
-                                                                                            </tr>
-                                                                                        </thead>
-                                                                                        <tbody>
+                                                            <!--Tarjeta Aptitudes -->
+                                                            <div class="row" style="max-width: 100%"
+                                                                *ngIf="hay_respuesta[i] == 1">
+                                                                <!-- Tarjeta Archivos -->
+                                                                <div class="col-xl-6">
+                                                                    <div class="card shadow mb-4">
+                                                                        <!-- Card Header - Accordion -->
+                                                                        <a class="card-header py-3">
+                                                                            <h4
+                                                                                class="m-0 font-weight-bold text-primary">
+                                                                                Evaluación Supervisor</h4>
+                                                                        </a>
+                                                                        <!-- Card Content - Collapse -->
+                                                                        <div class="collapse" id="collapseCardExample">
+                                                                            <div class="card-body">
+                                                                                <div class="overflow-auto">
+                                                                                    <div class="table-responsive">
+                                                                                        <table
+                                                                                            class="table table-bordered hoverTable"
+                                                                                            id="dataTable" width="100%"
+                                                                                            cellspacing="0">
+                                                                                            <thead>
+                                                                                                <tr>
+                                                                                                    <th>Aptitud</th>
+                                                                                                    <th>Evaluación</th>
+                                                                                                </tr>
+                                                                                            </thead>
+                                                                                            <tbody>
 
-                                                                                            <tr
-                                                                                                *ngFor="let aptitud of aptitudes_practica[i]; let j = index">
-                                                                                                <th>{{aptitud}}</th>
-                                                                                                <th>{{notas_aptitudes[i][j]}}
-                                                                                                </th>
-                                                                                            </tr>
+                                                                                                <tr
+                                                                                                    *ngFor="let aptitud of aptitudes_practica[i]; let j = index">
+                                                                                                    <th>{{aptitud}}</th>
+                                                                                                    <th>{{notas_aptitudes[i][j]}}
+                                                                                                    </th>
+                                                                                                </tr>
 
-                                                                                            <tr>
-                                                                                                <th>Promedio</th>
-                                                                                                <th>{{notas_promedio[i]?.toString().indexOf('.')==-1?notas_promedio[i]?.toString():notas_promedio[i]?.toString().slice(0,
-                                                                                                    notas_promedio[i]?.toString().indexOf('.')+3).replace(".",
-                                                                                                    ",")}}
-                                                                                                </th>
-                                                                                            </tr>
-                                                                                        </tbody>
-                                                                                    </table>
+                                                                                                <tr>
+                                                                                                    <th>Promedio</th>
+                                                                                                    <th>{{notas_promedio[i]?.toString().indexOf('.')==-1?notas_promedio[i]?.toString():notas_promedio[i]?.toString().slice(0,
+                                                                                                        notas_promedio[i]?.toString().indexOf('.')+3).replace(".",
+                                                                                                        ",")}}
+                                                                                                    </th>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
 
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div><!-- Fin de tarjeta de estructura interna -->
+                                                        </div><!-- Fin de tarjeta de estructura interna -->
 
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <ng-template #practicaNoConfirmada>
+                                                <div class="text-center text-gray-800 h5">
+                                                    <div class="my-4">
+                                                        <i class="fa-solid fa-triangle-exclamation"></i>
+                                                        <br>
+                                                        <br>
+                                                        <p>La práctica aún no ha sido confirmada por el
+                                                            encargado.</p>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
                                         </div>
                                     </div>
                                 </div>
@@ -448,5 +507,7 @@
         </div>
     </div>
 </div>
+
+<app-comentarios-modal [id_p]="id_p" [data_response]="data_response" [flag]="flag"></app-comentarios-modal>
 
 <app-logout-modal></app-logout-modal>

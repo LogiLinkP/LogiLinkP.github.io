@@ -20,6 +20,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTabsModule } from '@angular/material/tabs';
 
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -67,22 +68,32 @@ import { RamosAlumnosComponent } from './vistas/ramos-alumnos/ramos-alumnos.comp
 import { RamosEncargadoComponent } from './vistas/ramos-encargado/ramos-encargado.component';
 import { EstadisticaEmpresasComponent } from './vistas/estadistica-empresas/estadistica-empresas.component';
 import { AdminComponent } from './vistas/admin/admin.component';
-import { CrearCarreraComponent } from './vistas/crear-carrera/crear-carrera.component';
-import { CrearEncargadoComponent } from './vistas/crear-encargado/crear-encargado.component';
-import { AsignacionComponent } from './vistas/asignacion/asignacion.component';
 import { BarraLateralAdminComponent } from './componentes/barra-lateral-admin/barra-lateral-admin.component';
 import { RegistroEncargadoComponent } from './vistas/registro-encargado/registro-encargado.component';
 import { IngresoInformeComponent } from './vistas/ingreso-informe/ingreso-informe.component';
 import { EstudianteVerInformeComponent } from './vistas/estudiante-ver-informe/estudiante-ver-informe.component';
 import { InfoYEvaluacionEstudianteComponent } from './vistas/wizards/info-y-evaluacion-estudiante/info-y-evaluacion-estudiante.component';
 import { DetalleEstudianteComponent } from './vistas/wizards/detalle-estudiante/detalle-estudiante.component';
-import { EliminarEncargadoComponent } from './vistas/eliminar-encargado/eliminar-encargado.component';
 import { EditarEncargadoModalComponent } from './componentes/editar-encargado-modal/editar-encargado-modal.component';
 import { CrearEncargadoModalComponent } from './componentes/crear-encargado-modal/crear-encargado-modal.component';
 import { CrearCarreraModalComponent } from './componentes/crear-carrera-modal/crear-carrera-modal.component';
 import { EditarCarreraModalComponent } from './componentes/editar-carrera-modal/editar-carrera-modal.component';
 import { RegistroSupervisorComponent } from './vistas/registro-supervisor/registro-supervisor.component';
 import { ConfigPracticaComponent } from './vistas/wizards/config-practica/config-practica.component';
+import { AptitudesComponent } from './vistas/aptitudes/aptitudes.component';
+import { CrearAptitudModalComponent } from './componentes/crear-aptitud-modal/crear-aptitud-modal.component';
+import { EditarAptitudModalComponent } from './componentes/editar-aptitud-modal/editar-aptitud-modal.component';
+import { RangoModalComponent } from './componentes/rango-modal/rango-modal.component';
+import { VistaConfigsPracticaComponent } from './vistas/vista-configs-practica/vista-configs-practica.component';
+import { EdicionSimpleModalComponent } from './componentes/edicion-simple-modal/edicion-simple-modal.component';
+import { PlagiosComponent } from './vistas/plagios/plagios.component';
+import { ComentariosModalComponent } from './componentes/comentarios-modal/comentarios-modal.component';
+import { DocumentacionComponent } from './vistas/documentacion/documentacion.component';
+import { SubirDocumentoEncargadoComponent } from './componentes/subir-documento-encargado/subir-documento-encargado.component';
+import { SubirPlantillaInformeFinalComponent } from './componentes/subir-plantilla-informe-final/subir-plantilla-informe-final.component';
+import { ConfirmarInicioPracticaComponent } from './vistas/confirmar-inicio-practica/confirmar-inicio-practica.component';
+import { ConfirmacionUsuarioComponent } from './vistas/confirmacion-usuario/confirmacion-usuario.component';
+import { SubirArchivoInformeFinalComponent } from './componentes/subir-archivo-informe-final/subir-archivo-informe-final.component';
 
 @NgModule({
   declarations: [
@@ -117,22 +128,32 @@ import { ConfigPracticaComponent } from './vistas/wizards/config-practica/config
     RamosEncargadoComponent,
     EstadisticaEmpresasComponent,
     AdminComponent,
-    CrearCarreraComponent,
-    CrearEncargadoComponent,
-    AsignacionComponent,
     BarraLateralAdminComponent,
     RegistroEncargadoComponent,
     IngresoInformeComponent,
     EstudianteVerInformeComponent,
     InfoYEvaluacionEstudianteComponent,
     DetalleEstudianteComponent,
-    EliminarEncargadoComponent,
     EditarEncargadoModalComponent,
     CrearEncargadoModalComponent,
     CrearCarreraModalComponent,
     EditarCarreraModalComponent,
     RegistroSupervisorComponent,
     ConfigPracticaComponent,
+    AptitudesComponent,
+    CrearAptitudModalComponent,
+    EditarAptitudModalComponent,
+    RangoModalComponent,
+    VistaConfigsPracticaComponent,
+    EdicionSimpleModalComponent,
+    PlagiosComponent,
+    ComentariosModalComponent,
+    DocumentacionComponent,
+    SubirDocumentoEncargadoComponent,
+    SubirPlantillaInformeFinalComponent,
+    ConfirmarInicioPracticaComponent,
+    ConfirmacionUsuarioComponent,
+    SubirArchivoInformeFinalComponent,
   ],
   imports: [
     BrowserModule,
@@ -159,7 +180,8 @@ import { ConfigPracticaComponent } from './vistas/wizards/config-practica/config
     MatDialogModule,
     MatRadioModule,
     MatTooltipModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTabsModule
   ],
   providers: [
     GetDetallesAlumnoService,

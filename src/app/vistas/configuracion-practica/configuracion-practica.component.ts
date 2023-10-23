@@ -2,13 +2,15 @@ import { DOCUMENT } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
 import { ChangeDetectorRef, Component, Inject } from '@angular/core';
-import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormArray, FormBuilder, Validators, isFormRecord } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table'
 
 import { BarraLateralService } from 'src/app/servicios/encargado/barra-lateral/barra-lateral.service';
 import { ConfigService } from 'src/app/servicios/encargado/config-practica/config.service';
 import { environment } from 'src/environments/environment';
 import { Express, response } from 'express'; //! NO BORRAR! SE MUERE TODO. PORQUE? NI IDEA, SALU2 // harold estuvo aquí
+import { EdicionService } from 'src/app/servicios/encargado/edicion-simple/edicion.service';
+import { log } from 'console';
 
 @Component({
     selector: 'app-configuracion-practica',
@@ -19,14 +21,30 @@ import { Express, response } from 'express'; //! NO BORRAR! SE MUERE TODO. PORQU
 export class ConfiguracionPracticaComponent {
 
     currentRoute: string;
+    rutaAnterior: string;
     importada: boolean = false;
     migracion_legal: boolean = true;
     user: any = JSON.parse(localStorage.getItem('auth-user') || "{}").userdata;
+    archivo_plantilla: File | undefined;
+    key_plantilla: string = "";
+    link_descarga_plantilla: string = "";
+    tiene_alumnos: boolean = false;
+
+    hay_doc_direst: boolean = false;
+
+    timer_modalidades: Array<Promise<boolean>> = [];
+    timer_preguntas_encuesta_final: Array<Promise<boolean>> = [];
+    timer_pregunta_supervisor: Array<Promise<boolean>> = [];
+    timer_solicitud_documento: Array<Promise<boolean>> = [];
+    timer_config_informe_inf_final: Array<Promise<boolean>> = [];
+    timer_config_informe_inf_avance: Array<Promise<boolean>> = [];
+    timer_pregunta_informe: Array<Promise<boolean>> = [];
 
     constructor(private _fb: FormBuilder, private cd: ChangeDetectorRef, @Inject(DOCUMENT) private document: Document,
         private serviceBarra: BarraLateralService, private _snackBar: MatSnackBar, private route: ActivatedRoute,
-        private serviceComplete: ConfigService, private router: Router) {
+        private serviceComplete: ConfigService, private router: Router, private serviceEdicion: EdicionService) {
         this.currentRoute = "";
+        this.rutaAnterior = "";
 
         this.router.events.subscribe((event: Event) => {
             if (event instanceof NavigationStart) {
@@ -41,18 +59,22 @@ export class ConfiguracionPracticaComponent {
                 let ruta_cortada = event.url.split("/");
                 //console.log("NavigationEnd:", event.url, "split", ruta_cortada);
                 //console.log("current route: ", this.currentRoute);
+
                 if (ruta_cortada[ruta_cortada.length - 1] == "copia") {
                     this.requestInicial(true);
                     this.importada = true;
                 } else {
+                    if (this.estado == "configuracion_general") {
+                        if (this.rutaAnterior[1] == "configurar") {
+                            this.fg.reset();
+                        }
+                    } else {
+                        window.location.reload();
+                    }
                     this.requestInicial();
                 }
-                if (this.estado == "configuracion_general") {
-                    this.scrollToTop();
-                } else {
-                    this.fg.reset();
-                    window.location.reload();
-                }
+
+                this.rutaAnterior = this.currentRoute;
             }
 
             if (event instanceof NavigationError) {
@@ -95,11 +117,13 @@ export class ConfiguracionPracticaComponent {
     meses: boolean;
     frecuenciaInformes: string;
     informeFinal: string;
+    tipoInformeFinal: string;
+    formatoInformeFinal: string;
+    opcion_pdf: boolean = false;
+    opcion_word: boolean = false;
+
+    plantillaInformeFinal: string;
     preguntaFORM = new FormControl('')
-
-    aptitudFORM = new FormControl('')
-
-    aptitud: string;
 
     nombre_solicitud_documentos: string;
     descripcion_solicitud_documentos: string;
@@ -113,7 +137,6 @@ export class ConfiguracionPracticaComponent {
     habilitarHoras: boolean = false;
     habilitarMeses: boolean = false;
 
-    lista_aptitudes: string[] = [];
 
     lista_preguntas_avance: string[] = [];
     tipos_preguntas_avance: string[] = [];
@@ -191,7 +214,26 @@ export class ConfiguracionPracticaComponent {
                 complete: () => {
                     this.config = respuesta.body;
                     //console.log("request practica existente:", this.config);
-                    this.generarFormulario(this.config.id);
+
+                    let respuesta1: any = {};
+                    this.serviceEdicion.getConfigsConPractica(this.config.id).subscribe({
+                        next: (data: any) => {
+                            respuesta1 = { ...respuesta1, ...data }
+                        },
+                        error: (error: any) => {
+                            this._snackBar.open("Error al buscar estudiantes", "Cerrar", {
+                                duration: 3000,
+                                panelClass: ['red-snackbar']
+                            });
+                            console.log("Error al buscar estudiantes", error);
+                        },
+                        complete: () => {
+                            console.log("request:", respuesta1.body);
+                            this.tiene_alumnos = respuesta1.body.practicas.length > 0 ? true : false;
+                            console.log("tiene alumnos:", this.tiene_alumnos);
+                            this.generarFormulario(this.config.id);
+                        }
+                    });
                 }
             });
         }
@@ -208,6 +250,10 @@ export class ConfiguracionPracticaComponent {
             this.frecuenciaInformes = "";
             this.informeFinal = "";
             this.tipo_solicitud_documentos = "pdf";
+            this.hay_doc_direst = false;
+            this.tipoInformeFinal = "";
+            this.formatoInformeFinal = "";
+            this.plantillaInformeFinal = "";
 
             this.fg = this._fb.group({
                 opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
@@ -221,10 +267,14 @@ export class ConfiguracionPracticaComponent {
                 meses: new FormControl(this.meses),
                 frecuenciaInformes: new FormControl(this.frecuenciaInformes, Validators.required),
                 informeFinal: new FormControl(this.informeFinal, Validators.required),
+                tipoInformeFinal: new FormControl(this.tipoInformeFinal),
+                formatoInformeFinal: new FormControl(this.formatoInformeFinal),
+                plantillaInformeFinal: new FormControl(this.plantillaInformeFinal),
+                opcion_pdf: new FormControl(this.opcion_pdf),
+                opcion_word: new FormControl(this.opcion_word),
                 //pregunta: this.preguntaFORM,
 
                 preguntaFORM: this.pregunta,
-                aptitudFORM: this.aptitud,
 
                 arregloOpcionesPreguntas: this._fb.array([]),
                 arregloHoras: this._fb.array([]),
@@ -234,6 +284,9 @@ export class ConfiguracionPracticaComponent {
                 nombre_solicitud_documentos: new FormControl(this.nombre_solicitud_documentos),
                 descripcion_solicitud_documentos: new FormControl(this.descripcion_solicitud_documentos),
                 tipo_solicitud_documentos: new FormControl(this.tipo_solicitud_documentos),
+
+                //doc direst
+                hay_doc_direst: new FormControl(this.hay_doc_direst)
             });
 
             this.flag = true;
@@ -243,6 +296,7 @@ export class ConfiguracionPracticaComponent {
             this.nombrePractica = this.config.nombre;
             this.frecuenciaInformes = this.config.frecuencia_informes;
             this.informeFinal = this.config.informe_final;
+            this.hay_doc_direst = this.config.doc_direst;
 
             //* set modalidad
             //console.log("modalidad get id:", id_config_practica);
@@ -297,6 +351,28 @@ export class ConfiguracionPracticaComponent {
                             //* set preguntas informe
                             if (respuesta.body?.length) { // el encargado seteó preguntas de informe
                                 for (let j = 0; j < respuesta.body.length; j++) {
+                                    if ((respuesta.body[j]?.tipo_informe).toLowerCase() == "informe final" && (respuesta.body[j]?.archivo_o_encuesta) != null) {
+                                        if ((respuesta.body[j]?.archivo_o_encuesta).toLowerCase() == "encuesta") {
+                                            this.tipoInformeFinal = "encuesta";
+                                        }
+                                        else if ((respuesta.body[j]?.archivo_o_encuesta).toLowerCase() == "archivo") {
+                                            this.tipoInformeFinal = "archivo";
+                                            if (respuesta.body[j]?.tipo_archivo.includes("pdf")) {
+                                                this.opcion_pdf = true;
+                                            }
+                                            if (respuesta.body[j]?.tipo_archivo.includes("doc")) {
+                                                this.opcion_word = true;
+                                            }
+                                            if (respuesta.body[j]?.plantilla != "") {
+                                                this.plantillaInformeFinal = "si";
+                                                this.key_plantilla = respuesta.body[j].plantilla;
+                                                this.link_descarga_plantilla = "https://d2v9ocre132gvc.cloudfront.net/" + this.key_plantilla;
+                                            }
+                                            else {
+                                                this.plantillaInformeFinal = "no";
+                                            }
+                                        }
+                                    }
                                     for (let i = 0; i < respuesta.body[j].pregunta_informes.length; i++) {
                                         if (respuesta.body[j].tipo_informe == "informe final") {
                                             this.lista_preguntas_final.push(respuesta.body[j].pregunta_informes[i].enunciado);
@@ -311,6 +387,9 @@ export class ConfiguracionPracticaComponent {
                                     }
                                 }
                             }
+
+                            //console.log("preguntas avance:", this.lista_preguntas_avance);
+                            //console.log("preguntas final:", this.lista_preguntas_final);
 
                             //* set preguntas encuesta
                             this.serviceComplete.getPreguntaEncuestaFinal(id_config_practica).subscribe({
@@ -372,52 +451,38 @@ export class ConfiguracionPracticaComponent {
                                                         this.lista_tipo_solicitud_documentos.push(respuesta.body[i].tipo_archivo);
                                                     }
 
-                                                    //* set aptitudes
-                                                    this.serviceComplete.getAptitudes(id_config_practica).subscribe({
-                                                        next: (data: any) => {
-                                                            respuesta = { ...respuesta, ...data }
-                                                        },
-                                                        error: (error: any) => {
-                                                            this._snackBar.open("Error al buscar aptitudes", "Cerrar", {
-                                                                duration: 3000,
-                                                                panelClass: ['red-snackbar']
-                                                            });
-                                                            console.log("Error al buscar aptitudes", error);
-                                                        },
-                                                        complete: () => {
-                                                            //console.log("request aptitudes:", respuesta.body);
-                                                            this.lista_aptitudes = respuesta.body.opciones.split(";;");
+                                                    //* set formulario
+                                                    this.fg = this._fb.group({
+                                                        opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
+                                                        opcion_horasFORM: this.opcion_horas,
+                                                        opcion_mesesFORM: this.opcion_meses,
 
-                                                            //* set formulario
-                                                            this.fg = this._fb.group({
-                                                                opcion_preguntaFORM: this.opcion_pregunta, //para poder definir tipo de pregunta
-                                                                opcion_horasFORM: this.opcion_horas,
-                                                                opcion_mesesFORM: this.opcion_meses,
+                                                        nombrePractica: new FormControl(this.nombrePractica, Validators.required),
+                                                        cant_horas: this.cant_horas,
+                                                        cant_meses: this.cant_meses,
+                                                        horas: new FormControl(this.horas),
+                                                        meses: new FormControl(this.meses),
+                                                        frecuenciaInformes: new FormControl(this.frecuenciaInformes, Validators.required),
+                                                        informeFinal: new FormControl(this.informeFinal, Validators.required),
+                                                        tipoInformeFinal: new FormControl(this.tipoInformeFinal),
+                                                        formatoInformeFinal: new FormControl(this.formatoInformeFinal),
+                                                        plantillaInformeFinal: new FormControl(this.plantillaInformeFinal),
+                                                        opcion_pdf: new FormControl(this.opcion_pdf),
+                                                        opcion_word: new FormControl(this.opcion_word),
+                                                        //pregunta: this.preguntaFORM,
 
-                                                                nombrePractica: new FormControl(this.nombrePractica, Validators.required),
-                                                                cant_horas: this.cant_horas,
-                                                                cant_meses: this.cant_meses,
-                                                                horas: new FormControl(this.horas),
-                                                                meses: new FormControl(this.meses),
-                                                                frecuenciaInformes: new FormControl(this.frecuenciaInformes, Validators.required),
-                                                                informeFinal: new FormControl(this.informeFinal, Validators.required),
-                                                                //pregunta: this.preguntaFORM,
+                                                        preguntaFORM: this.pregunta,
 
-                                                                preguntaFORM: this.pregunta,
-                                                                aptitudFORM: this.aptitud,
+                                                        arregloOpcionesPreguntas: this._fb.array([]),
+                                                        arregloHoras: this._fb.array([]),
+                                                        arregloMeses: this._fb.array([]),
 
-                                                                arregloOpcionesPreguntas: this._fb.array([]),
-                                                                arregloHoras: this._fb.array([]),
-                                                                arregloMeses: this._fb.array([]),
-
-                                                                //documentos
-                                                                nombre_solicitud_documentos: new FormControl(this.nombre_solicitud_documentos),
-                                                                descripcion_solicitud_documentos: new FormControl(this.descripcion_solicitud_documentos),
-                                                                tipo_solicitud_documentos: new FormControl(this.tipo_solicitud_documentos),
-                                                            });
-                                                            this.flag = true;
-                                                        }
+                                                        //documentos
+                                                        nombre_solicitud_documentos: new FormControl(this.nombre_solicitud_documentos),
+                                                        descripcion_solicitud_documentos: new FormControl(this.descripcion_solicitud_documentos),
+                                                        tipo_solicitud_documentos: new FormControl(this.tipo_solicitud_documentos),
                                                     });
+                                                    this.flag = true;
                                                 }
                                             });
                                         }
@@ -504,6 +569,7 @@ export class ConfiguracionPracticaComponent {
         this.meses = this.fg.value.meses;
         this.frecuenciaInformes = this.fg.value.frecuenciaInformes;
         this.informeFinal = this.fg.value.informeFinal;
+        this.tipoInformeFinal = this.fg.value.tipoInformeFinal;
         this.opcion_horas = this.arregloHoras.value;
         this.opcion_meses = this.arregloMeses.value;
 
@@ -520,8 +586,13 @@ export class ConfiguracionPracticaComponent {
             //console.log("documentos");
         }
         else if (this.frecuenciaInformes == "sinAvance" && this.informeFinal == "si") {
-            this.estado = "informe_final";
-            //console.log("informe final");
+            if (this.tipoInformeFinal == "encuesta") {
+                this.estado = "informe_final_encuesta";
+            }
+            else if (this.tipoInformeFinal == "archivo") {
+                this.estado = "informe_final_archivo";
+            }
+            console.log("informe final", this.tipoInformeFinal);
         }
         else if (this.frecuenciaInformes != "sinAvance") {
             this.estado = "informe_avance";
@@ -631,6 +702,23 @@ export class ConfiguracionPracticaComponent {
         this.pregunta = "";
     }
 
+    onSubmitArchivoInformeFinal() {
+        this.formatoInformeFinal = "";
+        if (this.fg.value.opcion_pdf == true) {
+            this.formatoInformeFinal += "pdf,";
+        }
+        if (this.fg.value.opcion_word == true) {
+            this.formatoInformeFinal += "doc,docx,";
+        }
+        if (this.formatoInformeFinal.slice(-1) == ",") {
+            this.formatoInformeFinal = this.formatoInformeFinal.slice(0, -1);
+        }
+        console.log(this.formatoInformeFinal);
+        this.plantillaInformeFinal = this.fg.value.plantillaInformeFinal;
+
+        this.avanzarDesdePreguntasFinal()
+    }
+
     onSubmitAddPreguntaEncuesta() {
         //this.lista_opciones_preguntas = [];
         this.pregunta = this.fg.value.preguntaFORM;
@@ -677,14 +765,6 @@ export class ConfiguracionPracticaComponent {
 
         this.arregloOpcionesPreguntas.clear();
         this.pregunta = "";
-    }
-
-    onSubmitAddAptitud() {
-        this.aptitud = this.fg.value.aptitudFORM;
-        this.lista_aptitudes.push(this.aptitud);
-        console.log(this.lista_aptitudes);
-
-        this.aptitud = "";
     }
 
     onSubmitAddPreguntaSupervisor() {
@@ -774,7 +854,12 @@ export class ConfiguracionPracticaComponent {
 
     avanzarDesdePreguntasAvance() {
         if (this.informeFinal == "si") {
-            this.estado = "informe_final";
+            if (this.tipoInformeFinal == "encuesta") {
+                this.estado = "informe_final_encuesta";
+            }
+            else if (this.tipoInformeFinal == "archivo") {
+                this.estado = "informe_final_archivo";
+            }
         }
         else {
             this.estado = "solicitud_documentos";
@@ -796,14 +881,10 @@ export class ConfiguracionPracticaComponent {
 
     avanzarDesdePreguntasEncuesta() {
         //this.estado = "agregar_ramos";
-        this.estado = "aptitudes";
-        this.printForm();
-    }
-
-    avanzarDesdeAptitud() {
         this.estado = "preguntas_supervisor";
         this.printForm();
     }
+
 
     avanzarDesdePreguntasSupervisor() {
         this.estado = "fin_configuracion";
@@ -820,7 +901,7 @@ export class ConfiguracionPracticaComponent {
         }
 
         //volver desde preguntas final
-        if (this.estado == "informe_final") {
+        if (this.estado == "informe_final_encuesta" || this.estado == "informe_final_archivo") {
             if (this.frecuenciaInformes == "sinAvance") {
                 this.estado = "configuracion_general";
             }
@@ -831,7 +912,12 @@ export class ConfiguracionPracticaComponent {
         //volver desde solicitud de documentos
         else if (this.estado == "solicitud_documentos") {
             if (this.informeFinal == "si") {
-                this.estado = "informe_final";
+                if (this.tipoInformeFinal == "encuesta") {
+                    this.estado = "informe_final_encuesta";
+                }
+                else if (this.tipoInformeFinal == "archivo") {
+                    this.estado = "informe_final_archivo";
+                }
             }
             else if (this.frecuenciaInformes == "sinAvance") {
                 this.estado = "configuracion_general";
@@ -844,19 +930,10 @@ export class ConfiguracionPracticaComponent {
         else if (this.estado == "encuesta_final") {
             this.estado = "solicitud_documentos";
         }
-        //volver desde agregar ramos
-        /*
-        else if (this.estado == "agregar_ramos") {
-          this.estado = "encuesta_final";
-        }
-        */
-        else if (this.estado == "aptitudes") {
-            this.estado = "encuesta_final";
-        }
         //volver desde preguntas supervisor
         else if (this.estado == "preguntas_supervisor") {
             //this.estado = "agregar_ramos";
-            this.estado = "aptitudes";
+            this.estado = "encuesta_final";
         }
         //volver desde fin configuracion
         else if (this.estado == "fin_configuracion") {
@@ -919,10 +996,37 @@ export class ConfiguracionPracticaComponent {
         this.migracion_legal = false;
     }
 
-    eliminarAptitud(index: number) {
-        console.log("eliminando aptitud", index);
-        this.lista_aptitudes.splice(index, 1);
-        this.migracion_legal = false;
+
+    agregar_doc_direst() {
+        const pregunta_tareas_desarrolladas = "Detalle las tareas realizadas por el estudiante.";
+        const pregunta_observaciones = "Escriba sus observaciones sobre el estudiante y el trabajo realizado.";
+
+        let idx_preg_tareas = this.lista_preguntas_supervisor.indexOf(pregunta_tareas_desarrolladas);
+        if (idx_preg_tareas > -1) {
+            this.lista_preguntas_supervisor.splice(idx_preg_tareas, 1);
+            this.tipos_preguntas_supervisor.splice(idx_preg_tareas, 1);
+            this.lista_opciones_preguntas_supervisor.splice(idx_preg_tareas, 1);
+            this.lista_fija_preguntas_supervisor
+        }
+        let idx_preg_obs = this.lista_preguntas_supervisor.indexOf(pregunta_observaciones);
+        if (idx_preg_obs > -1) {
+            this.lista_preguntas_supervisor.splice(idx_preg_obs, 1);
+            this.tipos_preguntas_supervisor.splice(idx_preg_obs, 1);
+            this.lista_opciones_preguntas_supervisor.splice(idx_preg_obs, 1);
+            this.lista_fija_preguntas_supervisor.splice(idx_preg_obs, 1);
+        }
+
+        if (!this.hay_doc_direst) return;
+
+        this.lista_preguntas_supervisor.push(pregunta_tareas_desarrolladas);
+        this.tipos_preguntas_supervisor.push("abierta");
+        this.lista_opciones_preguntas_supervisor.push("");
+        this.lista_fija_preguntas_supervisor.push(true);
+
+        this.lista_preguntas_supervisor.push(pregunta_observaciones);
+        this.tipos_preguntas_supervisor.push("abierta");
+        this.lista_opciones_preguntas_supervisor.push("");
+        this.lista_fija_preguntas_supervisor.push(true);
     }
 
     mandarDatos() { //se estan apilando los snackbars positivos (dejar los negativos)
@@ -937,12 +1041,12 @@ export class ConfiguracionPracticaComponent {
             tipo_request = "actualizar";
         }
 
+        this.agregar_doc_direst();
         if (tipo_request == "crear") {
             this.crearConfigPractica(this.nombrePractica, this.frecuenciaInformes, this.informeFinal);
         } else {
             this.actualizarConfigPractica(this.nombrePractica, this.frecuenciaInformes, this.informeFinal);
         }
-
     }
 
     actualizarConfigPractica(nombre: string, frecuencia: string, final: string) {
@@ -967,18 +1071,8 @@ export class ConfiguracionPracticaComponent {
             }
         });
 
-        //eliminar actuales
-        //this.delConfigInforme(this.config.id);
-        //this.delPreguntaSupervisor(this.config.id);
-        //this.delSolicitudDocumento(this.config.id);
-        //this.delPreguntaEncuestaFinal(this.config.id);
-        //this.delModalidad(this.config.id);
-        //for (let i = 0; i < this.ids_config_informe.length; i++) {
-        //    this.delPreguntaInforme(this.ids_config_informe[i]);
-        //}
-
         //crear nuevos (copias)
-        this.serviceComplete.crearConfigPractica(nombre, frecuencia, final, +this.user.encargado.id_carrera).subscribe({
+        this.serviceComplete.crearConfigPractica(nombre, frecuencia, final, +this.user.encargado.id_carrera, this.hay_doc_direst).subscribe({
             next: (data: any) => {
                 respuesta = { ...respuesta, ...data }
             },
@@ -994,21 +1088,26 @@ export class ConfiguracionPracticaComponent {
                     panelClass: ['green-snackbar']
                 });
 
+                this.timer_modalidades = [];
                 if (this.horas == true) {
                     this.tablaModalidad(respuesta.body.id, "horas", Object.values(this.opcion_horas));
                 }
                 if (this.meses == true) {
                     this.tablaModalidad(respuesta.body.id, "meses", Object.values(this.opcion_meses));
                 }
+                this.timer_preguntas_encuesta_final = [];
                 for (let i = 0; i < this.lista_preguntas_encuesta.length; i++) {
                     this.crearPreguntaEncuestaFinal(respuesta.body.id, this.lista_preguntas_encuesta[i], this.tipos_preguntas_encuesta[i], this.lista_opciones_preguntas_encuesta[i]);
                 }
+                this.timer_pregunta_supervisor = [];
                 for (let i = 0; i < this.lista_preguntas_supervisor.length; i++) {
                     this.crearPreguntaSupervisor(respuesta.body.id, this.lista_preguntas_supervisor[i], this.tipos_preguntas_supervisor[i], this.lista_opciones_preguntas_supervisor[i], this.lista_fija_preguntas_supervisor[i]);
                 }
+                this.timer_solicitud_documento = [];
                 for (let i = 0; i < this.lista_nombre_solicitud_documentos.length; i++) {
                     this.crearSolicitudDocumento(respuesta.body.id, this.lista_nombre_solicitud_documentos[i], this.lista_descripcion_solicitud_documentos[i], this.lista_tipo_solicitud_documentos[i]);
                 }
+                this.timer_pregunta_informe = [];
                 if (this.informeFinal == "si") {
                     this.crearConfigInforme(respuesta.body.id, "informe final")
                 }
@@ -1016,62 +1115,75 @@ export class ConfiguracionPracticaComponent {
                     this.crearConfigInforme(respuesta.body.id, "informe avance")
                 }
 
-                this.serviceComplete.getPracticasConConfig(this.config.id).subscribe({
-                    next: (data: any) => {
-                        respuesta = { ...respuesta, ...data }
-                    },
-                    error: (error: any) => {
-                        this._snackBar.open("Error al buscar practicas con config", "Cerrar", {
-                            duration: 3500,
-                            panelClass: ['red-snackbar']
-                        });
-                        console.log("Error al buscar practicas con config", error);
-                    },
-                    complete: () => {
-                        console.log("request practicas con config:", respuesta.body);
+                let timer_get_cofigs: Array<Promise<boolean>> = [];
+                let timer_actualizar_estudiantes: Array<Promise<boolean>> = [];
 
-                        if (respuesta.body.length > 0 && this.migracion_legal) {
-                            for (let i = 0; i < respuesta.body.length; i++) {
-                                this.serviceComplete.actualizarEstudiantes(respuesta.body[i].id, this.config.id).subscribe({
-                                    next: (data: any) => {
-                                        respuesta = { ...respuesta, ...data }
-                                    },
-                                    error: (error: any) => {
-                                        console.log("Error al actualizar estudiantes", error);
-                                    },
-                                    complete: () => {
-                                        console.log("Estudiantes actualizados exitosamente", respuesta.body);
-                                    }
-                                });
+                let prom: Promise<boolean> = new Promise((resolve: any, reject: any) => {
+                    let respuesta: any = {}
+                    this.serviceComplete.getPracticasConConfig(this.config.id).subscribe({
+                        next: (data: any) => {
+                            respuesta = { ...respuesta, ...data }
+                        },
+                        error: (error: any) => {
+                            reject(false);
+                            this._snackBar.open("Error al buscar practicas con config", "Cerrar", {
+                                duration: 3500,
+                                panelClass: ['red-snackbar']
+                            });
+                            console.log("Error al buscar practicas con config", error);
+                        },
+                        complete: () => {
+                            console.log("request practicas con config:", respuesta.body);
+
+                            if (respuesta.body.length > 0 && this.migracion_legal) {
+                                for (let i = 0; i < respuesta.body.length; i++) {
+                                    let prom: Promise<boolean> = new Promise((resolve: any, reject: any) => {
+                                        this.serviceComplete.actualizarEstudiantes(respuesta.body[i].id, this.config.id).subscribe({
+                                            next: (data: any) => {
+                                                respuesta = { ...respuesta, ...data }
+                                            },
+                                            error: (error: any) => {
+                                                console.log("Error al actualizar estudiantes", error);
+                                                reject(false);
+                                            },
+                                            complete: () => {
+                                                console.log("Estudiantes actualizados exitosamente", respuesta.body);
+                                                resolve(true);
+                                            }
+                                        });
+                                    });
+                                    timer_actualizar_estudiantes.push(prom);
+                                }
                             }
+                            resolve(true)
                         }
-                    }
+                    });
                 });
-                setTimeout(() => {
+                timer_get_cofigs = [prom];
+
+                // asegurarse de que todas las requests hayan terminado antes de recargar la página
+                Promise.allSettled([
+                    Promise.allSettled(this.timer_modalidades),
+                    Promise.allSettled(this.timer_preguntas_encuesta_final),
+                    Promise.allSettled(this.timer_pregunta_supervisor),
+                    Promise.allSettled(this.timer_solicitud_documento),
+                    Promise.allSettled(this.timer_config_informe_inf_final),
+                    Promise.allSettled(this.timer_config_informe_inf_avance),
+                    Promise.allSettled(this.timer_pregunta_informe),
+                    Promise.allSettled(timer_get_cofigs),
+                    Promise.allSettled(timer_actualizar_estudiantes),
+                ]).then((vals: any) => {
                     window.location.reload();
-                }, 2000);
+                });
             }
         });
     }
 
     crearConfigPractica(nombre: string, frecuencia: string, final: string) {
 
-        //agregando pregunta aptitudes/evaluacion a preguntas supervisor
-        var opciones_aptitudes = ""
-        for (let i = 0; i < this.lista_aptitudes.length; i++) {
-            opciones_aptitudes = opciones_aptitudes + this.lista_aptitudes[i]
-            opciones_aptitudes = opciones_aptitudes + ";;"
-        }
-        opciones_aptitudes = opciones_aptitudes.slice(0, -2);
-
-        this.lista_preguntas_supervisor.push("Evalúe entre 1 y 5 las siguientes aptitudes del practicante");
-        this.tipos_preguntas_supervisor.push("evaluacion");
-        this.lista_opciones_preguntas_supervisor.push(opciones_aptitudes);
-        this.lista_fija_preguntas_supervisor.push(true);
-
         let respuesta: any = {};
 
-        this.serviceComplete.crearConfigPractica(nombre, frecuencia, final, +this.user.encargado.id_carrera).subscribe({
+        this.serviceComplete.crearConfigPractica(nombre, frecuencia, final, +this.user.encargado.id_carrera, this.hay_doc_direst).subscribe({
             next: (data: any) => {
                 respuesta = { ...respuesta, ...data }
             },
@@ -1087,50 +1199,80 @@ export class ConfiguracionPracticaComponent {
                     panelClass: ['green-snackbar']
                 });
 
+                this.timer_modalidades = [];
                 if (this.horas == true) {
                     this.tablaModalidad(respuesta.body.id, "horas", Object.values(this.opcion_horas));
                 }
                 if (this.meses == true) {
                     this.tablaModalidad(respuesta.body.id, "meses", Object.values(this.opcion_meses));
                 }
+                this.timer_preguntas_encuesta_final = [];
                 for (let i = 0; i < this.lista_preguntas_encuesta.length; i++) {
                     this.crearPreguntaEncuestaFinal(respuesta.body.id, this.lista_preguntas_encuesta[i], this.tipos_preguntas_encuesta[i], this.lista_opciones_preguntas_encuesta[i]);
                 }
+                this.timer_pregunta_supervisor = [];
                 for (let i = 0; i < this.lista_preguntas_supervisor.length; i++) {
                     this.crearPreguntaSupervisor(respuesta.body.id, this.lista_preguntas_supervisor[i], this.tipos_preguntas_supervisor[i], this.lista_opciones_preguntas_supervisor[i], this.lista_fija_preguntas_supervisor[i]);
                 }
+                this.timer_solicitud_documento = [];
                 for (let i = 0; i < this.lista_nombre_solicitud_documentos.length; i++) {
                     this.crearSolicitudDocumento(respuesta.body.id, this.lista_nombre_solicitud_documentos[i], this.lista_descripcion_solicitud_documentos[i], this.lista_tipo_solicitud_documentos[i]);
                 }
+                this.timer_pregunta_informe = [];
                 if (this.informeFinal == "si") {
-                    this.crearConfigInforme(respuesta.body.id, "informe final")
+                    console.log("tipo informe final: ", this.tipoInformeFinal);
+                    console.log("formato informe final: ", this.formatoInformeFinal);
+                    console.log("key plantilla: ", this.key_plantilla);
+                    console.log("archivo plantilla: ", this.archivo_plantilla);
+
+                    this.crearConfigInforme(respuesta.body.id, "informe final", this.tipoInformeFinal, this.formatoInformeFinal, this.key_plantilla, this.archivo_plantilla);
                 }
                 if (this.frecuenciaInformes != "sinAvance") {
                     this.crearConfigInforme(respuesta.body.id, "informe avance")
                 }
-                this.router.navigate(["/" + environment.ruta_practicas])
+
+                // asegurarse de que todas las requests hayan terminado antes de recargar la página
+                Promise.allSettled([
+                    Promise.allSettled(this.timer_modalidades),
+                    Promise.allSettled(this.timer_preguntas_encuesta_final),
+                    Promise.allSettled(this.timer_pregunta_supervisor),
+                    Promise.allSettled(this.timer_solicitud_documento),
+                    Promise.allSettled(this.timer_config_informe_inf_final),
+                    Promise.allSettled(this.timer_config_informe_inf_avance),
+                    Promise.allSettled(this.timer_pregunta_informe)
+                ]).then((vals: any) => {
+                    this.router.navigate(["/" + environment.ruta_practicas])
+                });
+
             }
         });
     }
 
     tablaModalidad(id_config_practica: number, tipo_modalidad: string, lista_cant: number[]) {
-        let respuesta: any = {};
+
         for (let i = 0; i < Object.keys(lista_cant).length; i++) {
-            this.serviceComplete.crearModalidad(id_config_practica, tipo_modalidad, Number(Object.values(lista_cant[i])[0])).subscribe({
-                next: (data: any) => {
-                    respuesta = { ...respuesta, ...data }
-                },
-                error: (error: any) => {
-                    this._snackBar.open("Error al guardar modalidad", "Cerrar", {
-                        duration: 3500,
-                        panelClass: ['red-snackbar']
-                    });
-                    console.log("Error al guardar modalidad", error);
-                },
-                complete: () => {
-                    console.log("Modalidad guardada exitosamente");
-                }
+            let prom: Promise<boolean> = new Promise((resolve: any, reject: any) => {
+                let respuesta: any = {};
+                this.serviceComplete.crearModalidad(id_config_practica, tipo_modalidad, Number(Object.values(lista_cant[i])[0])).subscribe({
+                    next: (data: any) => {
+                        respuesta = { ...respuesta, ...data }
+                    },
+                    error: (error: any) => {
+                        reject(false);
+                        this._snackBar.open("Error al guardar modalidad", "Cerrar", {
+                            duration: 3500,
+                            panelClass: ['red-snackbar']
+                        });
+                        console.log("Error al guardar modalidad", error);
+                    },
+                    complete: () => {
+                        console.log(i)
+                        console.log("Modalidad guardada exitosamente");
+                        resolve(true);
+                    }
+                });
             });
+            this.timer_modalidades.push(prom);
         }
     }
 
@@ -1159,116 +1301,151 @@ export class ConfiguracionPracticaComponent {
         }
     }
 
-    crearConfigInforme(id_config_practica: number, tipoInforme: string) {
-        let respuesta: any = {};
+    crearConfigInforme(id_config_practica: number, tipoInforme: string, archivo_o_encuesta: string = "",
+        tipo_archivo: string = "", plantilla: string = "", file_plantilla: File = new File([], "")) {
 
-        this.serviceComplete.crearConfigInforme(id_config_practica, tipoInforme).subscribe({
-            next: (data: any) => {
-                respuesta = { ...respuesta, ...data }
-            },
-            error: (error: any) => {
-                this._snackBar.open("Error al guardar configuracion de informe", "Cerrar", {
-                    duration: 3500,
-                    panelClass: ['red-snackbar']
+        let prom: Promise<boolean> = new Promise((resolve: any, reject: any) => {
+            let respuesta: any = {};
+
+            this.serviceComplete.crearConfigInforme(id_config_practica, tipoInforme, archivo_o_encuesta,
+                tipo_archivo, plantilla, file_plantilla).subscribe({
+                    next: (data: any) => {
+                        respuesta = { ...respuesta, ...data }
+                    },
+                    error: (error: any) => {
+                        reject(false);
+                        this._snackBar.open("Error al guardar configuracion de informe", "Cerrar", {
+                            duration: 3500,
+                            panelClass: ['red-snackbar']
+                        });
+                        console.log("Error al guardar configuracion de informe", error);
+                    },
+                    complete: () => {
+                        console.log("BUSACR EL ID: ", respuesta);
+                        if (tipoInforme == "informe final" && this.tipoInformeFinal == "encuesta") {
+                            for (let i = 0; i < this.lista_preguntas_final.length; i++) {
+                                //console.log("lista pregunta final: ", this.lista_preguntas_final[i], "tipos preguntas final: ", this.tipos_preguntas_final[i], "lista opciones preguntas final: ", this.lista_opciones_preguntas_final[i]);
+                                this.crearPreguntaInforme(respuesta.body.id, this.lista_preguntas_final[i], this.tipos_preguntas_final[i], this.lista_opciones_preguntas_final[i]);
+                            }
+                        }
+                        if (tipoInforme == "informe avance") {
+                            for (let i = 0; i < this.lista_preguntas_avance.length; i++) {
+                                this.crearPreguntaInforme(respuesta.body.id, this.lista_preguntas_avance[i], this.tipos_preguntas_avance[i], this.lista_opciones_preguntas_avance[i]);
+                            }
+                        }
+                        resolve(true);
+                    }
                 });
-                console.log("Error al guardar configuracion de informe", error);
-            },
-            complete: () => {
-                console.log("BUSACR EL ID: ", respuesta);
-                if (tipoInforme == "informe final") {
-                    for (let i = 0; i < this.lista_preguntas_final.length; i++) {
-                        //console.log("lista pregunta final: ", this.lista_preguntas_final[i], "tipos preguntas final: ", this.tipos_preguntas_final[i], "lista opciones preguntas final: ", this.lista_opciones_preguntas_final[i]);
-                        this.crearPreguntaInforme(respuesta.body.id, this.lista_preguntas_final[i], this.tipos_preguntas_final[i], this.lista_opciones_preguntas_final[i]);
-                    }
-                }
-                if (tipoInforme == "informe avance") {
-                    for (let i = 0; i < this.lista_preguntas_avance.length; i++) {
-                        this.crearPreguntaInforme(respuesta.body.id, this.lista_preguntas_avance[i], this.tipos_preguntas_avance[i], this.lista_opciones_preguntas_avance[i]);
-                    }
-                }
-            }
-        });
+        })
+
+        if (tipoInforme == "informe final")
+            this.timer_config_informe_inf_final = [prom];
+        else
+            this.timer_config_informe_inf_avance = [prom];
     }
 
     crearPreguntaInforme(id_config_informe: number, pregunta: string, tipo_pregunta: string, opciones: string) {
-        let respuesta: any = {};
-        //console.log("pregunta: ", pregunta, "tipo_pregunta: ", tipo_pregunta, "opciones: ", opciones);
+        let prom: Promise<boolean> = new Promise((resolve: any, reject: any) => {
+            let respuesta: any = {};
+            //console.log("pregunta: ", pregunta, "tipo_pregunta: ", tipo_pregunta, "opciones: ", opciones);
 
-        this.serviceComplete.crearPreguntaInforme(id_config_informe, pregunta, tipo_pregunta, opciones).subscribe({
-            next: (data: any) => {
-                respuesta = { ...respuesta, ...data }
-            },
-            error: (error: any) => {
-                this._snackBar.open("Error al guardar pregunta de informe", "Cerrar", {
-                    duration: 3500,
-                    panelClass: ['red-snackbar']
-                });
-                console.log("Error al guardar pregunta de informe", error);
-            },
-            complete: () => {
-                console.log("Pregunta de informe guardada exitosamente");
-            }
+            this.serviceComplete.crearPreguntaInforme(id_config_informe, pregunta, tipo_pregunta, opciones).subscribe({
+                next: (data: any) => {
+                    respuesta = { ...respuesta, ...data }
+                },
+                error: (error: any) => {
+                    reject(false);
+                    this._snackBar.open("Error al guardar pregunta de informe", "Cerrar", {
+                        duration: 3500,
+                        panelClass: ['red-snackbar']
+                    });
+                    console.log("Error al guardar pregunta de informe", error);
+                },
+                complete: () => {
+                    console.log("Pregunta de informe guardada exitosamente");
+                    resolve(true);
+                }
+            });
         });
+
+        this.timer_pregunta_informe.push(prom);
     }
 
     crearPreguntaEncuestaFinal(id_config_practica: number, pregunta: string, tipo_pregunta: string, opciones: string) {
-        let respuesta: any = {};
+        let prom: Promise<boolean> = new Promise((resolve: any, reject: any) => {
+            let respuesta: any = {};
 
-        this.serviceComplete.crearPreguntaEncuestaFinal(id_config_practica, pregunta, tipo_pregunta, opciones).subscribe({
-            next: (data: any) => {
-                respuesta = { ...respuesta, ...data }
-            },
-            error: (error: any) => {
-                this._snackBar.open("Error al guardar pregunta de encuesta", "Cerrar", {
-                    duration: 3500,
-                    panelClass: ['red-snackbar']
-                });
-                console.log("Error al guardar pregunta de encuesta", error);
-            },
-            complete: () => {
-                console.log("Pregunta de encuesta guardada exitosamente");
-            }
+            this.serviceComplete.crearPreguntaEncuestaFinal(id_config_practica, pregunta, tipo_pregunta, opciones).subscribe({
+                next: (data: any) => {
+                    respuesta = { ...respuesta, ...data }
+                },
+                error: (error: any) => {
+                    reject(false);
+                    this._snackBar.open("Error al guardar pregunta de encuesta", "Cerrar", {
+                        duration: 3500,
+                        panelClass: ['red-snackbar']
+                    });
+                    console.log("Error al guardar pregunta de encuesta", error);
+                },
+                complete: () => {
+                    console.log("Pregunta de encuesta guardada exitosamente");
+                    resolve(true);
+                }
+            });
         });
+        this.timer_preguntas_encuesta_final.push(prom);
     }
 
     crearPreguntaSupervisor(id_config_practica: number, pregunta: string, tipo_pregunta: string, opciones: string, fija: boolean) {
-        let respuesta: any = {};
+        let prom: Promise<boolean> = new Promise((resolve: any, reject: any) => {
+            let respuesta: any = {};
+            console.log("pregunta supervisor: ", pregunta)
 
-        this.serviceComplete.crearPreguntaSupervisor(id_config_practica, pregunta, tipo_pregunta, opciones, fija).subscribe({
-            next: (data: any) => {
-                respuesta = { ...respuesta, ...data }
-            },
-            error: (error: any) => {
-                this._snackBar.open("Error al guardar pregunta de supervisor", "Cerrar", {
-                    duration: 3500,
-                    panelClass: ['red-snackbar']
-                });
-                console.log("Error al guardar pregunta de supervisor", error);
-            },
-            complete: () => {
-                console.log("Pregunta de supervisor guardada exitosamente");
-            }
+            this.serviceComplete.crearPreguntaSupervisor(id_config_practica, pregunta, tipo_pregunta, opciones, fija).subscribe({
+                next: (data: any) => {
+                    respuesta = { ...respuesta, ...data }
+                },
+                error: (error: any) => {
+                    reject(false);
+                    this._snackBar.open("Error al guardar pregunta de supervisor", "Cerrar", {
+                        duration: 3500,
+                        panelClass: ['red-snackbar']
+                    });
+                    console.log("Error al guardar pregunta de supervisor", error);
+                },
+                complete: () => {
+                    console.log("Pregunta de supervisor guardada exitosamente");
+                    resolve(true);
+                }
+            });
         });
+        this.timer_pregunta_supervisor.push(prom);
     }
 
     crearSolicitudDocumento(id_config_practica: number, nombre: string, descripcion: string, tipo: string) {
-        let respuesta: any = {};
+        let prom: Promise<boolean> = new Promise((resolve: any, reject: any) => {
+            let respuesta: any = {};
 
-        this.serviceComplete.crearSolicitudDocumento(id_config_practica, nombre, descripcion, tipo).subscribe({
-            next: (data: any) => {
-                respuesta = { ...respuesta, ...data }
-            },
-            error: (error: any) => {
-                this._snackBar.open("Error al guardar solicitud de documento", "Cerrar", {
-                    duration: 3500,
-                    panelClass: ['red-snackbar']
-                });
-                console.log("Error al guardar solicitud de documento", error);
-            },
-            complete: () => {
-                console.log("Solicitud de documento guardada exitosamente");
-            }
+            this.serviceComplete.crearSolicitudDocumento(id_config_practica, nombre, descripcion, tipo).subscribe({
+                next: (data: any) => {
+                    respuesta = { ...respuesta, ...data }
+                },
+                error: (error: any) => {
+                    reject(false);
+                    this._snackBar.open("Error al guardar solicitud de documento", "Cerrar", {
+                        duration: 3500,
+                        panelClass: ['red-snackbar']
+                    });
+                    console.log("Error al guardar solicitud de documento", error);
+                },
+                complete: () => {
+                    console.log("Solicitud de documento guardada exitosamente");
+                    resolve(true);
+                }
+            });
         });
+
+        this.timer_solicitud_documento.push(prom);
     }
 
     delConfigInforme(id_config_practica: number) {
@@ -1397,6 +1574,20 @@ export class ConfiguracionPracticaComponent {
                 console.log("Solicitud de documento eliminada exitosamente");
             }
         });
+    }
+
+    habilitarDocDirest(evnt: any) {
+        this.hay_doc_direst = this.fg.value.hay_doc_direst;
+    }
+
+    recibirPlantillaInforme(data: any) {
+        if (typeof (data) == "string") {
+            this.key_plantilla = data;
+        }
+        else if (typeof (data) == "object") {
+            this.archivo_plantilla = data;
+        }
+        console.log("key: ", this.key_plantilla, "archivo: ", this.archivo_plantilla);
     }
 
 }

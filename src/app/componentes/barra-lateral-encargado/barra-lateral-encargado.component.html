@@ -22,8 +22,14 @@
         Configuracion
     </div>
 
-    <!-- Nav Item - Config Practicas Collapse Menu -->
     <li class="nav-item">
+        <a class="nav-link" routerLink="/detalles/practicas">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Configurar prácticas</span></a>
+    </li>
+
+    <!-- Nav Item - Config Practicas Collapse Menu -->
+    <!--  <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
             aria-controls="collapseTwo">
             <i class="fas fa-fw fa-cog"></i>
@@ -38,10 +44,19 @@
                     </a>
                 </div>
                 <h6 class="collapse-header">Crear Nueva:</h6>
-                <!-- <a class="collapse-item" [routerLink]="['/configurar', 'configBase']">Planilla base</a> -->
+                Desabilitar links
+                <a class="collapse-item disabled" *ngIf="!ramos_creados">
+                    <i class="fas fa-regular fa-copy fa-sm fa-fw mr-2 text-gray-400"></i>
+                    <span matTooltip="Deben existir ramos antes de crear practicas nuevas!">Plantilla base</span>
+                </a>
                 <a class="collapse-item disabled" *ngIf="!ramos_creados">
                     <i class="fas fa-regular fa-plus fa-sm fa-fw mr-2 text-gray-400"></i>
                     <span matTooltip="Deben existir ramos antes de crear practicas nuevas!">Plantilla en blanco</span>
+                </a>
+                Hilitar links
+                <a class="collapse-item" [routerLink]="['/configurar', 'configBase']" *ngIf="ramos_creados">
+                    <i class="fas fa-regular fa-copy fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Plantilla base
                 </a>
                 <a class="collapse-item" [routerLink]="['/configurar', 'blanco']" *ngIf="ramos_creados">
                     <i class="fas fa-regular fa-plus fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -55,13 +70,22 @@
                 </div>
             </div>
         </div>
-    </li>
+    </li> -->
 
     <li class="nav-item">
         <a class="nav-link" [routerLink]="['/ramos']">
             <i class="fas fa-fw fa-regular fa-pen-to-square"></i>
             <span>Editar ramos</span></a>
     </li>
+
+    <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/encargado/aptitudes']">
+            <i class="fas fa-fw fa-regular fa-pen-to-square"></i>
+            <span>Editar Aptitudes</span></a>
+    </li>
+
+    <hr class="sidebar-divider d-none d-md-block">
+
 
     <div class="sidebar-heading">
         Otros
@@ -82,15 +106,27 @@
         <div id="menu_guias" class="collapse" aria-labelledby="menu_guias" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" [routerLink]="['/guias/info_y_eval_estudiante']" data-toggle="modal" style="white-space:break-spaces; word-wrap: break-word;">
-                Evaluar estudiantes
+                    Evaluar estudiantes
                 </a>
                 <a class="collapse-item" [routerLink]="['/guias/config-practica']" data-toggle="modal" style="white-space:break-spaces; word-wrap: break-word;">
-                Crear configuración de práctica
+                    Crear configuración de práctica
                 </a>
             </div>
         </div>
     </li>
+    <li class="nav-item">
+        <a class="same-col nav-link collapsed" href="/publicaciones">
+            <i class="fas fa-fw fa-list-alt"></i>
+            <span>Publicaciones</span>
+        </a>
+    </li>
 
+    <li class="nav-item">
+        <a class="same-col nav-link collapsed" href="/documentacion">
+            <i class="fas fa-fw fa-list-alt"></i>
+            <span>Documentación</span>
+        </a>
+    </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

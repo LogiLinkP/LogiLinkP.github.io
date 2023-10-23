@@ -10,22 +10,12 @@ import { DataUsuarioService } from 'src/app/servicios/data_usuario/data-usuario.
 import { FragmentosService } from '../../servicios/fragmentos/fragmentos.service';
 import { ResumenService } from 'src/app/servicios/resumen/resumen.service';
 import { InformeService } from 'src/app/servicios/informe/informe.service';
-
-//import pdfMake from 'pdfmake/build/pdfmake';
-//import pdfFonts from 'pdfmake/build/vfs_fonts';
-//pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
 import jsPDF from 'jspdf';
-//import pdfMake from 'pdfmake/build/pdfmake';
-//import pdfFonts from 'pdfmake/build/vfs_fonts';
-//pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import htmlToPdfmake from 'html-to-pdfmake';
 import e from 'express';
-
-//import { jsPDF } from "jspdf"; 
-
 import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
-import { NULL } from 'sass';
+import { PlagioService } from "../../servicios/plagio/plagio.service";
+
 
 @Component({
   selector: 'app-detalle-practica',
@@ -45,11 +35,15 @@ export class DetallePracticaComponent implements OnInit {
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
+  id_practica: number;
 
   practica: any = {};
   solicitudes_documentos: any = [];
   documento_extras: any = [];
   informes: any = [];
+  informe_final: any = {};
+  link_descarga_plantilla:string = "";
+  link_descarga_informe:string = "";
   evaluaciones: any = [];
   respuestas_supervisor: any = {};
   data_supervisor_rdy: boolean = false;
@@ -75,11 +69,16 @@ export class DetallePracticaComponent implements OnInit {
 
   prom: number = -1;
   hay_respuesta: number = -1;
+  ev_encargado: any = [];
+
+  hay_plagio: boolean = false;
+  activada: boolean = true;
+  correo_verificado: boolean = false;
 
   constructor(private fragmentosService: FragmentosService, private service: DetallePracticaService, private service2: SetDetallesAlumnoService,
     private _snackBar: MatSnackBar, private route: ActivatedRoute,
     private service_obtener: DataUsuarioService, private service_resumen: ResumenService, private service_informe: InformeService,
-    private service_noti: NotificacionesService) {
+    private service_noti: NotificacionesService, private plagioService: PlagioService) {
 
     this.dtOptions = {
       language: {
@@ -93,10 +92,23 @@ export class DetallePracticaComponent implements OnInit {
     let respuesta: any = {};
 
     let id_practica = parseInt(this.route.snapshot.url[1].path); //obtener el id de práctica de la url
+    this.id_practica = id_practica;
 
     if (!isNaN(id_practica)) {
 
-      //console.log("id_practica: ", id_practica);
+      let res_plagio: any = {};
+      plagioService.get_plagio_por_practica(id_practica).subscribe({
+        next: (data: any) => {
+          res_plagio = { ...res_plagio, ...data }
+        }, error: (err: any) => {
+
+        }, complete: () => {
+          console.log("plagio:", res_plagio)
+          if (res_plagio.status == 200) {
+            this.hay_plagio = res_plagio.body.length > 0;
+          }
+        }
+      })
       //====REQUEST para obtener la practica (con el estudiante, config_practica y otras tablas)====//
       this.service.obtener_practica(id_practica).subscribe({
         next: (data: any) => {
@@ -113,6 +125,15 @@ export class DetallePracticaComponent implements OnInit {
           this.practica = respuesta.body;
           console.log(this.practica);
           this.check_resumen();
+
+          this.activada = this.practica.modalidad.config_practica.activada;
+          this.correo_verificado = this.practica.supervisor.es_correo_institucional;
+
+          if (this.practica.ev_encargado == null) {
+            this.ev_encargado = "-"
+          } else {
+            this.ev_encargado = this.practica.ev_encargado;
+          }
 
           if (this.practica.estado == environment.estado_practica.evaluada ||
             this.practica.estado == environment.estado_practica.aprobada ||
@@ -175,8 +196,6 @@ export class DetallePracticaComponent implements OnInit {
             }
           }
 
-
-
           // considerar como respuestas todas las que sean strings
           this.respuestas_supervisor = this.practica.respuesta_supervisors.filter((respuesta_supervisor: any) => {
             return isNaN(respuesta_supervisor.respuesta);
@@ -188,6 +207,19 @@ export class DetallePracticaComponent implements OnInit {
 
           //console.log("respuestas_supervisor: ", this.respuestas_supervisor);
           for (let i = 0; i < this.informes.length; i++) {
+            if (this.informes[i]?.config_informe.tipo_informe == "informe final") {
+              console.log("informe final: ", this.informes[i])
+              this.informe_final = this.informes[i];
+              if (this.informe_final.config_informe?.plantilla != null && this.informe_final.config_informe?.plantilla != "") {
+                this.link_descarga_plantilla = "https://d2v9ocre132gvc.cloudfront.net/" + this.informe_final.config_informe.plantilla;
+              }
+              if (this.informe_final.key != null && Object.keys(this.informe_final.key).length > 0) {
+                this.link_descarga_informe = "https://d2v9ocre132gvc.cloudfront.net/" + this.informe_final.key.filename;
+              }
+              // remove informe final from informes
+              this.informes.splice(i, 1);
+              break;
+            }
             this.horas_totales += this.informes[i].horas_trabajadas;
           }
 
@@ -202,78 +234,93 @@ export class DetallePracticaComponent implements OnInit {
                 }
               }
               respuestas_traducidas = respuestas_traducidas.slice(0, -2);
-              console.log(respuestas_traducidas);
+              //console.log(respuestas_traducidas);
               this.respuestas_supervisor[i].respuesta = respuestas_traducidas;
             }
           }
 
-          console.log(this.practica.informes[0].key)
+          
+          if(this.practica.informes.length > 0){           
 
-          //respuestas preguntas
-          let lista_informes = Object.values(this.practica.informes[0].key)
-          console.log(lista_informes)
+            // buscar si hay algun informe que haya sido respondido (su key es un objeto no vacío), obtener su indice dentro del arreglo
+            let indice_informe_respondido = -1;
+            for (let i = 0; i < this.practica.informes.length; i++) {
+              if(this.practica.informes[i].key == null) continue;
+              if (Object.keys(this.practica.informes[i].key).length > 0) {
+                indice_informe_respondido = i;
+                break;
+              }
+            }
 
-          //id preguntas
-          let keys = Object.keys(this.practica.informes[0].key)
-          console.log(keys)
+            if (indice_informe_respondido != -1) {
+              let key_informe_respondido = this.practica.informes[indice_informe_respondido].key;
 
-          let preguntas_informe: any = []
+              //console.log(key_informe_respondido)
 
-          for (let i = 0; i < keys.length; i++) {
-            this.service_informe.get_pregunta_informe(Number(keys[i])).subscribe({
-              next: (data: any) => {
-                respuesta = { ...respuesta, ...data }
-              },
-              error: (error: any) => {
-                this._snackBar.open("Error al buscar configuracion de practica", "Cerrar", {
-                  duration: 3000,
-                  panelClass: ['red-snackbar']
-                });
-                console.log("Error al buscar configuracion de practica", error);
-              },
-              complete: () => {
-                preguntas_informe.push(respuesta.body)
+              //obtener las respuestas de las preguntas del informe
+              let lista_informes = Object.values(key_informe_respondido)
+              //console.log(lista_informes)
 
-                if (i == keys.length - 1) {
+              //obtener los ids de las preguntas del informe
+              let keys = Object.keys(key_informe_respondido)
+              //console.log(keys)
 
-                  console.log(preguntas_informe)
-                  //console.log(preguntas_informe.length)
+              let preguntas_informe: any = []
 
-                  //orednar preguntas informe
-                  let preguntas_informe_ordenadas: any = []
+              for (let i = 0; i < keys.length; i++) {
+                this.service_informe.get_pregunta_informe(Number(keys[i])).subscribe({
+                  next: (data: any) => {
+                    respuesta = { ...respuesta, ...data }
+                  },
+                  error: (error: any) => {
+                    this._snackBar.open("Error al buscar configuracion de practica", "Cerrar", {
+                      duration: 3000,
+                      panelClass: ['red-snackbar']
+                    });
+                    console.log("Error al buscar configuracion de practica", error);
+                  },
+                  complete: () => {
+                    preguntas_informe.push(respuesta.body)
 
-                  for (let id of keys) {
-                    for (let pregunta of preguntas_informe) {
-                      if (pregunta.id == id) {
-                        preguntas_informe_ordenadas.push(pregunta.enunciado)
+                    if (i == keys.length - 1) {
+
+                      //console.log(preguntas_informe)
+                      //console.log(preguntas_informe.length)
+
+                      //orednar preguntas informe
+                      let preguntas_informe_ordenadas: any = []
+
+                      for (let id of keys) {
+                        for (let pregunta of preguntas_informe) {
+                          if (pregunta.id == id) {
+                            preguntas_informe_ordenadas.push(pregunta.enunciado)
+                          }
+                        }
                       }
+
+                      //console.log("preguntas informe ordenadas")
+                      //console.log(preguntas_informe_ordenadas)
+
+                      let preguntas_respuestas_informes_aux = []
+
+                      for (let i = 0; i < preguntas_informe_ordenadas.length; i++) {
+                        preguntas_respuestas_informes_aux.push(preguntas_informe_ordenadas[i])
+                        preguntas_respuestas_informes_aux.push(lista_informes[i])
+                      }
+
+                      //console.log("preguntas_respuestas_informes")
+                      //console.log(preguntas_respuestas_informes_aux)
+
+                      this.preguntas_respuestas_informe = preguntas_respuestas_informes_aux
+
                     }
                   }
-
-                  console.log("preguntas informe ordenadas")
-                  console.log(preguntas_informe_ordenadas)
-
-                  let preguntas_respuestas_informes_aux = []
-
-                  for (let i = 0; i < preguntas_informe_ordenadas.length; i++) {
-                    preguntas_respuestas_informes_aux.push(preguntas_informe_ordenadas[i])
-                    preguntas_respuestas_informes_aux.push(lista_informes[i])
-                  }
-
-                  console.log("preguntas_respuestas_informes")
-                  console.log(preguntas_respuestas_informes_aux)
-
-                  this.preguntas_respuestas_informe = preguntas_respuestas_informes_aux
-
-                }
+                });
               }
-            });
-          }
-
+              
+            }            
           //console.log(preguntas_informe)
-
-
-
+          }
 
         }
       }); // fin request para obtener la practica  
@@ -340,7 +387,7 @@ export class DetallePracticaComponent implements OnInit {
         data = { ...data, ..._data };
       },
       complete: () => {
-        console.log(data.body)
+        //console.log(data.body)
         if (!data.body) {
           this._snackBar.open("Error al solicitar resumen, por favor vuelva más tarde", "Cerrar", {
             panelClass: ['red-snackbar'],
@@ -443,7 +490,7 @@ export class DetallePracticaComponent implements OnInit {
 
     //console.log(keys)
 
-    console.log(this.preguntas_respuestas_informe)
+    //console.log(this.preguntas_respuestas_informe)
 
     for (let i = 0; i < this.preguntas_respuestas_informe.length; i++) {
       var palabras_informe = this.preguntas_respuestas_informe[i].split(" ")
@@ -642,6 +689,7 @@ export class DetallePracticaComponent implements OnInit {
   }
 
   isDataEmpty(data: any): boolean {
+    if (data == null || data == undefined) return true;
     return Object.keys(data).length === 0 && data.constructor === Object;
   }
 
@@ -681,7 +729,7 @@ export class DetallePracticaComponent implements OnInit {
             return;
           },
           complete: () => {
-            console.log("Notificación enviada con éxito");
+            //console.log("Notificación enviada con éxito");
             window.location.reload()
           }
         });

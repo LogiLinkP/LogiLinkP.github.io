@@ -9,12 +9,13 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 export class ConfigService {
     constructor(private _http: HttpClient) { }
 
-    crearConfigPractica(nombre: string, frecuencia_informes: string, informe_final: string, id_carrera: number) {
+    crearConfigPractica(nombre: string, frecuencia_informes: string, informe_final: string, id_carrera: number, doc_direst: boolean=false) {
         const config = {
             nombre: nombre,
             frecuencia_informes: frecuencia_informes,
             informe_final: informe_final,
-            id_carrera
+            id_carrera,
+            doc_direst
         }
 
         const req = new HttpRequest('POST', `${environment.url_back}/config_practica/crear`, config, {
@@ -121,17 +122,37 @@ export class ConfigService {
         return this._http.request(req);
     }
 
-    crearConfigInforme(id_config_practica: number, tipo_informe: string) {
-        const config = {
-            id_config_practica: id_config_practica,
-            tipo_informe: tipo_informe
+    crearConfigInforme(id_config_practica: number, tipo_informe: string, archivo_o_encuesta: string = "", 
+    tipo_archivo: string = "", plantilla: string = "", file_plantilla: File = new File([], "")) {
+        //console.log("todo: ", id_config_practica, tipo_informe, archivo_o_encuesta, tipo_archivo, plantilla, file_plantilla)
+        if(archivo_o_encuesta == "archivo" && plantilla != ""){
+            const formData:FormData = new FormData()
+            formData.append('id_config_practica', id_config_practica.toString())
+            formData.append('tipo_informe', tipo_informe)
+            formData.append('archivo_o_encuesta', archivo_o_encuesta)
+            formData.append('tipo_archivo', tipo_archivo)
+            formData.append('plantilla', plantilla)
+            formData.append('file_plantilla', file_plantilla)
+            const req = new HttpRequest('POST', `${environment.url_back}/config_informe/crearConArchivo`, formData, {responseType:"json"});
+            return this._http.request(req);
+
         }
+        else{
+            const config = {
+                id_config_practica: id_config_practica,
+                tipo_informe: tipo_informe,
+                archivo_o_encuesta,
+                tipo_archivo,
+                plantilla
+            }
 
-        const req = new HttpRequest('POST', `${environment.url_back}/config_informe/crear`, config, {
-            responseType: 'json'
-        });
+            const req = new HttpRequest('POST', `${environment.url_back}/config_informe/crear`, config, {
+                responseType: 'json'
+            });
+        
 
-        return this._http.request(req);
+            return this._http.request(req);
+        }
     }
 
     actualizarConfigInforme(id_config_practica: number, tipo_informe: string) {
@@ -376,6 +397,29 @@ export class ConfigService {
         }
 
         const req = new HttpRequest('PUT', `${environment.url_back}/estudiante/actualizarConfig`, payload, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
+    obtener_config_practica_carrera(id_carrera: number) {
+        const req = new HttpRequest('GET', `${environment.url_back}/config_practica/carrera?id_carrera=${id_carrera}`, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+
+    obtener_practicas_config_practica(id_config_practica: number) {
+        const req = new HttpRequest('GET', `${environment.url_back}/practica/configs?id=${id_config_practica}`, {
+            responseType: 'json'
+        });
+
+        return this._http.request(req);
+    }
+    getConfigsCarrera(id_carrera: number) {
+        const req = new HttpRequest('GET', `${environment.url_back}/config_practica/all/carrera?id=${id_carrera}`, {
             responseType: 'json'
         });
 
