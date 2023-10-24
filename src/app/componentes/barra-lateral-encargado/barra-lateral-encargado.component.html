@@ -23,9 +23,18 @@
     </div>
 
     <li class="nav-item">
-        <a class="nav-link" routerLink="/detalles/practicas">
+        <a *ngIf="ramos_creados && aptitudes_creadas;else config_practica_disabled" class="nav-link"
+            routerLink="/detalles/practicas">
             <i class="fas fa-fw fa-cog"></i>
-            <span>Configurar prácticas</span></a>
+            <span>Configurar prácticas</span>
+        </a>
+        <ng-template #config_practica_disabled>
+            <a title="Debe crear agregar aptitudes y ramos antes de crear prácticas" class="nav-link"
+                style="color: gray; cursor: not-allowed;">
+                <i class="fas fa-fw fa-cog" style="color: gray;"></i>
+                <span>Configurar prácticas</span>
+            </a>
+        </ng-template>
     </li>
 
     <!-- Nav Item - Config Practicas Collapse Menu -->
@@ -81,7 +90,7 @@
     <li class="nav-item">
         <a class="nav-link" [routerLink]="['/encargado/aptitudes']">
             <i class="fas fa-fw fa-regular fa-pen-to-square"></i>
-            <span>Editar Aptitudes</span></a>
+            <span>Editar aptitudes</span></a>
     </li>
 
     <hr class="sidebar-divider d-none d-md-block">
@@ -105,10 +114,12 @@
         </a>
         <div id="menu_guias" class="collapse" aria-labelledby="menu_guias" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" [routerLink]="['/guias/info_y_eval_estudiante']" data-toggle="modal" style="white-space:break-spaces; word-wrap: break-word;">
+                <a class="collapse-item" [routerLink]="['/guias/info_y_eval_estudiante']" data-toggle="modal"
+                    style="white-space:break-spaces; word-wrap: break-word;">
                     Evaluar estudiantes
                 </a>
-                <a class="collapse-item" [routerLink]="['/guias/config-practica']" data-toggle="modal" style="white-space:break-spaces; word-wrap: break-word;">
+                <a class="collapse-item" [routerLink]="['/guias/config-practica']" data-toggle="modal"
+                    style="white-space:break-spaces; word-wrap: break-word;">
                     Crear configuración de práctica
                 </a>
             </div>

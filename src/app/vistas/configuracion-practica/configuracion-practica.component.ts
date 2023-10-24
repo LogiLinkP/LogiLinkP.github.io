@@ -481,6 +481,9 @@ export class ConfiguracionPracticaComponent {
                                                         nombre_solicitud_documentos: new FormControl(this.nombre_solicitud_documentos),
                                                         descripcion_solicitud_documentos: new FormControl(this.descripcion_solicitud_documentos),
                                                         tipo_solicitud_documentos: new FormControl(this.tipo_solicitud_documentos),
+
+                                                        //doc direst
+                                                        hay_doc_direst: new FormControl(this.hay_doc_direst)
                                                     });
                                                     this.flag = true;
                                                 }
