@@ -154,7 +154,7 @@ export class VistaConfigsPracticaComponent implements OnInit {
                 }
 
                 this.flag = true;
-                //console.log("configs: ", this.configs);
+                console.log("configs: ", this.configs);
             }
         });
     }
