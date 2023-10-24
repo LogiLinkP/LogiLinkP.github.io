@@ -91,6 +91,7 @@ import { ComentariosModalComponent } from './componentes/comentarios-modal/comen
 import { DocumentacionComponent } from './vistas/documentacion/documentacion.component';
 import { SubirDocumentoEncargadoComponent } from './componentes/subir-documento-encargado/subir-documento-encargado.component';
 import { SubirPlantillaInformeFinalComponent } from './componentes/subir-plantilla-informe-final/subir-plantilla-informe-final.component';
+import { ConfirmarInicioPracticaComponent } from './vistas/confirmar-inicio-practica/confirmar-inicio-practica.component';
 import { ConfirmacionUsuarioComponent } from './vistas/confirmacion-usuario/confirmacion-usuario.component';
 import { SubirArchivoInformeFinalComponent } from './componentes/subir-archivo-informe-final/subir-archivo-informe-final.component';
 
@@ -150,6 +151,7 @@ import { SubirArchivoInformeFinalComponent } from './componentes/subir-archivo-i
     DocumentacionComponent,
     SubirDocumentoEncargadoComponent,
     SubirPlantillaInformeFinalComponent,
+    ConfirmarInicioPracticaComponent,
     ConfirmacionUsuarioComponent,
     SubirArchivoInformeFinalComponent,
   ],

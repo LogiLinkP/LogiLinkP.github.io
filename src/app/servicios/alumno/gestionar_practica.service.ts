@@ -47,7 +47,7 @@ export class GestionarService {
     id_empresa: number, id_supervisor: number, id_encargado: number, id_config_practica: number) {
 
     const nueva_practica = {
-      estado: environment.estado_practica.en_curso,
+      estado: environment.estado_practica.esperando_confirmacion,
       id_estudiante: id_estudiante,
       id_modalidad: id_modalidad,
       fecha_inicio: fecha_inicio,
@@ -57,7 +57,7 @@ export class GestionarService {
       id_encargado: id_encargado,
       id_config_practica
     }
-    const req = new HttpRequest('POST', `${environment.url_back}/practica/crear`, nueva_practica, {
+    const req = new HttpRequest('POST', `${environment.url_back}/practica/crear_verifica_supervisor`, nueva_practica, {
       responseType: 'text'
     });
     return this.http.request(req);
