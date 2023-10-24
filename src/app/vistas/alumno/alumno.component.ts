@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ObtenerDatosService } from 'src/app/servicios/alumno/obtener_datos.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
@@ -12,15 +12,16 @@ import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
 import { async } from 'rxjs';
 import { data } from 'jquery';
 import { Dialog } from '@angular/cdk/dialog';
+import { Console } from 'console';
 
 @Component({
   selector: 'alumno',
   templateUrl: './alumno.component.html',
   styleUrls: ['./alumno.component.scss']
 })
-export class DetalleAlumnoComponent implements OnInit{
-  usuario: any = {} 
-  estudiante: any = {} 
+export class DetalleAlumnoComponent implements OnInit {
+  usuario: any = {}
+  estudiante: any = {}
   config_practicas: any = [];
   practicas: any = [];
   solicitudes_practicas: any = {};
@@ -29,11 +30,11 @@ export class DetalleAlumnoComponent implements OnInit{
   data_response: any = [];
   flag: boolean = false;
 
-  estado_config:string = "";
+  estado_config: string = "";
 
   nombres_config_practica: string[] = [];
   practicas_correspondiente_nombre: any = [];
-  
+
   informe_final: any = {};
   flags_inscripcion_list: boolean[] = [];
   link_finalizacion = ""
@@ -42,20 +43,20 @@ export class DetalleAlumnoComponent implements OnInit{
   doc_extra_str = "documento_extra";
 
   evaluaciones: any = [];
-  aptitudes_practica:any = [];
-  notas_aptitudes:any = [];
-  notas_promedio:any = [];
-  hay_respuesta:any = [];
+  aptitudes_practica: any = [];
+  notas_aptitudes: any = [];
+  notas_promedio: any = [];
+  hay_respuesta: any = [];
 
   fechasSeleccionadas: Date[][] = [];
 
-  documentos_enviados:any = {};
+  documentos_enviados: any = {};
 
-  warning_text:string = "No puede finalizar la práctica hasta que subas todos los documentos solicitados";
+  warning_text: string = "No puede finalizar la práctica hasta que subas todos los documentos solicitados";
 
-  constructor(private service_datos: ObtenerDatosService , private activated_route: ActivatedRoute, private _snackBar: MatSnackBar, 
-              private service_gestion: GestionarService, private service_supervisor: SupervisorService, private router: Router,
-              private service_noti: NotificacionesService, private service_obtener: DataUsuarioService) {
+  constructor(private service_datos: ObtenerDatosService, private activated_route: ActivatedRoute, private _snackBar: MatSnackBar,
+    private service_gestion: GestionarService, private service_supervisor: SupervisorService, private router: Router,
+    private service_noti: NotificacionesService, private service_obtener: DataUsuarioService) {
     this.usuario = JSON.parse(localStorage.getItem('auth-user') || '{}').userdata;
     this.estudiante = this.usuario.estudiante;
     this.estado_config = this.usuario.config;
@@ -99,14 +100,14 @@ export class DetalleAlumnoComponent implements OnInit{
         duration: 3000
       });
     }
-    
+
     const param_finalizacion_success = this.activated_route.snapshot.queryParamMap.get('finalizacion_success');
     if (param_finalizacion_success == "success") {
       snackBarRef = this._snackBar.open("Práctica finalizada correctamente", "Cerrar", {
         panelClass: ['green-snackbar'],
         duration: 3000
       });
-    }        
+    }
 
     let respuesta: any = {};
 
@@ -114,7 +115,7 @@ export class DetalleAlumnoComponent implements OnInit{
     this.service_datos.obtener_todos_config_practica().subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
-      }      ,
+      },
       error: (error: any) => console.log(error),
       complete: () => {
         this.config_practicas = respuesta.body;
@@ -124,8 +125,8 @@ export class DetalleAlumnoComponent implements OnInit{
         // Guardar nombres de las configuraciones de practica en un arreglo
         this.config_practicas.forEach((element: any) => {
           // verificar que el nombre no este en el arreglo
-          if(element.id_carrera == this.estudiante.id_carrera){
-            if(!this.nombres_config_practica.includes(element.nombre)){
+          if (element.id_carrera == this.estudiante.id_carrera) {
+            if (!this.nombres_config_practica.includes(element.nombre)) {
               this.nombres_config_practica.push(element.nombre);
               this.practicas_correspondiente_nombre.push([element.nombre]);
               this.fechasSeleccionadas.push([]);
@@ -147,80 +148,91 @@ export class DetalleAlumnoComponent implements OnInit{
 
             // Guardar nombres y practicas en un arreglo
             this.practicas.forEach(async (practica_aux: any) => {
-              
 
-              index += 1; 
+
+              index += 1;
               this.flags_inscripcion_list.push(false);
               //console.log("practica:",element.modalidad.config_practica.nombre)
               // Para cada practica que el alumno tiene, encontrar el nombre de la configuracion de practica en el arreglo
               // de nombres y agregar la practica en el arreglo que se encarga de mantener la correspondencia entre nombre y practica
-              if(practica_aux.modalidad.config_practica.nombre == this.nombres_config_practica.find((elemento: any) => elemento == practica_aux.modalidad.config_practica.nombre)){
+              if (practica_aux.modalidad.config_practica.nombre == this.nombres_config_practica.find((elemento: any) => elemento == practica_aux.modalidad.config_practica.nombre)) {
                 let index = this.nombres_config_practica.indexOf(practica_aux.modalidad.config_practica.nombre);
-                practica_aux.documentos.map((doc:any) => {
+                practica_aux.documentos.map((doc: any) => {
                   // Cambiar además las strings de tipo_archivo a un arreglo de strings
-                  doc.solicitud_documento.tipo_archivo = doc.solicitud_documento.tipo_archivo.split(",");                  
+                  doc.solicitud_documento.tipo_archivo = doc.solicitud_documento.tipo_archivo.split(",");
                   return doc;
                 });
-                this.practicas_correspondiente_nombre[index].push(practica_aux);  
+                this.practicas_correspondiente_nombre[index].push(practica_aux);
 
-                if(practica_aux.informes.length > 0 && practica_aux.modalidad.config_practica.frecuencia_informes == "diario"){
-                  for(var informe of practica_aux.informes){
+                if (practica_aux.informes.length > 0 && practica_aux.modalidad.config_practica.frecuencia_informes == "diario") {
+                  for (var informe of practica_aux.informes) {
                     //console.log("informe:",informe.fecha)
-                    if(informe.fecha != null){
+                    if (informe.fecha != null) {
                       informe.fecha = informe.fecha.split("T")[0];
                       informe.fecha += "T12:00:00.000Z";
                       this.fechasSeleccionadas[index].push(informe.fecha);
                       //console.log("informe despues de modificar:",informe.fecha)
                     }
                   }
-                }            
+                }
               }
               // request para obtener todas las solicitudes_documentos de la practica actual
-              
 
-              await new Promise( (resolve) => {this.service_datos.obtener_solicitudes_documentos_practica(practica_aux.modalidad.config_practica.id, practica_aux.id).subscribe({
-                next: (data: any) => {
-                  respuesta = { ...respuesta, ...data }
-                },
-                error: (error: any) => console.log(error),
-                complete: () => {
-                  this.solicitudes_practicas[practica_aux.id] = respuesta.body;
-                  let faltan_documentos = 0;
-                  for(let practica of this.practicas_correspondiente_nombre){
-                    for(let soli of this.solicitudes_practicas[practica_aux.id]){
-                      if(soli.documentos.length == 0){
-                        faltan_documentos = 1;
-                        this.documentos_enviados[practica_aux.id] = 0;
-                        break;
-                      } 
-                    }
-                    for (let docuex of practica_aux.documento_extras){
-                      if(docuex.key == null){
-                        faltan_documentos = 1;
-                        this.documentos_enviados[practica_aux.id] = 0;
-                        break;
-                      }
-                    }
-                    for (let informe of practica_aux.informes){
-                      if((informe.config_informe.tipo_informe).toLowerCase() == "informe final"){
-                        if(informe.key == null || informe.key == undefined || Object.keys(informe.key).length == 0){
+              console.log("this.documentos_enviados ANTES: ", this.documentos_enviados)
+              await new Promise((resolve) => {
+                this.service_datos.obtener_solicitudes_documentos_practica(practica_aux.modalidad.config_practica.id, practica_aux.id).subscribe({
+                  next: (data: any) => {
+                    respuesta = { ...respuesta, ...data }
+                  },
+                  error: (error: any) => console.log(error),
+                  complete: () => {
+                    this.solicitudes_practicas[practica_aux.id] = respuesta.body;
+                    let faltan_documentos = 0;
+                    console.log("practicas_correspondiente_nombre: ", this.practicas_correspondiente_nombre)
+                    for (let practica of this.practicas_correspondiente_nombre) {
+                      console.log("this.solicitudes_practicas[practica_aux.id]: ", this.solicitudes_practicas[practica_aux.id])
+                      for (let soli of this.solicitudes_practicas[practica_aux.id]) {
+                        if (soli.documentos.length == 0) {
+                          console.log("doc check")
                           faltan_documentos = 1;
                           this.documentos_enviados[practica_aux.id] = 0;
                           break;
                         }
                       }
+                      console.log("practica_aux.documento_extras: ", practica_aux.documento_extras)
+                      for (let docuex of practica_aux.documento_extras) {
+                        if (docuex.key == null) {
+                          console.log("doc_extra check")
+                          faltan_documentos = 1;
+                          this.documentos_enviados[practica_aux.id] = 0;
+                          break;
+                        }
+                      }
+                      console.log("practica_aux.informes: ", practica_aux.informes)
+                      for (let informe of practica_aux.informes) {
+                        if ((informe.config_informe.tipo_informe).toLowerCase() == "informe final") {
+                          if (informe.key == null || informe.key == undefined || Object.keys(informe.key).length == 0) {
+                            console.log("informe check")
+                            faltan_documentos = 1;
+                            this.documentos_enviados[practica_aux.id] = 0;
+                            break;
+                          }
+                        }
+                      }
+                      console.log("faltan_documentos: ", faltan_documentos)
+                      if (faltan_documentos == 0) { this.documentos_enviados[practica_aux.id] = 1; }
                     }
-                    if(faltan_documentos == 0){this.documentos_enviados[practica_aux.id] = 1;}
+                    //console.log("DOCUMENTOS ENVIADOS",this.documentos_enviados)
+                    //console.log("Solicitudes:", this.solicitudes_practicas)
+                    resolve(true);
                   }
-                  //console.log("DOCUMENTOS ENVIADOS",this.documentos_enviados)
-                  //console.log("Solicitudes:", this.solicitudes_practicas)
-                  resolve(true);
-                }
-              });})
-            });  
+                });
+              })
+              console.log("this.documentos_enviados DESPUÉS: ", this.documentos_enviados)
+            });
 
-            
-            for (var item of this.practicas){
+
+            for (var item of this.practicas) {
               this.evaluaciones.push(item.respuesta_supervisors)
             }
 
@@ -230,54 +242,54 @@ export class DetalleAlumnoComponent implements OnInit{
             });
             */
 
-            for (var item of this.evaluaciones){
+            for (var item of this.evaluaciones) {
               this.hay_respuesta.push(0)
-              for(var item2 of item){
+              for (var item2 of item) {
                 let temp: any = [];
                 let nota_promedio = 0;
                 let prom = 0;
-                if(item2.pregunta_supervisor != null){ 
-                  if(item2.pregunta_supervisor.enunciado == "Evalue entre 1 y 5 las siguientes aptitudes del practicante"){
+                if (item2.pregunta_supervisor != null) {
+                  if (item2.pregunta_supervisor.enunciado == "Evalue entre 1 y 5 las siguientes aptitudes del practicante") {
                     this.hay_respuesta.pop();
                     this.hay_respuesta.push(1);
-                    if(item2.pregunta_supervisor.opciones.indexOf(";;") != -1){
+                    if (item2.pregunta_supervisor.opciones.indexOf(";;") != -1) {
                       this.aptitudes_practica.push(item2.pregunta_supervisor.opciones.split(";;"))
                       temp = item2.respuesta.split(",");
-                      for(var n of temp){
+                      for (var n of temp) {
                         nota_promedio += Number(n);
                         prom += 1;
                       }
-                      
+
                       this.notas_aptitudes.push(temp);
-                      this.notas_promedio.push(nota_promedio/prom)
+                      this.notas_promedio.push(nota_promedio / prom)
                       break
-                    }                              
+                    }
                   }
                 }
               }
 
-              
+
             }
-            
+
             //console.log("Practicas correspondientes a nombre:",this.practicas_correspondiente_nombre)
           }
         });
       }
-    });  
+    });
   }
 
-  
+
   descargar_documento(documento_id: string, solicitud_tipo: string) {
     //console.log("decargar documento")
     // abrir nueva pestaña con url de descarga, que es url_backend (sacada desde el env) + /documentos/ + documento_key
-    if(solicitud_tipo == "documento"){
-      window.open(environment.url_back+"/documento/download?id=" + documento_id, "_blank");
-    } 
-    else{
-      window.open(environment.url_back+"/documento_extra/download?id=" + documento_id, "_blank");
+    if (solicitud_tipo == "documento") {
+      window.open(environment.url_back + "/documento/download?id=" + documento_id, "_blank");
+    }
+    else {
+      window.open(environment.url_back + "/documento_extra/download?id=" + documento_id, "_blank");
     }
   }
-  
+
   finalizar_practica(practica: any) {
     window.location.href = environment.url_front + "/encuestaFinal/" + practica.id;
   }
@@ -293,9 +305,9 @@ export class DetalleAlumnoComponent implements OnInit{
       });
       return;
     }
-    else{
+    else {
       this.flags_inscripcion_list[index] = true;
-    }        
+    }
   }
 
   redirigir_a_ingreso_informe(id_informe: any) {
@@ -315,32 +327,32 @@ export class DetalleAlumnoComponent implements OnInit{
     //setTimeout(() => {
     //  this.minDate = null; // Set null to remove the date restriction
     //}, 0); // Wait to change-detection function has terminated to execute a new change to force rendering the rows and cells   
-    const year = $event.getFullYear(); 
-    const month = $event.getMonth() + 1; 
-    const day = $event.getDate(); 
+    const year = $event.getFullYear();
+    const month = $event.getMonth() + 1;
+    const day = $event.getDate();
     const fechaParseada = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T12:00:00.000Z`;
-    this.selectedDate = fechaParseada; 
+    this.selectedDate = fechaParseada;
 
     // search for the id_practica in the array of practicas
     let practica = this.practicas.find((practica: any) => practica.id == id_practica);
-    if(practica){
+    if (practica) {
       let informe = practica.informes.find((informe: any) => informe.fecha == fechaParseada);
-      if(informe){
+      if (informe) {
         //console.log("informe encontrado:",informe)
-        if(informe.key != null){
+        if (informe.key != null) {
           // redirect to the page to show the informe /estudiante-ver-informe/{{practica[1].id}}/{{informe.id}}          
           this.router.navigate(['/estudiante-ver-informe/', practica.id, informe.id]);
         }
-        else{
+        else {
           // redirect to the page to enter the informe /estudiante-ingresar-informe/{{practica[1].id}}/{{informe.id}}
           this.redirigir_a_ingreso_informe(informe.id);
         }
       }
-      else{
+      else {
         //console.log("informe no encontrado:")
       }
     }
-    else{
+    else {
       console.log("practica no encontrada")
     }
     ////console.log("fecha parseada:",fechaParseada); 
@@ -361,17 +373,17 @@ export class DetalleAlumnoComponent implements OnInit{
       if (highlightDate) {
         // check search for the informe with the date and check if it has a key, if it does, return bg-success else return bg-danger
         let practica = this.practicas.find((practica: any) => practica.id == id_practica);
-        if(practica){
-          const year = date.getFullYear(); 
-          const month = date.getMonth() + 1; 
-          const day = date.getDate(); 
+        if (practica) {
+          const year = date.getFullYear();
+          const month = date.getMonth() + 1;
+          const day = date.getDate();
           const fechaParseada = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T12:00:00.000Z`;
           let informe = practica.informes.find((informe: any) => informe.fecha == fechaParseada);
-          if(informe){
-            if(informe.key != null){
+          if (informe) {
+            if (informe.key != null) {
               return 'bg-success';
             }
-            else{
+            else {
               return 'bg-warning';
             }
           }
@@ -381,7 +393,7 @@ export class DetalleAlumnoComponent implements OnInit{
     };
   }
 
-  comentarios(id_practica: any){
+  comentarios(id_practica: any) {
     this.id_p = id_practica;
     let response: any = {};
     this.service_datos.obtener_comentarios_supervisor(this.id_p).subscribe({
@@ -395,18 +407,18 @@ export class DetalleAlumnoComponent implements OnInit{
         });
       },
       complete: () => {
-        if(response.body.data.respuesta_supervisors.length == 0){
+        if (response.body.data.respuesta_supervisors.length == 0) {
           this.flag = false;
         }
-        else{
+        else {
           this.flag = true;
         }
-        if(this.data_response.length > 0){
+        if (this.data_response.length > 0) {
           this.data_response = [];
         }
-        for(let i = 0; i < response.body.data.respuesta_supervisors.length; i++){
-          if(response.body.data.respuesta_supervisors[i].pregunta_supervisor.tipo_respuesta != "evaluacion"){
-            let json = {pregunta: response.body.data.respuesta_supervisors[i].pregunta_supervisor.enunciado, respuesta: response.body.data.respuesta_supervisors[i].respuesta}
+        for (let i = 0; i < response.body.data.respuesta_supervisors.length; i++) {
+          if (response.body.data.respuesta_supervisors[i].pregunta_supervisor.tipo_respuesta != "evaluacion") {
+            let json = { pregunta: response.body.data.respuesta_supervisors[i].pregunta_supervisor.enunciado, respuesta: response.body.data.respuesta_supervisors[i].respuesta }
             this.data_response.push(json)
           }
         }
@@ -414,14 +426,14 @@ export class DetalleAlumnoComponent implements OnInit{
     })
   }
 
-  warning_practica(){
+  warning_practica() {
     this._snackBar.open("No puede finalizar la práctica hasta que subas todos los documentos solicitados", "Cerrar", {
       panelClass: ['red-snackbar'],
       duration: 2000
     });
   }
 
-  eliminarArchivoInformeFinal(id_informe: any){
+  eliminarArchivoInformeFinal(id_informe: any) {
     // show a dialog to confirm the action
     window.confirm("¿Está seguro que desea eliminar el informe final subido?");
 
@@ -429,12 +441,12 @@ export class DetalleAlumnoComponent implements OnInit{
     // if not confirmed, do nothing
 
     let respuesta: any = {};
-    
+
     this.service_gestion.eliminar_informe_final(id_informe).subscribe({
       next: (data: any) => {
         respuesta = { ...respuesta, ...data }
       },
-      error: (error: any) => console.log("Error en eliminar informe final:",error),
+      error: (error: any) => console.log("Error en eliminar informe final:", error),
       complete: () => {
         //console.log("Respuesta eliminar informe final:",respuesta);
         this._snackBar.open("Informe final eliminado correctamente", "Cerrar", {
@@ -445,21 +457,21 @@ export class DetalleAlumnoComponent implements OnInit{
         setTimeout(() => {
           // check if the url has any query params, if it does, remove them
           let currentUrl = this.router.url;
-          if(currentUrl.includes("?")){
+          if (currentUrl.includes("?")) {
             currentUrl = currentUrl.split("?")[0];
-            if(currentUrl.includes("%")){
+            if (currentUrl.includes("%")) {
               currentUrl = currentUrl.split("%")[0];
             }
             window.location.href = currentUrl;
           }
-          else{
-            window.location.reload();    
+          else {
+            window.location.reload();
           }
         }
-        , 2000);
+          , 2000);
       }
     });
-    
+
   }
 }
 
