@@ -18,7 +18,7 @@ export class IngresoInformeComponent {
   id_informe: number = 0;
   sesion: any = JSON.parse(localStorage.getItem("auth-user") || "{}")
   modificando: boolean = false;
-  config_informe: any = {};
+  config_informe: any = {tipo_informe:""};
 
   pregunta_actual = 0;
 

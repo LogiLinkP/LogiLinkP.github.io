@@ -133,7 +133,7 @@ export class DetalleAlumnoComponent implements OnInit {
             }
           }
         });
-        //console.log("Practicas Correspondientes:",this.practicas_correspondiente_nombre)
+        console.log("Practicas Correspondientes:",this.practicas_correspondiente_nombre)
         //console.log("Nombres de configuraciones de practica:",this.nombres_config_practica)
 
         // Request para obtener todas las practicas de acuerdo al id del estudiante
@@ -149,7 +149,7 @@ export class DetalleAlumnoComponent implements OnInit {
             // Guardar nombres y practicas en un arreglo
             this.practicas.forEach(async (practica_aux: any) => {
               this.comentarios(practica_aux.id)
-              console.log("reseñas supervisor:", this.resenas_supervisor) 
+              //console.log("reseñas supervisor:", this.resenas_supervisor) 
               index += 1;
               this.flags_inscripcion_list.push(false);
               //console.log("practica:",element.modalidad.config_practica.nombre)
@@ -178,7 +178,7 @@ export class DetalleAlumnoComponent implements OnInit {
               }
               // request para obtener todas las solicitudes_documentos de la practica actual
 
-              console.log("this.documentos_enviados ANTES: ", this.documentos_enviados)
+              //console.log("this.documentos_enviados ANTES: ", this.documentos_enviados)
               await new Promise((resolve) => {
                 this.service_datos.obtener_solicitudes_documentos_practica(practica_aux.modalidad.config_practica.id, practica_aux.id).subscribe({
                   next: (data: any) => {
@@ -188,38 +188,38 @@ export class DetalleAlumnoComponent implements OnInit {
                   complete: () => {
                     this.solicitudes_practicas[practica_aux.id] = respuesta.body;
                     let faltan_documentos = 0;
-                    console.log("practicas_correspondiente_nombre: ", this.practicas_correspondiente_nombre)
+                    //console.log("practicas_correspondiente_nombre: ", this.practicas_correspondiente_nombre)
                     for (let practica of this.practicas_correspondiente_nombre) {
-                      console.log("this.solicitudes_practicas[practica_aux.id]: ", this.solicitudes_practicas[practica_aux.id])
+                      //console.log("this.solicitudes_practicas[practica_aux.id]: ", this.solicitudes_practicas[practica_aux.id])
                       for (let soli of this.solicitudes_practicas[practica_aux.id]) {
                         if (soli.documentos.length == 0) {
-                          console.log("doc check")
+                          //console.log("doc check")
                           faltan_documentos = 1;
                           this.documentos_enviados[practica_aux.id] = 0;
                           break;
                         }
                       }
-                      console.log("practica_aux.documento_extras: ", practica_aux.documento_extras)
+                      //console.log("practica_aux.documento_extras: ", practica_aux.documento_extras)
                       for (let docuex of practica_aux.documento_extras) {
                         if (docuex.key == null) {
-                          console.log("doc_extra check")
+                          //console.log("doc_extra check")
                           faltan_documentos = 1;
                           this.documentos_enviados[practica_aux.id] = 0;
                           break;
                         }
                       }
-                      console.log("practica_aux.informes: ", practica_aux.informes)
+                      //console.log("practica_aux.informes: ", practica_aux.informes)
                       for (let informe of practica_aux.informes) {
                         if ((informe.config_informe.tipo_informe).toLowerCase() == "informe final") {
                           if (informe.key == null || informe.key == undefined || Object.keys(informe.key).length == 0) {
-                            console.log("informe check")
+                            //console.log("informe check")
                             faltan_documentos = 1;
                             this.documentos_enviados[practica_aux.id] = 0;
                             break;
                           }
                         }
                       }
-                      console.log("faltan_documentos: ", faltan_documentos)
+                      //console.log("faltan_documentos: ", faltan_documentos)
                       if (faltan_documentos == 0) { this.documentos_enviados[practica_aux.id] = 1; }
                     }
                     //console.log("DOCUMENTOS ENVIADOS",this.documentos_enviados)
@@ -228,7 +228,7 @@ export class DetalleAlumnoComponent implements OnInit {
                   }
                 });
               })
-              console.log("this.documentos_enviados DESPUÉS: ", this.documentos_enviados)
+              //console.log("this.documentos_enviados DESPUÉS: ", this.documentos_enviados)
             });
 
 
@@ -409,7 +409,7 @@ export class DetalleAlumnoComponent implements OnInit {
         });
       },
       complete: () => {
-        console.log("Respuesta comentarios:", response);
+        //console.log("Respuesta comentarios:", response);
         if (response.body.data.respuesta_supervisors.length == 0) {
           this.flag = false;
         }

@@ -102,22 +102,21 @@
                                                                 [checked]="config_informe.tipo_archivo.includes('pdf')">
                                                             pdf
                                                             <input type="checkbox" disabled
-                                                                [checked]="config_informe.tipo_archivo.includes('word')">
+                                                                [checked]="config_informe.tipo_archivo.includes('doc')">
                                                             word                                                            
                                                         </div>
 
-                                                        <div class="mt-2" *ngIf="config_informe.plantilla != null">
+                                                        <div class="mt-2" *ngIf="config_informe.plantilla != null && config_informe.plantilla != ''">
                                                             <button type="button" class="btn btn-primary btn-md mb-2">
                                                                 <a [href]="'https://d2v9ocre132gvc.cloudfront.net/'+config_informe.plantilla"
                                                                     target="_blank" style="color:white">Ver plantilla
-                                                                    </a>
+                                                                </a>
                                                             </button>
                                                         </div>
-                                                    <p
-                                                        *ngFor="let pregunta of config_informe.pregunta_informes; let k = index">
+                                                    </div>
+                                                    <p *ngFor="let pregunta of config_informe.pregunta_informes; let k = index">
                                                         {{k+1}}. {{pregunta.enunciado}}
                                                     </p>
-                                                    </div>
                                                 </div>
                                                 <div class="card-footer">
                                                     <span class="btn btn-primary disabled-button"

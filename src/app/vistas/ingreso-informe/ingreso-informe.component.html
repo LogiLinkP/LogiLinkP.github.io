@@ -14,9 +14,7 @@
             <app-barra-superior></app-barra-superior>
 
             <!-- Begin Page Content -->
-            
 
-        
 
             <div id="content-wrapper" class="d-flex flex-column">
                 <!-- Main Content -->
@@ -31,7 +29,7 @@
                                 <!-- Tarjeta inicial-->
                                 <div class="card border-left-primary shadow py-2" *ngSwitchDefault id="cont_respuesta0" >
                                     <div class="card-body">
-                                        <div class="h4 mb-3 font-weight-bold text-gray-800 text-center" *ngIf="(config_informe.tipo_informe).toLowerCase()=='informe avance';else esInformeFinal"> 
+                                        <div class="h4 mb-3 font-weight-bold text-gray-800 text-center" *ngIf="(config_informe?.tipo_informe).toLowerCase()=='informe avance';else esInformeFinal"> 
                                             A continuación podrás responder las preguntas de tu informe de avances.
                                         </div>
                                         <ng-template #esInformeFinal>
