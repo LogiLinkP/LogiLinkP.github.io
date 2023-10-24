@@ -27,7 +27,7 @@ export class DetalleAlumnoComponent implements OnInit {
   solicitudes_practicas: any = {};
 
   id_p: any;
-  data_response: any = [];
+  resenas_supervisor: any = [];
   flag: boolean = false;
 
   estado_config: string = "";
@@ -148,8 +148,8 @@ export class DetalleAlumnoComponent implements OnInit {
 
             // Guardar nombres y practicas en un arreglo
             this.practicas.forEach(async (practica_aux: any) => {
-
-
+              this.comentarios(practica_aux.id)
+              console.log("reseñas supervisor:", this.resenas_supervisor) 
               index += 1;
               this.flags_inscripcion_list.push(false);
               //console.log("practica:",element.modalidad.config_practica.nombre)
@@ -241,6 +241,8 @@ export class DetalleAlumnoComponent implements OnInit {
               return !isNaN(respuesta_supervisors.respuesta);
             });
             */
+            
+            
 
             for (var item of this.evaluaciones) {
               this.hay_respuesta.push(0)
@@ -407,19 +409,20 @@ export class DetalleAlumnoComponent implements OnInit {
         });
       },
       complete: () => {
+        console.log("Respuesta comentarios:", response);
         if (response.body.data.respuesta_supervisors.length == 0) {
           this.flag = false;
         }
         else {
           this.flag = true;
         }
-        if (this.data_response.length > 0) {
-          this.data_response = [];
+        if (!this.resenas_supervisor.hasOwnProperty(id_practica)) {
+          this.resenas_supervisor[id_practica] = [];
         }
         for (let i = 0; i < response.body.data.respuesta_supervisors.length; i++) {
           if (response.body.data.respuesta_supervisors[i].pregunta_supervisor.tipo_respuesta != "evaluacion") {
             let json = { pregunta: response.body.data.respuesta_supervisors[i].pregunta_supervisor.enunciado, respuesta: response.body.data.respuesta_supervisors[i].respuesta }
-            this.data_response.push(json)
+            this.resenas_supervisor[id_practica].push(json)
           }
         }
       }
