@@ -43,11 +43,13 @@
                                     </a>
                                     <div class="collapse" id="{{ 'card' + i }}">
                                         <div class="card-body">
-                                            <div *ngIf="practica[1].estado!='Esperando confirmacion'; else practicaNoConfirmada">
+                                            <div
+                                                *ngIf="practica[1].estado!='Esperando confirmacion'; else practicaNoConfirmada">
                                                 <div class="row" *ngIf="practica[1].estado=='En curso'">
                                                     <div class="col-xl-9"></div>
                                                     <div class="col-xl-2">
-                                                        <div *ngIf="documentos_enviados[i] == 1; else elsedocument">
+                                                        <div
+                                                            *ngIf="documentos_enviados[practica[1].id] == 1; else elsedocument">
                                                             <button type="button"
                                                                 class="btn btn-primary btn-lg btn-block"
                                                                 (click)="finalizar_practica(practica[1])">
