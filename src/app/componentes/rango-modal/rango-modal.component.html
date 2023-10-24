@@ -9,8 +9,8 @@
                 Ingrese un rango de evaluacion para todas las aptitudes
                 <form class="asignacion" [formGroup]="editarForm">
                     <div>
-                        Nombre: <input type="text" name="nombre" id="nombre" formControlName="rango"
-                            [value]="actual">
+                        Valor: <input type="text" name="nombre" id="nombre" formControlName="rango" [value]="actual"
+                            (input)="validar_num($event)">
                     </div>
                 </form>
 

@@ -48,14 +48,14 @@ export class RangoModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+
   }
 
   actualizar() {
     let data = this.editarForm.value;
     let _data: any = {};
     this.rango = data.rango;
-    if(this.rango == 0){
+    if (this.rango == 0) {
       this.rango = this.actual;
     }
     this.aptitud.actualizarRango(this.user.encargado.id_carrera, this.rango).subscribe({
@@ -85,5 +85,22 @@ export class RangoModalComponent implements OnInit {
         }
       }
     })
+  }
+
+  validar_num(evnt: any) {
+    let val_escrito = evnt.target.value;
+    console.log("val_escrito", val_escrito)
+    if (!val_escrito || val_escrito.length < 1) {
+      evnt.target.value = "";
+      return;
+    }
+
+    let num = val_escrito.replace(/[^0-9]+/g, '');
+    console.log("num", num)
+    if (!num || num.length < 1) {
+      evnt.target.value = "";
+      return;
+    }
+    evnt.target.value = num;
   }
 }
