@@ -94,6 +94,7 @@ import { SubirPlantillaInformeFinalComponent } from './componentes/subir-plantil
 import { ConfirmarInicioPracticaComponent } from './vistas/confirmar-inicio-practica/confirmar-inicio-practica.component';
 import { ConfirmacionUsuarioComponent } from './vistas/confirmacion-usuario/confirmacion-usuario.component';
 import { SubirArchivoInformeFinalComponent } from './componentes/subir-archivo-informe-final/subir-archivo-informe-final.component';
+import { EditarArchivoEncargadoComponent } from './componentes/editar-archivo-encargado/editar-archivo-encargado.component';
 
 @NgModule({
   declarations: [
@@ -154,6 +155,7 @@ import { SubirArchivoInformeFinalComponent } from './componentes/subir-archivo-i
     ConfirmarInicioPracticaComponent,
     ConfirmacionUsuarioComponent,
     SubirArchivoInformeFinalComponent,
+    EditarArchivoEncargadoComponent,
   ],
   imports: [
     BrowserModule,

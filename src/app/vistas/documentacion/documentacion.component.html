@@ -48,6 +48,9 @@
                                     <div class="col-6">
                                         <button class="btn btn-success" (click)="descargar_documento(docu.key)">Descargar</button>
                                         &nbsp;
+                                        <app-editar-archivo-encargado [id_carrera]="id_carrera" [id_encargado]="id_encargado"
+                                        [Nombre]="docu.nombre" [Descripcion]="docu.descripcion" [id_archivo]="docu.id"></app-editar-archivo-encargado>
+                                        &nbsp;
                                         <button *ngIf="esalumno==0" class="btn btn-danger" (click)="eliminar(docu.id, indice)">Eliminar</button>
                                     </div>
                                 </div>
