@@ -13,14 +13,13 @@ export class DocumentacionComponent implements OnInit {
 
   esalumno:number = -1;
   usuario:any = {};
-  documentos:any = {};
+  documentos:any = [];
 
   id_carrera:number =-1;
   id_encargado:number = -1;
 
   constructor(private service_docu:DocumentacionService){
   this.usuario = JSON.parse(localStorage.getItem('auth-user') || '{}').userdata;
-  console.log(this.usuario)
     if (this.usuario.es_estudiante == 1) {
       this.esalumno = 1;
       this.id_carrera = this.usuario.estudiante.id_carrera;
@@ -45,6 +44,7 @@ export class DocumentacionComponent implements OnInit {
         },
         complete:() => {
           this.documentos = respuesta.body;
+          console.log(this.documentos)
         }
       })
     } else {
@@ -73,7 +73,7 @@ export class DocumentacionComponent implements OnInit {
         return
       },
       complete:() => {
-        this.documentos.splice(index,1)
+        this.documentos.splice(index, 1);
       },
     })
   }

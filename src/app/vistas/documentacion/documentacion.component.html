@@ -11,9 +11,14 @@
         <div id="content" class="main-content">
             <app-barra-superior></app-barra-superior>
 
-            <div id="container-fluid overflow-auto" style="max-height: 80vh;">
+            <div class="container-fluid">
                 <!--<button (click)="volver_atras()" class="btn btn-primary d-flex align-items-right">Volver</button>-->
-                <div class="h3 mt-2 ml-2">Documentación Adicional</div>
+                <div class="row">
+                    <div class="col-xl-10">
+                        <div class="h3 mb-2 font-weight-bold text-gray-800">Documentación Adicional</div>
+                        <p class="mb-4">Documentación que los alumnos pueden utilizar para informarse sobre el proceso de prácticas.</p>
+                    </div>
+                </div>
                 <div class="col-xl-3 col-md-6 mb-4"
                     *ngIf="documentos.length == 0">
                     <div class="card shadow h-100 py-2">
