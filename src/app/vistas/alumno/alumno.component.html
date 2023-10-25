@@ -398,7 +398,7 @@
                                                                                     data-toggle="modal">Ver comentarios
                                                                                     evaluacion</button>-->
 
-                                                                                    <ng-template [ngIf]="flag" [ngIfElse]="case">
+                                                                                    <ng-template [ngIf]="flag[practica[1].id]" [ngIfElse]="case">
                                                                                         <div class="table-responsive">
                                                                                             <table class="table table-bordered hoverTable"
                                                                                                 id="dataTable" width="100%"
