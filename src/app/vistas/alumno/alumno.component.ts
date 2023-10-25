@@ -431,6 +431,8 @@ export class DetalleAlumnoComponent implements OnInit {
           this.resenas_supervisor[id_practica] = [];
         }
         for (let i = 0; i < response.body.data.respuesta_supervisors.length; i++) {
+          //por ahora solo se muestran las preguntas abiertas
+          //agregar alternativas y preguntas evaluacion
           if (response.body.data.respuesta_supervisors[i].pregunta_supervisor.tipo_respuesta == "abierta") {
             let json = { pregunta: response.body.data.respuesta_supervisors[i].pregunta_supervisor.enunciado, respuesta: response.body.data.respuesta_supervisors[i].respuesta }
             this.resenas_supervisor[id_practica].push(json)
