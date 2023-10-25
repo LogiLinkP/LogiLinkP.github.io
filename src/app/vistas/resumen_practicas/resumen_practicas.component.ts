@@ -24,7 +24,7 @@ export class TablaComponent {
 
   practicas: any = [];
   temp_notas:any = []
-  notas_promedio: any = [];
+  notas_promedio: any = {};
 
   carreras: any = [];
 
@@ -157,15 +157,23 @@ export class TablaComponent {
                   let temp: any = [];
                   
                   if(val.pregunta_supervisor != null){
-                    if (val.pregunta_supervisor.enunciado == "Evalúe entre 1 y 5 las siguientes aptitudes del practicante"){
+                    if (val.pregunta_supervisor.tipo_respuesta == "evaluacion"){
                       find = 1
                       temp = val.respuesta.split(",");
+
+                      //console.log("temp:",temp)
                       for(var n of temp){
                         nota_promedio += Number(n);
                         prom += 1;
                       } 
                       nota_promedio = nota_promedio/prom
-                      this.temp_notas.push([id_practicaux, nota_promedio])  
+                      
+                      if (prom == 0){
+                        this.notas_promedio[id_practicaux] = "—"
+                      } else{
+                        this.notas_promedio[id_practicaux]=nota_promedio
+                      }
+              
                       break
                     }
                   }
@@ -173,19 +181,8 @@ export class TablaComponent {
                 if (find == -1){
                   this.temp_notas.push([id_practicaux, 0])
                 } 
-              }
-              this.temp_notas.sort(function(a:any, b:any){
-                return a[0] - b[0];
-              })
-              this.notas_promedio = [];
-              for (let nota_temp of this.temp_notas){
-                if (nota_temp[1] == 0){
-                  this.notas_promedio.push("-")
-                } else{
-                  this.notas_promedio.push(nota_temp[1])
-                }
-              }
-              //console.log(this.notas_promedio) 
+
+              //console.log("notas_promedio:",this.notas_promedio) 
               const element = document.getElementById('cuerpoTabla');
               const targetElement = document.getElementById('headerTabla');
               if (element) {
@@ -193,6 +190,7 @@ export class TablaComponent {
                 targetElement!.style.width = elementWidth + 'px';
               }  
             }
+          }
           });
         }
       }
