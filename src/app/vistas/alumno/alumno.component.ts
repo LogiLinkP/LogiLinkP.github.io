@@ -338,7 +338,12 @@ export class DetalleAlumnoComponent implements OnInit {
     // search for the id_practica in the array of practicas
     let practica = this.practicas.find((practica: any) => practica.id == id_practica);
     if (practica) {
-      let informe = practica.informes.find((informe: any) => informe.fecha == fechaParseada);
+      let informe = practica.informes.find((informe: any) =>{
+        if(informe.fecha == fechaParseada && informe.config_informe.tipo_informe != "informe final"){
+          return true;
+        }
+        return false;
+      });
       if (informe) {
         //console.log("informe encontrado:",informe)
         if (informe.key != null) {
@@ -380,7 +385,13 @@ export class DetalleAlumnoComponent implements OnInit {
           const month = date.getMonth() + 1;
           const day = date.getDate();
           const fechaParseada = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T12:00:00.000Z`;
-          let informe = practica.informes.find((informe: any) => informe.fecha == fechaParseada);
+          let informe = practica.informes.find((informe: any) => {
+            
+            if(informe.fecha == fechaParseada && informe.config_informe.tipo_informe != "informe final"){
+              return true;
+            }
+            return false;
+          });
           if (informe) {
             if (informe.key != null) {
               return 'bg-success';
