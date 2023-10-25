@@ -28,7 +28,7 @@ export class DetalleAlumnoComponent implements OnInit {
 
   id_p: any;
   resenas_supervisor: any = [];
-  flag: boolean = false;
+  flag: any = {}
 
   estado_config: string = "";
 
@@ -420,13 +420,17 @@ export class DetalleAlumnoComponent implements OnInit {
         });
       },
       complete: () => {
-        //console.log("Respuesta comentarios:", response);
+        console.log("Respuesta comentarios:", response.body.data.respuesta_supervisors);
+        
+
+
         if (response.body.data.respuesta_supervisors.length == 0) {
-          this.flag = false;
+          this.flag[response.body.data.id] = false;
         }
         else {
-          this.flag = true;
+          this.flag[response.body.data.id] = true;
         }
+        
         if (!this.resenas_supervisor.hasOwnProperty(id_practica)) {
           this.resenas_supervisor[id_practica] = [];
         }
@@ -438,6 +442,7 @@ export class DetalleAlumnoComponent implements OnInit {
             this.resenas_supervisor[id_practica].push(json)
           }
         }
+        console.log("Reseñas supervisor:", this.resenas_supervisor)
       }
     })
   }
