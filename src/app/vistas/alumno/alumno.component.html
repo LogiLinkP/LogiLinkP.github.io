@@ -189,109 +189,120 @@
 
                                                             <div class="row" style="max-width: 100%;">
 
-                                                            <!-- Tarjeta Ver Informes -->
-                                                            <div class="col-xl-6">
-                                                                <div class="card shadow mb-4">
-                                                                    <!-- Card Header - Accordion -->
-                                                                    <a class="card-header py-3">
-                                                                        <h4 class="m-0 font-weight-bold text-primary">
-                                                                            Informes</h4>
-                                                                    </a>
-                                                                    <!-- Card Content - Collapse -->
-                                                                    <div>
-                                                                        <div class="card-body overflow-auto">
-                                                                            <div>
-                                                                                <div class="table-responsive"
-                                                                                    *ngIf="practica[1].modalidad?.config_practica?.frecuencia_informes!='diario'; else informesDiarios">
-                                                                                    <table
-                                                                                        class="table table-bordered hoverTable"
-                                                                                        id="dataTable" width="100%"
-                                                                                        cellspacing="0">
-                                                                                        <thead>
-                                                                                            <tr>
-                                                                                                <th style="width:40%">
-                                                                                                    Tipo</th>
-                                                                                                <!--<th>Horas Trabajadas
+                                                                <!-- Tarjeta Ver Informes -->
+                                                                <div class="col-xl-6">
+                                                                    <div class="card shadow mb-4">
+                                                                        <!-- Card Header - Accordion -->
+                                                                        <a class="card-header py-3">
+                                                                            <h4
+                                                                                class="m-0 font-weight-bold text-primary">
+                                                                                Informes</h4>
+                                                                        </a>
+                                                                        <!-- Card Content - Collapse -->
+                                                                        <div>
+                                                                            <div class="card-body overflow-auto">
+                                                                                <div>
+                                                                                    <div class="table-responsive"
+                                                                                        *ngIf="practica[1].modalidad?.config_practica?.frecuencia_informes!='diario'; else informesDiarios">
+                                                                                        <table
+                                                                                            class="table table-bordered hoverTable"
+                                                                                            id="dataTable" width="100%"
+                                                                                            cellspacing="0">
+                                                                                            <thead>
+                                                                                                <tr>
+                                                                                                    <th
+                                                                                                        style="width:40%">
+                                                                                                        Tipo</th>
+                                                                                                    <!--<th>Horas Trabajadas
                                                                                                 </th>-->
-                                                                                                <th style="width:30%">
-                                                                                                    Fecha</th>
-                                                                                                <th style="width:30%">
-                                                                                                </th>
-                                                                                            </tr>
-                                                                                        </thead>
-                                                                                        <tbody>
-                                                                                            <tr
-                                                                                                *ngFor="let informe of practica[1].informes;">
-                                                                                                <ng-container *ngIf="informe?.config_informe?.tipo_informe != 'informe final'">
-                                                                                                    <td style="width:40%"
-                                                                                                        >
-                                                                                                        <b>{{informe?.config_informe?.tipo_informe}}</b>
-                                                                                                    </td>
-                                                                                                    <!--<td>{{ informe?.horas_trabajadas }}</td>-->
-                                                                                                    <td
+                                                                                                    <th
                                                                                                         style="width:30%">
-                                                                                                        {{
-                                                                                                        informe?.fecha |
-                                                                                                        date:
-                                                                                                        'dd/MM/yyyy'
-                                                                                                        }}</td>
-                                                                                                    <!--<td><button class="btn btn-primary btn-sm btn-block" (click)="mostrar_informe(practica[1].informes,informe.id)">Ver
+                                                                                                        Fecha</th>
+                                                                                                    <th
+                                                                                                        style="width:30%">
+                                                                                                    </th>
+                                                                                                </tr>
+                                                                                            </thead>
+                                                                                            <tbody>
+                                                                                                <tr
+                                                                                                    *ngFor="let informe of practica[1].informes;">
+                                                                                                    <ng-container
+                                                                                                        *ngIf="informe?.config_informe?.tipo_informe != 'informe final'">
+                                                                                                        <td
+                                                                                                            style="width:40%">
+                                                                                                            <b>{{informe?.config_informe?.tipo_informe}}</b>
+                                                                                                        </td>
+                                                                                                        <!--<td>{{ informe?.horas_trabajadas }}</td>-->
+                                                                                                        <td
+                                                                                                            style="width:30%">
+                                                                                                            {{
+                                                                                                            informe?.fecha
+                                                                                                            |
+                                                                                                            date:
+                                                                                                            'dd/MM/yyyy'
+                                                                                                            }}</td>
+                                                                                                        <!--<td><button class="btn btn-primary btn-sm btn-block" (click)="mostrar_informe(practica[1].informes,informe.id)">Ver
                                                                                                     Informe</button></td>-->
-                                                                                                    <td class="text-center"
-                                                                                                        style="width:30%">
-                                                                                                        <div
-                                                                                                            *ngIf="informe?.config_informe?.archivo_o_encuesta != 'archivo'">
-                                                                                                            <button
-                                                                                                                *ngIf="!informe.key || isEmptyObject(informe.key); else yaSeSubio"
-                                                                                                                class="btn btn-primary btn-sm btn-block"
-                                                                                                                (click)="redirigir_a_ingreso_informe(informe.id)">Responder</button>
-                                                                                                            <ng-template
-                                                                                                                #yaSeSubio>
-                                                                                                                <a class="nostyle"
-                                                                                                                    href="/estudiante-ver-informe/{{practica[1].id}}/{{informe.id}}">
-                                                                                                                    <button
-                                                                                                                        class="btn btn-primary btn-sm btn-block">
-                                                                                                                        Ver
-                                                                                                                        Informe
-                                                                                                                    </button>
-                                                                                                                </a>
-                                                                                                            </ng-template>
-                                                                                                        </div>
-                                                                                                    </td>
-                                                                                                </ng-container>
+                                                                                                        <td class="text-center"
+                                                                                                            style="width:30%">
+                                                                                                            <div
+                                                                                                                *ngIf="informe?.config_informe?.archivo_o_encuesta != 'archivo'">
+                                                                                                                <button
+                                                                                                                    *ngIf="!informe.key || isEmptyObject(informe.key); else yaSeSubio"
+                                                                                                                    class="btn btn-primary btn-sm btn-block"
+                                                                                                                    (click)="redirigir_a_ingreso_informe(informe.id)">Responder</button>
+                                                                                                                <ng-template
+                                                                                                                    #yaSeSubio>
+                                                                                                                    <a class="nostyle"
+                                                                                                                        href="/estudiante-ver-informe/{{practica[1].id}}/{{informe.id}}">
+                                                                                                                        <button
+                                                                                                                            class="btn btn-primary btn-sm btn-block">
+                                                                                                                            Ver
+                                                                                                                            Informe
+                                                                                                                        </button>
+                                                                                                                    </a>
+                                                                                                                </ng-template>
+                                                                                                            </div>
+                                                                                                        </td>
+                                                                                                    </ng-container>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </div>
+
+                                                                                    <ng-template #informesDiarios>
+                                                                                        <p class="text-gray-800">En
+                                                                                            verde se
+                                                                                            muestran los informes que ya
+                                                                                            has
+                                                                                            respondido, en amarillo los
+                                                                                            que
+                                                                                            aún no has respondido.</p>
+
+                                                                                        <table style="width:100%">
+                                                                                            <tr>
+                                                                                                <td style="width:32%">
+                                                                                                </td>
+                                                                                                <td style="width:36%">
+                                                                                                    <mat-calendar
+                                                                                                        class="calendario{{i}}"
+                                                                                                        [selected]="selectedDate"
+                                                                                                        [minDate]="minDate"
+                                                                                                        (selectedChange)="onFechaClick($event, practica[1].id)"
+                                                                                                        [dateClass]="dateClass(i, practica[1].id)">
+                                                                                                    </mat-calendar>
+                                                                                                </td>
+                                                                                                <td style="width:32%">
+                                                                                                </td>
                                                                                             </tr>
-                                                                                        </tbody>
-                                                                                    </table>
+                                                                                        </table>
+                                                                                    </ng-template>
+
                                                                                 </div>
-
-                                                                                <ng-template #informesDiarios>
-                                                                                    <p class="text-gray-800">En verde se
-                                                                                        muestran los informes que ya has
-                                                                                        respondido, en amarillo los que
-                                                                                        aún no has respondido.</p>
-
-                                                                                    <table style="width:100%">
-                                                                                        <tr>
-                                                                                            <td style="width:32%"></td>
-                                                                                            <td style="width:36%">
-                                                                                                <mat-calendar
-                                                                                                    class="calendario{{i}}"
-                                                                                                    [selected]="selectedDate"
-                                                                                                    [minDate]="minDate"
-                                                                                                    (selectedChange)="onFechaClick($event, practica[1].id)"
-                                                                                                    [dateClass]="dateClass(i, practica[1].id)">
-                                                                                                </mat-calendar>
-                                                                                            </td>
-                                                                                            <td style="width:32%"></td>
-                                                                                        </tr>
-                                                                                    </table>
-                                                                                </ng-template>
-
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </div><!-- Fin Tarjeta Informes -->
+                                                                </div><!-- Fin Tarjeta Informes -->
 
                                                                 <!-- Tarjeta Archivos -->
                                                                 <div class="col-xl-6">
@@ -381,16 +392,18 @@
                                                                         </div>
                                                                     </div>
                                                                 </div><!-- Fin Tarjeta Archivos -->
-                                                                <div class="col-xl-6" *ngIf="practica[1].estado!='En curso'">
+                                                                <div class="col-xl-6"
+                                                                    *ngIf="practica[1].estado!='En curso'">
                                                                     <div class="card shadow mb-4">
                                                                         <a class="card-header py-3">
                                                                             <h4
                                                                                 class="m-0 font-weight-bold text-primary">
                                                                                 Comentarios de supervisor</h4>
-                                                                        </a>                                                                    
-                                                                    <div>
-                                                                        <div class="card-body overflow-auto text-center">
-                                                                            <div><!--
+                                                                        </a>
+                                                                        <div>
+                                                                            <div
+                                                                                class="card-body overflow-auto text-center">
+                                                                                <div><!--
                                                                                 <button
                                                                                     class="btn btn-primary btn-sm btn-block"
                                                                                     (click)="comentarios(practica[1].id)"
@@ -398,115 +411,140 @@
                                                                                     data-toggle="modal">Ver comentarios
                                                                                     evaluacion</button>-->
 
-                                                                                    <ng-template [ngIf]="flag[practica[1].id]" [ngIfElse]="case">
+                                                                                    <ng-template
+                                                                                        [ngIf]="flag[practica[1].id]"
+                                                                                        [ngIfElse]="case">
                                                                                         <div class="table-responsive">
-                                                                                            <table class="table table-bordered hoverTable"
-                                                                                                id="dataTable" width="100%"
+                                                                                            <table
+                                                                                                class="table table-bordered hoverTable"
+                                                                                                id="dataTable"
+                                                                                                width="100%"
                                                                                                 cellspacing="0">
                                                                                                 <thead>
                                                                                                     <tr>
-                                                                                                        <th style="vertical-align: bottom;">Pregunta</th>
-                                                                                                        <th style="vertical-align: bottom;">Respuesta</th>
+                                                                                                        <th
+                                                                                                            style="vertical-align: bottom;">
+                                                                                                            Pregunta
+                                                                                                        </th>
+                                                                                                        <th
+                                                                                                            style="vertical-align: bottom;">
+                                                                                                            Respuesta
+                                                                                                        </th>
                                                                                                     </tr>
                                                                                                 </thead>
-                                                                                                <tbody *ngIf="resenas_supervisor.hasOwnProperty(this.practica[1].id)">
-                                                                                                    <tr *ngFor="let comentario of resenas_supervisor[practica[1].id]">
-                                                                                                        <td>{{comentario.pregunta}}</td>
-                                                                                                        <td>{{comentario.respuesta}}</td>
+                                                                                                <tbody
+                                                                                                    *ngIf="resenas_supervisor.hasOwnProperty(this.practica[1].id)">
+                                                                                                    <tr
+                                                                                                        *ngFor="let comentario of resenas_supervisor[practica[1].id]">
+                                                                                                        <td>{{comentario.pregunta}}
+                                                                                                        </td>
+                                                                                                        <td>{{comentario.respuesta}}
+                                                                                                        </td>
                                                                                                     </tr>
                                                                                                 </tbody>
                                                                                             </table>
                                                                                         </div>
                                                                                     </ng-template>
-                                                                                    <ng-template #case>No hay comentarios en esta práctica</ng-template>
+                                                                                    <ng-template #case>No hay
+                                                                                        comentarios en esta
+                                                                                        práctica</ng-template>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                    
+
                                                                 </div>
 
                                                                 <!-- Tarjeta Ver Informes -->
-                                                            <div class="col-xl-6"
-                                                            *ngIf="practica[1].modalidad.config_practica.informe_final=='si'">
-                                                            <div class="card shadow mb-4">
-                                                                <!-- Card Header - Accordion -->
-                                                                <a class="card-header py-3">
-                                                                    <h4 class="m-0 font-weight-bold text-primary">
-                                                                        Informe Final</h4>
-                                                                </a>
-                                                                <!-- Card Content - Collapse -->
-                                                                <div class="card-body overflow-auto">
-                                                                    <ng-container
-                                                                        *ngFor="let informe of practica[1].informes;">
-                                                                        <ng-container
-                                                                            *ngIf="informe?.config_informe?.tipo_informe == 'informe final'">
-                                                                            <div class="text-center">
-                                                                                <div
-                                                                                    *ngIf="informe?.config_informe?.archivo_o_encuesta == 'encuesta'; else informeArchivo">
-                                                                                    <button
-                                                                                        *ngIf="!informe.key || isEmptyObject(informe.key); else yaSeSubio"
-                                                                                        class="btn btn-primary btn-md"
-                                                                                        (click)="redirigir_a_ingreso_informe(informe.id)">Responder</button>
-                                                                                    <ng-template #yaSeSubio>
-                                                                                        <a class="nostyle"
-                                                                                            href="/estudiante-ver-informe/{{practica[1].id}}/{{informe.id}}">
-                                                                                            <button
-                                                                                                class="btn btn-primary btn-md">
-                                                                                                Ver
-                                                                                                Informe
-                                                                                            </button>
-                                                                                        </a>
-                                                                                    </ng-template>
-                                                                                </div>
-                                                                                <ng-template #informeArchivo>
-                                                                                    <div class="row">
+                                                                <div class="col-xl-6"
+                                                                    *ngIf="practica[1].modalidad.config_practica.informe_final=='si'">
+                                                                    <div class="card shadow mb-4">
+                                                                        <!-- Card Header - Accordion -->
+                                                                        <a class="card-header py-3">
+                                                                            <h4
+                                                                                class="m-0 font-weight-bold text-primary">
+                                                                                Informe Final</h4>
+                                                                        </a>
+                                                                        <!-- Card Content - Collapse -->
+                                                                        <div class="card-body overflow-auto">
+                                                                            <ng-container
+                                                                                *ngFor="let informe of practica[1].informes;">
+                                                                                <ng-container
+                                                                                    *ngIf="informe?.config_informe?.tipo_informe == 'informe final'">
+                                                                                    <div class="text-center">
                                                                                         <div
-                                                                                            class="col-12 text-center">
-                                                                                            <div class="mb-2"  *ngIf="!informe.key || isEmptyObject(informe.key);">Informe final no subido aún</div>
-                                                                                            <app-subir-archivo-informe-final
+                                                                                            *ngIf="informe?.config_informe?.archivo_o_encuesta == 'encuesta'; else informeArchivo">
+                                                                                            <button
                                                                                                 *ngIf="!informe.key || isEmptyObject(informe.key); else yaSeSubio"
-                                                                                                [id_informe]=informe.id
-                                                                                                [tipo_archivo]="informe.config_informe?.tipo_archivo">
-                                                                                                
-                                                                                            </app-subir-archivo-informe-final>
+                                                                                                class="btn btn-primary btn-md"
+                                                                                                (click)="redirigir_a_ingreso_informe(informe.id)">Responder</button>
                                                                                             <ng-template #yaSeSubio>
-                                                                                                <div class="mb-2">Informe final ya subido</div>
-                                                                                                <button
-                                                                                                    type="button"
-                                                                                                    class="btn btn-primary btn-sm mr-1 ml-1">
-                                                                                                    <a [href]="'https://d2v9ocre132gvc.cloudfront.net/'+informe?.key?.filename"
-                                                                                                        target="_blank"
-                                                                                                        style="color:white">Descargar</a>
-                                                                                                </button>
-                                                                                                <button
-                                                                                                    class="btn btn-danger btn-sm"
-                                                                                                    (click)="eliminarArchivoInformeFinal(informe.id)">Eliminar</button>
+                                                                                                <a class="nostyle"
+                                                                                                    href="/estudiante-ver-informe/{{practica[1].id}}/{{informe.id}}">
+                                                                                                    <button
+                                                                                                        class="btn btn-primary btn-md">
+                                                                                                        Ver
+                                                                                                        Informe
+                                                                                                    </button>
+                                                                                                </a>
                                                                                             </ng-template>
                                                                                         </div>
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div
-                                                                                            class="col-12 text-center">
-                                                                                            <button
-                                                                                                *ngIf="informe.config_informe?.plantilla!=null && informe.config_informe?.plantilla!=''"
-                                                                                                type="button"
-                                                                                                class="btn btn-primary btn-sm mt-2">
-                                                                                                <a [href]="'https://d2v9ocre132gvc.cloudfront.net/'+informe.config_informe?.plantilla"
-                                                                                                    target="_blank"
-                                                                                                    style="color:white">Ver
-                                                                                                    plantilla</a>
-                                                                                            </button>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </ng-template>
-                                                                            </div>
+                                                                                        <ng-template #informeArchivo>
+                                                                                            <div class="row">
+                                                                                                <div
+                                                                                                    class="col-12 text-center">
+                                                                                                    <div class="mb-2"
+                                                                                                        *ngIf="!informe.key || isEmptyObject(informe.key);">
+                                                                                                        Informe final no
+                                                                                                        subido aún</div>
+                                                                                                    <app-subir-archivo-informe-final
+                                                                                                        *ngIf="!informe.key || isEmptyObject(informe.key); else yaSeSubio"
+                                                                                                        [id_informe]=informe.id
+                                                                                                        [tipo_archivo]="informe.config_informe?.tipo_archivo">
 
-                                                                        </ng-container>
-                                                                    </ng-container>
-                                                                </div>
-                                                            </div>
-                                                        </div><!-- Fin Tarjeta Informes -->
+                                                                                                    </app-subir-archivo-informe-final>
+                                                                                                    <ng-template
+                                                                                                        #yaSeSubio>
+                                                                                                        <div
+                                                                                                            class="mb-2">
+                                                                                                            Informe
+                                                                                                            final ya
+                                                                                                            subido</div>
+                                                                                                        <button
+                                                                                                            type="button"
+                                                                                                            class="btn btn-primary btn-sm mr-1 ml-1">
+                                                                                                            <a [href]="'https://d2v9ocre132gvc.cloudfront.net/'+informe?.key?.filename"
+                                                                                                                target="_blank"
+                                                                                                                style="color:white">Descargar</a>
+                                                                                                        </button>
+                                                                                                        <button
+                                                                                                            class="btn btn-danger btn-sm"
+                                                                                                            (click)="eliminarArchivoInformeFinal(informe.id)">Eliminar</button>
+                                                                                                    </ng-template>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="row">
+                                                                                                <div
+                                                                                                    class="col-12 text-center">
+                                                                                                    <button
+                                                                                                        *ngIf="informe.config_informe?.plantilla!=null && informe.config_informe?.plantilla!=''"
+                                                                                                        type="button"
+                                                                                                        class="btn btn-primary btn-sm mt-2">
+                                                                                                        <a [href]="'https://d2v9ocre132gvc.cloudfront.net/'+informe.config_informe?.plantilla"
+                                                                                                            target="_blank"
+                                                                                                            style="color:white">Ver
+                                                                                                            plantilla</a>
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </ng-template>
+                                                                                    </div>
+
+                                                                                </ng-container>
+                                                                            </ng-container>
+                                                                        </div>
+                                                                    </div>
+                                                                </div><!-- Fin Tarjeta Informes -->
 
                                                             </div><!-- Fin Fila -->
 
@@ -534,7 +572,7 @@
                                                                                             cellspacing="0">
                                                                                             <thead>
                                                                                                 <tr>
-                                                                                                    <th>Aptitud</th>
+                                                                                                    <th>Competencia</th>
                                                                                                     <th>Evaluación</th>
                                                                                                 </tr>
                                                                                             </thead>

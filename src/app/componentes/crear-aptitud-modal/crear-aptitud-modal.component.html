@@ -1,27 +1,29 @@
 <div class="modal fade" id="crear-aptitud-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-aria-hidden="true">
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title" id="exampleModalLabel">Asignar</h2>
             </div>
             <div class="modal-body">
-                Ingrese una aptitud para evaluar a futuros estudiantes, para hacerlo utilice una linea por aptitud.
+                Ingrese una competencia para evaluar a futuros estudiantes, para hacerlo utilice una linea por cada
+                competencia.
                 <form class="crearAptitud" [formGroup]="aptitudForm">
                     <div>
                         <textarea class="form-control form-control-user" id="exampleFirstName"
-                        placeholder="Ingrese una o varias aptitudes aqui..." formControlName="nombre" name="nombre">
+                            placeholder="Ingrese una o varias competencias aqui..." formControlName="nombre"
+                            name="nombre">
                     </textarea>
                     </div>
                 </form>
-                
+
 
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
                 <button id="myBtn" type="submit" class="btn btn-primary" data-dismiss="modal" (click)="crear()">
                     Crear
-                </button>   
+                </button>
             </div>
         </div>
     </div>

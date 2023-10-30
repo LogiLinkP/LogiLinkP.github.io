@@ -22,16 +22,16 @@
                     </li>
 
                     <li class="nav-item">
-                      <button class="nav-link active" (click)="cambio_vista('general')">Generales</button>
+                        <button class="nav-link active" (click)="cambio_vista('general')">Generales</button>
                     </li>
                     <li class="nav-item">
-                      <button class="nav-link" (click)="cambio_vista('aptitudes')">Aptitudes</button>
+                        <button class="nav-link" (click)="cambio_vista('aptitudes')">Competencias</button>
                     </li>
                     <li class="nav-item">
-                      <button class="nav-link" (click)="cambio_vista('remuneracion')">Remuneración</button>
+                        <button class="nav-link" (click)="cambio_vista('remuneracion')">Remuneración</button>
                     </li>
                     <li class="nav-item">
-                      <button class="nav-link" (click)="cambio_vista('encuesta')"> Encuesta final</button>
+                        <button class="nav-link" (click)="cambio_vista('encuesta')"> Encuesta final</button>
                     </li>
                 </ul>
 
@@ -41,16 +41,16 @@
                     </li>
 
                     <li class="nav-item">
-                      <button class="nav-link" (click)="cambio_vista('general')">Generales</button>
+                        <button class="nav-link" (click)="cambio_vista('general')">Generales</button>
                     </li>
                     <li class="nav-item">
-                      <button class="nav-link active" (click)="cambio_vista('aptitudes')">Aptitudes</button>
+                        <button class="nav-link active" (click)="cambio_vista('aptitudes')">Competencias</button>
                     </li>
                     <li class="nav-item">
-                      <button class="nav-link" (click)="cambio_vista('remuneracion')">Remuneración</button>
+                        <button class="nav-link" (click)="cambio_vista('remuneracion')">Remuneración</button>
                     </li>
                     <li class="nav-item">
-                      <button class="nav-link" (click)="cambio_vista('encuesta')"> Encuesta final</button>
+                        <button class="nav-link" (click)="cambio_vista('encuesta')"> Encuesta final</button>
                     </li>
                 </ul>
 
@@ -60,16 +60,16 @@
                     </li>
 
                     <li class="nav-item">
-                      <button class="nav-link" (click)="cambio_vista('general')">Generales</button>
+                        <button class="nav-link" (click)="cambio_vista('general')">Generales</button>
                     </li>
                     <li class="nav-item">
-                      <button class="nav-link" (click)="cambio_vista('aptitudes')">Aptitudes</button>
+                        <button class="nav-link" (click)="cambio_vista('aptitudes')">Competencias</button>
                     </li>
                     <li class="nav-item">
-                      <button class="nav-link active" (click)="cambio_vista('remuneracion')">Remuneración</button>
+                        <button class="nav-link active" (click)="cambio_vista('remuneracion')">Remuneración</button>
                     </li>
                     <li class="nav-item">
-                      <button class="nav-link" (click)="cambio_vista('encuesta')"> Encuesta final</button>
+                        <button class="nav-link" (click)="cambio_vista('encuesta')"> Encuesta final</button>
                     </li>
                 </ul>
 
@@ -79,16 +79,16 @@
                     </li>
 
                     <li class="nav-item">
-                      <button class="nav-link" (click)="cambio_vista('general')">Generales</button>
+                        <button class="nav-link" (click)="cambio_vista('general')">Generales</button>
                     </li>
                     <li class="nav-item">
-                      <button class="nav-link" (click)="cambio_vista('aptitudes')">Aptitudes</button>
+                        <button class="nav-link" (click)="cambio_vista('aptitudes')">Competencias</button>
                     </li>
                     <li class="nav-item">
-                      <button class="nav-link" (click)="cambio_vista('remuneracion')">Remuneración</button>
+                        <button class="nav-link" (click)="cambio_vista('remuneracion')">Remuneración</button>
                     </li>
                     <li class="nav-item">
-                      <button class="nav-link active" (click)="cambio_vista('encuesta')"> Encuesta final</button>
+                        <button class="nav-link active" (click)="cambio_vista('encuesta')"> Encuesta final</button>
                     </li>
                 </ul>
 
@@ -102,14 +102,15 @@
                                 <a href="#collapseCardCursandoPractica" class="d-block card-header py-3"
                                     data-toggle="collapse" role="button" aria-expanded="true"
                                     aria-controls="collapseCardCursandoPractica">
-                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Alumnos cursando práctica</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Alumnos
+                                        cursando práctica</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
                                 <div class="collapse show" id="collapseCardCursandoPractica">
                                     <div class="overflow-auto">
                                         <div class="table-responsive">
-                                            <table class="table table-bordered hover" id="dataTable"
-                                                width="100%" cellspacing="0">
+                                            <table class="table table-bordered hover" id="dataTable" width="100%"
+                                                cellspacing="0">
                                                 <thead>
                                                     <tr>
                                                         <th>Tipo de práctica</th>
@@ -117,14 +118,14 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr
-                                                        *ngFor="let practica of alumnos_practica_nombre; let j = index">
+                                                    <tr *ngFor="let practica of alumnos_practica_nombre; let j = index">
                                                         <th>{{practica}}</th>
                                                         <th>{{alumnos_cursando_practica_cantidad[j]}}</th>
                                                     </tr>
                                                     <tr class="table-light">
                                                         <th style="background-color:#F9F9F9">Total</th>
-                                                        <th style="background-color:#F9F9F9">{{total_alumnos_cursando_practica_cantidad}}</th>
+                                                        <th style="background-color:#F9F9F9">
+                                                            {{total_alumnos_cursando_practica_cantidad}}</th>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -139,14 +140,15 @@
                                 <a href="#collapseCardPracticaFinalizada" class="d-block card-header py-3"
                                     data-toggle="collapse" role="button" aria-expanded="true"
                                     aria-controls="collapseCardPracticaFinalizada">
-                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Alumnos con práctica finalizada</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Alumnos con
+                                        práctica finalizada</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
                                 <div class="collapse show" id="collapseCardPracticaFinalizada">
                                     <div class="overflow-auto">
                                         <div class="table-responsive">
-                                            <table class="table table-bordered hover" id="dataTable"
-                                                width="100%" cellspacing="0">
+                                            <table class="table table-bordered hover" id="dataTable" width="100%"
+                                                cellspacing="0">
                                                 <thead>
                                                     <tr>
                                                         <th>Tipo de práctica</th>
@@ -154,14 +156,14 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr
-                                                        *ngFor="let practica of alumnos_practica_nombre; let j = index">
+                                                    <tr *ngFor="let practica of alumnos_practica_nombre; let j = index">
                                                         <th>{{practica}}</th>
                                                         <th>{{alumnos_practica_finalizada_cantidad[j]}}</th>
                                                     </tr>
                                                     <tr class="table-light">
                                                         <th style="background-color:#F9F9F9">Total</th>
-                                                        <th style="background-color:#F9F9F9">{{total_alumnos_finalizada_practica_cantidad}}</th>
+                                                        <th style="background-color:#F9F9F9">
+                                                            {{total_alumnos_finalizada_practica_cantidad}}</th>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -173,10 +175,10 @@
 
                         <div class="col-lg-6 mb-4">
                             <div class="card shadow mb-4">
-                                <a href="#collapseCard5Ramos" class="d-block card-header py-3"
-                                    data-toggle="collapse" role="button" aria-expanded="true"
-                                    aria-controls="collapseCard5Ramos">
-                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Top 5 ramos más útiles</h6>
+                                <a href="#collapseCard5Ramos" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCard5Ramos">
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Top 5 ramos
+                                        más útiles</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
                                 <div class="collapse show" id="collapseCard5Ramos">
@@ -185,39 +187,41 @@
                                         <div *ngIf="arreglo_ramos.length !=0">
                                             <div *ngFor="let pos of arreglo_ramos; let k = index">
                                                 <div *ngIf="!isNumber(pos)">
-        
+
                                                     <h4 class="small font-weight-bold">{{arreglo_ramos[k]}} <span
-                                                            class="float-right">{{toInt(arreglo_ramos[k+1])}}%</span></h4>
+                                                            class="float-right">{{toInt(arreglo_ramos[k+1])}}%</span>
+                                                    </h4>
                                                     <div class="progress mb-4">
                                                         <div class="progress-bar" role="progressbar"
-                                                            [style]="'width: '+arreglo_ramos[k+1]+'%'" aria-valuenow="40"
-                                                            aria-valuemin="0" aria-valuemax="100">
+                                                            [style]="'width: '+arreglo_ramos[k+1]+'%'"
+                                                            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-        
-                                        
-        
+
+
+
                                         <div *ngIf="arreglo_ramos.length ==0"> No hay ramos para mostrar </div>
-                                </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-lg-6 mb-4">
                             <div class="card shadow mb-4">
-                                <a href="#collapseCard5Empresas" class="d-block card-header py-3"
-                                    data-toggle="collapse" role="button" aria-expanded="true"
-                                    aria-controls="collapseCard5Empresas">
-                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Top 5 empresas mejor valoradas</h6>
+                                <a href="#collapseCard5Empresas" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCard5Empresas">
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Top 5
+                                        empresas mejor valoradas</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
                                 <div class="collapse show" id="collapseCard5Empresas">
                                     <div class="table">
-                                        <table style="width:100%" class="table table-striped table-bordered" id="dataTable" >
-                                            
+                                        <table style="width:100%" class="table table-striped table-bordered"
+                                            id="dataTable">
+
                                             <thead>
                                                 <tr>
                                                     <th style="vertical-align: bottom;">Nombre</th>
@@ -225,20 +229,32 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-        
+
                                                 <tr *ngFor="let empresa of nombre_empresas_top5;let i=index;">
                                                     <td>{{empresa}}</td>
-                                                    <td *ngIf="valoracion_empresas_top5[i]" >
-                                                        
-                                                        
+                                                    <td *ngIf="valoracion_empresas_top5[i]">
+
+
                                                         {{valoracion_empresas_top5[i]}}
-                                                        <span *ngIf="cant_estrellas_completas(valoracion_empresas_top5[i])>=1" style="color:orange" class="fa fa-star checked"></span>
-                                                        <span *ngIf="cant_estrellas_completas(valoracion_empresas_top5[i])>=2" style="color:orange" class="fa fa-star checked"></span>
-                                                        <span *ngIf="cant_estrellas_completas(valoracion_empresas_top5[i])>=3" style="color:orange" class="fa fa-star checked"></span>
-                                                        <span *ngIf="cant_estrellas_completas(valoracion_empresas_top5[i])>=4" style="color:orange" class="fa fa-star checked"></span>
-                                                        <span *ngIf="cant_estrellas_completas(valoracion_empresas_top5[i])>=5" style="color:orange" class="fa fa-star checked"></span>
-                                                        <span *ngIf="media_estrella(valoracion_empresas_top5[i])" style="color:orange" class="fa fa-star-half" aria-hidden="true"></span>
-                                                        
+                                                        <span
+                                                            *ngIf="cant_estrellas_completas(valoracion_empresas_top5[i])>=1"
+                                                            style="color:orange" class="fa fa-star checked"></span>
+                                                        <span
+                                                            *ngIf="cant_estrellas_completas(valoracion_empresas_top5[i])>=2"
+                                                            style="color:orange" class="fa fa-star checked"></span>
+                                                        <span
+                                                            *ngIf="cant_estrellas_completas(valoracion_empresas_top5[i])>=3"
+                                                            style="color:orange" class="fa fa-star checked"></span>
+                                                        <span
+                                                            *ngIf="cant_estrellas_completas(valoracion_empresas_top5[i])>=4"
+                                                            style="color:orange" class="fa fa-star checked"></span>
+                                                        <span
+                                                            *ngIf="cant_estrellas_completas(valoracion_empresas_top5[i])>=5"
+                                                            style="color:orange" class="fa fa-star checked"></span>
+                                                        <span *ngIf="media_estrella(valoracion_empresas_top5[i])"
+                                                            style="color:orange" class="fa fa-star-half"
+                                                            aria-hidden="true"></span>
+
                                                     </td>
                                                     <td *ngIf="!valoracion_empresas_top5[i]">
                                                         No hay opiniones de esta empresa
@@ -256,23 +272,23 @@
                                 <a href="#collapseCard5Aptitudes" class="d-block card-header py-3"
                                     data-toggle="collapse" role="button" aria-expanded="true"
                                     aria-controls="collapseCardAptitudes">
-                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Top 5 aptitudes mejor valoradas</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Top 5
+                                        competencias mejor valoradas</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
                                 <div class="collapse show" id="collapseCard5Aptitudes">
                                     <div class="overflow-auto">
                                         <div class="table-responsive">
-                                            <table class="table table-bordered hover" id="dataTable"
-                                                width="100%" cellspacing="0">
+                                            <table class="table table-bordered hover" id="dataTable" width="100%"
+                                                cellspacing="0">
                                                 <thead>
                                                     <tr>
-                                                        <th>Aptitud</th>
+                                                        <th>Competencia</th>
                                                         <th>Promedio evaluación</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr
-                                                        *ngFor="let aptitud of nombre_aptitudes_top5; let j = index">
+                                                    <tr *ngFor="let aptitud of nombre_aptitudes_top5; let j = index">
                                                         <th>{{aptitud}}</th>
                                                         <th>{{promedio_aptitudes_top5[j]}}</th>
                                                     </tr>
@@ -293,30 +309,37 @@
 
                         <div class="col-lg-6 mb-4">
                             <div class="card shadow mb-4">
-                                <a href="#collapseCardAptitudes" class="d-block card-header py-3"
-                                    data-toggle="collapse" role="button" aria-expanded="true"
-                                    aria-controls="collapseCardAptitudes">
-                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Evaluación aptitudes</h6>
+                                <a href="#collapseCardAptitudes" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardAptitudes">
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Evaluación
+                                        Competencias</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
                                 <div class="collapse show" id="collapseCardAptitudes">
                                     <div class="overflow-auto">
                                         <div class="table-responsive table-hover">
-                                            <table class="table table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                                            <table class="table table-striped table-hover" id="dataTable" width="100%"
+                                                cellspacing="0">
                                                 <thead id="headerTabla">
                                                     <tr>
-                                                        <th [class.asc]="orden_nombre == 'ascendente'" [class.desc]="orden_nombre == 'descendente'" style="vertical-align: bottom;" (click)="sort('nombre')">Aptitud</th>
-                                                        <th [class.asc]="orden_promedio == 'ascendente'" [class.desc]="orden_promedio == 'descendente'" style="vertical-align: bottom;" (click)="sort('nota')">Promedio evaluación</th>
+                                                        <th [class.asc]="orden_nombre == 'ascendente'"
+                                                            [class.desc]="orden_nombre == 'descendente'"
+                                                            style="vertical-align: bottom;" (click)="sort('nombre')">
+                                                            Competencia</th>
+                                                        <th [class.asc]="orden_promedio == 'ascendente'"
+                                                            [class.desc]="orden_promedio == 'descendente'"
+                                                            style="vertical-align: bottom;" (click)="sort('nota')">
+                                                            Promedio evaluación</th>
 
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
                                                         <th style="background-color:#F9F9F9">Promedio</th>
-                                                        <th style="background-color:#F9F9F9">{{promedio_aptitudes_carrera}}</th>
+                                                        <th style="background-color:#F9F9F9">
+                                                            {{promedio_aptitudes_carrera}}</th>
                                                     </tr>
-                                                    <tr
-                                                        *ngFor="let aptitud of nombre_aptitudes; let j = index">
+                                                    <tr *ngFor="let aptitud of nombre_aptitudes; let j = index">
                                                         <th>{{aptitud}}</th>
                                                         <th>{{promedio_aptitudes[j]}}</th>
                                                     </tr>
@@ -328,21 +351,26 @@
                             </div>
                         </div>
 
-                        
+
                         <div class="col-lg-6 mb-4">
                             <div class="card shadow mb-4">
                                 <a href="#collapseCardAptitudesEmpresa" class="d-block card-header py-3"
                                     data-toggle="collapse" role="button" aria-expanded="true"
                                     aria-controls="collapseCardAptitudesEmpresa">
-                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Aptitudes por empresa</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Competencias
+                                        por empresa</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
                                 <div class="collapse show" id="collapseCardAptitudesEmpresa">
                                     <div class="table">
-                                        <table style="width:100%" class="table table-striped table-bordered" id="dataTable" >
+                                        <table style="width:100%" class="table table-striped table-bordered"
+                                            id="dataTable">
                                             <tbody>
                                                 <tr>
-                                                    <input type="text" [(ngModel)]="filtro_empresas" (ngModelChange)="updateFiltroEmpresas($event)" class="form-control input-center" placeholder="Ingresar nombre emepresa a buscar">
+                                                    <input type="text" [(ngModel)]="filtro_empresas"
+                                                        (ngModelChange)="updateFiltroEmpresas($event)"
+                                                        class="form-control input-center"
+                                                        placeholder="Ingresar nombre emepresa a buscar">
                                                 </tr>
                                                 <tr *ngFor="let empresa of nombre_empresas_con_aptitudes;let i=index;">
                                                     <td *ngIf="empresa_in_filtro(empresa)">{{empresa}}</td>
@@ -350,10 +378,11 @@
                                                         <!-- <button mat-flat-button style="background-color:#7a91d7;">
                                                             <div style="color: white"> Ver Comentarios FALSO</div>
                                                             </button> -->
-        
-                                                        
-                                                        <button mat-flat-button style="background-color:#7a91d7;" (click)="openDialog('100ms', '100ms', empresa)">
-                                                            <div style="color: white"> Ver Aptitudes</div>
+
+
+                                                        <button mat-flat-button style="background-color:#7a91d7;"
+                                                            (click)="openDialog('100ms', '100ms', empresa)">
+                                                            <div style="color: white"> Ver Competencias</div>
                                                         </button>
                                                     </td>
                                                 </tr>
@@ -364,7 +393,7 @@
                             </div>
                         </div>
 
-                    </div>  
+                    </div>
                 </div>
 
                 <div *ngIf="vista_actual=='remuneracion'">
@@ -375,14 +404,15 @@
                                 <a href="#collapseCardTipoPractica" class="d-block card-header py-3"
                                     data-toggle="collapse" role="button" aria-expanded="true"
                                     aria-controls="collapseCardTipoPractica">
-                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Remuneración promedio por tipo de práctica</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Remuneración
+                                        promedio por tipo de práctica</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
                                 <div class="collapse show" id="collapseCardTipoPractica">
                                     <div class="overflow-auto">
                                         <div class="table-responsive">
-                                            <table class="table table-bordered hover" id="dataTable"
-                                                width="100%" cellspacing="0">
+                                            <table class="table table-bordered hover" id="dataTable" width="100%"
+                                                cellspacing="0">
                                                 <thead>
                                                     <tr>
                                                         <th>Tipo de práctica</th>
@@ -397,7 +427,8 @@
                                                     </tr>
                                                     <tr class="table-light">
                                                         <th style="background-color:#F9F9F9">Promedio</th>
-                                                        <th style="background-color:#F9F9F9">{{remuneracion_promedio_tipo_practica}}</th>
+                                                        <th style="background-color:#F9F9F9">
+                                                            {{remuneracion_promedio_tipo_practica}}</th>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -406,20 +437,21 @@
                                 </div>
                             </div>
                         </div>
-    
+
                         <div class="col-lg-6 mb-4">
                             <div class="card shadow mb-4">
                                 <a href="#collapseCardCarreraRemuneracion" class="d-block card-header py-3"
                                     data-toggle="collapse" role="button" aria-expanded="true"
                                     aria-controls="collapseCardCarreraRemuneracion">
-                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Remuneración promedio por carrera</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Remuneración
+                                        promedio por carrera</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
                                 <div class="collapse show" id="collapseCardCarreraRemuneracion">
                                     <div class="overflow-auto">
                                         <div class="table-responsive">
-                                            <table class="table table-bordered hover" id="dataTable"
-                                                width="100%" cellspacing="0">
+                                            <table class="table table-bordered hover" id="dataTable" width="100%"
+                                                cellspacing="0">
                                                 <thead>
                                                     <tr>
                                                         <th>Carrera</th>
@@ -434,7 +466,8 @@
                                                     </tr>
                                                     <tr class="table-light">
                                                         <th style="background-color:#F9F9F9">Promedio</th>
-                                                        <th style="background-color:#F9F9F9">{{remuneracion_promedio_por_carrera}}</th>
+                                                        <th style="background-color:#F9F9F9">
+                                                            {{remuneracion_promedio_por_carrera}}</th>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -449,14 +482,15 @@
                                 <a href="#collapseCardEmpresaRemuneracion" class="d-block card-header py-3"
                                     data-toggle="collapse" role="button" aria-expanded="true"
                                     aria-controls="collapseCardEmpresaRemuneracion">
-                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Remuneración promedio por empresa</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Remuneración
+                                        promedio por empresa</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
                                 <div class="collapse show" id="collapseCardEmpresaRemuneracion">
                                     <div class="overflow-auto">
                                         <div class="table-responsive">
-                                            <table class="table table-bordered hover" id="dataTable"
-                                                width="100%" cellspacing="0">
+                                            <table class="table table-bordered hover" id="dataTable" width="100%"
+                                                cellspacing="0">
                                                 <thead>
                                                     <tr>
                                                         <th>Empresa</th>
@@ -471,7 +505,8 @@
                                                     </tr>
                                                     <tr class="table-light">
                                                         <th style="background-color:#F9F9F9">Promedio</th>
-                                                        <th style="background-color:#F9F9F9">{{remuneracion_promedio_por_empresa}}</th>
+                                                        <th style="background-color:#F9F9F9">
+                                                            {{remuneracion_promedio_por_empresa}}</th>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -486,14 +521,15 @@
                                 <a href="#collapseCardRamoRemuneracion" class="d-block card-header py-3"
                                     data-toggle="collapse" role="button" aria-expanded="true"
                                     aria-controls="collapseCardRamoRemuneracion">
-                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Remuneración promedio por ramo marcado como útil</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">Remuneración
+                                        promedio por ramo marcado como útil</h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
                                 <div class="collapse show" id="collapseCardRamoRemuneracion">
                                     <div class="overflow-auto">
                                         <div class="table-responsive">
-                                            <table class="table table-bordered hover" id="dataTable"
-                                                width="100%" cellspacing="0">
+                                            <table class="table table-bordered hover" id="dataTable" width="100%"
+                                                cellspacing="0">
                                                 <thead>
                                                     <tr>
                                                         <th>Ramo</th>
@@ -508,7 +544,8 @@
                                                     </tr>
                                                     <tr class="table-light">
                                                         <th style="background-color:#F9F9F9">Promedio</th>
-                                                        <th style="background-color:#F9F9F9">{{remuneracion_promedio_por_ramo_util}}</th>
+                                                        <th style="background-color:#F9F9F9">
+                                                            {{remuneracion_promedio_por_ramo_util}}</th>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -522,40 +559,42 @@
 
                 <div *ngIf="vista_actual=='encuesta'">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h2 class="h3 mb-0 text-gray-800">Respuestas de estudiantes en encuesta realizada al finalizar la práctica</h2>
+                        <h2 class="h3 mb-0 text-gray-800">Respuestas de estudiantes en encuesta realizada al finalizar
+                            la práctica</h2>
                     </div>
-    
+
                     <select name="tipo" id="tipo" (change)="cambiar_config_practica($event)"
                         class="form-select form-select-sm mb-4 col-4" aria-label="Default select example">
-    
+
                         <option value="0">Seleccione práctica a mostrar</option>
                         <option *ngFor="let config_practica of AUX_config_practicas" [value]="config_practica.id">
                             {{config_practica.nombre}}</option>
-    
+
                     </select>
-    
+
                     <!-- MOSTRANDO PREGUNTAS -->
-    
+
                     <div class="row">
-    
+
                         <div *ngIf="largo_arreglo(preguntas_mostrar)==0 && id_config_practica_mostrar != 0">
                             No hay estadísticas para mostrar
                         </div>
-    
+
                         <div class="col-lg-6 mb-4" *ngFor="let pregunta of preguntas_mostrar; let i = index">
-    
+
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">{{pregunta[1]}}
+                                    <h6 class="m-0 font-weight-bold text-primary" style="font-size: large;">
+                                        {{pregunta[1]}}
                                     </h6>
                                 </div>
-    
+
                                 <!-- MOSTRANDO OPCIONES DE LA PREGUNTA -->
-    
+
                                 <div class="card-body">
                                     <div *ngFor="let pos of pregunta; let k = index">
                                         <div *ngIf="!isNumber(pos) && k>1">
-    
+
                                             <h4 class="small font-weight-bold">{{pregunta[k]}} <span
                                                     class="float-right">{{toInt(pregunta[k+1])}}%</span></h4>
                                             <div class="progress mb-4">
@@ -569,7 +608,7 @@
                                 </div>
                             </div>
                         </div>
-    
+
                     </div>
                 </div>
 
@@ -580,9 +619,9 @@
                         Estadisticas Generales
                     </mat-tab>
 
-                    <mat-tab label="Aptitudes">
+                    <mat-tab label="Competencias">
                         <br>
-                        Estadisticas Aptitudes
+                        Estadisticas Competencias
                     </mat-tab>
 
                     <mat-tab label="Remuneración">
