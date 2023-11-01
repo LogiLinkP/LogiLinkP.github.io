@@ -1,990 +1,988 @@
 <!-- Page Wrapper -->
 <div id="wrapper">
 
-    <!-- Sidebar -->
-    <app-barra-lateral-encargado></app-barra-lateral-encargado>
-  
-    <!-- Content Wrapper -->
+  <!-- Sidebar -->
+  <app-barra-lateral-encargado></app-barra-lateral-encargado>
+
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+      <!-- Topbar -->
+      <app-barra-superior></app-barra-superior>
+
+    </div>
+
     <div id="content-wrapper" class="d-flex flex-column">
-  
-      <!-- Main Content -->
-      <div id="content">
-  
-        <!-- Topbar -->
-        <app-barra-superior></app-barra-superior>
-  
-      </div>
-  
-      <div id="content-wrapper" class="d-flex flex-column">
-        <div id="content" class="main-content">
-          <div class="container-fluid">
-  
-            <!------------------------------------------------------ CONFIGURACION GENERAL PRACTICA ----------------------------------------------------------->
-            <div class="card shadow" *ngIf="estado == 'configuracion_general'" id="config-general">
-              <div class="card-body text-center">
-                <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
-                  Configuración de práctica
+      <div id="content" class="main-content">
+        <div class="container-fluid">
+
+          <!------------------------------------------------------ CONFIGURACION GENERAL PRACTICA ----------------------------------------------------------->
+          <div class="card shadow" *ngIf="estado == 'configuracion_general'" id="config-general">
+            <div class="card-body text-center">
+              <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
+                Configuración de práctica
+              </div>
+              <form *ngIf="flag" class="formulario">
+
+                <input type="text" class="form-control text-center input-center" placeholder="Primera práctica">
+                <input type="checkbox" style="margin-right: 3px;">Horas
+                <input type="checkbox" style="margin-right: 3px;">Meses
+
+                <!-- ========CANTIDAD HORAS======== -->
+                <div *ngIf="habilitarHoras">
+                  <mat-table>
+                    <ng-container>
+                      <!-- Cant Column -->
+                      <ng-container matColumnDef="opcion_horas">
+                        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                        <mat-cell *matCellDef="let element;">
+                          <mat-form-field>
+                            <input matInput placeholder="Agregar opción de horas">
+                          </mat-form-field>
+                        </mat-cell>
+                      </ng-container>
+
+                      <!-- Delete Column -->
+                      <ng-container matColumnDef="eliminar">
+                        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                        <mat-cell *matCellDef="let element; index as i">
+
+                          <button class="btn btn-secondary" type="button">
+                            <mat-icon matSuffix>Eliminar opción</mat-icon>
+                          </button>
+
+                        </mat-cell>
+                      </ng-container>
+
+                      <!-- header titles -->
+
+                      <mat-header-row *matHeaderRowDef="displayedColumnsHoras"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: displayedColumnsHoras;"></mat-row>
+                    </ng-container>
+                  </mat-table>
+                  <div class="button">
+                    <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
+                      type="button">Agregar opción de horas</button>
+                  </div>
                 </div>
+                <!-- ======FIN CANTIDAD HORAS========== -->
+
+                <!-- ======== CANTIDAD MESES ======== -->
+                <div *ngIf="habilitarMeses">
+                  <mat-table>
+                    <ng-container>
+                      <!-- Cant Column -->
+                      <ng-container matColumnDef="opcion_meses">
+                        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                        <mat-cell *matCellDef="let element;">
+                          <mat-form-field>
+                            <input matInput placeholder="Agregar opción de meses">
+                          </mat-form-field>
+                        </mat-cell>
+                      </ng-container>
+
+                      <!-- Delete Column -->
+                      <ng-container matColumnDef="eliminar">
+                        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                        <mat-cell *matCellDef="let element; index as i">
+
+                          <button class="btn btn-secondary" type="button">
+                            <mat-icon matSuffix>Eliminar opción</mat-icon>
+                          </button>
+
+                        </mat-cell>
+                      </ng-container>
+
+                      <!-- header titles -->
+
+                      <mat-header-row *matHeaderRowDef="displayedColumnsMeses"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: displayedColumnsMeses;"></mat-row>
+                    </ng-container>
+                  </mat-table>
+                  <div class="button">
+                    <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
+                      type="button">Agregar opción de meses</button>
+                  </div>
+                </div>
+                <!-- ====== FIN CANTIDAD MESES ========== -->
+
+                <br>
+                <p> Frecuencia informes de avance (bitácoras) </p>
+
+                <!-- Opciones avance informes-->
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="frecuenciaInformes" id="informeDiario"
+                    value="diario">
+                  <label class="form-check-label" for="informeDiario">Diario</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="frecuenciaInformes" id="infomreSemanal"
+                    value="semanal">
+                  <label class="form-check-label" for="infomreSemanal">Semanal</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="frecuenciaInformes" id="informeMensual"
+                    value="mensual">
+                  <label class="form-check-label" for="informeMensual">Mensual</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="frecuenciaInformes" id="sinAvance"
+                    value="sinAvance">
+                  <label class="form-check-label" for="sinAvance">Ninguno</label>
+                </div>
+
+                <br>
+                <br>
+                <p> Informe Final </p>
+
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="informeFinal" id="informeFinalSI" value="si">
+                  <label class="form-check-label" for="informeFinalSI">Si</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="informeFinal" id="informeFinalNO" value="no">
+                  <label class="form-check-label" for="informeFinalNO">No</label>
+                </div>
+                <br>
+                <br>
+
+                <button class="btn btn-primary btn-user btn-md" type="submit">Siguiente</button>
+              </form>
+            </div>
+          </div><!-- Fin tarjeta inicial-->
+
+
+          <!------------------------------------------------ CONFIGURACION PREGUNTAS AVANCE --------------------------------------------------------------->
+          <div class="card shadow" *ngIf="estado == 'informe_avance'" id="informe-avance">
+            <div class="card-body text-center">
+              <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
+                Preguntas informe de avance
+              </div>
+              <div *ngFor="let pregunta_avance of lista_preguntas_avance; let i = index" class="pregunta">
+                <div *ngIf="tipos_preguntas_avance[i] == 'abierta'"
+                  class="h5 mb-3 font-weight-bold text-gray-800 text-center">
+                  {{pregunta_avance}}
+                  <br>
+                  <br>
+                  <textarea cols="30" rows="5" class="form-control input-center text-area"
+                    placeholder="Ingrese respuesta..." disabled></textarea>
+                </div>
+                <div *ngIf="tipos_preguntas_avance[i] == 'casillas' || tipos_preguntas_avance[i] == 'alternativas'"
+                  class="h5 mb-3 font-weight-bold text-gray-800 text-center">
+                  {{pregunta_avance}}
+                </div>
+
+                <div *ngIf="lista_opciones_preguntas_avance[i] != ''" class="form-check">
+                  <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-4 d-flex justify-content-center">
+                      <table>
+                        <tr>
+                          <div>
+                            <td>
+                              <i class="far fa-circle mr-1"></i>
+                            </td>
+                            <td>
+                              <label class="form-check-label">don</label>
+                            </td>
+                          </div>
+                          <div>
+                            <td>
+                              <i class="far fa-circle mr-1"></i>
+                            </td>
+                            <td>
+                              <label class="form-check-label">juan</label>
+                            </td>
+                          </div>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="col-4"></div>
+                  </div>
+                  <form *ngIf="flag">
+                    <button class="btn btn-secondary">
+                      Eliminar Pregunta
+                    </button>
+                  </form>
+                </div>
+
+                <div *ngIf="lista_opciones_preguntas_avance[i] == ''">
+                  <form *ngIf="flag">
+                    <button class="btn btn-secondary">
+                      Eliminar Pregunta
+                    </button>
+                  </form>
+                </div>
+
+              </div>
+
+              <br>
+
+              <form *ngIf="flag">
+
                 <form *ngIf="flag" class="formulario">
-  
-                  <input type="text" class="form-control text-center input-center" placeholder="Primera práctica">
-                  <input type="checkbox" style="margin-right: 3px;">Horas
-                  <input type="checkbox" style="margin-right: 3px;">Meses
-  
-                  <!-- ========CANTIDAD HORAS======== -->
-                  <div *ngIf="habilitarHoras">
+
+                  <input type="text" class="form-control input-center" placeholder="Ingresar Pregunta">
+                  <select name="tipo" id="tipo" class="form-select form-select-sm mb-4 input-center">
+                    <option value="0">Seleccione el tipo de respuesta</option>
+                    <option value="1">Abierta</option>
+                    <option value="2">Casillas</option>
+                    <option value="3">Alternativas</option>
+                  </select>
+
+                  <div *ngIf="tipo_pregunta==''"> </div>
+                  <div *ngIf="tipo_pregunta=='abierta'">
+                    <!-- Pregunta abierta -->
+                  </div>
+
+                  <div *ngIf="tipo_pregunta=='casillas'">
+
+                    <!-- FORMULARIO OPCIONES -->
+
+                    <br>
+
                     <mat-table>
                       <ng-container>
+
                         <!-- Cant Column -->
-                        <ng-container matColumnDef="opcion_horas">
+                        <ng-container matColumnDef="opcion_pregunta">
                           <mat-header-cell *matHeaderCellDef></mat-header-cell>
                           <mat-cell *matCellDef="let element;">
                             <mat-form-field>
-                              <input matInput placeholder="Agregar opción de horas">
+                              <input matInput placeholder="Escribir opción">
                             </mat-form-field>
                           </mat-cell>
                         </ng-container>
-  
+
                         <!-- Delete Column -->
                         <ng-container matColumnDef="eliminar">
                           <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                          <mat-cell *matCellDef="let element; index as i" >
-  
-                            <button class="btn btn-danger" type="button">
+                          <mat-cell *matCellDef="let element; index as i">
+
+                            <button class="btn btn-secondary" type="button">
                               <mat-icon matSuffix>Eliminar opción</mat-icon>
                             </button>
-  
+
                           </mat-cell>
                         </ng-container>
-  
+
                         <!-- header titles -->
-  
-                        <mat-header-row *matHeaderRowDef="displayedColumnsHoras"></mat-header-row>
-                        <mat-row *matRowDef="let row; columns: displayedColumnsHoras;"></mat-row>
+
+                        <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
                       </ng-container>
                     </mat-table>
                     <div class="button">
                       <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
-                        type="button">Agregar opción de horas</button>
+                        type="button">Agregar Opción</button>
                     </div>
+                    <br>
+                    <!-- </form> -->
+
                   </div>
-                  <!-- ======FIN CANTIDAD HORAS========== -->
-  
-                  <!-- ======== CANTIDAD MESES ======== -->
-                  <div *ngIf="habilitarMeses">
+
+
+                  <div *ngIf="tipo_pregunta=='alternativas'">
+
+
+                    <!-- FORMULARIO OPCIONES -->
+                    <br>
+
                     <mat-table>
                       <ng-container>
+
                         <!-- Cant Column -->
-                        <ng-container matColumnDef="opcion_meses">
+                        <ng-container matColumnDef="opcion_pregunta">
                           <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                          <mat-cell *matCellDef="let element;" >
+                          <mat-cell *matCellDef="let element;">
                             <mat-form-field>
-                              <input matInput placeholder="Agregar opción de meses">
+                              <input matInput placeholder="Escribir opción">
                             </mat-form-field>
                           </mat-cell>
                         </ng-container>
-  
+
                         <!-- Delete Column -->
                         <ng-container matColumnDef="eliminar">
                           <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                          <mat-cell *matCellDef="let element; index as i" >
-  
-                            <button class="btn btn-danger" type="button">
+                          <mat-cell *matCellDef="let element; index as i">
+
+                            <button class="btn btn-secondary" type="button">
                               <mat-icon matSuffix>Eliminar opción</mat-icon>
                             </button>
-  
+
                           </mat-cell>
                         </ng-container>
-  
+
                         <!-- header titles -->
-  
-                        <mat-header-row *matHeaderRowDef="displayedColumnsMeses"></mat-header-row>
-                        <mat-row *matRowDef="let row; columns: displayedColumnsMeses;"></mat-row>
+
+                        <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
                       </ng-container>
                     </mat-table>
+
                     <div class="button">
                       <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
-                        type="button">Agregar opción de meses</button>
+                        type="button">Agregar Opción</button>
                     </div>
-                  </div>
-                  <!-- ====== FIN CANTIDAD MESES ========== -->
-  
-                  <br>
-                  <p> Frecuencia informes de avance (bitácoras) </p>
-  
-                  <!-- Opciones avance informes-->
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="frecuenciaInformes" id="informeDiario" value="diario">
-                    <label class="form-check-label" for="informeDiario">Diario</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="frecuenciaInformes" id="infomreSemanal"
-                      value="semanal">
-                    <label class="form-check-label" for="infomreSemanal">Semanal</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="frecuenciaInformes" id="informeMensual"
-                      value="mensual">
-                    <label class="form-check-label" for="informeMensual">Mensual</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="frecuenciaInformes" id="sinAvance"
-                      value="sinAvance">
-                    <label class="form-check-label" for="sinAvance">Ninguno</label>
-                  </div>
-  
-                  <br>
-                  <br>
-                  <p> Informe Final </p>
-  
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="informeFinal" id="informeFinalSI" value="si">
-                    <label class="form-check-label" for="informeFinalSI">Si</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="informeFinal" id="informeFinalNO" value="no">
-                    <label class="form-check-label" for="informeFinalNO">No</label>
-                  </div>
-                  <br>
-                  <br>
-  
-                  <button class="btn btn-primary btn-user btn-md" type="submit">Siguiente</button>
-                </form>
-              </div>
-            </div><!-- Fin tarjeta inicial-->
-  
-  
-            <!------------------------------------------------ CONFIGURACION PREGUNTAS AVANCE --------------------------------------------------------------->
-            <div class="card shadow" *ngIf="estado == 'informe_avance'" id="informe-avance">
-              <div class="card-body text-center">
-                <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
-                  Preguntas informe de avance
-                </div>
-                <div *ngFor="let pregunta_avance of lista_preguntas_avance; let i = index" class="pregunta">
-                  <div *ngIf="tipos_preguntas_avance[i] == 'abierta'"
-                    class="h5 mb-3 font-weight-bold text-gray-800 text-center">
-                    {{pregunta_avance}}
                     <br>
-                    <br>
-                    <textarea cols="30" rows="5" class="form-control input-center text-area"
-                      placeholder="Ingrese respuesta..." disabled></textarea>
-                  </div>
-                  <div *ngIf="tipos_preguntas_avance[i] == 'casillas' || tipos_preguntas_avance[i] == 'alternativas'"
-                    class="h5 mb-3 font-weight-bold text-gray-800 text-center">
-                    {{pregunta_avance}}
-                  </div>
-  
-                  <div *ngIf="lista_opciones_preguntas_avance[i] != ''" class="form-check">
-                    <div class="row">
-                      <div class="col-4"></div>
-                      <div class="col-4 d-flex justify-content-center">
-                        <table>
-                          <tr>
-                            <div>
-                                <td>
-                                    <i class="far fa-circle mr-1"></i>
-                                </td>
-                                <td>
-                                    <label class="form-check-label">don</label>
-                                </td>
-                            </div>
-                            <div>
-                                <td>
-                                  <i class="far fa-circle mr-1"></i>
-                                </td>
-                                <td>
-                                  <label class="form-check-label">juan</label>
-                                </td>
-                            </div>
-                          </tr>
-                        </table>
-                      </div>
-                      <div class="col-4"></div>
-                    </div>
-                    <form *ngIf="flag" >
-                      <button class="btn btn-danger">
-                        Eliminar Pregunta
-                      </button>
-                    </form>
-                  </div>
-  
-                  <div *ngIf="lista_opciones_preguntas_avance[i] == ''">
-                    <form *ngIf="flag">
-                      <button class="btn btn-danger">
-                        Eliminar Pregunta
-                      </button>
-                    </form>
-                  </div>
-  
-                </div>
-  
-                <br>
-  
-                <form *ngIf="flag">
-  
-                  <form *ngIf="flag" class="formulario">
-  
-                    <input type="text" class="form-control input-center"
-                      placeholder="Ingresar Pregunta">
-                    <select name="tipo" id="tipo" class="form-select form-select-sm mb-4 input-center">
-                      <option value="0">Seleccione el tipo de respuesta</option>
-                      <option value="1">Abierta</option>
-                      <option value="2">Casillas</option>
-                      <option value="3">Alternativas</option>
-                    </select>
-  
-                    <div *ngIf="tipo_pregunta==''"> </div>
-                    <div *ngIf="tipo_pregunta=='abierta'">
-                      <!-- Pregunta abierta -->
-                    </div>
-  
-                    <div *ngIf="tipo_pregunta=='casillas'">
-  
-                      <!-- FORMULARIO OPCIONES -->
-  
-                      <br>
-  
-                      <mat-table>
-                        <ng-container>
-  
-                          <!-- Cant Column -->
-                          <ng-container matColumnDef="opcion_pregunta">
-                            <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                            <mat-cell *matCellDef="let element;">
-                              <mat-form-field>
-                                <input matInput placeholder="Escribir opción">
-                              </mat-form-field>
-                            </mat-cell>
-                          </ng-container>
-  
-                          <!-- Delete Column -->
-                          <ng-container matColumnDef="eliminar">
-                            <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                            <mat-cell *matCellDef="let element; index as i">
-  
-                              <button class="btn btn-danger" type="button" >
-                                <mat-icon matSuffix>Eliminar opción</mat-icon>
-                              </button>
-  
-                            </mat-cell>
-                          </ng-container>
-  
-                          <!-- header titles -->
-  
-                          <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
-                          <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
-                        </ng-container>
-                      </mat-table>
-                      <div class="button">
-                        <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
-                          type="button">Agregar Opción</button>
-                      </div>
-                      <br>
-                      <!-- </form> -->
-  
-                    </div>
-  
-  
-                    <div *ngIf="tipo_pregunta=='alternativas'">
-  
-  
-                      <!-- FORMULARIO OPCIONES -->
-                      <br>
-  
-                      <mat-table>
-                        <ng-container>
-  
-                          <!-- Cant Column -->
-                          <ng-container matColumnDef="opcion_pregunta">
-                            <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                            <mat-cell *matCellDef="let element;" >
-                              <mat-form-field>
-                                <input matInput placeholder="Escribir opción">
-                              </mat-form-field>
-                            </mat-cell>
-                          </ng-container>
-  
-                          <!-- Delete Column -->
-                          <ng-container matColumnDef="eliminar">
-                            <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                            <mat-cell *matCellDef="let element; index as i" >
-  
-                              <button class="btn btn-danger" type="button">
-                                <mat-icon matSuffix>Eliminar opción</mat-icon>
-                              </button>
-  
-                            </mat-cell>
-                          </ng-container>
-  
-                          <!-- header titles -->
-  
-                          <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
-                          <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
-                        </ng-container>
-                      </mat-table>
-  
-                      <div class="button">
-                        <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
-                          type="button">Agregar Opción</button>
-                      </div>
-                      <br>
-                      <!-- </form> -->
-  
-  
-                    </div>
-  
-  
-                    <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
-                      class="btn-save" type="submit">Agregar Pregunta</button>
-                  </form>
-                </form>
-                <div class="row mt-5 mb-3 align-items-end">
-                  <div class="col-4"></div>
-                  <button class="btn btn-primary btn-user btn-block btn-md col-2" style="margin-right: 20px;">
-                    Volver
-                  </button>
-                  <button class="btn btn-primary btn-user btn-block btn-md col-2">
-                    Siguiente
-                  </button>
-                  <div class="col-4"></div>
-                </div>
-              </div>
-            </div><!-- Fin tarjeta inicial-->
-  
-            <!-------------------------------------------------- CONFIGURACION PREGUNTAS INFORME FINAL -------------------------------------------------------------->
-            <div class="card shadow" *ngIf="estado == 'informe_final'" id="informe-final">
-              <div class="card-body text-center">
-                <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
-                  Preguntas informe final
-                </div>
-                <div *ngFor="let pregunta_final of lista_preguntas_final; let i = index" class="pregunta">
-                  <div *ngIf="tipos_preguntas_final[i] == 'abierta'"
-                    class="h5 mb-3 font-weight-bold text-gray-800 text-center">
-                    {{pregunta_final}}
-                    <br>
-                    <br>
-                    <textarea cols="30" rows="5" class="form-control text-area input-center" style="width: auto;"
-                      placeholder="Ingrese respuesta..." disabled></textarea>
-                  </div>
-                  <div *ngIf="tipos_preguntas_final[i] == 'casillas' || tipos_preguntas_final[i] == 'alternativas'"
-                    class="h5 mb-3 font-weight-bold text-gray-800 text-center">
-                    {{pregunta_final}}
-                  </div>
-  
-                  <div *ngIf="lista_opciones_preguntas_final[i] != ''" class="form-check">
-                    <div class="row">
-                      <div class="col-4"></div>
-                      <div class="col-4 d-flex justify-content-center">
-                        <table>
-                          <tr>
-                            <div>
-                                <td>
-                                    <i class="far fa-circle mr-1"></i>
-                                </td>
-                                <td>
-                                    <label class="form-check-label">doña</label>
-                                </td>
-                            </div>
-                            <div>
-                                <td>
-                                  <i class="far fa-circle mr-1"></i>
-                                </td>
-                                <td>
-                                  <label class="form-check-label">juan</label>
-                                </td>
-                            </div>
-                          </tr>
-                        </table>
-                      </div>
-                      <div class="col-4"></div>
-                    </div>
-                    <form>
-                      <button class="btn btn-danger">
-                        Eliminar Pregunta
-                      </button>
-                    </form>
-                  </div>
-  
-                  <div *ngIf="lista_opciones_preguntas_final[i] == ''">
-                    <form>
-                      <button class="btn btn-danger">
-                        Eliminar Pregunta
-                      </button>
-                    </form>
-                  </div>
-                </div>
-  
-                <br>
-  
-                <form *ngIf="flag">
-  
-                  <form *ngIf="flag" class="formulario">
-  
-                    <input type="text" class="form-control input-center"
-                      placeholder="Ingresar Pregunta">
-                    <select name="tipo" id="tipo" class="form-select form-select-sm mb-4 input-center">
-                      <option value="0">Seleccione el tipo de respuesta</option>
-                      <option value="1">Abierta</option>
-                      <option value="2">Casillas</option>
-                      <option value="3">Alternativas</option>
-                    </select>
-  
-                    <div *ngIf="tipo_pregunta==''"> </div>
-                    <div *ngIf="tipo_pregunta=='abierta'">
-                      <!-- Pregunta abierta -->
-                    </div>
-  
-                    <div *ngIf="tipo_pregunta=='casillas'">
-  
-                      <!-- FORMULARIO OPCIONES -->
-  
-                      <br>
-  
-                      <mat-table>
-                        <ng-container>
-  
-                          <!-- Cant Column -->
-                          <ng-container matColumnDef="opcion_pregunta">
-                            <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                            <mat-cell *matCellDef="let element;">
-                              <mat-form-field>
-                                <input matInput placeholder="Escribir opción">
-                              </mat-form-field>
-                            </mat-cell>
-                          </ng-container>
-  
-                          <!-- Delete Column -->
-                          <ng-container matColumnDef="eliminar">
-                            <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                            <mat-cell *matCellDef="let element; index as i">
-  
-                              <button class="btn btn-danger" type="button">
-                                <mat-icon matSuffix>Eliminar opción</mat-icon>
-                              </button>
-  
-                            </mat-cell>
-                          </ng-container>
-  
-                          <!-- header titles -->
-  
-                          <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
-                          <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
-                        </ng-container>
-                      </mat-table>
-  
-                      <div class="button">
-                        <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
-                          type="button">Agregar Opción</button>
-                      </div>
-                      <br>
-  
-                      <!-- </form> -->
-  
-                    </div>
-  
-  
-  
-                    <div *ngIf="tipo_pregunta=='alternativas'">
-  
-  
-                      <!-- FORMULARIO OPCIONES -->
-                      <br>
-  
-                      <mat-table>
-                        <ng-container>
-  
-                          <!-- Cant Column -->
-                          <ng-container matColumnDef="opcion_pregunta">
-                            <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                            <mat-cell *matCellDef="let element;" >
-                              <mat-form-field>
-                                <input matInput placeholder="Escribir opción">
-                              </mat-form-field>
-                            </mat-cell>
-                          </ng-container>
-  
-                          <!-- Delete Column -->
-                          <ng-container matColumnDef="eliminar">
-                            <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                            <mat-cell *matCellDef="let element; index as i" >
-  
-                              <button class="btn btn-danger" type="button">
-                                <mat-icon matSuffix>Eliminar opción</mat-icon>
-                              </button>
-  
-                            </mat-cell>
-                          </ng-container>
-  
-                          <!-- header titles -->
-  
-                          <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
-                          <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
-                        </ng-container>
-                      </mat-table>
-  
-                      <div class="button">
-                        <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
-                          type="button">Agregar Opción</button>
-                      </div>
-                      <br>
-  
-                      <!-- </form> -->
-  
-  
-                    </div>
-  
-  
-                    <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
-                      class="btn-save" type="submit">Agregar Pregunta</button>
-                  </form>
-                </form>
-                <div class="row mt-5 mb-3 align-items-end">
-                  <div class="col-4"></div>
-                  <button class="btn btn-primary btn-user btn-block btn-md col-2" style="margin-right: 20px;">
-                    Volver
-                  </button>
-                  <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="avanzarDesdePreguntasFinal()">
-                    Siguiente
-                  </button>
-                  <div class="col-4"></div>
-                </div>
-              </div>
-            </div><!-- Fin tarjeta inicial-->
-            <!-------------------------------------------------- CONFIGURACION DOCUMENTOS -------------------------------------------------------------->
-            <div class="card shadow" *ngIf="estado == 'solicitud_documentos'" id="sol-doc">
-              <div class="card-body text-center">
-                <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
-                  Solicitud Documentos
-                </div>
-                <div *ngFor="let nombre_doc of lista_nombre_solicitud_documentos; let i = index" class="pregunta">
-                  Solicitud Documento Ingresada:
-                  <br>
-                  Nombre: {{nombre_doc}}
-                  <br>
-                  Descripción: {{lista_descripcion_solicitud_documentos[i]}}
-                  <br>
-                  Tipo documento: {{lista_tipo_solicitud_documentos[i]}}
-                  <br>
-                  <form>
-                    <button class="btn btn-danger">
-                      Eliminar Solicitud Documento
-                    </button>
-                  </form>
-  
-  
-                </div>
-  
-                <form>
-  
-                  <form>
-                    <input type="text" class="form-control input-center" placeholder="Nombre solicitud">
-                    <textarea rows="3" class="form-control input-center text-area" placeholder="Descripción solicitud"></textarea>
-                    <label for="dropdown">Tipo de documento:</label>
-                    <select class="form-select input-center" id="dropdown" placeholder="Tipo documento">
-                      <option value="pdf">PDF</option>
-                      <option value="jpg">JPG</option>
-                      <option value="xlsx">Excel</option>
-                      <option value="docx">Word</option>
-                    </select>
-  
-                    <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
-                      class="btn-save" type="submit">
-                      Agregar solicitud de documento
-                    </button>
-                  </form>
-                </form>
-                <div class="row mt-5 mb-3 align-items-end">
-                  <div class="col-4"></div>
-                  <button class="btn btn-primary btn-user btn-block btn-md col-2" style="margin-right: 20px;">
-                    Volver
-                  </button>
-                  <button class="btn btn-primary btn-user btn-block btn-md col-2"
-                    (click)="avanzarDesdeSolicitudDocumentos()">
-                    Siguiente
-                  </button>
-                  <div class="col-4"></div>
-                </div>
-              </div>
-            </div><!-- Fin tarjeta inicial-->
-  
-            <!-------------------------------------------------- CONFIGURACION  PREGUNTAS ENCUESTA -------------------------------------------------------------->
-            <div class="card shadow" *ngIf="estado == 'encuesta_final'" id="encuesta-fin">
-              <div class="card-body text-center">
-                <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
-                  Preguntas Encuesta Practicantes Post-Práctica
-                </div>
-                <div class="h5 mb-3 text-gray-800 mx-auto w-50 text-center">
-                  Recuerde que al estudiante ya se le consulta sobre los ramos más útiles en su carrera y se le pide que
-                  califique la empresa donde realizó su práctica.
-                </div>
-                <div *ngFor="let pregunta_encuesta of lista_preguntas_encuesta; let i = index" class="pregunta">
-                  <div *ngIf="tipos_preguntas_encuesta[i] == 'abierta'"
-                    class="h5 mb-3 font-weight-bold text-gray-800 text-center">
-                    {{pregunta_encuesta}}
-                    <br>
-                    <br>
-                    <textarea cols="30" rows="5" class="form-control input-center text-area"
-                      placeholder="Ingrese respuesta..." disabled></textarea>
-                  </div>
-                  <div *ngIf="tipos_preguntas_encuesta[i] == 'casillas' || tipos_preguntas_encuesta[i] == 'alternativas'"
-                    class="h5 mb-3 font-weight-bold text-gray-800 text-center">
-                    {{pregunta_encuesta}}
-                  </div>
-  
-                  <div *ngIf="lista_opciones_preguntas_encuesta[i] != ''">
-                    <div class="row">
-                      <div class="col-4"></div>
-                      <div class="col-4 d-flex justify-content-center">
-                        <table>
-                          <tr>
-                            <div>
-                                <td>
-                                    <i class="far fa-circle mr-1"></i>
-                                </td>
-                                <td>
-                                    <label class="form-check-label">don</label>
-                                </td>
-                            </div>
-                            <div>
-                                <td>
-                                  <i class="far fa-circle mr-1"></i>
-                                </td>
-                                <td>
-                                  <label class="form-check-label">juan</label>
-                                </td>
-                            </div>
-                          </tr>
-                        </table>
-                      </div>
-                      <div class="col-4"></div>
-                    </div>
-                    <form *ngIf="flag">
-                      <button class="btn btn-danger">
-                        Eliminar Pregunta
-                      </button>
-                    </form>
-                  </div>
-  
-                  <div *ngIf="lista_opciones_preguntas_encuesta[i] == ''">
-                    <form *ngIf="flag">
-                      <button class="btn btn-danger">
-                        Eliminar Pregunta
-                      </button>
-                    </form>
-                  </div>
-                </div>
-  
-                <form *ngIf="flag">
-  
-                  <form *ngIf="flag" class="formulario">
-  
-                    <input type="text" class="form-control input-center"
-                      placeholder="Ingresar Pregunta">
-                    <select name="tipo" id="tipo" class="form-select form-select-sm mb-4 input-center">
-                      <option value="0">Seleccione el tipo de respuesta</option>
-                      <option value="2">Casillas</option>
-                      <option value="3">Alternativas</option>
-                    </select>
-  
-                    <div *ngIf="tipo_pregunta=='abierta'">
-                      <!-- Pregunta abierta -->
-                    </div>
-  
-                    <!-- boton agregar pregunta -->
-  
-                    <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
-                      class="btn-save" type="submit">Agregar Pregunta</button>
-  
-  
-                  </form>
-                </form>
-                <div class="row mt-5 mb-3 align-items-end">
-                  <div class="col-4"></div>
-                  <button class="btn btn-primary btn-user btn-block btn-md col-2" style="margin-right: 20px;">
-                    Volver
-                  </button>
-                  <button class="btn btn-primary btn-user btn-block btn-md col-2"
-                    (click)="avanzarDesdePreguntasEncuesta()">
-                    Siguiente
-                  </button>
-                  <div class="col-4"></div>
-                </div>
-              </div>
-            </div><!-- Fin tarjeta inicial-->
-  
-            <!-------------------------------------------------- CONFIGURACION APTITUDES A EVALUAR -------------------------------------------------------------->
-            <div class="card shadow" *ngIf="estado == 'aptitudes'" id="aptitud">
-              <div class="card-body text-center">
-                <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
-                  Ingrese las aptitudes que el supervisor evaluará del practicante
-                </div>
-                <div *ngFor="let aptitud of lista_aptitudes; let i = index" class="pregunta">
-                  Aptitud Ingresada:
-                  <br>
-                  {{aptitud}}
-  
-                  <br>
-                  <form>
-                    <button class="btn btn-danger">
-                      Eliminar Aptitud
-                    </button>
-                  </form>
-                </div>
-  
-                <br>
-  
-                <form>
-  
-                  <form class="formulario">
-                    <input type="text" class="form-control input-center"
-                      placeholder="Ingresar Aptitud">
-                    <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
-                      class="btn-save" type="submit">Agregar Aptitud</button>
-  
-                  </form>
-                </form>
-                <div class="row mt-5 mb-3 align-items-end">
-                  <div class="col-4"></div>
-                  <button class="btn btn-primary btn-user btn-block btn-md col-2" style="margin-right: 20px;">
-                    Volver
-                  </button>
-                  <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="avanzarDesdeAptitud()">
-                    Siguiente
-                  </button>
-                  <div class="col-4"></div>
-                </div>
-              </div>
-            </div><!-- Fin tarjeta inicial-->
-  
-            <!-------------------------------------------------- CONFIGURACION  PREGUNTAS SUPERVISOR -------------------------------------------------------------->
-            <div class="card shadow" *ngIf="estado == 'preguntas_supervisor'" id="preg-supervisor">
-              <div class="card-body text-center">
-                <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
-                  Preguntas para que supervisor evalúe al practicante
-                </div>
-                <div *ngFor="let pregunta_supervisor of lista_preguntas_supervisor; let i = index">
-                  <div *ngIf="tipos_preguntas_supervisor[i] != 'evaluacion'" class="pregunta">
-                    <div *ngIf="tipos_preguntas_supervisor[i] == 'abierta'"
-                      class="h5 mb-3 font-weight-bold text-gray-800 text-center">
-                      {{pregunta_supervisor}}
-                      <br>
-                      <br>
-                      <textarea cols="30" rows="5" class="form-control input-center text-area"
-                        placeholder="Ingrese respuesta..." disabled></textarea>
-                    </div>
-                    <div
-                      *ngIf="tipos_preguntas_supervisor[i] == 'casillas' || tipos_preguntas_supervisor[i] == 'alternativas'"
-                      class="h5 mb-3 font-weight-bold text-gray-800 text-center">
-                      {{pregunta_supervisor}}
-                    </div>
-  
-                    <div *ngIf="lista_opciones_preguntas_supervisor[i] != ''">
-                      <div class="row">
-                        <div class="col-4"></div>
-                        <div class="col-4 d-flex justify-content-center">
-                          <table>
-                            <tr>
-                                <div>
-                                    <td>
-                                        <i class="far fa-circle mr-1"></i>
-                                    </td>
-                                    <td>
-                                        <label class="form-check-label">don</label>
-                                    </td>
-                                </div>
-                                <div>
-                                    <td>
-                                      <i class="far fa-circle mr-1"></i>
-                                    </td>
-                                    <td>
-                                      <label class="form-check-label">juan</label>
-                                    </td>
-                                </div>
-                            </tr>
-                          </table>
-                        </div>
-                        <div class="col-4"></div>
-                      </div>
-                      <form *ngIf="flag">
-                        <button class="btn btn-danger">
-                          Eliminar Pregunta
-                        </button>
-                      </form>
-                    </div>
-  
-                    <div *ngIf="lista_opciones_preguntas_supervisor[i] == ''">
-                      <form *ngIf="flag">
-                        <button class="btn btn-danger">
-                          Eliminar Pregunta
-                        </button>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-  
-                <br>
-  
-                <form *ngIf="flag">
-  
-                  <form *ngIf="flag" class="formulario">
-  
-                    <input type="text" class="form-control input-center"
-                      placeholder="Ingresar Pregunta">
-                    <select name="tipo" id="tipo" class="form-select form-select-sm input-center">
-                      <option value="0">Seleccione el tipo de respuesta</option>
-                      <option value="1">Abierta</option>
-                      <option value="2">Casillas</option>
-                      <option value="3">Alternativas</option>
-                    </select>
-  
-                    <div *ngIf="tipo_pregunta==''"> </div>
-                    <div *ngIf="tipo_pregunta=='abierta'">
-                      <!-- Pregunta abierta -->
-                    </div>
-  
-                    <div *ngIf="tipo_pregunta=='casillas'">
-  
-                      <!-- FORMULARIO OPCIONES -->
-  
-                      <br>
-  
-                      <mat-table>
-                        <ng-container>
-  
-                          <!-- Cant Column -->
-                          <ng-container matColumnDef="opcion_pregunta">
-                            <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                            <mat-cell *matCellDef="let element;" >
-                              <mat-form-field>
-                                <input matInput placeholder="Escribir opción">
-                              </mat-form-field>
-                            </mat-cell>
-                          </ng-container>
-  
-                          <!-- Delete Column -->
-                          <ng-container matColumnDef="eliminar">
-                            <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                            <mat-cell *matCellDef="let element; index as i" >
-  
-                              <button class="btn btn-danger" type="button">
-                                <mat-icon matSuffix>Eliminar opción</mat-icon>
-                              </button>
-  
-                            </mat-cell>
-                          </ng-container>
-  
-                          <!-- header titles -->
-  
-                          <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
-                          <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
-                        </ng-container>
-                      </mat-table>
-  
-                      <div class="button">
-                        <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
-                          type="button">Agregar Opción</button>
-                      </div>
-                      <br>
+                    <!-- </form> -->
 
-                    </div>
-  
-                    <div *ngIf="tipo_pregunta=='alternativas'">
-  
-                      <br>
-  
-                      <mat-table>
-                        <ng-container>
-  
-                          <!-- Cant Column -->
-                          <ng-container matColumnDef="opcion_pregunta">
-                            <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                            <mat-cell *matCellDef="let element;" >
-                              <mat-form-field>
-                                <input matInput placeholder="Escribir opción">
-                              </mat-form-field>
-                            </mat-cell>
-                          </ng-container>
-  
-                          <!-- Delete Column -->
-                          <ng-container matColumnDef="eliminar">
-                            <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                            <mat-cell *matCellDef="let element; index as i" >
-  
-                              <button class="btn btn-danger" type="button">
-                                <mat-icon matSuffix>Eliminar opción</mat-icon>
-                              </button>
-  
-                            </mat-cell>
-                          </ng-container>
-  
-                          <!-- header titles -->
-  
-                          <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
-                          <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
-                        </ng-container>
-                      </mat-table>
-  
-                      <div class="button">
-                        <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
-                          type="button">Agregar Opción</button>
-                      </div>
-                      <br>
-  
-                      <!-- </form> -->
-                    </div>
-  
-                    <div *ngIf="tipo_pregunta=='evaluacion'">
-  
-                    </div>
-  
-  
-                    <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
-                      class="btn-save" type="submit">Agregar Pregunta</button>
-  
-  
-                  </form>
+
+                  </div>
+
+
+                  <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
+                    class="btn-save" type="submit">Agregar Pregunta</button>
                 </form>
-                <div class="row mt-5 mb-3 align-items-end">
-                  <div class="col-4"></div>
-                  <button class="btn btn-primary btn-user btn-block btn-md col-2" style="margin-right: 20px;">
-                    Volver
-                  </button>
-                  <button class="btn btn-primary btn-user btn-block btn-md col-2"
-                    (click)="avanzarDesdePreguntasSupervisor()">
-                    Siguiente
-                  </button>
-                  <div class="col-4"></div>
+              </form>
+              <div class="row mt-5 mb-3 align-items-end">
+                <div class="col-4"></div>
+                <button class="btn btn-primary btn-user btn-block btn-md col-2" style="margin-right: 20px;">
+                  Volver
+                </button>
+                <button class="btn btn-primary btn-user btn-block btn-md col-2">
+                  Siguiente
+                </button>
+                <div class="col-4"></div>
+              </div>
+            </div>
+          </div><!-- Fin tarjeta inicial-->
+
+          <!-------------------------------------------------- CONFIGURACION PREGUNTAS INFORME FINAL -------------------------------------------------------------->
+          <div class="card shadow" *ngIf="estado == 'informe_final'" id="informe-final">
+            <div class="card-body text-center">
+              <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
+                Preguntas informe final
+              </div>
+              <div *ngFor="let pregunta_final of lista_preguntas_final; let i = index" class="pregunta">
+                <div *ngIf="tipos_preguntas_final[i] == 'abierta'"
+                  class="h5 mb-3 font-weight-bold text-gray-800 text-center">
+                  {{pregunta_final}}
+                  <br>
+                  <br>
+                  <textarea cols="30" rows="5" class="form-control text-area input-center" style="width: auto;"
+                    placeholder="Ingrese respuesta..." disabled></textarea>
+                </div>
+                <div *ngIf="tipos_preguntas_final[i] == 'casillas' || tipos_preguntas_final[i] == 'alternativas'"
+                  class="h5 mb-3 font-weight-bold text-gray-800 text-center">
+                  {{pregunta_final}}
+                </div>
+
+                <div *ngIf="lista_opciones_preguntas_final[i] != ''" class="form-check">
+                  <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-4 d-flex justify-content-center">
+                      <table>
+                        <tr>
+                          <div>
+                            <td>
+                              <i class="far fa-circle mr-1"></i>
+                            </td>
+                            <td>
+                              <label class="form-check-label">doña</label>
+                            </td>
+                          </div>
+                          <div>
+                            <td>
+                              <i class="far fa-circle mr-1"></i>
+                            </td>
+                            <td>
+                              <label class="form-check-label">juan</label>
+                            </td>
+                          </div>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="col-4"></div>
+                  </div>
+                  <form>
+                    <button class="btn btn-secondary">
+                      Eliminar Pregunta
+                    </button>
+                  </form>
+                </div>
+
+                <div *ngIf="lista_opciones_preguntas_final[i] == ''">
+                  <form>
+                    <button class="btn btn-secondary">
+                      Eliminar Pregunta
+                    </button>
+                  </form>
                 </div>
               </div>
-            </div><!-- Fin tarjeta inicial-->
-  
-            <!-------------------------------------------------- CONFIGURACION  FINAL -------------------------------------------------------------->
-            <div class="card shadow" *ngIf="estado == 'fin_configuracion'" id="fin">
-              <div class="card-body">
-                <div class="h4 mb-3 font-weight-bold text-gray-800 text-center">
-                  Fin configuración práctica
+
+              <br>
+
+              <form *ngIf="flag">
+
+                <form *ngIf="flag" class="formulario">
+
+                  <input type="text" class="form-control input-center" placeholder="Ingresar Pregunta">
+                  <select name="tipo" id="tipo" class="form-select form-select-sm mb-4 input-center">
+                    <option value="0">Seleccione el tipo de respuesta</option>
+                    <option value="1">Abierta</option>
+                    <option value="2">Casillas</option>
+                    <option value="3">Alternativas</option>
+                  </select>
+
+                  <div *ngIf="tipo_pregunta==''"> </div>
+                  <div *ngIf="tipo_pregunta=='abierta'">
+                    <!-- Pregunta abierta -->
+                  </div>
+
+                  <div *ngIf="tipo_pregunta=='casillas'">
+
+                    <!-- FORMULARIO OPCIONES -->
+
+                    <br>
+
+                    <mat-table>
+                      <ng-container>
+
+                        <!-- Cant Column -->
+                        <ng-container matColumnDef="opcion_pregunta">
+                          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                          <mat-cell *matCellDef="let element;">
+                            <mat-form-field>
+                              <input matInput placeholder="Escribir opción">
+                            </mat-form-field>
+                          </mat-cell>
+                        </ng-container>
+
+                        <!-- Delete Column -->
+                        <ng-container matColumnDef="eliminar">
+                          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                          <mat-cell *matCellDef="let element; index as i">
+
+                            <button class="btn btn-secondary" type="button">
+                              <mat-icon matSuffix>Eliminar opción</mat-icon>
+                            </button>
+
+                          </mat-cell>
+                        </ng-container>
+
+                        <!-- header titles -->
+
+                        <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
+                      </ng-container>
+                    </mat-table>
+
+                    <div class="button">
+                      <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
+                        type="button">Agregar Opción</button>
+                    </div>
+                    <br>
+
+                    <!-- </form> -->
+
+                  </div>
+
+
+
+                  <div *ngIf="tipo_pregunta=='alternativas'">
+
+
+                    <!-- FORMULARIO OPCIONES -->
+                    <br>
+
+                    <mat-table>
+                      <ng-container>
+
+                        <!-- Cant Column -->
+                        <ng-container matColumnDef="opcion_pregunta">
+                          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                          <mat-cell *matCellDef="let element;">
+                            <mat-form-field>
+                              <input matInput placeholder="Escribir opción">
+                            </mat-form-field>
+                          </mat-cell>
+                        </ng-container>
+
+                        <!-- Delete Column -->
+                        <ng-container matColumnDef="eliminar">
+                          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                          <mat-cell *matCellDef="let element; index as i">
+
+                            <button class="btn btn-secondary" type="button">
+                              <mat-icon matSuffix>Eliminar opción</mat-icon>
+                            </button>
+
+                          </mat-cell>
+                        </ng-container>
+
+                        <!-- header titles -->
+
+                        <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
+                      </ng-container>
+                    </mat-table>
+
+                    <div class="button">
+                      <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
+                        type="button">Agregar Opción</button>
+                    </div>
+                    <br>
+
+                    <!-- </form> -->
+
+
+                  </div>
+
+
+                  <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
+                    class="btn-save" type="submit">Agregar Pregunta</button>
+                </form>
+              </form>
+              <div class="row mt-5 mb-3 align-items-end">
+                <div class="col-4"></div>
+                <button class="btn btn-primary btn-user btn-block btn-md col-2" style="margin-right: 20px;">
+                  Volver
+                </button>
+                <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="avanzarDesdePreguntasFinal()">
+                  Siguiente
+                </button>
+                <div class="col-4"></div>
+              </div>
+            </div>
+          </div><!-- Fin tarjeta inicial-->
+          <!-------------------------------------------------- CONFIGURACION DOCUMENTOS -------------------------------------------------------------->
+          <div class="card shadow" *ngIf="estado == 'solicitud_documentos'" id="sol-doc">
+            <div class="card-body text-center">
+              <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
+                Solicitud Documentos
+              </div>
+              <div *ngFor="let nombre_doc of lista_nombre_solicitud_documentos; let i = index" class="pregunta">
+                Solicitud Documento Ingresada:
+                <br>
+                Nombre: {{nombre_doc}}
+                <br>
+                Descripción: {{lista_descripcion_solicitud_documentos[i]}}
+                <br>
+                Tipo documento: {{lista_tipo_solicitud_documentos[i]}}
+                <br>
+                <form>
+                  <button class="btn btn-secondary">
+                    Eliminar Solicitud Documento
+                  </button>
+                </form>
+
+
+              </div>
+
+              <form>
+
+                <form>
+                  <input type="text" class="form-control input-center" placeholder="Nombre solicitud">
+                  <textarea rows="3" class="form-control input-center text-area"
+                    placeholder="Descripción solicitud"></textarea>
+                  <label for="dropdown">Tipo de documento:</label>
+                  <select class="form-select input-center" id="dropdown" placeholder="Tipo documento">
+                    <option value="pdf">PDF</option>
+                    <option value="jpg">JPG</option>
+                    <option value="xlsx">Excel</option>
+                    <option value="docx">Word</option>
+                  </select>
+
+                  <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
+                    class="btn-save" type="submit">
+                    Agregar solicitud de documento
+                  </button>
+                </form>
+              </form>
+              <div class="row mt-5 mb-3 align-items-end">
+                <div class="col-4"></div>
+                <button class="btn btn-primary btn-user btn-block btn-md col-2" style="margin-right: 20px;">
+                  Volver
+                </button>
+                <button class="btn btn-primary btn-user btn-block btn-md col-2"
+                  (click)="avanzarDesdeSolicitudDocumentos()">
+                  Siguiente
+                </button>
+                <div class="col-4"></div>
+              </div>
+            </div>
+          </div><!-- Fin tarjeta inicial-->
+
+          <!-------------------------------------------------- CONFIGURACION  PREGUNTAS ENCUESTA -------------------------------------------------------------->
+          <div class="card shadow" *ngIf="estado == 'encuesta_final'" id="encuesta-fin">
+            <div class="card-body text-center">
+              <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
+                Preguntas Encuesta Practicantes Post-Práctica
+              </div>
+              <div class="h5 mb-3 text-gray-800 mx-auto w-50 text-center">
+                Recuerde que al estudiante ya se le consulta sobre los ramos más útiles en su carrera y se le pide que
+                califique la empresa donde realizó su práctica.
+              </div>
+              <div *ngFor="let pregunta_encuesta of lista_preguntas_encuesta; let i = index" class="pregunta">
+                <div *ngIf="tipos_preguntas_encuesta[i] == 'abierta'"
+                  class="h5 mb-3 font-weight-bold text-gray-800 text-center">
+                  {{pregunta_encuesta}}
+                  <br>
+                  <br>
+                  <textarea cols="30" rows="5" class="form-control input-center text-area"
+                    placeholder="Ingrese respuesta..." disabled></textarea>
                 </div>
-                <!-- PEGAR AQUI -->
-                <div class="row mt-5 mb-3 align-items-end">
-                  <div class="col-4"></div>
-                  <button class="btn btn-primary btn-user btn-block btn-md col-2" style="margin-right: 20px;">
-                    Volver
-                  </button>
-                  <button class="btn btn-primary btn-user btn-block btn-md col-2" *ngIf="currentRoute == '/configurar/blanco'">
-                    Terminar
-                  </button>
-                  <button data-toggle="modal" data-target="#migrarModal"
-                    class="btn btn-primary btn-user btn-block btn-md col-2" *ngIf="currentRoute != '/configurar/blanco'">
-                    Terminar
-                  </button>
-                  <div class="col-4"></div>
+                <div *ngIf="tipos_preguntas_encuesta[i] == 'casillas' || tipos_preguntas_encuesta[i] == 'alternativas'"
+                  class="h5 mb-3 font-weight-bold text-gray-800 text-center">
+                  {{pregunta_encuesta}}
+                </div>
+
+                <div *ngIf="lista_opciones_preguntas_encuesta[i] != ''">
+                  <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-4 d-flex justify-content-center">
+                      <table>
+                        <tr>
+                          <div>
+                            <td>
+                              <i class="far fa-circle mr-1"></i>
+                            </td>
+                            <td>
+                              <label class="form-check-label">don</label>
+                            </td>
+                          </div>
+                          <div>
+                            <td>
+                              <i class="far fa-circle mr-1"></i>
+                            </td>
+                            <td>
+                              <label class="form-check-label">juan</label>
+                            </td>
+                          </div>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="col-4"></div>
+                  </div>
+                  <form *ngIf="flag">
+                    <button class="btn btn-secondary">
+                      Eliminar Pregunta
+                    </button>
+                  </form>
+                </div>
+
+                <div *ngIf="lista_opciones_preguntas_encuesta[i] == ''">
+                  <form *ngIf="flag">
+                    <button class="btn btn-secondary">
+                      Eliminar Pregunta
+                    </button>
+                  </form>
                 </div>
               </div>
-            </div><!-- Fin tarjeta inicial-->
-          </div>
+
+              <form *ngIf="flag">
+
+                <form *ngIf="flag" class="formulario">
+
+                  <input type="text" class="form-control input-center" placeholder="Ingresar Pregunta">
+                  <select name="tipo" id="tipo" class="form-select form-select-sm mb-4 input-center">
+                    <option value="0">Seleccione el tipo de respuesta</option>
+                    <option value="2">Casillas</option>
+                    <option value="3">Alternativas</option>
+                  </select>
+
+                  <div *ngIf="tipo_pregunta=='abierta'">
+                    <!-- Pregunta abierta -->
+                  </div>
+
+                  <!-- boton agregar pregunta -->
+
+                  <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
+                    class="btn-save" type="submit">Agregar Pregunta</button>
+
+
+                </form>
+              </form>
+              <div class="row mt-5 mb-3 align-items-end">
+                <div class="col-4"></div>
+                <button class="btn btn-primary btn-user btn-block btn-md col-2" style="margin-right: 20px;">
+                  Volver
+                </button>
+                <button class="btn btn-primary btn-user btn-block btn-md col-2"
+                  (click)="avanzarDesdePreguntasEncuesta()">
+                  Siguiente
+                </button>
+                <div class="col-4"></div>
+              </div>
+            </div>
+          </div><!-- Fin tarjeta inicial-->
+
+          <!-------------------------------------------------- CONFIGURACION APTITUDES A EVALUAR -------------------------------------------------------------->
+          <div class="card shadow" *ngIf="estado == 'aptitudes'" id="aptitud">
+            <div class="card-body text-center">
+              <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
+                Ingrese las competencias que el supervisor evaluará del practicante
+              </div>
+              <div *ngFor="let aptitud of lista_aptitudes; let i = index" class="pregunta">
+                Competencia Ingresada:
+                <br>
+                {{aptitud}}
+
+                <br>
+                <form>
+                  <button class="btn btn-secondary">
+                    Eliminar Competencia
+                  </button>
+                </form>
+              </div>
+
+              <br>
+
+              <form>
+
+                <form class="formulario">
+                  <input type="text" class="form-control input-center" placeholder="Ingresar Competencia">
+                  <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
+                    class="btn-save" type="submit">Agregar Competencia</button>
+
+                </form>
+              </form>
+              <div class="row mt-5 mb-3 align-items-end">
+                <div class="col-4"></div>
+                <button class="btn btn-primary btn-user btn-block btn-md col-2" style="margin-right: 20px;">
+                  Volver
+                </button>
+                <button class="btn btn-primary btn-user btn-block btn-md col-2" (click)="avanzarDesdeAptitud()">
+                  Siguiente
+                </button>
+                <div class="col-4"></div>
+              </div>
+            </div>
+          </div><!-- Fin tarjeta inicial-->
+
+          <!-------------------------------------------------- CONFIGURACION  PREGUNTAS SUPERVISOR -------------------------------------------------------------->
+          <div class="card shadow" *ngIf="estado == 'preguntas_supervisor'" id="preg-supervisor">
+            <div class="card-body text-center">
+              <div class="h3 mb-3 font-weight-bold text-gray-800 text-center">
+                Preguntas para que supervisor evalúe al practicante
+              </div>
+              <div *ngFor="let pregunta_supervisor of lista_preguntas_supervisor; let i = index">
+                <div *ngIf="tipos_preguntas_supervisor[i] != 'evaluacion'" class="pregunta">
+                  <div *ngIf="tipos_preguntas_supervisor[i] == 'abierta'"
+                    class="h5 mb-3 font-weight-bold text-gray-800 text-center">
+                    {{pregunta_supervisor}}
+                    <br>
+                    <br>
+                    <textarea cols="30" rows="5" class="form-control input-center text-area"
+                      placeholder="Ingrese respuesta..." disabled></textarea>
+                  </div>
+                  <div
+                    *ngIf="tipos_preguntas_supervisor[i] == 'casillas' || tipos_preguntas_supervisor[i] == 'alternativas'"
+                    class="h5 mb-3 font-weight-bold text-gray-800 text-center">
+                    {{pregunta_supervisor}}
+                  </div>
+
+                  <div *ngIf="lista_opciones_preguntas_supervisor[i] != ''">
+                    <div class="row">
+                      <div class="col-4"></div>
+                      <div class="col-4 d-flex justify-content-center">
+                        <table>
+                          <tr>
+                            <div>
+                              <td>
+                                <i class="far fa-circle mr-1"></i>
+                              </td>
+                              <td>
+                                <label class="form-check-label">don</label>
+                              </td>
+                            </div>
+                            <div>
+                              <td>
+                                <i class="far fa-circle mr-1"></i>
+                              </td>
+                              <td>
+                                <label class="form-check-label">juan</label>
+                              </td>
+                            </div>
+                          </tr>
+                        </table>
+                      </div>
+                      <div class="col-4"></div>
+                    </div>
+                    <form *ngIf="flag">
+                      <button class="btn btn-secondary">
+                        Eliminar Pregunta
+                      </button>
+                    </form>
+                  </div>
+
+                  <div *ngIf="lista_opciones_preguntas_supervisor[i] == ''">
+                    <form *ngIf="flag">
+                      <button class="btn btn-secondary">
+                        Eliminar Pregunta
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <br>
+
+              <form *ngIf="flag">
+
+                <form *ngIf="flag" class="formulario">
+
+                  <input type="text" class="form-control input-center" placeholder="Ingresar Pregunta">
+                  <select name="tipo" id="tipo" class="form-select form-select-sm input-center">
+                    <option value="0">Seleccione el tipo de respuesta</option>
+                    <option value="1">Abierta</option>
+                    <option value="2">Casillas</option>
+                    <option value="3">Alternativas</option>
+                  </select>
+
+                  <div *ngIf="tipo_pregunta==''"> </div>
+                  <div *ngIf="tipo_pregunta=='abierta'">
+                    <!-- Pregunta abierta -->
+                  </div>
+
+                  <div *ngIf="tipo_pregunta=='casillas'">
+
+                    <!-- FORMULARIO OPCIONES -->
+
+                    <br>
+
+                    <mat-table>
+                      <ng-container>
+
+                        <!-- Cant Column -->
+                        <ng-container matColumnDef="opcion_pregunta">
+                          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                          <mat-cell *matCellDef="let element;">
+                            <mat-form-field>
+                              <input matInput placeholder="Escribir opción">
+                            </mat-form-field>
+                          </mat-cell>
+                        </ng-container>
+
+                        <!-- Delete Column -->
+                        <ng-container matColumnDef="eliminar">
+                          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                          <mat-cell *matCellDef="let element; index as i">
+
+                            <button class="btn btn-secondary" type="button">
+                              <mat-icon matSuffix>Eliminar opción</mat-icon>
+                            </button>
+
+                          </mat-cell>
+                        </ng-container>
+
+                        <!-- header titles -->
+
+                        <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
+                      </ng-container>
+                    </mat-table>
+
+                    <div class="button">
+                      <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
+                        type="button">Agregar Opción</button>
+                    </div>
+                    <br>
+
+                  </div>
+
+                  <div *ngIf="tipo_pregunta=='alternativas'">
+
+                    <br>
+
+                    <mat-table>
+                      <ng-container>
+
+                        <!-- Cant Column -->
+                        <ng-container matColumnDef="opcion_pregunta">
+                          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                          <mat-cell *matCellDef="let element;">
+                            <mat-form-field>
+                              <input matInput placeholder="Escribir opción">
+                            </mat-form-field>
+                          </mat-cell>
+                        </ng-container>
+
+                        <!-- Delete Column -->
+                        <ng-container matColumnDef="eliminar">
+                          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                          <mat-cell *matCellDef="let element; index as i">
+
+                            <button class="btn btn-secondary" type="button">
+                              <mat-icon matSuffix>Eliminar opción</mat-icon>
+                            </button>
+
+                          </mat-cell>
+                        </ng-container>
+
+                        <!-- header titles -->
+
+                        <mat-header-row *matHeaderRowDef="displayedColumnsOpcionesPregunta"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumnsOpcionesPregunta;"></mat-row>
+                      </ng-container>
+                    </mat-table>
+
+                    <div class="button">
+                      <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
+                        type="button">Agregar Opción</button>
+                    </div>
+                    <br>
+
+                    <!-- </form> -->
+                  </div>
+
+                  <div *ngIf="tipo_pregunta=='evaluacion'">
+
+                  </div>
+
+
+                  <button mat-raised-button [ngStyle]="{'background-color': '#4e73df', 'color': 'white'}"
+                    class="btn-save" type="submit">Agregar Pregunta</button>
+
+
+                </form>
+              </form>
+              <div class="row mt-5 mb-3 align-items-end">
+                <div class="col-4"></div>
+                <button class="btn btn-primary btn-user btn-block btn-md col-2" style="margin-right: 20px;">
+                  Volver
+                </button>
+                <button class="btn btn-primary btn-user btn-block btn-md col-2"
+                  (click)="avanzarDesdePreguntasSupervisor()">
+                  Siguiente
+                </button>
+                <div class="col-4"></div>
+              </div>
+            </div>
+          </div><!-- Fin tarjeta inicial-->
+
+          <!-------------------------------------------------- CONFIGURACION  FINAL -------------------------------------------------------------->
+          <div class="card shadow" *ngIf="estado == 'fin_configuracion'" id="fin">
+            <div class="card-body">
+              <div class="h4 mb-3 font-weight-bold text-gray-800 text-center">
+                Fin configuración práctica
+              </div>
+              <!-- PEGAR AQUI -->
+              <div class="row mt-5 mb-3 align-items-end">
+                <div class="col-4"></div>
+                <button class="btn btn-primary btn-user btn-block btn-md col-2" style="margin-right: 20px;">
+                  Volver
+                </button>
+                <button class="btn btn-primary btn-user btn-block btn-md col-2"
+                  *ngIf="currentRoute == '/configurar/blanco'">
+                  Terminar
+                </button>
+                <button data-toggle="modal" data-target="#migrarModal"
+                  class="btn btn-primary btn-user btn-block btn-md col-2" *ngIf="currentRoute != '/configurar/blanco'">
+                  Terminar
+                </button>
+                <div class="col-4"></div>
+              </div>
+            </div>
+          </div><!-- Fin tarjeta inicial-->
         </div>
       </div>
     </div>
-    <!-- End of Content Wrapper -->
+  </div>
+  <!-- End of Content Wrapper -->
 </div>
 <!-- End of Page Wrapper -->
