@@ -17,22 +17,27 @@
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-                <div class="h3 mb-4 text-gray-800">Aptitudes</div>
-                <p class="mb-4">Aqui se ve una lista de aptitudes asociadas a cada estudiante en conjunto con el rango de evaluacion de cada aptitud</p>
+                <div class="h3 mb-4 text-gray-800">Competencias</div>
+                <p class="mb-4">Aqui se ve una lista de competencias asociadas a cada estudiante en conjunto con el
+                    rango de evaluacion de cada competencia</p>
 
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
                     <div class="card-body">
                         <div>
-                            Rango de evaluacion actual: <ng-template [ngIf]="!flag" [ngIfElse]="warning">{{rango}}</ng-template> <ng-template #warning>No hay un rango de evaluacion disponible</ng-template>
+                            Rango de evaluacion actual: <ng-template [ngIf]="!flag"
+                                [ngIfElse]="warning">{{rango}}</ng-template> <ng-template #warning>No hay un rango de
+                                evaluacion disponible</ng-template>
                         </div>
                         <br>
-                        <button id="myBtn" class="btn btn-primary mb-2" data-target="#rango-modal" data-toggle="modal" [disabled]="!if_aptitud">
+                        <button id="myBtn" class="btn btn-primary mb-2" data-target="#rango-modal" data-toggle="modal"
+                            [disabled]="!if_aptitud">
                             Actualizar Rango de evaluacion
                         </button>
                         <br>
-                        <button id="myBtn" class="btn btn-primary mb-2" data-target="#crear-aptitud-modal" data-toggle="modal">
-                            Agregar Aptitud
+                        <button id="myBtn" class="btn btn-primary mb-2" data-target="#crear-aptitud-modal"
+                            data-toggle="modal">
+                            Agregar Competencia
                         </button>
                         <br>
                         <div class="table-responsive">
@@ -40,7 +45,7 @@
                                 cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th style="vertical-align: bottom;">Aptitud</th>
+                                        <th style="vertical-align: bottom;">Competencia</th>
                                         <th style="vertical-align: bottom;">Acciones</th>
                                     </tr>
                                 </thead>
@@ -48,8 +53,11 @@
                                     <tr *ngFor="let aptitud of aptitudes">
                                         <td>{{aptitud.nombre}}</td>
                                         <td>
-                                            <button class="btn btn-primary" (click)="editar(aptitud.id, aptitud.nombre, aptitud.id_carrera)" data-target="#editar-aptitud-modal" data-toggle="modal">Editar</button>
-                                            <button class="btn btn-secondary ml-2" (click)="eliminar(aptitud.id)">Eliminar</button>
+                                            <button class="btn btn-primary"
+                                                (click)="editar(aptitud.id, aptitud.nombre, aptitud.id_carrera)"
+                                                data-target="#editar-aptitud-modal" data-toggle="modal">Editar</button>
+                                            <button class="btn btn-secondary ml-2"
+                                                (click)="eliminar(aptitud.id)">Eliminar</button>
                                         </td>
                                     </tr>
                                 </tbody>
