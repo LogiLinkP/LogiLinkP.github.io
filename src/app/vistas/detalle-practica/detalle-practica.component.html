@@ -248,18 +248,18 @@
                                                     *ngIf="solicitudes_documentos.length>0 || documento_extras.length>0; else noHaySolicitudes">
                                                     <thead>
                                                         <tr>
-                                                            <th>Archivo</th>
-                                                            <th>Formato</th>
-                                                            <th>Tipo Solicitud</th>
-                                                            <th>Descargar</th>
+                                                            <th class="texto">Archivo</th>
+                                                            <th class="texto">Formato</th>
+                                                            <th class="texto">Tipo Solicitud</th>
+                                                            <th class="texto">Descargar</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr *ngFor="let solicitud of solicitudes_documentos;">
-                                                            <td>{{solicitud.nombre_solicitud}}</td>
-                                                            <td>{{solicitud.tipo_archivo}}</td>
-                                                            <td>Normal</td>
-                                                            <td><button class="btn btn-primary btn-sm btn-block"
+                                                            <td class="texto">{{solicitud.nombre_solicitud}}</td>
+                                                            <td class="texto">{{solicitud.tipo_archivo}}</td>
+                                                            <td class="texto">Normal</td>
+                                                            <td class="texto"><button class="btn btn-primary btn-sm btn-block"
                                                                     *ngIf="solicitud.documentos.length != 0; else no_doc"
                                                                     (click)="descargar_documento(solicitud.documentos[0].id, doc_str)">Descargar</button>
                                                                 <ng-template #no_doc>
@@ -268,10 +268,10 @@
                                                             </td>
                                                         </tr>
                                                         <tr *ngFor="let doc_extra of documento_extras;">
-                                                            <td>{{doc_extra.nombre_solicitud}}</td>
-                                                            <td>{{doc_extra.tipo_archivo}}</td>
-                                                            <td>Extra</td>
-                                                            <td><button
+                                                            <td class="texto">{{doc_extra.nombre_solicitud}}</td>
+                                                            <td class="texto">{{doc_extra.tipo_archivo}}</td>
+                                                            <td class="texto">Extra</td>
+                                                            <td class="texto"><button
                                                                     *ngIf="doc_extra.key!=null && doc_extra.key!=''; else no_doc_extra"
                                                                     class="btn btn-primary btn-sm btn-block"
                                                                     (click)="descargar_documento(doc_extra.id, doc_extra_str)">Descargar</button>
@@ -315,18 +315,18 @@
                                                     cellspacing="0">
                                                     <thead>
                                                         <tr>
-                                                            <th>Tipo</th>
-                                                            <th>Horas Trabajadas</th>
-                                                            <th>Fecha</th>
-                                                            <th>Ver Informe</th>
+                                                            <th class="texto">Tipo</th>
+                                                            <th class="texto">Horas Trabajadas</th>
+                                                            <th class="texto">Fecha</th>
+                                                            <th class="texto">Ver Informe</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr *ngFor="let informe of informes;">
-                                                            <td>{{ informe.config_informe.tipo_informe }}</td>
-                                                            <td>{{ informe.horas_trabajadas }}</td>
-                                                            <td>{{ informe.fecha | date: 'dd/MM/yyyy' }}</td>
-                                                            <td
+                                                            <td class="texto">{{ informe.config_informe.tipo_informe }}</td>
+                                                            <td class="numero">{{ informe.horas_trabajadas }}</td>
+                                                            <td class="texto">{{ informe.fecha | date: 'dd/MM/yyyy' }}</td>
+                                                            <td class="numero" 
                                                                 *ngIf="informe.key != null && !isDataEmpty(informe.key); else informeNoRespondido">
                                                                 <a class="nostyle"
                                                                     href="/informe/{{practica.id}}/{{informe.id}}">
@@ -336,7 +336,7 @@
                                                                 </a>
                                                             </td>
                                                             <ng-template #informeNoRespondido>
-                                                                <td>
+                                                                <td class="texto">
                                                                     No subido aún
                                                                 </td>
                                                             </ng-template>
@@ -433,19 +433,19 @@
                                                     cellspacing="0">
                                                     <thead>
                                                         <tr>
-                                                            <th>Competencia</th>
-                                                            <th>Evaluación</th>
+                                                            <th class="texto">Competencia</th>
+                                                            <th class="texto">Evaluación</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr
                                                             *ngFor="let aptitud of aptitudes_practica[0]; let j = index">
-                                                            <th>{{aptitud}}</th>
-                                                            <th>{{notas_aptitudes[0][j]}}</th>
+                                                            <th class="texto">{{aptitud}}</th>
+                                                            <th class="numero">{{notas_aptitudes[0][j]}}</th>
                                                         </tr>
                                                         <tr>
-                                                            <th>Promedio</th>
-                                                            <th>{{promedio}}</th>
+                                                            <th class="texto">Promedio</th>
+                                                            <th class="numero">{{promedio}}</th>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -479,25 +479,25 @@
                                                     <thead>
                                                         <h1>Supervisor</h1>
                                                         <tr>
-                                                            <th>Enunciado</th>
-                                                            <th>Respuesta</th>
+                                                            <th class="texto">Enunciado</th>
+                                                            <th class="texto">Respuesta</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr
                                                             *ngIf="!respuestas_sup_parsed || respuestas_sup_parsed.length<1; else sin_respuestas_abiertas">
-                                                            <td colspan="2" class="text-center">El supervisor no ha
+                                                            <td colspan="2" class="texto">El supervisor no ha
                                                                 hecho comentarios sobre esta práctica.</td>
                                                         </tr>
                                                         <ng-template #sin_respuestas_abiertas>
                                                             <tr *ngFor="let resp of respuestas_sup_parsed;">
-                                                                <td style="vertical-align: middle;">{{resp[1]}}</td>
-                                                                <td *ngIf="resp[0];else textoSolo"
+                                                                <td class="texto" style="vertical-align: middle;">{{resp[1]}}</td>
+                                                                <td class="texto" *ngIf="resp[0];else textoSolo"
                                                                     style="vertical-align: middle;">
                                                                     {{resp[2]}}
                                                                 </td>
                                                                 <ng-template #textoSolo style="vertical-align: middle;">
-                                                                    <td style="vertical-align: middle;">
+                                                                    <td class="texto" style="vertical-align: middle;">
                                                                         {{resp[2][0]}}
                                                                         <span class="bg-gradient-success"
                                                                             style="vertical-align: middle;">
@@ -516,15 +516,15 @@
                                                     width="100%" cellspacing="0">
                                                     <p></p>
                                                     <thead>
-                                                        <h1>Encargado</h1>
+                                                        <h1 class="texto">Encargado</h1>
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td class="font-weight-bold">Evaluación</td>
-                                                            <td *ngIf="ev_encargado!=-1; else sinNota">{{ev_encargado}}
+                                                            <td class="font-weight-bold texto">Evaluación</td>
+                                                            <td class="texto" *ngIf="ev_encargado!=-1; else sinNota">{{ev_encargado}}
                                                             </td>
                                                             <ng-template #sinNota>
-                                                                <td>Alumno aún no evaluado</td>
+                                                                <td class="texto">Alumno aún no evaluado</td>
                                                             </ng-template>
                                                         </tr>
                                                     </tbody>

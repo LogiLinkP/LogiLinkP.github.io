@@ -31,8 +31,9 @@
 
                                 <!-- NOMBRE -->
                                 <div class="col-sm-6 mb-3 mb-sm-0">
+                                    Nombre: 
                                     <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                        placeholder="Nombre" formControlName="nombre" name="nombre">
+                                        placeholder="Juan Alberto" formControlName="nombre" name="nombre">
                                     <div *ngIf="registroForm.controls['nombre'].invalid && (registroForm.controls['nombre'].dirty || registroForm.controls['nombre'].touched)"
                                         class="alert alert-danger">
                                         <div *ngIf="registroForm.controls['nombre'].errors?.['required']">
@@ -46,15 +47,17 @@
                                 <!-- NOMBRE -->
 
                                 <div class="col-sm-6">
+                                    Apellido:
                                     <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                        placeholder="Apellidos" formControlName="apellido">
+                                        placeholder="Diaz Maturana" formControlName="apellido">
                                 </div>
                             </div>
 
                             <!-- EMAIL -->
                             <div class="form-group">
+                                Correo
                                 <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                    placeholder="Correo Electrónico" formControlName="email" name="email">
+                                    placeholder="alias@dominio.com" formControlName="email" name="email">
                                 <div *ngIf="registroForm.controls['email'].invalid && (registroForm.controls['email'].dirty || registroForm.controls['email'].touched)"
                                     class="alert alert-danger">
                                     <p *ngIf="registroForm.controls['email'].errors?.['required']">
@@ -66,8 +69,9 @@
 
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
+                                    Contraseña:
                                     <input type="password" class="form-control form-control-user"
-                                        id="exampleInputPassword" placeholder="Contraseña" formControlName="password"
+                                        id="exampleInputPassword" placeholder="**********" formControlName="password"
                                         name="password">
                                     <div *ngIf="registroForm.controls['password'].invalid && (registroForm.controls['password'].dirty || registroForm.controls['password'].touched)"
                                         class="alert alert-danger">
@@ -77,8 +81,9 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
+                                    Repetir contraseña:
                                     <input type="password" class="form-control form-control-user"
-                                        id="exampleRepeatPassword" placeholder="Repetir Contraseña"
+                                        id="exampleRepeatPassword" placeholder="**********"
                                         formControlName="confirmPassword" name="password">
                                 </div>
                             </div>
