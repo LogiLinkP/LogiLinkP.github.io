@@ -316,7 +316,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th class="texto">Tipo</th>
-                                                            <th class="texto">Horas Trabajadas</th>
+                                                            <th class="numero">Horas Trabajadas</th>
                                                             <th class="texto">Fecha</th>
                                                             <th class="texto">Ver Informe</th>
                                                         </tr>
@@ -326,7 +326,7 @@
                                                             <td class="texto">{{ informe.config_informe.tipo_informe }}</td>
                                                             <td class="numero">{{ informe.horas_trabajadas }}</td>
                                                             <td class="texto">{{ informe.fecha | date: 'dd/MM/yyyy' }}</td>
-                                                            <td class="numero" 
+                                                            <td class="texto" 
                                                                 *ngIf="informe.key != null && !isDataEmpty(informe.key); else informeNoRespondido">
                                                                 <a class="nostyle"
                                                                     href="/informe/{{practica.id}}/{{informe.id}}">
@@ -434,7 +434,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th class="texto">Competencia</th>
-                                                            <th class="texto">Evaluación</th>
+                                                            <th class="numero">Evaluación</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
