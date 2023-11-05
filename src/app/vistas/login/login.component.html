@@ -34,9 +34,10 @@
                                     </div>
                                     <form class="user" [formGroup]="loginForm">
                                         <div class="form-group">
+                                            Ingresar correo:
                                             <input type="email" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Ingresar correo..." formControlName="email" name="email">
+                                                placeholder="alias@dominio.com" formControlName="email" name="email">
                                             <div *ngIf="loginForm.controls['email'].invalid && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)" 
                                                 class="alert alert-danger">
                                                 <p *ngIf="loginForm.controls['email'].errors?.['required']">
@@ -45,8 +46,9 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            Ingresar contraseña:
                                             <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Ingresar contraseña..."
+                                                id="exampleInputPassword" placeholder="**********"
                                                 name="password" formControlName="password">
                                             <div *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)" 
                                                 class="alert alert-danger">

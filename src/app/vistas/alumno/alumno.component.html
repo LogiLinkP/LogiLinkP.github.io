@@ -422,11 +422,11 @@
                                                                                                 cellspacing="0">
                                                                                                 <thead>
                                                                                                     <tr>
-                                                                                                        <th
+                                                                                                        <th class="texto"
                                                                                                             style="vertical-align: bottom;">
                                                                                                             Pregunta
                                                                                                         </th>
-                                                                                                        <th
+                                                                                                        <th class="texto"
                                                                                                             style="vertical-align: bottom;">
                                                                                                             Respuesta
                                                                                                         </th>
@@ -436,9 +436,9 @@
                                                                                                     *ngIf="resenas_supervisor.hasOwnProperty(this.practica[1].id)">
                                                                                                     <tr
                                                                                                         *ngFor="let comentario of resenas_supervisor[practica[1].id]">
-                                                                                                        <td>{{comentario.pregunta}}
+                                                                                                        <td class="texto">{{comentario.pregunta}}
                                                                                                         </td>
-                                                                                                        <td>{{comentario.respuesta}}
+                                                                                                        <td class="texto">{{comentario.respuesta}}
                                                                                                         </td>
                                                                                                     </tr>
                                                                                                 </tbody>
