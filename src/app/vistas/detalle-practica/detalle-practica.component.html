@@ -259,7 +259,8 @@
                                                             <td class="texto">{{solicitud.nombre_solicitud}}</td>
                                                             <td class="texto">{{solicitud.tipo_archivo}}</td>
                                                             <td class="texto">Normal</td>
-                                                            <td class="texto"><button class="btn btn-primary btn-sm btn-block"
+                                                            <td class="texto"><button
+                                                                    class="btn btn-primary btn-sm btn-block"
                                                                     *ngIf="solicitud.documentos.length != 0; else no_doc"
                                                                     (click)="descargar_documento(solicitud.documentos[0].id, doc_str)">Descargar</button>
                                                                 <ng-template #no_doc>
@@ -323,10 +324,12 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr *ngFor="let informe of informes;">
-                                                            <td class="texto">{{ informe.config_informe.tipo_informe }}</td>
+                                                            <td class="texto">{{ informe.config_informe.tipo_informe }}
+                                                            </td>
                                                             <td class="numero">{{ informe.horas_trabajadas }}</td>
-                                                            <td class="texto">{{ informe.fecha | date: 'dd/MM/yyyy' }}</td>
-                                                            <td class="texto" 
+                                                            <td class="texto">{{ informe.fecha | date: 'dd/MM/yyyy' }}
+                                                            </td>
+                                                            <td class="texto"
                                                                 *ngIf="informe.key != null && !isDataEmpty(informe.key); else informeNoRespondido">
                                                                 <a class="nostyle"
                                                                     href="/informe/{{practica.id}}/{{informe.id}}">
@@ -491,7 +494,8 @@
                                                         </tr>
                                                         <ng-template #sin_respuestas_abiertas>
                                                             <tr *ngFor="let resp of respuestas_sup_parsed;">
-                                                                <td class="texto" style="vertical-align: middle;">{{resp[1]}}</td>
+                                                                <td class="texto" style="vertical-align: middle;">
+                                                                    {{resp[1]}}</td>
                                                                 <td class="texto" *ngIf="resp[0];else textoSolo"
                                                                     style="vertical-align: middle;">
                                                                     {{resp[2]}}
@@ -521,7 +525,8 @@
                                                     <tbody>
                                                         <tr>
                                                             <td class="font-weight-bold texto">Evaluación</td>
-                                                            <td class="texto" *ngIf="ev_encargado!=-1; else sinNota">{{ev_encargado}}
+                                                            <td class="texto" *ngIf="ev_encargado!=-1; else sinNota">
+                                                                {{ev_encargado}}
                                                             </td>
                                                             <ng-template #sinNota>
                                                                 <td class="texto">Alumno aún no evaluado</td>

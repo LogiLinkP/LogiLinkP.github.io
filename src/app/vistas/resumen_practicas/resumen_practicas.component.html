@@ -22,17 +22,25 @@
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
                     <div class="card-body">
-                        <div class="table-responsive table-hover" >
+                        <div class="table-responsive table-hover">
                             <table class="table table-striped table-bordered table-hover" id="dataTable" width="100%"
                                 cellspacing="0">
                                 <thead id="headerTabla">
                                     <tr>
-                                        <th class="texto" (click)="sort(1)" [class.asc]="sortedColumn === 1 && sortOrder === -1" [class.desc]="sortedColumn === 1 && sortOrder === 1">Nombre Estudiante</th>
-                                        <th class="texto" (click)="sort(2)" [class.asc]="sortedColumn === 2 && sortOrder === -1" [class.desc]="sortedColumn === 2 && sortOrder === 1">Rut</th>
-                                        <th class="texto" (click)="sort(3)" [class.asc]="sortedColumn === 3 && sortOrder === -1" [class.desc]="sortedColumn === 3 && sortOrder === 1">Tipo Práctica</th>
-                                        <th class="texto" (click)="sort(4)" [class.asc]="sortedColumn === 4 && sortOrder === -1" [class.desc]="sortedColumn === 4 && sortOrder === 1">Estado</th>
+                                        <th class="texto" (click)="sort(1)"
+                                            [class.asc]="sortedColumn === 1 && sortOrder === -1"
+                                            [class.desc]="sortedColumn === 1 && sortOrder === 1">Nombre Estudiante</th>
+                                        <th class="texto" (click)="sort(2)"
+                                            [class.asc]="sortedColumn === 2 && sortOrder === -1"
+                                            [class.desc]="sortedColumn === 2 && sortOrder === 1">Rut</th>
+                                        <th class="texto" (click)="sort(3)"
+                                            [class.asc]="sortedColumn === 3 && sortOrder === -1"
+                                            [class.desc]="sortedColumn === 3 && sortOrder === 1">Tipo Práctica</th>
+                                        <th class="texto" (click)="sort(4)"
+                                            [class.asc]="sortedColumn === 4 && sortOrder === -1"
+                                            [class.desc]="sortedColumn === 4 && sortOrder === 1">Estado</th>
                                         <th class="exclude-hover numero">Nota Supervisor
-                                            <a class ="pointer" title="{{texto_promedio_evaluacion}}"
+                                            <a class="pointer" title="{{texto_promedio_evaluacion}}"
                                                 data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
                                                     class="fas fa-info-circle"></i></a>
                                         </th>
@@ -41,30 +49,41 @@
                                                 data-toggle="tooltip" data-placement="bottom" (click)="redirecting()"><i
                                                     class="fas fa-info-circle"></i></a>
                                         </th>
-                                        <th class="exclude-hover texto" style="vertical-align: bottom">Aprobación</th>                                        
-                                    </tr>                            
+                                        <th class="exclude-hover retraso" style="vertical-align: bottom">Aprobación</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                     <tr id="cuerpoTabla" class="pointer" *ngFor="let practica of practicas">
-                                        <td class="texto" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}">{{practica?.estudiante?.usuario?.nombre}}</td>
-                                        <td class="texto" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}">{{practica?.estudiante?.rut}}</td>
+                                        <td class="texto" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}">
+                                            {{practica?.estudiante?.usuario?.nombre}}</td>
+                                        <td class="texto" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}">
+                                            {{practica?.estudiante?.rut}}</td>
                                         <td class="texto" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}">
                                             {{practica?.modalidad?.config_practica?.nombre}}</td>
-                                        <td class="font-weight-bold texto" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}" [ngClass]="getEstadoClass(practica.estado)">
-                                            {{ practica?.estado === 'Evaluada' ? 'Evaluada por supervisor' : practica?.estado === 'Finalizada' ? 'Esperando evaluación de supervisor' : practica?.estado }}</td>
-                                        <td class="numero" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"><!--Check if notas_promedio[practica.id] is a number-->
+                                        <td class="font-weight-bold texto"
+                                            routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}"
+                                            [ngClass]="getEstadoClass(practica.estado)">
+                                            {{ practica?.estado === 'Evaluada' ? 'Evaluada por supervisor' :
+                                            practica?.estado === 'Finalizada' ? 'Esperando evaluación de supervisor' :
+                                            practica?.estado }}</td>
+                                        <td class="numero" routerLink="/{{rutas.ruta_practicas}}/{{practica.id}}">
+                                            <!--Check if notas_promedio[practica.id] is a number-->
                                             <div *ngIf="isNumber(notas_promedio[practica.id])">
                                                 {{notas_promedio[practica.id] | number: '1.2-2' }}
                                             </div>
                                         </td>
                                         <td class="numero">
                                             <div *ngIf="editables[practica.id]=='0'; else editable">
-                                                <div *ngIf="isNumber(ev_values[practica.id])"><!-- format the number so that it has 2 decimal places-->
+                                                <div *ngIf="isNumber(ev_values[practica.id])">
+                                                    <!-- format the number so that it has 2 decimal places-->
                                                     {{ ev_values[practica.id] | number: '1.2' }}
                                                 </div>
-                                                <button *ngIf="!isNumber(ev_values[practica.id]); else yaEvaluado" class="btn btn-sm btn-primary btn-user" (click)="editar(practica.id)">Evaluar</button>
+                                                <button *ngIf="!isNumber(ev_values[practica.id]); else yaEvaluado"
+                                                    class="btn btn-sm btn-primary btn-user"
+                                                    (click)="editar(practica.id)">Evaluar</button>
                                                 <ng-template #yaEvaluado>
-                                                    <button class="btn btn-sm btn-secondary btn-user"  (click)="editar(practica.id)">Cambiar</button>
+                                                    <button class="btn btn-sm btn-secondary btn-user"
+                                                        (click)="editar(practica.id)">Cambiar</button>
                                                 </ng-template>
                                             </div>
                                             <ng-template #editable>
@@ -76,36 +95,34 @@
                                                     <option value=4>4</option>
                                                     <option value=5>5</option>
                                                 </select>
-                                                <button class="btn btn-sm btn-primary btn-user btn-block" (click)="evaluacion_encargado(practica.id)">Confirmar</button>
+                                                <button class="btn btn-sm btn-primary btn-user btn-block"
+                                                    (click)="evaluacion_encargado(practica.id)">Confirmar</button>
                                             </ng-template>
                                         </td>
-                                        <td class="texto" [ngSwitch]="practica.estado">
+                                        <td class="retraso" [ngSwitch]="practica.estado">
                                             <app-revision *ngSwitchCase="'Evaluada'"
                                                 [id_estudiante]="practica.id_estudiante"
                                                 [id_modalidad]="practica.modalidad.id"
                                                 [id_usuario_estudiante]="practica.estudiante.id_usuario"
-                                                [estado_practica]="practica.estado"
-                                            >
+                                                [estado_practica]="practica.estado">
                                             </app-revision>
                                             <app-revision *ngSwitchCase="'Aprobada'"
                                                 [id_estudiante]="practica.id_estudiante"
                                                 [id_modalidad]="practica.modalidad.id"
                                                 [id_usuario_estudiante]="practica.estudiante.id_usuario"
-                                                [estado_practica]="practica.estado"
-                                            >
+                                                [estado_practica]="practica.estado">
                                             </app-revision>
                                             <app-revision *ngSwitchCase="'Reprobada'"
                                                 [id_estudiante]="practica.id_estudiante"
                                                 [id_modalidad]="practica.modalidad.id"
                                                 [id_usuario_estudiante]="practica.estudiante.id_usuario"
-                                                [estado_practica]="practica.estado"
-                                            >
+                                                [estado_practica]="practica.estado">
                                             </app-revision>
                                             <div *ngSwitchDefault>No disponible</div>
                                         </td>
                                     </tr>
                                 </tbody>
-                                
+
                             </table>
                         </div>
                     </div>
