@@ -57,9 +57,9 @@ export class InformeComponent {
               return [
                 pregunta.enunciado,
                 [
-                  res_splitted.slice(0, frag[0]).join(" "),
-                  res_splitted.slice(frag[0], frag[1] + 1).join(" "),
-                  res_splitted.slice(frag[1] + 1, res_splitted.length).join(" ")
+                  res_splitted.slice(0, frag[0]).join(" ").trim(),
+                  res_splitted.slice(frag[0], frag[1] + 1).join(" ").trim(),
+                  res_splitted.slice(frag[1] + 1, res_splitted.length).join(" ").trim()
                 ]
               ];
             });

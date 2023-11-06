@@ -42,8 +42,8 @@ export class DetallePracticaComponent implements OnInit {
   documento_extras: any = [];
   informes: any = [];
   informe_final: any = {};
-  link_descarga_plantilla:string = "";
-  link_descarga_informe:string = "";
+  link_descarga_plantilla: string = "";
+  link_descarga_informe: string = "";
   evaluaciones: any = [];
   respuestas_supervisor: any = {};
   data_supervisor_rdy: boolean = false;
@@ -239,13 +239,13 @@ export class DetallePracticaComponent implements OnInit {
             }
           }
 
-          
-          if(this.practica.informes.length > 0){           
+
+          if (this.practica.informes.length > 0) {
 
             // buscar si hay algun informe que haya sido respondido (su key es un objeto no vacío), obtener su indice dentro del arreglo
             let indice_informe_respondido = -1;
             for (let i = 0; i < this.practica.informes.length; i++) {
-              if(this.practica.informes[i].key == null) continue;
+              if (this.practica.informes[i].key == null) continue;
               if (Object.keys(this.practica.informes[i].key).length > 0) {
                 indice_informe_respondido = i;
                 break;
@@ -317,9 +317,9 @@ export class DetallePracticaComponent implements OnInit {
                   }
                 });
               }
-              
-            }            
-          //console.log(preguntas_informe)
+
+            }
+            //console.log(preguntas_informe)
           }
 
         }
@@ -351,9 +351,9 @@ export class DetallePracticaComponent implements OnInit {
               false,
               resp.pregunta_supervisor.enunciado,
               [
-                palabras.slice(0, this.fragmentos_sup[resp.id][0].fragmento[0]).join(" "),
-                palabras.slice(this.fragmentos_sup[resp.id][0].fragmento[0], this.fragmentos_sup[resp.id][0].fragmento[1] + 1).join(" "),
-                palabras.slice(this.fragmentos_sup[resp.id][0].fragmento[1] + 1, palabras.length).join(" ")
+                palabras.slice(0, this.fragmentos_sup[resp.id][0].fragmento[0]).join(" ").trim(),
+                palabras.slice(this.fragmentos_sup[resp.id][0].fragmento[0], this.fragmentos_sup[resp.id][0].fragmento[1] + 1).join(" ").trim(),
+                palabras.slice(this.fragmentos_sup[resp.id][0].fragmento[1] + 1, palabras.length).join(" ").trim()
               ]
             ]
           }

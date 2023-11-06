@@ -24,10 +24,15 @@ a.nostyle:visited {
     cursor: auto;
 }
 
-.texto{
+.texto {
     text-align: left;
 }
 
-.numero{
+.numero {
     text-align: right;
+}
+
+.destacar {
+    background-color: #EBD539;
+    display: inline-block;
 }
