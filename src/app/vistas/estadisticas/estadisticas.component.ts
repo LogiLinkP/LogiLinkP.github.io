@@ -710,6 +710,11 @@ export class EstadisticasComponent {
     }
   }
 
+  numero_separador_miles(numero: number){
+    console.log("numero: ", numero);
+    return numero.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, nombre_empresa: string): void {
     /*
     for (let i = 0; i < this.empresas.length; i++){

@@ -13,17 +13,19 @@ thead th:not(.exclude-hover):hover {
     cursor: pointer;
 }
 
-tbody{
+tbody {
     max-height: calc(100vh - 350px);
     display: block;
     overflow-y: auto;
 }
 
 
-thead, tbody tr {
+thead,
+tbody tr {
     display: table;
     width: 100%;
-    table-layout: fixed;/* even columns width , fix width of table too*/
+    table-layout: fixed;
+    /* even columns width , fix width of table too*/
 }
 
 tbody tr td {
@@ -42,10 +44,24 @@ tbody tr td {
 
 /* Ascending arrow style */
 .asc:after {
-    content: ' ▲'; /* Up arrow */
-  }
-  
-  /* Descending arrow style */
-  .desc:after {
-    content: ' ▼'; /* Down arrow */
-  }
+    content: ' ▲';
+    /* Up arrow */
+}
+
+/* Descending arrow style */
+.desc:after {
+    content: ' ▼';
+    /* Down arrow */
+}
+
+.texto {
+    text-align: left;
+}
+
+.retraso {
+    text-align: center;
+}
+
+.numero {
+    text-align: right;
+}

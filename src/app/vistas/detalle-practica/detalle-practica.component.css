@@ -23,3 +23,16 @@ a.nostyle:visited {
     color: inherit;
     cursor: auto;
 }
+
+.texto {
+    text-align: left;
+}
+
+.numero {
+    text-align: right;
+}
+
+.destacar {
+    background-color: #EBD539;
+    display: inline-block;
+}

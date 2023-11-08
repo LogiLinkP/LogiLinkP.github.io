@@ -1,20 +1,19 @@
-<h1 style="text-align: center;" mat-dialog-title>Evaluación aptitudes {{data.nombre_empresa}}</h1>
+<h1 style="text-align: center;" mat-dialog-title>Evaluación competencias {{data.nombre_empresa}}</h1>
 <div mat-dialog-content>
 
     <div class="table-responsive">
-        <table class="table table-bordered hover" id="dataTable"
-            width="100%" cellspacing="0">
+        <table class="table table-bordered hover" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr>
-                    <th>Aptitud</th>
-                    <th>Promedio evaluación</th>
+                    <th style="text-align: left;">Competencia</th>
+                    <th style="text-align: right;">Promedio evaluación</th>
                 </tr>
             </thead>
             <tbody>
                 <tr
                     *ngFor="let aptitud of data.aptitudes; let j = index">
-                    <th>{{aptitud}}</th>
-                    <th>{{data.promedio_aptitudes[j]}}</th>
+                    <th style="text-align: left;">{{aptitud}}</th>
+                    <th style="text-align: right;">{{data.promedio_aptitudes[j]}}</th>
                 </tr>
             </tbody>
         </table>

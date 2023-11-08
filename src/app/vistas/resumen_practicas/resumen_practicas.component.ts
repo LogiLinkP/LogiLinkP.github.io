@@ -57,9 +57,9 @@ export class TablaComponent {
   texto_indice_repeticion: string = "Es un valor que indica qué tanto contenido de los informes es texto repetido\n" +
     "Para más información, haga click en el botón.";
 
-  texto_evaluacion_encargado:string = "Valor numérico del 1 al 5 (De peor a mejor), que le da un encargado como evaluación a una práctica."
+  texto_evaluacion_encargado:string = "Valor numérico del 1 al 5 (de peor a mejor), que le da un encargado como evaluación a una práctica."
 
-  texto_promedio_evaluacion: string = "Valor numérico del 1 al 5 (De peor a mejor), que indica en promedio las aptitudes del estudiante evaluadas por el supervisor";
+  texto_promedio_evaluacion: string = "Valor numérico que indica el promedio las aptitudes del estudiante evaluadas por el supervisor";
 
   
   constructor(private service: GetDetallesAlumnoService, private _snackBar: MatSnackBar,

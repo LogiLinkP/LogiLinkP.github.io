@@ -45,7 +45,7 @@
                                         <td>{{encargado.usuario?.correo}}</td>
                                         <td>
                                             <button class="btn btn-primary" (click)="editar(encargado.id,encargado.carrera?.nombre,encargado.carrera?.id)" data-target="#editar-encargado-modal" data-toggle="modal">Editar</button>
-                                            <button class="btn btn-danger ml-2" (click)="eliminar(encargado.id,encargado.carrera?.id)">Eliminar</button>
+                                            <button class="btn btn-secondary ml-2" (click)="eliminar(encargado.id,encargado.carrera?.id)">Eliminar</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -81,7 +81,7 @@
                                         <td>{{carrera.correo}}</td>
                                         <td>
                                             <button class="btn btn-primary" (click)="editar_carrera(carrera.id,carrera.nombre,carrera.correo)" data-target="#editar-carrera-modal" data-toggle="modal">Editar</button>
-                                            <button class="btn btn-danger ml-2" (click)="eliminar_carrera(carrera.id)">Eliminar</button>
+                                            <button class="btn btn-secondary ml-2" (click)="eliminar_carrera(carrera.id)">Eliminar</button>
                                         </td>
                                     </tr>
                                 </tbody>

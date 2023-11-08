@@ -80,8 +80,9 @@
                                                         {{modalidad.tipo_modalidad}}
                                                     </p>
                                                 </div>
-                                                <div class="card-footer" >
-                                                    <span class="btn btn-primary disabled-button" matTooltip="{{string_bloqueo}}">Editar</span>
+                                                <div class="card-footer">
+                                                    <span class="btn btn-primary disabled-button"
+                                                        matTooltip="{{string_bloqueo}}">Editar</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -95,7 +96,8 @@
                                                     </h4>
                                                 </div>
                                                 <div class="card-body">
-                                                    <div *ngIf="config_informe.archivo_o_encuesta!= null && (config_informe?.archivo_o_encuesta).toLowerCase()=='archivo'">
+                                                    <div
+                                                        *ngIf="config_informe.archivo_o_encuesta!= null && (config_informe?.archivo_o_encuesta).toLowerCase()=='archivo'">
                                                         <div>
                                                             <p>Formatos aceptados: </p>
                                                             <input type="checkbox" disabled
@@ -103,10 +105,11 @@
                                                             pdf
                                                             <input type="checkbox" disabled
                                                                 [checked]="config_informe.tipo_archivo.includes('doc')">
-                                                            word                                                            
+                                                            word
                                                         </div>
 
-                                                        <div class="mt-2" *ngIf="config_informe.plantilla != null && config_informe.plantilla != ''">
+                                                        <div class="mt-2"
+                                                            *ngIf="config_informe.plantilla != null && config_informe.plantilla != ''">
                                                             <button type="button" class="btn btn-primary btn-md mb-2">
                                                                 <a [href]="'https://d2v9ocre132gvc.cloudfront.net/'+config_informe.plantilla"
                                                                     target="_blank" style="color:white">Ver plantilla
@@ -114,7 +117,8 @@
                                                             </button>
                                                         </div>
                                                     </div>
-                                                    <p *ngFor="let pregunta of config_informe.pregunta_informes; let k = index">
+                                                    <p
+                                                        *ngFor="let pregunta of config_informe.pregunta_informes; let k = index">
                                                         {{k+1}}. {{pregunta.enunciado}}
                                                     </p>
                                                 </div>
@@ -389,7 +393,8 @@
                                             </div>
                                         </div>
                                         <!-- sub tarjetas informes con for-->
-                                        <div class="card-body col-6" *ngFor="let config_informe of practica_default.config_informes; let j = index">
+                                        <div class="card-body col-6"
+                                            *ngFor="let config_informe of practica_default.config_informes; let j = index">
                                             <div class="card shadow mb-4"
                                                 *ngIf="(config_informe.tipo_informe=='Informe avance' && crearForm.value.frecuencia_informes!='sinAvance')
                                                         || (config_informe.tipo_informe=='Informe final' && crearForm.value.informe_final=='si')">
@@ -440,8 +445,8 @@
                                                         {{j+1}}. {{ pregunta.enunciado }} [{{ pregunta.tipo_respuesta
                                                         }}]
                                                     </p>
-                                                    <p>(Se pedirá también evaluar las aptitudes configuradas en la
-                                                        sección de aptitudes)</p>
+                                                    <p>(Se pedirá también evaluar las competencias configuradas en la
+                                                        sección de competencias)</p>
                                                 </div>
                                                 <div class="card-footer">
                                                     <span class="btn btn-primary disabled-button"
