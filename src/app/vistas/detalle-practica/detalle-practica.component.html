@@ -313,7 +313,7 @@
                                                             <th class="texto">Ver Informe</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
+                                                    <tbody style="overflow: hidden;">
                                                         <tr *ngFor="let informe of informes;">
                                                             <td class="texto">{{ informe.fecha | date: 'dd/MM/yyyy' }}
                                                             </td>
