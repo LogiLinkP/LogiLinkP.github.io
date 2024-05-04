@@ -25,7 +25,7 @@
     "@angular/router": "^16.1.1",
     "@ng-bootstrap/ng-bootstrap": "^15.0.1",
     "@popperjs/core": "^2.11.6",
-    "@schematics/angular": "^9.1.15",
+    "@schematics/angular": "^17.3.6",
     "@syncfusion/ej2-base": "^23.1.41",
     "@types/pdfmake": "^0.2.2",
     "angular-datatables": "^15.0.1",
