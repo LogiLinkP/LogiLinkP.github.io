@@ -80,7 +80,7 @@
                                     Dominio:
                                     <select class="form-select" name="dom" id="dom" formControlName="dom">
                                         <option value="" disabled selected>Seleccione un dominio</option>
-                                        <option *ngFor="let dominio of dominios" value="{{dominio}}">@{{dominio}}</option>
+                                        <option *ngFor="let dominio of dominios" value="{{dominio}}">&#64;{{dominio}}</option>
                                     </select>
                                     <div *ngIf="registroForm.controls['dom'].invalid && (registroForm.controls['dom'].dirty || registroForm.controls['dom'].touched)"
                                         class="alert alert-danger">
