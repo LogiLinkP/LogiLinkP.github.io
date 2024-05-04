@@ -46,7 +46,7 @@
     "sass": "^1.64.2",
     "shepherd.js": "^11.2.0",
     "socket.io": "^4.7.2",
-    "stream-chat-angular": "^4.32.1",
+    "stream-chat-angular": "^4.66.4",
     "zone.js": "~0.14.5"
   },
   "devDependencies": {
