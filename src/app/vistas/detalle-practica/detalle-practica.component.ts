@@ -11,7 +11,7 @@ import { FragmentosService } from '../../servicios/fragmentos/fragmentos.service
 import { ResumenService } from 'src/app/servicios/resumen/resumen.service';
 import { InformeService } from 'src/app/servicios/informe/informe.service';
 import jsPDF from 'jspdf';
-import htmlToPdfmake from 'html-to-pdfmake';
+// import htmlToPdfmake from 'html-to-pdfmake';
 import e from 'express';
 import { NotificacionesService } from 'src/app/servicios/notificaciones/notificaciones.service';
 import { PlagioService } from "../../servicios/plagio/plagio.service";
