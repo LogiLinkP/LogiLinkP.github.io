@@ -44,6 +44,7 @@ import { VistaConfigsPracticaComponent } from './vistas/vista-configs-practica/v
 import { PlagiosComponent } from "./vistas/plagios/plagios.component"
 
 import { DocumentacionComponent } from './vistas/documentacion/documentacion.component';
+import { PasswordRecoveryComponent } from './vistas/password-recovery/password-recovery.component';
 
 
 const routes: Routes = [
@@ -72,6 +73,7 @@ const routes: Routes = [
   { path: environment.ruta_login, component: LoginComponent, data: { title: 'Login' } },
   { path: 'blank', component: BlankComponent },
   { path: 'resetPass', component: ForgotPasswordComponent },
+  { path: 'password_recovery/:n', component: PasswordRecoveryComponent},
   { path: 'estadisticas', component: EstadisticasComponent },
   { path: 'documentacion', component: DocumentacionComponent},
   { 

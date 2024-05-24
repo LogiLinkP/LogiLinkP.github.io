@@ -38,4 +38,14 @@ export class UsuarioService {
     return this.http.request(req);
   }
 
+  send_mail(mail:string) {
+    const req = new HttpRequest('GET', `${environment.url_back}/usuario/sendmail`, {mail});
+    return this.http.request(req);
+  }
+
+  change_password(id:number, pass:string){
+    const req = new HttpRequest('PUT', `${environment.url_back}/usuario/change_password`, {id, pass});
+    return this.http.request(req);
+  }
+
 }

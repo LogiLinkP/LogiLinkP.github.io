@@ -95,7 +95,7 @@ import { ConfirmarInicioPracticaComponent } from './vistas/confirmar-inicio-prac
 import { ConfirmacionUsuarioComponent } from './vistas/confirmacion-usuario/confirmacion-usuario.component';
 import { SubirArchivoInformeFinalComponent } from './componentes/subir-archivo-informe-final/subir-archivo-informe-final.component';
 import { EditarArchivoEncargadoComponent } from './componentes/editar-archivo-encargado/editar-archivo-encargado.component';
-import { AgregarDominioModalComponent } from "./componentes/agregar-dominio-modal/agregar-dominio-modal.component"
+import { AgregarDominioModalComponent } from "./componentes/agregar-dominio-modal/agregar-dominio-modal.component";
 
 @NgModule({
   declarations: [
