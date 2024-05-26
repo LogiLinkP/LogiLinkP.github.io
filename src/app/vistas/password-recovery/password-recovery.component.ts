@@ -44,6 +44,7 @@ export class PasswordRecoveryComponent {
     let response: any = {};
     const data = this.loginForm.value;
     console.log(data);
+    console.log(this.id)
     this.password1 = data.password1
     this.password2 = data.password2
 

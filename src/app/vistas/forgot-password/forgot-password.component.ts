@@ -38,11 +38,14 @@ export class ForgotPasswordComponent {
         response = { ...response, ...data }
       },
       error: err => {
-        this._snackBar.open(err.error.message, "OK", {
+        this._snackBar.open("No hay un usuario registrado con este correo", "OK", {
           duration: 5000,
         });
       },
       complete: () => {
+        this._snackBar.open("Correo enviado con éxito", "Aceptar", {
+          duration: 5000,
+        });
         this.router.navigate(["/login"])
       }
     })
