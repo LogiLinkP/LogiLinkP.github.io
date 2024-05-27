@@ -6,8 +6,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-password-recovery',
-  standalone: true,
-  imports: [],
   templateUrl: './password-recovery.component.html',
   styleUrl: './password-recovery.component.scss'
 })
@@ -37,18 +35,18 @@ export class PasswordRecoveryComponent {
 
   ngOnInit(){
     const urls = this.route.snapshot.url
-    this.id = Number.parseInt(urls[-1]?.path)
+    this.route.params.subscribe(params => {this.id = +params['n'];});
   }
 
   send() {
     let response: any = {};
     const data = this.loginForm.value;
     console.log(data);
-    console.log(this.id)
+    console.log(this.id);
     this.password1 = data.password1
     this.password2 = data.password2
 
-    if (this.password1 === this.password2) {
+    if ((this.password1 === this.password2) == false)  {
       this._snackBar.open("Las contraseñas no coindiden", "OK", {
         duration: 5000,
       });
@@ -59,11 +57,14 @@ export class PasswordRecoveryComponent {
           response = { ...response, ...data }
         },
         error: err => {
-          this._snackBar.open(err.error.message, "OK", {
+          this._snackBar.open("La contraseña no puede ser la misma", "Aceptar", {
             duration: 5000,
           });
         },
         complete: () => {
+          this._snackBar.open("Contraseña cambiada con éxito", "Aceptar", {
+            duration: 5000,
+          });
           this.router.navigate(["/login"])
         }
       })

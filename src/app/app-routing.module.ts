@@ -144,5 +144,6 @@ export const routingComponents = [
   DetalleEstudianteComponent,
   EncuestaFinPracticaComponent,
   PublicacionesComponent,
-  PlagiosComponent
+  PlagiosComponent,
+  PasswordRecoveryComponent,
 ]
