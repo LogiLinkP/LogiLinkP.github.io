@@ -47,6 +47,7 @@ export class RegistroComponent implements OnInit {
         for (var val of respuesta.data.body) {
           this.carreras.push(val);
         }
+        console.log(this.carreras);
       }
     });
     let respuesta_dominios: any = {};

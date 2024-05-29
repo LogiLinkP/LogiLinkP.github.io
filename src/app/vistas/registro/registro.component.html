@@ -79,7 +79,7 @@
                                 <div class="col-sm-6">
                                     Dominio:
                                     <select class="form-select" name="dom" id="dom" formControlName="dom">
-                                        <option value="" disabled selected>Seleccione un dominio</option>
+                                        <option *ngIf="dominios.length == 0" value="" disabled selected>Dominio</option>
                                         <option *ngFor="let dominio of dominios" value="{{dominio}}">&#64;{{dominio}}</option>
                                     </select>
                                     <div *ngIf="registroForm.controls['dom'].invalid && (registroForm.controls['dom'].dirty || registroForm.controls['dom'].touched)"
@@ -122,7 +122,7 @@
                             <div class="form-group">
                                 Seleccione su Carrera:
                                 <select class="form-select" name="id_carrera" id="id_carrera" formControlName="id_carrera">
-                                    <option value="" disabled selected>Seleccione un dominio</option>
+                                    <option *ngIf="carreras.length == 0" value="" disabled selected>Carrera</option>
                                     <option *ngFor="let carrera of carreras" value="{{carrera.id}}">{{carrera.nombre}}</option>
                                 </select>
                             </div>
