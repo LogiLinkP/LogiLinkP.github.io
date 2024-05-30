@@ -57,7 +57,7 @@ export class PasswordRecoveryComponent {
           response = { ...response, ...data }
         },
         error: err => {
-          this._snackBar.open("La contraseña no puede ser la misma", "Aceptar", {
+          this._snackBar.open("La contraseña ingresada no puede ser la misma que la contraseña actual. Ingrese otra", "Aceptar", {
             duration: 5000,
           });
         },

@@ -31,7 +31,6 @@ export class ForgotPasswordComponent {
   send() {
     let response: any = {};
     const data = this.loginForm.value;
-    console.log(data);
     this.mail = data.email
     this.usuario.send_mail(this.mail).subscribe({
       next: data =>{
