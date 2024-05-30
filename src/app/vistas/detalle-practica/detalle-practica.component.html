@@ -607,9 +607,17 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
+                                                                <tr *ngIf="!practica_terminada">
+                                                                    <td>
+                                                                        El resumen estará disponible cuando la práctica
+                                                                        haya
+                                                                        sido terminada.
+                                                                    </td>
+                                                                </tr>
                                                                 <tr>
                                                                     <td *ngIf="!hay_resumen;else resumen1">
-                                                                        <button id="boton_informe" type="button"
+                                                                        <button [disabled]="!practica_terminada"
+                                                                            id="boton_informe" type="button"
                                                                             class="btn btn-primary btn-lg btn-block"
                                                                             (click)="generar_resumen()">
                                                                             Generar resumen
@@ -653,11 +661,19 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
+                                                                <tr *ngIf="!practica_terminada">
+                                                                    <td>
+                                                                        El resumen estará disponible cuando la práctica
+                                                                        haya
+                                                                        sido terminada.
+                                                                    </td>
+                                                                </tr>
                                                                 <tr>
                                                                     <td *ngIf="!hay_resumen;else resumen2">
 
 
-                                                                        <button id="boton_supervisor" type="button"
+                                                                        <button [disabled]="!practica_terminada"
+                                                                            id="boton_supervisor" type="button"
                                                                             class="btn btn-primary btn-lg btn-block"
                                                                             (click)="generar_resumen()">
                                                                             Generar resumen
