@@ -71,7 +71,6 @@ export class DetallePracticaComponent implements OnInit {
   hay_respuesta: number = -1;
   ev_encargado: any = [];
 
-  hay_plagio: boolean = false;
   activada: boolean = true;
   correo_verificado: boolean = false;
 
@@ -95,20 +94,6 @@ export class DetallePracticaComponent implements OnInit {
     this.id_practica = id_practica;
 
     if (!isNaN(id_practica)) {
-
-      let res_plagio: any = {};
-      plagioService.get_plagio_por_practica(id_practica).subscribe({
-        next: (data: any) => {
-          res_plagio = { ...res_plagio, ...data }
-        }, error: (err: any) => {
-
-        }, complete: () => {
-          console.log("plagio:", res_plagio)
-          if (res_plagio.status == 200) {
-            this.hay_plagio = res_plagio.body.length > 0;
-          }
-        }
-      })
       //====REQUEST para obtener la practica (con el estudiante, config_practica y otras tablas)====//
       this.service.obtener_practica(id_practica).subscribe({
         next: (data: any) => {
