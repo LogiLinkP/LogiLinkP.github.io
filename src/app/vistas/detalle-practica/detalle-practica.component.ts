@@ -36,6 +36,7 @@ export class DetallePracticaComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   id_practica: number;
+  practica_terminada: boolean = false;
 
   practica: any = {};
   solicitudes_documentos: any = [];
@@ -108,7 +109,10 @@ export class DetallePracticaComponent implements OnInit {
         },
         complete: () => {
           this.practica = respuesta.body;
-          console.log(this.practica);
+          if (this.practica.estado.toLowerCase() != "en curso") {
+            this.practica_terminada = true;
+          }
+
           this.check_resumen();
 
           this.activada = this.practica.modalidad.config_practica.activada;
