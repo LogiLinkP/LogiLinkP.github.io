@@ -183,16 +183,6 @@
                                             <ng-template #nofecha>
                                                 <div class="col-6">Sin terminar</div>
                                             </ng-template>
-                                            <div class="col-6">
-                                                ¿Plagio detectado?:
-                                            </div>
-                                            <div class="bg-warning col-6" *ngIf="hay_plagio; else no_hay_plagio">
-                                                <i class="fa-solid fa-triangle-exclamation"></i>
-                                                <a href="{{'plagios/'+id_practica}}">Hay plagio</a>
-                                            </div>
-                                            <ng-template #no_hay_plagio>
-                                                <div class="col-6">No hay plagio</div>
-                                            </ng-template>
 
                                             <div class="col-6">
                                                 Correo Supervisor:
@@ -551,53 +541,9 @@
                                 <div class="collapse show" id="collapseCardConsistencias">
                                     <div class="card-body">
                                         <div>
-                                            <!-- tarjetas internas consistencia_informe y consistencia_nota-->
-                                            <div class="row" style="max-width: 100%;">
-                                                <div class="col-xl-3"></div>
-                                                <div class="col-xl-2 col-md-6 mb-4">
-                                                    <div class="card border-left-success shadow h-100 py-2">
-                                                        <div class="card-body">
-                                                            <div class="row no-gutters align-items-center">
-                                                                <div class="col mr-2">
-                                                                    <div
-                                                                        class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                                        Consistencia Informe</div>
-                                                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                                        {{ practica?.consistencia_informe }}
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-auto">
-                                                                    <!--  <i class="fas fa-calendar fa-2x text-gray-300"></i> -->
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-2"></div>
-                                                <div class="col-xl-2 col-md-6 mb-4">
-                                                    <div class="card border-left-success shadow h-100 py-2">
-                                                        <div class="card-body">
-                                                            <div class="row no-gutters align-items-center">
-                                                                <div class="col mr-2">
-                                                                    <div
-                                                                        class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                                        Consistencia Nota</div>
-                                                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                                        {{ practica?.consistencia_nota }}</div>
-                                                                </div>
-                                                                <div class="col-auto">
-                                                                    <!--  <i class="fas fa-calendar fa-2x text-gray-300"></i> -->
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div><!-- Fin Tarjetas de consistencia -->
-                                            </div><!-- Fin de la fila -->
-
                                             <!-- make two tables-->
                                             <div class="row">
-                                                <div class="col-xl-1"></div>
-                                                <div class="col-xl-5">
+                                                <div class="col-xl-6">
                                                     <div class="table-responsive">
                                                         <table class="table table-bordered hoverTable" id="dataTable"
                                                             width="100%" cellspacing="0">
@@ -643,7 +589,7 @@
                                                         </table>
                                                     </div>
                                                 </div>
-                                                <div class="col-xl-5">
+                                                <div class="col-xl-6">
                                                     <div class="table-responsive">
                                                         <table class="table table-bordered hoverTable" id="dataTable"
                                                             width="100%" cellspacing="0">
