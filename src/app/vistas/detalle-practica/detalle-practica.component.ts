@@ -200,12 +200,26 @@ export class DetallePracticaComponent implements OnInit {
           this.respuestas_supervisor = this.practica.respuesta_supervisors.filter((respuesta_supervisor: any) => {
             return isNaN(respuesta_supervisor.respuesta);
           });
+          for (let i = 0; i < this.respuestas_supervisor.length; i++) {
+            if (this.respuestas_supervisor[i].pregunta_supervisor.tipo_respuesta != "abierta") {
+              let opciones = this.respuestas_supervisor[i].pregunta_supervisor.opciones.split(";;");
+              let respuestas = this.respuestas_supervisor[i].respuesta.split(",");
+              let respuestas_traducidas = "";
+              for (let j = 0; j < opciones.length; j++) {
+                if (respuestas[j] == "1") {
+                  respuestas_traducidas += opciones[j] + ", ";
+                }
+              }
+              respuestas_traducidas = respuestas_traducidas.slice(0, -2);
+              //console.log(respuestas_traducidas);
+              this.respuestas_supervisor[i].respuesta = respuestas_traducidas;
+            }
+          }
           this.get_fragmentos_sup(id_practica);
           this.id_estudiante = this.practica.estudiante.usuario.id;
           this.correo_estudiante = this.practica.estudiante.usuario.correo;
           this.config_estudiante = this.practica.estudiante.usuario.config;
 
-          //console.log("respuestas_supervisor: ", this.respuestas_supervisor);
           for (let i = 0; i < this.informes.length; i++) {
             if (this.informes[i]?.config_informe.tipo_informe == "informe final") {
               console.log("informe final: ", this.informes[i])
@@ -223,21 +237,7 @@ export class DetallePracticaComponent implements OnInit {
             this.horas_totales += this.informes[i].horas_trabajadas;
           }
 
-          for (let i = 0; i < this.respuestas_supervisor.length; i++) {
-            if (this.respuestas_supervisor[i].pregunta_supervisor.tipo_respuesta != "abierta") {
-              let opciones = this.respuestas_supervisor[i].pregunta_supervisor.opciones.split(";;");
-              let respuestas = this.respuestas_supervisor[i].respuesta.split(",");
-              let respuestas_traducidas = "";
-              for (let j = 0; j < opciones.length; j++) {
-                if (respuestas[j] == "1") {
-                  respuestas_traducidas += opciones[j] + ", ";
-                }
-              }
-              respuestas_traducidas = respuestas_traducidas.slice(0, -2);
-              //console.log(respuestas_traducidas);
-              this.respuestas_supervisor[i].respuesta = respuestas_traducidas;
-            }
-          }
+
 
 
           if (this.practica.informes.length > 0) {
@@ -328,39 +328,51 @@ export class DetallePracticaComponent implements OnInit {
   }
 
   get_fragmentos_sup(id_practica: number) {
-    let dataFrag: any = {};
-    this.fragmentosService.update_fragmentos_practica(id_practica).subscribe({
-      next: (data: any) => {
-        dataFrag = { ...dataFrag, ...data };
-      },
-      error: (err: any) => { },
-      complete: () => {
-        if (!dataFrag.body || !dataFrag.body.supervisor) return;
-        this.fragmentos_sup = dataFrag.body.supervisor
-
-        this.respuestas_sup_parsed = this.respuestas_supervisor.filter((elem: any) => {
-          return elem.pregunta_supervisor.tipo_respuesta != "evaluacion"
-        }).map((resp: any) => {
-          if (!(resp.id in this.fragmentos_sup)) {
-            return [true, resp.pregunta_supervisor.enunciado, resp.respuesta]
-          } else if (this.fragmentos_sup[resp.id].length == 0) {
-            return [true, resp.pregunta_supervisor.enunciado, resp.respuesta]
-          } else {
-            let palabras = resp.respuesta.split(" ");
-            return [
-              false,
-              resp.pregunta_supervisor.enunciado,
-              [
-                palabras.slice(0, this.fragmentos_sup[resp.id][0].fragmento[0]).join(" ").trim(),
-                palabras.slice(this.fragmentos_sup[resp.id][0].fragmento[0], this.fragmentos_sup[resp.id][0].fragmento[1] + 1).join(" ").trim(),
-                palabras.slice(this.fragmentos_sup[resp.id][0].fragmento[1] + 1, palabras.length).join(" ").trim()
-              ]
-            ]
-          }
-        });
-        this.data_supervisor_rdy = true;
-      }
+    console.log("respuestas_supervisor:");
+    console.log(this.respuestas_supervisor);
+    this.respuestas_sup_parsed = this.respuestas_supervisor.filter((elem: any) => {
+      return elem.pregunta_supervisor.tipo_respuesta != "evaluacion"
+    }).map((resp: any) => {
+      return [true, resp.pregunta_supervisor.enunciado, resp.respuesta];
     });
+    this.data_supervisor_rdy = true;
+    console.log("respuestas_sup_parsed");
+    console.log(this.respuestas_sup_parsed);
+    // let dataFrag: any = {};
+    // this.fragmentosService.update_fragmentos_practica(id_practica).subscribe({
+    //   next: (data: any) => {
+    //     dataFrag = { ...dataFrag, ...data };
+    //   },
+    //   error: (err: any) => { },
+    //   complete: () => {
+    //     console.log("dataFrag: ");
+    //     console.log(dataFrag);
+    //     if (!dataFrag.body || !dataFrag.body.supervisor) return;
+    //     this.fragmentos_sup = dataFrag.body.supervisor
+
+    //     this.respuestas_sup_parsed = this.respuestas_supervisor.filter((elem: any) => {
+    //       return elem.pregunta_supervisor.tipo_respuesta != "evaluacion"
+    //     }).map((resp: any) => {
+    //       // if (!(resp.id in this.fragmentos_sup)) {
+    //       //   return [true, resp.pregunta_supervisor.enunciado, resp.respuesta]
+    //       // } else if (this.fragmentos_sup[resp.id].length == 0) {
+    //       //   return [true, resp.pregunta_supervisor.enunciado, resp.respuesta]
+    //       // } else {
+    //       //   let palabras = resp.respuesta.split(" ");
+    //       //   return [
+    //       //     false,
+    //       //     resp.pregunta_supervisor.enunciado,
+    //       //     [
+    //       //       palabras.slice(0, this.fragmentos_sup[resp.id][0].fragmento[0]).join(" ").trim(),
+    //       //       palabras.slice(this.fragmentos_sup[resp.id][0].fragmento[0], this.fragmentos_sup[resp.id][0].fragmento[1] + 1).join(" ").trim(),
+    //       //       palabras.slice(this.fragmentos_sup[resp.id][0].fragmento[1] + 1, palabras.length).join(" ").trim()
+    //       //     ]
+    //       //   ]
+    //       // }
+    //     });
+    //     this.data_supervisor_rdy = true;
+    //   }
+    // });
   }
 
   generar_resumen() {
