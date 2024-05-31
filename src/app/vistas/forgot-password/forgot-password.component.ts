@@ -37,7 +37,7 @@ export class ForgotPasswordComponent {
         response = { ...response, ...data }
       },
       error: err => {
-        this._snackBar.open("No hay un usuario registrado con este correo", "OK", {
+        this._snackBar.open(err.error.message, "Aceptar", {
           duration: 5000,
         });
       },

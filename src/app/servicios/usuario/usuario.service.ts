@@ -43,8 +43,8 @@ export class UsuarioService {
     return this.http.request(req);
   }
 
-  change_password(id:number, pass:string){
-    const req = new HttpRequest('PUT', `${environment.url_back}/usuario/change_password?id=${id}&pass=${pass}`, {id, pass});
+  change_password(id:number, pass:string, token:string){
+    const req = new HttpRequest('PUT', `${environment.url_back}/usuario/change_password?id=${id}&pass=${pass}&token=${token}`, {id, pass, token});
     return this.http.request(req);
   }
 

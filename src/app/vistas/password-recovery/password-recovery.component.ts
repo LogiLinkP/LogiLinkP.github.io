@@ -15,6 +15,7 @@ export class PasswordRecoveryComponent {
   password1: string;
   password2: string;
   id: number
+  token: string
 
   constructor(
     public usuario: UsuarioService, 
@@ -36,6 +37,7 @@ export class PasswordRecoveryComponent {
   ngOnInit(){
     const urls = this.route.snapshot.url
     this.route.params.subscribe(params => {this.id = +params['n'];});
+    this.route.params.subscribe(params => {this.token = params['token'];});
   }
 
   send() {
@@ -52,12 +54,13 @@ export class PasswordRecoveryComponent {
       });
     }
     else{
-      this.usuario.change_password(this.id, this.password1).subscribe({
+      this.usuario.change_password(this.id, this.password1, this.token).subscribe({
         next: data =>{
           response = { ...response, ...data }
+          console.log(data)
         },
         error: err => {
-          this._snackBar.open("La contraseña ingresada no puede ser la misma que la contraseña actual. Ingrese otra", "Aceptar", {
+          this._snackBar.open(err.error.message, "Aceptar", {
             duration: 5000,
           });
         },

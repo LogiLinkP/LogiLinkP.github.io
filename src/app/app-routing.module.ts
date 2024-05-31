@@ -73,7 +73,7 @@ const routes: Routes = [
   { path: environment.ruta_login, component: LoginComponent, data: { title: 'Login' } },
   { path: 'blank', component: BlankComponent },
   { path: 'resetPass', component: ForgotPasswordComponent },
-  { path: 'password_recovery/:n', component: PasswordRecoveryComponent},
+  { path: 'password_recovery/:n/:token', component: PasswordRecoveryComponent},
   { path: 'estadisticas', component: EstadisticasComponent },
   { path: 'documentacion', component: DocumentacionComponent},
   { 
