@@ -61,7 +61,7 @@ const routes: Routes = [
           { path: 'empresas', component: EmpresasComponent },
           { path: 'iniciarpractica/:n', component: IniciarPracticaComponent },
           { path: 'perfil', component: PerfilComponent },
-          { path: 'publicaciones', component: PublicacionesComponent}
+          { path: 'publicaciones', component: PublicacionesComponent }
         ]
       }
     ]
@@ -73,9 +73,9 @@ const routes: Routes = [
   { path: 'blank', component: BlankComponent },
   { path: 'resetPass', component: ForgotPasswordComponent },
   { path: 'estadisticas', component: EstadisticasComponent },
-  { path: 'documentacion', component: DocumentacionComponent},
-  { 
-    path: 'admin', 
+  { path: 'documentacion', component: DocumentacionComponent },
+  {
+    path: 'admin',
     children: [
       { path: '', component: AdminComponent },
     ]
@@ -88,7 +88,7 @@ const routes: Routes = [
   { path: environment.ruta_alumno + '/:id/chat/:room/:id1/:id2/:tipo', component: ChatComponent },
   { path: environment.ruta_alumno + '/:id/historial', component: NotisHistorialComponent },
   { path: "historial", component: NotisHistorialComponent },
-  { path: 'publicaciones', component: PublicacionesComponent},
+  { path: 'publicaciones', component: PublicacionesComponent },
   { path: 'chat/:room/:id1/:id2/:tipo', component: ChatComponent },
   { path: 'informe/:id_practica/:id_informe', component: InformeComponent },
   { path: 'encuestaFinal/:id_practica', component: EncuestaFinPracticaComponent },
@@ -103,8 +103,8 @@ const routes: Routes = [
   { path: 'guias/config-practica', component: ConfigPracticaComponent },
   { path: 'perfil', component: PerfilComponent },
   { path: "plagios/:id_practica", component: PlagiosComponent },
-  { path: 'documentacion', component: DocumentacionComponent},
-  { path: 'confirmar-inicio-practica', component: ConfirmarInicioPracticaComponent},
+  { path: 'documentacion', component: DocumentacionComponent },
+  { path: 'confirmar-inicio-practica', component: ConfirmarInicioPracticaComponent },
   { path: 'usuario/confirmacion', component: ConfirmacionUsuarioComponent },
   { path: '**', component: PnfComponent },
 
