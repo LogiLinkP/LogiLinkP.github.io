@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod && mv dist/praxus-app _static",
     "build:prod": "ng build --deploy-url ",
     "build:dev": "ng build --configuration development --deploy-url ",
     "watch": "ng build --watch --configuration development",
