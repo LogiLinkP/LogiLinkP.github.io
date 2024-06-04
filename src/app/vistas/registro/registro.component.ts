@@ -69,6 +69,8 @@ export class RegistroComponent implements OnInit {
 
   comprobar_dominio(val: any) {
     let dominio = val.correos_admitidos;
+    console.log("llamando");
+    
     if (this.dominios.indexOf(dominio) == -1 && dominio != null && dominio != "") {
       this.dominios.push(dominio);
     }
@@ -80,11 +82,11 @@ export class RegistroComponent implements OnInit {
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       apellido: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', Validators.required],
-      dom: ['', Validators.required],
+      dom: [this.dominios[1]],
       password: ['', [Validators.required, Validators.minLength(3)]],
       confirmPassword: ['', Validators.required],
       RUT: ['', Validators.required],
-      id_carrera: ['', Validators.required]
+      id_carrera: [this.carreras[1]]
     });
   }
 
@@ -109,6 +111,7 @@ export class RegistroComponent implements OnInit {
       this.extras = {};
     }
     let _data: any = {}
+    console.log("datos:", this.email, this.id_carrera);
     this.usuario.register(
       this.email, data.password,
       data.confirmPassword, this.nombre,
