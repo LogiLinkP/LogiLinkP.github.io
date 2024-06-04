@@ -21,7 +21,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -97,7 +97,6 @@ import { ConfirmacionUsuarioComponent } from './vistas/confirmacion-usuario/conf
 import { SubirArchivoInformeFinalComponent } from './componentes/subir-archivo-informe-final/subir-archivo-informe-final.component';
 import { EditarArchivoEncargadoComponent } from './componentes/editar-archivo-encargado/editar-archivo-encargado.component';
 import { AgregarDominioModalComponent } from "./componentes/agregar-dominio-modal/agregar-dominio-modal.component";
-import { authInterceptor } from "./interceptores/auth/auth.interceptor";
 
 @NgModule({
   declarations: [
@@ -201,7 +200,6 @@ import { authInterceptor } from "./interceptores/auth/auth.interceptor";
     ArchivosService,
     SupervisorService,
     CookieService,
-    provideHttpClient(withInterceptors([authInterceptor])),
     { provide: MAT_DATE_LOCALE, useValue: 'es-ES' }],
   bootstrap: [AppComponent]
 })
