@@ -12,7 +12,7 @@ import { environment } from '../../../environments/environment';
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.scss']
 })
-export class RegistroComponent implements OnInit {
+export class RegistroComponent {
   registroForm: FormGroup;
   nombre: string = "";
   apellido: string = "";
@@ -63,6 +63,39 @@ export class RegistroComponent implements OnInit {
 
     })
     this.createForm();
+    this.registroForm.valueChanges.subscribe(change => {
+      console.log("rut", this.RUT);
+      //console.log(this.registroForm.controls.['RUT']);
+      //this.registroForm.value.RUT = this.format(this.registroForm.value.RUT);
+      this.registroForm.setValue({
+        'nombre': this.registroForm.value.nombre,
+        'apellido': this.registroForm.value.apellido,
+        'RUT': this.format(this.RUT),
+        'email': this.registroForm.value.email,
+        'dom': this.registroForm.value.dom,
+        'password': this.registroForm.value.password,
+        'confirmPassword': this.registroForm.value.confirmPassword,
+        'id_carrera': this.registroForm.value.id_carrera
+      })
+    });
+  }
+
+  format(input: string) {
+    let formatted = ""
+    const newRut = input.replace(/\./g,'').replace(/-/g, '').trim()
+    const rutDigits = newRut.substring(0, newRut.length-1)
+    const len = rutDigits.length
+    
+    for (let i = len; i > 0; i--) {
+      formatted = rutDigits.charAt(i-1) + formatted
+      const lenFormat = formatted.replace(/\./g, '').length
+      if (lenFormat % 3 === 0 && len > lenFormat ) {
+          formatted = '.' + formatted
+      }
+    }
+    formatted += '-' + newRut.substring(-1, 1)
+    console.log("format", formatted);
+    return formatted
   }
 
   // funcion de comprobacion de correo
@@ -86,10 +119,6 @@ export class RegistroComponent implements OnInit {
       RUT: ['', Validators.required],
       id_carrera: ['', Validators.required]
     });
-  }
-
-  ngOnInit(): void {
-
   }
 
   register() {
