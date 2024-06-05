@@ -7,6 +7,7 @@ export const commonEnv = {
     ruta_documento_extra: "documento_extra",
     ruta_documento: "documento",
     ruta_informe: "informe",
+    ruta_reset_pass: "resetPass",
     url_back: 'https://praxusback.hopto.org:3000',
     url_back_chat: 'https://praxusback.hopto.org:5000',
     url_front: 'https://praxus.hopto.org',

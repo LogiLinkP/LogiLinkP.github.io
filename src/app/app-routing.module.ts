@@ -72,8 +72,8 @@ const routes: Routes = [
   { path: environment.ruta_registro, component: RegistroComponent, data: { title: 'Registro' } },
   { path: environment.ruta_login, component: LoginComponent, data: { title: 'Login' } },
   { path: 'blank', component: BlankComponent },
-  { path: 'resetPass', component: ForgotPasswordComponent },
-  { path: 'password_recovery/:n/:token', component: PasswordRecoveryComponent},
+  { path: environment.ruta_reset_pass, component: ForgotPasswordComponent },
+  { path: 'password_recovery/:n/:token', component: PasswordRecoveryComponent },
   { path: 'estadisticas', component: EstadisticasComponent },
   { path: 'documentacion', component: DocumentacionComponent },
   {
