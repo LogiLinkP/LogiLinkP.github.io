@@ -22,8 +22,6 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
 import { ArchivosService } from './servicios/archivos/archivos.service';
 import { GetDetallesAlumnoService } from './servicios/encargado/resumen_practicas.service';
 import { SetDetallesAlumnoService } from './servicios/encargado/decision.service';
@@ -166,7 +164,6 @@ import { authInterceptor } from "./interceptores/auth/auth.interceptor";
         MatButtonModule,
         NoopAnimationsModule,
         MatSnackBarModule,
-        NgbModule,
         MatInputModule,
         MatCardModule,
         MatListModule,
