@@ -57,8 +57,8 @@
 							"src/assets/css/sb-admin-2.min.css"
 						],
 						"scripts": [
-							"node_modules/jquery/dist/jquery.js",
-							"node_modules/jquery/dist/jquery.min.js",
+							"src/assets/vendor/jquery/jquery.js",
+							"src/assets/vendor/jquery/jquery.min.js",
 							"src/assets/js/sb-admin-2.js",
 							"src/assets/js/sb-admin-2.min.js",
 							"src/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"
@@ -69,8 +69,8 @@
 							"budgets": [
 								{
 									"type": "initial",
-									"maximumWarning": "2mb",
-									"maximumError": "4mb"
+									"maximumWarning": "4mb",
+									"maximumError": "6mb"
 								},
 								{
 									"type": "anyComponentStyle",
@@ -101,10 +101,10 @@
 					"builder": "@angular-devkit/build-angular:dev-server",
 					"configurations": {
 						"production": {
-							"browserTarget": "praxus:build:production"
+							"buildTarget": "praxus:build:production"
 						},
 						"development": {
-							"browserTarget": "praxus:build:development"
+							"buildTarget": "praxus:build:development"
 						}
 					},
 					"defaultConfiguration": "development",
@@ -115,7 +115,7 @@
 				"extract-i18n": {
 					"builder": "@angular-devkit/build-angular:extract-i18n",
 					"options": {
-						"browserTarget": "praxus:build"
+						"buildTarget": "praxus:build"
 					}
 				},
 				"test": {

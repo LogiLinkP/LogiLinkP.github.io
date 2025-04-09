@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withInterceptors } from '@angular/common/http';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
@@ -22,9 +22,6 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
 
-
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
 import { ArchivosService } from './servicios/archivos/archivos.service';
 import { GetDetallesAlumnoService } from './servicios/encargado/resumen_practicas.service';
 import { SetDetallesAlumnoService } from './servicios/encargado/decision.service';
@@ -37,6 +34,7 @@ import { BlankComponent } from './vistas/blank/blank.component';
 import { RegistroComponent } from './vistas/registro/registro.component';
 import { ForgotPasswordComponent } from './vistas/forgot-password/forgot-password.component';
 import { EstadisticasComponent } from './vistas/estadisticas/estadisticas.component';
+import { PasswordRecoveryComponent } from './vistas/password-recovery/password-recovery.component';
 
 import { FooterComponent } from './componentes/footer/footer.component';
 import { BarraSuperiorComponent } from './componentes/barra-superior/barra-superior.component';
@@ -95,110 +93,109 @@ import { ConfirmarInicioPracticaComponent } from './vistas/confirmar-inicio-prac
 import { ConfirmacionUsuarioComponent } from './vistas/confirmacion-usuario/confirmacion-usuario.component';
 import { SubirArchivoInformeFinalComponent } from './componentes/subir-archivo-informe-final/subir-archivo-informe-final.component';
 import { EditarArchivoEncargadoComponent } from './componentes/editar-archivo-encargado/editar-archivo-encargado.component';
+import { AgregarDominioModalComponent } from "./componentes/agregar-dominio-modal/agregar-dominio-modal.component";
+import { authInterceptor } from "./interceptores/auth/auth.interceptor";
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    routingComponents,
-    EvaluacionComponent,
-    DetallePracticaComponent,
-    FooterComponent,
-    BarraSuperiorComponent,
-    LogoutModalComponent,
-    LoginComponent,
-    BarraLateralAlumnoComponent,
-    BlankComponent,
-    RegistroComponent,
-    ForgotPasswordComponent,
-    BarraLateralEncargadoComponent,
-    EstadisticasComponent,
-    BotonSolicitarArchivoComponent,
-    TablaComponent,
-    ChatComponent,
-    SubirArchivoExtraComponent,
-    SubirArchivoComponent,
-    EncuestaFinPracticaComponent,
-    FragmentosComponent,
-    InformeComponent,
-    NotisHistorialComponent,
-    ImportModalComponent,
-    MigrarModalComponent,
-    ExplicacionConsistenciaComponent,
-    VistaSupervisorComponent,
-    RamosAlumnosComponent,
-    RamosEncargadoComponent,
-    EstadisticaEmpresasComponent,
-    AdminComponent,
-    BarraLateralAdminComponent,
-    RegistroEncargadoComponent,
-    IngresoInformeComponent,
-    EstudianteVerInformeComponent,
-    InfoYEvaluacionEstudianteComponent,
-    DetalleEstudianteComponent,
-    EditarEncargadoModalComponent,
-    CrearEncargadoModalComponent,
-    CrearCarreraModalComponent,
-    EditarCarreraModalComponent,
-    RegistroSupervisorComponent,
-    ConfigPracticaComponent,
-    AptitudesComponent,
-    CrearAptitudModalComponent,
-    EditarAptitudModalComponent,
-    RangoModalComponent,
-    VistaConfigsPracticaComponent,
-    EdicionSimpleModalComponent,
-    PlagiosComponent,
-    ComentariosModalComponent,
-    DocumentacionComponent,
-    SubirDocumentoEncargadoComponent,
-    SubirPlantillaInformeFinalComponent,
-    ConfirmarInicioPracticaComponent,
-    ConfirmacionUsuarioComponent,
-    SubirArchivoInformeFinalComponent,
-    EditarArchivoEncargadoComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    DataTablesModule,
-    MatButtonModule,
-    NoopAnimationsModule,
-    MatSnackBarModule,
-    HttpClientModule,
-    NgbModule,
-    MatInputModule,
-    MatCardModule,
-    MatListModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatSelectModule,
-    MatToolbarModule,
-    TextFieldModule,
-    FormsModule,
-    MatTableModule,
-    MatSortModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatDialogModule,
-    MatRadioModule,
-    MatTooltipModule,
-    MatProgressSpinnerModule,
-    MatTabsModule
-  ],
-  providers: [
-    GetDetallesAlumnoService,
-    SetDetallesAlumnoService,
-    ArchivosService,
-    SupervisorService,
-    DatePipe,
-    GetDetallesAlumnoService,
-    SetDetallesAlumnoService,
-    ArchivosService,
-    SupervisorService,
-    CookieService,
-    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' }],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        routingComponents,
+        EvaluacionComponent,
+        DetallePracticaComponent,
+        FooterComponent,
+        BarraSuperiorComponent,
+        LogoutModalComponent,
+        LoginComponent,
+        BarraLateralAlumnoComponent,
+        BlankComponent,
+        RegistroComponent,
+        ForgotPasswordComponent,
+        BarraLateralEncargadoComponent,
+        EstadisticasComponent,
+        BotonSolicitarArchivoComponent,
+        TablaComponent,
+        ChatComponent,
+        SubirArchivoExtraComponent,
+        SubirArchivoComponent,
+        EncuestaFinPracticaComponent,
+        FragmentosComponent,
+        InformeComponent,
+        NotisHistorialComponent,
+        ImportModalComponent,
+        MigrarModalComponent,
+        ExplicacionConsistenciaComponent,
+        VistaSupervisorComponent,
+        RamosAlumnosComponent,
+        RamosEncargadoComponent,
+        EstadisticaEmpresasComponent,
+        AdminComponent,
+        BarraLateralAdminComponent,
+        RegistroEncargadoComponent,
+        IngresoInformeComponent,
+        EstudianteVerInformeComponent,
+        InfoYEvaluacionEstudianteComponent,
+        DetalleEstudianteComponent,
+        EditarEncargadoModalComponent,
+        CrearEncargadoModalComponent,
+        CrearCarreraModalComponent,
+        EditarCarreraModalComponent,
+        RegistroSupervisorComponent,
+        ConfigPracticaComponent,
+        AptitudesComponent,
+        CrearAptitudModalComponent,
+        EditarAptitudModalComponent,
+        RangoModalComponent,
+        VistaConfigsPracticaComponent,
+        EdicionSimpleModalComponent,
+        PlagiosComponent,
+        ComentariosModalComponent,
+        DocumentacionComponent,
+        SubirDocumentoEncargadoComponent,
+        SubirPlantillaInformeFinalComponent,
+        ConfirmarInicioPracticaComponent,
+        ConfirmacionUsuarioComponent,
+        SubirArchivoInformeFinalComponent,
+        EditarArchivoEncargadoComponent,
+        AgregarDominioModalComponent,
+        PasswordRecoveryComponent,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        DataTablesModule,
+        MatButtonModule,
+        NoopAnimationsModule,
+        MatSnackBarModule,
+        MatInputModule,
+        MatCardModule,
+        MatListModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatSelectModule,
+        MatToolbarModule,
+        TextFieldModule,
+        FormsModule,
+        MatTableModule,
+        MatSortModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatDialogModule,
+        MatRadioModule,
+        MatTooltipModule,
+        MatProgressSpinnerModule,
+        MatTabsModule], providers: [
+        GetDetallesAlumnoService,
+        SetDetallesAlumnoService,
+        ArchivosService,
+        SupervisorService,
+        DatePipe,
+        GetDetallesAlumnoService,
+        SetDetallesAlumnoService,
+        ArchivosService,
+        SupervisorService,
+        CookieService,
+        provideHttpClient(withInterceptors([authInterceptor])),
+        { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 
 
 export class AppModule { }
