@@ -23,7 +23,6 @@
     "@angular/platform-browser": "^18.2.13",
     "@angular/platform-browser-dynamic": "^18.2.13",
     "@angular/router": "^18.2.13",
-    "@ng-bootstrap/ng-bootstrap": "^16.0.0",
     "@popperjs/core": "^2.11.6",
     "@schematics/angular": "^17.3.6",
     "@syncfusion/ej2-base": "^23.1.41",
