@@ -28,7 +28,7 @@
     "angular-datatables": "^15.0.1",
     "bootstrap": "^5.3.3",
     "dayjs": "^1.11.9",
-    "express": "^4.18.2",
+    "express": "^4.22.1",
     "jspdf": "^2.5.1",
     "magic-bytes.js": "^1.0.15",
     "ngx-cookie-service": "^18.0.0",
